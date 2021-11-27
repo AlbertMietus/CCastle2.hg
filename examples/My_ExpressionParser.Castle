@@ -1,0 +1,81 @@
+/* (C) Albert Mietus. Demo and test */
+
+from My_ExpressionParser import Fixed_ExpressionParser, Init_ExpressionParser, Port_ExpressionParser;
+
+from std.data.grammars import Grammer, Rule, ID;
+from std.algorithms.parser import PEG;
+
+implement ParserDemo.Base_ExpressionParser {
+exp on self.text {
+    """Just call parse the input --using the parser-- and output it."""
+    self.tree := self.parser.parse(exp);
+}
+} //End Base_ExpressionParser
+/*****************************************************************************************************/
+
+
+implement ParserDemo.Fixed_ExpressionParser {
+
+- Grammar: my_expression(){
+  // ToDo: logic expression: (&&,etc
+
+   Rule: expr;
+   Rule: atom_value, unary, exponentiation,  multy_divide, add_minus;
+   Rule: literal_value, literal_number, literal_str;
+   Rule: named_value, variable, funcall parms;
+
+   atom_value      <- literal_value
+              	   |  '(' expr ')'
+	      	   |  named_value
+	      	   ;
+   literal_value   <- literal_number
+   		   | literal_str
+		 //| Booleans etc.
+		   ;
+   literal_number  <- [:digit:]+
+   		 //| ToDo: Float, Complex ect.
+		   ;
+   literal_str 	   <- '"'   ( [^\'\n]* ) '"' // Note: \'==='; but highlighting is better
+   		   |  "'"   ( [^\"\n]* ) "'"
+		   |  '"""' ( [.\n]*? ) '"""'
+		   |  "'''" ( [.\n]*? ) "'''"
+		   ;
+   name_value      <- variable
+   		   |  funcall
+		   ;
+   funcall	   <- ID '(' parms ')';
+   variable	   <- ID;
+   parms	   <- expr (',' expr )* // Is this correct wrt recursion?
+
+   unary	   <- ('+' | '-')? atom_value;
+   exponentiation  <- unary          ('**' expr)?;
+   multy_divide	   <- exponentiation (('*' | '/' | '%') expr)?;
+   add_minus	   <- multy_divide  (('+'|'-') expr)?;
+   expr		   < add_minus;
+
+   return expr;
+}
+
+- init() {
+  Grammar g = self.my_expression()
+  self.parser = PEG(g);
+}
+
+} //End Fixed_ExpressionParser
+/*****************************************************************************************************/
+
+
+implement ParserDemo.Init_ExpressionParser {
+- init(Grammer:g) {
+  self.parser = PEG(g);
+}
+} //End Init_ExpressionParser
+/*****************************************************************************************************/
+
+
+implement ParserDemo.Port_ExpressionParser {
+g on expression
+{
+  self.parser = PEG(g);
+}
+} //End Port_ExpressionParser

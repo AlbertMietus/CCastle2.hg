@@ -1,0 +1,43 @@
+/* (C) Albert Mietus. Demo and test */
+
+from std.data.grammars import Grammer;
+
+
+component Abstract_Parser : Component {
+   """A *Parser* parses a string, using a (formal) grammar, and outputs the ParseTree.
+
+      Typically, the string is read via the in-port, which triggers processing, and results in a new ParseTree (or:
+      'concrete syntax tree') dispatched via the output-port.
+
+      The grammar can be *hardcoded* in a final component or passed in via a port or during initialization.
+
+      .. seealso:: Some example components
+
+        * ref:`Fixed_ExpressionParser`
+        * ref:`Init_ExpressionParser`
+        * ref:`Port_ExpressionParser`
+   """
+
+   port str<in>  text;
+   port tree<out> parse_tree;
+}
+
+
+
+component Base_ChunkParser: Abstract_Parser {
+   """A *ChunkParser* typically parses a sub-string of a bigger text; on behalve of the main-parser.
+
+      By example: the main-parser may recognize a expression as a whole, transfer that text to a (Expression)
+      ChunkParser, that parsers the details. The resulting ParseTree (of the expression) is that integrated into the
+      main ParseTree.
+
+      By using a *ChunkParser*, the main parsers does not need to be awaire of details, like precedence and
+      associativity of the operartors. And so, the *main grammar* is easier; there is no need to handle the (typical)
+      `left-recursion <https://en.wikipedia.org/wiki/Left_recursion>`_ of expression, nor or other pitfaills. All that
+      work is for the "chunk".
+   """
+}
+
+
+
+

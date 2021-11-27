@@ -1,0 +1,23 @@
+/* (C) Albert Mietus. Demo and test */
+
+from ParserDemo import Abstract_Parser, Base_ChunkParser;
+from std.data.grammars import Grammer
+
+
+component Fixed_ExpressionParser : Abstract_Parser, Base_ChunkParser {
+ """The Fixed_ExpressionParser has the grammer build-in; unlike the :ref:`Init_ExpressionParser` and :ref:`Port_ExpressionParser`"""
+}
+
+
+
+component Init_ExpressionParser : Base_ExpressionParser {
+ """The Init_ExpressionParser reads the grammer when it is initialized"""
+- init(Grammer:g)
+}
+
+
+
+component Port_ExpressionParser : Base_ExpressionParser {
+ """The Port_ExpressionParser reads the grammer via a port (unlike the :ref:`Fixed_ExpressionParser`."""
+  port Grammar<in> expression;
+}

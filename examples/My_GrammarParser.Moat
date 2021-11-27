@@ -1,0 +1,6 @@
+/* (C) Albert Mietus. Demo and test */
+
+from ParserDemo import Abstract_Parser, Base_ChunkParser;
+
+component GrammerParser : Abstract_Parser, Base_ChunkParser {
+}

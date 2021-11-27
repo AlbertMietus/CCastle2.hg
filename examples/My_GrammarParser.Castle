@@ -1,0 +1,67 @@
+/* (C) Albert Mietus. Demo and test */
+
+from My_GrammarParser import GrammarParser;
+from std.data.grammars import Grammer, Rule, ID, STR, REGEXP;
+from std.algorithms.parser import PEG;
+
+implement  GrammerParser{
+- init() {
+  Grammar g = self.my_grammar()
+  self.parser = PEG(g);
+}
+
+- Grammar: my_grammar(){
+   """Design: we use more-or-less the same names for non-terminals as Arpeggio uses.
+
+      .. seealso::
+
+         * http://textx.github.io/Arpeggio/stable/grammars/#grammars-written-in-peg-notations
+      	 * https://github.com/textX/Arpeggio/blob/master/arpeggio/peg.py
+   """
+
+   Rule:  peg_grammar, rule, rule_name, rule_crossref;
+   Rule:  ordered_choice, sequence, prefix, suffix, expression;
+   Rule:  regex, , str_match
+   Rule:  AND, NOT, LEFT_ARROW, ORDERED_CHOICE;
+
+   //  ToDo Comment, str_match;
+   peg_grammar     <-  rule+;
+   rule	           <-  rule_name '<-' ordered_choice ';' ;
+   ordered_choice  <-  sequence  ('|' sequence)* ;
+   sequence	   <-  prefix* ;
+   prefix 	   <- ( AND | NOT )? suffix ;
+   suffix	   <- expression ( '?' | '*' | '+' | '#' )?
+   expression	   <- regex_term
+   		   |  rule_crossref
+		   |  '(' ordered_choice ')'
+		   |  str_term
+		   ;
+   rule_crossref   <- rule_name;
+   rule_name	   <- ID ;
+   regex_term	   <- '/'     str_no_slash  '/'
+   		   |  "r'"    str_no_s1  "'"
+   		   |  'r"'    str_no_d1  '"'
+		   |  "r'''"  str_no_s3  "'''"
+		   |  'r"""'  str_no_d3  '"""'
+   		   |  "R'"    str_no_s1  "'"
+   		   |  'R"'    str_no_d1  '"'
+		   |  "R'''"  str_no_s3  "'''"
+		   |  'R"""'  str_no_d3  '"""'
+		   ;
+   str_term	   <- "'"    str_no_s1  "'"
+   		   |  '"'    str_no_d1  '"'
+		   |  "'''"  str_no_s3  "'''"
+		   |  '"""'  str_no_d3  '"""'
+   str_no_slash    <- /[^/\\]*(?:\\.[^/\\]*)*/ ;
+   str_no_XXX      <- XXX
+         	   |  ETC
+		   ;
+   AND 		   <- '&' ;
+   NOT 		   <- '!' ;
+
+   return peg_grammar;
+
+}
+} //End of GrammerParser
+/*****************************************************************************************************/
+
