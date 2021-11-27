@@ -5,31 +5,26 @@ import arpeggio
 
 R, S, X = regex_term.__name__, str_term.__name__, rule_crossref.__name__  # shortcut in grammar
 
-show_dot=True
-def parse_sequence(txt, pattern=None, show=False):
-    parser = ParserPython(sequence, comment, debug=show_dot)
+def parse_sequence(txt, pattern=None):
+    parser = ParserPython(sequence, comment)
     tree = parser.parse(txt)
-    if show : print(f'\nPARSE_SEQEUENCE >>{txt}<<\n{tree.tree_str()}')
 
     assert tree.position_end == len(txt) , f"Not parsed whole input; Only: >>{txt[tree.position: tree.position_end]}<<; Not: >>{txt[tree.position_end:]}<<."
     assert isinstance(tree.rule, arpeggio.ZeroOrMore) and tree.rule_name == "sequence"
 
-    if pattern: validate_pattern(tree,pattern=pattern, show=show)
+    if pattern: validate_pattern(tree,pattern=pattern)
     return tree
 
-def validate_pattern(tree, pattern=None, sub=0, show=False):
-    if show: print(f'\nVALIDATE_PATTERN pattern={pattern} sublevel={sub}\n{tree.tree_str()}')
+def validate_pattern(tree, pattern=None):
     assert len(tree) == len(pattern), f"Not correct number-of-element at sublevel={sub}"
 
     exs=tree.prefix.suffix.expression
-    #if show: print("EXS", type(exs), "\n"+exs.tree_str())
     for ex,p in zip(exs, pattern):
         if p is not None:
             if not isinstance(p, (tuple, list)):
                 assert ex[0].rule_name == p, f"{ex} doesn't match given {p} sublevel={sub}"
             else:
-                #print('XXX1\n', ex[1][0].tree_str())
-                validate_pattern(tree=ex[1][0], pattern=p, sub=sub+1, show=show)
+                validate_pattern(tree=ex[1][0], pattern=p)
 
 
 

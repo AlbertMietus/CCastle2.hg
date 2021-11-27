@@ -4,11 +4,9 @@ from grammar import *
 import arpeggio
 RE, S = arpeggio.RegExMatch, arpeggio.StrMatch                          # shortcut
 
-show_dot=True
-
 def parse_regex(txt, pattern=None):
     #print(f'\nXXX >>{txt}<<')
-    parser = ParserPython(regex_term, comment, debug=show_dot)
+    parser = ParserPython(regex_term, comment) # DoNot use debug/dot_exporter as it will re-use-same-file
     tree = parser.parse(txt)
     assert tree.position_end == len(txt) , f"Not parsed whole input; Only: >>{txt[tree.position: tree.position_end]}<<; Not: >>{txt[tree.position_end:]}<<."
 

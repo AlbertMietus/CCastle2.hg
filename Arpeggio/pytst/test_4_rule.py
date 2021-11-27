@@ -4,10 +4,8 @@ from grammar import *
 import arpeggio
 RE, S = arpeggio.RegExMatch, arpeggio.StrMatch                          # shortcut
 
-show_dot=False
-
 def parse_rule(txt, pattern=None):
-    parser = ParserPython(rule, comment, debug=show_dot)
+    parser = ParserPython(rule, comment)
     tree = parser.parse(txt)
     assert tree.position_end == len(txt) , f"Not parsed whole input; Only: >>{txt[tree.position: tree.position_end]}<<; Not: >>{txt[tree.position_end:]}<<."
     print(f'\nTREE\n{tree.tree_str()}')

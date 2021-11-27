@@ -2,13 +2,12 @@ import pytest
 
 from grammar import *
 
-show_dot=True
 
 def parse_file(filename):                                               # Assume we run in '.../pytst/.'
     with open(filename) as f:
         txt = f.read()
 
-    parser = ParserPython(peg_grammar, comment, debug=show_dot)
+    parser = ParserPython(peg_grammar, comment)
     tree = parser.parse(txt)
 
     assert tree.position_end == len(txt) , f"Not parsed whole input; Only: >>{regex[tree.position: tree.position_end]}<<; Not: >>{regex[tree.position_end:]}<<."
