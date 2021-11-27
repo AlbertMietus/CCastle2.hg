@@ -4,8 +4,8 @@ from grammar import *
 
 show_dot=True
 
-def parse_file(filename, dir="pytst"):
-    with open(dir +"/" + filename) as f:
+def parse_file(filename):                                               # Assume we run in '.../pytst/.'
+    with open(filename) as f:
         txt = f.read()
 
     parser = ParserPython(peg_grammar, comment, debug=show_dot)
