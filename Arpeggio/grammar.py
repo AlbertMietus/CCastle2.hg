@@ -2,7 +2,8 @@ from arpeggio import Optional, ZeroOrMore, OneOrMore, EOF
 from arpeggio import RegExMatch as _
 from arpeggio import ParserPython
 
-def peg_grammar(): 	return OneOrMore(rule), EOF
+def peg_grammar(): 	return rules, EOF
+def rules(): 		return OneOrMore(rule)
 def rule():		return rule_name, '<-', ordered_choice, ";"
 def ordered_choice():	return sequence, ZeroOrMore('|', sequence)
 def sequence():		return ZeroOrMore(prefix)

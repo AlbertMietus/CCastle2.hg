@@ -1,10 +1,14 @@
 import pytest
+from pathlib import Path
+import os
 
 from grammar import *
 
 
-def parse_file(filename):                                               # Assume we run in '.../pytst/.'
-    with open(filename) as f:
+def parse_file(filename, dir=Path('..')):
+    path_to_current_test = Path(os.path.realpath(__file__))
+    path_to_current_dir = path_to_current_test.parent
+    with (path_to_current_dir / dir / filename).open() as f:
         txt = f.read()
 
     parser = ParserPython(peg_grammar, comment)
