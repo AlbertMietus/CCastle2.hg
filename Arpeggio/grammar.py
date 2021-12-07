@@ -9,22 +9,18 @@ def ordered_choice():	return sequence, ZeroOrMore('|', sequence)
 def sequence():		return ZeroOrMore(prefix)
 def prefix():           return Optional(['&','!']), suffix
 def suffix():		return expression, Optional([ '?' , '*' , '+' , '#' ])
-def expression():       return [ regex_term, str_term, ('(', ordered_choice, ')'), rule_crossref]
+def expression():       return [ regex_term, str_term, ('(', ordered_choice, ')'), rule_crossref]  # OrderedChoice
 def rule_crossref():	return rule_name
 def rule_name():	return ID
-def regex_term():	return [\
-                                (RE,   re_no_slash, RE),
-                                (REs3, str_no_s3,   S3),
-                                (REd3, str_no_d3,   D3),
-                                (REs1, str_no_s1,   S1),
-                                (REd1, str_no_d1,   D1)
-                                ]
-def str_term():		return [\
-                                (S3, str_no_s3, S3),
-                                (D3, str_no_d3, D3),
-                                (S1, str_no_s1, S1),
-                                (D1, str_no_d1, D1)
-                                ]
+def regex_term():	return [  (RE,   re_no_slash, RE),              # OrderedChoice
+                                  (REs3, str_no_s3,   S3),
+                                  (REd3, str_no_d3,   D3),
+                                  (REs1, str_no_s1,   S1),
+                                  (REd1, str_no_d1,   D1) ]
+def str_term():		return [  (S3, str_no_s3, S3),                  # OrderedChoice
+                                  (D3, str_no_d3, D3),
+                                  (S1, str_no_s1, S1),
+                                  (D1, str_no_d1, D1) ]
 
 def ID():        	return _(r"[a-zA-Z_]([a-zA-Z_]|[0-9])*")
 
