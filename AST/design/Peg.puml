@@ -6,7 +6,7 @@ abstract AST_BASE {
 }
 
 package Peg #0077ff {
-
+ 
 abstract PEG
 AST_BASE <|= PEG
 
@@ -18,6 +18,7 @@ PEG      <|== Setting
 
 NonTerminal  <|== Grammar
 NonTerminal  <|== Rule
+NonTerminal  <|== Expression
 
 class Grammar {
   rules
@@ -30,15 +31,44 @@ class Rule {
  name :ID
  peg_expression
 }
+Rule  -> "*" Expression
+note right of Rule
+ name **'<-'** ... **';'**
+ //the arrow and semi-colon//
+ //are only saved in the parse-tree//
+endnote
 
 class Setting  {
- name :str
- value :
+ name  : ID
+ value : ...
 }
 
+abstract Expression{}
+
+
+Expression <|== Group
+Expression <|== Sequence
+Expression <|== OrderedChoice
+Expression <|== ManyExpression
+Expression <|== Predicate
+
+abstract ManyExpression
+abstract Predicate
+
+ManyExpression <== Optional
+ManyExpression <== OneOrMore
+ManyExpression <== ZeroOrMore
+
+Predicate <== AndPredicate
+Predicate <== NotPredicate
+
+class AndPredicate << (&, #0077ff) notconsuming >>
+class NotPredicate << (! ,#0077ff) not consuming >>
+
+class Optional   << (?, #0077ff) >>
+class OneOrMore  << (+, #0077ff) >>
+class ZeroOrMore << (*, #0077ff) >>
+
 }
 
-
-
-class Expression{}
 @enduml
