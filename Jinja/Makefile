@@ -5,7 +5,7 @@ rTOPd = ../../.
 
 DEMOS:=$(wildcard demo/*demo*.py)
 demos:
-	for d in ${DEMOS}; do python $$d; done
+	for d in ${DEMOS}; do echo "*** $$d ***";  python $$d; done
 tst:
 	(cd pytst/; pytest)
 tst-s:
