@@ -1,0 +1,11 @@
+{% macro peg_rule(name, peg_expr_list) -%}
+def {{ name }}():
+  return {% for e in peg_expr_list -%}
+            {{- e -}}
+            {{ ", " if not loop.last else "" -}}
+          {% endfor -%}
+{% endmacro %}
+
+{%- macro settings(name, value) -%}
+{{ name}} = {{value}}
+{%- endmacro -%}

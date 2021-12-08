@@ -1,0 +1,24 @@
+{% block imports %}
+from arpeggio import Optional, ZeroOrMore, OneOrMore, EOF
+
+{% endblock %}
+
+{% import 'macros.jinja2' as m %}
+
+{%- block rules -%}
+  {% for r in rules -%}
+    {{ m.peg_rule(r.name, r.expr) }}
+
+  {% endfor %}
+{% endblock %}
+
+{%- block settings -%}
+  {% for s in settings -%}
+    {{ m.settings(s.name, s.value) }}
+  {% endfor %}
+{%- endblock -%}
+
+{% block comment %}
+
+def comment():          return "//", _(".*\n")
+{% endblock %}
