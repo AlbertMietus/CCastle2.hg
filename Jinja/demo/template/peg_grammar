@@ -1,5 +1,6 @@
+
 def {{ name }}():
   return {% for e in peg_expr_list -%}
             {{- e -}}
             {{ ", " if not loop.last else "" -}}
-          {% endfor -%}\n\n
+          {% endfor -%}
