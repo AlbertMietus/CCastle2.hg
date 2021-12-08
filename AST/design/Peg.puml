@@ -1,0 +1,44 @@
+@startuml
+abstract AST_BASE {
+  _parse_tree
+  start()
+  end()
+}
+
+package Peg #0077ff {
+
+abstract PEG
+AST_BASE <|= PEG
+
+PEG      <|== NonTerminal
+PEG      <|== Terminal
+Terminal <|== StrTerm
+Terminal <|== RexExpTerm
+PEG      <|== Setting
+
+NonTerminal  <|== Grammar
+NonTerminal  <|== Rule
+
+class Grammar {
+  rules
+  settings
+}
+Grammar --> "*" Rule : rules
+Grammar --> "*" Setting
+
+class Rule {
+ name :ID
+ peg_expression
+}
+
+class Setting  {
+ name :str
+ value :
+}
+
+}
+
+
+
+class Expression{}
+@enduml
