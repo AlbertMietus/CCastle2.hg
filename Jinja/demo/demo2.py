@@ -1,12 +1,12 @@
 from classes import Demo1
 
 def demo_def1():
-   return Demo1().render(template='peg_grammar',
+   return Demo1().render(template='peg_grammar.jinja2',
                          name='peg_grammar',
                          peg_expr_list=['rules', 'EOF'])
 
 def demo_def2():
-   return Demo1().render(template='peg_grammar',
+   return Demo1().render(template='peg_grammar.jinja2',
                          name='rules',
                          peg_expr_list=['OneOrMore(rule)'])
 
