@@ -6,16 +6,25 @@ abstract AST_BASE {
 }
 
 package Peg #0077ff {
- 
+
 abstract PEG
-AST_BASE <|= PEG
+AST_BASE <|== PEG
 
 PEG      <|== NonTerminal
 PEG      <|== Terminal
+PEG      <|== Setting
+PEG      <|..... Markers
+Markers  <|== EOF
+annotation Markers
+annotation EOF
+
+
+
+abstract Terminal
 Terminal <|== StrTerm
 Terminal <|== RexExpTerm
-PEG      <|== Setting
 
+abstract NonTerminal
 NonTerminal  <|== Grammar
 NonTerminal  <|== Rule
 NonTerminal  <|== Expression
@@ -32,24 +41,23 @@ class Rule {
  peg_expression
 }
 Rule  -> "*" Expression
-note right of Rule
- name **'<-'** ... **';'**
- //the arrow and semi-colon//
- //are only saved in the parse-tree//
-endnote
 
 class Setting  {
  name  : ID
  value : ...
 }
 
-abstract Expression{}
+abstract Expression {
+ subEexpression Or Terminal
+}
+Expression -->  Terminal
+Expression -->  Expression
 
 
+Expression <|== ManyExpression
 Expression <|== Group
 Expression <|== Sequence
 Expression <|== OrderedChoice
-Expression <|== ManyExpression
 Expression <|== Predicate
 
 abstract ManyExpression
@@ -70,5 +78,4 @@ class OneOrMore  << (+, #0077ff) >>
 class ZeroOrMore << (*, #0077ff) >>
 
 }
-
 @enduml
