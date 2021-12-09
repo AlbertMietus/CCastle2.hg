@@ -9,4 +9,19 @@ class AST_BASE:
     @property
     def position_end(self): return self.parse_tree.position_end
 
-class ID(str): pass
+
+class IDError(ValueError):
+    "The given ID is not valid as an ID"
+
+import re
+
+class ID(str):
+    _pattern = re.compile(r'[A-Za-z_][A-Za-z0-9_]*')
+
+    @staticmethod
+    def validate_or_raise(value):
+        if not isinstance(value, str):
+            raise IDError("not a str of ID")
+        if ID._pattern.fullmatch(value) is None:
+            raise IDError("not a valid pattern")
+

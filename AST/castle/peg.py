@@ -25,8 +25,9 @@ class Expression(NonTerminal): pass                                     # abstra
 class Setting(PEG):
     def __init__(self, *,
                  name: ID,
-                 value=None,
+                 value,
                  **kwargs):
+        ID.validate_or_raise(name)
         super().__init__(**kwargs)
         self.name = name
         self.value = value
@@ -38,6 +39,7 @@ class Rule(NonTerminal):
                  name: ID,
                  value :Expression,
                  **kwargs):
+        ID.validate_or_raise(name)
         super().__init__(**kwargs)
         self.name = name
         self.value = value
