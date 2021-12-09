@@ -1,6 +1,6 @@
 default: demos
 
-all: demos tst
+all: demos test
 
 test:
 	(cd pytst/; pytest)
