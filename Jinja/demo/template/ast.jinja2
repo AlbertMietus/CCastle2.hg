@@ -1,0 +1,16 @@
+{% extends "file.jinja2" %}
+----
+
+{%- block rules -%}
+  {% for r in grammar.rules -%}
+    {{ m.peg_rule(r.name, r.expr) }}
+
+  {% endfor %}
+{% endblock %}
+
+{%- block settings -%}
+  {% for s in grammar.settings -%}
+    {{ m.settings(s.name, s.value) }}
+  {% endfor %}
+{%- endblock -%}
+
