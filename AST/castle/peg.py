@@ -37,12 +37,12 @@ class Setting(PEG):
 class Rule(NonTerminal):
     def __init__(self, *,
                  name: ID,
-                 value :Expression,
+                 expr :Expression=None,
                  **kwargs):
         ID.validate_or_raise(name)
         super().__init__(**kwargs)
         self.name = name
-        self.value = value
+        self.expr = expr
 
 
 
