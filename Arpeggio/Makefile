@@ -1,15 +1,15 @@
-default: tst
+default: test
 
-all: tst
-rTOPd = ../../.
+all: test
 
-tst:
+test:
 	(cd pytst/; pytest)
-tst-s:
+test-s:
 	(cd pytst/; pytest -s)
 
-find_dot:
-	find ${rTOPd} -iname \*.dot
+DEMOS:=$(wildcard demo/*demo*.py)
+demos:
+	for d in ${DEMOS}; do echo "*** $$d ***";  python $$d; done
 
 clean:
 	rm -rf {.,castle}/{__pycache__,.pytest_cache}/

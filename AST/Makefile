@@ -1,15 +1,15 @@
-default: tst
+default: test
 
-all:  tst demos
+all:  test demos
+
+	(cd pytst/; pytest)
+test-s:
+	(cd pytst/; pytest -s)
 
 DEMOS:=$(wildcard demo/*demo*.py)
 demos:
 	for d in ${DEMOS}; do echo "*** $$d ***";  python $$d; done
-tst:
-	(cd pytst/; pytest)
-tst-s:
-	(cd pytst/; pytest -s)
-
+test:
 
 clean:
 	rm -rf {.,castle}/{__pycache__,.pytest_cache}/
