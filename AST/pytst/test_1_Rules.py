@@ -1,7 +1,7 @@
 import pytest
 
 ## Notice `test_1_Rules.py` and `test_1_Settings.py` are the same, but for the SUT; in the line below -- Keep it that way!!
-from castle.peg import Setting as SUT
+from castle.peg import Rule as SUT
 
 def test_a_ID():
     a_name, a_val = 'aName', 42
