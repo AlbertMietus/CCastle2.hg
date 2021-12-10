@@ -9,7 +9,6 @@ def rule():		return rule_name, '<-', expressions, ";"
 def expressions():	return ( OneOrMore(single_expr), Optional( '|' , expressions ) )
 def single_expr():	return ( [ rule_crossref, term, group, predicate ], Optional([ '?' , '*' , '+' , '#' ]))
 
-
 def term():		return [ str_term, regex_term ]
 def group():		return '(', expressions, ')'
 def predicate():	return ['&','!'], single_expr
@@ -23,6 +22,7 @@ def regex_term():	return [  (RE,   re_no_slash, RE),
                                   (REd3, str_no_d3,   D3),
                                   (REs1, str_no_s1,   S1),
                                   (REd1, str_no_d1,   D1)  ]
+
 def rule_name():	return ID
 def rule_crossref():	return ID
 def ID():        	return _(r"[a-zA-Z_]([a-zA-Z_]|[0-9])*")
