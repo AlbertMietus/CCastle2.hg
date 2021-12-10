@@ -1,19 +1,19 @@
 import pytest
-from grammar import *
+import grammar
 
 import arpeggio
 RE, S = arpeggio.RegExMatch, arpeggio.StrMatch                          # shortcut
 
 def parse_rule(txt, pattern=None):
-    parser = ParserPython(rule, comment)
+    parser = arpeggio.ParserPython(grammar.rule)
     tree = parser.parse(txt)
-    #print(f'\nTREE\n{tree.tree_str()}')
+    print(f'\nTREE\n{tree.tree_str()}')
 
     assert tree.position_end == len(txt) , f"Not parsed whole input; Only: >>{txt[tree.position: tree.position_end]}<<; Not: >>{txt[tree.position_end:]}<<."
     assert len(tree) == 4, 		      		"A rule should have length=4; ..."
     assert tree[0].rule_name == "rule_name",  		"  at [0], the name of the rule"
     assert str(tree[1]) == '<-',                        "  then a arrow"
-    assert tree[2].rule_name == "ordered_choice",	"  at [2] an ordered_choice"
+    assert tree[2].rule_name == "expressions",		"  at [2] an ordered_choice"
     assert str(tree[3]) == ';',                         "  and the the closing ':'"
 
     return tree
