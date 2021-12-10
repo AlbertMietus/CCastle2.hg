@@ -37,7 +37,7 @@ def test_mix_nosub():	parse_sequence(r'/regex/ "string" ( A  B ) crossref',	patt
 def test_mix_sub():	parse_sequence(r'/regex/ "string" ( A  B ) crossref',	pattern=[R,S, (X, X), X])
 
 def test_sub_sub():	parse_sequence(r'level0 ( level1_1  (level2a level2b ) level1_2) level0', pattern=[X, (X, (X,X), X), X])
-def test_sub_sub2():	parse_sequence(r'level0 ( level1_1  (level2a level2b ) level1_2) level0', pattern=[X, [X, [X,X], X], X]) 
+def test_sub_sub2():	parse_sequence(r'level0 ( level1_1  (level2a level2b ) level1_2) level0', pattern=[X, [X, [X,X], X], X])
 
 
 

@@ -11,10 +11,12 @@ def parse_file(filename, dir=Path('..')):
     with (path_to_current_dir / dir / filename).open() as f:
         txt = f.read()
 
-    parser = ParserPython(peg_grammar, comment)
+    parser = ParserPython(peg_grammar, comment, debug=False)
     tree = parser.parse(txt)
 
     assert tree.position_end == len(txt) , f"Not parsed whole input; Only: >>{regex[tree.position: tree.position_end]}<<; Not: >>{regex[tree.position_end:]}<<."
+
+    print("\nPARSE TREE\n" + tree.tree_str())
     return tree
 
 def test_grammar(): parse_file("grammar.peg")
