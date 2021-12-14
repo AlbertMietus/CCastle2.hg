@@ -9,7 +9,10 @@ class PEG (AST_BASE):                                                   # abstra
 ##       This defines (largely/partly) the order of classes.
 ##
 
-class Terminal(PEG): pass                                               # abstract
+class Terminal(PEG):                                                    # abstract
+    def __init__(self, *, value=None, **kwargs):
+        super().__init__(**kwargs)
+        self.value=value
 class NonTerminal(PEG): pass                                            # abstract
 class Markers(PEG): pass                                                # abstract
 
