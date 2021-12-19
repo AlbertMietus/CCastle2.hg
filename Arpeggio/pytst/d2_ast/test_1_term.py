@@ -1,23 +1,18 @@
 import pytest
 
 import grammar
+import visitor
 import arpeggio
 
 import sys; sys.path.append("./../AST/") ; sys.path.append("./../../AST/")
 from castle import peg # has the AST clases
 
 
-class DemoVisitor(arpeggio.PTNodeVisitor):
-    def visit_str_term(self, node, children):
-        ast = peg.StrTerm(value=node[1], parse_tree=node)
-        return ast
-
-
 def parse(txt, rule):
     parser = arpeggio.ParserPython(rule)
     pt = parser.parse(txt)
     assert pt.position_end == len(txt), "Did not parse all input"# JTBS
-    ast = arpeggio.visit_parse_tree(pt, DemoVisitor())
+    ast = arpeggio.visit_parse_tree(pt, visitor.PegVisitor())
     return ast
 
 def test_simple_str():
@@ -37,4 +32,3 @@ def test_simple_str_2():
     assert ast.value == "triple string", 	"It's correct value should be without quotes"
     assert ast.position == 0,			"The term's position includes the quotes ..."
     assert ast.position_end == len(txt),      	" ... on both ends."
-    
