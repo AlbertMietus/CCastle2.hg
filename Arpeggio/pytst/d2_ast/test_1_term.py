@@ -21,7 +21,20 @@ def parse(txt, rule):
     return ast
 
 def test_simple_str():
-    ast = parse("'a string'", grammar.term)
+    txt="'a string'"
+    ast = parse(txt, grammar.term)
     assert isinstance(ast, peg.Terminal),	"It should be a term ..."
     assert isinstance(ast, peg.StrTerm), 	"... and a str"
     assert ast.value == "a string", 		"It's correct value should be without quotes"
+    assert ast.position == 0,			"The term's position includes the quotes ..."
+    assert ast.position_end == len(txt),      	" ... on both ends."
+
+def test_simple_str_2():
+    txt='"""triple string"""'
+    ast = parse(txt, grammar.term)
+    assert isinstance(ast, peg.Terminal),	"It should be a term ..."
+    assert isinstance(ast, peg.StrTerm), 	"... and a str"
+    assert ast.value == "triple string", 	"It's correct value should be without quotes"
+    assert ast.position == 0,			"The term's position includes the quotes ..."
+    assert ast.position_end == len(txt),      	" ... on both ends."
+    

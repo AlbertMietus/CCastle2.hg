@@ -2,6 +2,9 @@ from ._base import AST_BASE, ID
 
 class PEG (AST_BASE):                                                   # abstract
     """Base class of all PEG classes"""
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+
 
 ##
 ## Note: When using TypeHints with PEG-classes; the clases
@@ -13,6 +16,8 @@ class Terminal(PEG):                                                    # abstra
     def __init__(self, *, value=None, **kwargs):
         super().__init__(**kwargs)
         self.value=value
+
+
 class NonTerminal(PEG): pass                                            # abstract
 class Markers(PEG): pass                                                # abstract
 
@@ -24,7 +29,6 @@ class EOF(Markers): pass                                               # singlet
 class Expression(NonTerminal): pass                                     # abstract
 
 
-
 class Setting(PEG):
     def __init__(self, *,
                  name: ID,
@@ -34,7 +38,6 @@ class Setting(PEG):
         super().__init__(**kwargs)
         self.name = name
         self.value = value
-
 
 
 class Rule(NonTerminal):
