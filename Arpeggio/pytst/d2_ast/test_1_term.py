@@ -29,3 +29,32 @@ def test_simple_str_d3():
     assert isinstance(ast, peg.Terminal),	"It should be a term ..."
     assert isinstance(ast, peg.StrTerm), 	"... and a str"
     assert ast.value == "triple string", 	"It's correct value should be without quotes"
+
+def test_regex_RE():
+    txt='/a reg.ex/'
+    ast = parse(txt, grammar.term)
+    assert isinstance(ast, peg.Terminal),	"It should be a term ..."
+    assert isinstance(ast, peg.RegExpTerm), 	"... and a RegExp"
+    assert ast.value == 'a reg.ex', 		"It's correct value should be without slahes -- note: the regex itself is a string"
+
+def regex_variants(txt, expect):
+    ast = parse(txt, grammar.term)
+    assert isinstance(ast, peg.Terminal),	"It should be a term ..."
+    assert isinstance(ast, peg.RegExpTerm), 	"... and a RegExp"
+    assert ast.value == expect, 		"And the regex-pre/postfix should be removed from the value"
+
+def testregex_variants():
+    regex_variants(txt:="""/a reg.ex/""", expect=txt[1:-1])                 # Same a test_regex_RE
+    regex_variants(txt:="""/re_slash/""", expect=txt[1:-1])
+
+    regex_variants(txt:="""R're__Rstr_s1'""", expect=txt[2:-1])
+    regex_variants(txt:="""r're__rstr_s1'""", expect=txt[2:-1])
+    regex_variants(txt:='''R"re__Rstr_d1"''', expect=txt[2:-1])
+    regex_variants(txt:='''r"re__rstr_d1"''', expect=txt[2:-1])
+
+    regex_variants(txt:="""R'''re__Rstr_s3'''""", expect=txt[4:-3])
+    regex_variants(txt:="""r'''re__rstr_s3'''""", expect=txt[4:-3])
+    regex_variants(txt:='''R"""re__Rstr_d3"""''', expect=txt[4:-3])
+    regex_variants(txt:='''r"""re__rstr_d3"""''', expect=txt[4:-3])
+
+

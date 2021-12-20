@@ -7,3 +7,6 @@ class PegVisitor(arpeggio.PTNodeVisitor):
     def visit_str_term(self, node, children):
         ast = peg.StrTerm(value=node[1], parse_tree=node)
         return ast
+    def visit_regex_term(self, node, children):
+        ast = peg.RegExpTerm(value=node[1], parse_tree=node)
+        return ast
