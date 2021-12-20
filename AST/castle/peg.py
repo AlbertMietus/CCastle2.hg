@@ -65,7 +65,14 @@ class Grammar(NonTerminal):
 
 class ManyExpression(Expression): pass                                  # abstract
 class Group(Expression):pass
-class Sequence(Expression):pass
+
+class Sequence(Expression):
+    """A "list of expressions; can be of length=1"""
+    def __init__(self, *, value=None, **kwargs):
+        super().__init__(**kwargs)
+        self.value=value
+
+    
 class OrderedChoice(Expression):pass
 class Predicate(Expression): pass                                       # abstract
 

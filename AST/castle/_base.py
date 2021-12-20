@@ -22,7 +22,7 @@ class ID(str):
 
     @staticmethod
     def validate_or_raise(value):
-        if not isinstance(value, str):
+        if not isinstance(value, (ID, str)):
             raise IDError("not a str of ID")
         if ID._pattern.fullmatch(value) is None:
             raise IDError("not a valid pattern")
