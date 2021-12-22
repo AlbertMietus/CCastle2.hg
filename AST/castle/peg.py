@@ -1,4 +1,4 @@
-from ._base import AST_BASE, ID
+from ._base import AST_BASE, ID, IDError
 
 class PEG (AST_BASE):                                                   # abstract
     """Base class of all PEG classes"""
@@ -72,7 +72,7 @@ class Sequence(Expression):
         super().__init__(**kwargs)
         self.value=value
 
-    
+
 class OrderedChoice(Expression):pass
 class Predicate(Expression): pass                                       # abstract
 

@@ -1,20 +1,11 @@
 import pytest
 
 import grammar
-import visitor
-import arpeggio
 
 import sys; sys.path.append("./../AST/") ; sys.path.append("./../../AST/")
 from castle import peg # has the AST clases
 
-
-def parse(txt, rule):
-    parser = arpeggio.ParserPython(rule)
-    pt = parser.parse(txt)
-    assert pt.position_end == len(txt), "Did not parse all input"       # JTBS
-    ast = arpeggio.visit_parse_tree(pt, visitor.PegVisitor())
-    assert ast.position == 0 and ast.position_end == len(txt), "Also the AST should include all input"
-    return ast
+from . import parse
 
 def test_simple_str():
     txt="'a string'"

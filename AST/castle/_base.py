@@ -17,7 +17,7 @@ class IDError(ValueError):
 
 import re
 
-class ID(str):
+class ID(AST_BASE):
     _pattern = re.compile(r'[A-Za-z_][A-Za-z0-9_]*')
 
     @staticmethod
@@ -26,4 +26,9 @@ class ID(str):
             raise IDError("not a str of ID")
         if ID._pattern.fullmatch(value) is None:
             raise IDError("not a valid pattern")
+
+    def __init__(self, *, name, **kwargs):
+        super().__init__(**kwargs)
+        self.validate_or_raise(name)
+        self.name=name
 
