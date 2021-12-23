@@ -23,6 +23,9 @@ class PegVisitor(arpeggio.PTNodeVisitor):
         if len(children) == 1: # No optional part
             ast = peg.Sequence(value=children, parse_tree=node)
         else:
-            assert NotImplementedError("To Do: visit_single_expr with optional part")
+            assert NotImplementedError("To Do: visit_single_expr with optional part")  # XXX
         return ast
 
+    def visit_rule(self, node, children):                               #  Name '<-' expressions ';'
+        ast = peg.Rule(name=children[0],expr=children[1], parse_tree=node)
+        return ast

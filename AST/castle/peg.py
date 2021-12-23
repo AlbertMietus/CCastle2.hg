@@ -51,7 +51,6 @@ class Rule(NonTerminal):
         self.expr = expr
 
 
-
 class Grammar(NonTerminal):
     def __init__(self, *,
                  rules: list[Rule]=None,
@@ -71,6 +70,10 @@ class Sequence(Expression):
     def __init__(self, *, value=None, **kwargs):
         super().__init__(**kwargs)
         self.value=value
+    def __len__(self):
+        return len(self.value)
+    def __getitem__(self, n):
+        return self.value[n]
 
 
 class OrderedChoice(Expression):pass

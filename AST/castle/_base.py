@@ -22,8 +22,9 @@ class ID(AST_BASE):
 
     @staticmethod
     def validate_or_raise(value):
-        if not isinstance(value, (ID, str)):
-            raise IDError("not a str of ID")
+        if isinstance(value, ID): return
+        if not isinstance(value, str):
+            raise IDError("not a str (or an ID)")
         if ID._pattern.fullmatch(value) is None:
             raise IDError("not a valid pattern")
 
