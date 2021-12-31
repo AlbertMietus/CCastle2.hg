@@ -9,7 +9,9 @@ from . import parse
 
 def test_trivial_rule_with_2IDS():
     """The most simple rule has only two IDs"""
+
     txt="trivial <- cross ;"
+
     ast = parse(txt, grammar.rule)
     assert isinstance(ast, peg.Rule), "It should be an ID"
 
