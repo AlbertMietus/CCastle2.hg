@@ -7,18 +7,27 @@ from castle import peg # has the AST clases
 
 from . import parse
 
+def assert_ID(id, name:str=None, err_message="Not correct Name"):
+    assert name is not None
+    assert isinstance(id, peg.ID),		"The id should be an ID"
+    peg.ID.validate_or_raise(id)                # with correct syntax
+    assert id.name == name, err_message if err_message  else f"Note correct name, expected {name}"
+
+
+
+
 def test_trivial_rule_with_2IDS():
     """The most simple rule has only two IDs"""
 
     txt="trivial <- cross ;"
-
     ast = parse(txt, grammar.rule)
-    assert isinstance(ast, peg.Rule), "It should be an ID"
 
-    name, expr  = ast.name, ast.expr;
-    assert isinstance(name, peg.ID)
+    assert isinstance(ast, peg.Rule), 		"It should be an ID"
+    assert_ID(ast.name, txt.split()[0], "The name of a rule is a ID with the left-side ID as name")
+
+    expr = ast.expr;
     assert isinstance(expr, peg.Expression), 	"The expression is an Expression ..."
     assert isinstance(expr, peg.Sequence),	" .. and a Sequence .."
     assert len(expr) ==1, 			" .. of length==1"
-    assert name.name == txt.split()[0], 	"the name of the (ID of ) rule is the first ID"
-    assert expr[0].name == txt.split()[2], 	"The single element of the expression is the 2nnd ID, which name os the 3 part of the txt"
+    assert_ID(expr[0], txt.split()[2], "The single element of the expression is an ID (the 2nd) --  which name is the 3 part of the txt")
+
