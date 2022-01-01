@@ -21,10 +21,14 @@ class PegVisitor(arpeggio.PTNodeVisitor):
         return peg.Rule(name=children[0],expr=children[1], parse_tree=node)
 
 
-    def visit_single_expr(self, node, children):                        #  [ rule_crossref, term, group, predicate ] Optional([ '?' , '*' , '+' , '#' ]))
-        if len(children) == 1: # No optional part
-            ast = peg.Sequence(value=children, parse_tree=node)
-        else:
-            assert NotImplementedError("To Do: visit_single_expr with optional part")  # XXX
-        return ast
+#    def visit_single_expr(self, node, children):                        #  [ rule_crossref, term, group, predicate ] Optional([ '?' , '*' , '+' , '#' ]))
+#        if len(children) == 1: # No optional part
+#            #ast = peg.Sequence(value=children, parse_tree=node)
+#            return super().visit__default__(node, children)
+#        else:
+#            assert NotImplementedError("To Do: visit_single_expr with optional part")  # XXX
+#        return ast
+
+    def visit_expressions(self, node, children):                        #   OneOrMore(single_expr), Optional( '|' , expressions )
+        return peg.Sequence(value=children, parse_tree=node)
 

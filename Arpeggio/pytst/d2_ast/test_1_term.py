@@ -48,13 +48,14 @@ def test_regex_variants():
     regex_variants(txt:='''R"""re__Rstr_d3"""''', expect=txt[4:-3])
     regex_variants(txt:='''r"""re__rstr_d3"""''', expect=txt[4:-3])
 
-
+@pytest.mark.skip(reason="single_expr has no visitor -- as that is now in expressions")
 def test_term_as_single_expr():                                         # A term is **ALSO** a single_expr
     txt="'a string'"
     ast = parse(txt, grammar.single_expr)
     assert isinstance(ast, peg.Expression),	"A (str)term is also an Expression"
     assert len(ast.value) == 1,			"An expression with length==1"
     assert ast.value[0].value == txt[1:-1], 	"It's correct value should be without quotes"
+
 
 def test_term_as_expressions():                                         # A term is **ALSO an expressions
     txt="'a string'"

@@ -22,12 +22,14 @@ def test_rule_crossref():
     assert ast.name == txt
 
 
+@pytest.mark.skip(reason="single_expr has no visitor -- as that is now in expressions")
 def test_ID_as_single_expr():
     txt="aRef"
     ast = parse(txt, grammar.single_expr)
     assert isinstance(ast, peg.Expression),	"A crossref is also an Expression"
     assert len(ast.value) == 1,			"An expression with length==1"
     assert ast.value[0].name == txt, 		"The name of the (ID of the) Expression-value is still the same"
+
 
 def test_ID_as_expressions():
     txt="aRef"
