@@ -1,12 +1,9 @@
 import pytest
 
 import grammar
-
-import sys; sys.path.append("./../AST/") ; sys.path.append("./../../AST/")
 from castle import peg # has the AST clases
 
 from . import parse, assert_ID
-
 
 def test_trivial_rule_with_2IDS():
     """The most simple rule has only two IDs"""

@@ -1,8 +1,6 @@
 import pytest
 
 import grammar
-
-import sys; sys.path.append("./../AST/") ; sys.path.append("./../../AST/")
 from castle import peg # has the AST clases
 
 from . import parse

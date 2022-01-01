@@ -1,12 +1,9 @@
 import pytest
 
 import grammar
-
-import sys; sys.path.append("./../AST/") ; sys.path.append("./../../AST/")
 from castle import peg # has the AST clases
 
 from . import parse, assert_ID
-
 
 def test_rule_name():
     """The name of a rule is an ID"""
