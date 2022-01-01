@@ -5,13 +5,7 @@ import grammar
 import sys; sys.path.append("./../AST/") ; sys.path.append("./../../AST/")
 from castle import peg # has the AST clases
 
-from . import parse
-
-def assert_ID(id, name:str=None, err_message="Not correct Name"):
-    assert name is not None
-    assert isinstance(id, peg.ID),		"The id should be an ID"
-    peg.ID.validate_or_raise(id)                # with correct syntax
-    assert id.name == name, err_message if err_message  else f"Note correct name, expected {name}"
+from . import parse, assert_ID
 
 
 def test_trivial_rule_with_2IDS():
