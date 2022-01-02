@@ -62,7 +62,10 @@ class Grammar(NonTerminal):
 
 
 class Group(Expression):pass                                            # abstract --  Do not use for a '(' ...')' group, that's a Sequence!!
-class UnorderedGroup(Group):pass                                        # It looks like a Quantity, but is a group
+class UnorderedGroup(Group):                                            # It looks like a Quantity, but is a group
+    def __init__(self, *, expr=None, **kwargs):
+        super().__init__(**kwargs)
+        self.expr = expr
 
 
 class Quantity(Expression):                                             # abstract
@@ -84,7 +87,6 @@ class Sequence(Expression):
 
 
 class OrderedChoice(Expression):pass                                    # It a an set of alternatives
-
 
 class Optional(Quantity):pass
 class ZeroOrMore(Quantity):pass

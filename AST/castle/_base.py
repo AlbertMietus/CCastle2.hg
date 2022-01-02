@@ -2,6 +2,7 @@ class AST_BASE:
     """Base class for all Castle ATS nodes"""
 
     def __init__(self, *, parse_tree=None, **kwargs):
+        assert len(kwargs)==0, "Do not call 'Object' with kwargs (caller is wrong)"
         super().__init__(**kwargs)
         self._parse_tree = parse_tree
 
