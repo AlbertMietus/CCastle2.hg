@@ -34,7 +34,7 @@ class PegVisitor(arpeggio.PTNodeVisitor):
                 n = children[0].name
             except AttributeError:
                 n = str(children[0])
-            logger.warning(f'visit_single_expr==1:: {n}:{type(children[0])}')
+            logger.debug(f'visit_single_expr==1:: {n}:{type(children[0])}')
             return children[0]
         elif len(children) == 2: #  Optional part
             logger.debug(f'visit_single_expr==2:: {children[0]}, {children[1]}')

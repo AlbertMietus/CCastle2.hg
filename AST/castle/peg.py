@@ -61,7 +61,7 @@ class Grammar(NonTerminal):
         self.settings = settings
 
 
-class Group(Expression):pass                                            # abstract
+class Group(Expression):pass                                            # abstract --  Do not use for a '(' ...')' group, that's a Sequence!!
 class UnorderedGroup(Group):pass                                        # It looks like a Quantity, but is a group
 
 
