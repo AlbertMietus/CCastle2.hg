@@ -61,12 +61,19 @@ class Grammar(NonTerminal):
         self.settings = settings
 
 
+class Group(Expression):pass                                            # abstract
+class UnorderedGroup(Group):pass                                        # It looks like a Quantity, but is a group
 
-class ManyExpression(Expression): pass                                  # abstract
-class Group(Expression):pass
+
+class Quantity(Expression):                                             # abstract
+    """An expression with Quantification; like optional, or repetition. The subclasses defines which Quantification"""
+    def __init__(self, *, expr=None, **kwargs):
+        super().__init__(**kwargs)
+        self.expr = expr
+
 
 class Sequence(Expression):
-    """A "list of expressions; can be of length=1"""
+    """A _list_ of expressions; can be of length=1"""
     def __init__(self, *, value=None, **kwargs):
         super().__init__(**kwargs)
         self.value=value
@@ -76,12 +83,14 @@ class Sequence(Expression):
         return self.value[n]
 
 
-class OrderedChoice(Expression):pass
+class OrderedChoice(Expression):pass                                    # It a an set of alternatives
+
+
+class Optional(Quantity):pass
+class ZeroOrMore(Quantity):pass
+class OneOrMore(Quantity):pass
+
+
 class Predicate(Expression): pass                                       # abstract
-
-class Optional(ManyExpression):pass
-class OneOrMore(ManyExpression):pass
-class ZeroOrMore(ManyExpression):pass
-
 class AndPredicate(Predicate): pass
 class NotPredicate(Predicate): pass

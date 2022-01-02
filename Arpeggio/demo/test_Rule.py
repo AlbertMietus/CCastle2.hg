@@ -1,4 +1,5 @@
 import pytest
+import logging;logger = logging.getLogger(__name__)
 
 import grammar
 import arpeggio
@@ -13,7 +14,7 @@ def format_children(l):
 
 def show_visited(label="VISIT_", node=None, children=None):
     nl= "\n" if label[-1] != '_' else ""
-    print(f'XXX {label}{nl}{format_node(node)}{format_children(children)}')
+    logger.info(f'{label}{nl}{format_node(node)}{format_children(children)}')
 
 
 

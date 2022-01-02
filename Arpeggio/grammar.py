@@ -7,8 +7,9 @@ def rules(): 		return OneOrMore(rule)
 def rule():		return rule_name, '<-', expressions, ";"
 
 def expressions():	return ( OneOrMore(single_expr), Optional( '|' , expressions ) )
-def single_expr():	return ( [ rule_crossref, term, group, predicate ], Optional([ '?' , '*' , '+' , '#' ]))
+def single_expr():	return ( [ rule_crossref, term, group, predicate ], expr_quantity)
 
+def expr_quantity(): 	return Optional([ '?' , '*' , '+' , '#' ])
 def term():		return [ str_term, regex_term ]
 def group():		return '(', expressions, ')'
 def predicate():	return ['&','!'], single_expr

@@ -1,7 +1,7 @@
 import pytest
 
 import grammar
-from castle import peg # has the AST clases
+from castle import peg # has the AST classes
 
 from . import parse, assert_ID
 

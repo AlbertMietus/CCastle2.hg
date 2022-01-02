@@ -10,7 +10,7 @@ def test_abstracts_1():
 
 def test_abstracts_2():
     assert isinstance(peg.Expression(), peg.NonTerminal)
-    assert isinstance(peg.ManyExpression(), peg.Expression)
+    assert isinstance(peg.Quantity(), peg.Expression)
     assert isinstance(peg.Predicate(), peg.Expression)
 
 def test_eof():
@@ -21,6 +21,6 @@ def test_pred():
     assert isinstance(peg.NotPredicate(), peg.Predicate)
 
 def test_manys():
-    assert isinstance(peg.Optional(), peg.ManyExpression)
-    assert isinstance(peg.OneOrMore(), peg.ManyExpression)
-    assert isinstance(peg.ZeroOrMore(), peg.ManyExpression)
+    assert isinstance(peg.Optional(), peg.Quantity)
+    assert isinstance(peg.OneOrMore(), peg.Quantity)
+    assert isinstance(peg.ZeroOrMore(), peg.Quantity)

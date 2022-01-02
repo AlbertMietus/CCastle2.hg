@@ -1,4 +1,5 @@
 import pytest
+import logging;logger = logging.getLogger(__name__)
 
 from grammar import *
 import arpeggio
@@ -6,7 +7,7 @@ RE, S = arpeggio.RegExMatch, arpeggio.StrMatch                          # shortc
 
 
 def parse_str(str, pattern=[S, RE, S]):
-    #print(f'\nXXX >>{str}<<')
+    logger.debug(f'>>{str}<<')
     parser = ParserPython(str_term, comment)
     tree = parser.parse(str)
     assert tree.position_end == len(str) , f"Not parsed whole input; Only: >>{str[tree.position: tree.position_end]}<<; Not: >>{str[tree.position_end:]}<<."

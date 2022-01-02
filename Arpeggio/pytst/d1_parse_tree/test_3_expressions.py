@@ -1,6 +1,7 @@
 import pytest
-import grammar
+import logging;logger = logging.getLogger(__name__)
 
+import grammar
 import arpeggio
 
 R, S, X = grammar.regex_term.__name__, grammar.str_term.__name__, grammar.rule_crossref.__name__  # shortcut in grammar
@@ -10,7 +11,7 @@ G = grammar.group.__name__
 def parse_expressions(txt, pattern=None):
     parser = arpeggio.ParserPython(grammar.expressions)
     parse_tree = parser.parse(txt)
-    print("\nPARSE-TREE\n" + parse_tree.tree_str()+'\n')
+    logger.info("\nPARSE-TREE\n" + parse_tree.tree_str()+'\n')
 
     assert parse_tree.position_end == len(txt) , f"Not parsed whole input; Only: >>{txt[parse_tree.position: parse_tree.position_end]}<<; Not: >>{txt[parse_tree.position_end:]}<<."
     assert parse_tree.rule_name == "expressions"
@@ -20,7 +21,6 @@ def parse_expressions(txt, pattern=None):
     return parse_tree
 
 def validate_pattern(pt, pattern=None):
-    print('VVV', pt, type(pt))
     assert len(pt) == len(pattern), f"Not correct number-of-element"
 
     for p, s in zip(pattern, pt): # E <- S* (| E)?
@@ -31,14 +31,11 @@ def validate_pattern(pt, pattern=None):
             assert s[0][0].rule_name == p  # S => T => str/regex
         elif isinstance(p, tuple):         # Group: '(' ... ')'
             assert s[0].rule_name == G
-            print("\nVVV:G\n" + s.tree_str())
-            # XXXXX
             validate_pattern(s[0][1:-1][0], pattern=p) # G=>E=>
         elif p == P:
             assert False, "To Do: Predicate"
         else:
             assert False, "To Do: More"
-    print('VVV OKE')
 
 
 def test_simple_1():	parse_expressions(r"abc",	pattern=[X])

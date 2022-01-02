@@ -1,4 +1,6 @@
 import pytest
+import logging;logger = logging.getLogger(__name__)
+
 import grammar
 
 import arpeggio
@@ -7,7 +9,7 @@ RE, S = arpeggio.RegExMatch, arpeggio.StrMatch                          # shortc
 def parse_rule(txt, pattern=None):
     parser = arpeggio.ParserPython(grammar.rule)
     tree = parser.parse(txt)
-    print(f'\nTREE\n{tree.tree_str()}')
+    logger.info(f'\nTREE\n{tree.tree_str()}')
 
     assert tree.position_end == len(txt) , f"Not parsed whole input; Only: >>{txt[tree.position: tree.position_end]}<<; Not: >>{txt[tree.position_end:]}<<."
     assert len(tree) == 4, 		      		"A rule should have length=4; ..."
