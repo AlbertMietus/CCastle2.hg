@@ -2,6 +2,7 @@ import pytest
 
 from castle.peg import Rule
 
+@pytest.mark.skip("This test is wrong: (1) An ID is not string, (2) a int is not an Expression")
 def test_a_ID():
     a_name, a_val = 'aName', 42
     s=Rule(name=a_name, expr=a_val)

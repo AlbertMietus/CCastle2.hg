@@ -31,19 +31,19 @@ class PegVisitor(arpeggio.PTNodeVisitor):
     def visit_single_expr(self, node, children):                        #  [ rule_crossref, term, group, predicate ],  expr_quantity
         if len(children) == 1: #  No Optional part
             try:
-                n = children[0].name
+                n = f'name={children[0].name}'
             except AttributeError:
-                n = str(children[0])
+                n = f'name:{children[0]}'
             logger.debug(f'visit_single_expr==1:: {n}:{type(children[0])}')
             return children[0]
         elif len(children) == 2: #  Optional part
-            logger.debug(f'visit_single_expr==2:: {children[0]}, {children[1]}')
+            logger.debug(f'visit_single_expr==2::Got: {children[0]}, {children[1]}')
             expr = children[0]
             token = str(children[1])
             quantum_cls = self.token_2_class.get(token)
             if quantum_cls:
                 ast=quantum_cls(expr=expr, parse_tree=node)
-                logger.debug(f'visit_single_expr==2:: {quantum_cls} {expr}')
+                logger.debug(f'visit_single_expr==2::Pass: {quantum_cls}(expr={expr})')
                 return ast
             else:
                 raise QuantityError(f"token '{token}' not recognised")
@@ -56,6 +56,6 @@ class PegVisitor(arpeggio.PTNodeVisitor):
 
 
     def visit_expressions(self, node, children):                        # OneOrMore(single_expr), Optional( '|' , expressions )
-        logger.debug(f'>>{node}<< len={len(children)} children={children}')
+        logger.debug(f'visit_expressions:: >>{node}<< len={len(children)} children={children}:{type(children)}')
         return peg.Sequence(value=children, parse_tree=node)
 

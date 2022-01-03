@@ -1,7 +1,7 @@
 """  Test several optional parts of an expression -- mosty quantity suffixes like '?' '*' and '+' -- also '#' although is different"""
 
 import pytest
-import logging;logger = logging.getLogger(__name__)
+import logging; logger = logging.getLogger(__name__)
 
 import grammar
 from castle import peg # has the AST classes

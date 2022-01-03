@@ -1,4 +1,5 @@
 import pytest
+import logging; logger = logging.getLogger(__name__)
 
 import grammar
 from castle import peg # has the AST classes
@@ -17,7 +18,7 @@ def test_trivial_rule_with_2IDS():
     expr = ast.expr;
     assert isinstance(expr, peg.Expression), 	"The expression is an Expression ..."
     assert isinstance(expr, peg.Sequence),	" .. and a Sequence .."
-    assert len(expr) ==1, 			" .. of length==1"
+    assert len(expr) == 1, 			" .. of length==1"
     assert_ID(expr[0], txt.split()[2], "The single element of the expression is an ID (the 2nd) --  which name is the 3 part of the txt")
 
 
