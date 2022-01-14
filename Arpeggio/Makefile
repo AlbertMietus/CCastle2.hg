@@ -21,7 +21,7 @@ GRAMMAR_RULES := $(shell grep '^ *def ' ./grammar.py | awk '{print $$2}' | sed '
 
 missing_visitors:
 	@for R in ${GRAMMAR_RULES}; do	\
-	        if !  grep -q -E "^ *((def)|(# *NOVISITOR_NEEDED:)) *visit_$$R" ./visitor.py> /dev/null ; then\
+	        if !  grep -q -E "^ *((def)|(# *NO_VISITOR_NEEDED:)) *visit_$$R" ./visitor.py> /dev/null ; then\
 			echo "Warning: $${R} has no visitor (nor is marked as to need none)" ;\
 		fi ;\
 	done
