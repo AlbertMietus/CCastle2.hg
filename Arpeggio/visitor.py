@@ -7,6 +7,15 @@ import logging;logger = logging.getLogger(__name__)
 
 class QuantityError(ValueError): pass
 
+
+#NOVISITOR_NEEDED: visit_str_no_s1
+#NOVISITOR_NEEDED: visit_str_no_d1
+#NOVISITOR_NEEDED: visit_str_no_s3
+#NOVISITOR_NEEDED: visit_str_no_d3
+#NOVISITOR_NEEDED: visit_comment
+#NOVISITOR_NEEDED: visit_ID
+#NOVISITOR_NEEDED: visit_re_no_slash
+
 class PegVisitor(arpeggio.PTNodeVisitor):
     token_2_class = {'?': peg.Optional,
                      '*': peg.ZeroOrMore,

@@ -1,6 +1,6 @@
-default: test
+default: all
 
-all: test
+all: test missing_visitors
 
 test:
 	(cd pytst/; pytest)
@@ -17,3 +17,11 @@ clean:
 	rm -f *.dot
 	rm -f pytst/*.dot
 
+GRAMMAR_RULES := $(shell grep '^ *def ' ./grammar.py | awk '{print $$2}' | sed 's/()://')
+
+missing_visitors:
+	@for R in ${GRAMMAR_RULES}; do	\
+	        if !  grep -q -E "^ *((def)|(# *NOVISITOR_NEEDED:)) *visit_$$R" ./visitor.py> /dev/null ; then\
+			echo "Warning: $${R} has no visitor (nor is marked as to need none)" ;\
+		fi ;\
+	done
