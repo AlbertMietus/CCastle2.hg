@@ -4,10 +4,12 @@ import arpeggio
 import sys; sys.path.append("./../AST/") ; sys.path.append("./../../AST/")
 from castle import peg # has the AST clases
 
+import grammar
+
 def parse(txt, rule,
           print_tree_debug=False,
           visitor_debug=False):
-    parser = arpeggio.ParserPython(rule)
+    parser = arpeggio.ParserPython(rule, grammar.comment)
     pt = parser.parse(txt)
     if print_tree_debug:
         print('\n'+pt.tree_str())
