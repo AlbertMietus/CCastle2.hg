@@ -18,6 +18,7 @@ class PredicateError(ValueError): pass
 #NO_VISITOR_NEEDED: visit_term
 #NO_VISITOR_NEEDED: visit_re_no_slash
 #NO_VISITOR_NEEDED: visit_group
+#NO_VISITOR_NEEDED: visit_op_quantity (before: vist_expr_quantity)
 
 class PegVisitor(arpeggio.PTNodeVisitor):
     token_2_class = {'?': peg.Optional,
