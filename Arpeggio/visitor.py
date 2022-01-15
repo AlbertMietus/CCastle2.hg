@@ -62,10 +62,6 @@ class PegVisitor(arpeggio.PTNodeVisitor):
         else:
             raise  NotImplementedError("visit_single_expr, len>2")      # XXX -- Is this possible?
 
-    def visit_expr_quantity(self, node, children):                      # Optional([ '?' , '*' , '+' , '#' ])
-        logger.debug(f'visit_expr_quantity [{len(children)}] node={node}:{type(node)}')
-        return node
-
 
     def visit_expressions(self, node, children):                        # OneOrMore(single_expr), Optional( '|' , expressions )
         logger.debug(f'visit_expressions:: >>{node}<< len={len(children)} children={children}:{type(children)}')
