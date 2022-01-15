@@ -6,6 +6,7 @@ from castle import peg # has the AST clases
 import logging;logger = logging.getLogger(__name__)
 
 class QuantityError(ValueError): pass
+class PredicateError(ValueError): pass
 
 
 #NO_VISITOR_NEEDED: visit_str_no_s1
@@ -39,7 +40,7 @@ class PegVisitor(arpeggio.PTNodeVisitor):
     def visit_rule(self, node, children):                               #  Name '<-' expressions ';'
         return peg.Rule(name=children[0],expr=children[1], parse_tree=node)
 
-    def visit_single_expr(self, node, children):                        #  [ rule_crossref, term, group, predicate ],  expr_quantity
+    def visit_single_expr(self, node, children):                        #  [ rule_crossref, term, group, predicate ],  op_quantity
         if len(children) == 1: #  No Optional part
             try:
                 n = f'name={children[0].name}'
@@ -69,4 +70,22 @@ class PegVisitor(arpeggio.PTNodeVisitor):
     def visit_expressions(self, node, children):                        # OneOrMore(single_expr), Optional( '|' , expressions )
         logger.debug(f'visit_expressions:: >>{node}<< len={len(children)} children={children}:{type(children)}')
         return peg.Sequence(value=children, parse_tree=node)
+
+
+    def visit_predicate(self, node, children):
+        token_2_predicate = {'&': peg.AndPredicate,
+                             '!': peg.NotPredicate}
+        logger.debug(f'visit_predicate:: >>{node}<< len={len(children)}')
+
+        if len(children) == 2:
+            token = children[0]
+            cls = token_2_predicate.get(token)
+            if cls:
+                ast = cls(expr=children[1], parse_tree=node)
+                return ast
+            else:
+                raise PredicateError(f"token '{token}' not recognised")
+        else:
+            raise  NotImplementedError("visit_predicate, len!=2")      # XXX -- Is this possible?
+
 

@@ -107,6 +107,6 @@ class ZeroOrMore(Quantity):pass
 class OneOrMore(Quantity):pass
 
 
-class Predicate(Expression): pass                                       # abstract
+class Predicate(MixIn_expr_attribute, Expression): pass                 # abstract
 class AndPredicate(Predicate): pass
 class NotPredicate(Predicate): pass

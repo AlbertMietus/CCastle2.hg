@@ -21,8 +21,13 @@ def parse(txt, rule,
 
 def assert_ID(id, name:str=None, err_message="Not correct Name"):
     assert name is not None
-    assert isinstance(id, peg.ID),		"The id should be an ID"
+    assert isinstance(id, peg.ID),		f"The id should be an ID, but is a {type(id)}"
     peg.ID.validate_or_raise(id)                # with correct syntax
     assert id.name == name, err_message if err_message  else f"Note correct name, expected {name}"
+precondition_ID = assert_ID                                             # It's not a "validation assert", but a precondition for the test
 
+def precondition_Expressions(expr, *, type=peg.Sequence, length=None):
+    assert isinstance(expr, type), "PreCondition failed"
+    if length:
+        assert len(expr)==length, "PreCondition failed"
 
