@@ -2,6 +2,7 @@ import logging; logger = logging.getLogger(__name__)
 
 from ._base import AST_BASE, ID, IDError
 
+
 class PEG (AST_BASE):                                                   # abstract
     """Base class of all PEG classes"""
     def __init__(self, **kwargs):
@@ -33,6 +34,16 @@ class MixIn_expr_attribute:
     def expr(self):
         return self._expr
 
+
+class MixIn_children_as_tuple(tuple, PEG):
+    """With this MixIn PEG-class can be used a list"""
+    def __new__(cls, children, **kwargs):
+        return tuple.__new__(cls, tuple(children))
+    def __init__(self, *, children=None, **kwargs):
+        # children is handled in __new__ (RO!)
+        super().__init__(**kwargs)
+
+
 ##
 ## Note: When using TypeHints with PEG-classes; the clases
 ##       should be defined "above" the typehints uses them
@@ -60,6 +71,8 @@ class Setting(PEG):
         self.name = name
         self.value = value
 
+class Settings(MixIn_children_as_tuple, PEG): pass
+
 
 class Rule(NonTerminal):
     def __init__(self, *,
@@ -72,10 +85,14 @@ class Rule(NonTerminal):
         logger.debug(f'{type(self).__name__}:: expr:={expr}:{type(expr)}')
         logger.debug("\t" + "; ".join(f'{c}:{type(c)}' for c in expr))
 
+
+class Rules(MixIn_children_as_tuple, PEG): pass
+
+
 class Grammar(NonTerminal):
     def __init__(self, *,
-                 rules: list[Rule]=None,
-                 settings: list[Setting]=None,
+                 rules: Rules=None,
+                 settings: Settings=None,
                  **kwargs):
         super().__init__(**kwargs)
         self.rules = rules
@@ -83,10 +100,13 @@ class Grammar(NonTerminal):
 
 
 class Group(Expression): pass                                           # abstract --  Note: Do not Group for  '(' ...')';  that's a Sequence!!
+
+
 class UnorderedGroup(MixIn_expr_attribute, Group):                      # It looks like a Quantity, but is a group
     """See a set (aka "group") of expressions that **all** have to be matched, but the **order** is a don't care.
 
        Possible an extension of Arpeggio (see: https://textx.github.io/Arpeggio/stable/grammars/), possible a generic one."""
+
 
 class Quantity(MixIn_expr_attribute, Expression):                                             # abstract
     """An expression with Quantification; like optional, or repetition. The subclasses defines which Quantification"""
@@ -105,7 +125,6 @@ class OrderedChoice(Expression):pass                                    # It a a
 class Optional(Quantity):pass
 class ZeroOrMore(Quantity):pass
 class OneOrMore(Quantity):pass
-
 
 class Predicate(MixIn_expr_attribute, Expression): pass                 # abstract
 class AndPredicate(Predicate): pass

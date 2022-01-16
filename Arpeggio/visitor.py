@@ -86,3 +86,6 @@ class PegVisitor(arpeggio.PTNodeVisitor):
             raise  NotImplementedError("visit_predicate, len!=2")      # XXX -- Is this possible?
 
 
+    def visit_rules(self, node, children):
+        logger.debug(f'visit_rules:: >>{node}<< len={len(children)}')
+        return peg.Rules(children=children[:], parse_tree=node)

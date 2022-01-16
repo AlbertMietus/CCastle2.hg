@@ -12,7 +12,7 @@ def test_trivial_rule_with_2IDS():
     txt="trivial <- cross ;"
     ast = parse(txt, grammar.rule)
 
-    assert isinstance(ast, peg.Rule), 		"It should be an ID"
+    assert isinstance(ast, peg.Rule), 	"It should be an Rule"
     assert_ID(ast.name, txt.split()[0], "The name of a rule is a ID with the left-side ID as name")
 
     expr = ast.expr;
