@@ -16,7 +16,8 @@ def parse_file(filename, dir=Path('..')):
 
     return tree
 
-@pytest.mark.skip(reason="NOT all visitors are done, like ``peg_grammar``")
+
 def test_grammar():
     parse_file("grammar.peg")
     ...                                                                 # XXX
+    assert False, "Need more work"
