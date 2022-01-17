@@ -23,16 +23,17 @@ def test_simple_str_d3():
     ast = parse(txt, grammar.term)
     assert_Term(ast, peg.StrTerm, txt[3:-3], "It's correct value should be without quotes")
 
+
 def test_regex_RE():
     txt='/a reg.ex/'
     ast = parse(txt, grammar.term)
     assert_Term(ast, peg.RegExpTerm, txt[1:-1], "It's correct value should be without slahes -- note: the regex itself is a string")
 
 
-
 def regex_variants(txt, expect):
     ast = parse(txt, grammar.term)
     assert_Term(ast, peg.RegExpTerm, expect, 	"And the regex-pre/postfix should be removed from the value")
+
 
 def test_regex_variants():
     regex_variants(txt:="""/a reg.ex/""", expect=txt[1:-1])                 # Same a test_regex_RE
@@ -49,7 +50,6 @@ def test_regex_variants():
     regex_variants(txt:='''r"""re__rstr_d3"""''', expect=txt[4:-3])
 
 
-
 def test_term_as_expressions():                                         # A term is **ALSO an expressions
     txt="'a string'"
     ast = parse(txt, grammar.expressions)
@@ -57,5 +57,3 @@ def test_term_as_expressions():                                         # A term
     assert isinstance(ast, peg.Expression),	"A (str)term is also an Expression"
     assert len(ast.value) == 1,			"An expression with length==1"
     assert ast.value[0].value == txt[1:-1], 	"It's correct value should be without quotes"
-
-

@@ -10,6 +10,14 @@ from castle import peg # has the AST classes
 
 from . import parse, assert_ID
 
+
+def assert_Seq(ast, length=None):
+    assert isinstance(ast, peg.Sequence)
+    assert isinstance(ast, peg.Expression),	"A sequence is aslo an Expression()"
+    if length:
+        assert len(ast) == length,  		f" ... of specified length=={length}"
+
+
 def test_seq_of_one_as_single_expr():
     txt = "A"
     ast = parse(txt, grammar.single_expr)
@@ -26,22 +34,17 @@ def test_seq_of_two_as_expressions():
     txt = "A B"
     ast = parse(txt, grammar.expressions)
 
-    assert isinstance(ast, peg.Expression),	"Two sequence of two expr is an Expression()"
-    assert isinstance(ast, peg.Sequence),	" ... and a Sequence()"
-    assert len(ast) == 2,			" ... of length==2"
-
+    assert_Seq(ast, 2)
     assert isinstance(ast.value, list),		"It will be an `arpeggio.SemanticActionResult` which is a subclass of list"
     assert_ID(ast[0], 'A'),			" ... the first one is ID('A')"
     assert_ID(ast[1], 'B'),			"... and the 2nd: ID('B')"
 
 
-def test_seq_of_thre_with_quantification():
+def test_seq_of_three_with_quantification():
     txt = "A? B+ C*"
     ast = parse(txt, grammar.expressions)
 
-    assert isinstance(ast, peg.Expression), "Two sequence of two expr is an Expression()"
-    assert isinstance(ast, peg.Sequence),   " ... and a Sequence()"
-    assert len(ast) == 3,                   " ... of length==3"
+    assert_Seq(ast, 3)
 
     assert isinstance(ast[0], peg.Optional)
     assert isinstance(ast[1], peg.OneOrMore)
