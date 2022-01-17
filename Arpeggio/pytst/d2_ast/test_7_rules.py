@@ -4,7 +4,7 @@ import logging; logger = logging.getLogger(__name__)
 import grammar
 from castle import peg # has the AST classes
 
-from . import parse
+from . import parse, assert_Rule
 
 def test_some_rules():
     txt="""R1 <- A;
@@ -14,4 +14,6 @@ def test_some_rules():
     assert isinstance(ast, peg.Rules)
     assert len(ast) == 2, "We expect the same number as Rules as lines"
     for r in ast:
-        assert isinstance(r, peg.Rule)
+        assert_Rule(r)
+
+
