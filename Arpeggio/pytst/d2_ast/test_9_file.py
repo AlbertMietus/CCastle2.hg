@@ -12,9 +12,9 @@ def parse_file(filename, dir=Path('..')):
     path_to_current_dir = path_to_current_test.parent
     with (path_to_current_dir / dir / filename).open() as f:
         txt = f.read()
-    ast = parse(txt, grammar.peg_grammar, print_tree_debug=False)
+    ast = parse(txt, grammar.peg_grammar, with_comments=True)
 
-    return tree
+    return ast
 
 
 def test_grammar():

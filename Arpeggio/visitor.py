@@ -65,14 +65,14 @@ class PegVisitor(arpeggio.PTNodeVisitor):
 
 
     def visit_expressions(self, node, children):                        # OneOrMore(single_expr), Optional( '|' , expressions )
-        logger.debug(f'visit_expressions:: >>{node}<< len={len(children)} children={children}:{type(children)}')
+        logger.debug(f'visit_expressions:: >>{node}<< #children={len(children)} children={children}:{type(children)}')
         return peg.Sequence(value=children, parse_tree=node)
 
 
     def visit_predicate(self, node, children):
         token_2_predicate = {'&': peg.AndPredicate,
                              '!': peg.NotPredicate}
-        logger.debug(f'visit_predicate:: >>{node}<< len={len(children)}')
+        logger.debug(f'visit_predicate:: >>{node}<< #children={len(children)}')
 
         if len(children) == 2:
             token = children[0]
@@ -87,5 +87,11 @@ class PegVisitor(arpeggio.PTNodeVisitor):
 
 
     def visit_rules(self, node, children):
-        logger.debug(f'visit_rules:: >>{node}<< len={len(children)}')
+        logger.debug(f'visit_rules:: >>{node}<< #children={len(children)}')
         return peg.Rules(children=children[:], parse_tree=node)
+
+    def visit_peg_grammar(self, node, children): # No support for settings XXX
+        rules=children[0]
+        assert len(children) == 1
+        logger.debug(f'visit_peg_grammar:: >>{node}<< #children={len(children)} ; rules={rules}:{type(rules)}')
+        return peg.Grammar(rules=rules, parse_tree=node)

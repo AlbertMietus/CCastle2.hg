@@ -97,6 +97,7 @@ class Grammar(NonTerminal):
         super().__init__(**kwargs)
         self.rules = rules
         self.settings = settings
+        logger.debug(f'{type(self).__name__}:: kwargs={kwargs}')
 
 
 class Group(Expression): pass                                           # abstract --  Note: Do not Group for  '(' ...')';  that's a Sequence!!

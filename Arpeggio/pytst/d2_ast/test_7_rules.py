@@ -4,7 +4,7 @@ import logging; logger = logging.getLogger(__name__)
 import grammar
 from castle import peg # has the AST classes
 
-from . import parse, precondition_ID, precondition_Expressions
+from . import parse
 
 def test_some_rules():
     txt="""R1 <- A;
