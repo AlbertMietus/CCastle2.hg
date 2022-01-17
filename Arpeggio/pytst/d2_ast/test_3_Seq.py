@@ -27,10 +27,8 @@ def test_seq_of_two_as_expressions():
     txt = "A B"
     ast = parse(txt, grammar.expressions)
 
-    assert_Seq(ast, 2)
+    assert_Seq(ast, 2, ids=('A', 'B'))
     assert isinstance(ast.value, list),		"It will be an `arpeggio.SemanticActionResult` which is a subclass of list"
-    assert_ID(ast[0], 'A'),			" ... the first one is ID('A')"
-    assert_ID(ast[1], 'B'),			"... and the 2nd: ID('B')"
 
 
 def test_seq_of_three_with_quantification():

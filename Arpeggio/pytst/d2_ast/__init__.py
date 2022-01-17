@@ -33,11 +33,21 @@ def assert_ID(id, name:str=None, err_message="Not correct Name"):
 precondition_ID = assert_ID                                             # It's not a "validation assert", but a precondition for the test
 
 
-def assert_Seq(ast, length=None):
+def assert_Seq(ast, length=None, ids=None):
     assert isinstance(ast, peg.Sequence)
     assert isinstance(ast, peg.Expression),	"A sequence is aslo an Expression()"
     if length:
         assert len(ast) == length,  		f" ... of specified length=={length}"
+    if ids:
+        for i, name in enumerate(ids):
+            assert_ID(ast[i], name)
+
+
+def assert_Rule(ast, rune_name=None):
+    assert isinstance(ast, peg.Rule), 	"It should be an Rule"
+    if rune_name:
+        assert_ID(ast.name, rune_name)
+precondition_Rule = assert_Rule
 
 
 def precondition_Expressions(expr, *, type=peg.Sequence, length=None):

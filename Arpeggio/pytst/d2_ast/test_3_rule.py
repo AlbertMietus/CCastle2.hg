@@ -4,12 +4,7 @@ import logging; logger = logging.getLogger(__name__)
 import grammar
 from castle import peg # has the AST classes
 
-from . import parse, assert_ID, assert_Seq
-
-def assert_Rule(ast, rune_name=None):
-    assert isinstance(ast, peg.Rule), 	"It should be an Rule"
-    if rune_name:
-        assert_ID(ast.name, rune_name)
+from . import parse, assert_ID, assert_Seq, assert_Rule
 
 
 def test_trivial_rule_with_2IDS():
