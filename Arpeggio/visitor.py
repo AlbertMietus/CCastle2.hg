@@ -21,10 +21,6 @@ class PredicateError(ValueError): pass
 #NO_VISITOR_NEEDED: visit_op_quantity (before: vist_expr_quantity)
 
 class PegVisitor(arpeggio.PTNodeVisitor):
-    token_2_class = {'?': peg.Optional,
-                     '*': peg.ZeroOrMore,
-                     '+': peg.OneOrMore,
-                     '#': peg.UnorderedGroup}
 
     def visit_str_term(self, node, children):
         return peg.StrTerm(value=node[1], parse_tree=node)
@@ -41,26 +37,29 @@ class PegVisitor(arpeggio.PTNodeVisitor):
     def visit_rule(self, node, children):                               #  Name '<-' expressions ';'
         return peg.Rule(name=children[0],expr=children[1], parse_tree=node)
 
+
     def visit_single_expr(self, node, children):                        #  [ rule_crossref, term, group, predicate ],  op_quantity
+        token_2_class = {'?': peg.Optional,
+                         '*': peg.ZeroOrMore,
+                         '+': peg.OneOrMore,
+                         '#': peg.UnorderedGroup}
+
         if len(children) == 1: #  No Optional part
-            try:
-                n = f'name={children[0].name}'
-            except AttributeError:
-                n = f'name:{children[0]}'
-            logger.debug(f'visit_single_expr==1:: {n}:{type(children[0])}')
+            logger.debug(f'visit_single_expr==1:: {getattr(children[0], "name", children[0])}:{type(children[0])}')
             return children[0]
+
         elif len(children) == 2: #  Optional part
             logger.debug(f'visit_single_expr==2::Got: {children[0]}, {children[1]}')
             expr = children[0]
             token = str(children[1])
-            quantum_cls = self.token_2_class.get(token)
+            quantum_cls = token_2_class.get(token)
             if quantum_cls:
                 ast=quantum_cls(expr=expr, parse_tree=node)
                 logger.debug(f'visit_single_expr==2::Pass: {quantum_cls}(expr={expr})')
                 return ast
             else:
                 raise QuantityError(f"token '{token}' not recognised")
-        else:
+        else: # #children not in (1,2)
             raise  NotImplementedError("visit_single_expr, len>2")      # XXX -- Is this possible?
 
 
@@ -89,6 +88,7 @@ class PegVisitor(arpeggio.PTNodeVisitor):
     def visit_rules(self, node, children):
         logger.debug(f'visit_rules:: >>{node}<< #children={len(children)}')
         return peg.Rules(children=children[:], parse_tree=node)
+
 
     def visit_peg_grammar(self, node, children): # No support for settings XXX
         rules=children[0]
