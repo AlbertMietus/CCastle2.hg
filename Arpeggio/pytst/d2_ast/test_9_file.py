@@ -5,7 +5,7 @@ import os
 import grammar
 from castle import peg # has the AST classes
 
-from . import parse, assert_ID
+from . import parse, assert_PEG
 
 def parse_file(filename, dir=Path('..')):
     path_to_current_test = Path(os.path.realpath(__file__))
@@ -18,6 +18,5 @@ def parse_file(filename, dir=Path('..')):
 
 
 def test_grammar():
-    parse_file("grammar.peg")
-    ...                                                                 # XXX
-    assert False, "Need more work"
+    ast = parse_file("grammar.peg")
+    assert_PEG(ast)

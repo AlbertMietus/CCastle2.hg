@@ -50,5 +50,5 @@ def assert_PEG(ast, *, no_of_rules=None, no_of_settings=None):
     settings = ast.settings
     assert isinstance(settings, (type(None), peg.Settings))
     if no_of_settings:
-            assert isinstance(settings, peg.Settings)
-            len(settings) == no_of_settings
+        assert isinstance(settings, peg.Settings)
+        len(settings) == no_of_settings
