@@ -8,14 +8,7 @@ import logging; logger = logging.getLogger(__name__)
 import grammar
 from castle import peg # has the AST classes
 
-from . import parse, assert_ID
-
-
-def assert_Seq(ast, length=None):
-    assert isinstance(ast, peg.Sequence)
-    assert isinstance(ast, peg.Expression),	"A sequence is aslo an Expression()"
-    if length:
-        assert len(ast) == length,  		f" ... of specified length=={length}"
+from . import parse, assert_ID, assert_Seq
 
 
 def test_seq_of_one_as_single_expr():
