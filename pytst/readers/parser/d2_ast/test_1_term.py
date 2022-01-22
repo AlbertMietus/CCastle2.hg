@@ -1,7 +1,7 @@
 import pytest
 
-import grammar
-from castle import peg # has the AST classes
+from castle.readers.parser import grammar
+from castle.ast import peg
 
 from . import parse
 

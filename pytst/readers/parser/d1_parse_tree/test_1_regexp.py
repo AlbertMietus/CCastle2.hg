@@ -1,14 +1,14 @@
 import pytest
 import logging;logger = logging.getLogger(__name__)
 
-from grammar import *
+from castle.readers.parser import grammar
 
 import arpeggio
 RE, S = arpeggio.RegExMatch, arpeggio.StrMatch                          # shortcut
 
 def parse_regex(txt, pattern=None):
     logger.debug(f'>>{txt}<<')
-    parser = ParserPython(regex_term, comment) # DoNot use debug/dot_exporter as it will re-use-same-file
+    parser = arpeggio.ParserPython(grammar.regex_term, grammar.comment) # DoNot use debug/dot_exporter as it will re-use-same-file
     tree = parser.parse(txt)
     assert tree.position_end == len(txt) , f"Not parsed whole input; Only: >>{txt[tree.position: tree.position_end]}<<; Not: >>{txt[tree.position_end:]}<<."
 
@@ -32,7 +32,7 @@ def test_Rd1_simple():	parse_regex(r'R"ABC"',   pattern=[RE,RE,S])
 def test_rd2_simple():	parse_regex(r'r"abc"',   pattern=[RE,RE,S])
 
 def test_grammar_re_no_slash(): parse_regex(r"/((\\/)|[^\/])*/")
-def test_grammar_auto_re_no_slash(): parse_regex("/" + re_no_slash().to_match +"/") # Same as above (unless grammar changes
+def test_grammar_auto_re_no_slash(): parse_regex("/" + grammar.re_no_slash().to_match +"/") # Same as above (unless grammar changes
 
 
 

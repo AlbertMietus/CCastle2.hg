@@ -1,14 +1,16 @@
 import pytest
 import logging;logger = logging.getLogger(__name__)
 
-from grammar import *
+from castle.readers.parser import grammar
+
+
 import arpeggio
 RE, S = arpeggio.RegExMatch, arpeggio.StrMatch                          # shortcut
 
 
 def parse_str(str, pattern=[S, RE, S]):
     logger.debug(f'>>{str}<<')
-    parser = ParserPython(str_term, comment)
+    parser = arpeggio.ParserPython(grammar.str_term, grammar.comment)
     tree = parser.parse(str)
     assert tree.position_end == len(str) , f"Not parsed whole input; Only: >>{str[tree.position: tree.position_end]}<<; Not: >>{str[tree.position_end:]}<<."
 

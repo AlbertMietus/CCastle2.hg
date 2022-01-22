@@ -2,8 +2,9 @@ import pytest
 import logging; logger = logging.getLogger(__name__)
 from pathlib import Path
 import os
-import grammar
-from castle import peg # has the AST classes
+
+from castle.readers.parser import grammar
+from castle.ast import peg
 
 from . import parse, assert_PEG
 

@@ -1,10 +1,9 @@
-import visitor
+##import visitor
+from castle.readers.parser import visitor
 import arpeggio
 
-import sys; sys.path.append("./../AST/") ; sys.path.append("./../../AST/")
-from castle import peg # has the AST clases
-
-import grammar
+from castle.readers.parser import grammar
+from castle.ast import peg
 
 def parse(txt, rule, *,
           with_comments=False,

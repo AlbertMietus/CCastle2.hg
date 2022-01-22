@@ -2,8 +2,8 @@ import pytest
 from pathlib import Path
 import os
 
-from grammar import *
-
+from castle.readers.parser import grammar
+import arpeggio
 
 def parse_file(filename, dir=Path('..')):
     path_to_current_test = Path(os.path.realpath(__file__))
@@ -11,7 +11,7 @@ def parse_file(filename, dir=Path('..')):
     with (path_to_current_dir / dir / filename).open() as f:
         txt = f.read()
 
-    parser = ParserPython(peg_grammar, comment, debug=False)
+    parser = arpeggio.ParserPython(grammar.peg_grammar, grammar.comment, debug=False)
     tree = parser.parse(txt)
 
     assert tree.position_end == len(txt) , f"Not parsed whole input; Only: >>{regex[tree.position: tree.position_end]}<<; Not: >>{regex[tree.position_end:]}<<."

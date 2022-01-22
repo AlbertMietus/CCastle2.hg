@@ -1,7 +1,8 @@
 import pytest
 import logging;logger = logging.getLogger(__name__)
 
-import grammar
+from castle.readers.parser import grammar
+
 import arpeggio
 
 R, S, X = grammar.regex_term.__name__, grammar.str_term.__name__, grammar.rule_crossref.__name__  # shortcut in grammar
