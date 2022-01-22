@@ -5,7 +5,7 @@
 ###
 
 # all possible recursive targets ..
-RECURSIVE	  =  clean all test docs cleaner cleanest demos
+RECURSIVE	  =  clean all test docs cleaner cleanest demos pyreverse
 RECURSIVE_TARGETS =  $(foreach dir,$(SUBS),$(foreach target,$(RECURSIVE),$(dir)/$(target)))
 
 .PHONY: ${RECURSIVE}  ${SUBS} ${RECURSIVE_TARGETS}

@@ -25,3 +25,10 @@ missing_visitors:
 			echo "Warning: $${R} has no visitor (nor is marked as to need none)" ;\
 		fi ;\
 	done
+
+PYREVERSE_FORMAT=svg
+PYREVERSEd=./pyreversed/
+
+pyreverse : ${PYREVERSEd}
+	pyreverse -d ${PYREVERSEd} -o ${PYREVERSE_FORMAT} -fALL -A  -my -p TryOut.Arpeggio 	grammar.py visitor.py 
+

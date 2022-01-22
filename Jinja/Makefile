@@ -17,3 +17,9 @@ clean:
 	rm -f *.dot
 	rm -f pytst/*.dot
 
+PYREVERSE_FORMAT=svg
+PYREVERSEd=./pyreversed/
+
+pyreverse : ##${PYREVERSEd}
+	#pyreverse -d ${PYREVERSEd} -o ${PYREVERSE_FORMAT} -fALL -A  -my -p TryOut.Jinja  ...
+	@echo nothing yet
