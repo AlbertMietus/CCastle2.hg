@@ -1,7 +1,7 @@
 import pytest
 
 
-from castle.peg import Setting
+from castle.ast.peg import Setting
 
 def test_a_ID():
     a_name, a_val = 'aName', 42

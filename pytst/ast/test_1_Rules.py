@@ -1,6 +1,6 @@
 import pytest
 
-from castle.peg import Rule
+from castle.ast.peg import Rule
 
 @pytest.mark.skip("This test is wrong: (1) An ID is not string, (2) a int is not an Expression")
 def test_a_ID():

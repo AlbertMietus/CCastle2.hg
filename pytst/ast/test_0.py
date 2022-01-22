@@ -1,6 +1,6 @@
 import pytest
 
-from castle import peg
+from castle.ast import peg
 
 def test_abstracts_1():
     base = peg.PEG()
