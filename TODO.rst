@@ -10,7 +10,8 @@ RESTRUCTURED X/XX:
 
 .. todo:: Jinja/
 
-   This dir isn’t done yes
+   * Jina/demos is updated and move to demos/Jinja
+   * Jinja/pytst/test_0_noTest.py  is DELETED (*no test*)
 
 OTHER
 =====

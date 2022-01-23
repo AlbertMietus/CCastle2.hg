@@ -25,10 +25,7 @@ def demo_def1():
 if __name__ == "__main__":
     demos  = [ func for (name, func) in locals().items()  if name.startswith('demo_') and callable(func) ]
     for demo in demos:
-        #print(f"{'*'*12}\n** {demo.__name__} ::\n{'*'*12}")
+        print(f"{'*'*12}\n** {demo.__name__} ::\n{'*'*12}")
         retval=demo()
         if isinstance(retval, str): print(retval)
-    #print("== Done\n")
-
-
-
+    print("== Done\n")
