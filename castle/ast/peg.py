@@ -14,12 +14,12 @@ class MixIn_value_attribute:
 
     def __init__(self, *, value=None, **kwargs):
         super().__init__(**kwargs)
-        logger.debug(f'{type(self).__name__}:: value:={value}:{type(value)}')
+        logger.debug(f'{self._typeName(self)}:: value:={value}:{self._typeName(value)}')
         self._value=value
 
     @property
     def value(self):
-        logger.debug(f'{type(self).__name__}:: @property={self._value}')
+        logger.debug(f'{self._typeName(self)}:: @property={self._value}')
         return self._value
 
 
@@ -78,12 +78,13 @@ class Rule(NonTerminal):
     def __init__(self, *,
                  name: ID, expr:Expression=None,
                  **kwargs):
+        logger.debug(f'{self._typeName(self)}: name={self._valType(name)}, expr={self._valType(expr)}')
+        if expr:
+            logger.debug("\t" + "; ".join(f'{c}:{type(c)}' for c in expr))
         ID.validate_or_raise(name)
         super().__init__(**kwargs)
         self.name = name
         self.expr = expr
-        logger.debug(f'{type(self).__name__}:: expr:={expr}:{type(expr)}')
-        logger.debug("\t" + "; ".join(f'{c}:{type(c)}' for c in expr))
 
 
 class Rules(MixIn_children_as_tuple, PEG): pass
@@ -94,10 +95,10 @@ class Grammar(NonTerminal):
                  rules: Rules=None,
                  settings: Settings=None,
                  **kwargs):
+        logger.debug(f'{self._typeName(self)}:: kwargs={kwargs}')
         super().__init__(**kwargs)
         self.rules = rules
         self.settings = settings
-        logger.debug(f'{type(self).__name__}:: kwargs={kwargs}')
 
 
 class Group(Expression): pass                                           # abstract --  Note: Do not Group for  '(' ...')';  that's a Sequence!!

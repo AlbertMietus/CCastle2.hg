@@ -6,6 +6,16 @@ class AST_BASE:
         super().__init__(**kwargs)
         self._parse_tree = parse_tree
 
+    def __str__(self): # mostly for debugging
+        return str(type(self).__name__) + "\n\t" + "\n\t".join(f'{n}\t{str(v)}:{type(v).__name__}' for n,v in self.__dict__.items() if n[0]!='_')
+
+    @staticmethod
+    def _typeName(x):
+        return type(x).__name__
+
+    def _valType(self, x):
+        return f'{x}:{self._typeName(x)}'
+        return type(x).__name__
 
     @property
     def position(self): return self._parse_tree.position
@@ -32,5 +42,9 @@ class ID(AST_BASE):
     def __init__(self, *, name, **kwargs):
         super().__init__(**kwargs)
         self.validate_or_raise(name)
+        if isinstance(name, ID):
+            name=name.name
         self.name=name
 
+    def __str__(self): # mostly for debugging
+        return self.name
