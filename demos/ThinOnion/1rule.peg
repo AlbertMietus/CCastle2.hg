@@ -1,0 +1,4 @@
+//EXPECT:
+//def my_rule(): return crossref_1, "string", crossref_1
+
+my_rule	<-  crossref_1 "string" crossref_2 ;
