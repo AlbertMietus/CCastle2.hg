@@ -4,6 +4,26 @@ import logging; logger = logging.getLogger(__name__)
 
 from castle.ast import  peg, serialization
 
+class RuleName:
+    def __init__(self, rule_name="Rule_Name"):
+        self.rule_name=rule_name
+        self.rule= peg.ID(name=rule_name)
+    def assert_xml_Element(self, txt):
+        assert_xml_Element(txt, tag='Rule', name=self.rule_name)
+
+class Sequence:
+    def __init__(self):
+        self.n1, self.v2, self.v3 = 'ID_1', 'str_2', 'regexp_3'
+        e1 = peg.ID(name=self.n1)
+        e2 = peg.StrTerm(value=self.v2)
+        e3 = peg.RegExpTerm(value=self.v3)
+        self.seq = peg.Sequence(value=[e1, e2, e3])
+    def assert_xml_Element(self, txt):
+        assert_xml_Element(txt, tag='.//Sequence')
+        assert_xml_Element(txt, tag='.//ID', name=self.n1)
+        assert_xml_Element(txt, tag='.//StrTerm',value=self.v2)
+        assert_xml_Element(txt, tag='.//RegExpTerm', value=self.v3)
+
 @pytest.fixture
 def xml_serialize():
     return serialization.Serialize('xml').serialize
@@ -47,19 +67,14 @@ def test_Sequence_1(xml_serialize):
     assert_xml_Element(txt, tag='.//ID', name='ID_1')
 
 
-def test_Sequence_3(xml_serialize):
-    n1, v2, v3 = 'ID_1', 'str_2', 'regexp_3'
-    e1 = peg.ID(name=n1)
-    e2 = peg.StrTerm(value=v2)
-    e3 = peg.RegExpTerm(value=v3)
 
-    txt= xml_serialize(peg.Sequence(value=[e1, e2, e3]))
+def test_Sequence_3(xml_serialize):
+    seq = Sequence()
+    txt= xml_serialize(seq.seq)
     logger.debug(f'XML:: {txt}')
 
     assert_xml_Element(txt, tag='Sequence')
-    assert_xml_Element(txt, tag='.//ID', name=n1)
-    assert_xml_Element(txt, tag='.//StrTerm', value=v2)
-    assert_xml_Element(txt, tag='.//RegExpTerm', value=v3)
+    seq.assert_xml_Element(txt)
 
 
 def test_Rule_1ID(xml_serialize):
@@ -75,20 +90,15 @@ def test_Rule_1ID(xml_serialize):
 
 
 def test_Rule_Sequence(xml_serialize):
-    rule_name = "RuleName"
-    name = peg.ID(name=rule_name)
+    rn = RuleName()
+    seq = Sequence()
 
-    n1, v2, v3 = 'ID_1', 'str_2', 'regexp_3'
-    e1 = peg.ID(name=n1)
-    e2 = peg.StrTerm(value=v2)
-    e3 = peg.RegExpTerm(value=v3)
-
-    expr = peg.Sequence(value=[e1, e2, e3])
-
-    txt = xml_serialize(peg.Rule(name=name, expr=expr))
+    txt = xml_serialize(peg.Rule(name=rn.rule, expr=seq.seq))
     logger.debug(f'XML:: {txt}')
 
-    assert_xml_Element(txt, tag='Rule', name=rule_name)
-    assert_xml_Element(txt, tag='.//ID', name=n1)
-    assert_xml_Element(txt, tag='.//StrTerm', value=v2)
-    assert_xml_Element(txt, tag='.//RegExpTerm', value=v3)
+    assert_xml_Element(txt, tag='Rule', name=rn.rule_name)
+    rn.assert_xml_Element(txt)
+    seq.assert_xml_Element(txt)
+
+
+
