@@ -23,20 +23,19 @@ class XML_Serialize(Serialize):
         return ET.tostring(tree, encoding="unicode")
 
 
-    def _ast2xml(self, ast) -> ET.Element:
-        top = ET.Element('AST2XML', version="0.0")
+    def _ast2xml(self, ast, parent=None) -> ET.Element:
+        if parent is None:
+            parent = ET.Element('AST2XML', version="0.0")
 
         method_name = f'{type(ast).__name__}2xml'
         visitor = getattr(self, method_name, None)
         logger.debug(f'visitor={visitor}')
 
         if visitor:
-            visitor(ast=ast, parent=top) # Grow the tree
+            visitor(ast=ast, parent=parent) # Grow the tree
         else:
             logger.info(f'No visitor >>{method_name}<<, skipping ... (fingers crossed)')
-
-        logger.debug(f"XXX top={top}")
-        return top
+        return parent
 
 
     def ID2xml(self, ast, parent) ->None:
@@ -56,26 +55,30 @@ class XML_Serialize(Serialize):
 #NO_VISITOR_NEEDED: Markers2xml				## Pure Abstract
 
 
-    def StrTerm2xml(self, ast, parent) ->None:
-        logger.debug(f"StrTerm2xml:: value={ast._valType(ast.value)}")
-        ET.SubElement(parent, 'StrTerm', value=ast.value)
+    def _MixIn_value_attribute2xml(self, ast, parent, cls_name):
+        logger.debug(f"{cls_name}2xml:: value={ast._valType(ast.value)}")
+        ET.SubElement(parent, cls_name, value=ast.value)
 
-    def RegExpTerm2xml(self, ast, parent) ->None:
-        logger.debug(f"RegExpTerm2xml:: value={ast._valType(ast.value)}")
-        ET.SubElement(parent, 'RegExpTerm', value=ast.value)
+    def StrTerm2xml(self, ast, parent):     self._MixIn_value_attribute2xml(ast, parent, 'StrTerm')
+    def RegExpTerm2xml(self, ast, parent):  self._MixIn_value_attribute2xml(ast, parent, 'RegExpTerm')
 
+    def Sequence2xml(self, ast, parent) ->None:
+        logger.debug(f"Sequence2xml:: value={ast._valType(ast.value)}")
+        seq = ET.SubElement(parent, 'Sequence')
+        for elm in ast.value:
+            self._ast2xml(elm, seq)
 
-
-#############    
-
+#############
     def Rule2xml(self, ast, parent) ->None: ...
+
+
     def Rules2xml(self, ast, parent) ->None: ...
     def Setting2xml(self, ast, parent) ->None: ...
     def Settings2xml(self, ast, parent) ->None: ...
     def Grammar2xml(self, ast, parent) ->None: ...
     def UnorderedGroup2xml(self, ast, parent) ->None: ...
     def Quantity2xml(self, ast, parent) ->None: ...
-    def Sequence2xml(self, ast, parent) ->None: ...
+
     def OrderedChoice2xml(self, ast, parent) ->None: ...
     def Optional2xml(self, ast, parent) ->None: ...
     def ZeroOrMore2xml(self, ast, parent) ->None: ...
