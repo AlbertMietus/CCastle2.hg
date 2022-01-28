@@ -68,7 +68,6 @@ class XML_Serialize(Serialize):
         for elm in ast.value:
             self._ast2xml(elm, seq)
 
-
     def Rule2xml(self, ast, parent) ->None:
         rule = ET.SubElement(parent, 'Rule', name=ast.name.name)
         for elm in ast.expr:

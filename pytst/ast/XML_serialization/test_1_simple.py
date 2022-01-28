@@ -89,3 +89,6 @@ def test_Rule_Sequence(xml_serialize):
     logger.debug(f'XML:: {txt}')
 
     assert_xml_Element(txt, tag='Rule', name=rule_name)
+    assert_xml_Element(txt, tag='.//ID', name=n1)
+    assert_xml_Element(txt, tag='.//StrTerm', value=v2)
+    assert_xml_Element(txt, tag='.//RegExpTerm', value=v3)
