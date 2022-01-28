@@ -1,3 +1,7 @@
+from .serialization import Serialize
+
+
+
 class AST_BASE:
     """Base class for all Castle ATS nodes"""
 
@@ -9,26 +13,31 @@ class AST_BASE:
     def __str__(self): # mostly for debugging
         return str(type(self).__name__) + "\n\t" + "\n\t".join(f'{n}\t{str(v)}:{type(v).__name__}' for n,v in self.__dict__.items() if n[0]!='_')
 
-    @staticmethod
-    def _typeName(x):
-        return type(x).__name__
-
-    def _valType(self, x):
-        return f'{x}:{self._typeName(x)}'
-        return type(x).__name__
+    def serialize(self, strategy="XML") -> str:
+        return Serialize(strategy).serialize(self)
 
     @property
     def position(self): return self._parse_tree.position
     @property
     def position_end(self): return self._parse_tree.position_end
 
+    ### Mostly for debugging
+    @staticmethod
+    def _typeName(of):
+        return type(of).__name__
+
+    def _valType(self, of:None):
+        if not of: of=self
+        return f'{of}:{self._typeName(of)}'
+
 
 class IDError(ValueError):
     "The given ID is not valid as an ID"
 
-import re
+
 
 class ID(AST_BASE):
+    import re
     _pattern = re.compile(r'[A-Za-z_][A-Za-z0-9_]*')
 
     @staticmethod
