@@ -18,10 +18,6 @@ class Sequence:
         assert_xml_Element(txt, tag='.//StrTerm',value=self.v2)
         assert_xml_Element(txt, tag='.//RegExpTerm', value=self.v3)
 
-@pytest.fixture
-def xml_serialize():
-    return serialization.Serialize('xml').serialize
-
 
 def assert_xml_Element(txt, tag,
                        version="0.0",
@@ -36,6 +32,13 @@ def assert_xml_Element(txt, tag,
     for attrib, value in attribs.items():
         logger.debug(f'XXX2 tag={tag}:: attrib={attrib}, value={value}')
         assert found.attrib[attrib] == value
+
+
+
+@pytest.fixture
+def xml_serialize():
+    return serialization.Serialize('xml').serialize
+
 
 
 def test_ID(xml_serialize):
@@ -93,7 +96,7 @@ def test_Rule_Sequence(xml_serialize):
     assert_xml_Element(txt, tag='Rule', name=rule_name)
     seq.assert_xml_Element(txt)
 
-@pytest.mark.xfail(reason="Not yet done")
+
 def test_Rules(xml_serialize):
     r1 = peg.Rule(name='rule_1', expr=peg.Sequence(value=[peg.ID(name='id1')]))
     r2 = peg.Rule(name='rule_2', expr=peg.Sequence(value=[peg.StrTerm(value='str2')]))
@@ -101,5 +104,10 @@ def test_Rules(xml_serialize):
     txt = xml_serialize(peg.Rules(children=[r1,r2]))
     logger.debug(f'XML:: {txt}')
 
-    assert False, "not yet done"
+    tree = ET.fromstring(txt)
+    assert len(tree.findall('.//Rule')) == 2
+    assert len(tree.findall('.//ID')) == 1
+    assert len(tree.findall('.//StrTerm')) == 1
 
+    assert  tree.findall('.//Rule[1]')[0].attrib['name'] == 'rule_1'
+    assert  tree.findall('.//Rule[2]//StrTerm')[0].attrib['value'] == 'str2'
