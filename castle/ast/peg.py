@@ -35,13 +35,17 @@ class MixIn_expr_attribute:
         return self._expr
 
 
-class MixIn_children_as_tuple(tuple, PEG):
-    """With this MixIn PEG-class can be used a list"""
-    def __new__(cls, children, **kwargs):
-        return tuple.__new__(cls, tuple(children))
-    def __init__(self, *, children=None, **kwargs):
-        # children is handled in __new__ (RO!)
+class MixIn_children_tuple:
+    """With this MixIn PEG-class get the ``.children`` property; and sequence-alike methods"""
+    def __init__(self, *, children, **kwargs):
         super().__init__(**kwargs)
+        self._childeren = tuple(children)
+
+    def __len__(self):
+        return len(self._childeren)
+    def __getitem__(self, key):
+        return self._childeren[key]
+    def __iter__(self): return self._childeren.__iter__()
 
 
 ##
@@ -71,7 +75,7 @@ class Setting(PEG):
         self.name = name
         self.value = value
 
-class Settings(MixIn_children_as_tuple, PEG): pass
+class Settings(MixIn_children_tuple, PEG): pass
 
 
 class Rule(NonTerminal):
@@ -87,7 +91,7 @@ class Rule(NonTerminal):
         self.expr = expr
 
 
-class Rules(MixIn_children_as_tuple, PEG): pass
+class Rules(MixIn_children_tuple, PEG): pass
 
 
 class Grammar(NonTerminal):
