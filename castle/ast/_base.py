@@ -44,9 +44,9 @@ class ID(AST_BASE):
     def validate_or_raise(value):
         if isinstance(value, ID): return
         if not isinstance(value, str):
-            raise IDError("not a str (or an ID)")
+            raise IDError(f">>{value}<<: not a str (or an ID)")
         if ID._pattern.fullmatch(value) is None:
-            raise IDError("not a valid pattern")
+            raise IDError(f">>{value}<<: not a valid pattern")
 
     def __init__(self, *, name, **kwargs):
         super().__init__(**kwargs)

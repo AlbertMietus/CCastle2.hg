@@ -100,5 +100,13 @@ def test_Rule_Sequence(xml_serialize):
     rn.assert_xml_Element(txt)
     seq.assert_xml_Element(txt)
 
+@pytest.mark.skip(reason="Will rewrite peg.Rules first --")
+def test_Rules(xml_serialize):
+    r1 = peg.Rule(name='rule_1', expr=peg.Sequence(value=[peg.ID(name='id1')]))
+    r2 = peg.Rule(name='rule_2', expr=peg.Sequence(value=[peg.StrTerm(value='str2')]))
 
+    txt = xml_serialize(peg.Rules(children=[r1,r2]))
+    logger.debug(f'XML:: {txt}')
+
+    assert False, "not yet done"
 

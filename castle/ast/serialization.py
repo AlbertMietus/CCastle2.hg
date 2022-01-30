@@ -56,24 +56,30 @@ class XML_Serialize(Serialize):
 
 
     def _MixIn_value_attribute2xml(self, ast, parent, cls_name):
-        logger.debug(f"{cls_name}2xml:: value={ast._valType(ast.value)}")
+        logger.debug(f"{cls_name}2xml:: ast={ast._valType(ast.value)}")
         ET.SubElement(parent, cls_name, value=ast.value)
 
     def StrTerm2xml(self, ast, parent):     self._MixIn_value_attribute2xml(ast, parent, 'StrTerm')
     def RegExpTerm2xml(self, ast, parent):  self._MixIn_value_attribute2xml(ast, parent, 'RegExpTerm')
 
     def Sequence2xml(self, ast, parent) ->None:
-        logger.debug(f"Sequence2xml:: value={ast._valType(ast.value)}")
+        logger.debug(f"Sequence2xml::ast={ast._valType(ast.value)}")
         seq = ET.SubElement(parent, 'Sequence')
         for elm in ast.value:
-            self._ast2xml(elm, seq)
+            self._ast2xml(elm, parent=seq)
 
     def Rule2xml(self, ast, parent) ->None:
         rule = ET.SubElement(parent, 'Rule', name=ast.name.name)
-        self._ast2xml(ast.expr, rule)
+        self._ast2xml(ast.expr, parent=rule)
+
+    def Rules2xml(self, ast, parent) ->None:
+        logger.debug(f"Rules2xml:: ast[{len(ast)}]")
+        for child in ast:
+            logger.debug(f'Rules2xml child={child}:{type(child)}')
+            self._ast2xml(child, parent=parent)
 
 #############
-    def Rules2xml(self, ast, parent) ->None: ...
+
     def Setting2xml(self, ast, parent) ->None: ...
     def Settings2xml(self, ast, parent) ->None: ...
     def Grammar2xml(self, ast, parent) ->None: ...
