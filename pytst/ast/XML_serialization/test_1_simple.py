@@ -4,12 +4,6 @@ import logging; logger = logging.getLogger(__name__)
 
 from castle.ast import  peg, serialization
 
-class RuleName:
-    def __init__(self, rule_name="Rule_Name"):
-        self.rule_name=rule_name
-        self.rule= peg.ID(name=rule_name)
-    def assert_xml_Element(self, txt):
-        assert_xml_Element(txt, tag='Rule', name=self.rule_name)
 
 class Sequence:
     def __init__(self):
@@ -78,11 +72,11 @@ def test_Sequence_3(xml_serialize):
 
 
 def test_Rule_1ID(xml_serialize):
-    rule_name, xref = "RuleName", "cross_ref"
-    name = peg.ID(name=rule_name)
+    rule_name = "RuleName"
+    xref = "cross_ref"
     expr = peg.Sequence(value=[peg.ID(name=xref)])
 
-    txt = xml_serialize(peg.Rule(name=name, expr=expr))
+    txt = xml_serialize(peg.Rule(name=rule_name, expr=expr))
     logger.debug(f'XML:: {txt}')
 
     assert_xml_Element(txt, tag='Rule', name=rule_name)
@@ -90,17 +84,16 @@ def test_Rule_1ID(xml_serialize):
 
 
 def test_Rule_Sequence(xml_serialize):
-    rn = RuleName()
+    rule_name = "Rule_Sequence"
     seq = Sequence()
 
-    txt = xml_serialize(peg.Rule(name=rn.rule, expr=seq.seq))
+    txt = xml_serialize(peg.Rule(name=rule_name, expr=seq.seq))
     logger.debug(f'XML:: {txt}')
 
-    assert_xml_Element(txt, tag='Rule', name=rn.rule_name)
-    rn.assert_xml_Element(txt)
+    assert_xml_Element(txt, tag='Rule', name=rule_name)
     seq.assert_xml_Element(txt)
 
-@pytest.mark.skip(reason="Will rewrite peg.Rules first --")
+@pytest.mark.xfail(reason="Not yet done")
 def test_Rules(xml_serialize):
     r1 = peg.Rule(name='rule_1', expr=peg.Sequence(value=[peg.ID(name='id1')]))
     r2 = peg.Rule(name='rule_2', expr=peg.Sequence(value=[peg.StrTerm(value='str2')]))

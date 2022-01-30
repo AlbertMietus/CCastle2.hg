@@ -11,7 +11,7 @@ class AST_BASE:
         self._parse_tree = parse_tree
 
     def __str__(self): # mostly for debugging
-        return str(type(self).__name__) + "\n\t" + "\n\t".join(f'{n}\t{str(v)}:{type(v).__name__}' for n,v in self.__dict__.items() if n[0]!='_')
+        return '\n__DEBUG__ ' + str(type(self).__name__) + "\n\t" + "\n\t".join(f'{n}\t{str(v)}:{type(v).__name__}' for n,v in self.__dict__.items() if n[0]!='_')
 
     def serialize(self, strategy="XML") -> str:
         return Serialize(strategy).serialize(self)
