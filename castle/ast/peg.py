@@ -85,7 +85,7 @@ class Rule(NonTerminal):
         logger.debug(f'{self._typeName(self)}: name={self._valType(name)}, expr={self._valType(expr)}')
         if expr:
             logger.debug("\t" + "; ".join(f'{c}:{type(c)}' for c in expr))
-        ID.validate_or_raise(name)
+        if not isinstance(name, ID): raise TypeError(f'Rule-name {name} is not of type ID')
         super().__init__(**kwargs)
         self.name = name
         self.expr = expr

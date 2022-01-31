@@ -69,8 +69,8 @@ class XML_Serialize(Serialize):
             self._ast2xml(elm, parent=seq)
 
     def Rule2xml(self, ast, parent) ->None:
-        logger.debug(f"Rule2xml:: ast:Rule.name={ast.name}")
-        rule = ET.SubElement(parent, 'Rule', name=ast.name)
+        logger.debug(f"Rule2xml:: ast:Rule.name={ast.name.name}")
+        rule = ET.SubElement(parent, 'Rule', name=ast.name.name)
         self._ast2xml(ast.expr, parent=rule)
 
     def Rules2xml(self, ast, parent) ->None:
