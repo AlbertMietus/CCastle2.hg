@@ -46,7 +46,7 @@ class XML_Serialize(Serialize):
 #NO_VISITOR_NEEDED: PEG2xml 				## Pure Abstract
 #NO_VISITOR_NEEDED: MixIn_value_attribute2xml		## MixIn
 #NO_VISITOR_NEEDED: MixIn_expr_attribute2xml		## MixIn
-#NO_VISITOR_NEEDED: MixIn_children_as_tuple2xml		## MixIn
+#NO_VISITOR_NEEDED: MixIn_children_tuple2xml		## MixIn
 #NO_VISITOR_NEEDED: Terminal2xml			## Pure Abstract
 #NO_VISITOR_NEEDED: NonTerminal2xml			## Pure Abstract
 #NO_VISITOR_NEEDED: Expression2xml			## Pure Abstract
