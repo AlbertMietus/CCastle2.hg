@@ -1,6 +1,6 @@
 default: all
 
-all: demo test missing
+all: demo test missing XXX
 
 missing: missing_visitor missing_serialization
 
@@ -29,3 +29,5 @@ missing_serialization:
 			echo "Warning: $${R} has no xml-serializer (nor is marked as to need none)" ;\
 		fi ;\
 	done
+XXX:
+	grep XXX `find . -type f -name \*.py`
