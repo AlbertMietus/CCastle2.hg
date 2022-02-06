@@ -25,7 +25,7 @@ missing_visitor: castle/readers/parser/grammar.py
 QAZ := ${shell grep '^ *class ' castle/ast/peg.py | sed 's/class //g' | sed 's/[:( ].*$$//g' }
 missing_serialization:
 	@for R in ${QAZ} ; do \
-	        if !  grep -q -E "^ *((def)|(# *NO_VISITOR_NEEDED:)) $${R}2xml" castle/ast/serialization.py > /dev/null ; then\
+	        if !  grep -q -E "^ *((def)|(# *NO_VISITOR_NEEDED:)) $${R}2xml" castle/ast/ast2xml.py > /dev/null ; then\
 			echo "Warning: $${R} has no xml-serializer (nor is marked as to need none)" ;\
 		fi ;\
 	done

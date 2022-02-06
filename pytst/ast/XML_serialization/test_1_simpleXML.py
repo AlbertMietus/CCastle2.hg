@@ -64,7 +64,6 @@ def test_Sequence_1(xml_serialize):
     assert_xml_Element(txt, tag='.//ID', name='ID_1')
 
 
-
 def test_Sequence_3(xml_serialize):
     seq = Sequence()
     txt= xml_serialize(seq.seq)
