@@ -1,8 +1,5 @@
 import arpeggio
 
-#import sys; sys.path.append("./../AST/") ; sys.path.append("./../../AST/")
-#from castle import peg # has the AST clases
-
 from castle.ast import peg
 
 import logging;logger = logging.getLogger(__name__)
