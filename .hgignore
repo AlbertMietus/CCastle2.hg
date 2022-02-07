@@ -6,3 +6,5 @@ __pycache__
 .*/pyreversed
 
 demos/ThinOnion/OUT_*
+OUT_*
+

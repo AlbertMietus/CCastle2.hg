@@ -1,7 +1,8 @@
 import pytest
 import logging;logger = logging.getLogger(__name__)
 
-import grammar
+from castle.readers.parser import grammar
+
 import arpeggio
 
 def format_node(n):

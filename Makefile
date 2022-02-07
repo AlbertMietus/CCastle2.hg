@@ -11,9 +11,15 @@ pytest-s test-s:
 	pytest ${PYTEST_OPTONS} -s pytst
 test-ds test-sd test-d:
 	pytest ${PYTEST_OPTONS} --log-cli-level=DEBUG -s pytst/
-demo:
+
+demo: pytest-demo python-demo
+
+python-demo:
+	@echo Running all 'dem*.py' python-files
+	for d in `find demos -type f -iname \*.py `; do echo "=== $$d ==="; python $$d; echo "=========="; done
+
+pytest-demo:
 	pytest -s demos
-	@echo run other demos by hand
 
 
 missing_visitor: castle/readers/parser/grammar.py
@@ -22,9 +28,9 @@ missing_visitor: castle/readers/parser/grammar.py
 			echo "Warning: $${R} has no visitor (nor is marked as to need none)" ;\
 		fi ;\
 	done
-QAZ := ${shell grep '^ *class ' castle/ast/peg.py | sed 's/class //g' | sed 's/[:( ].*$$//g' }
+
 missing_serialization:
-	@for R in ${QAZ} ; do \
+	@for R in ${shell grep '^ *class ' castle/ast/peg.py | sed 's/class //g' | sed 's/[:( ].*$$//g' } ; do \
 	        if !  grep -q -E "^ *((def)|(# *NO_VISITOR_NEEDED:)) $${R}2xml" castle/ast/ast2xml.py > /dev/null ; then\
 			echo "Warning: $${R} has no xml-serializer (nor is marked as to need none)" ;\
 		fi ;\

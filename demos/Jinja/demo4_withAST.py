@@ -22,14 +22,14 @@ demo_3_settings = (
 
 
 def demo_4A():
-    rules    = [ peg.Rule(    name=r['name'],  expr=r['expr'])  for r in demo_3_rules]
+    rules    = [ peg.Rule(    name=peg.ID(name=r['name']),  expr=r['expr'])  for r in demo_3_rules]
     settings = [ peg.Setting( name=s['name'],  value=s['value']) for s in demo_3_settings]
 
     producer = Demo1(default_template='file.jinja2')
     return producer.render(rules=rules, settings=settings)
 
 def demo_4B():
-    rules    = [ peg.Rule(    name=r['name'],  expr=r['expr'])  for r in demo_3_rules]
+    rules    = [ peg.Rule(    name=peg.ID(name=r['name']),  expr=r['expr'])  for r in demo_3_rules]
     settings = [ peg.Setting( name=s['name'],  value=s['value']) for s in demo_3_settings]
     grammar = peg.Grammar(rules=rules, settings=settings)
 
