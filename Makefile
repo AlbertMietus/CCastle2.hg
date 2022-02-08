@@ -1,6 +1,6 @@
 default: all
 
-all: demo test missing XXX
+all: demo test XXX missing
 
 missing: missing_visitor missing_serialization
 

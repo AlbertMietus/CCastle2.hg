@@ -27,7 +27,7 @@ def assert_xml_Element(txt, tag,
     This `tag` (expression) should result in a single hit!. *Use e.g `[0]` as suffix to select one from a list*.
     Pass ``key=value`` **attribs** to verify the found tag has those attribs and values
     """
-    
+
     tree = ET.fromstring(txt)
     if version:
         assert tree.attrib['version'] == version
@@ -117,10 +117,31 @@ def test_Rules(xml_serialize):
     assert  tree.findall('.//Rule[1]')[0].attrib['name'] == 'rule_1'
     assert  tree.findall('.//Rule[2]//StrTerm')[0].attrib['value'] == 'str2'
 
-def test_UnorderedGroup(xml_serialize):
+def assert_QuantityGroup(xml_serialize, pegGrp, tagName):
     seq = StdSequence_withAsserts()
-    txt = xml_serialize(peg.UnorderedGroup(expr=seq.seq))
+    txt = xml_serialize(pegGrp(expr=seq.seq))
     logger.debug(f'XML:: {txt}')
 
-    assert_xml_Element(txt, 'UnorderedGroup')
+    assert_xml_Element(txt, tagName)
     seq.assert_xml_Element(txt)
+
+
+def test_OptionalSeq(xml_serialize):   assert_QuantityGroup(xml_serialize, peg.Optional, 'Optional')  			##  ` ( ...)? `
+def test_ZeroOrMoreSeq(xml_serialize): assert_QuantityGroup(xml_serialize, peg.ZeroOrMore, 'ZeroOrMore')		##  ` ( ...)* `
+def test_OneOrMoreSeq(xml_serialize):  assert_QuantityGroup(xml_serialize, peg.OneOrMore, 'OneOrMore')			##  ` ( ...)+ `
+def test_UnorderedGroup(xml_serialize): assert_QuantityGroup(xml_serialize, peg.UnorderedGroup, 'UnorderedGroup')  	##  ` ( ...)# ` # Only useful for a group/sequence!!
+
+
+def assert_QuantityID(xml_serialize, pegGrp, tagName, id_name='JustAName'):
+    txt = xml_serialize(pegGrp(expr=peg.ID(name=id_name)))
+    logger.debug(f'XML:: {txt}')
+
+    assert_xml_Element(txt, tagName)
+    assert_xml_Element(txt, tag='.//ID', name=id_name)
+
+def test_OptionalID(xml_serialize):   assert_QuantityID(xml_serialize, peg.Optional, 'Optional')
+def test_ZeroOrMoreID(xml_serialize): assert_QuantityID(xml_serialize, peg.ZeroOrMore, 'ZeroOrMore')
+def test_OneOrMoreID(xml_serialize):  assert_QuantityID(xml_serialize, peg.OneOrMore, 'OneOrMore')
+## A bit uncommon: unordered group  of ONE  :`` Always#`` but it should work
+def test_UnorderedID(xml_serialize):  assert_QuantityID(xml_serialize, peg.UnorderedGroup, 'UnorderedGroup', 'strange')
+

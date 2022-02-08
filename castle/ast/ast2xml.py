@@ -45,6 +45,7 @@ class XML_Serialize(serialization.Serialize):
 #NO_VISITOR_NEEDED: Predicate2xml			## Pure Abstract
 #NO_VISITOR_NEEDED: Group2xml				## Pure Abstract
 #NO_VISITOR_NEEDED: Markers2xml				## Pure Abstract
+#NO_VISITOR_NEEDED: Quantity2xml			## Pure Abstract
 
 
     def _MixIn_value_attribute2xml(self, ast, parent, cls_name):
@@ -71,9 +72,14 @@ class XML_Serialize(serialization.Serialize):
             logger.debug(f'Rules2xml type(child)={type(child)}')
             self._ast2xml(child, parent=parent)
 
-    def UnorderedGroup2xml(self, ast, parent) ->None:
-        g = ET.SubElement(parent, 'UnorderedGroup')
+    def _quantity_op(self, ast, parent, tagName) -> None:
+        g = ET.SubElement(parent, tagName)
         self._ast2xml(ast.expr, g)
+
+    def UnorderedGroup2xml(self, ast, parent): 	self._quantity_op(ast, parent, 'UnorderedGroup')
+    def Optional2xml(self, ast, parent): 	self._quantity_op(ast, parent, 'Optional')
+    def ZeroOrMore2xml(self, ast, parent): 	self._quantity_op(ast, parent, 'ZeroOrMore')
+    def OneOrMore2xml(self, ast, parent): 	self._quantity_op(ast, parent, 'OneOrMore')
 
 #############
 
@@ -84,12 +90,9 @@ class XML_Serialize(serialization.Serialize):
 ##    def Settings2xml(self, ast, parent) ->None: ...
 #    def Grammar2xml(self, ast, parent) ->None: ...
 
-#    def Quantity2xml(self, ast, parent) ->None: ...
 
-#    def OrderedChoice2xml(self, ast, parent) ->None: ...
-#    def Optional2xml(self, ast, parent) ->None: ...
-#    def ZeroOrMore2xml(self, ast, parent) ->None: ...
-#    def OneOrMore2xml(self, ast, parent) ->None: ...
+
+#    def OrderedChoice 2xml(self, ast, parent) ->None: ...
 #    def AndPredicate2xml(self, ast, parent) ->None: ...
 #    def NotPredicate2xml(self, ast, parent) ->None: ...
 
