@@ -45,3 +45,8 @@ def test_seq_of_three_with_quantification():
     assert_ID(ast[1].expr, 'B'),	"The 2nd ID is a 'B'"
     assert_ID(ast[2].expr, 'C'),	"The 3th one is a 'C'"
 
+
+def test_OrderedChoice_of_two_alternatives():
+    txt = "A | B"
+    ast = parse(txt, grammar.expressions)
+    assert False # XXX ToBoDone

@@ -66,6 +66,7 @@ class PegVisitor(arpeggio.PTNodeVisitor):
         logger.debug(f'visit_expressions:: >>{node}<< #children={len(children)} children={children}:{type(children)}')
         return peg.Sequence(value=children, parse_tree=node)
 
+        raise NotImplementedError("visit_expressions, len>1 :: peg.OrderedChoice")
 
     def visit_predicate(self, node, children):
         token_2_predicate = {'&': peg.AndPredicate,

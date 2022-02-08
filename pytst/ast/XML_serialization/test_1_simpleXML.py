@@ -145,3 +145,10 @@ def test_OneOrMoreID(xml_serialize):  assert_QuantityID(xml_serialize, peg.OneOr
 ## A bit uncommon: unordered group  of ONE  :`` Always#`` but it should work
 def test_UnorderedID(xml_serialize):  assert_QuantityID(xml_serialize, peg.UnorderedGroup, 'UnorderedGroup', 'strange')
 
+@pytest.mark.xfail(reason="Can't test as peg.OrderedChoice() isn't implemented")
+def test_OrderedChoice(xml_serialize): # e1 | e2 | e2
+    e1 = peg.ID(name='ID_1')
+    e2 = peg.StrTerm(value='str_2')
+    e3 = peg.RegExpTerm(value='regexp_3')
+    txt = xml_serialize(peg.OrderedChoice())                            # not implemented; never peg.OrderedChoice is never called
+    assert False
