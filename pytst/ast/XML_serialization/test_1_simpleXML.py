@@ -5,7 +5,7 @@ import logging; logger = logging.getLogger(__name__)
 from castle.ast import  peg, serialization
 
 
-class Sequence:
+class StdSequence_withAsserts:
     def __init__(self):
         self.n1, self.v2, self.v3 = 'ID_1', 'str_2', 'regexp_3'
         e1 = peg.ID(name=self.n1)
@@ -22,6 +22,12 @@ class Sequence:
 def assert_xml_Element(txt, tag,
                        version="0.0",
                        **attribs,):
+    """Partially verify an xml-string; focusing on 'tag' -- a real tag, or a (limited) XPATH-expression.
+
+    This `tag` (expression) should result in a single hit!. *Use e.g `[0]` as suffix to select one from a list*.
+    Pass ``key=value`` **attribs** to verify the found tag has those attribs and values
+    """
+    
     tree = ET.fromstring(txt)
     if version:
         assert tree.attrib['version'] == version
@@ -65,7 +71,7 @@ def test_Sequence_1(xml_serialize):
 
 
 def test_Sequence_3(xml_serialize):
-    seq = Sequence()
+    seq = StdSequence_withAsserts()
     txt= xml_serialize(seq.seq)
     logger.debug(f'XML:: {txt}')
 
@@ -87,7 +93,7 @@ def test_Rule_1ID(xml_serialize):
 
 def test_Rule_Sequence(xml_serialize):
     rule_name = "Rule_Sequence"
-    seq = Sequence()
+    seq = StdSequence_withAsserts()
 
     txt = xml_serialize(peg.Rule(name=peg.ID(name=rule_name), expr=seq.seq))
     logger.debug(f'XML:: {txt}')
@@ -110,3 +116,11 @@ def test_Rules(xml_serialize):
 
     assert  tree.findall('.//Rule[1]')[0].attrib['name'] == 'rule_1'
     assert  tree.findall('.//Rule[2]//StrTerm')[0].attrib['value'] == 'str2'
+
+def test_UnorderedGroup(xml_serialize):
+    seq = StdSequence_withAsserts()
+    txt = xml_serialize(peg.UnorderedGroup(expr=seq.seq))
+    logger.debug(f'XML:: {txt}')
+
+    assert_xml_Element(txt, 'UnorderedGroup')
+    seq.assert_xml_Element(txt)

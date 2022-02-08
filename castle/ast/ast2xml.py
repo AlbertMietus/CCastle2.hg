@@ -9,7 +9,7 @@ from xml.etree import ElementTree as ET
 
 class XML_Serialize(serialization.Serialize):
     def serialize(self, ast) -> str:
-        logger.debug(f"ast={ast._valType(ast)}")
+        logger.debug(f"serialize:: ast={ast._valType(ast)}")
 
         tree = self._ast2xml(ast)
         return ET.tostring(tree, encoding="unicode")
@@ -21,7 +21,7 @@ class XML_Serialize(serialization.Serialize):
 
         method_name = f'{type(ast).__name__}2xml'
         visitor = getattr(self, method_name, None)
-        logger.debug(f'visitor={visitor}')
+        logger.debug(f'_ast2xml:: visitor={visitor}')
 
         if visitor:
             visitor(ast=ast, parent=parent) # Grow the tree
@@ -31,7 +31,7 @@ class XML_Serialize(serialization.Serialize):
 
 
     def ID2xml(self, ast, parent) ->None:
-        logger.debug(f"ast={ast._valType(ast)} parent={parent} ast.name={ast.name}")
+        logger.debug(f"ID2xml:: ast={ast._valType(ast)} parent={parent} ast.name={ast.name}")
         ET.SubElement(parent, 'ID', name=ast.name)
 
 
@@ -71,12 +71,19 @@ class XML_Serialize(serialization.Serialize):
             logger.debug(f'Rules2xml type(child)={type(child)}')
             self._ast2xml(child, parent=parent)
 
+    def UnorderedGroup2xml(self, ast, parent) ->None:
+        g = ET.SubElement(parent, 'UnorderedGroup')
+        self._ast2xml(ast.expr, g)
+
 #############
 
-#    def Setting2xml(self, ast, parent) ->None: ...
-#    def Settings2xml(self, ast, parent) ->None: ...
+##    def Setting2xml(self, ast, parent) ->None:
+##        logger.debug(f"Setting2xml:: ast[{len(ast)}]")
+##        ET.SubElement(parent, 'Setting', name=ast.name, value=ast.value)
+
+##    def Settings2xml(self, ast, parent) ->None: ...
 #    def Grammar2xml(self, ast, parent) ->None: ...
-#    def UnorderedGroup2xml(self, ast, parent) ->None: ...
+
 #    def Quantity2xml(self, ast, parent) ->None: ...
 
 #    def OrderedChoice2xml(self, ast, parent) ->None: ...
