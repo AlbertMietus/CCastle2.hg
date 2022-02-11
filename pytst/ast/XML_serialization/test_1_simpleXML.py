@@ -4,7 +4,7 @@ import logging; logger = logging.getLogger(__name__)
 
 from castle.ast import  peg, serialization
 
-from . import StdSequence_withAsserts, assert_xml_Element, assert_QuantityGroup, assert_QuantityID
+from . import StdSequence_withAsserts, assert_xml_Element, verify_QuantityGroup, verify_QuantityID
 
 
 @pytest.fixture
@@ -84,24 +84,29 @@ def test_Rules(xml_serialize):
     assert  tree.findall('.//Rule[2]//StrTerm')[0].attrib['value'] == 'str2'
 
 
-def test_OptionalSeq(xml_serialize):   assert_QuantityGroup(xml_serialize, peg.Optional, 'Optional')  			##  ` ( ...)? `
-def test_ZeroOrMoreSeq(xml_serialize): assert_QuantityGroup(xml_serialize, peg.ZeroOrMore, 'ZeroOrMore')		##  ` ( ...)* `
-def test_OneOrMoreSeq(xml_serialize):  assert_QuantityGroup(xml_serialize, peg.OneOrMore, 'OneOrMore')			##  ` ( ...)+ `
-def test_UnorderedGroup(xml_serialize): assert_QuantityGroup(xml_serialize, peg.UnorderedGroup, 'UnorderedGroup')  	##  ` ( ...)# ` # Only useful for a group/sequence!!
+def test_OptionalSeq(xml_serialize):    verify_QuantityGroup(xml_serialize, peg.Optional, 'Optional')  			##  ` ( ...)? `
+def test_ZeroOrMoreSeq(xml_serialize):  verify_QuantityGroup(xml_serialize, peg.ZeroOrMore, 'ZeroOrMore')		##  ` ( ...)* `
+def test_OneOrMoreSeq(xml_serialize):   verify_QuantityGroup(xml_serialize, peg.OneOrMore, 'OneOrMore')			##  ` ( ...)+ `
+def test_UnorderedGroup(xml_serialize): verify_QuantityGroup(xml_serialize, peg.UnorderedGroup, 'UnorderedGroup')  	##  ` ( ...)# ` # Only useful for a group/sequence!!
+
+def test_OptionalID(xml_serialize):    verify_QuantityID(xml_serialize, peg.Optional, 'Optional')
+def test_ZeroOrMoreID(xml_serialize):  verify_QuantityID(xml_serialize, peg.ZeroOrMore, 'ZeroOrMore')
+def test_OneOrMoreID(xml_serialize):   verify_QuantityID(xml_serialize, peg.OneOrMore, 'OneOrMore')
+def test_UnorderedID(xml_serialize):   verify_QuantityID(xml_serialize, peg.UnorderedGroup, 'UnorderedGroup', 'strange') ## A bit uncommon: an unordered group of ONE! But it should work.
 
 
-def test_OptionalID(xml_serialize):   assert_QuantityID(xml_serialize, peg.Optional, 'Optional')
-def test_ZeroOrMoreID(xml_serialize): assert_QuantityID(xml_serialize, peg.ZeroOrMore, 'ZeroOrMore')
-def test_OneOrMoreID(xml_serialize):  assert_QuantityID(xml_serialize, peg.OneOrMore, 'OneOrMore')
-## A bit uncommon: unordered group  of ONE  :`` Always#`` but it should work
-def test_UnorderedID(xml_serialize):  assert_QuantityID(xml_serialize, peg.UnorderedGroup, 'UnorderedGroup', 'strange')
+def test_OC3(xml_serialize): # e1 | e2 | e2
+    e1, e2, e3 = peg.ID(name='ID_1'), peg.StrTerm(value='str_2'), peg.RegExpTerm(value='regexp_3')
+    txt = xml_serialize(peg.OrderedChoice(children=[e1,e2,e3]))
+    logger.debug(f'XML:: {txt}')
+
+    assert_xml_Element(txt, tag='OrderedChoice', child_count=3)
 
 
-@pytest.mark.xfail(reason="Can't test as peg.OrderedChoice() isn't implemented")
-def test_OrderedChoice(xml_serialize): # e1 | e2 | e2
-    e1 = peg.ID(name='ID_1')
-    e2 = peg.StrTerm(value='str_2')
-    e3 = peg.RegExpTerm(value='regexp_3')
-    txt = xml_serialize(peg.OrderedChoice())                            # not implemented; never peg.OrderedChoice is never called
+def test_OC_long(xml_serialize): # e1 | e2a e2b e2c
+    e1, seq = peg.ID(name='single_ID'), StdSequence_withAsserts()
+    txt = xml_serialize(peg.OrderedChoice(children=[e1, seq.seq]))
+    logger.debug(f'XML:: {txt}')
 
-    assert False
+    assert_xml_Element(txt, tag='OrderedChoice', child_count=2)
+

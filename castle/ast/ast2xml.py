@@ -81,6 +81,11 @@ class XML_Serialize(serialization.Serialize):
     def ZeroOrMore2xml(self, ast, parent): 	self._quantity_op(ast, parent, 'ZeroOrMore')
     def OneOrMore2xml(self, ast, parent): 	self._quantity_op(ast, parent, 'OneOrMore')
 
+    def OrderedChoice2xml(self, ast, parent) ->None:
+        oc = ET.SubElement(parent, 'OrderedChoice')
+        for c in ast:
+            self._ast2xml(c,oc)
+
 #############
 
 ##    def Setting2xml(self, ast, parent) ->None:
@@ -92,7 +97,7 @@ class XML_Serialize(serialization.Serialize):
 
 
 
-#    def OrderedChoice 2xml(self, ast, parent) ->None: ...
+
 #    def AndPredicate2xml(self, ast, parent) ->None: ...
 #    def NotPredicate2xml(self, ast, parent) ->None: ...
 

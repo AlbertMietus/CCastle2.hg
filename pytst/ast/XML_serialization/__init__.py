@@ -20,28 +20,32 @@ class StdSequence_withAsserts:
         assert_xml_Element(txt, tag='.//RegExpTerm', value=self.v3)
 
 
-def assert_xml_Element(txt, tag,
-                       version="0.0",
-                       **attribs,):
+def assert_xml_Element(txt, tag, version="0.0", child_count=None, **attribs,):
     """Partially verify an xml-string; focusing on 'tag' -- a real tag, or a (limited) XPATH-expression.
 
     This `tag` (expression) should result in a single hit!. *Use e.g `[0]` as suffix to select one from a list*.
-    Pass ``key=value`` **attribs** to verify the found tag has those attribs and values
-    """
+    Pass ``key=value`` **attribs** to verify the found tag has those attribs and values."""
 
     tree = ET.fromstring(txt)
     if version:
         assert tree.attrib['version'] == version
+
     founds = tree.findall(tag)
     assert len(founds) == 1, f"Expected only one element; got: {len(founds)} :{founds}"
+
     found = founds[0]
     logger.debug(f'XXX1 tag={tag}:: found={found}')
+
     for attrib, value in attribs.items():
         logger.debug(f'XXX2 tag={tag}:: attrib={attrib}, value={value}')
         assert found.attrib[attrib] == value
 
+    if child_count:
+        assert len(found) == child_count, f"The number of children of '{tag}' is {len(found)}, which does not match the specified child_count={child_count}"
 
-def assert_QuantityGroup(xml_serialize, pegGrp, tagName):
+
+
+def verify_QuantityGroup(xml_serialize, pegGrp, tagName):
     seq = StdSequence_withAsserts()
     txt = xml_serialize(pegGrp(expr=seq.seq))
     logger.debug(f'XML:: {txt}')
@@ -49,7 +53,8 @@ def assert_QuantityGroup(xml_serialize, pegGrp, tagName):
     assert_xml_Element(txt, tagName)
     seq.assert_xml_Element(txt)
 
-def assert_QuantityID(xml_serialize, pegGrp, tagName, id_name='JustAName'):
+
+def verify_QuantityID(xml_serialize, pegGrp, tagName, id_name='JustAName'):
     txt = xml_serialize(pegGrp(expr=peg.ID(name=id_name)))
     logger.debug(f'XML:: {txt}')
 

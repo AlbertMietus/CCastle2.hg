@@ -2,10 +2,14 @@
 
 peg_grammar	<-  rules ;
 rules		<-  rule+ ;
-rule		<-  rule_name '<-' expressions ';' ;
+rule		<-  rule_name '<-' expression ';' ;
 
-expressions	<-  single_expr+ ( '|' expressions )? ;
-single_expr	<-  ( rule_crossref | term | group | predicate ) ( '?' | '*' | '+' | '#' )? ;
+expression	<-  expressions op_alternative ;
+expressions     <-  single_expr+ ;
+single_expr	<-  ( rule_crossref | term | group | predicate )  op_quantity ;
+
+op_alternative  <-  ( '|' expression )? ;
+op_quantity     <-  ( '?' | '*' | '+' | '#' )? ;
 
 term		<-  str_term | regex_term ;
 group		<-  '(' expressions ')' ;
