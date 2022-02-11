@@ -20,11 +20,13 @@ class StdSequence_withAsserts:
         assert_xml_Element(txt, tag='.//RegExpTerm', value=self.v3)
 
 
-def assert_xml_Element(txt, tag, version="0.0", child_count=None, **attribs,):
+def assert_xml_Element(txt, tag, version="0.0", child_count=None, **attribs):
     """Partially verify an xml-string; focusing on 'tag' -- a real tag, or a (limited) XPATH-expression.
 
     This `tag` (expression) should result in a single hit!. *Use e.g `[0]` as suffix to select one from a list*.
-    Pass ``key=value`` **attribs** to verify the found tag has those attribs and values."""
+
+    Pass ``key=value`` **attribs** to verify the found tag has those attribs and values.
+    Optionally, pass `child_count=INT` to verify the specified (single) tag has that number of children."""
 
     tree = ET.fromstring(txt)
     if version:
@@ -34,10 +36,8 @@ def assert_xml_Element(txt, tag, version="0.0", child_count=None, **attribs,):
     assert len(founds) == 1, f"Expected only one element; got: {len(founds)} :{founds}"
 
     found = founds[0]
-    logger.debug(f'XXX1 tag={tag}:: found={found}')
 
     for attrib, value in attribs.items():
-        logger.debug(f'XXX2 tag={tag}:: attrib={attrib}, value={value}')
         assert found.attrib[attrib] == value
 
     if child_count:
