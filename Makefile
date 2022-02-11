@@ -37,3 +37,8 @@ missing_serialization:
 	done
 XXX:
 	grep XXX `find . -type f -name \*.py`
+
+clean: clean_caches
+clean_caches:
+	find . -type d -name __pycache__    -print0 | xargs -0  rm -r
+	find . -type d -name .pytest_cache  -print0 | xargs -0  rm -r
