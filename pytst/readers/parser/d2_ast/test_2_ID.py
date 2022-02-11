@@ -15,18 +15,18 @@ def test_rule_name():
 
 
 def test_rule_crossref():
-    """The rule's expressions can also refer an ID"""
+    """The rule's expression can also refer an ID"""
 
     txt="aRef"
     ast = parse(txt, grammar.rule_crossref)
     assert_ID(ast, name=txt)
 
 
-def test_ID_as_expressions():
+def test_ID_as_expression():
     """ An ID is also an expression"""
 
     txt="aRef"
-    ast = parse(txt, grammar.expressions)
+    ast = parse(txt, grammar.expression)
 
     assert isinstance(ast, peg.Expression),	"A crossref is also an Expression"
     assert len(ast.value) == 1,			"An expression with length==1"

@@ -4,15 +4,15 @@ peg_grammar	<-  rules ;
 rules		<-  rule+ ;
 rule		<-  rule_name '<-' expression ';' ;
 
-expression	<-  expressions op_alternative ;
-expressions     <-  single_expr+ ;
+expression	<-  sequence op_alternative ;
+sequence        <-  single_expr+ ;
 single_expr	<-  ( rule_crossref | term | group | predicate )  op_quantity ;
 
 op_alternative  <-  ( '|' expression )? ;
 op_quantity     <-  ( '?' | '*' | '+' | '#' )? ;
 
 term		<-  str_term | regex_term ;
-group		<-  '(' expressions ')' ;
+group		<-  '(' expression ')' ;
 predicate	<-   ( '&' | '!' ) single_expr ;
 
 str_term	<- "'"    str_no_s1  "'"

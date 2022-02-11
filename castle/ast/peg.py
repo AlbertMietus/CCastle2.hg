@@ -114,7 +114,7 @@ class Group(Expression): pass                                           # abstra
 
 
 class UnorderedGroup(MixIn_expr_attribute, Group):                      # It looks like a Quantity, but is a group
-    """See a set (aka "group") of expressions that **all** have to be matched, but the **order** is a don't care.
+    """A set (aka "group") of expressions that **all** have to be matched, but the **order** is a don't care.
 
        Possible an extension of Arpeggio (see: https://textx.github.io/Arpeggio/stable/grammars/), possible a generic one."""
 

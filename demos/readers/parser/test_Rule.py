@@ -59,4 +59,4 @@ def QAZ(txt, rule, label=None):
 
 def test_QAZ_rule_name():    	QAZ("""aName""",	grammar.rule_name,	label="rule_name")
 def test_QAZ_rule_crossref():	QAZ("""aName""",	grammar.rule_crossref,	label="rule_crossref")
-def test_QAZ_expressions():	QAZ("""aName""",	grammar.expressions,	label="expressions")
+def test_QAZ_expression():	QAZ("""aName""",	grammar.expression,	label="expression")

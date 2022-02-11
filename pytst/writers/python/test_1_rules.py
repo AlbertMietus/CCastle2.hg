@@ -14,8 +14,3 @@ def __test_simple_rule():
     id_rn = peg.ID(name="rule_crossref")
     id_xr = peg.ID(name="ID")
 
-    
-##    expressions = peg.Sequence(value=id_xr
-##    rule = peg.Rule(name=id_rn, expr=expressions)
-
-##    Template("""def {{rule.name}}()\treturn{rule.expro

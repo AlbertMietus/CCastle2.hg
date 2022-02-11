@@ -9,7 +9,12 @@ R, S, X = grammar.regex_term.__name__, grammar.str_term.__name__, grammar.rule_c
 P = grammar.predicate.__name__
 G = grammar.group.__name__
 
-def parse_expression(txt, pattern=None):
+
+def validate_expression(txt, pattern):
+    parse_tree = parse_expression(txt)
+    validate_pattern(parse_tree, pattern=pattern)
+
+def parse_expression(txt):
     parser = arpeggio.ParserPython(grammar.expression)
     parse_tree = parser.parse(txt)
     logger.debug("\nPARSE-TREE\n" + parse_tree.tree_str()+'\n')
@@ -17,15 +22,14 @@ def parse_expression(txt, pattern=None):
     assert parse_tree.position_end == len(txt) , f"Not parsed whole input; Only: >>{txt[parse_tree.position: parse_tree.position_end]}<<; Not: >>{txt[parse_tree.position_end:]}<<."
     assert parse_tree.rule_name == "expression"
 
-    if pattern: validate_pattern(parse_tree, pattern=pattern)
-
     return parse_tree
 
-def validate_pattern(pt, pattern=None):
-    expressions = pt[0]
-    assert len(expressions) == len(pattern), f"Not correct number-of-element"
 
-    for p, s in zip(pattern, expressions):
+def validate_pattern(pt, pattern=None):
+    elements = pt[0]
+    assert len(elements) == len(pattern), f"Not correct number-of-element"
+
+    for p, s in zip(pattern, elements):
         if p is None: continue
         if p == X:
             assert s[0].rule_name == p
@@ -40,19 +44,19 @@ def validate_pattern(pt, pattern=None):
             assert False, "To Do: More"
 
 
-def test_simple_1():	parse_expression(r"abc",	pattern=[X])
-def test_simple_2():	parse_expression(r'A  Bc',	pattern=[X, X])
+def test_simple_1():	validate_expression(r"abc",	pattern=[X])
+def test_simple_2():	validate_expression(r'A  Bc',	pattern=[X, X])
 
-def test_string_1():	parse_expression(r"'abc'",	pattern=[S])
-def test_regexp_1():	parse_expression(r"/re/",	pattern=[R])
+def test_string_1():	validate_expression(r"'abc'",	pattern=[S])
+def test_regexp_1():	validate_expression(r"/re/",	pattern=[R])
 
-def test_mix():		parse_expression(r'/regex/ "string" crossref crossref',	pattern=[R,S, X, X])
+def test_mix():		validate_expression(r'/regex/ "string" crossref crossref',	pattern=[R,S, X, X])
 
-def test_sub():		parse_expression(r'( A  B )',	pattern=[(X, X)])
-def test_mix_nosub():	parse_expression(r'/regex/ "string" ( A  B ) crossref',	pattern=[R,S, None, X])
-def test_mix_sub():	parse_expression(r'/regex/ "string" ( A  B ) crossref',	pattern=[R,S, (X, X), X])
+def test_sub():		validate_expression(r'( A  B )',	pattern=[(X, X)])
+def test_mix_nosub():	validate_expression(r'/regex/ "string" ( A  B ) crossref',	pattern=[R,S, None, X])
+def test_mix_sub():	validate_expression(r'/regex/ "string" ( A  B ) crossref',	pattern=[R,S, (X, X), X])
 
-def test_sub_sub():	parse_expression(r'level0 ( level1_1  (level2a level2b ) level1_2) level0', pattern=[X, (X, (X,X), X), X])
+def test_sub_sub():	validate_expression(r'level0 ( level1_1  (level2a level2b ) level1_2) level0', pattern=[X, (X, (X,X), X), X])
 
 
 def test_bug1():	parse_expression(r"""( rule_crossref | term | group | predicate ) ( '?' | '*' | '+' | '#' )?""")

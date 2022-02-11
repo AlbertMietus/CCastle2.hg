@@ -6,8 +6,8 @@ def peg_grammar(): 	return rules, EOF
 def rules(): 		return OneOrMore(rule)
 def rule():		return rule_name, '<-', expression, ";"
 
-def expression():	return expressions, op_alternative
-def expressions():	return OneOrMore(single_expr)
+def expression():	return sequence, op_alternative
+def sequence():		return OneOrMore(single_expr)
 def single_expr():	return [ rule_crossref, term, group, predicate ], op_quantity
 
 def op_alternative():   return Optional( '|' , expression )

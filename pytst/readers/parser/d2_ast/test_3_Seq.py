@@ -1,4 +1,4 @@
-"""Test that a sequence of expressions is an Expression()
+"""Test that a kind of  sequence's are Expression()
 """
 
 import pytest

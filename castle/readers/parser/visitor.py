@@ -3,6 +3,7 @@ import arpeggio
 from castle.ast import peg
 
 import logging;logger = logging.getLogger(__name__)
+from typing import Union
 
 class QuantityError(ValueError): pass
 class PredicateError(ValueError): pass
@@ -65,9 +66,10 @@ class PegVisitor(arpeggio.PTNodeVisitor):
             raise  NotImplementedError("visit_single_expr, len>2")      # XXX -- Is this possible?
 
 
-    def visit_expression(self, node, children):                  # expression <- expressionS, op_alternative; op_alternative <- ('|' expression)?
+    # expression <- sequence, op_alternative; op_alternative <- ('|' expression)?
+    def visit_expression(self, node, children) -> Union[peg.Sequence,  peg.OrderedChoice]:
         logger.debug('visit_expression::' + self._logstr_node_children(node, children))
-        if len(children) == 1: #Only expressions
+        if len(children) == 1: #Only sequence
             return children[0]
         elif len(children) == 2: # So, having 1 or more alternatives in children[1]
             # In all cased a (single) OrderedChoice with a list of alternatives should be returned.
@@ -79,9 +81,9 @@ class PegVisitor(arpeggio.PTNodeVisitor):
         else:
             raise NotImplementedError("visit_expression, len>2")
 
-
-    def visit_expressions(self, node, children):                 # OneOrMore(single_expr)
-        logger.debug(f'visit_expressions::{self._logstr_node_children(node, children)}')
+    # OneOrMore(single_expr)
+    def visit_sequence(self, node, children) -> peg.Sequence:
+        logger.debug(f'visit_sequence::{self._logstr_node_children(node, children)}')
         return peg.Sequence(value=children, parse_tree=node)
 
 

@@ -50,9 +50,9 @@ def test_regex_variants():
     regex_variants(txt:='''r"""re__rstr_d3"""''', expect=txt[4:-3])
 
 
-def test_term_as_expressions():                                         # A term is **ALSO an expressions
+def test_term_as_expression():                                         # A term is **ALSO an expression
     txt="'a string'"
-    ast = parse(txt, grammar.expressions)
+    ast = parse(txt, grammar.expression)
     # result is same a above
     assert isinstance(ast, peg.Expression),	"A (str)term is also an Expression"
     assert len(ast.value) == 1,			"An expression with length==1"
