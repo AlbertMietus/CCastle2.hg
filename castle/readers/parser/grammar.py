@@ -4,14 +4,17 @@ from arpeggio import ParserPython
 
 def peg_grammar(): 	return rules, EOF
 def rules(): 		return OneOrMore(rule)
-def rule():		return rule_name, '<-', expressions, ";"
+def rule():		return rule_name, '<-', expression, ";"
 
-def expressions():	return ( OneOrMore(single_expr), Optional( '|' , expressions ) )
-def single_expr():	return ( [ rule_crossref, term, group, predicate ], op_quantity)
+def expression():	return expressions, op_alternative
+def expressions():	return OneOrMore(single_expr)
+def single_expr():	return [ rule_crossref, term, group, predicate ], op_quantity
 
+def op_alternative():   return Optional( '|' , expression )
 def op_quantity(): 	return Optional([ '?' , '*' , '+' , '#' ])
+
 def term():		return [ str_term, regex_term ]
-def group():		return '(', expressions, ')'
+def group():		return '(', expression, ')'
 def predicate():	return ['&','!'], single_expr
 
 def str_term():		return [  (S3,   str_no_s3,  S3),

@@ -13,13 +13,14 @@ class MixIn_value_attribute:
     """With this MixIn PEG-classes get the ``.value`` property"""
 
     def __init__(self, *, value=None, **kwargs):
+        logger.debug(f'{self._typeName(self)}.MixIn_value_attribute:: value:=' +
+                     ('[[' +', '.join(f'{v}:{type(v).__name__}' for v in value) + ']]') if isinstance(value, list) else f's>>{value}<<')
         super().__init__(**kwargs)
-        logger.debug(f'{self._typeName(self)}:: value:={value}:{self._typeName(value)}')
         self._value=value
 
     @property
     def value(self):
-        logger.debug(f'{self._typeName(self)}:: @property={self._value}')
+        logger.debug(f'{self._typeName(self)}:: @value={self._value}')
         return self._value
 
 
@@ -27,17 +28,21 @@ class MixIn_expr_attribute:
     """With this MixIn PEG-classes get the ``.expr`` property"""
 
     def __init__(self, *, expr=None, **kwargs):
+        logger.debug(f'{self._typeName(self)}.MixIn_expr_attribute:: expr:={self._valType(expr)}')
         super().__init__(**kwargs)
         self._expr = expr
 
     @property
     def expr(self):
+        logger.debug(f'{self._typeName(self)}:: @expr={self._expr}')
         return self._expr
 
 
 class MixIn_children_tuple:
     """With this MixIn PEG-class get the ``.children`` property; and sequence-alike methods"""
     def __init__(self, *, children, **kwargs):
+        logger.debug(f'{self._typeName(self)}.MixIn_children_tuple:: children[{len(children)}]:=' +
+                     ('[[' +', '.join(f'{c}:{type(c).__name__}' for c in children) + ']]') if isinstance(children, list) else f's>>{children}<<')
         super().__init__(**kwargs)
         self._childeren = tuple(children)
 
@@ -125,8 +130,14 @@ class Sequence(MixIn_value_attribute, Expression):
     def __len__(self):       	return len(self._value)
     def __getitem__(self, n):	return self._value[n]
 
+    def __str__(self): # mostly for debugging
+        return "Seq{{" + " ; ".join(f"{c}" for c in self._value) + "}}" # XXX ToDo: _value -> children
 
-class OrderedChoice(Expression):pass                                    # It a an set of alternatives
+class OrderedChoice(MixIn_children_tuple, Expression):                  # A | B | C | ...  the order is relevant
+    """OC: A _tuple_ of alternative expressions"""
+
+    def __str__(self): # mostly for debugging
+        return "OC{{" + " | ".join(f"{c}" for c in self._childeren) + "}}"
 
 class Optional(Quantity):pass
 class ZeroOrMore(Quantity):pass
