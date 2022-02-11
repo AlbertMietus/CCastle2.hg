@@ -17,9 +17,11 @@ class PredicateError(ValueError): pass
 #NO_VISITOR_NEEDED: visit_term
 #NO_VISITOR_NEEDED: visit_re_no_slash
 #NO_VISITOR_NEEDED: visit_group
-#NO_VISITOR_NEEDED: visit_op_quantity (before: vist_expr_quantity)
+#NO_VISITOR_NEEDED: visit_op_quantity -- handle in visit_single_expr
 
 class PegVisitor(arpeggio.PTNodeVisitor):
+    def _logstr_node_children(self, node, children):
+        return f'>>{node}<< children[{len(children)}] >>' + ", ".join(f'{c}:{type(c).__name__}' for c in children) + '<<'
 
     def visit_str_term(self, node, children):
         return peg.StrTerm(value=node[1], parse_tree=node)
@@ -33,7 +35,7 @@ class PegVisitor(arpeggio.PTNodeVisitor):
     def visit_rule_crossref(self, node, children):
         return peg.ID(name=str(node), parse_tree=node)
 
-    def visit_rule(self, node, children):                               #  Name '<-' expressions ';'
+    def visit_rule(self, node, children):                               #  Name '<-' expression ';'
         return peg.Rule(name=children[0],expr=children[1], parse_tree=node)
 
 
@@ -62,11 +64,32 @@ class PegVisitor(arpeggio.PTNodeVisitor):
             raise  NotImplementedError("visit_single_expr, len>2")      # XXX -- Is this possible?
 
 
-    def visit_expressions(self, node, children):                        # OneOrMore(single_expr), Optional( '|' , expressions )
-        logger.debug(f'visit_expressions:: >>{node}<< #children={len(children)} children={children}:{type(children)}')
+    def visit_expression(self, node, children):                  # ( expressions, op_alternatives )
+        logger.debug('visit_expression::' + self._logstr_node_children(node, children))
+        if len(children) == 1: #Only expressions
+            return children[0]
+        elif len(children) == 2: # So, having with alternatives
+            # The 1st kid is a peg.Sequence ``expr``
+            # The 2nd kid can be a
+            # - peg.Sequence  `` | expr ``, OR
+            # - peg.OrderedChoice  `` | expr | expr``
+            # In all cased a (single) OrderedChoice with a list of alternatives should be returned.
+#           return peg.OrderedChoice(children = ((children[0].value,) +
+#                                                children[1]._childeren if isinstance(children[1], peg.OrderedChoice) else children[1].value), #XXX HACK
+#                                    parse_tree=node)
+            if isinstance(children[1], peg.OrderedChoice):
+                alternatives = [children[0]] + [alt for alt in children[1]]
+            else:
+                alternatives = children
+            return peg.OrderedChoice(children = alternatives, parse_tree=node)
+        else:
+            raise NotImplementedError("visit_expression, len>2")
+
+
+    def visit_expressions(self, node, children):                 # OneOrMore(single_expr)
+        logger.debug(f'visit_expressions::{self._logstr_node_children(node, children)}')
         return peg.Sequence(value=children, parse_tree=node)
 
-        raise NotImplementedError("visit_expressions, len>1 :: peg.OrderedChoice")
 
     def visit_predicate(self, node, children):
         token_2_predicate = {'&': peg.AndPredicate,

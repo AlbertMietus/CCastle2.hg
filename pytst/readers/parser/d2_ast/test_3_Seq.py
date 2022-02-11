@@ -1,6 +1,5 @@
 """Test that a sequence of expressions is an Expression()
-
-   Note: the value of Expression() is a list-subclass; which is fine. But use it as list!!"""
+"""
 
 import pytest
 import logging; logger = logging.getLogger(__name__)
@@ -23,17 +22,24 @@ def test_seq_of_two_is_NOT_a_single_expression():
         ast = parse(txt, grammar.single_expr)
 
 
-def test_seq_of_two_as_expressions():
+def test_seq_of_two_as_expression():
     txt = "A B"
-    ast = parse(txt, grammar.expressions)
+    ast = parse(txt, grammar.expression)
 
     assert_Seq(ast, 2, ids=('A', 'B'))
+    assert isinstance(ast.value, list),		"It will be an `arpeggio.SemanticActionResult` which is a subclass of list"
+
+def test_seq_of_three_as_expression():
+    txt = "A B C"
+    ast = parse(txt, grammar.expression)
+
+    assert_Seq(ast, 3, ids=('A', 'B', 'C'))
     assert isinstance(ast.value, list),		"It will be an `arpeggio.SemanticActionResult` which is a subclass of list"
 
 
 def test_seq_of_three_with_quantification():
     txt = "A? B+ C*"
-    ast = parse(txt, grammar.expressions)
+    ast = parse(txt, grammar.expression)
 
     assert_Seq(ast, 3)
 
@@ -46,7 +52,31 @@ def test_seq_of_three_with_quantification():
     assert_ID(ast[2].expr, 'C'),	"The 3th one is a 'C'"
 
 
+def assert_OC(ast, length_pattern):
+    assert isinstance(ast, peg.OrderedChoice)
+    assert isinstance(ast, peg.Expression), "An OrderedChoice is also a Expression"
+    assert len(ast) == len(length_pattern), "Not the correct number of alternatives"
+    for i, (alt, l) in enumerate(zip(ast, length_pattern)):
+        if l is  not None:
+            assert len(alt) == l, f'The {i}th alternative does not match the specified length -- {alt}'
+        logger.debug(f'OC-alt[{i}] ==> {alt}')
+
 def test_OrderedChoice_of_two_alternatives():
     txt = "A | B"
-    ast = parse(txt, grammar.expressions)
-    assert False # XXX ToBoDone
+    ast = parse(txt, grammar.expression)
+    logger.debug(f"OC.2:: {ast}")
+    assert_OC(ast, length_pattern=[1,1])
+
+def test_OrderedChoice_of_three_alternatives():
+    txt = "A | B | C"
+    ast = parse(txt, grammar.expression)
+    logger.debug(f"OC.3:: {ast}")
+    assert_OC(ast, length_pattern=[1,1,1])
+
+
+def test_OrderedChoice_of_long_alternatives():
+    txt = "A | b1 b2 | C"
+    ast = parse(txt, grammar.expression)
+    logger.debug(f"OC.long:: {ast}")
+
+    assert_OC(ast, length_pattern=[1,2,1])
