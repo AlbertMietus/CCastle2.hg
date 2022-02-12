@@ -37,7 +37,7 @@ class PegVisitor(arpeggio.PTNodeVisitor):
     def visit_rule_crossref(self, node, children):
         return peg.ID(name=str(node), parse_tree=node)
 
-    def visit_rule(self, node, children):                               #  Name '<-' expression ';'
+    def visit_parse_rule(self, node, children):                               #  Name '<-' expression ';'
         return peg.Rule(name=children[0],expr=children[1], parse_tree=node)
 
 

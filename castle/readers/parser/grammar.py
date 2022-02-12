@@ -2,9 +2,10 @@ from arpeggio import Optional, ZeroOrMore, OneOrMore, EOF
 from arpeggio import RegExMatch as _
 from arpeggio import ParserPython
 
+
 def peg_grammar(): 	return rules, EOF
-def rules(): 		return OneOrMore(rule)
-def rule():		return rule_name, '<-', expression, ";"
+def rules(): 		return OneOrMore([parse_rule, setting])
+def parse_rule():	return rule_name, '<-', expression, ";"
 
 def expression():	return sequence, op_alternative
 def sequence():		return OneOrMore(single_expr)
@@ -42,9 +43,9 @@ def setting_name():	return ID
 def value():            return [ str_term, regex_term, number, setting_xref ]
 def number():		return [ complex_lit, float_lit, int_lit ]
 def setting_xref():	return ID
-def complex_lit():	return _("([0-9](*\.[0-9]*)?)[+-][iIjJ]([0-9](*\.[0-9]*)?)")
-def float_lit():	return _("[0-9]*\.[0-9]+")
-def int_lit():		return _("[1-9][0-9]*")
+def complex_lit():	return _(r"([0-9](\.[0-9]*)?)[+-][iIjJ]([0-9](\.[0-9]*)?)")
+def float_lit():	return _(r"[0-9]\.[0-9]+")
+def int_lit():		return _(r"[1-9][0-9]*")
 
 
 S1 = "'"

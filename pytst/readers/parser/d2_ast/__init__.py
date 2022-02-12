@@ -1,22 +1,23 @@
-##import visitor
-from castle.readers.parser import visitor
+import logging; logger = logging.getLogger(__name__)
+
 import arpeggio
 
+from castle.readers.parser import visitor
 from castle.readers.parser import grammar
 from castle.ast import peg
 
 def parse(txt, rule, *,
           with_comments=False,
-          print_tree_debug=False,
           visitor_debug=False):
 
     parser = arpeggio.ParserPython(rule, comment_def = grammar.comment if with_comments else None)
     pt = parser.parse(txt)
+    logger.debug('PARSE_TREE\n'+pt.tree_str())
 
-    if print_tree_debug:
-        print('\n'+pt.tree_str())
     assert pt.position_end == len(txt), f"Did not parse all input txt=>>{txt}<<len={len(txt)} ==> parse_tree: >>{pt}<<_end={pt.position_end}"
     ast = arpeggio.visit_parse_tree(pt, visitor.PegVisitor(debug=visitor_debug))
+    logger.debug('AST\n' + f'{ast}:{type(ast).__name__}')
+
     if with_comments: #   When the txt starts with comments, the AST does start 'after' that comment -- so skip the start-check
         assert ast.position_end == len(txt), f"The AST (type={type(ast)}) does not include (start) comments; however typically the end_position ({ast.position_end}) is the end of the text ({len(txt)}"
     else:

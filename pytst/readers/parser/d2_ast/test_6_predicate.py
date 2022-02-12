@@ -7,7 +7,7 @@ from castle.ast import peg
 from . import parse, assert_ID, precondition_ID, precondition_Expressions
 
 def simple_ID_Predicate_ID(txt, predicateType, rule_name='R', id0='A', predicateID='B', id2='C'):
-    ast = parse(txt, grammar.rule)
+    ast = parse(txt, grammar.parse_rule)
     precondition_ID(ast.name, rule_name)
 
     expr = ast.expr

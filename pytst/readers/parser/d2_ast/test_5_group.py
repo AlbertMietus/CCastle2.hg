@@ -17,7 +17,7 @@ def assert_Group(grp, length=1, groupType=peg.Sequence, ids=None):
 def test_simple_group():
     txt = "R <- ( A B ) ;"
 
-    ast = parse(txt, grammar.rule)
+    ast = parse(txt, grammar.parse_rule)
     precondition_Rule(ast, 'R')
 
     grp = ast.expr
@@ -27,7 +27,7 @@ def test_simple_group():
 def test_nested_group():
     txt = "R <- ( (  A B ) ) ;"
 
-    ast = parse(txt, grammar.rule)
+    ast = parse(txt, grammar.parse_rule)
     precondition_Rule(ast, 'R')
 
     grp = ast.expr
@@ -40,7 +40,7 @@ def test_nested_group():
 def test_unordered_group():
     txt = "R <- ( A B )# ;"
 
-    ast = parse(txt, grammar.rule)
+    ast = parse(txt, grammar.parse_rule)
     precondition_Rule(ast, 'R')
 
     grp = ast.expr

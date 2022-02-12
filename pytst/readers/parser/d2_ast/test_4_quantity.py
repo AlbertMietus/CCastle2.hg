@@ -11,7 +11,7 @@ from . import parse, assert_ID
 def assert_Quantification(token:str, kind:type(peg.Quantity)):
     txt = f"R <- X {token} ;"
 
-    ast = parse(txt, grammar.rule)
+    ast = parse(txt, grammar.parse_rule)
     assert_ID(ast.name, 'R')
 
     expr = ast.expr

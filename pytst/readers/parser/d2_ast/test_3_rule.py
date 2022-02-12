@@ -11,7 +11,7 @@ def test_trivial_rule_with_2IDS():
     """The most simple rule has only two IDs"""
 
     txt="trivial <- cross ;"
-    ast = parse(txt, grammar.rule)
+    ast = parse(txt, grammar.parse_rule)
 
     assert_Rule(ast, rune_name=txt.split()[0])                # The name of a rule is a ID with the left-side ID as name
 
@@ -22,7 +22,7 @@ def test_trivial_rule_with_2IDS():
 
 def test_rule_with_ID_and_terms():
     txt = """aRule <- 'aStr' aCross /regexp/ ;"""
-    ast = parse(txt, grammar.rule)
+    ast = parse(txt, grammar.parse_rule)
 
     assert_Rule(ast, rune_name=txt.split()[0])
 

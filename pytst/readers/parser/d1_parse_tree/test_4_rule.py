@@ -7,7 +7,7 @@ import arpeggio
 RE, S = arpeggio.RegExMatch, arpeggio.StrMatch                          # shortcut
 
 def parse_rule(txt, pattern=None):
-    parser = arpeggio.ParserPython(grammar.rule)
+    parser = arpeggio.ParserPython(grammar.parse_rule)
     tree = parser.parse(txt)
     logger.debug(f'\nTREE\n{tree.tree_str()}')
 
