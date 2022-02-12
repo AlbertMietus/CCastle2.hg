@@ -9,19 +9,16 @@ R, S, X = grammar.regex_term.__name__, grammar.str_term.__name__, grammar.rule_c
 P = grammar.predicate.__name__
 G = grammar.group.__name__
 
+from . import parse
+
 
 def validate_expression(txt, pattern):
     parse_tree = parse_expression(txt)
     validate_pattern(parse_tree, pattern=pattern)
 
 def parse_expression(txt):
-    parser = arpeggio.ParserPython(grammar.expression)
-    parse_tree = parser.parse(txt)
-    logger.debug("\nPARSE-TREE\n" + parse_tree.tree_str()+'\n')
-
-    assert parse_tree.position_end == len(txt) , f"Not parsed whole input; Only: >>{txt[parse_tree.position: parse_tree.position_end]}<<; Not: >>{txt[parse_tree.position_end:]}<<."
+    parse_tree = parse(txt, grammar.expression)
     assert parse_tree.rule_name == "expression"
-
     return parse_tree
 
 
