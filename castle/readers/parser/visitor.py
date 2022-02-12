@@ -63,7 +63,7 @@ class PegVisitor(arpeggio.PTNodeVisitor):
             else:
                 raise QuantityError(f"token '{token}' not recognised")
         else: # #children not in (1,2)
-            raise  NotImplementedError("visit_single_expr, len>2")      # XXX -- Is this possible?
+            raise  NotImplementedError("visit_single_expr, len>2")      # -- Is this possible?
 
 
     # expression <- sequence, op_alternative; op_alternative <- ('|' expression)?
@@ -101,7 +101,7 @@ class PegVisitor(arpeggio.PTNodeVisitor):
             else:
                 raise PredicateError(f"token '{token}' not recognised")
         else:
-            raise  NotImplementedError("visit_predicate, len!=2")      # XXX -- Is this possible?
+            raise  NotImplementedError("visit_predicate, len!=2")      # -- Is this possible?
 
 
     def visit_rules(self, node, children):
