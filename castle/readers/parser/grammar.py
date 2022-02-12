@@ -37,6 +37,16 @@ def str_no_d1():	return _(r'((\\")|[^"\n])*')                    # idem
 def str_no_s3():	return _(r"([^']|('[^'])|(''[^']))*")           # ALLOW multiline
 def str_no_d3():	return _(r'''([^"]|("[^"])|(""[^"]))*''')       # idem
 
+def setting():		return setting_name, '=', value, ';'
+def setting_name():	return ID
+def value():            return [ str_term, regex_term, number, setting_xref ]
+def number():		return [ complex_lit, float_lit, int_lit ]
+def setting_xref():	return ID
+def complex_lit():	return _("([0-9](*\.[0-9]*)?)[+-][iIjJ]([0-9](*\.[0-9]*)?)")
+def float_lit():	return _("[0-9]*\.[0-9]+")
+def int_lit():		return _("[1-9][0-9]*")
+
+
 S1 = "'"
 D1 = '"'
 S3 = "'''"
