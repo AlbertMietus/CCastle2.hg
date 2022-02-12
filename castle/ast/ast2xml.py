@@ -46,6 +46,7 @@ class XML_Serialize(serialization.Serialize):
 #NO_VISITOR_NEEDED: Group2xml				## Pure Abstract
 #NO_VISITOR_NEEDED: Markers2xml				## Pure Abstract
 #NO_VISITOR_NEEDED: Quantity2xml			## Pure Abstract
+#NO_VISITOR_NEEDED: EOF2xml				## Not a real token
 
 
     def _MixIn_value_attribute2xml(self, ast, parent, cls_name):
@@ -72,19 +73,28 @@ class XML_Serialize(serialization.Serialize):
             logger.debug(f'Rules2xml type(child)={type(child)}')
             self._ast2xml(child, parent=parent)
 
-    def _quantity_op(self, ast, parent, tagName) -> None:
+    def _quantity_op2xml(self, ast, parent, tagName) -> None:
         g = ET.SubElement(parent, tagName)
         self._ast2xml(ast.expr, g)
 
-    def UnorderedGroup2xml(self, ast, parent): 	self._quantity_op(ast, parent, 'UnorderedGroup')
-    def Optional2xml(self, ast, parent): 	self._quantity_op(ast, parent, 'Optional')
-    def ZeroOrMore2xml(self, ast, parent): 	self._quantity_op(ast, parent, 'ZeroOrMore')
-    def OneOrMore2xml(self, ast, parent): 	self._quantity_op(ast, parent, 'OneOrMore')
+    def UnorderedGroup2xml(self, ast, parent): 	self._quantity_op2xml(ast, parent, 'UnorderedGroup')
+    def Optional2xml(self, ast, parent): 	self._quantity_op2xml(ast, parent, 'Optional')
+    def ZeroOrMore2xml(self, ast, parent): 	self._quantity_op2xml(ast, parent, 'ZeroOrMore')
+    def OneOrMore2xml(self, ast, parent): 	self._quantity_op2xml(ast, parent, 'OneOrMore')
+
 
     def OrderedChoice2xml(self, ast, parent) ->None:
         oc = ET.SubElement(parent, 'OrderedChoice')
         for c in ast:
             self._ast2xml(c,oc)
+
+    def _Predicate2xml(self, ast, parent, tagName) ->None:
+        logger.debug(f"_Predicate2xml.{tagName}:: expr: {ast.expr}:{type(ast.expr).__name__}")
+        predicate = ET.SubElement(parent, tagName)
+        self._ast2xml(ast.expr, predicate)
+
+    def AndPredicate2xml(self, ast, parent): self._Predicate2xml(ast, parent,'AndPredicate')
+    def NotPredicate2xml(self, ast, parent): self._Predicate2xml(ast, parent,'NotPredicate')
 
 #############
 
@@ -98,7 +108,7 @@ class XML_Serialize(serialization.Serialize):
 
 
 
-#    def AndPredicate2xml(self, ast, parent) ->None: ...
+
 #    def NotPredicate2xml(self, ast, parent) ->None: ...
 
-#    def EOF2xml(self, ast, parent) ->None: pass # Needed
+

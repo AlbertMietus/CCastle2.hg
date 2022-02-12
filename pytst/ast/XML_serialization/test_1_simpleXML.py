@@ -110,3 +110,11 @@ def test_OC_long(xml_serialize): # e1 | e2a e2b e2c
 
     assert_xml_Element(txt, tag='OrderedChoice', child_count=2)
 
+def verify_Predicate(xml_serialize, pegPredicate, tagName):
+    txt= xml_serialize(pegPredicate(expr=peg.ID(name="PartOfSomePredicate")))
+    logger.debug(f'XML:: {txt}')
+
+    assert_xml_Element(txt, tag=tagName, child_count=1)
+
+def test_AndPredicate(xml_serialize): verify_Predicate(xml_serialize, peg.AndPredicate, 'AndPredicate')
+def test_NotPredicate(xml_serialize): verify_Predicate(xml_serialize, peg.NotPredicate, 'NotPredicate')
