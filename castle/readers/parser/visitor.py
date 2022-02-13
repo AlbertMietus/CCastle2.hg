@@ -20,6 +20,12 @@ class PredicateError(ValueError): pass
 #NO_VISITOR_NEEDED: visit_group
 #NO_VISITOR_NEEDED: visit_op_quantity		-- handled in visit_single_expr
 #NO_VISITOR_NEEDED: visit_op_alternative	-- handled in visit_expression
+#NO_VISITOR_NEEDED: visit_complex_lit		-- handled in visit_number
+#NO_VISITOR_NEEDED: visit_float_lit		-- handled in visit_number
+#NO_VISITOR_NEEDED: visit_int_lit		-- handled in visit_number
+#NO_VISITOR_NEEDED: visit_value
+#NO_VISITOR_NEEDED: visit_setting_xref
+
 
 class PegVisitor(arpeggio.PTNodeVisitor):
     def _logstr_node_children(self, node, children):
@@ -81,6 +87,7 @@ class PegVisitor(arpeggio.PTNodeVisitor):
         else:
             raise NotImplementedError("visit_expression, len>2")
 
+
     # OneOrMore(single_expr)
     def visit_sequence(self, node, children) -> peg.Sequence:
         logger.debug(f'visit_sequence::{self._logstr_node_children(node, children)}')
@@ -105,7 +112,7 @@ class PegVisitor(arpeggio.PTNodeVisitor):
 
 
     def visit_rules(self, node, children):
-        logger.debug(f'visit_rules:: >>{node}<< #children={len(children)}')
+        logger.debug('visit_rules::' + self._logstr_node_children(node, children))
         return peg.Rules(children=children[:], parse_tree=node)
 
 
@@ -114,3 +121,14 @@ class PegVisitor(arpeggio.PTNodeVisitor):
         assert len(children) == 1
         logger.debug(f'visit_peg_grammar:: >>{node}<< #children={len(children)} ; rules={rules}:{type(rules)}')
         return peg.Grammar(rules=rules, parse_tree=node)
+
+
+    def visit_setting_name(self, node, children):
+        return peg.ID(name=str(node), parse_tree=node)
+
+    def visit_number(self, node, children):
+        return peg.Number(value=str(node), parse_tree=node)
+
+    def visit_setting(self, node, children):
+        logger.debug('visit_setting::' + self._logstr_node_children(node, children))
+        return peg.Setting(name=children[0], value=children[1] , parse_tree=node)

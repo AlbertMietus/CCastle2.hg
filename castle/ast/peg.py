@@ -62,6 +62,9 @@ class MixIn_children_tuple:
 class Terminal(MixIn_value_attribute, PEG): pass                        # abstract
 class StrTerm(Terminal): pass
 class RegExpTerm(Terminal): pass
+class Number(Terminal):                                            # Value is stored as a string
+    def __str__(self):                                             # mostly for debugging
+        return f'<"{self.value}">'
 
 class Markers(PEG): pass                                                # abstract
 class EOF(Markers): pass                                                # XXX Todo ## singleton?
@@ -81,6 +84,7 @@ class Setting(PEG):
         self.value = value
 
 class Settings(MixIn_children_tuple, PEG): pass
+
 
 
 class Rule(NonTerminal):
@@ -146,3 +150,4 @@ class OneOrMore(Quantity):pass
 class Predicate(MixIn_expr_attribute, Expression): pass                 # abstract
 class AndPredicate(Predicate): pass
 class NotPredicate(Predicate): pass
+
