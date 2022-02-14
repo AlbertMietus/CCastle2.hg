@@ -83,9 +83,6 @@ class Setting(PEG):
         self.name = name
         self.value = value
 
-class Settings(MixIn_children_tuple, PEG): pass
-
-
 
 class Rule(NonTerminal):
     def __init__(self, *,
@@ -99,13 +96,14 @@ class Rule(NonTerminal):
         self.name = name
         self.expr = expr
 
-
-class Rules(MixIn_children_tuple, PEG): pass
+class Rules(MixIn_children_tuple, PEG): pass                            # generic: ParseRules or Settings or Mix
+class ParseRules(Rules): pass
+class Settings(Rules): pass
 
 
 class Grammar(NonTerminal):
     def __init__(self, *,
-                 rules: Rules=None,
+                 rules: ParseRules=None,
                  settings: Settings=None,
                  **kwargs):
         logger.debug(f'{self._typeName(self)}:: rules={rules}; settings={settings}, kwargs={kwargs}')

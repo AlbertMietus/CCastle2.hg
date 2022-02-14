@@ -111,17 +111,17 @@ class PegVisitor(arpeggio.PTNodeVisitor):
             raise  NotImplementedError("visit_predicate, len!=2")      # -- Is this possible?
 
 
-    def visit_rules(self, node, children):
+    def visit_rules(self, node, children):                              # Mix of `ParseRule`(s)`Setting`(s) ; will be sorted out n `Grammar`
         logger.debug('visit_rules::' + self._logstr_node_children(node, children))
-        parse_rules = peg.Rules(children=[r for r in children if isinstance(r, peg.Rule)] )
-        settings = peg.Settings(children=[r for r in children if isinstance(r, peg.Setting)] )
-        assert len(children) == len(parse_rules) + len(settings), f'Number of parse_rules ({len(parse_rules)}) and settings ({len(settings)}), does not match total: {len(children)}'
-        return (parse_rules, settings) # XXX not an AST! XXX
+        return peg.Rules(children=children[:], parse_tree=node)
 
 
-    def visit_peg_grammar(self, node, children): # No support for settings XXX
-        logger.debug('visit_peg_grammar::' + self._logstr_node_children(node, children))
-        parse_rules, settings = children[0] #unpack the tuple of above
+    def visit_peg_grammar(self, node, children):
+        rules=children[0]
+        logger.debug('visit_peg_grammar::' + self._logstr_node_children(node, children) + f'rules:: {rules}')
+        parse_rules = peg.ParseRules(children=[r for r in rules if isinstance(r, peg.Rule)] )
+        settings      = peg.Settings(children=[r for r in rules if isinstance(r, peg.Setting)] )
+        assert len(rules) == len(parse_rules) + len(settings), f'Number of parse_rules ({len(parse_rules)}) and settings ({len(settings)}), does not match total: {len(rules)}'
         return peg.Grammar(rules=parse_rules, settings=settings, parse_tree=node)
 
 
