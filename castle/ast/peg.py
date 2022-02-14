@@ -108,7 +108,7 @@ class Grammar(NonTerminal):
                  rules: Rules=None,
                  settings: Settings=None,
                  **kwargs):
-        logger.debug(f'{self._typeName(self)}:: kwargs={kwargs}')
+        logger.debug(f'{self._typeName(self)}:: rules={rules}; settings={settings}, kwargs={kwargs}')
         super().__init__(**kwargs)
         self.rules = rules
         self.settings = settings

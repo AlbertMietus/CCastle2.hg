@@ -24,7 +24,7 @@ class PredicateError(ValueError): pass
 #NO_VISITOR_NEEDED: visit_float_lit		-- handled in visit_number
 #NO_VISITOR_NEEDED: visit_int_lit		-- handled in visit_number
 #NO_VISITOR_NEEDED: visit_value
-#NO_VISITOR_NEEDED: visit_setting_xref
+
 
 
 class PegVisitor(arpeggio.PTNodeVisitor):
@@ -113,14 +113,16 @@ class PegVisitor(arpeggio.PTNodeVisitor):
 
     def visit_rules(self, node, children):
         logger.debug('visit_rules::' + self._logstr_node_children(node, children))
-        return peg.Rules(children=children[:], parse_tree=node)
+        parse_rules = peg.Rules(children=[r for r in children if isinstance(r, peg.Rule)] )
+        settings = peg.Settings(children=[r for r in children if isinstance(r, peg.Setting)] )
+        assert len(children) == len(parse_rules) + len(settings), f'Number of parse_rules ({len(parse_rules)}) and settings ({len(settings)}), does not match total: {len(children)}'
+        return (parse_rules, settings) # XXX not an AST! XXX
 
 
     def visit_peg_grammar(self, node, children): # No support for settings XXX
-        rules=children[0]
-        assert len(children) == 1
-        logger.debug(f'visit_peg_grammar:: >>{node}<< #children={len(children)} ; rules={rules}:{type(rules)}')
-        return peg.Grammar(rules=rules, parse_tree=node)
+        logger.debug('visit_peg_grammar::' + self._logstr_node_children(node, children))
+        parse_rules, settings = children[0] #unpack the tuple of above
+        return peg.Grammar(rules=parse_rules, settings=settings, parse_tree=node)
 
 
     def visit_setting_name(self, node, children):
@@ -128,6 +130,9 @@ class PegVisitor(arpeggio.PTNodeVisitor):
 
     def visit_number(self, node, children):
         return peg.Number(value=str(node), parse_tree=node)
+
+    def visit_setting_xref(self, node, children):
+        return peg.ID(name=str(node), parse_tree=node)
 
     def visit_setting(self, node, children):
         logger.debug('visit_setting::' + self._logstr_node_children(node, children))

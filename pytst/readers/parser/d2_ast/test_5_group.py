@@ -4,7 +4,7 @@ import logging; logger = logging.getLogger(__name__)
 from castle.readers.parser import grammar
 from castle.ast import peg
 
-from . import parse, assert_ID, precondition_Rule, assert_Seq
+from . import parse, assert_ID, assert_ParseRule, assert_Seq
 
 
 def assert_Group(grp, length=1, groupType=peg.Sequence, ids=None):
@@ -18,7 +18,7 @@ def test_simple_group():
     txt = "R <- ( A B ) ;"
 
     ast = parse(txt, grammar.parse_rule)
-    precondition_Rule(ast, 'R')
+    assert_ParseRule(ast, 'R')
 
     grp = ast.expr
     assert_Group(grp, ids=('A', 'B'))
@@ -28,7 +28,7 @@ def test_nested_group():
     txt = "R <- ( (  A B ) ) ;"
 
     ast = parse(txt, grammar.parse_rule)
-    precondition_Rule(ast, 'R')
+    assert_ParseRule(ast, 'R')
 
     grp = ast.expr
     assert_Group(grp)
@@ -41,7 +41,7 @@ def test_unordered_group():
     txt = "R <- ( A B )# ;"
 
     ast = parse(txt, grammar.parse_rule)
-    precondition_Rule(ast, 'R')
+    assert_ParseRule(ast, 'R')
 
     grp = ast.expr
     assert_Group(grp, groupType=peg.UnorderedGroup)

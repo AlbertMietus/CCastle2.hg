@@ -43,12 +43,14 @@ def assert_Seq(ast, length=None, ids=None):
             assert_ID(ast[i], name)
 
 
-def assert_Rule(ast, rune_name=None):
+def assert_ParseRule(ast, rule_name=None):
     assert isinstance(ast, peg.Rule), 	"It should be an Rule"
-    if rune_name:
-        assert_ID(ast.name, rune_name)
-precondition_Rule = assert_Rule
+    if rule_name:  assert_ID(ast.name, rule_name)
 
+def assert_Rule(ast, rule_name=None):
+    assert isinstance(ast, (peg.Rule, peg.Setting))
+    if isinstance(ast, peg.Rule): assert_ParseRule(ast, rule_name)
+    if isinstance(ast, peg.Setting): assert_Setting(ast, rule_name)
 
 def precondition_Expressions(expr, *, type=peg.Sequence, length=None):
     assert isinstance(expr, type), "PreCondition failed"
@@ -62,10 +64,20 @@ def assert_PEG(ast, *, no_of_rules=None, no_of_settings=None):
     rules = ast.rules
     assert isinstance(rules, peg.Rules)
     if no_of_rules:
-        assert len(rules) == no_of_rules, "We expect the same number as Rules as lines"
+        assert len(rules) == no_of_rules, f"The number of (parse_)rules ({len(rules)}) does not match the spec: {no_of_rules}"
 
     settings = ast.settings
-    assert isinstance(settings, (type(None), peg.Settings))
-    if no_of_settings:
+    if settings:
         assert isinstance(settings, peg.Settings)
-        len(settings) == no_of_settings
+    if no_of_settings:
+        assert len(settings) == no_of_settings, f"The number of settings ({len(settings)}) does not match the spec: {no_of_settings}"
+
+
+def assert_Setting(ast, pegType=None, name=None, value=None):
+    assert isinstance(ast, peg.Setting)
+    assert isinstance(ast.name, peg.ID)
+    assert isinstance(ast.value, (peg.StrTerm, peg.RegExpTerm, peg.Number, peg.ID)), f'Unexpected Type for ast.value: {type(ast.value)}'
+
+    if pegType: assert isinstance(ast.value, pegType)
+    if name:    assert ast.name.name == name
+    if value:   assert ast.value.value == value

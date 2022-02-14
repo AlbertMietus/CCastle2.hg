@@ -4,7 +4,7 @@ import logging; logger = logging.getLogger(__name__)
 from castle.readers.parser import grammar
 from castle.ast import peg
 
-from . import parse, assert_ID, assert_Seq, assert_Rule
+from . import parse, assert_ID, assert_Seq, assert_ParseRule
 
 
 def test_trivial_rule_with_2IDS():
@@ -13,7 +13,7 @@ def test_trivial_rule_with_2IDS():
     txt="trivial <- cross ;"
     ast = parse(txt, grammar.parse_rule)
 
-    assert_Rule(ast, rune_name=txt.split()[0])                # The name of a rule is a ID with the left-side ID as name
+    assert_ParseRule(ast, rule_name=txt.split()[0])                # The name of a rule is a ID with the left-side ID as name
 
     expr = ast.expr
     assert_Seq(expr, length=1)
@@ -24,7 +24,7 @@ def test_rule_with_ID_and_terms():
     txt = """aRule <- 'aStr' aCross /regexp/ ;"""
     ast = parse(txt, grammar.parse_rule)
 
-    assert_Rule(ast, rune_name=txt.split()[0])
+    assert_ParseRule(ast, rule_name=txt.split()[0])
 
     expr = ast.expr;
     assert_Seq(expr, length=3)
