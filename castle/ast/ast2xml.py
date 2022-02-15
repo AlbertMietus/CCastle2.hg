@@ -57,9 +57,9 @@ class XML_Serialize(serialization.Serialize):
     def RegExpTerm2xml(self, ast, parent):  self._MixIn_value_attribute2xml(ast, parent, 'RegExpTerm')
 
     def Sequence2xml(self, ast, parent) ->None:
-        logger.debug(f"Sequence2xml::ast={ast._valType(ast.value)}")
+        logger.debug(f"Sequence2xml::ast={ast._valType(ast._children)}")
         seq = ET.SubElement(parent, 'Sequence')
-        for elm in ast.value:
+        for elm in ast:
             self._ast2xml(elm, parent=seq)
 
     def Rule2xml(self, ast, parent) ->None:

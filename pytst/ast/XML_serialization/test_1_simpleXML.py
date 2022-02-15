@@ -30,7 +30,7 @@ def test_RegExpTerm(xml_serialize):
 
 def test_Sequence_1(xml_serialize):
     e1 = peg.ID(name='ID_1')
-    txt= xml_serialize(peg.Sequence(value=[e1]))
+    txt= xml_serialize(peg.Sequence(children=[e1]))
     logger.debug(f'XML:: {txt}')
     assert_xml_Element(txt, tag='Sequence')
     assert_xml_Element(txt, tag='.//ID', name='ID_1')
@@ -48,7 +48,7 @@ def test_Sequence_3(xml_serialize):
 def test_Rule_1ID(xml_serialize):
     rule_name = "RuleName"
     xref = "cross_ref"
-    expr = peg.Sequence(value=[peg.ID(name=xref)])
+    expr = peg.Sequence(children=[peg.ID(name=xref)])
 
     txt = xml_serialize(peg.Rule(name=peg.ID(name=rule_name), expr=expr))
     logger.debug(f'XML:: {txt}')
@@ -69,8 +69,8 @@ def test_Rule_Sequence(xml_serialize):
 
 
 def test_Rules(xml_serialize):
-    r1 = peg.Rule(name=peg.ID(name='rule_1'), expr=peg.Sequence(value=[peg.ID(name='id1')]))
-    r2 = peg.Rule(name=peg.ID(name='rule_2'), expr=peg.Sequence(value=[peg.StrTerm(value='str2')]))
+    r1 = peg.Rule(name=peg.ID(name='rule_1'), expr=peg.Sequence(children=[peg.ID(name='id1')]))
+    r2 = peg.Rule(name=peg.ID(name='rule_2'), expr=peg.Sequence(children=[peg.StrTerm(value='str2')]))
 
     txt = xml_serialize(peg.Rules(children=[r1,r2]))
     logger.debug(f'XML:: {txt}')
