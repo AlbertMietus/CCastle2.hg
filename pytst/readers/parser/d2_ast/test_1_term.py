@@ -55,5 +55,5 @@ def test_term_as_expression():                                         # A term 
     ast = parse(txt, grammar.expression)
     # result is same a above
     assert isinstance(ast, peg.Expression),	"A (str)term is also an Expression"
-    assert len(ast.value) == 1,			"An expression with length==1"
-    assert ast.value[0].value == txt[1:-1], 	"It's correct value should be without quotes"
+    assert len(ast) == 1,			"with a lengt of 1 -- note: use: ``len(sequence)`` not ``len(sequence._children)``!!"
+    assert ast[0].value == txt[1:-1], 	        "It's correct value should be without quotes"

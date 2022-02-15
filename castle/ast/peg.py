@@ -125,15 +125,14 @@ class Quantity(MixIn_expr_attribute, Expression):                               
     """An expression with Quantification; like optional, or repetition. The subclasses defines which Quantification"""
 
 
-class Sequence(MixIn_value_attribute, Expression):
-    """A _list_ of expressions; can be of length=1"""
-    # __init__ (see MixIn) sets self._value; assuming it is a list
-
-    def __len__(self):       	return len(self._value)
-    def __getitem__(self, n):	return self._value[n]
+#class Sequence(MixIn_value_attribute, Expression):
+class Sequence(MixIn_children_tuple, Expression):
+    """A sequence of expressions; can be of length=1"""
+    # __init__ (see MixIn) sets self._childeren; assuming it is a list
 
     def __str__(self): # mostly for debugging
-        return "Seq{{" + " ; ".join(f"{c}" for c in self._value) + "}}" # XXX ToDo: _value -> children
+        return "Seq{{" + " ; ".join(f"{c}" for c in self) + "}}"
+
 
 class OrderedChoice(MixIn_children_tuple, Expression):                  # A | B | C | ...  the order is relevant
     """OC: A _tuple_ of alternative expressions"""

@@ -91,7 +91,7 @@ class PegVisitor(arpeggio.PTNodeVisitor):
     # OneOrMore(single_expr)
     def visit_sequence(self, node, children) -> peg.Sequence:
         logger.debug(f'visit_sequence::{self._logstr_node_children(node, children)}')
-        return peg.Sequence(value=children, parse_tree=node)
+        return peg.Sequence(children=children, parse_tree=node)
 
 
     def visit_predicate(self, node, children):
