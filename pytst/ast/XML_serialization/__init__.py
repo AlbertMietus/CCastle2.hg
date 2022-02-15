@@ -12,7 +12,7 @@ class StdSequence_withAsserts:
         e1 = peg.ID(name=self.n1)
         e2 = peg.StrTerm(value=self.v2)
         e3 = peg.RegExpTerm(value=self.v3)
-        self.seq = peg.Sequence(value=[e1, e2, e3])
+        self.seq = peg.Sequence(children=[e1, e2, e3])
     def assert_xml_Element(self, txt):
         assert_xml_Element(txt, tag='.//Sequence')
         assert_xml_Element(txt, tag='.//ID', name=self.n1)

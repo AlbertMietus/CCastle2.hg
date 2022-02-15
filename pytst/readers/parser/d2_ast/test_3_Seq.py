@@ -25,16 +25,14 @@ def test_seq_of_two_is_NOT_a_single_expression():
 def test_seq_of_two_as_expression():
     txt = "A B"
     ast = parse(txt, grammar.expression)
+    logger.debug(f'seq2expr:: ast={ast}:{type(ast).__name__}')
+    assert_Seq(ast, length=2, ids=('A', 'B'))
 
-    assert_Seq(ast, 2, ids=('A', 'B'))
-    assert isinstance(ast.value, list),		"It will be an `arpeggio.SemanticActionResult` which is a subclass of list"
 
 def test_seq_of_three_as_expression():
     txt = "A B C"
     ast = parse(txt, grammar.expression)
-
-    assert_Seq(ast, 3, ids=('A', 'B', 'C'))
-    assert isinstance(ast.value, list),		"It will be an `arpeggio.SemanticActionResult` which is a subclass of list"
+    assert_Seq(ast, length=3, ids=('A', 'B', 'C'))
 
 
 def test_seq_of_three_with_quantification():

@@ -16,10 +16,10 @@ demo: pytest-demo python-demo
 
 python-demo:
 	@echo Running all 'dem*.py' python-files
-	for d in `find demos -type f -iname \*.py `; do echo "=== $$d ==="; python $$d; echo "=========="; done
+	export PYTHONPATH=`pwd`; for d in `find demos -type f -iname \*.py `; do echo "=== $$d ==="; python $$d; echo "=========="; done
 
 pytest-demo:
-	pytest -s demos
+	PYTHONPATH=`pwd` pytest -s demos
 
 
 missing_visitor: castle/readers/parser/grammar.py

@@ -44,13 +44,13 @@ class MixIn_children_tuple:
         logger.debug(f'{self._typeName(self)}.MixIn_children_tuple:: children[{len(children)}]:=' +
                      ('[[' +', '.join(f'{c}:{type(c).__name__}' for c in children) + ']]') if isinstance(children, list) else f's>>{children}<<')
         super().__init__(**kwargs)
-        self._childeren = tuple(children)
+        self._children = tuple(children)
 
     def __len__(self):
-        return len(self._childeren)
+        return len(self._children)
     def __getitem__(self, key):
-        return self._childeren[key]
-    def __iter__(self): return self._childeren.__iter__()
+        return self._children[key]
+    def __iter__(self): return self._children.__iter__()
 
 
 ##
@@ -125,21 +125,20 @@ class Quantity(MixIn_expr_attribute, Expression):                               
     """An expression with Quantification; like optional, or repetition. The subclasses defines which Quantification"""
 
 
-class Sequence(MixIn_value_attribute, Expression):
-    """A _list_ of expressions; can be of length=1"""
-    # __init__ (see MixIn) sets self._value; assuming it is a list
-
-    def __len__(self):       	return len(self._value)
-    def __getitem__(self, n):	return self._value[n]
+#class Sequence(MixIn_value_attribute, Expression):
+class Sequence(MixIn_children_tuple, Expression):
+    """A sequence of expressions; can be of length=1"""
+    # __init__ (see MixIn) sets self._children; assuming it is a list
 
     def __str__(self): # mostly for debugging
-        return "Seq{{" + " ; ".join(f"{c}" for c in self._value) + "}}" # XXX ToDo: _value -> children
+        return "Seq{{" + " ; ".join(f"{c}" for c in self) + "}}"
+
 
 class OrderedChoice(MixIn_children_tuple, Expression):                  # A | B | C | ...  the order is relevant
     """OC: A _tuple_ of alternative expressions"""
 
     def __str__(self): # mostly for debugging
-        return "OC{{" + " | ".join(f"{c}" for c in self._childeren) + "}}"
+        return "OC{{" + " | ".join(f"{c}" for c in self._children) + "}}"
 
 class Optional(Quantity):pass
 class ZeroOrMore(Quantity):pass

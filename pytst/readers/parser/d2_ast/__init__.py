@@ -35,7 +35,7 @@ precondition_ID = assert_ID                                             # It's n
 
 def assert_Seq(ast, length=None, ids=None):
     assert isinstance(ast, peg.Sequence)
-    assert isinstance(ast, peg.Expression),	"A sequence is aslo an Expression()"
+    assert isinstance(ast, peg.Expression),	"A sequence is also an Expression()"
     if length:
         assert len(ast) == length,  		f" ... of specified length=={length}"
     if ids:
