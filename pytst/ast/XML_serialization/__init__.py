@@ -20,7 +20,7 @@ class StdSequence_withAsserts:
         assert_xml_Element(txt, tag='.//RegExpTerm', value=self.v3)
 
 
-def assert_xml_Element(txt, tag, version="0.0", child_count=None, **attribs):
+def assert_xml_Element(txt, tag, version="0.0", child_count=None, text=None, **attribs):
     """Partially verify an xml-string; focusing on 'tag' -- a real tag, or a (limited) XPATH-expression.
 
     This `tag` (expression) should result in a single hit!. *Use e.g `[0]` as suffix to select one from a list*.
@@ -36,6 +36,9 @@ def assert_xml_Element(txt, tag, version="0.0", child_count=None, **attribs):
     assert len(founds) == 1, f"Expected only one element; got: {len(founds)} :{founds}"
 
     found = founds[0]
+
+    if text:
+        assert found.text == text, f"The found text-value '{found.text}' does not match the specified one: '{text}'"
 
     for attrib, value in attribs.items():
         assert found.attrib[attrib] == value

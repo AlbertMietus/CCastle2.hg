@@ -96,6 +96,13 @@ class XML_Serialize(serialization.Serialize):
     def AndPredicate2xml(self, ast, parent): self._Predicate2xml(ast, parent,'AndPredicate')
     def NotPredicate2xml(self, ast, parent): self._Predicate2xml(ast, parent,'NotPredicate')
 
+
+    def Number2xml(self, ast, parent) ->None:
+        logger.debug(f"Number2xml:: ast: {ast}:{type(ast).__name__}")
+        n=ET.SubElement(parent, 'Number')
+        n.text=ast.value
+
+
 #############
 
 ##    def Setting2xml(self, ast, parent) ->None:

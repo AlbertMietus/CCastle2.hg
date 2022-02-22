@@ -118,3 +118,14 @@ def verify_Predicate(xml_serialize, pegPredicate, tagName):
 
 def test_AndPredicate(xml_serialize): verify_Predicate(xml_serialize, peg.AndPredicate, 'AndPredicate')
 def test_NotPredicate(xml_serialize): verify_Predicate(xml_serialize, peg.NotPredicate, 'NotPredicate')
+
+
+def verify_setting_Number(xml_serialize, number):
+    txt = xml_serialize(peg.Number(value=number))
+    logger.debug(f'XML:: {txt}')
+    assert_xml_Element(txt, tag='Number', text=number)
+
+def test_setting_Number_int(xml_serialize):		verify_setting_Number(xml_serialize, '42')
+def test_setting_Number_float(xml_serialize):		verify_setting_Number(xml_serialize, '3.14')
+def test_setting_Number_complex1(xml_serialize):	verify_setting_Number(xml_serialize, '-1+j1')
+def test_setting_Number_complex2(xml_serialize):	verify_setting_Number(xml_serialize, '+1-i1')
