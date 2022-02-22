@@ -47,6 +47,8 @@ class XML_Serialize(serialization.Serialize):
 #NO_VISITOR_NEEDED: Markers2xml				## Pure Abstract
 #NO_VISITOR_NEEDED: Quantity2xml			## Pure Abstract
 #NO_VISITOR_NEEDED: EOF2xml				## Not a real token
+#NO_VISITOR_NEEDED: ParseRules2xml			## Handle in Rules2xml
+#NO_VISITOR_NEEDED: Settings2xml			## Handle in Rules2xml
 
 
     def _MixIn_value_attribute2xml(self, ast, parent, cls_name):
