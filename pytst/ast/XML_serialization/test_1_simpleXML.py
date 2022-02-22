@@ -30,7 +30,7 @@ def test_RegExpTerm(xml_serialize):
 
 def test_Sequence_1(xml_serialize):
     e1 = peg.ID(name='ID_1')
-    txt= xml_serialize(peg.Sequence(children=[e1]))
+    txt = xml_serialize(peg.Sequence(children=[e1]))
     logger.debug(f'XML:: {txt}')
     assert_xml_Element(txt, tag='Sequence')
     assert_xml_Element(txt, tag='.//ID', name='ID_1')
@@ -38,7 +38,7 @@ def test_Sequence_1(xml_serialize):
 
 def test_Sequence_3(xml_serialize):
     seq = StdSequence_withAsserts()
-    txt= xml_serialize(seq.seq)
+    txt = xml_serialize(seq.seq)
     logger.debug(f'XML:: {txt}')
 
     assert_xml_Element(txt, tag='Sequence')
@@ -111,7 +111,7 @@ def test_OC_long(xml_serialize): # e1 | e2a e2b e2c
     assert_xml_Element(txt, tag='OrderedChoice', child_count=2)
 
 def verify_Predicate(xml_serialize, pegPredicate, tagName):
-    txt= xml_serialize(pegPredicate(expr=peg.ID(name="PartOfSomePredicate")))
+    txt = xml_serialize(pegPredicate(expr=peg.ID(name="PartOfSomePredicate")))
     logger.debug(f'XML:: {txt}')
 
     assert_xml_Element(txt, tag=tagName, child_count=1)
@@ -130,3 +130,34 @@ def test_setting_NumVal_float(xml_serialize):		verify_setting_NumVal(xml_seriali
 def test_setting_NumVal_complex1(xml_serialize):	verify_setting_NumVal(xml_serialize, '-1+j1')
 def test_setting_NumVal_complex2(xml_serialize):	verify_setting_NumVal(xml_serialize, '+1-i1')
 
+
+def verify_Number_setting(xml_serialize, name, value, pegVal=peg.Number):
+    txt = xml_serialize(peg.Setting(name=peg.ID(name=name), value=pegVal(value=value)))
+    logger.debug(f'XML:: {txt}')
+
+    assert_xml_Element(txt, tag='.//Setting/ID', name=name)
+    assert_xml_Element(txt, tag='.//Setting/Number', text=value)
+
+def test_setting_int(xml_serialize):		verify_Number_setting(xml_serialize, name='anInt', value='42')
+def test_setting_float(xml_serialize):		verify_Number_setting(xml_serialize, name='anInt', value='3.14')
+def test_setting_complex(xml_serialize):	verify_Number_setting(xml_serialize, name='anInt', value='1+j1')
+
+
+def verify_txt_setting(xml_serialize, name, pegTxt, value, tag):
+    txt = xml_serialize(peg.Setting(name=peg.ID(name=name), value=pegTxt(value=value)))
+    logger.debug(f'XML:: {txt}')
+
+    assert_xml_Element(txt, tag='.//Setting/ID', name=name)
+    assert_xml_Element(txt, tag=f'.//Setting/{tag}', value=value)
+
+def test_setting_StrTerm(xml_serialize):	verify_txt_setting(xml_serialize, name='string', pegTxt=peg.StrTerm, value='StrVal', tag='StrTerm')
+def test_setting_RegExTerm(xml_serialize):	verify_txt_setting(xml_serialize, name='regexp', pegTxt=peg.RegExpTerm, value='/RegExp/', tag='RegExpTerm')
+
+
+def test_setting_XID(xml_serialize):
+    name, xref = 'SetTo', 'anOtherID'
+    txt = xml_serialize(peg.Setting(name=peg.ID(name=name), value=peg.ID(name=xref)))
+    logger.debug(f'XML:: {txt}')
+
+    assert_xml_Element(txt, tag='.//Setting/ID[1]', name=name)
+    assert_xml_Element(txt, tag='.//Setting/ID[2]', name=xref)

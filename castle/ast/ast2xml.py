@@ -99,13 +99,21 @@ class XML_Serialize(serialization.Serialize):
 
     def Number2xml(self, ast, parent) ->None:
         logger.debug(f"Number2xml:: ast: {ast}:{type(ast).__name__}")
-        n=ET.SubElement(parent, 'Number')
+        n = ET.SubElement(parent, 'Number')
         n.text=ast.value
+
+
+    def Setting2xml(self, ast, parent) ->None:
+        logger.debug(f"Setting2xml:: ast: {ast}:{type(ast).__name__}")
+        setting = ET.SubElement(parent, 'Setting')
+        self._ast2xml(ast.name, setting)
+        self._ast2xml(ast.value, setting)
+
 
 
 #############
 
-##    def Setting2xml(self, ast, parent) ->None:
+
 ##        logger.debug(f"Setting2xml:: ast[{len(ast)}]")
 ##        ET.SubElement(parent, 'Setting', name=ast.name, value=ast.value)
 

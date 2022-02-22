@@ -41,7 +41,7 @@ def assert_xml_Element(txt, tag, version="0.0", child_count=None, text=None, **a
         assert found.text == text, f"The found text-value '{found.text}' does not match the specified one: '{text}'"
 
     for attrib, value in attribs.items():
-        assert found.attrib[attrib] == value
+        assert found.attrib[attrib] == value, f"The attrib >>{attrib}<< has value: >>{found.attrib[attrib]}<<, not the specified one: {value}"
 
     if child_count:
         assert len(found) == child_count, f"The number of children of '{tag}' is {len(found)}, which does not match the specified child_count={child_count}"
