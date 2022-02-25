@@ -45,21 +45,3 @@ def assert_xml_Element(txt, tag, version="0.0", child_count=None, text=None, **a
 
     if child_count:
         assert len(found) == child_count, f"The number of children of '{tag}' is {len(found)}, which does not match the specified child_count={child_count}"
-
-
-
-def verify_QuantityGroup(xml_serialize, pegGrp, tagName):
-    seq = StdSequence_withAsserts()
-    txt = xml_serialize(pegGrp(expr=seq.seq))
-    logger.debug(f'XML:: {txt}')
-
-    assert_xml_Element(txt, tagName)
-    seq.assert_xml_Element(txt)
-
-
-def verify_QuantityID(xml_serialize, pegGrp, tagName, id_name='JustAName'):
-    txt = xml_serialize(pegGrp(expr=peg.ID(name=id_name)))
-    logger.debug(f'XML:: {txt}')
-
-    assert_xml_Element(txt, tagName)
-    assert_xml_Element(txt, tag='.//ID', name=id_name)

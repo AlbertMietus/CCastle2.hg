@@ -4,7 +4,7 @@ import logging; logger = logging.getLogger(__name__)
 
 from castle.ast import  peg, serialization
 
-from . import StdSequence_withAsserts, assert_xml_Element, verify_QuantityGroup, verify_QuantityID
+from . import StdSequence_withAsserts, assert_xml_Element
 
 
 @pytest.fixture
@@ -84,15 +84,33 @@ def test_ParseRules(xml_serialize):
     assert  tree.findall('.//Rule[2]//StrTerm')[0].attrib['value'] == 'str2'
 
 
+
+def verify_QuantityGroup(xml_serialize, pegGrp, tagName):
+    seq = StdSequence_withAsserts()
+    txt = xml_serialize(pegGrp(expr=seq.seq))
+    logger.debug(f'XML:: {txt}')
+
+    assert_xml_Element(txt, tagName)
+    seq.assert_xml_Element(txt)
+
 def test_OptionalSeq(xml_serialize):    verify_QuantityGroup(xml_serialize, peg.Optional, 'Optional')  			##  ` ( ...)? `
 def test_ZeroOrMoreSeq(xml_serialize):  verify_QuantityGroup(xml_serialize, peg.ZeroOrMore, 'ZeroOrMore')		##  ` ( ...)* `
 def test_OneOrMoreSeq(xml_serialize):   verify_QuantityGroup(xml_serialize, peg.OneOrMore, 'OneOrMore')			##  ` ( ...)+ `
 def test_UnorderedGroup(xml_serialize): verify_QuantityGroup(xml_serialize, peg.UnorderedGroup, 'UnorderedGroup')  	##  ` ( ...)# ` # Only useful for a group/sequence!!
 
+
+def verify_QuantityID(xml_serialize, pegGrp, tagName, id_name='JustAName'):
+    txt = xml_serialize(pegGrp(expr=peg.ID(name=id_name)))
+    logger.debug(f'XML:: {txt}')
+
+    assert_xml_Element(txt, tagName)
+    assert_xml_Element(txt, tag='.//ID', name=id_name)
+
 def test_OptionalID(xml_serialize):    verify_QuantityID(xml_serialize, peg.Optional, 'Optional')
 def test_ZeroOrMoreID(xml_serialize):  verify_QuantityID(xml_serialize, peg.ZeroOrMore, 'ZeroOrMore')
 def test_OneOrMoreID(xml_serialize):   verify_QuantityID(xml_serialize, peg.OneOrMore, 'OneOrMore')
 def test_UnorderedID(xml_serialize):   verify_QuantityID(xml_serialize, peg.UnorderedGroup, 'UnorderedGroup', 'strange') ## A bit uncommon: an unordered group of ONE! But it should work.
+
 
 
 def test_OC3(xml_serialize): # e1 | e2 | e2
@@ -178,3 +196,6 @@ def test_Settings(xml_serialize):
     assert len(tree.findall('.//Setting')) == 2
     assert len(tree.findall('.//ID')) == 2
 
+
+
+    
