@@ -111,21 +111,7 @@ class XML_Serialize(serialization.Serialize):
         self._ast2xml(ast.name, setting)
         self._ast2xml(ast.value, setting)
 
-
-
-#############
-
-
-##        logger.debug(f"Setting2xml:: ast[{len(ast)}]")
-##        ET.SubElement(parent, 'Setting', name=ast.name, value=ast.value)
-
-##    def Settings2xml(self, ast, parent) ->None: ...
-#    def Grammar2xml(self, ast, parent) ->None: ...
-
-
-
-
-
-#    def NotPredicate2xml(self, ast, parent) ->None: ...
-
+    def Grammar2xml(self, ast, parent) ->None:
+        g = ET.SubElement(parent, 'Grammar', no_parse_rules=str(len(ast.parse_rules)), no_settings=str(len(ast.settings)))
+        self._ast2xml(ast._all_rules, g)
 

@@ -61,7 +61,7 @@ def precondition_Expressions(expr, *, type=peg.Sequence, length=None):
 def assert_PEG(ast, *, no_of_rules=None, no_of_settings=None):
     assert isinstance(ast, peg.Grammar)
 
-    rules = ast.rules
+    rules = ast.parse_rules
     assert isinstance(rules, peg.Rules)
     if no_of_rules:
         assert len(rules) == no_of_rules, f"The number of (parse_)rules ({len(rules)}) does not match the spec: {no_of_rules}"

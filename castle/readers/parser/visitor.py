@@ -117,13 +117,7 @@ class PegVisitor(arpeggio.PTNodeVisitor):
 
 
     def visit_peg_grammar(self, node, children):
-        rules=children[0]
-        logger.debug('visit_peg_grammar::' + self._logstr_node_children(node, children) + f'rules:: {rules}')
-        parse_rules = peg.ParseRules( children=[r for r in rules if isinstance(r, peg.Rule)] )
-        settings    = peg.Settings(   children=[r for r in rules if isinstance(r, peg.Setting)] )
-        assert len(rules) == len(parse_rules) + len(settings), f'Number of parse_rules ({len(parse_rules)}) and settings ({len(settings)}), does not match total: {len(rules)}'
-        return peg.Grammar(rules=parse_rules, settings=settings, parse_tree=node)
-
+        return peg.Grammar(all_rules=children[0], parse_tree=node)
 
     def visit_setting_name(self, node, children):
         return peg.ID(name=str(node), parse_tree=node)

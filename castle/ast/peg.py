@@ -2,6 +2,7 @@ import logging; logger = logging.getLogger(__name__)
 
 from ._base import AST_BASE, ID, IDError
 
+import typing
 
 class PEG (AST_BASE):                                                   # abstract
     """Base class of all PEG classes"""
@@ -103,13 +104,13 @@ class Settings(Rules): pass
 
 class Grammar(NonTerminal):
     def __init__(self, *,
-                 rules: ParseRules=None,
-                 settings: Settings=None,
+                 all_rules: typing.Sequence[Rule],
                  **kwargs):
-        logger.debug(f'{self._typeName(self)}:: rules={rules}; settings={settings}, kwargs={kwargs}')
         super().__init__(**kwargs)
-        self.rules = rules
-        self.settings = settings
+        self._all_rules = Rules(children=all_rules) # store `all_rules` in once, to be able to remember the order
+        self.parse_rules  = ParseRules( children=[r for r in self._all_rules if isinstance(r, Rule)] )
+        self.settings = Settings( children=[r for r in self._all_rules if isinstance(r, Setting)] )
+        assert len(all_rules) == len(self.parse_rules) + len(self.settings)
 
 
 class Group(Expression): pass                                           # abstract --  Note: Do not Group for  '(' ...')';  that's a Sequence!!
