@@ -1,8 +1,13 @@
-import logging; logger = logging.getLogger(__name__)
+import pytest
+
+#import logging; logger = logging.getLogger(__name__)
 from xml.etree import ElementTree as ET
 
-from castle.ast import  peg
+from castle.ast import peg, serialization
 
+@pytest.fixture
+def xml_serialize():
+    return serialization.Serialize('xml').serialize
 
 class StdSequence_withAsserts:
     """A class with some terminals and a sequence, and  assert-statements
