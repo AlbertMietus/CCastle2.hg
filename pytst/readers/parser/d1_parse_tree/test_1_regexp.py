@@ -18,6 +18,9 @@ def verify_regex(txt, pattern=None):
     if pattern:
         validate_pattern(parse_tree, pattern=pattern)
 
+    return parse_tree
+
+
 def validate_pattern(parse_tree, pattern):
         for e,T in zip(parse_tree,pattern):
             if T is not None: assert isinstance(e.rule, T), f"{type(e.rule).__name__}  doesn't match {T.__name__}"
@@ -35,6 +38,25 @@ def test_rd2_simple():	verify_regex(r'r"abc"',   pattern=[RE,RE,S])
 
 def test_grammar_re_no_slash(): verify_regex(r"/((\\/)|[^\/])*/")
 def test_grammar_auto_re_no_slash(): verify_regex("/" + grammar.re_no_slash().to_match +"/") # Same as above (unless grammar changes
+
+def test_any2EOL_1():
+    pt = verify_regex("/.*\n/") # NOT raw : \n === newline
+    re = pt[1]
+    assert re == ".*\n"
+
+def test_any2EOL_2():
+    pt = verify_regex("""/.*
+/""") #Explicit newline (in not-raw string
+    re = pt[1]
+    assert re == ".*\n"
+
+def test_any2EOL_3():
+    pt = verify_regex(r"""/.*
+/""") #Explicit newline (in RAW string
+    re = pt[1]
+    assert re == ".*\n"
+
+
 
 
 

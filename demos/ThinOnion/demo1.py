@@ -8,14 +8,6 @@ import arpeggio
 import jinja2
 
 
-def _get_file_dirPath():
-    from pathlib import Path
-    import os
-    path_to_current_test = Path(os.path.realpath(__file__))
-    path_to_current_dir = path_to_current_test.parent
-    return path_to_current_dir
-
-
 class Reader():
 
     def __init__(self, read_dirs: list[str]):

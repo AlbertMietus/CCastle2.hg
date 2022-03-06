@@ -1,4 +1,5 @@
 import pytest
+import logging; logger = logging.getLogger(__name__)
 from pathlib import Path
 import os
 
@@ -9,6 +10,7 @@ def parse_file(filename, dir=Path('..')):
     path_to_current_test = Path(os.path.realpath(__file__))
     path_to_current_dir = path_to_current_test.parent
     with (path_to_current_dir / dir / filename).open() as f:
+        logger.debug(f'Reading file: >>{f.name}<<')
         txt = f.read()
 
     parser = arpeggio.ParserPython(grammar.peg_grammar, grammar.comment, debug=False)

@@ -1,4 +1,5 @@
 import pytest
+import logging; logger = logging.getLogger(__name__)
 
 from castle.readers.parser import grammar
 from castle.ast import peg
@@ -57,3 +58,12 @@ def test_term_as_expression():                                         # A term 
     assert isinstance(ast, peg.Expression),	"A (str)term is also an Expression"
     assert len(ast) == 1,			"with a lengt of 1 -- note: use: ``len(sequence)`` not ``len(sequence._children)``!!"
     assert ast[0].value == txt[1:-1], 	        "It's correct value should be without quotes"
+
+
+def test_any2EOL():
+    txt = "/.*\n/" # NOT raw : \n === newline
+    ast = parse(txt, grammar.term)
+    logger.debug(f"any2EOL_1:: {ast}")
+
+    assert isinstance(ast, peg.RegExpTerm)
+    assert ast.value == ".*\n"

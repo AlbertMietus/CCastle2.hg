@@ -1,42 +1,60 @@
-//This is the PEG version og grammar(2).py
-
-peg_grammar	<-  rules ;
-rules		<-  rule+ ;
-rule		<-  rule_name '<-' expression ';' ;
+peg_grammar	<-  rules EOF ;
+rules		<-  (parse_rule | setting)+ ;
+parse_rule	<-  rule_name '<-' expression ';' ;
 
 expression	<-  sequence op_alternative ;
 sequence        <-  single_expr+ ;
 single_expr	<-  ( rule_crossref | term | group | predicate )  op_quantity ;
 
 op_alternative  <-  ( '|' expression )? ;
-op_quantity     <-  ( '?' | '*' | '+' | '#' )? ;
+op_quantity     <-  ( '?' | '*' | '+' | '/#' )? ;
 
 term		<-  str_term | regex_term ;
 group		<-  '(' expression ')' ;
 predicate	<-   ( '&' | '!' ) single_expr ;
 
-str_term	<- "'"    str_no_s1  "'"
-		|  '"'    str_no_d1  '"'
-		|  "'''"  str_no_s3  "'''"
-		|  '"""'  str_no_d3  '"""'
+str_term	<- S3  str_no_s3  S3
+		|  D3  str_no_d3  D3
+		|  S1  str_no_s1  S1
+		|  D1  str_no_d1  D1
 		;
-regex_term	<- '/'     str_no_slash  '/'
-		|  "r'"    str_no_s1  "'"
-		|  'r"'    str_no_d1  '"'
-		|  "r'''"  str_no_s3  "'''"
-		|  'r"""'  str_no_d3  '"""'
-		|  "R'"    str_no_s1  "'"
-		|  'R"'    str_no_d1  '"'
-		|  "R'''"  str_no_s3  "'''"
-		|  'R"""'  str_no_d3  '"""'
+regex_term	<- RE    re_no_slash  RE
+                |  REs3  str_no_s3     S3
+                |  REd3  str_no_d3     D3
+                |  REs1  str_no_s1     S1
+                |  REd1  str_no_d1     D1
 		;
 
-rule_crossref	<- ID ;
-rule_name	<- ID ;
-ID		<- /[A-Za-z_][A-Za-z0-9_]*/ ;
+rule_name	= ID ;
+rule_crossref	= ID ;
+ID		= /[A-Za-z_][A-Za-z0-9_]*/ ;
 
-str_no_slash	<- /((\\/)|[^\/])*/ ;
-str_no_XXX	<- XXX
-		|  ETC
-		;
+re_no_slash 	=  /((\\/)|[^\/])*/          ;
+str_no_s1	= /((\\')|[^'\n])*/          ;
+str_no_d1	= /((\\")|[^"\n])*/          ;
+str_no_s3	= /([^']|('[^'])|(''[^']))*/ ;
+str_no_d3	= /([^"]|("[^"])|(""[^"]))*/ ;
 
+
+setting		<- setting_name  '=' value ';' ;
+setting_name	=  ID ;
+value           <- str_term | regex_term | number | setting_xref ;
+number		<- complex_lit | float_lit | int_lit ;
+setting_xref	=  ID ;
+complex_lit	<- /[+-]?([0-9](\.[0-9]*)?)[+-][iIjJ]([0-9](\.[0-9]*)?)/ ;
+float_lit	<- /[+-]?[0-9]\.[0-9]+/;
+int_lit		<- /[+-]?[1-9][0-9]*/ ;
+
+S1 = "'" ;
+D1 = '"' ;
+S3 = "'''" ;
+D3 = '"""' ;
+RE   = '/' ;
+REs1 = /[rR]'"/ ;
+REd1 = /[rR]"/ ;
+REs3 = /[rR]'''/ ;
+REd3 = /[rR]"""/ ;
+
+comment		<- comment1 | comment2 ;
+#comment1	<- '#'   /.*\n/        ; // XXX:: Does Not work
+#comment2	<- '//'  /.*\n/        ; # XXX:: Does Not work
