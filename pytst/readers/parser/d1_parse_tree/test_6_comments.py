@@ -18,3 +18,8 @@ def test_comment_slash():
     logging.debug(f"parse_tree {parse_tree} -- no comments!")
     assert True, "When comments (with slashed) are parsed, it's fine"
 
+def test_comment_rule():
+    #OK rule = r"""comment <- ( '#' | '//' ) /.*\n/ ;"""
+
+    rule = """comment <- ( '#' | '//' ) /.*\\n/ ;"""
+    parse_tree = parse(rule, grammar.parse_rule)

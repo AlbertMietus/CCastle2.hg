@@ -55,6 +55,4 @@ REd1 = /[rR]"/ ;
 REs3 = /[rR]'''/ ;
 REd3 = /[rR]"""/ ;
 
-comment		<- comment1 | comment2 ;
-#comment1	<- '#'   /.*\n/        ; // XXX:: Does Not work
-#comment2	<- '//'  /.*\n/        ; # XXX:: Does Not work
+comment		<- ( '#' | '//' ) /.*\n/ ;
