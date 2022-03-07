@@ -7,7 +7,7 @@ sequence        <-  single_expr+ ;
 single_expr	<-  ( rule_crossref | term | group | predicate )  op_quantity ;
 
 op_alternative  <-  ( '|' expression )? ;
-op_quantity     <-  ( '?' | '*' | '+' | '/#' )? ;
+op_quantity     <-  ( '?' | '*' | '+' | '\#' )? ;
 
 term		<-  str_term | regex_term ;
 group		<-  '(' expression ')' ;
