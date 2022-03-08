@@ -1,3 +1,8 @@
+// This in comment
+#  This is comment
+
+## NOTE: DO NOT put comment at the end of the file (see BUGS, XXX)
+
 peg_grammar	<-  rules EOF ;
 rules		<-  (parse_rule | setting)+ ;
 parse_rule	<-  rule_name '<-' expression ';' ;
