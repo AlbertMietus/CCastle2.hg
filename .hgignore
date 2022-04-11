@@ -8,3 +8,5 @@ __pycache__
 demos/ThinOnion/OUT_*
 OUT_*
 
+Design/.*\.svg
+pyreversed/.*\.svg
