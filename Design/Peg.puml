@@ -1,81 +1,140 @@
 @startuml
+
 abstract AST_BASE {
   _parse_tree
-  start()
-  end()
+  position()
+  position_end()
+  serialize()
 }
+
+class ID {
+  name
+  validate_or_raise()
+}
+
+ID  =|> AST_BASE
 
 package Peg #0077ff {
 
 abstract PEG
-AST_BASE <|== PEG
+PEG ==|>   AST_BASE
 
-PEG      <|== NonTerminal
-PEG      <|== Terminal
-PEG      <|== Setting
-PEG      <|..... Markers
-Markers  <|== EOF
-annotation Markers
-annotation EOF
+package MixIns  #Gray {
 
+  class MixIn_value_attribute<MixIn> {
+  _value
+  value()
+  }
+
+  class MixIn_expr_attribute<MixIn> {
+  _expr
+  expr()
+  }
+
+  class MixIn_children_tuple<MixIn> {
+   _children :Tuple
+  __len__()
+  __getitem__()
+  __iter__()
+  }
+}
 
 
 abstract Terminal
-Terminal <|== StrTerm
-Terminal <|== RexExpTerm
+Terminal   ==|> PEG
+Terminal  ---|> MixIn_value_attribute
+StrTerm    ==|> Terminal
+RexExpTerm ==|> Terminal
+Number     ==|> Terminal
+
+abstract Markers #ORANGE
+Markers    ==|> PEG
+annotation EOF #ORANGE
+EOF 	   ==|> Markers
 
 abstract NonTerminal
-NonTerminal  <|== Grammar
-NonTerminal  <|== Rule
-NonTerminal  <|== Expression
-
-class Grammar {
-  rules
-  settings
-}
-Grammar --> "*" Rule : rules
-Grammar --> "*" Setting
-
-class Rule {
- name :ID
- peg_expression
-}
-Rule  -> "*" Expression
+NonTerminal ==|> PEG
+abstract Expression
+Expression  ==|> NonTerminal
 
 class Setting  {
  name  : ID
- value : ...
+ value
 }
+Setting ==|> PEG
+Setting ---> ID
 
-abstract Expression {
- subEexpression Or Terminal
+class Rule {
+  name  :ID
+  expr  :[] Expression
 }
-Expression -->  Terminal
-Expression -->  Expression
+Rule ==|> NonTerminal
+Rule ---> ID
+Rule ---> Expression
+
+interface Rules
+Rules     ==|> PEG
+Rules    ---|> MixIn_children_tuple
+
+ParseRules ==|> Rules
+Settings   ==|> Rules
 
 
-Expression <|== ManyExpression
-Expression <|== Group
-Expression <|== Sequence
-Expression <|== OrderedChoice
-Expression <|== Predicate
+class Grammar {
+  +all_rules    :Rules
+  -parse_rules  :ParseRules
+  -settings     :Settings
+}
+Grammar ==|> NonTerminal
 
-abstract ManyExpression
-abstract Predicate
 
-ManyExpression <== Optional
-ManyExpression <== OneOrMore
-ManyExpression <== ZeroOrMore
+abstract Group
+Group            ==|> Expression
+UnorderedGroup   ==|> Group
+UnorderedGroup  ---|> MixIn_expr_attribute
+abstract Quantity
+Quantity         ==|> Group
+Quantity        ---|> MixIn_expr_attribute
 
-Predicate <== AndPredicate
-Predicate <== NotPredicate
+Sequence         ==|> Expression
+Sequence        ---|> MixIn_children_tuple
 
-class AndPredicate << (&, #0077ff) notconsuming >>
-class NotPredicate << (! ,#0077ff) not consuming >>
+OrderedChoice    ==|> Expression
+OrderedChoice   ---|> MixIn_children_tuple
 
+'========================
 class Optional   << (?, #0077ff) >>
-class OneOrMore  << (+, #0077ff) >>
+Optional	 ==|> Quantity
 class ZeroOrMore << (*, #0077ff) >>
+ZeroOrMore	 ==|> Quantity
+class OneOrMore  << (+, #0077ff) >>
+OneOrMore	 ==|> Quantity
+
+abstract Predicate
+Predicate	 ==|> Expression
+Predicate       ---|> MixIn_expr_attribute
+class AndPredicate << (&, #0077ff) notconsuming >>
+AndPredicate     ==|> Predicate
+class NotPredicate << (! ,#0077ff) not consuming >>
+NotPredicate     ==|> Predicate
+
+
+
+
 
 }
 @enduml
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,6 +1,6 @@
 default: all
 
-all: demo test XXX missing
+all: demo test pyanalyse XXX missing
 
 missing: missing_visitor missing_serialization
 
@@ -42,3 +42,18 @@ clean: clean_caches
 clean_caches:
 	find . -type d -name __pycache__    -print0 | xargs -0  rm -r
 	find . -type d -name .pytest_cache  -print0 | xargs -0  rm -r
+
+
+PYREVERSE_DIR=pyreversed
+PYREVERSE_FORMAT=svg
+PYREVERSE_OPTIONS=-kAmy
+PYREVERSE_PRJS= castle.readers castle.ast castle.writers castle
+
+pyanalyse: ${PYREVERSE_DIR}
+	for P in ${PYREVERSE_PRJS}; do \
+		echo "PYANALYSE::" $$P "...";\
+		pyreverse -d ${PYREVERSE_DIR} -o ${PYREVERSE_FORMAT} ${PYREVERSE_OPTIONS} -p $$P --colorized --max-color-depth=42 -my $$P ;\
+		echo ".. done. Result-files:" ;\
+		ls -l ${PYREVERSE_DIR}/*$${P}.${PYREVERSE_FORMAT} ;\
+		echo;\
+	done

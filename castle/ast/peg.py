@@ -126,7 +126,6 @@ class Quantity(MixIn_expr_attribute, Expression):                               
     """An expression with Quantification; like optional, or repetition. The subclasses defines which Quantification"""
 
 
-#class Sequence(MixIn_value_attribute, Expression):
 class Sequence(MixIn_children_tuple, Expression):
     """A sequence of expressions; can be of length=1"""
     # __init__ (see MixIn) sets self._children; assuming it is a list
