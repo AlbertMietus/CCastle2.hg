@@ -40,89 +40,83 @@ package MixIns  #Gray {
 package Peg #0077ff {
 
 abstract PEG
-PEG =up=|>   AST_BASE
+AST_BASE <|== PEG
 
 
 
 abstract Terminal
-Terminal   =up=|> PEG
-Terminal  --up--|> MixIn_value_attribute
-StrTerm    =up=|> Terminal
-RexExpTerm =up=|> Terminal
-Number     =up=|> Terminal
+PEG                   <|==   Terminal
+MixIn_value_attribute <|...  Terminal
+Terminal              <|==   StrTerm
+Terminal              <|==   RexExpTerm
+Terminal              <|==   Number
 
-abstract Markers #ORANGE
-Markers    =up=|> PEG
-annotation EOF #ORANGE
-EOF 	   =up=|> Markers
+abstract    Markers #Orange
+annotation  EOF     #Orange
+PEG         <|==    Markers
+Markers     <|==    EOF
 
 abstract NonTerminal
-NonTerminal =up=|> PEG
+PEG          <|== NonTerminal
 abstract Expression
-Expression  =up=|> NonTerminal
+NonTerminal  <|== Expression
 
 class Setting  {
  name  : ID
  value
 }
-Setting =up=|> PEG
-Setting -up-> ID
+PEG      <|==  Setting
 
 class Rule {
   name  :ID
   expr  :[] Expression
 }
-Rule =up=|> NonTerminal
-Rule -up-> ID
-Rule ---> Expression
+NonTerminal  <|==  Rule
 
 interface Rules
-Rules     =up=|> PEG
-Rules    --up--|> MixIn_children_tuple
-
-ParseRules =up=|> Rules
-Settings   =up=|> Rules
-
+PEG                   <|==    Rules
+MixIn_children_tuple  <|...  Rules
+Rules                 <|==    ParseRules
+Rules                 <|==    Settings
 
 class Grammar {
   +all_rules    :Rules
   -parse_rules  :ParseRules
   -settings     :Settings
 }
-Grammar =up=|> NonTerminal
+NonTerminal  <|== Grammar
 
 
 abstract Group
-Group            =up=|> Expression
-UnorderedGroup   =up=|> Group
-UnorderedGroup  --up--|> MixIn_expr_attribute
+Expression            <|== Group
+Group                 <|== UnorderedGroup
+MixIn_expr_attribute  <|... UnorderedGroup
 abstract Quantity
-Quantity         =up=|> Group
-Quantity        --up--|> MixIn_expr_attribute
-Sequence         =up=|> Expression
-Sequence        --up--|> MixIn_children_tuple
+Group                   <|==    Quantity
+MixIn_expr_attribute    <|...    Quantity
+Expression              <|==    Sequence
+MixIn_children_tuple    <|...  Sequence
 
-OrderedChoice    =up=|> Expression
-OrderedChoice   --up--|> MixIn_children_tuple
+Expression             <|==   OrderedChoice
+MixIn_children_tuple   <|...  OrderedChoice
 
 class Optional   << (?, #0077ff) >>
-Optional	 =up=|> Quantity
+Quantity          <|==   Optional
 class ZeroOrMore << (*, #0077ff) >>
-ZeroOrMore	 =up=|> Quantity
+Quantity          <|==   ZeroOrMore
 class OneOrMore  << (+, #0077ff) >>
-OneOrMore	 =up=|> Quantity
+Quantity          <|==   OneOrMore
 
 abstract Predicate
-Predicate	 =up=|> Expression
-Predicate       --up--|> MixIn_expr_attribute
+Expression             <|==   Predicate
+MixIn_expr_attribute   <|... Predicate
 class AndPredicate << (&, #0077ff) notconsuming >>
-AndPredicate     =up=|> Predicate
+Predicate               <|== AndPredicate
 class NotPredicate << (! ,#0077ff) not consuming >>
-NotPredicate     =up=|> Predicate
+Predicate               <|== NotPredicate
 
 }
 @enduml
-
 
 
 
