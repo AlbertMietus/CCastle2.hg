@@ -5,7 +5,7 @@ def demo_a():
     print(t.render(something="World"))
 
 def demo_b():
-    t = Template("My favorite numbers: {% for n in range(1,10) %}{{n}} " "{% endfor %}")
+    t = Template("My favorite numbers: {% for n in range(1,10) %} {{n}} {%- endfor %}")
     print(t.render())
 
 def gen_rule(name, peg_expr_list):
@@ -13,7 +13,7 @@ def gen_rule(name, peg_expr_list):
     return Template(
         """def {{ name }}():
         return {% for e in peg_expr_list -%}
-                  {{- e -}} 
+                  {{- e -}}
                   {{ ", " if not loop.last else "" -}}
                {% endfor -%}\n\n""").render(locals())
 def demo_def1():
