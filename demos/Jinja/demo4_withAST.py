@@ -29,10 +29,9 @@ def demo_4A():
     return producer.render(rules=rules, settings=settings)
 
 def demo_4B():
-    rules    = [ peg.Rule(    name=peg.ID(name=r['name']),  expr=r['expr'])  for r in demo_3_rules]
-    settings = [ peg.Setting( name=s['name'],  value=s['value']) for s in demo_3_settings]
-    grammar = peg.Grammar(rules=rules, settings=settings)
-
+    all_rules = ([ peg.Setting( name=s['name'],  value=s['value']) for s in demo_3_settings] +
+                 [ peg.Rule(    name=peg.ID(name=r['name']),  expr=r['expr'])  for r in demo_3_rules] )
+    grammar = peg.Grammar(all_rules=all_rules)
     producer = Demo1(default_template='ast.jinja2')
     return producer.render(grammar=grammar)
 
