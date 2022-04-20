@@ -52,7 +52,8 @@ class MixIn_children_tuple:
     def __getitem__(self, key):
         return self._children[key]
     def __iter__(self): return self._children.__iter__()
-
+    def __str__(self):
+        return f"<{type(self).__name__}.MixIn_children_tuple:{len(self)}[" + ",".join(str(c) for c in self) + "]>"
 
 ##
 ## Note: When using TypeHints with PEG-classes; the clases

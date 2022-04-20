@@ -2,7 +2,7 @@
 ----
 
 {%- block rules -%}
-  {% for r in grammar.rules -%}
+  {% for r in grammar.parse_rules -%}
     {{ m.peg_rule(r.name, r.expr) }}
 
   {% endfor %}

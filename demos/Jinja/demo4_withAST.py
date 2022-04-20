@@ -8,7 +8,7 @@ demo_3_rules = (
     { 'name' : 'peg_grammar',
       'expr' : ['rules', 'EOF'] },
     { 'name' : 'rules',
-      'expr' : ['OneOrMore(rule)'] })
+      'expr' : ['OneOrMore([parse_rule, setting])'] })
 demo_3_settings = (
     { 'name'  : 'S1',
       'value' :  ''' "'" '''.strip()},
@@ -29,8 +29,8 @@ def demo_4A():
     return producer.render(rules=rules, settings=settings)
 
 def demo_4B():
-    all_rules = ([ peg.Setting( name=s['name'],  value=s['value']) for s in demo_3_settings] +
-                 [ peg.Rule(    name=peg.ID(name=r['name']),  expr=r['expr'])  for r in demo_3_rules] )
+    all_rules = ([ peg.Rule(    name=peg.ID(name=r['name']),  expr=r['expr'])  for r in demo_3_rules] +
+                 [ peg.Setting( name=s['name'],  value=s['value']) for s in demo_3_settings] )
     grammar = peg.Grammar(all_rules=all_rules)
     producer = Demo1(default_template='ast.jinja2')
     return producer.render(grammar=grammar)
