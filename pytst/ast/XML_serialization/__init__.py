@@ -7,7 +7,7 @@ from castle.ast import peg, serialization
 
 @pytest.fixture
 def xml_serialize():
-    return serialization.Serialize('xml').serialize
+    return serialization.Serialize(strategy='xml').serialize
 
 class StdSequence_withAsserts:
     """A class with some terminals and a sequence, and  assert-statements

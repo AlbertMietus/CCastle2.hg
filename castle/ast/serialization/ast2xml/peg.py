@@ -1,38 +1,12 @@
-""" Support to translate an AST into XML.
-This file should be used directly, instead use  :class:`castle.ast.serialization.Serialize` as in ``Serialize('XML')``
+""" Serialization of PEG- AST classes into into XML.
+    This file should NOT be used directly, instead use  :class:`castle.ast.serialization.Serialize` as in ``Serialize('XML')``
 """
 
 import logging; logger = logging.getLogger(__name__)
-from castle.ast import  serialization
 from xml.etree import ElementTree as ET
 
-
-class XML_Serialize(serialization.Serialize):
-    def serialize(self, ast) -> str:
-        logger.debug(f"serialize:: ast={ast._valType(ast)}")
-
-        tree = self._ast2xml(ast)
-        return ET.tostring(tree, encoding="unicode")
-
-
-    def _ast2xml(self, ast, parent=None) -> ET.Element:
-        if parent is None:
-            parent = ET.Element('AST2XML', version="0.0")
-
-        method_name = f'{type(ast).__name__}2xml'
-        visitor = getattr(self, method_name, None)
-        logger.debug(f'_ast2xml:: visitor={visitor}')
-
-        if visitor:
-            visitor(ast=ast, parent=parent) # Grow the tree
-        else:
-            logger.info(f'No visitor >>{method_name}<<, skipping ... (fingers crossed)')
-        return parent
-
-
-    def ID2xml(self, ast, parent) ->None:
-        logger.debug(f"ID2xml:: ast={ast._valType(ast)} parent={parent} ast.name={ast.name}")
-        ET.SubElement(parent, 'ID', name=ast.name)
+##from castle.ast.serialization import XML_Serialize
+from . import XML_Serialize
 
 
 #NO_VISITOR_NEEDED: PEG2xml 				## Pure Abstract
@@ -50,6 +24,8 @@ class XML_Serialize(serialization.Serialize):
 #NO_VISITOR_NEEDED: ParseRules2xml			## Handle in Rules2xml
 #NO_VISITOR_NEEDED: Settings2xml			## Handle in Rules2xml
 
+
+class XML_Serialize_PEG(XML_Serialize):
 
     def _MixIn_value_attribute2xml(self, ast, parent, cls_name):
         logger.debug(f"{cls_name}2xml:: ast={ast._valType(ast.value)}")
@@ -115,3 +91,4 @@ class XML_Serialize(serialization.Serialize):
         g = ET.SubElement(parent, 'Grammar', no_parse_rules=str(len(ast.parse_rules)), no_settings=str(len(ast.settings)))
         self._ast2xml(ast._all_rules, g)
 
+XML_Serialize.register(XML_Serialize_PEG)
