@@ -5,7 +5,7 @@ from ._base import AST_BASE, ID, IDError
 import typing
 
 class PEG (AST_BASE):                                                   # abstract
-    """Base class of all PEG classes"""
+    """Base class of all Grammer-rule (using a PEG) classes"""
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 

@@ -5,4 +5,4 @@ BUGS
 
    .. TIP:: As a workaround, just do put anything after the last rule ..
 
-   See `demos/ThinOnion/` ``grammar.peg`` and its history
+   See `demos/ThinOnion/` ``grammar.grammar`` and its history

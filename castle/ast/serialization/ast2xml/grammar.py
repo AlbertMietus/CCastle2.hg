@@ -1,4 +1,4 @@
-""" Serialization of PEG- AST classes into into XML.
+""" Serialiation of (PEG-based) grammer AST-classes into into XML.
     This file should NOT be used directly, instead use  :class:`castle.ast.serialization.Serialize` as in ``Serialize('XML')``
 """
 
@@ -24,7 +24,7 @@ from . import XML_Serialize
 #NO_VISITOR_NEEDED: Settings2xml			## Handle in Rules2xml
 
 
-class XML_Serialize_PEG(XML_Serialize):
+class Grammar2xml(XML_Serialize):
 
     def _MixIn_value_attribute2xml(self, ast, parent, cls_name):
         logger.debug(f"{cls_name}2xml:: ast={ast._valType(ast.value)}")
@@ -90,4 +90,4 @@ class XML_Serialize_PEG(XML_Serialize):
         g = ET.SubElement(parent, 'Grammar', no_parse_rules=str(len(ast.parse_rules)), no_settings=str(len(ast.settings)))
         self._ast2xml(ast._all_rules, g)
 
-XML_Serialize.register(XML_Serialize_PEG)
+XML_Serialize.register(Grammar2xml)

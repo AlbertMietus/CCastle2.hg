@@ -13,7 +13,7 @@ def test_file():
                        comment_def=grammar.comment,
                        visitor=visitor.PegVisitor())
     ast = reader.parse('grammar.peg')
-    # Remember: ast is a peg.Grammar!!
+    # Remember: ast is a Grammar!!
 
     #Manuel count ...
     no_rules, no_settings = 20,19

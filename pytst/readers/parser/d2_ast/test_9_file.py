@@ -3,8 +3,8 @@ import logging; logger = logging.getLogger(__name__)
 from pathlib import Path
 import os
 
-from castle.readers.parser import grammar
-from castle.ast import peg
+from castle.readers.parser import grammar as rules
+
 
 from . import parse, assert_PEG
 
@@ -13,7 +13,7 @@ def parse_file(filename, dir=Path('..')):
     path_to_current_dir = path_to_current_test.parent
     with (path_to_current_dir / dir / filename).open() as f:
         txt = f.read()
-    ast = parse(txt, grammar.peg_grammar, with_comments=True)
+    ast = parse(txt, rules.peg_grammar, with_comments=True)
 
     return ast
 

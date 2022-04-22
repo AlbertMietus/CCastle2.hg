@@ -1,7 +1,7 @@
 import pytest
 import logging; logger = logging.getLogger(__name__)
 
-from castle.ast import peg
+from castle.ast import grammar
 
 from . import xml_serialize #@pytest.fixture
 from . import assert_xml_Element, StdSequence_withAsserts
@@ -9,10 +9,10 @@ from . import assert_xml_Element, StdSequence_withAsserts
 def test_a_Grammar_with_ParseRules_only(xml_serialize):
     name1, seq1  = 'aParseRule',  StdSequence_withAsserts()
     name2, seq2  = 'rule_2',      StdSequence_withAsserts()
-    r1 = peg.Rule(name=peg.ID(name=name1), expr=seq1.seq)
-    r2 = peg.Rule(name=peg.ID(name=name2), expr=seq2.seq)
+    r1 = grammar.Rule(name=grammar.ID(name=name1), expr=seq1.seq)
+    r2 = grammar.Rule(name=grammar.ID(name=name2), expr=seq2.seq)
 
-    g = peg.Grammar(all_rules=(r1,r2))
+    g = grammar.Grammar(all_rules=(r1,r2))
     txt = xml_serialize(g)
     logger.debug(f'XML:: {txt}')
 
@@ -24,11 +24,11 @@ def test_a_Grammar_with_MixedRules(xml_serialize):
     name1, seq1  = 'aParseRule',  StdSequence_withAsserts()
     name2, val2  = 'setting2',    "1965"
     name3, seq3  = 'rule_3',      StdSequence_withAsserts()
-    r1 = peg.Rule(name=peg.ID(name=name1), expr=seq1.seq)
-    r2 = peg.Setting(name=peg.ID(name=name2), value=peg.Number(value=val2))
-    r3 = peg.Rule(name=peg.ID(name=name3), expr=seq3.seq)
+    r1 = grammar.Rule(name=grammar.ID(name=name1), expr=seq1.seq)
+    r2 = grammar.Setting(name=grammar.ID(name=name2), value=grammar.Number(value=val2))
+    r3 = grammar.Rule(name=grammar.ID(name=name3), expr=seq3.seq)
 
-    g = peg.Grammar(all_rules=(r1,r2,r3))
+    g = grammar.Grammar(all_rules=(r1,r2,r3))
     txt = xml_serialize(g)
     logger.debug(f'XML:: {txt}')
 

@@ -1,26 +1,26 @@
 import pytest
 
-from castle.ast import peg
+from castle.ast import grammar
 
 def test_abstracts_1():
-    base = peg.PEG()
-    term = peg.Terminal()
-    nt   = peg.NonTerminal()
-    mark = peg.Markers()
+    base = grammar.PEG()
+    term = grammar.Terminal()
+    nt   = grammar.NonTerminal()
+    mark = grammar.Markers()
 
 def test_abstracts_2():
-    assert isinstance(peg.Expression(), peg.NonTerminal)
-    assert isinstance(peg.Quantity(), peg.Expression)
-    assert isinstance(peg.Predicate(), peg.Expression)
+    assert isinstance(grammar.Expression(), grammar.NonTerminal)
+    assert isinstance(grammar.Quantity(), grammar.Expression)
+    assert isinstance(grammar.Predicate(), grammar.Expression)
 
 def test_eof():
-    assert isinstance(peg.EOF(), peg.Markers)
+    assert isinstance(grammar.EOF(), grammar.Markers)
 
 def test_pred():
-    assert isinstance(peg.AndPredicate(), peg.Predicate)
-    assert isinstance(peg.NotPredicate(), peg.Predicate)
+    assert isinstance(grammar.AndPredicate(), grammar.Predicate)
+    assert isinstance(grammar.NotPredicate(), grammar.Predicate)
 
 def test_manys():
-    assert isinstance(peg.Optional(), peg.Quantity)
-    assert isinstance(peg.OneOrMore(), peg.Quantity)
-    assert isinstance(peg.ZeroOrMore(), peg.Quantity)
+    assert isinstance(grammar.Optional(), grammar.Quantity)
+    assert isinstance(grammar.OneOrMore(), grammar.Quantity)
+    assert isinstance(grammar.ZeroOrMore(), grammar.Quantity)

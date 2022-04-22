@@ -1,16 +1,16 @@
 import pytest
 
-from castle.ast import peg
+from castle.ast import grammar
 
 
 def test_rulename_is_an_ID():
-    anID = peg.ID(name="aName")
-    s = peg.Rule(name=anID, expr=None)
+    anID = grammar.ID(name="aName")
+    s = grammar.Rule(name=anID, expr=None)
     assert s.name  == anID
 
 def test_rulename_isnot_string():
     with pytest.raises(TypeError):
-        peg.Rule(name="strName", expr=None)
+        grammar.Rule(name="strName", expr=None)
 
 
 #XXX ToBeDone: more tests

@@ -3,7 +3,7 @@ import pytest
 #import logging; logger = logging.getLogger(__name__)
 from xml.etree import ElementTree as ET
 
-from castle.ast import peg, serialization
+from castle.ast import grammar, serialization
 
 @pytest.fixture
 def xml_serialize():
@@ -14,10 +14,10 @@ class StdSequence_withAsserts:
     """
     def __init__(self):
         self.n1, self.v2, self.v3 = 'ID_1', 'str_2', 'regexp_3'
-        e1 = peg.ID(name=self.n1)
-        e2 = peg.StrTerm(value=self.v2)
-        e3 = peg.RegExpTerm(value=self.v3)
-        self.seq = peg.Sequence(children=[e1, e2, e3])
+        e1 = grammar.ID(name=self.n1)
+        e2 = grammar.StrTerm(value=self.v2)
+        e3 = grammar.RegExpTerm(value=self.v3)
+        self.seq = grammar.Sequence(children=[e1, e2, e3])
     def assert_xml_Element(self, txt):
         assert_xml_Element(txt, tag='.//Sequence')
         assert_xml_Element(txt, tag='.//ID', name=self.n1)

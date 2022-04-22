@@ -73,4 +73,4 @@ class XML_Serialize(Serialize):
 ### Register all/known subHandlers; by importing then --which executes XML_Serialize.register(....)
 ###
 from . import _base
-from . import peg
+from . import grammar
