@@ -3,7 +3,8 @@ import logging; logger = logging.getLogger(__name__)
 from pathlib import Path
 import os
 
-from castle.readers.parser import grammar
+from castle.readers.parser.grammar import language as grammar
+
 import arpeggio
 
 def parse_file(filename, dir=Path('..')):

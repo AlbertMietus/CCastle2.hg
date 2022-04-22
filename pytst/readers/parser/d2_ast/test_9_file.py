@@ -3,8 +3,7 @@ import logging; logger = logging.getLogger(__name__)
 from pathlib import Path
 import os
 
-from castle.readers.parser import grammar as rules
-
+from castle.readers.parser.grammar import language as rules
 
 from . import parse, assert_PEG
 

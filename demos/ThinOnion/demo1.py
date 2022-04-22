@@ -1,7 +1,7 @@
 import pytest
 import logging; logger = logging.getLogger(__name__)
 
-from castle.readers.parser import grammar, visitor
+from castle.readers.parser import grammar
 from castle.ast import grammar as AST
 
 import arpeggio
@@ -34,7 +34,7 @@ class Reader():
         parser = arpeggio.ParserPython(grammar.peg_grammar, comment_def = grammar.comment)
         pt = parser.parse(txt)
         logger.info(f"Reader:_do_parse::\t parse_tree: start={pt.position} end={pt.position_end}; len(txt)={len(txt)}")
-        ast = arpeggio.visit_parse_tree(pt, visitor.PegVisitor())
+        ast = arpeggio.visit_parse_tree(pt, grammar.PegVisitor())
         logger.debug(f"Reader:_do_parse::\t ast: start={ast.position} end={ast.position_end} -- not counting comments.")
         return ast
 

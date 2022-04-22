@@ -2,20 +2,19 @@ import logging; logger = logging.getLogger(__name__)
 
 import arpeggio
 
-from castle.readers.parser import visitor
-from castle.readers.parser import grammar as rules
+from castle.readers.parser import grammar
 from castle.ast import grammar as AST
 
 def parse(txt, rule, *,
           with_comments=False,
           visitor_debug=False):
 
-    parser = arpeggio.ParserPython(rule, comment_def = rules.comment if with_comments else None)
+    parser = arpeggio.ParserPython(rule, comment_def = grammar.comment if with_comments else None)
     pt = parser.parse(txt)
     logger.debug('PARSE_TREE\n'+pt.tree_str())
     assert pt.position_end == len(txt), f"Did not parse all input txt=>>{txt}<<len={len(txt)} ==> parse_tree: >>{pt}<<_end={pt.position_end}"
 
-    ast = arpeggio.visit_parse_tree(pt, visitor.PegVisitor(debug=visitor_debug))
+    ast = arpeggio.visit_parse_tree(pt, grammar.PegVisitor(debug=visitor_debug))
     logger.debug('AST\n' + f'{ast}:{type(ast).__name__}')
 
     if with_comments: #   When the txt starts with comments, the AST does start 'after' that comment -- so skip the start-check

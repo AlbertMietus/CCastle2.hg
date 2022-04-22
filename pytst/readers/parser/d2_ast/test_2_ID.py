@@ -1,6 +1,6 @@
 import pytest
 
-from castle.readers.parser import grammar as rules
+from castle.readers.parser.grammar import language as rules
 from castle.ast import grammar as AST
 
 from . import parse, assert_ID

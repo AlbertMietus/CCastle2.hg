@@ -1,7 +1,7 @@
 import pytest
 import logging;logger = logging.getLogger(__name__)
 
-from castle.readers.parser import grammar
+from castle.readers.parser.grammar import language as grammar
 
 import arpeggio
 

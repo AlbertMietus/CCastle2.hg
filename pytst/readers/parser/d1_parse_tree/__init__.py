@@ -1,7 +1,8 @@
 import logging;logger = logging.getLogger(__name__)
-from castle.readers.parser import grammar
-
 import arpeggio
+
+from castle.readers.parser.grammar import language as grammar
+
 
 def parse(txt, grammer_rule):
     logger.debug(f'>>{txt}<<')

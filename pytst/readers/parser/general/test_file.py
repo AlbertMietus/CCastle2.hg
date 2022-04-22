@@ -2,13 +2,13 @@ import pytest
 import logging; logger = logging.getLogger(__name__)
 
 from castle.readers.parser import FileParser
-from castle.readers.parser import grammar, visitor
+from castle.readers.parser import grammar
 
 
 def test_file():
     reader = FileParser(language_def=grammar.peg_grammar,
                         comment_def=grammar.comment,
-                        visitor=visitor.PegVisitor(),
+                        visitor=grammar.PegVisitor(),
                         read_dirs=('../../../demos/ThinOnion',
                                    '../../.././demos/ThinOnion/grammar',
                                    '../../.././pytst/readers/parser'))

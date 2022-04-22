@@ -1,7 +1,7 @@
 import pytest
 import logging; logger = logging.getLogger(__name__)
 
-from castle.readers.parser import grammar as rules
+from castle.readers.parser.grammar import language as rules
 from castle.ast import grammar as AST
 
 from . import parse
