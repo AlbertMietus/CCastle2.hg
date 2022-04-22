@@ -1,17 +1,17 @@
 import pytest
 import logging; logger = logging.getLogger(__name__)
 
-from castle.readers.parser import PEGReader
+from castle.readers.parser import FileParser
 from castle.readers.parser import grammar, visitor
 
 
 def test_file():
-    reader = PEGReader(language_def=grammar.peg_grammar,
-                       comment_def=grammar.comment,
-                       visitor=visitor.PegVisitor(),
-                       read_dirs=('../../../demos/ThinOnion',
-                                  '../../.././demos/ThinOnion/grammar',
-                                  '../../.././pytst/readers/parser'))
+    reader = FileParser(language_def=grammar.peg_grammar,
+                        comment_def=grammar.comment,
+                        visitor=visitor.PegVisitor(),
+                        read_dirs=('../../../demos/ThinOnion',
+                                   '../../.././demos/ThinOnion/grammar',
+                                   '../../.././pytst/readers/parser'))
     ast = reader.parse('grammar.peg')
     # Remember: ast is a Grammar!!
 

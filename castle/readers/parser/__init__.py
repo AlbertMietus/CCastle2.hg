@@ -15,8 +15,8 @@ import arpeggio
 from castle.readers.general.file import BaseReader
 
 
-class PEGReader(BaseReader):
-    """File-Reader to read input-files and parse them using a PEG-parser.
+class FileParser(BaseReader):
+    """A FileParser reads input-files and parse them using a PEG-parser.
 
     The ("programming") language --in which the input-files are written-- is defined once, by language- and (optionally)
     comment-definitions (using a PEG). Also a ``visitor`` (a class) has to be specified; which translate the parse-tree
