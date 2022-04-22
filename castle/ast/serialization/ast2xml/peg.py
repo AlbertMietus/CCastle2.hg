@@ -5,7 +5,6 @@
 import logging; logger = logging.getLogger(__name__)
 from xml.etree import ElementTree as ET
 
-##from castle.ast.serialization import XML_Serialize
 from . import XML_Serialize
 
 
