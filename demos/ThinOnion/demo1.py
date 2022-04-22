@@ -2,7 +2,7 @@ import pytest
 import logging; logger = logging.getLogger(__name__)
 
 from castle.readers.parser import grammar, visitor
-from castle.ast import peg
+from castle.ast import grammar as AST
 
 import arpeggio
 import jinja2
@@ -15,7 +15,7 @@ class Reader():
         self.read_dirs = [ _get_file_dirPath() / d for d in read_dirs]
 
 
-    def parse(self, filename:str) -> peg.Grammar:
+    def parse(self, filename:str) -> AST.Grammar:
         txt = self._read(filename)
         ast = self._do_parse(txt)
         return ast
@@ -30,7 +30,7 @@ class Reader():
         return txt
 
 
-    def _do_parse(self, txt) -> peg.Grammar:
+    def _do_parse(self, txt) -> AST.Grammar:
         parser = arpeggio.ParserPython(grammar.peg_grammar, comment_def = grammar.comment)
         pt = parser.parse(txt)
         logger.info(f"Reader:_do_parse::\t parse_tree: start={pt.position} end={pt.position_end}; len(txt)={len(txt)}")

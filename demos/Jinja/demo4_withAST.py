@@ -2,7 +2,7 @@ from classes import Demo1
 
 import sys
 sys.path.append("./../");sys.path.append("./../../")
-from castle.ast import peg
+from castle.ast import grammar as AST
 
 demo_3_rules = (
     { 'name' : 'peg_grammar',
@@ -22,16 +22,16 @@ demo_3_settings = (
 
 
 def demo_4A():
-    rules    = [ peg.Rule(    name=peg.ID(name=r['name']),  expr=r['expr'])  for r in demo_3_rules]
-    settings = [ peg.Setting( name=s['name'],  value=s['value']) for s in demo_3_settings]
+    rules    = [ AST.Rule(    name=AST.ID(name=r['name']),  expr=r['expr'])  for r in demo_3_rules]
+    settings = [ AST.Setting( name=s['name'],  value=s['value']) for s in demo_3_settings]
 
     producer = Demo1(default_template='file.jinja2')
     return producer.render(rules=rules, settings=settings)
 
 def demo_4B():
-    all_rules = ([ peg.Rule(    name=peg.ID(name=r['name']),  expr=r['expr'])  for r in demo_3_rules] +
-                 [ peg.Setting( name=s['name'],  value=s['value']) for s in demo_3_settings] )
-    grammar = peg.Grammar(all_rules=all_rules)
+    all_rules = ([ AST.Rule(    name=AST.ID(name=r['name']),  expr=r['expr'])  for r in demo_3_rules] +
+                 [ AST.Setting( name=s['name'],  value=s['value']) for s in demo_3_settings] )
+    grammar = AST.Grammar(all_rules=all_rules)
     producer = Demo1(default_template='ast.jinja2')
     return producer.render(grammar=grammar)
 
