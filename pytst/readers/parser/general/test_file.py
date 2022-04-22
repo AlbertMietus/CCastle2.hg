@@ -6,12 +6,12 @@ from castle.readers.parser import grammar, visitor
 
 
 def test_file():
-    reader = PEGReader(read_dirs=('../../../demos/ThinOnion',
-                                  '../../.././demos/ThinOnion/grammar',
-                                  '../../.././pytst/readers/parser'),
-                       language_def=grammar.peg_grammar,
+    reader = PEGReader(language_def=grammar.peg_grammar,
                        comment_def=grammar.comment,
-                       visitor=visitor.PegVisitor())
+                       visitor=visitor.PegVisitor(),
+                       read_dirs=('../../../demos/ThinOnion',
+                                  '../../.././demos/ThinOnion/grammar',
+                                  '../../.././pytst/readers/parser'))
     ast = reader.parse('grammar.peg')
     # Remember: ast is a Grammar!!
 

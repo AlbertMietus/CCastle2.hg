@@ -48,9 +48,9 @@ clean_caches:
 PYREVERSE_DIR=pyreversed
 PYREVERSE_FORMAT=svg
 PYREVERSE_OPTIONS=-kAmy
-PYREVERSE_PRJS= castle.readers castle.ast castle.writers castle
+PYREVERSE_PRJS= castle castle.readers castle.ast #castle.writers
 
-pyanalyse: ${PYREVERSE_DIR}
+pyanalyse pyreverse: ${PYREVERSE_DIR}
 	for P in ${PYREVERSE_PRJS}; do \
 		echo "PYANALYSE::" $$P "...";\
 		pyreverse -d ${PYREVERSE_DIR} -o ${PYREVERSE_FORMAT} ${PYREVERSE_OPTIONS} -p $$P --colorized --max-color-depth=42 -my $$P ;\
