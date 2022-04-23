@@ -58,4 +58,4 @@ REd1 = _(r'[rR]"')
 REs3 = _(r"[rR]'''")
 REd3 = _(r'[rR]"""')
 
-def comment():		return ["#", '//'], _(".*\n")
+def comment():		return ["#", r'//'], _(r".*\n")
