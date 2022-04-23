@@ -21,18 +21,18 @@ python-demo:
 pytest-demo:
 	-PYTHONPATH=`pwd` pytest -s demos || echo "currently NO pytest-demos (check/fix manually)"
 
-
-
-missing_visitor: castle/readers/parser/grammar.py
+LANGUAGEd=castle/readers/parser/grammar/
+missing_visitor: ${LANGUAGEd}language.py
 	@for R in $(shell grep '^ *def ' $<  | awk '{print $$2}' | sed 's/()://') ; do	\
-	        if !  grep -q -E "^ *((def)|(# *NO_VISITOR_NEEDED:)) *visit_$$R" castle/readers/parser/visitor.py > /dev/null ; then\
+	        if !  grep -q -E "^ *((def)|(# *NO_VISITOR_NEEDED:)) *visit_$$R" ${LANGUAGEd}visitor.py > /dev/null ; then\
 			echo "Warning: $${R} has no visitor (nor is marked as to need none)" ;\
 		fi ;\
 	done
 
-missing_serialization:
-	@for R in ${shell grep '^ *class ' castle/ast/grammar.py | sed 's/class //g' | sed 's/[:( ].*$$//g' } ; do \
-	        if !  grep -q -E "^ *((def)|(# *NO_VISITOR_NEEDED:)) $${R}2xml" castle/ast/serialization/ast2xml/*.py > /dev/null ; then\
+ASTd=castle/ast/
+missing_serialization: ${ASTd}grammar.py
+	@for R in ${shell grep '^ *class ' $< | sed 's/class //g' | sed 's/[:( ].*$$//g' } ; do \
+	        if !  grep -q -E "^ *((def)|(# *NO_VISITOR_NEEDED:)) $${R}2xml" ${ASTd}serialization/ast2xml/*.py > /dev/null ; then\
 			echo "Warning: $${R} has no xml-serializer (nor is marked as to need none)" ;\
 		fi ;\
 	done
