@@ -38,10 +38,11 @@ class FileParser(BaseReader):
         super().__init__(read_dirs=read_dirs, **kwargs)
         if language_def is None:
             raise ValueError("The `language_def` is a mandatory parameter")
+        # comment_def is allowed to be None
         if visitor is None:
             raise ValueError("visitor is a mandatory parameter")
-        self._language_def = language_def
-        self._comment_def = comment_def                                 # Can be None
+
+        self._parser = arpeggio.ParserPython(language_def=language_def, comment_def=comment_def)
         self._visitor = visitor
 
 
@@ -53,9 +54,7 @@ class FileParser(BaseReader):
 
 
     def _do_parse(self, txt):
-        parser = arpeggio.ParserPython(language_def=self._language_def, comment_def=self._comment_def)
-
-        pt = parser.parse(txt)
+        pt = self._parser.parse(txt)
         logger.info(f"Reader:_do_parse::\t parse_tree: start={pt.position} end={pt.position_end}; len(txt)={len(txt)}")
 
         ast = arpeggio.visit_parse_tree(pt, self._visitor)
