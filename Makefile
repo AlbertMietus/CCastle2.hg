@@ -53,7 +53,7 @@ PYREVERSE_PRJS= castle castle.readers castle.ast #castle.writers
 pyanalyse pyreverse: ${PYREVERSE_DIR}
 	for P in ${PYREVERSE_PRJS}; do \
 		echo "PYANALYSE::" $$P "...";\
-		pyreverse -d ${PYREVERSE_DIR} -o ${PYREVERSE_FORMAT} ${PYREVERSE_OPTIONS} -p $$P --colorized --max-color-depth=42 -my $$P ;\
+		pyreverse -d ${PYREVERSE_DIR} -o ${PYREVERSE_FORMAT} ${PYREVERSE_OPTIONS} -p $$P --colorized --max-color-depth=42 -my $$P >>/dev/null;\
 		echo ".. done. Result-files:" ;\
 		ls -l ${PYREVERSE_DIR}/*$${P}.${PYREVERSE_FORMAT} ;\
 		echo;\
