@@ -10,3 +10,5 @@ OUT_*
 
 Design/.*\.svg
 pyreversed/.*\.svg
+htmlcov
+.coverage

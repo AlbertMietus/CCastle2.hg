@@ -6,7 +6,9 @@ missing: missing_visitor missing_serialization
 
 PYTEST_OPTONS=-rxXsfE
 pytest test:
-	pytest ${PYTEST_OPTONS}  pytst/
+	coverage run --branch -m pytest ${PYTEST_OPTONS}  pytst/
+	coverage report  --skip-covered
+	coverage html
 pytest-s test-s:
 	pytest ${PYTEST_OPTONS} -s pytst
 test-ds test-sd test-d:
