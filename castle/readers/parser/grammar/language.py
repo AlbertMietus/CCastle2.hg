@@ -1,3 +1,19 @@
+# (C) Albert Mietus, 2022
+"""This module `grammar/language` defines the peg_grammar (declarations) that can be used in Castle.
+
+A peg_grammar (in Castle2) mainly contains (parse_)rules, but can also define setting (a kind of LEXER aliases).
+
+Any rule looks like::
+  Name '<-'  E1 E2  '|' E3 ';'
+
+Where Ex are (expression) rules itself.
+
+.. seealso:: The language is defined in arpeggio statements (that is a PEG itself, but using python syntax).
+
+    See https://textx.github.io/Arpeggio/
+"""
+
+
 from arpeggio import Optional, ZeroOrMore, OneOrMore, EOF
 from arpeggio import RegExMatch as _
 from arpeggio import ParserPython
