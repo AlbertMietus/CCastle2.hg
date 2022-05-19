@@ -3,21 +3,22 @@
 from ParserDemo import Abstract_Parser, Base_ChunkParser;
 from std.data.grammars import Grammer
 
+/*NOTE: A grammar is always "hardcoded (so "Fixed"-- and as such the Fixed-prefix is useless
+        Each "rule" is basically a very short version of a function  -- and as such static */
+component ExpressionParser : Abstract_Parser, Base_ChunkParser {
 
-component Fixed_ExpressionParser : Abstract_Parser, Base_ChunkParser {
- """The Fixed_ExpressionParser has the grammer build-in; unlike the :ref:`Init_ExpressionParser` and :ref:`Port_ExpressionParser`"""
 }
 
 
 
-component Init_ExpressionParser : Base_ExpressionParser {
- """The Init_ExpressionParser reads the grammer when it is initialized"""
-- init(Grammer:g)
-}
+
+//WRONG		component Init_ExpressionParser : Base_ExpressionParser {
+//WRONG		 """The Init_ExpressionParser reads the grammer when it is initialized"""
+//WRONG		- init(Grammer:g)
+//WRONG		}
 
 
-
-component Port_ExpressionParser : Base_ExpressionParser {
- """The Port_ExpressionParser reads the grammer via a port (unlike the :ref:`Fixed_ExpressionParser`."""
-  port Grammar<in> expression;
-}
+//WRONG		component Port_ExpressionParser : Base_ExpressionParser {
+//WRONG		 """The Port_ExpressionParser reads the grammer via a port (unlike the :ref:`Fixed_ExpressionParser`."""
+//WRONG		  port Grammar<in> expression;
+//WRONG		}
