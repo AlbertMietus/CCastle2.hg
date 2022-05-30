@@ -5,7 +5,7 @@ all: demo test pyanalyse XXX missing
 missing: missing_visitor missing_serialization
 
 PYTEST_OPTONS=-rxXsfE
-pytest test:
+pytest test coverage:
 	coverage run --branch -m pytest ${PYTEST_OPTONS}  pytst/
 	coverage report  --skip-covered
 	coverage html
