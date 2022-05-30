@@ -9,10 +9,17 @@ pytest test:
 	coverage run --branch -m pytest ${PYTEST_OPTONS}  pytst/
 	coverage report  --skip-covered
 	coverage html
+pytest-only:
+	pytest ${PYTEST_OPTONS}  pytst
 pytest-s test-s:
 	pytest ${PYTEST_OPTONS} -s pytst
 test-ds test-sd test-d:
 	pytest ${PYTEST_OPTONS} --log-cli-level=DEBUG -s pytst/
+mutmut:
+	-mutmut run  --tests-dir pytst --paths-to-mutate castle
+	mutmut html && mutmut results
+	open html/index.html
+
 
 demo: pytest-demo python-demo
 
@@ -45,7 +52,12 @@ clean: clean_caches
 clean_caches:
 	find . -type d -name __pycache__    -print0 | xargs -0  rm -r
 	find . -type d -name .pytest_cache  -print0 | xargs -0  rm -r
+	rm -f ./.coverage
+	rm -f ./.mutmut-cache
 
+cleaner: clean
+	rm -rd ./htmlcov/ #coverage
+	rm -rf ./html # mutmut
 
 PYREVERSE_DIR=pyreversed
 PYREVERSE_FORMAT=svg

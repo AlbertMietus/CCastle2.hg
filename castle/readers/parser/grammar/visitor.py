@@ -29,7 +29,7 @@ class PredicateError(ValueError): pass
 
 class PegVisitor(arpeggio.PTNodeVisitor):
     def _logstr_node_children(self, node, children):
-        return f'>>{node}<< children[{len(children)}] >>' + ", ".join(f'{c}:{type(c).__name__}' for c in children) + '<<'
+        return f'>>{node}<< children[{len(children)}] >>' + ", ".join(f'{c}:{type(c).__name__}' for c in children) + '<<' # pragma: no mutate
 
     def visit_str_term(self, node, children):
         return grammar.StrTerm(value=node[1], parse_tree=node)
@@ -54,27 +54,27 @@ class PegVisitor(arpeggio.PTNodeVisitor):
                          '#': grammar.UnorderedGroup}
 
         if len(children) == 1: #  No Optional part
-            logger.debug(f'visit_single_expr==1:: {getattr(children[0], "name", children[0])}:{type(children[0])}')
+            logger.debug(f'visit_single_expr==1:: {getattr(children[0], "name", children[0])}:{type(children[0])}')  # pragma: no mutate
             return children[0]
 
         elif len(children) == 2: #  Optional part
-            logger.debug(f'visit_single_expr==2::Got: {children[0]}, {children[1]}')
+            logger.debug(f'visit_single_expr==2::Got: {children[0]}, {children[1]}')  # pragma: no mutate
             expr = children[0]
             token = str(children[1])
             quantum_cls = token_2_class.get(token)
             if quantum_cls:
                 ast=quantum_cls(expr=expr, parse_tree=node)
-                logger.debug(f'visit_single_expr==2::Pass: {quantum_cls}(expr={expr})')
+                logger.debug(f'visit_single_expr==2::Pass: {quantum_cls}(expr={expr})')  # pragma: no mutate
                 return ast
             else:
                 raise QuantityError(f"token '{token}' not recognised")
-        else: # #children not in (1,2)
-            raise  NotImplementedError("visit_single_expr, len>2")      # -- Is this possible?
+        else: # #children not in (1,2)  -- Is this possible?
+            raise  NotImplementedError("visit_single_expr, len>2")      # pragma: no mutate
 
 
     # expression <- sequence, op_alternative; op_alternative <- ('|' expression)?
     def visit_expression(self, node, children) -> Union[grammar.Sequence,  grammar.OrderedChoice]:
-        logger.debug('visit_expression::' + self._logstr_node_children(node, children))
+        logger.debug('visit_expression::' + self._logstr_node_children(node, children))  # pragma: no mutate
         if len(children) == 1: #Only sequence
             return children[0]
         elif len(children) == 2: # So, having 1 or more alternatives in children[1]
@@ -90,14 +90,14 @@ class PegVisitor(arpeggio.PTNodeVisitor):
 
     # OneOrMore(single_expr)
     def visit_sequence(self, node, children) -> grammar.Sequence:
-        logger.debug(f'visit_sequence::{self._logstr_node_children(node, children)}')
+        logger.debug(f'visit_sequence::{self._logstr_node_children(node, children)}')  # pragma: no mutate
         return grammar.Sequence(children=children, parse_tree=node)
 
 
     def visit_predicate(self, node, children):
         token_2_predicate = {'&': grammar.AndPredicate,
                              '!': grammar.NotPredicate}
-        logger.debug(f'visit_predicate:: >>{node}<< #children={len(children)}')
+        logger.debug(f'visit_predicate:: >>{node}<< #children={len(children)}')  # pragma: no mutate
 
         if len(children) == 2:
             token = children[0]
@@ -107,12 +107,12 @@ class PegVisitor(arpeggio.PTNodeVisitor):
                 return ast
             else:
                 raise PredicateError(f"token '{token}' not recognised")
-        else:
-            raise  NotImplementedError("visit_predicate, len!=2")      # -- Is this possible?
+        else: # -- Is this possible?
+            raise  NotImplementedError("visit_predicate, len!=2")       # pragma: no mutate
 
 
     def visit_rules(self, node, children):                              # Mix of `ParseRule`(s)`Setting`(s) ; will be sorted out n `Grammar`
-        logger.debug('visit_rules::' + self._logstr_node_children(node, children))
+        logger.debug('visit_rules::' + self._logstr_node_children(node, children))  # pragma: no mutate
         return grammar.Rules(children=children[:], parse_tree=node)
 
 
@@ -129,5 +129,5 @@ class PegVisitor(arpeggio.PTNodeVisitor):
         return grammar.ID(name=str(node), parse_tree=node)
 
     def visit_setting(self, node, children):
-        logger.debug('visit_setting::' + self._logstr_node_children(node, children))
+        logger.debug('visit_setting::' + self._logstr_node_children(node, children))  # pragma: no mutate
         return grammar.Setting(name=children[0], value=children[1] , parse_tree=node)

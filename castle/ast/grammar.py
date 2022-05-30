@@ -1,4 +1,4 @@
-import logging; logger = logging.getLogger(__name__)
+import logging; logger = logging.getLogger(__name__)                    # pragma: no mutate
 
 from ._base import AST_BASE, ID, IDError
 
@@ -14,14 +14,14 @@ class MixIn_value_attribute:
     """With this MixIn PEG-classes get the ``.value`` property"""
 
     def __init__(self, *, value=None, **kwargs):
-        logger.debug(f'{self._typeName(self)}.MixIn_value_attribute:: value:=' +
-                     ('[[' +', '.join(f'{v}:{type(v).__name__}' for v in value) + ']]') if isinstance(value, list) else f's>>{value}<<')
+        logger.debug(f'{self._typeName(self)}.MixIn_value_attribute:: value:=' +  # pragma: no mutate
+                     ('[[' +', '.join(f'{v}:{type(v).__name__}' for v in value) + ']]') if isinstance(value, list) else f's>>{value}<<')  # pragma: no mutate
         super().__init__(**kwargs)
         self._value=value
 
     @property
     def value(self):
-        logger.debug(f'{self._typeName(self)}:: @value={self._value}')
+        logger.debug(f'{self._typeName(self)}:: @value={self._value}') # pragma: no mutate
         return self._value
 
 
@@ -29,13 +29,13 @@ class MixIn_expr_attribute:
     """With this MixIn PEG-classes get the ``.expr`` property"""
 
     def __init__(self, *, expr=None, **kwargs):
-        logger.debug(f'{self._typeName(self)}.MixIn_expr_attribute:: expr:={self._valType(expr)}')
+        logger.debug(f'{self._typeName(self)}.MixIn_expr_attribute:: expr:={self._valType(expr)}') # pragma: no mutate
         super().__init__(**kwargs)
         self._expr = expr
 
     @property
     def expr(self):
-        logger.debug(f'{self._typeName(self)}:: @expr={self._expr}')
+        logger.debug(f'{self._typeName(self)}:: @expr={self._expr}') # pragma: no mutate
         return self._expr
 
 
@@ -43,7 +43,7 @@ class MixIn_children_tuple:
     """With this MixIn PEG-class get the ``.children`` property; and sequence-alike methods"""
     def __init__(self, *, children, **kwargs):
         logger.debug(f'{self._typeName(self)}.MixIn_children_tuple:: children[{len(children)}]:=' +
-                     ('[[' +', '.join(f'{c}:{type(c).__name__}' for c in children) + ']]') if isinstance(children, list) else f's>>{children}<<')
+                     ('[[' +', '.join(f'{c}:{type(c).__name__}' for c in children) + ']]') if isinstance(children, list) else f's>>{children}<<') # pragma: no mutate
         super().__init__(**kwargs)
         self._children = tuple(children)
 
@@ -53,7 +53,7 @@ class MixIn_children_tuple:
         return self._children[key]
     def __iter__(self): return self._children.__iter__()
     def __str__(self):
-        return f"<{type(self).__name__}.MixIn_children_tuple:{len(self)}[" + ",".join(str(c) for c in self) + "]>"
+        return f"<{type(self).__name__}.MixIn_children_tuple:{len(self)}[" + ",".join(str(c) for c in self) + "]>" # pragma: no mutate
 
 ##
 ## Note: When using TypeHints with PEG-classes; the clases
@@ -66,7 +66,7 @@ class StrTerm(Terminal): pass
 class RegExpTerm(Terminal): pass
 class Number(Terminal):                                            # Value is stored as a string
     def __str__(self):                                             # mostly for debugging
-        return f'<"{self.value}">'
+        return f'<"{self.value}">' # pragma: no mutate
 
 class Markers(PEG): pass                                                # abstract
 class EOF(Markers): pass                                                # XXX Todo ## singleton?
@@ -90,9 +90,9 @@ class Rule(NonTerminal):
     def __init__(self, *,
                  name: ID, expr:Expression=None,
                  **kwargs):
-        logger.debug(f'{self._typeName(self)}: name={self._valType(name)}, expr={self._valType(expr)}')
+        logger.debug(f'{self._typeName(self)}: name={self._valType(name)}, expr={self._valType(expr)}') # pragma: no mutate
         if expr:
-            logger.debug("\t" + "; ".join(f'{c}:{type(c)}' for c in expr))
+            logger.debug("\t" + "; ".join(f'{c}:{type(c)}' for c in expr)) # pragma: no mutate
         if not isinstance(name, ID): raise TypeError(f'Rule-name {name} is not of type ID')
         super().__init__(**kwargs)
         self.name = name
@@ -132,14 +132,14 @@ class Sequence(MixIn_children_tuple, Expression):
     # __init__ (see MixIn) sets self._children; assuming it is a list
 
     def __str__(self): # mostly for debugging
-        return "Seq{{" + " ; ".join(f"{c}" for c in self) + "}}"
+        return "Seq{{" + " ; ".join(f"{c}" for c in self) + "}}" # pragma: no mutate
 
 
 class OrderedChoice(MixIn_children_tuple, Expression):                  # A | B | C | ...  the order is relevant
     """OC: A _tuple_ of alternative expressions"""
 
     def __str__(self): # mostly for debugging
-        return "OC{{" + " | ".join(f"{c}" for c in self._children) + "}}"
+        return "OC{{" + " | ".join(f"{c}" for c in self._children) + "}}" # pragma: no mutate
 
 class Optional(Quantity):pass
 class ZeroOrMore(Quantity):pass

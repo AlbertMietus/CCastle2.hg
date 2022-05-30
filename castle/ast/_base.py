@@ -6,12 +6,12 @@ class AST_BASE:
     """Base class for all Castle ATS nodes"""
 
     def __init__(self, *, parse_tree=None, **kwargs):
-        assert len(kwargs)==0, "Do not call 'Object' with kwargs (caller is wrong)"
+        assert len(kwargs)==0, "Do not call 'Object' with kwargs (caller is wrong)"  # pragma: no mutate
         super().__init__(**kwargs)
         self._parse_tree = parse_tree
 
     def __str__(self): # mostly for debugging
-        return '\n__DEBUG__ ' + str(type(self).__name__) + "\n\t" + "\n\t".join(f'{n}\t{str(v)}:{type(v).__name__}' for n,v in self.__dict__.items() if n[0]!='_')
+        return '\n__DEBUG__ ' + str(type(self).__name__) + "\n\t" + "\n\t".join(f'{n}\t{str(v)}:{type(v).__name__}' for n,v in self.__dict__.items() if n[0]!='_')  # pragma: no mutate
 
     def serialize(self, strategy="XML") -> str:
         return Serialize(strategy).serialize(self)
@@ -24,15 +24,15 @@ class AST_BASE:
     ### Mostly for debugging
     @staticmethod
     def _typeName(of):
-        return type(of).__name__
+        return type(of).__name__                                        # pragma: no mutate
 
     def _valType(self, of:None):
-        if not of: of=self
-        return f'{of}:{self._typeName(of)}'
+        if not of: of=self                                              # pragma: no mutate
+        return f'{of}:{self._typeName(of)}'                             # pragma: no mutate
 
 
 class IDError(ValueError):
-    "The given ID is not valid as an ID"
+    "The given ID is not valid as an ID"                                # pragma: no mutate
 
 
 

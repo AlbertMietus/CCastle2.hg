@@ -37,7 +37,7 @@ class FileParser(BaseReader):
                  **kwargs):
         super().__init__(read_dirs=read_dirs, **kwargs)
         if language_def is None:
-            raise ValueError("The `language_def` is a mandatory parameter")
+            raise ValueError("The `language_def` is a mandatory parameter") # pragma: no mutate
         # comment_def is allowed to be None
         if visitor is None:
             raise ValueError("visitor is a mandatory parameter")
