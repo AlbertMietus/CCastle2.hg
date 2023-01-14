@@ -1,6 +1,7 @@
 default: all
 
-CURRENT_TESTS = #pytst/aux/test_1_pack_mk_tuple.py pytst/readers/parser/d2_ast/test_8_grammar.py
+CURRENT_TESTS = pytst/aux/test_1_pack_mk_tuple.py \
+
 
 all: current demo test pyanalyse XXX missing
 
