@@ -9,13 +9,14 @@ pytest test coverage:
 	coverage run --branch -m pytest ${PYTEST_OPTONS}  pytst/
 	coverage report  --skip-covered
 	coverage html
-pytest-only:
+pytest-only:								# No coverage reports
 	pytest ${PYTEST_OPTONS}  pytst
-pytest-s test-s:
+pytest-s:								# -s : No capure (so, show stdout/stderr)
 	pytest ${PYTEST_OPTONS} -s pytst
-test-ds test-sd test-d:
+pytest-d pytest-ds pytest-sd:						# with debuging
 	pytest ${PYTEST_OPTONS} --log-cli-level=DEBUG -s pytst/
-mutmut:
+
+mutmut:									# Mutation testing (takes a long run) https://en.wikipedia.org/wiki/Mutation_testing
 	-mutmut run  --tests-dir pytst --paths-to-mutate castle
 	mutmut html ; mv html mutmut-report
 	mutmut results
@@ -33,8 +34,8 @@ pytest-demo:
 
 LANGUAGEd=castle/readers/parser/grammar/
 missing_visitor: ${LANGUAGEd}language.py
-	@for R in $(shell grep '^ *def ' $<  | awk '{print $$2}' | sed 's/()://') ; do	\
-	        if !  grep -q -E "^ *((def)|(# *NO_VISITOR_NEEDED:)) *visit_$$R" ${LANGUAGEd}visitor.py > /dev/null ; then\
+	@for R in $(shell grep '^ *def ' $<  | awk '{print $$2}' | sed 's/()://') ; do \
+		if !  grep -q -E "^ *((def)|(# *NO_VISITOR_NEEDED:)) *visit_$$R" ${LANGUAGEd}visitor.py > /dev/null ; then\
 			echo "Warning: $${R} has no visitor (nor is marked as to need none)" ;\
 		fi ;\
 	done
@@ -42,7 +43,7 @@ missing_visitor: ${LANGUAGEd}language.py
 ASTd=castle/ast/
 missing_serialization: ${ASTd}grammar.py
 	@for R in ${shell grep '^ *class ' $< | sed 's/class //g' | sed 's/[:( ].*$$//g' } ; do \
-	        if !  grep -q -E "^ *((def)|(# *NO_VISITOR_NEEDED:)) $${R}2xml" ${ASTd}serialization/ast2xml/*.py > /dev/null ; then\
+		if !  grep -q -E "^ *((def)|(# *NO_VISITOR_NEEDED:)) $${R}2xml" ${ASTd}serialization/ast2xml/*.py > /dev/null ; then\
 			echo "Warning: $${R} has no xml-serializer (nor is marked as to need none)" ;\
 		fi ;\
 	done
