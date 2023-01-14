@@ -1,6 +1,8 @@
 default: all
 
-all: demo test pyanalyse XXX missing
+CURRENT_TESTS = #pytst/aux/test_1_pack_mk_tuple.py pytst/readers/parser/d2_ast/test_8_grammar.py
+
+all: current demo test pyanalyse XXX missing
 
 missing: missing_visitor missing_serialization
 
@@ -21,6 +23,9 @@ mutmut:									# Mutation testing (takes a long run) https://en.wikipedia.org/w
 	mutmut html ; mv html mutmut-report
 	mutmut results
 	open mutmut-report/index.html
+
+current:
+	PYTHONPATH=`pwd` pytest ${PYTEST_OPTONS}  ${CURRENT_TESTS}
 
 
 demo: pytest-demo python-demo
