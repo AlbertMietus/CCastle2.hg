@@ -10,6 +10,7 @@ from . import parse
 
 def check_rule(txt, pattern=None):
     parse_tree = parse(txt, grammar.parse_rule)
+    logger.debug("%s", parse_tree.tree_str())
 
     assert len(parse_tree) == 4, 		    	"A rule should have length=4; ..."
     assert parse_tree[0].rule_name == "rule_name",  	"  at [0], the name of the rule"
