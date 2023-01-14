@@ -1,3 +1,4 @@
+# (C) Albert Mietus, 2022, 2023. Part of Castle/CCastle project
 """ General File-Reader support"""
 
 import logging; logger = logging.getLogger(__name__)
