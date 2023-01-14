@@ -17,8 +17,9 @@ test-ds test-sd test-d:
 	pytest ${PYTEST_OPTONS} --log-cli-level=DEBUG -s pytst/
 mutmut:
 	-mutmut run  --tests-dir pytst --paths-to-mutate castle
-	mutmut html && mutmut results
-	open html/index.html
+	mutmut html ; mv html mutmut-report
+	mutmut results
+	open mutmut-report/index.html
 
 
 demo: pytest-demo python-demo
@@ -57,7 +58,7 @@ clean_caches:
 
 cleaner: clean
 	rm -rd ./htmlcov/ #coverage
-	rm -rf ./html # mutmut
+	rm -rf mutmut-report/ # mutmut
 
 PYREVERSE_DIR=pyreversed
 PYREVERSE_FORMAT=svg
