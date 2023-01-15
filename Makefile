@@ -1,6 +1,6 @@
 default: all
 
-CURRENT_TESTS = pytst/aux/test_1_pack_mk_tuple.py \
+CURRENT_TESTS = pytst/auxiliary/test_1_pack_mk_tuple.py \
 
 
 all: current demo test pyanalyse XXX missing
