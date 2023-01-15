@@ -1,6 +1,7 @@
 default: all
 
-CURRENT_TESTS = pytst/auxiliary/test_1_pack_mk_tuple.py \
+CURRENT_TESTS = \
+	pytst/writers/CC2Cpy/test_0.py		\
 
 
 all: current demo test pyanalyse XXX missing
@@ -25,8 +26,11 @@ mutmut:									# Mutation testing (takes a long run) https://en.wikipedia.org/w
 	mutmut results
 	open mutmut-report/index.html
 
+
 current:
 	PYTHONPATH=`pwd` pytest ${PYTEST_OPTONS}  ${CURRENT_TESTS}
+current-ds current-sd:
+	PYTHONPATH=`pwd` pytest ${PYTEST_OPTONS}  --log-cli-level=DEBUG -s ${CURRENT_TESTS}
 
 
 demo: pytest-demo python-demo
