@@ -1,8 +1,8 @@
 # (C) Albert Mietus, 2022, 2023. Part of Castle/CCastle project
 
-from . import *
+from . import * # CCompare
 
-from castle.writers.CC2Cpy import *
+from castle.writers.CC2Cpy.CCbase import * # Some generic types 
 
 LOG_ALL=True
 
@@ -26,3 +26,7 @@ def test_4_logvariants():
     assert CCompare(abc,abc, log=True , log_all=False)
     assert CCompare(abc,abc, log=True,  log_all=True)
 
+def test_5_base():
+    # IMPORT the file will do mostly, but ...
+    tp = CC_TypedParameter('test', int)
+    assert tp.type is int
