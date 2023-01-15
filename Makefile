@@ -2,7 +2,8 @@ default: all
 
 CURRENT_TESTS = \
 	pytst/writers/CC2Cpy/test_0.py		\
-
+	pytst/writers/CC2Cpy/test_1_Event.py	\
+	pytst/writers/CC2Cpy/test_2_Protocol.py	\
 
 all: current demo test pyanalyse XXX missing
 
@@ -21,6 +22,8 @@ pytest-d pytest-ds pytest-sd:						# with debuging
 	pytest ${PYTEST_OPTONS} --log-cli-level=DEBUG -s pytst/
 
 mutmut:									# Mutation testing (takes a long run) https://en.wikipedia.org/wiki/Mutation_testing
+	@echo MUTMUT is currenly not working in python-3.11. See BUGS.rst
+mutmut-buggy:
 	-mutmut run  --tests-dir pytst --paths-to-mutate castle
 	mutmut html ; mv html mutmut-report
 	mutmut results
@@ -68,8 +71,10 @@ clean_caches:
 	rm -f ./.mutmut-cache
 
 cleaner: clean
-	rm -rd ./htmlcov/ #coverage
+	rm -rf ./htmlcov/ #coverage
 	rm -rf mutmut-report/ # mutmut
+	rm -rf pyreversed/*
+
 
 PYREVERSE_DIR=pyreversed
 PYREVERSE_FORMAT=svg
