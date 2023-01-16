@@ -21,13 +21,15 @@ pytest-s:								# -s : No capure (so, show stdout/stderr)
 pytest-d pytest-ds pytest-sd:						# with debuging
 	pytest ${PYTEST_OPTONS} --log-cli-level=DEBUG -s pytst/
 
-mutmut:									# Mutation testing (takes a long run) https://en.wikipedia.org/wiki/Mutation_testing
-	@echo MUTMUT is currenly not working in python-3.11. See BUGS.rst
-mutmut-buggy:
+mutmut: mutmut-3.11		    # Mutation testing (takes a long run) https://en.wikipedia.org/wiki/Mutation_testing
 	-mutmut run  --tests-dir pytst --paths-to-mutate castle
 	mutmut html ; mv html mutmut-report
 	mutmut results
 	open mutmut-report/index.html
+mutmut-3.11:
+	@echo Mutmut is currenly not working in python-3.11. See BUGS.rst. 
+	@echo But it works on 3.10 -- Therefore we use the 3.10 version
+	python --version
 
 
 current:
