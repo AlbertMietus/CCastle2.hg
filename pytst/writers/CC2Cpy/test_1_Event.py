@@ -17,6 +17,6 @@ def test_1_Event_small():
     assert e.typedParameters[0].name == 'p1'
     assert e.typedParameters[0].type == float
 
-def test_1_Event_retunInt():
+def test_2_Event_retunInt():
     e = CC_Event("an_event", return_type=int)
     assert e.return_type == int
