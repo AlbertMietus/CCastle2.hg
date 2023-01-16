@@ -5,7 +5,7 @@ CURRENT_TESTS = \
 	pytst/writers/CC2Cpy/test_1_Event.py	\
 	pytst/writers/CC2Cpy/test_2_Protocol.py	\
 
-all: current demo test pyanalyse XXX missing
+all: current demo test mutmut pyanalyse XXX missing
 
 missing: missing_visitor missing_serialization
 
@@ -23,7 +23,7 @@ pytest-d pytest-ds pytest-sd:						# with debuging
 
 mutmut: mutmut-3.11		    # Mutation testing (takes a long run) https://en.wikipedia.org/wiki/Mutation_testing
 	-mutmut run  --tests-dir pytst --paths-to-mutate castle
-	mutmut html ; mv html mutmut-report
+	mutmut html && rm -rf mutmut-report ;mv html mutmut-report
 	mutmut results
 	open mutmut-report/index.html
 mutmut-3.11:
