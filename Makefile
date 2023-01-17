@@ -1,9 +1,8 @@
 default: all
 
 CURRENT_TESTS = \
-	pytst/writers/CC2Cpy/test_0.py		\
-	pytst/writers/CC2Cpy/test_1_Event.py	\
-	pytst/writers/CC2Cpy/test_2_Protocol.py	\
+	pytst/writers/CC2Cpy/test_2a_groundwork.py	\
+	pytst/writers/CC2Cpy/test_2b_EventProtocol.py	\
 
 all: current demo test mutmut pyanalyse XXX missing
 
@@ -77,6 +76,7 @@ cleaner: clean
 	rm -rf mutmut-report/ # mutmut
 	rm -rf pyreversed/*
 
+cleanest veryclean: cleaner
 
 PYREVERSE_DIR=pyreversed
 PYREVERSE_FORMAT=svg

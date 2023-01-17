@@ -4,7 +4,7 @@ from .CCbase import *
 from dataclasses import dataclass, KW_ONLY
 from collections.abc import Sequence # Use for typing
 
-@dataclass
+@dataclass                              # pragma: no mutate
 class CC_Event(CC_Base):
     """An event is like a (remote) function-call
 
