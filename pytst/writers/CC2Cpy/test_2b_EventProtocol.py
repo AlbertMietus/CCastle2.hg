@@ -5,7 +5,19 @@ import pytest
 from . import * # CCompare
 
 from castle.writers.CC2Cpy.Protocol import * #CC_EventProtocol
-from castle.writers.CC2Cpy.Event import * #CC_Event
+from castle.writers.CC2Cpy.Event import CC_Event
+
+@pytest.fixture
+def qazProtocol():
+    return CC_EventProtocol("QAZ",
+                            events=[
+                                    CC_Event("qazEvent1"),
+                                    CC_Event("qazEvent2"),
+                                    CC_Event("qazEvent3"),
+                                    CC_Event("qazEvent4"),
+                                    CC_Event("qazEvent5"),
+                                    CC_Event("qazEvent6")])
+
 
 ref_DemoProtocol="""
    struct CC_B_Protocol cc_P_DEMO = {
@@ -38,15 +50,26 @@ ref_DemoProtocol="""
    typedef void (*CC_E_DEMO_demoEventF_FT)(CC_selfType, CC_ComponentType, );
 """
 
-qazProtocol = CC_EventProtocol("QAZ",
-                               events=[
-                                   CC_Event("qazEventA"),
-                                   CC_Event("qazEventB"),
-                                   CC_Event("qazEventC"),
-                                   CC_Event("qazEventD"),
-                                   CC_Event("qazEventE"),
-                                   CC_Event("qazEventF")])
 
+def test_1_events_qaz(qazProtocol):
+    events = qazProtocol.event_dict()
+    assert isinstance(events, dict)
+    assert len(events) == 6
+
+
+def test_2_events_mix():
+    a = CC_EventProtocol("A", events=[CC_Event("a1")])
+    b = CC_EventProtocol("B", events=[CC_Event("b2"),CC_Event("b3")],based_on=a)
+
+    assert len(b.event_dict(mine=False, inherired=False))  == 0
+    assert len(b.event_dict(mine=False, inherired=True))   == 1
+    assert len(b.event_dict(mine=True,  inherired=False))  == 2
+    assert len(b.event_dict(mine=True,  inherired=True))   == 3
+
+
+
+
+    
 @pytest.mark.skip(reason="CURRENT: busy with testing all part of *C&P CC_EventProtocol")
-def test_0():
+def test_render():
     pass
