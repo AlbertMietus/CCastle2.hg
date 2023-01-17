@@ -8,15 +8,15 @@ from castle.writers.CC2Cpy.Protocol import * #CC_EventProtocol
 from castle.writers.CC2Cpy.Event import CC_Event
 
 @pytest.fixture
-def qazProtocol():
-    return CC_EventProtocol("QAZ",
+def demoProtocol():
+    return CC_EventProtocol("DEMO",
                             events=[
-                                    CC_Event("qazEvent1"),
-                                    CC_Event("qazEvent2"),
-                                    CC_Event("qazEvent3"),
-                                    CC_Event("qazEvent4"),
-                                    CC_Event("qazEvent5"),
-                                    CC_Event("qazEvent6")])
+                                    CC_Event("demoEventA"),
+                                    CC_Event("demoEventB"),
+                                    CC_Event("demoEventC"),
+                                    CC_Event("demoEventD"),
+                                    CC_Event("demoEventE"),
+                                    CC_Event("demoEventF")])
 
 
 ref_DemoProtocol="""
@@ -51,8 +51,12 @@ ref_DemoProtocol="""
 """
 
 
-def test_1_events_qaz(qazProtocol):
-    events = qazProtocol.event_dict()
+def test_0_isEvent(demoProtocol):
+    assert demoProtocol.kind == CC_ProtocolKind.Event
+
+
+def test_1_events_demo(demoProtocol):
+    events = demoProtocol.event_dict()
     assert isinstance(events, dict)
     assert len(events) == 6
 
@@ -66,10 +70,12 @@ def test_2_events_mix():
     assert len(b.event_dict(mine=True,  inherired=False))  == 2
     assert len(b.event_dict(mine=True,  inherired=True))   == 3
 
+    # are the defaults correct mine=True inherired=False
+    assert len(b.event_dict())  == 2
 
 
 
-    
-@pytest.mark.skip(reason="CURRENT: busy with testing all part of *C&P CC_EventProtocol")
-def test_render():
-    pass
+#@pytest.mark.skip(reason="CURRENT: busy with testing all part of *C&P CC_EventProtocol")
+def test_render(demoProtocol):
+    assert CCompare(ref_DemoProtocol, demoProtocol.render())
+
