@@ -80,8 +80,8 @@ cleanest veryclean: cleaner
 
 PYREVERSE_DIR=pyreversed
 PYREVERSE_FORMAT=svg
-PYREVERSE_OPTIONS=-kAmy
-PYREVERSE_PRJS= castle castle.readers castle.ast #castle.writers
+PYREVERSE_OPTIONS=-k -A -my
+PYREVERSE_PRJS= castle castle.readers castle.ast castle.writers.CC2Cpy
 
 pyanalyse pyreverse: ${PYREVERSE_DIR}
 	for P in ${PYREVERSE_PRJS}; do \

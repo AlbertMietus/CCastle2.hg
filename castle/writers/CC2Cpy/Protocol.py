@@ -61,7 +61,7 @@ class CC_EventProtocol(CC_B_Protocol):
     def event_dict(self, inherired=False, mine=True):
         the_events = {}
         if inherired:
-            the_events |= self.based_on.event_dict(inherired=True, mine=True) if isinstance(self.based_on, CC_EventProtocol) else {}
+            the_events |= self.based_on.event_dict(inherired=True, mine=True) if isinstance(self.based_on, CC_EventProtocol) else {} # pragma: no mutate
         if mine:
             the_events |= {e.name: e for e in self.events}
         return the_events

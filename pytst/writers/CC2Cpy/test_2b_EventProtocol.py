@@ -4,8 +4,24 @@ import pytest
 
 from . import * # CCompare
 
+
 from castle.writers.CC2Cpy.Protocol import * #CC_EventProtocol
 from castle.writers.CC2Cpy.Event import CC_Event
+from castle.writers.CC2Cpy.CCbase import CC_TypedParameter
+
+@pytest.fixture
+def simpleSieve():
+    return CC_EventProtocol("SimpleSieve", events=[CC_Event("input", typedParameters=[CC_TypedParameter(name='event', type=int)])])
+
+ref_simpleSieve="""
+   struct CC_B_Protocol  cc_P_SimpleSieve = {
+      .name           = "SimpleSieve",
+      .kind           = CC_B_ProtocolKindIs_Event,
+      .inherit_from   = &cc_P_Protocol,
+      .length         = 1,
+      .events         = {
+         { .seqNo = 0,   .name = "input",   .part_of = &cc_P_SimpleSieve }, } };"""
+
 
 @pytest.fixture
 def demoProtocol():
@@ -74,8 +90,12 @@ def test_2_events_mix():
     assert len(b.event_dict())  == 2
 
 
-
-#@pytest.mark.skip(reason="CURRENT: busy with testing all part of *C&P CC_EventProtocol")
 def test_render(demoProtocol):
     assert CCompare(ref_DemoProtocol, demoProtocol.render())
 
+def test_render_struct_sieve(simpleSieve):
+        assert CCompare(ref_simpleSieve, simpleSieve.render_struct()) 
+
+
+@pytest.mark.skip(reason="CURRENT: busy with testing all part of *C&P CC_EventProtocol")
+def test_more(): pass
