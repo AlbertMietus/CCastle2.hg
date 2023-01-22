@@ -67,6 +67,7 @@ ref_DemoProtocol="""
 """
 
 
+
 def test_0_isEvent(demoProtocol):
     assert demoProtocol.kind == CC_ProtocolKind.Event
 
@@ -86,7 +87,7 @@ def test_2_events_mix():
     assert len(b.event_dict(mine=True,  inherired=False))  == 2
     assert len(b.event_dict(mine=True,  inherired=True))   == 3
 
-    # are the defaults correct mine=True inherired=False
+    # are the defaults correct? mine=True inherired=False
     assert len(b.event_dict())  == 2
 
 
@@ -94,7 +95,30 @@ def test_render(demoProtocol):
     assert CCompare(ref_DemoProtocol, demoProtocol.render())
 
 def test_render_struct_sieve(simpleSieve):
-        assert CCompare(ref_simpleSieve, simpleSieve.render_struct()) 
+        assert CCompare(ref_simpleSieve, simpleSieve.render_struct())
+
+
+
+@pytest.fixture
+def emptyProtocol():
+    return CC_EventProtocol("EMPTY", events=[], based_on=None)
+
+ref_emptyProtocol_struct="""
+   struct CC_B_Protocol cc_P_EMPTY = {
+     .name           = "EMPTY",
+     .kind           = CC_B_ProtocolKindIs_Event,
+     .inherit_from   = NULL,
+     .length         = 0,
+     .events         = { }
+   };
+"""
+
+
+def test_emptyProtocol(emptyProtocol):
+    # the "struct" is minimal"
+    assert CCompare(ref_emptyProtocol_struct, emptyProtocol.render_struct())
+    # and the other parts are absent
+    assert CCompare(ref_emptyProtocol_struct, emptyProtocol.render())
 
 
 @pytest.mark.skip(reason="CURRENT: busy with testing all part of *C&P CC_EventProtocol")
