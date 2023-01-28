@@ -29,7 +29,7 @@ pytest-d pytest-ds pytest-sd:						# with debuging
 
 mutmut: mutmut-3.11		    # Mutation testing (takes a long run) https://en.wikipedia.org/wiki/Mutation_testing
 	-mutmut run  --tests-dir pytst --paths-to-mutate castle
-	mutmut html && rm ${MUTMUT_dir} ; mv html ${MUTMUT_dir}
+	mutmut html && rm -rf ${MUTMUT_dir} && mv html ${MUTMUT_dir}
 	mutmut results
 mutmut-open: mutmut
 	open ${MUTMUT_dir}index.html

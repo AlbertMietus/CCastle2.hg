@@ -6,18 +6,23 @@ import pytest
 
 from . import * # CCompare
 
-
 from castle.writers.CC2Cpy.Protocol import * #CC_EventProtocol
 from castle.writers.CC2Cpy.Event import CC_Event
 from castle.writers.CC2Cpy.CCbase import CC_TypedParameter
 
+###
+### NOTE
+###
+### The leading whitespace in the `ref_...` strings are relevant.
+### Each space is an 'indent'; the renderXXX() formating uses this
+### It does change the prepend/indent and counts the have "the same" number
 
 @pytest.fixture
 def emptyProtocol():
     return CC_EventProtocol("EMPTY", events=[], based_on=None)
 
 ##Note: whitespace in this ref is relevant!!
-refws_emptyProtocol_struct="""\
+ref_emptyProtocol_struct="""\
 struct CC_B_Protocol cc_P_EMPTY = {
  .name           = "EMPTY",
  .kind           = CC_B_ProtocolKindIs_Event,
@@ -33,7 +38,7 @@ def simpleSieve():
     return CC_EventProtocol("SimpleSieve", events=[CC_Event("input", typedParameters=[CC_TypedParameter(name='event', type=int)])])
 
 ##Note: whitespace in this ref is relevant!!
-refws_simpleSieve="""\
+ref_simpleSieve="""\
 struct CC_B_Protocol  cc_P_SimpleSieve = {
  .name           = "SimpleSieve",
  .kind           = CC_B_ProtocolKindIs_Event,
@@ -58,35 +63,35 @@ def demoProtocol():
                                     CC_Event("demoEventF")])
 
 
-ref_DemoProtocol="""
-   struct CC_B_Protocol cc_P_DEMO = {
-     .name           = "DEMO",
-     .kind           = CC_B_ProtocolKindIs_Event,
-     .inherit_from   = &cc_P_Protocol,
-     .length         = 6,
-     .events         = {
-       {  .seqNo   = 0,   .name    = "demoEventA",   .part_of = &cc_P_DEMO },
-       {  .seqNo   = 1,   .name    = "demoEventB",   .part_of = &cc_P_DEMO },
-       {  .seqNo   = 2,   .name    = "demoEventC",   .part_of = &cc_P_DEMO },
-       {  .seqNo   = 3,   .name    = "demoEventD",   .part_of = &cc_P_DEMO },
-       {  .seqNo   = 4,   .name    = "demoEventE",   .part_of = &cc_P_DEMO },
-       {  .seqNo   = 5,   .name    = "demoEventF",   .part_of = &cc_P_DEMO },
-       }
-   };
+ref_DemoProtocol="""\
+struct CC_B_Protocol cc_P_DEMO = {
+ .name           = "DEMO",
+ .kind           = CC_B_ProtocolKindIs_Event,
+ .inherit_from   = &cc_P_Protocol,
+ .length         = 6,
+ .events         = {
+  {  .seqNo   = 0,   .name    = "demoEventA",   .part_of = &cc_P_DEMO },
+  {  .seqNo   = 1,   .name    = "demoEventB",   .part_of = &cc_P_DEMO },
+  {  .seqNo   = 2,   .name    = "demoEventC",   .part_of = &cc_P_DEMO },
+  {  .seqNo   = 3,   .name    = "demoEventD",   .part_of = &cc_P_DEMO },
+  {  .seqNo   = 4,   .name    = "demoEventE",   .part_of = &cc_P_DEMO },
+  {  .seqNo   = 5,   .name    = "demoEventF",   .part_of = &cc_P_DEMO },
+ }
+};
 
-   #define CC_P_DEMO_demoEventA  0
-   #define CC_P_DEMO_demoEventB  1
-   #define CC_P_DEMO_demoEventC  2
-   #define CC_P_DEMO_demoEventD  3
-   #define CC_P_DEMO_demoEventE  4
-   #define CC_P_DEMO_demoEventF  5
+#define CC_P_DEMO_demoEventA  0
+#define CC_P_DEMO_demoEventB  1
+#define CC_P_DEMO_demoEventC  2
+#define CC_P_DEMO_demoEventD  3
+#define CC_P_DEMO_demoEventE  4
+#define CC_P_DEMO_demoEventF  5
 
-   typedef void (*CC_E_DEMO_demoEventA_FT)(CC_selfType, CC_ComponentType, );
-   typedef void (*CC_E_DEMO_demoEventB_FT)(CC_selfType, CC_ComponentType, );
-   typedef void (*CC_E_DEMO_demoEventC_FT)(CC_selfType, CC_ComponentType, );
-   typedef void (*CC_E_DEMO_demoEventD_FT)(CC_selfType, CC_ComponentType, );
-   typedef void (*CC_E_DEMO_demoEventE_FT)(CC_selfType, CC_ComponentType, );
-   typedef void (*CC_E_DEMO_demoEventF_FT)(CC_selfType, CC_ComponentType, );
+typedef void (*CC_E_DEMO_demoEventA_FT)(CC_selfType, CC_ComponentType, );
+typedef void (*CC_E_DEMO_demoEventB_FT)(CC_selfType, CC_ComponentType, );
+typedef void (*CC_E_DEMO_demoEventC_FT)(CC_selfType, CC_ComponentType, );
+typedef void (*CC_E_DEMO_demoEventD_FT)(CC_selfType, CC_ComponentType, );
+typedef void (*CC_E_DEMO_demoEventE_FT)(CC_selfType, CC_ComponentType, );
+typedef void (*CC_E_DEMO_demoEventF_FT)(CC_selfType, CC_ComponentType, );
 """
 
 
@@ -118,22 +123,20 @@ def test_render(demoProtocol):
     assert CCompare(ref_DemoProtocol, demoProtocol.render())
 
 def test_render_struct_sieve(simpleSieve):
-        assert CCompare(refws_simpleSieve, simpleSieve.render_struct())
-
-
+    assert CCompare(ref_simpleSieve, simpleSieve.render_struct())
 
 
 
 def test_emptyProtocol(emptyProtocol):
     # the "struct" is minimal"
-    assert CCompare(refws_emptyProtocol_struct, emptyProtocol.render_struct())
+    assert CCompare(ref_emptyProtocol_struct, emptyProtocol.render_struct())
     # and the other parts are absent
-    assert CCompare(refws_emptyProtocol_struct, emptyProtocol.render())
+    assert CCompare(ref_emptyProtocol_struct, emptyProtocol.render())
 
 
 def test_whitespace(emptyProtocol):
     # More or less leading whitespace should not have effect
-    assert CCompare(refws_emptyProtocol_struct, emptyProtocol.render(prepend="\t\t", indent=""))
+    assert CCompare(ref_emptyProtocol_struct, emptyProtocol.render(prepend="\t\t", indent=""))
 
 def test_prepend(emptyProtocol): # prepend shoud be on any (not empty) line
     prepend="PREPEND_"
@@ -161,12 +164,14 @@ def verify_indent(ref, protocol): # indent can be used several time ...
 
 
 def test_indent_empty(emptyProtocol):
-    verify_indent(refws_emptyProtocol_struct, emptyProtocol)
+    verify_indent(ref_emptyProtocol_struct, emptyProtocol)
 
 
 def test_indent_simpleSieve(simpleSieve):
-    verify_indent(refws_simpleSieve, simpleSieve)
+    verify_indent(ref_simpleSieve, simpleSieve)
 
+def test_indent_demo(demoProtocol):
+    verify_indent(ref_DemoProtocol, demoProtocol)
 
 
 @pytest.mark.skip(reason="CURRENT: busy with testing all part of *C&P CC_EventProtocol")
