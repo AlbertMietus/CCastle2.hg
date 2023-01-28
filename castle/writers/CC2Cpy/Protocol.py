@@ -66,40 +66,40 @@ class CC_EventProtocol(CC_B_Protocol):
             the_events |= {e.name: e for e in self.events}
         return the_events
 
-    def render(self, prepent:str="", indent="  ") ->str:
+    def render(self, prepend:str="", indent="  ") ->str:
         return (
-            self.render_struct(prepent, indent)  + "\n" +
-            self.render_indexes(prepent, indent) + "\n" +
-            self.render_FTs(prepent, indent)  + "\n" )
+            self.render_struct(prepend, indent)  + "\n" +
+            self.render_indexes(prepend, indent) + "\n" +
+            self.render_FTs(prepend, indent)  + "\n" )
 
 
-    def render_struct(self, prepent:str="", indent="  ") ->str:                                     ## struct CC_B_Protocol $name = {...} ;
+    def render_struct(self, prepend:str="", indent="  ") ->str:                                     ## struct CC_B_Protocol $name = {...} ;
         var_name = f'cc_P_{self.name}'
         based_on_link = f'&cc_P_{self.based_on.name}' if self.based_on else "NULL"
 
         retval = []
-        retval.append(f'{prepent}struct CC_B_Protocol {var_name} = {{')
-        retval.append(f'{prepent}{indent}.name           = "{self.name}",')
-        retval.append(f'{prepent}{indent}.kind           = CC_B_ProtocolKindIs_{self.kind.name},')
-        retval.append(f'{prepent}{indent}.inherit_from   = {based_on_link},')
-        retval.append(f'{prepent}{indent}.length         = {len(self.events)},')
+        retval.append(f'{prepend}struct CC_B_Protocol {var_name} = {{')
+        retval.append(f'{prepend}{indent}.name           = "{self.name}",')
+        retval.append(f'{prepend}{indent}.kind           = CC_B_ProtocolKindIs_{self.kind.name},')
+        retval.append(f'{prepend}{indent}.inherit_from   = {based_on_link},')
+        retval.append(f'{prepend}{indent}.length         = {len(self.events)},')
 
         ## For now, loop over the events here ...
         lineval = []
-        lineval.append(f'{prepent}{indent}.events         = {{')
-        for n, e in enumerate(self.events, len(self.event_dict(inherired=True,mine=False))):
-            lineval.append(f'{prepent}{indent*2}{{')                                                # pragma: no mutate
+        lineval.append(f'{prepend}{indent}.events         = {{')
+        for n, e in enumerate(self.events, len(self.event_dict(inherired=True, mine=False))):       # pragma: no mutate on event_dict parms
+            lineval.append(f'{prepend}{indent*2}{{')                                                # pragma: no mutate
             lineval.append(f'  .seqNo   = {n}, ')
             lineval.append(f'  .name    = "{e.name}", ')
             lineval.append(f'  .part_of = &{var_name} ')
             lineval.append("},\n")
-        lineval.append(f'{prepent}{indent*2}}}')
+        lineval.append(f'{prepend}{indent*2}}}')
 
         retval.append("".join(lineval))
-        retval.append(f'{prepent}}};\n') # end of struct
+        retval.append(f'{prepend}}};\n') # end of struct
         return '\n'.join(retval) +"\n"
 
-    def render_indexes(self, prepent:str="", indent="  ") ->str:                                    ## #define CC_P_<proto>_<event> index
+    def render_indexes(self, prepend:str="", indent="  ") ->str:                                    ## #define CC_P_<proto>_<event> index
         ## For now, loop over the events here ...
         retval = []
         for n, e in enumerate(self.events, len(self.event_dict(inherired=True,mine=False))):
@@ -107,7 +107,7 @@ class CC_EventProtocol(CC_B_Protocol):
         return '\n'.join(retval)+"\n"
 
 
-    def render_FTs(self, prepent:str="", indent="  ") ->str: ##typedef void (*CC_E_{...}_FT)(CC_selfType, CC_ComponentType, {...});
+    def render_FTs(self, prepend:str="", indent="  ") ->str: ##typedef void (*CC_E_{...}_FT)(CC_selfType, CC_ComponentType, {...});
         type_name = lambda ptype : ptype if isinstance(ptype, str) else ptype.__name__
 
         retval = []

@@ -9,18 +9,38 @@ from castle.writers.CC2Cpy.Protocol import * #CC_EventProtocol
 from castle.writers.CC2Cpy.Event import CC_Event
 from castle.writers.CC2Cpy.CCbase import CC_TypedParameter
 
+
+@pytest.fixture
+def emptyProtocol():
+    return CC_EventProtocol("EMPTY", events=[], based_on=None)
+
+##Note: whitespace in this ref is relevant!!
+refws_emptyProtocol_struct="""\
+struct CC_B_Protocol cc_P_EMPTY = {
+ .name           = "EMPTY",
+ .kind           = CC_B_ProtocolKindIs_Event,
+ .inherit_from   = NULL,
+ .length         = 0,
+ .events         = { }
+};
+"""
+
 @pytest.fixture
 def simpleSieve():
     return CC_EventProtocol("SimpleSieve", events=[CC_Event("input", typedParameters=[CC_TypedParameter(name='event', type=int)])])
 
-ref_simpleSieve="""
-   struct CC_B_Protocol  cc_P_SimpleSieve = {
-      .name           = "SimpleSieve",
-      .kind           = CC_B_ProtocolKindIs_Event,
-      .inherit_from   = &cc_P_Protocol,
-      .length         = 1,
-      .events         = {
-         { .seqNo = 0,   .name = "input",   .part_of = &cc_P_SimpleSieve }, } };"""
+##Note: whitespace in this ref is relevant!!
+refws_simpleSieve="""\
+struct CC_B_Protocol  cc_P_SimpleSieve = {
+ .name           = "SimpleSieve",
+ .kind           = CC_B_ProtocolKindIs_Event,
+ .inherit_from   = &cc_P_Protocol,
+ .length         = 1,
+ .events         = {
+  { .seqNo = 0,   .name = "input",   .part_of = &cc_P_SimpleSieve },
+ }
+};
+"""
 
 
 @pytest.fixture
@@ -95,30 +115,43 @@ def test_render(demoProtocol):
     assert CCompare(ref_DemoProtocol, demoProtocol.render())
 
 def test_render_struct_sieve(simpleSieve):
-        assert CCompare(ref_simpleSieve, simpleSieve.render_struct())
+        assert CCompare(refws_simpleSieve, simpleSieve.render_struct())
 
 
 
-@pytest.fixture
-def emptyProtocol():
-    return CC_EventProtocol("EMPTY", events=[], based_on=None)
-
-ref_emptyProtocol_struct="""
-   struct CC_B_Protocol cc_P_EMPTY = {
-     .name           = "EMPTY",
-     .kind           = CC_B_ProtocolKindIs_Event,
-     .inherit_from   = NULL,
-     .length         = 0,
-     .events         = { }
-   };
-"""
 
 
 def test_emptyProtocol(emptyProtocol):
     # the "struct" is minimal"
-    assert CCompare(ref_emptyProtocol_struct, emptyProtocol.render_struct())
+    assert CCompare(refws_emptyProtocol_struct, emptyProtocol.render_struct())
     # and the other parts are absent
-    assert CCompare(ref_emptyProtocol_struct, emptyProtocol.render())
+    assert CCompare(refws_emptyProtocol_struct, emptyProtocol.render())
+
+
+def test_whitespace(emptyProtocol):
+    # More or less leading whitespace should not have effect
+    assert CCompare(refws_emptyProtocol_struct, emptyProtocol.render(prepend="\t\t", indent=""))
+
+def test_prepend(emptyProtocol): # prepend shoud be on any (not empty) line
+    prepend="PREPEND_"
+    out = emptyProtocol.render(prepend=prepend)
+    for l in out.splitlines():
+        if len(l)>0:
+            assert l.startswith(prepend)
+            assert not l[len(prepend):].startswith(prepend) # No more prepend's
+
+
+def test_indent(emptyProtocol): # indent can be used several time ...
+    try_indent="_-_"
+    out = emptyProtocol.render(indent=try_indent, prepend="")
+
+    for ref_line,out_line in zip(refws_emptyProtocol_struct.splitlines(), out.splitlines()):
+        ref_indents = len(ref_line)-len(ref_line.lstrip(' '))
+        assert out_line.startswith(try_indent*ref_indents) # start with right number of indents
+        if ref_indents >1:
+            assert out_line[len(try_indent*ref_indents):].startswith(try_indent) # and not more
+
+
 
 
 @pytest.mark.skip(reason="CURRENT: busy with testing all part of *C&P CC_EventProtocol")

@@ -24,11 +24,14 @@ mutmut: mutmut-3.11		    # Mutation testing (takes a long run) https://en.wikipe
 	-mutmut run  --tests-dir pytst --paths-to-mutate castle
 	mutmut html && rm -rf mutmut-report ;mv html mutmut-report
 	mutmut results
-	open mutmut-report/index.html
+
 mutmut-3.11:
 	@echo Mutmut is currenly not working in python-3.11. See BUGS.rst. 
 	@echo But it works on 3.10 -- Therefore we use the 3.10 version
 	python --version
+
+mutmut-open: mutmut
+	open mutmut-report/index.html
 
 
 current:
