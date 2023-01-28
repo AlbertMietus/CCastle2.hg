@@ -83,20 +83,20 @@ class CC_EventProtocol(CC_B_Protocol):
         retval.append(f'{prepend}{indent}.kind           = CC_B_ProtocolKindIs_{self.kind.name},')
         retval.append(f'{prepend}{indent}.inherit_from   = {based_on_link},')
         retval.append(f'{prepend}{indent}.length         = {len(self.events)},')
+        retval.append(f'{prepend}{indent}.events         = {{')
 
-        ## For now, loop over the events here ...
-        lineval = []
-        lineval.append(f'{prepend}{indent}.events         = {{')
         for n, e in enumerate(self.events, len(self.event_dict(inherired=True, mine=False))):       # pragma: no mutate on event_dict parms
+            lineval = []
             lineval.append(f'{prepend}{indent*2}{{')                                                # pragma: no mutate
             lineval.append(f'  .seqNo   = {n}, ')
             lineval.append(f'  .name    = "{e.name}", ')
             lineval.append(f'  .part_of = &{var_name} ')
-            lineval.append("},\n")
-        lineval.append(f'{prepend}{indent*2}}}')
+            lineval.append("},")
+            # add line to retval
+            retval.append("".join(lineval))
 
-        retval.append("".join(lineval))
-        retval.append(f'{prepend}}};\n') # end of struct
+        retval.append(f'{prepend}{indent*2}}}')   #end of events
+        retval.append(f'{prepend}}};\n')          # end of struct
         return '\n'.join(retval) +"\n"
 
     def render_indexes(self, prepend:str="", indent="  ") ->str:                                    ## #define CC_P_<proto>_<event> index
