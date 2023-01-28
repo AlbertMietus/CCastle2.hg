@@ -87,7 +87,7 @@ class CC_EventProtocol(CC_B_Protocol):
 
         for n, e in enumerate(self.events, len(self.event_dict(inherired=True, mine=False))):       # pragma: no mutate on event_dict parms
             lineval = []
-            lineval.append(f'{prepend}{indent*2}{{')                                                # pragma: no mutate
+            lineval.append(f'{prepend}{indent*2}{{')                                                # XXXpragma: no mutate
             lineval.append(f'  .seqNo   = {n}, ')
             lineval.append(f'  .name    = "{e.name}", ')
             lineval.append(f'  .part_of = &{var_name} ')
@@ -95,24 +95,25 @@ class CC_EventProtocol(CC_B_Protocol):
             # add line to retval
             retval.append("".join(lineval))
 
-        retval.append(f'{prepend}{indent*2}}}')   #end of events
-        retval.append(f'{prepend}}};\n')          # end of struct
+        retval.append(f'{prepend}{indent*2}}}')   #end of events      XXX Mutant 41
+        retval.append(f'{prepend}}};\n')          #end of struct
         return '\n'.join(retval) +"\n"
 
+    # XXX Mutant 45,46: default values prepend/indent
     def render_indexes(self, prepend:str="", indent="  ") ->str:                                    ## #define CC_P_<proto>_<event> index
         ## For now, loop over the events here ...
         retval = []
-        for n, e in enumerate(self.events, len(self.event_dict(inherired=True,mine=False))):
+        for n, e in enumerate(self.events, len(self.event_dict(inherired=True,mine=False))): # pragma: no mutate on event_dict parms
             retval.append(f'#define CC_P_{self.name}_{e.name}\t{n}\n')
         return '\n'.join(retval)+"\n"
 
-
+    # XXX Mutant 53/53: default values prepend/indent
     def render_FTs(self, prepend:str="", indent="  ") ->str: ##typedef void (*CC_E_{...}_FT)(CC_selfType, CC_ComponentType, {...});
         type_name = lambda ptype : ptype if isinstance(ptype, str) else ptype.__name__
 
         retval = []
         for  e in self.events:
-            types =" , ".join(f'{type_name(parm.type)}' for parm in e.typedParameters)
+            types =" , ".join(f'{type_name(parm.type)}' for parm in e.typedParameters)   # pragma: no mutate on " , " befor join()
             retval.append( f'typedef void (*CC_E_{self.name}_{e.name}_FT)(CC_selfType, CC_ComponentType, {types});')
         return '\n'.join(retval)+"\n"
 

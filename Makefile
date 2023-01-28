@@ -6,13 +6,20 @@ CURRENT_TESTS = \
 
 all: current demo test mutmut pyanalyse XXX missing
 
+ToCS_dir     = _ToCS-reports/
+COVERAGE_dir = ${ToCS_dir}Coverage/
+MUTMUT_dir   = ${ToCS_dir}MutMut/
+
 missing: missing_visitor missing_serialization
 
 PYTEST_OPTONS=-rxXsfE
 pytest test coverage:
 	coverage run --branch -m pytest ${PYTEST_OPTONS}  pytst/
 	coverage report  --skip-covered
-	coverage html
+	coverage html --directory=${COVERAGE_dir}
+coverage-open: coverage
+	open ${COVERAGE_dir}index.html
+
 pytest-only:								# No coverage reports
 	pytest ${PYTEST_OPTONS}  pytst
 pytest-s:								# -s : No capure (so, show stdout/stderr)
@@ -22,16 +29,16 @@ pytest-d pytest-ds pytest-sd:						# with debuging
 
 mutmut: mutmut-3.11		    # Mutation testing (takes a long run) https://en.wikipedia.org/wiki/Mutation_testing
 	-mutmut run  --tests-dir pytst --paths-to-mutate castle
-	mutmut html && rm -rf mutmut-report ;mv html mutmut-report
+	mutmut html && rm ${MUTMUT_dir} ; mv html ${MUTMUT_dir}
 	mutmut results
+mutmut-open: mutmut
+	open ${MUTMUT_dir}index.html
 
 mutmut-3.11:
 	@echo Mutmut is currenly not working in python-3.11. See BUGS.rst. 
 	@echo But it works on 3.10 -- Therefore we use the 3.10 version
 	python --version
 
-mutmut-open: mutmut
-	open mutmut-report/index.html
 
 
 current:
@@ -67,21 +74,8 @@ missing_serialization: ${ASTd}grammar.py
 XXX:
 	grep XXX `find . -type f -name \*.py`
 
-clean: clean_caches
-clean_caches:
-	find . -type d -name __pycache__    -print0 | xargs -0  rm -r
-	find . -type d -name .pytest_cache  -print0 | xargs -0  rm -r
-	rm -f ./.coverage
-	rm -f ./.mutmut-cache
 
-cleaner: clean
-	rm -rf ./htmlcov/ #coverage
-	rm -rf mutmut-report/ # mutmut
-	rm -rf pyreversed/*
-
-cleanest veryclean: cleaner
-
-PYREVERSE_DIR=pyreversed
+PYREVERSE_DIR=pyreversed/
 PYREVERSE_FORMAT=svg
 PYREVERSE_OPTIONS=-k -A -my
 PYREVERSE_PRJS= castle castle.readers castle.ast castle.writers.CC2Cpy
@@ -91,6 +85,20 @@ pyanalyse pyreverse: ${PYREVERSE_DIR}
 		echo "PYANALYSE::" $$P "...";\
 		pyreverse -d ${PYREVERSE_DIR} -o ${PYREVERSE_FORMAT} ${PYREVERSE_OPTIONS} -p $$P --colorized --max-color-depth=42 -my $$P >>/dev/null;\
 		echo ".. done. Result-files:" ;\
-		ls -l ${PYREVERSE_DIR}/*$${P}.${PYREVERSE_FORMAT} ;\
+		ls -l ${PYREVERSE_DIR}*$${P}.${PYREVERSE_FORMAT} ;\
 		echo;\
 	done
+
+clean: clean_caches
+clean_caches:
+	find . -type d -name __pycache__    -print0 | xargs -0  rm -r
+	find . -type d -name .pytest_cache  -print0 | xargs -0  rm -r
+	rm -f ./.coverage
+	rm -f ./.mutmut-cache
+
+cleaner: clean
+	rm -rf ${COVERAGE_dir}
+	rm -rf ${MUTMUT_dir}
+	rm -rf {PYREVERSE_DIR}*
+
+cleanest veryclean: cleaner
