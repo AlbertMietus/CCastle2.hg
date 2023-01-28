@@ -85,6 +85,7 @@ class CC_EventProtocol(CC_B_Protocol):
         retval.append(f'{prepend}{indent}.length         = {len(self.events)},')
         retval.append(f'{prepend}{indent}.events         = {{')
 
+        #Loop over events
         for n, e in enumerate(self.events, len(self.event_dict(inherired=True, mine=False))):       # pragma: no mutate on event_dict parms
             lineval = []
             lineval.append(f'{prepend}{indent*2}{{')                                                # XXXpragma: no mutate
@@ -94,12 +95,11 @@ class CC_EventProtocol(CC_B_Protocol):
             lineval.append("},")
             # add line to retval
             retval.append("".join(lineval))
-
-        retval.append(f'{prepend}{indent*2}}}')   #end of events      XXX Mutant 41
+        retval.append(f'{prepend}{indent}}}')   #end of events      XXX Mutant: indent*3
         retval.append(f'{prepend}}};\n')          #end of struct
         return '\n'.join(retval) +"\n"
 
-    # XXX Mutant 45,46: default values prepend/indent
+    # XXX Mutant 2* : default values prepend/indent
     def render_indexes(self, prepend:str="", indent="  ") ->str:                                    ## #define CC_P_<proto>_<event> index
         ## For now, loop over the events here ...
         retval = []
@@ -107,9 +107,9 @@ class CC_EventProtocol(CC_B_Protocol):
             retval.append(f'#define CC_P_{self.name}_{e.name}\t{n}\n')
         return '\n'.join(retval)+"\n"
 
-    # XXX Mutant 53/53: default values prepend/indent
+    # XXX Mutant 2*: default values prepend/indent
     def render_FTs(self, prepend:str="", indent="  ") ->str: ##typedef void (*CC_E_{...}_FT)(CC_selfType, CC_ComponentType, {...});
-        type_name = lambda ptype : ptype if isinstance(ptype, str) else ptype.__name__
+        type_name = lambda ptype : ptype if isinstance(ptype, str) else ptype.__name__   # XXX Mutant
 
         retval = []
         for  e in self.events:

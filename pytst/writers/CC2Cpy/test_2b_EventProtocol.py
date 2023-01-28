@@ -23,7 +23,8 @@ struct CC_B_Protocol cc_P_EMPTY = {
  .kind           = CC_B_ProtocolKindIs_Event,
  .inherit_from   = NULL,
  .length         = 0,
- .events         = { }
+ .events         = {
+ }
 };
 """
 
@@ -144,18 +145,17 @@ def test_prepend(emptyProtocol): # prepend shoud be on any (not empty) line
 
 
 def verify_indent(ref, protocol): # indent can be used several time ...
-    try_indent="_-|"
+    #try_indent="_-|"
+    try_indent="_"
     out = protocol.render_struct(indent=try_indent, prepend="")
     logger.info("Protocol %s results in::\n%s", protocol.name, out)
 
     for ref_line,out_line in zip(ref.splitlines(), out.splitlines()):
         ref_indents = len(ref_line)-len(ref_line.lstrip(' '))
-        logger.debug("ref_line:  %s", ref_line)
-        logger.debug("out_line:: %s", out_line)
-        #assert out_line.startswith(try_indent*ref_indents) # start with right number of indents
+        logger.debug("ref_line: %s", ref_line)
+        logger.debug("out_line: %s", out_line)
         assert out_line[:len(try_indent)*ref_indents] == try_indent*ref_indents
-        if ref_indents >1:
-            #assert out_line[len(try_indent*ref_indents):].startswith(try_indent) # and not more
+        if ref_indents >0:
             without_pref = out_line[len(try_indent*ref_indents):]
             assert without_pref[0:len(try_indent)] != try_indent
 
@@ -164,7 +164,7 @@ def test_indent_empty(emptyProtocol):
     verify_indent(refws_emptyProtocol_struct, emptyProtocol)
 
 
-def test_indent_simple(simpleSieve):
+def test_indent_simpleSieve(simpleSieve):
     verify_indent(refws_simpleSieve, simpleSieve)
 
 
