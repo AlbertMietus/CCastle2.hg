@@ -69,8 +69,8 @@ class CC_EventProtocol(CC_B_Protocol):
     def render(self, prepend:str="", indent="  ") ->str:
         return (
             self.render_struct(prepend, indent)  + "\n" +
-            self.render_indexes(prepend, indent) + "\n" +
-            self.render_FTs(prepend, indent)  + "\n" )
+            self.render_indexes(prepend) + "\n" +
+            self.render_FTs(prepend)  + "\n" )
 
 
     def render_struct(self, prepend:str="", indent="  ") ->str:                                     ## struct CC_B_Protocol $name = {...} ;
@@ -100,18 +100,16 @@ class CC_EventProtocol(CC_B_Protocol):
         return '\n'.join(retval) +"\n"
 
 
-    # XXX Mutant 2* : default values prepend/indent
-    def render_indexes(self, prepend:str="", indent="  ") ->str:                                    ## #define CC_P_<proto>_<event> index
-        ## For now, loop over the events here ...
+    def render_indexes(self, prepend:str="") ->str:                                ## #define CC_P_<proto>_<event> index
         retval = []
-        for n, e in enumerate(self.events, len(self.event_dict(inherired=True,mine=False))): # pragma: no mutate on event_dict parms
+        for n, e in enumerate(self.events, len(self.event_dict(inherired=True, mine=False))): # pragma: no mutate on event_dict parms
             retval.append(f'{prepend}#define CC_P_{self.name}_{e.name}\t{n}')
         return '\n'.join(retval)+"\n"
 
 
     # XXX Mutant 2*: default values prepend/indent
-    def render_FTs(self, prepend:str="", indent="  ") ->str: ##typedef void (*CC_E_{...}_FT)(CC_selfType, CC_ComponentType, {...});
-        type_name = lambda ptype : ptype if isinstance(ptype, str) else ptype.__name__   # XXX Mutant
+    def render_FTs(self, prepend:str="", ) ->str:                 ##typedef void (*CC_E_{...}_FT)(CC_selfType, CC_ComponentType, {...});
+        type_name = lambda ptype : ptype if isinstance(ptype, str) else ptype.__name__   # pragma: no mutate -- is it needed?
 
         retval = []
         for  e in self.events:

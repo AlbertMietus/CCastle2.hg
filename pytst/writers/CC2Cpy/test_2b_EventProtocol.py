@@ -161,7 +161,7 @@ def test_prepend_demo(demoProtocol):
     verify_prepend(demoProtocol)
 
 
-def verify_indent(ref, protocol): # indent can be used several time ...
+def verify_indent(ref, protocol): # indent can be used several times ...
     try_indent="_-|"
     out = protocol.render_struct(indent=try_indent, prepend="")
     logger.info("Protocol %s results in::\n%s", protocol.name, out)
@@ -185,6 +185,17 @@ def test_indent_simpleSieve(simpleSieve):
 
 def test_indent_demo(demoProtocol):
     verify_indent(ref_demo, demoProtocol)
+
+
+def test_prepend_indexes(demoProtocol):
+    assert CCompare(ref_demo_index, demoProtocol.render_indexes())
+    assert CCompare(ref_demo_index, demoProtocol.render_indexes(prepend=""))
+    assert CCompare(ref_demo_index, demoProtocol.render_indexes(prepend="\t"))
+
+def test_prepend_FTs(demoProtocol):
+    assert CCompare(ref_demo_FTs, demoProtocol.render_FTs())
+    assert CCompare(ref_demo_FTs, demoProtocol.render_FTs(prepend=""))
+    assert CCompare(ref_demo_FTs, demoProtocol.render_FTs(prepend="\t"))
 
 
 @pytest.mark.skip(reason="CURRENT: busy with testing all part of *C&P CC_EventProtocol")
