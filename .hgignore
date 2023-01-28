@@ -12,5 +12,5 @@ Design/.*\.svg
 pyreversed/.*\.svg
 htmlcov
 .coverage
-mutmut-report
 .mutmut-cache
+_ToCS-reports/
