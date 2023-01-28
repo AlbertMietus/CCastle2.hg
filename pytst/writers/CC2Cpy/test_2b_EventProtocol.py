@@ -63,7 +63,7 @@ def demoProtocol():
                                     CC_Event("demoEventF")])
 
 
-ref_DemoProtocol="""\
+ref_demo_struct="""\
 struct CC_B_Protocol cc_P_DEMO = {
  .name           = "DEMO",
  .kind           = CC_B_ProtocolKindIs_Event,
@@ -78,14 +78,16 @@ struct CC_B_Protocol cc_P_DEMO = {
   {  .seqNo   = 5,   .name    = "demoEventF",   .part_of = &cc_P_DEMO },
  }
 };
-
+"""
+ref_demo_index="""\
 #define CC_P_DEMO_demoEventA  0
 #define CC_P_DEMO_demoEventB  1
 #define CC_P_DEMO_demoEventC  2
 #define CC_P_DEMO_demoEventD  3
 #define CC_P_DEMO_demoEventE  4
 #define CC_P_DEMO_demoEventF  5
-
+"""
+ref_demo_FTs="""\
 typedef void (*CC_E_DEMO_demoEventA_FT)(CC_selfType, CC_ComponentType, );
 typedef void (*CC_E_DEMO_demoEventB_FT)(CC_selfType, CC_ComponentType, );
 typedef void (*CC_E_DEMO_demoEventC_FT)(CC_selfType, CC_ComponentType, );
@@ -93,6 +95,8 @@ typedef void (*CC_E_DEMO_demoEventD_FT)(CC_selfType, CC_ComponentType, );
 typedef void (*CC_E_DEMO_demoEventE_FT)(CC_selfType, CC_ComponentType, );
 typedef void (*CC_E_DEMO_demoEventF_FT)(CC_selfType, CC_ComponentType, );
 """
+
+ref_demo="\n".join([ref_demo_struct, ref_demo_index, ref_demo_FTs])
 
 
 
@@ -120,7 +124,7 @@ def test_2_events_mix():
 
 
 def test_render(demoProtocol):
-    assert CCompare(ref_DemoProtocol, demoProtocol.render())
+    assert CCompare(ref_demo, demoProtocol.render())
 
 def test_render_struct_sieve(simpleSieve):
     assert CCompare(ref_simpleSieve, simpleSieve.render_struct())
@@ -138,25 +142,34 @@ def test_whitespace(emptyProtocol):
     # More or less leading whitespace should not have effect
     assert CCompare(ref_emptyProtocol_struct, emptyProtocol.render(prepend="\t\t", indent=""))
 
-def test_prepend(emptyProtocol): # prepend shoud be on any (not empty) line
+def verify_prepend(protocol): # prepend shoud be on any (not empty) line
     prepend="PREPEND_"
-    out = emptyProtocol.render(prepend=prepend)
+    out = protocol.render(prepend=prepend)
+    logger.info("Protocol %s results in::\n%s", protocol.name, out)
     for l in out.splitlines():
         if len(l)>0:
             assert l.startswith(prepend)
             assert not l[len(prepend):].startswith(prepend) # No more prepend's
 
+def test_prepend_empty(emptyProtocol):
+    verify_prepend(emptyProtocol)
+
+def test_prepend_simpleSieve(simpleSieve):
+    verify_prepend(simpleSieve)
+
+def test_prepend_demo(demoProtocol):
+    verify_prepend(demoProtocol)
+
 
 def verify_indent(ref, protocol): # indent can be used several time ...
-    #try_indent="_-|"
-    try_indent="_"
+    try_indent="_-|"
     out = protocol.render_struct(indent=try_indent, prepend="")
     logger.info("Protocol %s results in::\n%s", protocol.name, out)
 
     for ref_line,out_line in zip(ref.splitlines(), out.splitlines()):
         ref_indents = len(ref_line)-len(ref_line.lstrip(' '))
-        logger.debug("ref_line: %s", ref_line)
-        logger.debug("out_line: %s", out_line)
+        logger.debug("ref_line: %s", ref_line); logger.debug("out_line: %s", out_line)
+
         assert out_line[:len(try_indent)*ref_indents] == try_indent*ref_indents
         if ref_indents >0:
             without_pref = out_line[len(try_indent*ref_indents):]
@@ -171,7 +184,7 @@ def test_indent_simpleSieve(simpleSieve):
     verify_indent(ref_simpleSieve, simpleSieve)
 
 def test_indent_demo(demoProtocol):
-    verify_indent(ref_DemoProtocol, demoProtocol)
+    verify_indent(ref_demo, demoProtocol)
 
 
 @pytest.mark.skip(reason="CURRENT: busy with testing all part of *C&P CC_EventProtocol")

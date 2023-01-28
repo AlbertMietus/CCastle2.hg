@@ -105,7 +105,7 @@ class CC_EventProtocol(CC_B_Protocol):
         ## For now, loop over the events here ...
         retval = []
         for n, e in enumerate(self.events, len(self.event_dict(inherired=True,mine=False))): # pragma: no mutate on event_dict parms
-            retval.append(f'#define CC_P_{self.name}_{e.name}\t{n}\n')
+            retval.append(f'{prepend}#define CC_P_{self.name}_{e.name}\t{n}')
         return '\n'.join(retval)+"\n"
 
 
@@ -116,6 +116,6 @@ class CC_EventProtocol(CC_B_Protocol):
         retval = []
         for  e in self.events:
             types =" , ".join(f'{type_name(parm.type)}' for parm in e.typedParameters)   # pragma: no mutate on " , " befor join()
-            retval.append( f'typedef void (*CC_E_{self.name}_{e.name}_FT)(CC_selfType, CC_ComponentType, {types});')
+            retval.append( f'{prepend}typedef void (*CC_E_{self.name}_{e.name}_FT)(CC_selfType, CC_ComponentType, {types});')
         return '\n'.join(retval)+"\n"
 
