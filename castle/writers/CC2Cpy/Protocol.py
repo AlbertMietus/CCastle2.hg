@@ -26,7 +26,7 @@ CC_B_Protocol: TypeAlias = 'CC_B_Protocol'  # forward reference                 
 
 
 @dataclass
-class CC_B_Protocol:
+class CC_B_Protocol(CC_Base):
     """ .. note:: Use one of the subclasses -- Only Event is defined yet
         .. todo:: Design: What is the `kind` self and the inherited ones are not the same?
                   overrideing CC_ProtocolKindIs_Unknown is always allowed
