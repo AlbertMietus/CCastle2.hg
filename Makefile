@@ -7,7 +7,10 @@ LAST = \
 	pytst/writers/CC2Cpy/test_2b_EventProtocol.py		\
 #
 CURRENT_TESTS = \
-	pytst/writers/CC2Cpy/test_3_Interface.py		\
+	pytst/writers/CC2Cpy/test_3a_CompPort.py		\
+	pytst/writers/CC2Cpy/test_3b_CompInterface.py		\
+	pytst/writers/CC2Cpy/test_3c_CompClass.py		\
+	pytst/writers/CC2Cpy/test_3d_CompStruct.py 		\
 #
 TODO_TESTS = \
 	pytst/writers/CC2Cpy/test_999_NoNameCollision.py	\
