@@ -2,13 +2,16 @@ default: all
 
 all: current demo test mutmut pyanalyse XXX missing current-todo
 
-CURRENT_TESTS = \
+LAST = \
 	pytst/writers/CC2Cpy/test_2a_groundwork.py		\
 	pytst/writers/CC2Cpy/test_2b_EventProtocol.py		\
-
+#
+CURRENT_TESTS = \
+	pytst/writers/CC2Cpy/test_3_Interface.py		\
+#
 TODO_TESTS = \
 	pytst/writers/CC2Cpy/test_999_NoNameCollision.py	\
-
+#
 
 ToCS_dir     = _ToCS-reports/
 COVERAGE_dir = ${ToCS_dir}Coverage/
@@ -46,12 +49,14 @@ mutmut-3.11:
 open: coverage-open mutmut-open
 remake: veryclean coverage mutmut open
 
-current:
-	PYTHONPATH=`pwd` pytest ${PYTEST_OPTONS}  ${CURRENT_TESTS} ${TODO_TESTS}
+last:
+	PYTHONPATH=`pwd` pytest ${PYTEST_OPTONS}  ${LAST}
 current-only:
 	PYTHONPATH=`pwd` pytest ${PYTEST_OPTONS}  ${CURRENT_TESTS}
+current:
+	PYTHONPATH=`pwd` pytest ${PYTEST_OPTONS}  ${CURRENT_TESTS} ${TODO_TESTS}
 current-todo:
-	PYTHONPATH=`pwd` pytest ${PYTEST_OPTONS}
+	PYTHONPATH=`pwd` pytest ${PYTEST_OPTONS}  ${TODO_TESTS}
 current-ds current-sd:
 	PYTHONPATH=`pwd` pytest ${PYTEST_OPTONS}  --log-cli-level=DEBUG -s ${CURRENT_TESTS}
 
