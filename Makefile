@@ -39,17 +39,19 @@ mutmut-open: mutmut
 	open ${MUTMUT_dir}index.html
 
 mutmut-3.11:
-	@echo Mutmut is currenly not working in python-3.11. See BUGS.rst. 
+	@echo Mutmut is currenly not working in python-3.11. See BUGS.rst.
 	@echo But it works on 3.10 -- Therefore we use the 3.10 version
 	python --version
 
 open: coverage-open mutmut-open
 remake: veryclean coverage mutmut open
-current: current-only  current-todo
+
+current:
+	PYTHONPATH=`pwd` pytest ${PYTEST_OPTONS}  ${CURRENT_TESTS} ${TODO_TESTS}
 current-only:
 	PYTHONPATH=`pwd` pytest ${PYTEST_OPTONS}  ${CURRENT_TESTS}
 current-todo:
-	PYTHONPATH=`pwd` pytest ${PYTEST_OPTONS}  ${TODO_TESTS}
+	PYTHONPATH=`pwd` pytest ${PYTEST_OPTONS}
 current-ds current-sd:
 	PYTHONPATH=`pwd` pytest ${PYTEST_OPTONS}  --log-cli-level=DEBUG -s ${CURRENT_TESTS}
 
