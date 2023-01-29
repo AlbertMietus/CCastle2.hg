@@ -39,8 +39,8 @@ mutmut-3.11:
 	@echo But it works on 3.10 -- Therefore we use the 3.10 version
 	python --version
 
-
-
+open: coverage-open mutmut-open
+remake: veryclean coverage mutmut open
 current:
 	PYTHONPATH=`pwd` pytest ${PYTEST_OPTONS}  ${CURRENT_TESTS}
 current-ds current-sd:

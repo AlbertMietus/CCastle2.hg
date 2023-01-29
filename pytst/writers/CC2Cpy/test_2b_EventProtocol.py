@@ -21,7 +21,6 @@ from castle.writers.CC2Cpy.CCbase import CC_TypedParameter
 def emptyProtocol():
     return CC_EventProtocol("EMPTY", events=[], based_on=None)
 
-##Note: whitespace in this ref is relevant!!
 ref_emptyProtocol_struct="""\
 struct CC_B_Protocol cc_P_EMPTY = {
  .name           = "EMPTY",
@@ -37,7 +36,6 @@ struct CC_B_Protocol cc_P_EMPTY = {
 def simpleSieve():
     return CC_EventProtocol("SimpleSieve", events=[CC_Event("input", typedParameters=[CC_TypedParameter(name='event', type=int)])])
 
-##Note: whitespace in this ref is relevant!!
 ref_simpleSieve="""\
 struct CC_B_Protocol  cc_P_SimpleSieve = {
  .name           = "SimpleSieve",
@@ -50,7 +48,6 @@ struct CC_B_Protocol  cc_P_SimpleSieve = {
 };
 """
 
-
 @pytest.fixture
 def demoProtocol():
     return CC_EventProtocol("DEMO",
@@ -61,7 +58,6 @@ def demoProtocol():
                                     CC_Event("demoEventD"),
                                     CC_Event("demoEventE"),
                                     CC_Event("demoEventF")])
-
 
 ref_demo_struct="""\
 struct CC_B_Protocol cc_P_DEMO = {
@@ -79,6 +75,7 @@ struct CC_B_Protocol cc_P_DEMO = {
  }
 };
 """
+
 ref_demo_index="""\
 #define CC_P_DEMO_demoEventA  0
 #define CC_P_DEMO_demoEventB  1
@@ -87,6 +84,7 @@ ref_demo_index="""\
 #define CC_P_DEMO_demoEventE  4
 #define CC_P_DEMO_demoEventF  5
 """
+
 ref_demo_FTs="""\
 typedef void (*CC_E_DEMO_demoEventA_FT)(CC_selfType, CC_ComponentType, );
 typedef void (*CC_E_DEMO_demoEventB_FT)(CC_selfType, CC_ComponentType, );
@@ -95,14 +93,11 @@ typedef void (*CC_E_DEMO_demoEventD_FT)(CC_selfType, CC_ComponentType, );
 typedef void (*CC_E_DEMO_demoEventE_FT)(CC_selfType, CC_ComponentType, );
 typedef void (*CC_E_DEMO_demoEventF_FT)(CC_selfType, CC_ComponentType, );
 """
-
 ref_demo="\n".join([ref_demo_struct, ref_demo_index, ref_demo_FTs])
-
 
 
 def test_0_isEvent(demoProtocol):
     assert demoProtocol.kind == CC_ProtocolKind.Event
-
 
 def test_1_events_demo(demoProtocol):
     events = demoProtocol.event_dict()
@@ -122,14 +117,11 @@ def test_2_events_mix():
     # are the defaults correct? mine=True inherired=False
     assert len(b.event_dict())  == 2
 
-
 def test_render(demoProtocol):
     assert CCompare(ref_demo, demoProtocol.render())
 
 def test_render_struct_sieve(simpleSieve):
     assert CCompare(ref_simpleSieve, simpleSieve.render_struct())
-
-
 
 def test_emptyProtocol(emptyProtocol):
     # the "struct" is minimal"
@@ -179,7 +171,6 @@ def verify_indent(ref, protocol): # indent can be used several times ...
 def test_indent_empty(emptyProtocol):
     verify_indent(ref_emptyProtocol_struct, emptyProtocol)
 
-
 def test_indent_simpleSieve(simpleSieve):
     verify_indent(ref_simpleSieve, simpleSieve)
 
@@ -196,7 +187,3 @@ def test_prepend_FTs(demoProtocol):
     assert CCompare(ref_demo_FTs, demoProtocol.render_FTs())
     assert CCompare(ref_demo_FTs, demoProtocol.render_FTs(prepend=""))
     assert CCompare(ref_demo_FTs, demoProtocol.render_FTs(prepend="\t"))
-
-
-@pytest.mark.skip(reason="CURRENT: busy with testing all part of *C&P CC_EventProtocol")
-def test_more(): pass
