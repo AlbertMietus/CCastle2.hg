@@ -51,9 +51,9 @@ def test_1c_MorePorts():
 
 
 ref_emptyComp="""\
-struct CC_B_ComponentInterface cc_CI_Empty = {
+struct CC_B_ComponentInterface cc_CI_empty = {
  .name          = "empty",
- .inherit_from  = &cc_CI_Component,
+ .inherit_from  = NULL,
  .length        = 0,
  .ports = {
  }
@@ -71,19 +71,18 @@ struct CC_B_ComponentInterface cc_CI_sub = {
 """
 
 def test_render(emptyComp):
-    CCompare(ref_emptyComp, emptyComp.render())
-    CCompare(ref_emptyComp, emptyComp.render_struct())
+    assert CCompare(ref_emptyComp, emptyComp.render(), log_all=True)
+    assert CCompare(ref_emptyComp, emptyComp.render_struct())
 
 def test_render_whitespace(emptyComp):
     # prepending a/o indenting with whitespace has no effect
-    CCompare(ref_emptyComp, emptyComp.render(prepend="\t\t", indent=""))
-    CCompare(ref_emptyComp, emptyComp.render_struct(prepend=" ", indent="\t\t\t"))
-
+    assert CCompare(ref_emptyComp, emptyComp.render(prepend="\t\t", indent=""))
+    assert CCompare(ref_emptyComp, emptyComp.render_struct(prepend=" ", indent="\t\t\t"))
 
 def test_render_sub(subComp):
-    CCompare(ref_subComp, subComp.render())
+    assert CCompare(ref_subComp, subComp.render())
 
 @pytest.mark.skip(reason="More CompInterface-tests are needed")
 def test_more(): pass
 
-    
+
