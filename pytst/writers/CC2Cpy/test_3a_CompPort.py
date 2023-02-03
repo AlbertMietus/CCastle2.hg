@@ -9,7 +9,6 @@ import pytest
 from . import * # CCompare
 
 from castle.writers.CC2Cpy.Component import *
-from castle.writers.CC2Cpy.Component import CC_PortDirection # Not public XXX
 
 def test_1a_CC_PortDirection():
     # Test the (int) value -- needed for the generated C code
@@ -29,7 +28,27 @@ def test_1a_CC_PortDirection():
     assert CC_PortDirection.Slave   == CC_PortDirection.CC_B_PortDirectionIs_slave
 
 @pytest.mark.skip(reason="Is rendering needed?")
-def test_1b_PortRender(): pass
+def test_1b_render_PortDirection(): pass
+
+def test_2a1_Port_defaults():
+    n, t = "defaults", int
+    p1 = CC_Port(name=n, type=t) # Only direction is optional
+    assert p1.name == n
+    assert p1.type is t
+    assert p1.direction == CC_PortDirection.Unknown
+
+def test_2a1_Port_full():
+    n, t = "full", float
+    d=CC_PortDirection.In
+    inp = CC_Port(name=n, type=t, direction=d)
+    assert inp.name == n
+    assert inp.type is t
+    assert inp.direction == d
+
+
+@pytest.mark.skip(reason="Is rendering needed?")
+def test_2z_render_Port(): pass
+    
 
 
 
