@@ -37,6 +37,9 @@ class CC_B_Protocol(CC_Base):
     kind: CC_ProtocolKind
     based_on: Optional[CC_B_Protocol]=dc_field(default_factory= lambda :CC_B_Protocol._BASE)
 
+    def portray_name(self):
+        return f'cc_P_{self.name}'
+
 
 baseProtocol = CC_B_Protocol("Protocol", kind=CC_ProtocolKind.Unknown, based_on=None)                # pragma: no mutate
 CC_B_Protocol._BASE=baseProtocol
@@ -72,16 +75,15 @@ class CC_EventProtocol(CC_B_Protocol):
             self.render_indexes(prepend) + "\n" +
             self.render_FTs(prepend)  + "\n" )
 
-
     def render_struct(self, prepend:str="", indent="  ") ->str:                                     ## struct CC_B_Protocol $name = {...} ;
-        var_name = f'cc_P_{self.name}'
-        based_on_link = f'&cc_P_{self.based_on.name}' if self.based_on else "NULL"
+        var_name = self.portray_name()
+        based_on_ref = f'&{self.based_on.portray_name()}' if self.based_on else "NULL"
 
         retval = []
         retval.append(f'{prepend}struct CC_B_Protocol {var_name} = {{')
         retval.append(f'{prepend}{indent}.name           = "{self.name}",')
         retval.append(f'{prepend}{indent}.kind           = CC_B_ProtocolKindIs_{self.kind.name},')
-        retval.append(f'{prepend}{indent}.inherit_from   = {based_on_link},')
+        retval.append(f'{prepend}{indent}.inherit_from   = {based_on_ref},')
         retval.append(f'{prepend}{indent}.length         = {len(self.events)},')
         retval.append(f'{prepend}{indent}.events         = {{')
 

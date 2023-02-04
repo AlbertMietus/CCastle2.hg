@@ -10,15 +10,15 @@ from castle.auxiliary.pack import mk_tuple
 CC_Component: TypeAlias = 'CC_Component' # Forward ref                          # pragma: no mutate
 
 class CC_PortDirection(Enum):
-    Unknown = CC_B_PortDirectionIs_UNKNOWN   = 0
-    In      = CC_B_PortDirectionIs_in        = 1
-    Out     = CC_B_PortDirectionIs_out       = 2
-    BiDir   = CC_B_PortDirectionIs_bidirect  = 3 # Not supported yet
-    Master  = CC_B_PortDirectionIs_master    = 4 # Not supported yet
-    Slave   = CC_B_PortDirectionIs_slave     = 5 # Not supported yet
+    CC_B_PortDirectionIs_UNKNOWN  = Unknown   = 0
+    CC_B_PortDirectionIs_in       = In        = 1
+    CC_B_PortDirectionIs_out      = Out       = 2
+    CC_B_PortDirectionIs_bidirect = BiDir     = 3 # Not supported yet
+    CC_B_PortDirectionIs_master   = Master    = 4 # Not supported yet
+    CC_B_PortDirectionIs_slave    = Slave     = 5 # Not supported yet
 
-    def render(self):                                                 ### CC_B_PortDirectionIs_{self.name}'
-        return f'CC_B_PortDirectionIs_{self.name}'
+    def portray_name(self):                                                        ### CC_B_PortDirectionIs_{self.name}'
+        return f'{self.name}'
 
 @dataclass
 class CC_Port(CC_Base):
@@ -27,8 +27,15 @@ class CC_Port(CC_Base):
     direction: CC_PortDirection =  CC_PortDirection.Unknown
     type: type
 
-    def render(self) ->str:                                           ### <port name>
-        return f'cc_P_{self.type if isinstance(self.type, str) else self.type.name}'
+    def portray_name(self) ->str:                                           ### <port name>
+        return f'{self.name}'
+
+    def portray_type(self) ->str:                                           ### <port type> e.g a protocol
+        if isinstance(self.type, CC_Base):
+            return self.type.portray_name()
+        else:
+            tn = self.type if isinstance(self.type, str) else self.type.__name__
+            return f'cc_P_{tn}'
 
 
 @dataclass

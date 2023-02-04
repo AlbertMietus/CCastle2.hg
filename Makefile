@@ -6,7 +6,6 @@ LAST = \
 	pytst/writers/CC2Cpy/test_2a_groundwork.py		\
 	pytst/writers/CC2Cpy/test_2b_EventProtocol.py		\
 	pytst/writers/CC2Cpy/test_3a_CompPort.py		\
-
 #
 CURRENT_TESTS = \
 	pytst/writers/CC2Cpy/test_3b_CompInterface.py		\
