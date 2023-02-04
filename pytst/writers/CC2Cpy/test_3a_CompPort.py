@@ -57,7 +57,11 @@ def test_2b1_portray_Port_name():
     port = CC_Port(name="aPort", type="no_relevant")
     assert CCompare('aPort', port.portray_name())
 
-def test_2b2a_portray_Port_strtype():
+def test_2b2a_portray_Port_NoType():
+    port = CC_Port(name="=NoName", type=None)
+    assert CCompare('NULL', port.portray_type())
+
+def test_2b2b_portray_Port_strtype():
     port = CC_Port(name="=NoName", type="textType")
     assert CCompare('cc_P_textType', port.portray_type())
 
@@ -65,7 +69,7 @@ def test_2b2b_portray_Port_inttype():
     port = CC_Port(name="=NoName", type=int)
     assert CCompare('cc_P_int', port.portray_type())
 
-def test_2b2c_portray_Port_floattype():
+def test_2b2d_portray_Port_floattype():
     port = CC_Port(name="=NoName", type=float)
     assert CCompare('cc_P_float', port.portray_type())
 
@@ -80,4 +84,5 @@ def test_2b2c_portray_Port_Protocol():
     ## We check both for now.
     assert CCompare('cc_P_JustAProtocol',  port.portray_type())
     assert CCompare(proto.portray_name(),  port.portray_type())
+
 

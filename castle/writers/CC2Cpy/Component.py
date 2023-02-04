@@ -80,7 +80,8 @@ class CC_B_ComponentInterface(CC_Base):
         retval.append(f'{prepend}{indent}.inherit_from  =  {based_on_link},')
         retval.append(f'{prepend}{indent}.length        =  {len(self.ports)},')
         retval.append(f'{prepend}{indent}.ports = {{')
-        for no,port in enumerate(self.ports, self.no_of_ports(inherited=True, mine=False)):         #loop over ports ...
+        start_port_no = self.no_of_ports(inherited=True, mine=False)
+        for no,port in enumerate(self.ports, start_port_no):                         # Loop over 'own' ports
             retval.append(f'{prepend}{(indent*3)[:-2]}{{')
             retval.append(f'{prepend}{indent*3}.portNo    =  {no},')
             retval.append(f'{prepend}{indent*3}.protocol  = &{port.portray_type()},')
