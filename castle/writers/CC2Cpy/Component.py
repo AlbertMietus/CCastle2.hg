@@ -33,6 +33,8 @@ class CC_Port(CC_Base):
     def portray_type(self) ->str:                                           ### <port type> e.g a protocol
         if isinstance(self.type, CC_Base):
             return self.type.portray_name()
+        elif self.type is None:
+            return "NULL"
         else:
             tn = self.type if isinstance(self.type, str) else self.type.__name__
             return f'cc_P_{tn}'
@@ -75,17 +77,16 @@ class CC_B_ComponentInterface(CC_Base):
         retval = []
         retval.append(f'{prepend}struct CC_B_ComponentInterface {name} = {{')
         retval.append(f'{prepend}{indent}.name          = "{self.name}",')
-        retval.append(f'{prepend}{indent}.inherit_from  = {based_on_link},')
-        retval.append(f'{prepend}{indent}.length        = {len(self.ports)},')
+        retval.append(f'{prepend}{indent}.inherit_from  =  {based_on_link},')
+        retval.append(f'{prepend}{indent}.length        =  {len(self.ports)},')
         retval.append(f'{prepend}{indent}.ports = {{')
-
-        #loop over ports ...
-        for n,p in enumerate(self.ports, self.no_of_ports(inherited=True, mine=False)):
-            retval.append(f'{prepend}{(indent*3)[:-2]}{{ .portNo    = {n}, ')
-            retval.append(f'{prepend}{indent*3}.protocol  = &{p.render()}, ')
-            retval.append(f'{prepend}{indent*3}.direction = {p.direction.render()}, ')
-            retval.append(f'{prepend}{indent*3}.name      = "{p.name}", ')
-            retval.append(f'{prepend}{indent*3}.part_of   = &{name} }} ,')
+        for no,port in enumerate(self.ports, self.no_of_ports(inherited=True, mine=False)):         #loop over ports ...
+            retval.append(f'{prepend}{(indent*3)[:-2]}{{')
+            retval.append(f'{prepend}{indent*3}.portNo    =  {no},')
+            retval.append(f'{prepend}{indent*3}.protocol  = &{port.portray_type()},')
+            retval.append(f'{prepend}{indent*3}.direction =  {port.direction.portray_name()},')
+            retval.append(f'{prepend}{indent*3}.name      = "{port.name}",')
+            retval.append(f'{prepend}{indent*3}.part_of   = &{name} }},')
         retval.append(f'{prepend}{indent}}}')   # end of ports
         retval.append(f'{prepend}}} ;')  # end of struct
 

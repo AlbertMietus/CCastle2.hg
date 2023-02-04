@@ -1,25 +1,78 @@
 # (C) Albert Mietus, 2022, 2023. Part of Castle/CCastle project
 
+"""Only the  ComponentInterface (CC_B_ComponentInterface) is tested in the test-file.
+
+The other parts of `castle.writers.CC2Cpy.Component` are tested elsewhere,
+see: ./test_3*py
+"""
+
+
 import logging; logger = logging.getLogger(__name__)
 import pytest
 from . import * # CCompare
 
 from castle.writers.CC2Cpy.Component import * # CC_B_ComponentInterface
 
-
 @pytest.fixture
 def emptyComp():
     return CC_B_ComponentInterface('empty')
 
+ref_emptyComp="""\
+struct CC_B_ComponentInterface cc_CI_empty = {
+ .name          = "empty",
+ .inherit_from  = NULL,
+ .length        = 0,
+ .ports = {
+ }
+} ;
+"""
+
+from castle.writers.CC2Cpy.Protocol import * #CC_EventProtocol
+
+
 @pytest.fixture
 def demo2Comp():
+    jap = CC_EventProtocol("JustAProtocol", events=[], based_on=None)
     return CC_B_ComponentInterface('demo2', ports =[
         CC_Port(name='no_1', type=None),
-        CC_Port(name='no_2', type=None)])
+        CC_Port(name='jap2', type=jap)])
+
+ref_demo2Comp="""\
+struct CC_B_ComponentInterface cc_CI_demo2Comp = {
+ .name          = "Generator",
+ .inherit_from  = NULL,
+ .length        = 2,
+ .ports = {
+  {
+   .portNo    = 0,
+   .protocol  = &cc_P_StartSieve,
+   .direction = CC_B_PortDirectionIs_In,
+   .name      = "no_1",
+   .part_of   = &cc_CI_demo2Comp } ,
+  },
+  {
+   .portNo    = 1,
+   .protocol  = &cc_P_JustAProtocol,
+   .direction = CC_B_PortDirectionIs_In,
+   .name      = "jap",
+   .part_of   = &cc_CI_demo2Comp } ,
+  },
+} ;
+"""
 
 @pytest.fixture
 def subComp(demo2Comp):
     return CC_B_ComponentInterface('sub', based_on=demo2Comp)
+
+ref_subComp="""\
+struct CC_B_ComponentInterface cc_CI_sub = {
+ .name          = "sub",
+ .inherit_from  = &cc_CI_demo2,
+ .length        = 0,
+ .ports = {
+ }
+} ;
+"""
 
 def test_0a_name(emptyComp, demo2Comp):
     assert emptyComp.name == 'empty'
@@ -50,39 +103,20 @@ def test_1c_MorePorts():
     assert p.no_of_ports(inherited=True, mine=True) == 4
 
 
-ref_emptyComp="""\
-struct CC_B_ComponentInterface cc_CI_empty = {
- .name          = "empty",
- .inherit_from  = NULL,
- .length        = 0,
- .ports = {
- }
-} ;
-"""
 
-ref_subComp="""\
-struct CC_B_ComponentInterface cc_CI_sub = {
- .name          = "sub",
- .inherit_from  = &cc_CI_demo2,
- .length        = 0,
- .ports = {
- }
-} ;
-"""
 
-def test_render(emptyComp):
+
+def test_2a_render_basic(emptyComp):
     assert CCompare(ref_emptyComp, emptyComp.render(), log_all=True)
     assert CCompare(ref_emptyComp, emptyComp.render_struct())
 
-def test_render_whitespace(emptyComp):
+def test_2b_render_whitespace(emptyComp):
     # prepending a/o indenting with whitespace has no effect
     assert CCompare(ref_emptyComp, emptyComp.render(prepend="\t\t", indent=""))
     assert CCompare(ref_emptyComp, emptyComp.render_struct(prepend=" ", indent="\t\t\t"))
 
-def test_render_sub(subComp):
+def test_2c_render_sub(subComp):
     assert CCompare(ref_subComp, subComp.render())
 
-@pytest.mark.skip(reason="More CompInterface-tests are needed")
-def test_more(): pass
-
-
+def test_2d_render_withPorts(demo2Comp):
+    CCompare('', demo2Comp.render())
