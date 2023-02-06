@@ -119,25 +119,11 @@ def test_2c_render_sub(subComp):
 def test_2d_render_withPorts(demo2Comp):
     assert CCompare(ref_demo2Comp, demo2Comp.render())
 
-def verify_indent(ref, comp): # indent can be used several times ...
-    try_indent="_-|"
-    out = comp.render(indent=try_indent, prepend="")
-    logger.info("ComponentInterface %s results in::\n%s", comp.name, out)
-
-    for ref_line,out_line in zip(ref.splitlines(), out.splitlines()):
-        ref_indents = len(ref_line)-len(ref_line.lstrip(' '))
-        logger.debug("ref_line: %s", ref_line); logger.debug("out_line: %s", out_line)
-
-        assert out_line[:len(try_indent)*ref_indents] == try_indent*ref_indents
-        if ref_indents >0:
-            without_pref = out_line[len(try_indent*ref_indents):]
-            assert without_pref[0:len(try_indent)] != try_indent
-
 def test_3a_indent_empty(emptyComp):
-    verify_indent(ref_emptyComp, emptyComp)
+    verify_indents(ref_emptyComp, emptyComp.render)
 
 def test_3b_indent_demo(demo2Comp):
-    verify_indent(ref_demo2Comp, demo2Comp)
+    verify_indents(ref_demo2Comp, demo2Comp.render)
 
 def test_3c_indent_sub(subComp):
-    verify_indent(ref_subComp, subComp)
+    verify_indents(ref_subComp, subComp.render)

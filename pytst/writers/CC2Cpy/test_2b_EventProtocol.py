@@ -153,29 +153,14 @@ def test_prepend_demo(demoProtocol):
     verify_prepend(demoProtocol)
 
 
-def verify_indent(ref, protocol): # indent can be used several times ...
-    try_indent="_-|"
-    out = protocol.render_struct(indent=try_indent, prepend="")
-    logger.info("Protocol %s results in::\n%s", protocol.name, out)
-
-    for ref_line,out_line in zip(ref.splitlines(), out.splitlines()):
-        ref_indents = len(ref_line)-len(ref_line.lstrip(' '))
-        logger.debug("ref_line: %s", ref_line); logger.debug("out_line: %s", out_line)
-
-        assert out_line[:len(try_indent)*ref_indents] == try_indent*ref_indents
-        if ref_indents >0:
-            without_pref = out_line[len(try_indent*ref_indents):]
-            assert without_pref[0:len(try_indent)] != try_indent
-
-
 def test_indent_empty(emptyProtocol):
-    verify_indent(ref_emptyProtocol_struct, emptyProtocol)
+    verify_indents(ref_emptyProtocol_struct, emptyProtocol.render_struct)
 
 def test_indent_simpleSieve(simpleSieve):
-    verify_indent(ref_simpleSieve, simpleSieve)
+    verify_indents(ref_simpleSieve, simpleSieve.render_struct)
 
 def test_indent_demo(demoProtocol):
-    verify_indent(ref_demo, demoProtocol)
+    verify_indents(ref_demo, demoProtocol.render_struct)
 
 
 def test_prepend_indexes(demoProtocol):
