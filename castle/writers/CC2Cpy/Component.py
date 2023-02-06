@@ -82,7 +82,7 @@ class CC_B_ComponentInterface(CC_Base):
         retval.append(f'{prepend}{indent}.ports = {{')
         start_port_no = self.no_of_ports(inherited=True, mine=False)            # pragma: no mutate on inherited/mine
         for no,port in enumerate(self.ports, start_port_no):                    # Loop over 'own' ports
-            retval.append(f'{prepend}{(indent*3)[:-2]}{{')
+            retval.append(f'{prepend}{indent*2}{{')
             retval.append(f'{prepend}{indent*3}.portNo    =  {no},')
             retval.append(f'{prepend}{indent*3}.protocol  = {port.portray_typePtr()},')
             retval.append(f'{prepend}{indent*3}.direction =  {port.direction.portray_name()},')
