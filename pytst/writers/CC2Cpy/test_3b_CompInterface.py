@@ -23,42 +23,43 @@ struct CC_B_ComponentInterface cc_CI_empty = {
  .inherit_from  = NULL,
  .length        = 0,
  .ports = {
- }
+ },
 } ;
 """
 
-from castle.writers.CC2Cpy.Protocol import * #CC_EventProtocol
 
+from castle.writers.CC2Cpy.Protocol import * #CC_EventProtocol
 
 @pytest.fixture
 def demo2Comp():
     jap = CC_EventProtocol("JustAProtocol", events=[], based_on=None)
-    return CC_B_ComponentInterface('demo2', ports =[
-        CC_Port(name='no_1', type=None),
+    return CC_B_ComponentInterface('demo2Comp', ports =[
+        CC_Port(name='no_1', type=None, direction=CC_PortDirection.In),
         CC_Port(name='jap2', type=jap)])
 
 ref_demo2Comp="""\
 struct CC_B_ComponentInterface cc_CI_demo2Comp = {
- .name          = "Generator",
+ .name          = "demo2Comp",
  .inherit_from  = NULL,
  .length        = 2,
  .ports = {
   {
-   .portNo    = 0,
-   .protocol  = &cc_P_StartSieve,
-   .direction = CC_B_PortDirectionIs_In,
+   .portNo    =  0,
+   .protocol  =  NULL,
+   .direction =  CC_B_PortDirectionIs_in,
    .name      = "no_1",
-   .part_of   = &cc_CI_demo2Comp } ,
-  },
+   .part_of   = &cc_CI_demo2Comp },
   {
-   .portNo    = 1,
+   .portNo    =  1,
    .protocol  = &cc_P_JustAProtocol,
-   .direction = CC_B_PortDirectionIs_In,
-   .name      = "jap",
-   .part_of   = &cc_CI_demo2Comp } ,
+   .direction =  CC_B_PortDirectionIs_UNKNOWN,
+   .name      = "jap2",
+   .part_of   = &cc_CI_demo2Comp },
   },
 } ;
 """
+
+
 
 @pytest.fixture
 def subComp(demo2Comp):
@@ -67,16 +68,16 @@ def subComp(demo2Comp):
 ref_subComp="""\
 struct CC_B_ComponentInterface cc_CI_sub = {
  .name          = "sub",
- .inherit_from  = &cc_CI_demo2,
+ .inherit_from  = &cc_CI_demo2Comp,
  .length        = 0,
  .ports = {
- }
+ },
 } ;
 """
 
 def test_0a_name(emptyComp, demo2Comp):
     assert emptyComp.name == 'empty'
-    assert demo2Comp.name == 'demo2'
+    assert demo2Comp.name == 'demo2Comp'
 
 def test_0b_based_on(subComp, demo2Comp):
     assert demo2Comp.based_on == ()
@@ -103,9 +104,6 @@ def test_1c_MorePorts():
     assert p.no_of_ports(inherited=True, mine=True) == 4
 
 
-
-
-
 def test_2a_render_basic(emptyComp):
     assert CCompare(ref_emptyComp, emptyComp.render(), log_all=True)
     assert CCompare(ref_emptyComp, emptyComp.render_struct())
@@ -119,4 +117,4 @@ def test_2c_render_sub(subComp):
     assert CCompare(ref_subComp, subComp.render())
 
 def test_2d_render_withPorts(demo2Comp):
-    CCompare('', demo2Comp.render())
+    assert CCompare(ref_demo2Comp, demo2Comp.render())

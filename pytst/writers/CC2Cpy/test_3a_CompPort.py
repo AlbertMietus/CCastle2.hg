@@ -59,19 +59,19 @@ def test_2b1_portray_Port_name():
 
 def test_2b2a_portray_Port_NoType():
     port = CC_Port(name="=NoName", type=None)
-    assert CCompare('NULL', port.portray_type())
+    assert CCompare('NULL', port.portray_typePtr())
 
 def test_2b2b_portray_Port_strtype():
     port = CC_Port(name="=NoName", type="textType")
-    assert CCompare('cc_P_textType', port.portray_type())
+    assert CCompare('&cc_P_textType', port.portray_typePtr())
 
 def test_2b2b_portray_Port_inttype():
     port = CC_Port(name="=NoName", type=int)
-    assert CCompare('cc_P_int', port.portray_type())
+    assert CCompare('&cc_P_int', port.portray_typePtr())
 
 def test_2b2d_portray_Port_floattype():
     port = CC_Port(name="=NoName", type=float)
-    assert CCompare('cc_P_float', port.portray_type())
+    assert CCompare('&cc_P_float', port.portray_typePtr())
 
 from castle.writers.CC2Cpy.Protocol import * #CC_EventProtocol
 
@@ -82,7 +82,7 @@ def test_2b2c_portray_Port_Protocol():
     ## the string 'cc_P_<xxxx>', and
     ## the portray_name of that protocol.
     ## We check both for now.
-    assert CCompare('cc_P_JustAProtocol',  port.portray_type())
-    assert CCompare(proto.portray_name(),  port.portray_type())
+    assert CCompare('&cc_P_JustAProtocol',  port.portray_typePtr())
+    assert CCompare('&'+proto.portray_name(),  port.portray_typePtr())
 
 
