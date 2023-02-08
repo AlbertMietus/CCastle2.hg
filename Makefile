@@ -6,13 +6,12 @@ LAST = \
 	pytst/writers/CC2Cpy/test_2a_groundwork.py		\
 	pytst/writers/CC2Cpy/test_2b_EventProtocol.py		\
 	pytst/writers/CC2Cpy/test_3a_CompPort.py		\
-#
-CURRENT_TESTS = \
 	pytst/writers/CC2Cpy/test_3b_CompInterface.py		\
 #
-TODO_TESTS = \
-	pytst/writers/CC2Cpy/test_3a_CompPort.py		\
+CURRENT_TESTS = \
 	pytst/writers/CC2Cpy/test_3c_CompClass.py		\
+#
+TODO_TESTS = \
 	pytst/writers/CC2Cpy/test_3d_CompStruct.py 		\
 	pytst/writers/CC2Cpy/test_999_NoNameCollision.py	\
 #

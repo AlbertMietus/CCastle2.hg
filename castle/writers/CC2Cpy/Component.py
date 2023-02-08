@@ -64,13 +64,6 @@ class CC_B_ComponentInterface(CC_Base):
         return self.render_struct(prepend=prepend, indent=indent)
 
     def render_struct(self, prepend:str="", indent="   ") ->str:                                   ## struct CC_B_ComponentInterface cc_CI_${name} ...
-        """
-        .. todo::
-
-           - refactor & test: spilt into parts
-           - optional: Use Jinja ipv f-strings
-           - make name/prefix  (``f'cc_CI_{self.name}``) in a getter oid
-           """
         name = f'cc_CI_{self.name}'
         based_on_link = f'&cc_CI_{self.based_on[0].name}' if self.based_on else "NULL"
 
