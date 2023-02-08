@@ -1,6 +1,6 @@
 # (C) Albert Mietus, 2022, 2023. Part of Castle/CCastle project
 
-__all__ = ['CC_B_ComponentInterface', 'CC_Port', 'CC_PortDirection']
+__all__ = ['CC_B_ComponentInterface', 'CC_Port', 'CC_PortDirection', 'CC_B_ComponentClass']
 
 from enum import Enum
 
@@ -60,10 +60,10 @@ class CC_B_ComponentInterface(CC_Base):
             count += len(self.ports)
         return count
 
-    def render(self, prepend:str="", indent="   ") ->str:
+    def render(self, prepend:str="", indent:str="   ") ->str:
         return self.render_struct(prepend=prepend, indent=indent)
 
-    def render_struct(self, prepend:str="", indent="   ") ->str:                                   ## struct CC_B_ComponentInterface cc_CI_${name} ...
+    def render_struct(self, prepend:str="", indent:str="   ") ->str:                                   ## struct CC_B_ComponentInterface cc_CI_${name} ...
         name = f'cc_CI_{self.name}'
         based_on_link = f'&cc_CI_{self.based_on[0].name}' if self.based_on else "NULL"
 
@@ -83,5 +83,34 @@ class CC_B_ComponentInterface(CC_Base):
             retval.append(f'{prepend}{indent*3}.part_of   = &{name} }},')
         retval.append(f'{prepend}{indent}}},')   # end of ports
         retval.append(f'{prepend}}} ;')  # end of struct
+
+        return '\n'.join(retval)+"\n"
+
+
+
+@dataclass
+class CC_B_ComponentClass(CC_Base):
+    """XXX
+       XXX IS IT USED IN HANDCOMPILED CODE -- as the .methods field is wrongly filled ...
+       XXX"""
+    interface: CC_B_ComponentInterface
+    metaclass="NULL"                        # //NULL for now, later: meta-class
+
+    def render(self, prepend:str="", indent:str="   ") ->str:
+        return self.render_struct(prepend=prepend, indent=indent)
+
+    def render_struct(self, prepend:str="", indent:str="  ") ->str:                                            ## struct CC_B_ComponentClass cc_C_<name> {...}
+        name = self.interface.name
+        interface_name = f'cc_CI_{name}'
+        comp_TypeName  = f'CC_C_{name}'
+        methods_name   = f'cc_B_{name}_methods'
+
+        retval = []
+        retval.append(f'{prepend}struct CC_B_ComponentClass  cc_C_{self.interface.name} = {{')
+        retval.append(f'{prepend}{indent}.isa           = {self.metaclass},')
+        retval.append(f'{prepend}{indent}.interface     = &{interface_name},')
+        retval.append(f'{prepend}{indent}.instance_size = sizeof({comp_TypeName}),')
+        retval.append(f'{prepend}{indent}.methods       = {methods_name},')
+        retval.append(f'{prepend}}};')
 
         return '\n'.join(retval)+"\n"
