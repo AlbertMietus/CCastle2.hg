@@ -6,20 +6,11 @@ from . import * # CCompare
 
 from castle.writers.CC2Cpy.Component import * # CC_B_ComponentClass
 
-from .test_3b_CompInterface import emptyComp
+from . import common
 
-ref_emptyClass="""\
-struct CC_B_ComponentClass  cc_C_empty = {
- .isa           = NULL,
- .interface     = &cc_CI_empty,
- .instance_size = sizeof(CC_C_empty),
- .methods       = cc_B_empty_methods,
-};
-"""
-
-def test_0(emptyComp):
-    emptyClass = CC_B_ComponentClass(emptyComp)
-    assert CCompare(ref_emptyClass, emptyClass.render())
+def test_0():
+    emptyClass = CC_B_ComponentClass(common.emptyComp())
+    assert CCompare(common.ref_emptyClass, emptyClass.render())
 
 
 
