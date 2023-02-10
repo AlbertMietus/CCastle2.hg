@@ -77,7 +77,7 @@ class CC_B_ComponentInterface(CC_Base):
         for no,port in enumerate(self.ports, start_port_no):                    # Loop over 'own' ports
             retval.append(f'{prepend}{indent*2}{{')
             retval.append(f'{prepend}{indent*3}.portNo    =  {no},')
-            retval.append(f'{prepend}{indent*3}.protocol  = {port.portray_typePtr()},')
+            retval.append(f'{prepend}{indent*3}.protocol  =  {port.portray_typePtr()},')
             retval.append(f'{prepend}{indent*3}.direction =  {port.direction.portray_name()},')
             retval.append(f'{prepend}{indent*3}.name      = "{port.name}",')
             retval.append(f'{prepend}{indent*3}.part_of   = &{name} }},')

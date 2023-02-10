@@ -9,7 +9,7 @@ import pytest
 from . import * # CCompare
 
 from castle.writers.CC2Cpy.Component import *
-
+from castle.writers.CC2Cpy.CCbase import CC_Base
 
 def test_1a_CC_PortDirection():
     # Test the (int) value -- needed for the generated C code
@@ -86,3 +86,7 @@ def test_2b2c_portray_Port_Protocol():
     assert CCompare('&'+proto.portray_name(),  port.portray_typePtr())
 
 
+def test_BUG():
+    proto = CC_EventProtocol("JustAProtocol", events=[], based_on=None)
+    port  = CC_Port(name="=NoName", type=proto)
+    assert isinstance(port.type, CC_Base)
