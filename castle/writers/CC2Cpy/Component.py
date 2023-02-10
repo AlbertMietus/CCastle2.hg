@@ -36,7 +36,9 @@ class CC_Port(CC_Base):
         elif self.type is None:
             return "NULL"
         else:
+            from warnings import warn
             tn = self.type if isinstance(self.type, str) else self.type.__name__
+            warn(f"Using string (or other non CC_Base types) port.types (for >>{tn}<<) is not wise", DeprecationWarning, stacklevel=2)
             return f'&cc_P_{tn}'
 
 

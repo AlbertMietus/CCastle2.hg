@@ -7,6 +7,10 @@
 import logging; logger = logging.getLogger(__name__)
 import pytest
 
+from pathlib import Path
+import os
+import subprocess
+
 
 from castle.writers.CC2Cpy.Protocol import *
 from castle.writers.CC2Cpy.Event import *
@@ -43,11 +47,6 @@ def sieveClass(sieveInterface):
                                     )
 
 
-from pathlib import Path
-from tempfile import TemporaryDirectory
-import os
-import subprocess
-
 
 def write_header(f):
     f.writelines("""/*(C) Alber Mietus, Generated code*/
@@ -57,8 +56,9 @@ def write_header(f):
 """)
 
 def verify_it_compiles(file, in_dir:Path):
+    print(f"Compiling {file}")
     os.symlink("/Users/albert/work/CCastle2/from_CC-Castle/SRC-EXAMPLE/SIEVE/2.GCD-work/CC", in_dir/"CC")
-    return_code = subprocess.run(["gcc", "-I", in_dir, "-c", file]).returncode
+    return_code = subprocess.run(["cc", "-arch", "x86_64", "-arch", "arm64", "-I", in_dir, "-c", file], cwd=in_dir).returncode
     assert return_code == 0
 
 
@@ -69,7 +69,7 @@ def test_0a(simpleSieve, sieveInterface, sieveClass, tmp_path):
         f.write(sieveInterface.render())
     verify_it_compiles(f.name, tmp_path)
 
-@pytest.mark.skip(reason="sieveClass refer to ``cc_B_Sieve_methods`` and ``CC_C_Sieve`` which aren't renderable yet")
+#@pytest.mark.skip(reason="sieveClass refer to ``cc_B_Sieve_methods`` and ``CC_C_Sieve`` which aren't renderable yet")
 def test_0b(simpleSieve, sieveInterface, sieveClass, tmp_path):
     with open(tmp_path/"sieve-interface.c", 'w') as f:
         write_header(f)
@@ -77,7 +77,7 @@ def test_0b(simpleSieve, sieveInterface, sieveClass, tmp_path):
         f.write(sieveInterface.render())
         f.write(sieveClass.render())
     verify_it_compiles(f.name, tmp_path)
-    
+
 
 @pytest.mark.skip(reason="More Generate C-file(s)")
 def test_more(): pass
