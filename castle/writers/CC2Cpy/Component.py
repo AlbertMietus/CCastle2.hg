@@ -29,6 +29,9 @@ class CC_B_ComponentInterface(CC_Base):
             count += len(self.ports)
         return count
 
+    def find_port_by_name(self,name:str) -> CC_Port:
+        return next(p for p in self.ports if p.name=='try')
+
     def render(self, prepend:str="", indent:str="   ") ->str:
         return self.render_Fill_Interface(prepend=prepend, indent=indent)
 

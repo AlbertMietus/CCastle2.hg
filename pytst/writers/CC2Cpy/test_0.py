@@ -1,5 +1,8 @@
 # (C) Albert Mietus, 2022, 2023. Part of Castle/CCastle project
 
+import logging; logger = logging.getLogger(__name__)
+import pytest
+
 from . import * # CCompare
 
 from castle.writers.CC2Cpy.CCbase import * # Some generic types
@@ -28,5 +31,11 @@ def test_4_logvariants():
 
 def test_5_types():
     """Test some trivial (type-hints) types; mostly by just using them"""
-
     assert CC_TypedParameter('test', int).type is int
+
+@pytest.mark.skip(reason="Add/move tests for the moved CC_PortDirection, CC_Port classes")
+def test_moved(): pass
+
+@pytest.mark.skip(reason="Add tests for the new CC_Function/Handler/etc classes")
+def test_more(): pass
+    

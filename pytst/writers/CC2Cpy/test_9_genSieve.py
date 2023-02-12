@@ -39,14 +39,14 @@ def sieveInterface(simpleSieveProto):
 
 ### implement Sieve {
 ###   int myPrime;
-### -init(int:prime) ...
-### SimpleSieve.input(try) on .try
+### -init(int:prime) {...}
+### SimpleSieve.input(try) on .try {..}
 ### }
 @pytest.fixture
 def sieveClass(sieveInterface):
     return CC_B_ComponentClass(sieveInterface,
-                               methods=[],
-                               handlers=[])
+                               methods=[CC_ElementMethod("init", type=None, parameterTuple=CC_TypedParameter(name='prime', type=int))],
+                               handlers=[CC_EventHandler("SimpleSieve.input", port=sieveInterface.find_port_by_name('try'))])
 
 
 
@@ -72,7 +72,7 @@ def test_1a_ProtoInter(simpleSieveProto, sieveInterface, tmp_path):
         f.write(sieveInterface.render())
     verify_it_compiles(f.name, tmp_path)
 
-@pytest.mark.skip(reason="sieveClass refer to ``cc_B_Sieve_methods`` and ``CC_C_Sieve`` which aren't renderable yet")
+#@pytest.mark.skip(reason="sieveClass refer to ``cc_B_Sieve_methods`` and ``CC_C_Sieve`` which aren't renderable yet")
 def test_1b_ProtoInterClass(simpleSieveProto, sieveInterface, sieveClass, tmp_path):
     FILE="sieve-ProtoInterClass.c"
     with open(tmp_path/FILE, 'w') as f:
