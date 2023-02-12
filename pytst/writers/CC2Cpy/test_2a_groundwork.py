@@ -7,7 +7,7 @@ The more relevant test of Protocol can be found in test_2_Protocol.py"""
 import pytest
 
 from castle.writers.CC2Cpy.Protocol import *
-from castle.writers.CC2Cpy.Protocol import  baseProtocol ## not public
+from castle.writers.CC2Cpy.Protocol import  baseProtocol, CC_RootProtocol ## not public
 
 def test_1_CC_ProtocolKind():
     # Test the (int) value -- needed for the generated C code
@@ -27,13 +27,13 @@ def test_2_typeAliases():
     assert CC_B_Protocol is not None # As long a is exist, it's fine.
 
 def test_3_CC_B_Protocol_NoneBase():
-    p1 = CC_B_Protocol('aName', CC_ProtocolKind.Unknown, None)
+    p1 = CC_RootProtocol('aName', CC_ProtocolKind.Unknown, None)   #Use Root, as CC_Protocol can't be in initiated
     assert p1.name == 'aName'
     assert p1.kind == CC_ProtocolKind.Unknown
     assert p1.based_on is None
 
 def test_3_CC_B_Protocol_baseProtocol():
-    p1 = CC_B_Protocol('aName', CC_ProtocolKind.Unknown)
+    p1 = CC_RootProtocol('aName', CC_ProtocolKind.Unknown)
     assert p1.name == 'aName'
     assert p1.kind == CC_ProtocolKind.Unknown
     assert p1.based_on is baseProtocol

@@ -85,7 +85,7 @@ ref_demo_index="""\
 #define CC_P_DEMO_demoEventF  5
 """
 
-ref_demo_FTs="""\
+ref_demo_FunctionPrototypes="""\
 typedef void (*CC_E_DEMO_demoEventA_FT)(CC_selfType, CC_ComponentType, );
 typedef void (*CC_E_DEMO_demoEventB_FT)(CC_selfType, CC_ComponentType, );
 typedef void (*CC_E_DEMO_demoEventC_FT)(CC_selfType, CC_ComponentType, );
@@ -93,7 +93,7 @@ typedef void (*CC_E_DEMO_demoEventD_FT)(CC_selfType, CC_ComponentType, );
 typedef void (*CC_E_DEMO_demoEventE_FT)(CC_selfType, CC_ComponentType, );
 typedef void (*CC_E_DEMO_demoEventF_FT)(CC_selfType, CC_ComponentType, );
 """
-ref_demo="\n".join([ref_demo_struct, ref_demo_index, ref_demo_FTs])
+ref_demo="\n".join([ref_demo_struct, ref_demo_index, ref_demo_FunctionPrototypes])
 
 
 def test_0_isEvent(demoProtocol):
@@ -120,12 +120,12 @@ def test_2_events_mix():
 def test_render(demoProtocol):
     assert CCompare(ref_demo, demoProtocol.render())
 
-def test_render_struct_sieve(simpleSieve):
-    assert CCompare(ref_simpleSieve, simpleSieve.render_struct())
+def test_render_Fill_Protocol_sieve(simpleSieve):
+    assert CCompare(ref_simpleSieve, simpleSieve.render_Fill_Protocol())
 
 def test_emptyProtocol(emptyProtocol):
     # the "struct" is minimal"
-    assert CCompare(ref_emptyProtocol_struct, emptyProtocol.render_struct())
+    assert CCompare(ref_emptyProtocol_struct, emptyProtocol.render_Fill_Protocol())
     # and the other parts are absent
     assert CCompare(ref_emptyProtocol_struct, emptyProtocol.render())
 
@@ -154,21 +154,21 @@ def test_prepend_demo(demoProtocol):
 
 
 def test_indent_empty(emptyProtocol):
-    verify_indents(ref_emptyProtocol_struct, emptyProtocol.render_struct)
+    verify_indents(ref_emptyProtocol_struct, emptyProtocol.render_Fill_Protocol)
 
 def test_indent_simpleSieve(simpleSieve):
-    verify_indents(ref_simpleSieve, simpleSieve.render_struct)
+    verify_indents(ref_simpleSieve, simpleSieve.render_Fill_Protocol)
 
 def test_indent_demo(demoProtocol):
-    verify_indents(ref_demo, demoProtocol.render_struct)
+    verify_indents(ref_demo, demoProtocol.render_Fill_Protocol)
 
 
 def test_prepend_indexes(demoProtocol):
-    assert CCompare(ref_demo_index, demoProtocol.render_indexes())
-    assert CCompare(ref_demo_index, demoProtocol.render_indexes(prepend=""))
-    assert CCompare(ref_demo_index, demoProtocol.render_indexes(prepend="\t"))
+    assert CCompare(ref_demo_index, demoProtocol.render_Define_Indexes())
+    assert CCompare(ref_demo_index, demoProtocol.render_Define_Indexes(prepend=""))
+    assert CCompare(ref_demo_index, demoProtocol.render_Define_Indexes(prepend="\t"))
 
-def test_prepend_FTs(demoProtocol):
-    assert CCompare(ref_demo_FTs, demoProtocol.render_FTs())
-    assert CCompare(ref_demo_FTs, demoProtocol.render_FTs(prepend=""))
-    assert CCompare(ref_demo_FTs, demoProtocol.render_FTs(prepend="\t"))
+def test_prepend_FunctionPrototypes(demoProtocol):
+    assert CCompare(ref_demo_FunctionPrototypes, demoProtocol.render_Typedef_FunctionPrototypes())
+    assert CCompare(ref_demo_FunctionPrototypes, demoProtocol.render_Typedef_FunctionPrototypes(prepend=""))
+    assert CCompare(ref_demo_FunctionPrototypes, demoProtocol.render_Typedef_FunctionPrototypes(prepend="\t"))

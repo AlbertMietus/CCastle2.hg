@@ -6,6 +6,7 @@ from enum import Enum
 
 from .CCbase import *
 from castle.auxiliary.pack import mk_tuple
+from castle.auxiliary.abcd import ABCD
 
 CC_Component: TypeAlias = 'CC_Component' # Forward ref                          # pragma: no mutate
 
@@ -63,9 +64,9 @@ class CC_B_ComponentInterface(CC_Base):
         return count
 
     def render(self, prepend:str="", indent:str="   ") ->str:
-        return self.render_struct(prepend=prepend, indent=indent)
+        return self.render_Fill_Interface(prepend=prepend, indent=indent)
 
-    def render_struct(self, prepend:str="", indent:str="   ") ->str:                                   ## struct CC_B_ComponentInterface cc_CI_${name} ...
+    def render_Fill_Interface(self, prepend:str="", indent:str="   ") ->str:          ## struct CC_B_ComponentInterface `cc_CI_$name` = ...
         name = f'cc_CI_{self.name}'
         based_on_link = f'&cc_CI_{self.based_on[0].name}' if self.based_on else "NULL"
 
@@ -88,20 +89,49 @@ class CC_B_ComponentInterface(CC_Base):
 
         return '\n'.join(retval)+"\n"
 
+########################################################################################################################
+##################################### BUSY ### XXX ### BUZY ############################################################
+########################################################################################################################
+
+
+
+
+@dataclass
+class CC_Function(ABCD, CC_Base):               # ABC
+    name: str
+    _ : KW_ONLY
+    type: type                            # the return type of the callable
+    body=None;                            # XXX Add the (AST of the) body LATER
+
+
+@dataclass
+class CC_Handler(CC_Function):            # ABC Can be an event of data/stream -- with or without paramters
+    _ : KW_ONLY
+    portID: CC_Port
+
+@dataclass
+class CC_EventHandler(CC_Handler):
+    _ : KW_ONLY
+    parameterTuple: "ToBeDone"
+
+@dataclass
+class CC_Method(CC_Function): pass
+class CC_ClassMethod(CC_Method): pass
+class CC_ElementMethod(CC_Method): pass      #Or CC InstanceMethod??
 
 
 @dataclass
 class CC_B_ComponentClass(CC_Base):
-    """XXX
-       XXX IS IT USED IN HANDCOMPILED CODE -- as the .methods field is wrongly filled ...
-       XXX"""
+    metaclass="NULL"                         # //NULL for now, later: meta-class
     interface: CC_B_ComponentInterface
-    metaclass="NULL"                        # //NULL for now, later: meta-class
+    handlers:  Sequence[CC_Handler] =()    # EventHanders, DataHandler, StreamHandlers, and all-other-protocolHandlers
+    methods:   Sequence[CC_Method]  =()    # All kind of "internal only" callable(s)
 
     def render(self, prepend:str="", indent:str="   ") ->str:
-        return self.render_struct(prepend=prepend, indent=indent)
+        return self.render_Fill_ComponentClass(prepend=prepend, indent=indent)
 
-    def render_struct(self, prepend:str="", indent:str="  ") ->str:                                            ## struct CC_B_ComponentClass cc_C_<name> {...}
+
+    def render_Fill_ComponentClass(self, prepend:str="", indent:str="  ") ->str:          ## struct CC_B_ComponentClass cc_C_$name {...}
         name = self.interface.name
         interface_name = f'cc_CI_{name}'
         comp_TypeName  = f'CC_C_{name}'
@@ -116,3 +146,6 @@ class CC_B_ComponentClass(CC_Base):
         retval.append(f'{prepend}}};')
 
         return '\n'.join(retval)+"\n"
+
+    def render_CompName(self, prepend:str="", indent:str="  ") ->str:                     ## typedef struct CC_C_$CompName
+        pass

@@ -4,6 +4,7 @@
 __all__ = ['CC_ProtocolKind', 'CC_B_Protocol', 'CC_EventProtocol']
 
 from enum import Enum
+from castle.auxiliary.abcd import ABCD
 
 from .CCbase import *
 from .Event import CC_Event
@@ -26,7 +27,7 @@ CC_B_Protocol: TypeAlias = 'CC_B_Protocol'  # forward reference                 
 
 
 @dataclass
-class CC_B_Protocol(CC_Base):
+class CC_B_Protocol(CC_Base, ABCD):
     """ .. note:: Use one of the subclasses -- Only Event is defined yet
         .. todo:: Design: What is the `kind` self and the inherited ones are not the same?
                   overrideing CC_ProtocolKindIs_Unknown is always allowed
@@ -40,8 +41,11 @@ class CC_B_Protocol(CC_Base):
     def portray_name(self):
         return f'cc_P_{self.name}'
 
+@dataclass
+class CC_RootProtocol(CC_B_Protocol):
+    """This is the base protocol; it exist as we can't instantiate CC_B_Protocol"""
 
-baseProtocol = CC_B_Protocol("Protocol", kind=CC_ProtocolKind.Unknown, based_on=None)                # pragma: no mutate
+baseProtocol = CC_RootProtocol("Protocol", kind=CC_ProtocolKind.Unknown, based_on=None)                # pragma: no mutate
 CC_B_Protocol._BASE=baseProtocol
 
 @dataclass                                                                                           # pragma: no mutate
@@ -71,11 +75,11 @@ class CC_EventProtocol(CC_B_Protocol):
 
     def render(self, prepend:str="", indent="  ") ->str:
         return (
-            self.render_struct(prepend, indent)  + "\n" +
-            self.render_indexes(prepend) + "\n" +
-            self.render_FTs(prepend)  + "\n" )
+            self.render_Fill_Protocol(prepend, indent)  + "\n" +
+            self.render_Define_Indexes(prepend) + "\n" +
+            self.render_Typedef_FunctionPrototypes(prepend)  + "\n" )
 
-    def render_struct(self, prepend:str="", indent="  ") ->str:                                     ## struct CC_B_Protocol $name = {...} ;
+    def render_Fill_Protocol(self, prepend:str="", indent="  ") ->str:                    ## struct CC_B_Protocol `CC_P_$name` = ...
         var_name = self.portray_name()
         based_on_ref = f'&{self.based_on.portray_name()}' if self.based_on else "NULL"
 
@@ -102,7 +106,7 @@ class CC_EventProtocol(CC_B_Protocol):
         return '\n'.join(retval) +"\n"
 
 
-    def render_indexes(self, prepend:str="") ->str:                                ## #define CC_P_<proto>_<event> index
+    def render_Define_Indexes(self, prepend:str="") ->str:                                ## #define CC_P_<proto>_<event> index
         retval = []
         for n, e in enumerate(self.events, len(self.event_dict(inherired=True, mine=False))): # pragma: no mutate on event_dict parms
             retval.append(f'{prepend}#define CC_P_{self.name}_{e.name}\t{n}')
@@ -110,7 +114,7 @@ class CC_EventProtocol(CC_B_Protocol):
 
 
     # XXX Mutant 2*: default values prepend/indent
-    def render_FTs(self, prepend:str="", ) ->str:                 ##typedef void (*CC_E_{...}_FT)(CC_selfType, CC_ComponentType, {...});
+    def render_Typedef_FunctionPrototypes(self, prepend:str="", ) ->str:                  ## typedef void (*CC_E_{...}_FT)(CC_selfType, CC_ComponentType, {...});
         type_name = lambda ptype : ptype if isinstance(ptype, str) else ptype.__name__   # pragma: no mutate -- is it needed?
 
         retval = []

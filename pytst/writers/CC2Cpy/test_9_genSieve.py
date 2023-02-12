@@ -21,7 +21,7 @@ from castle.writers.CC2Cpy.Component import *
 ###   input(int:try);
 ### }
 @pytest.fixture
-def simpleSieve():
+def simpleSieveProto():
     return CC_EventProtocol("SimpleSieve", events=[
         CC_Event("input", typedParameters=[CC_TypedParameter(name='event', type=int)])])
 
@@ -31,20 +31,22 @@ def simpleSieve():
 ###   port SimpleSieve<out>:coprime;
 ### }
 @pytest.fixture
-def sieveInterface(simpleSieve):
+def sieveInterface(simpleSieveProto):
     return CC_B_ComponentInterface("Sieve", ports=[
-        CC_Port(name='try',     direction=CC_PortDirection.In,  type=simpleSieve),
-        CC_Port(name='coprime', direction=CC_PortDirection.Out, type=simpleSieve)])
+        CC_Port(name='try',     direction=CC_PortDirection.In,  type=simpleSieveProto),
+        CC_Port(name='coprime', direction=CC_PortDirection.Out, type=simpleSieveProto)])
 
 
 ### implement Sieve {
 ###   int myPrime;
-### ...
+### -init(int:prime) ...
+### SimpleSieve.input(try) on .try
+### }
 @pytest.fixture
 def sieveClass(sieveInterface):
     return CC_B_ComponentClass(sieveInterface,
-                                    # methods=
-                                    )
+                               methods=[],
+                               handlers=[])
 
 
 
@@ -62,20 +64,22 @@ def verify_it_compiles(file, in_dir:Path):
     assert return_code == 0
 
 
-def test_0a(simpleSieve, sieveInterface, sieveClass, tmp_path):
-    with open(tmp_path/"sieve-interface.c", 'w') as f:
+def test_1a_ProtoInter(simpleSieveProto, sieveInterface, tmp_path):
+    FILE="sieve-ProtoInterface.c"
+    with open(tmp_path/FILE, 'w') as f:
         write_header(f)
-        f.write(simpleSieve.render())
+        f.write(simpleSieveProto.render())
         f.write(sieveInterface.render())
     verify_it_compiles(f.name, tmp_path)
 
-#@pytest.mark.skip(reason="sieveClass refer to ``cc_B_Sieve_methods`` and ``CC_C_Sieve`` which aren't renderable yet")
-def test_0b(simpleSieve, sieveInterface, sieveClass, tmp_path):
-    with open(tmp_path/"sieve-interface.c", 'w') as f:
+@pytest.mark.skip(reason="sieveClass refer to ``cc_B_Sieve_methods`` and ``CC_C_Sieve`` which aren't renderable yet")
+def test_1b_ProtoInterClass(simpleSieveProto, sieveInterface, sieveClass, tmp_path):
+    FILE="sieve-ProtoInterClass.c"
+    with open(tmp_path/FILE, 'w') as f:
         write_header(f)
-        f.write(simpleSieve.render())
+        f.write(simpleSieveProto.render())
         f.write(sieveInterface.render())
-        f.write(sieveClass.render())
+        f.write(sieveClass.render())      #NEW
     verify_it_compiles(f.name, tmp_path)
 
 

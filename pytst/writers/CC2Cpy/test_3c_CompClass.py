@@ -18,7 +18,7 @@ def test_1a_render_demo2():
 
 def test_2_render_whitespace():
     assert CCompare(common.ref_emptyClass, CC_B_ComponentClass(common.emptyComp()).render())
-    assert CCompare(common.ref_emptyClass, CC_B_ComponentClass(common.emptyComp()).render_struct()) # it should be the same ...
+    assert CCompare(common.ref_emptyClass, CC_B_ComponentClass(common.emptyComp()).render_Fill_ComponentClass()) # it should be the same ...
 
 def test_3a_indent_empty():
     verify_indents(common.ref_emptyComp, common.emptyComp().render)

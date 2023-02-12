@@ -59,12 +59,12 @@ def test_1c_MorePorts():
 
 def test_2a_render_basic(emptyComp):
     assert CCompare(common.ref_emptyComp, emptyComp.render(), log_all=True)
-    assert CCompare(common.ref_emptyComp, emptyComp.render_struct())
+    assert CCompare(common.ref_emptyComp, emptyComp.render_Fill_Interface())
 
 def test_2b_render_whitespace(emptyComp):
     # prepending a/o indenting with whitespace has no effect
     assert CCompare(common.ref_emptyComp, emptyComp.render(prepend="\t\t", indent=""))
-    assert CCompare(common.ref_emptyComp, emptyComp.render_struct(prepend=" ", indent="\t\t\t"))
+    assert CCompare(common.ref_emptyComp, emptyComp.render_Fill_Interface(prepend=" ", indent="\t\t\t"))
 
 def test_2c_render_sub(subComp):
     assert CCompare(common.ref_subComp, subComp.render())
