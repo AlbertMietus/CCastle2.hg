@@ -30,5 +30,3 @@ def test_5_types():
     """Test some trivial (type-hints) types; mostly by just using them"""
 
     assert CC_TypedParameter('test', int).type is int
-    assert fstring is str
-    assert fstring("foo") == "foo"

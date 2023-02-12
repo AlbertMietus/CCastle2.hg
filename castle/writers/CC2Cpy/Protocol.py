@@ -34,7 +34,7 @@ class CC_B_Protocol(CC_Base, ABCD):
     """
     _BASE: ClassVar=None                                                                             # pragma: no mutate
 
-    name: fstring
+    name: str
     kind: CC_ProtocolKind
     based_on: Optional[CC_B_Protocol]=dc_field(default_factory= lambda :CC_B_Protocol._BASE)
 

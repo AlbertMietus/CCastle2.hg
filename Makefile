@@ -92,6 +92,9 @@ missing_serialization: ${ASTd}grammar.py
 XXX:
 	grep XXX `find . -type f -name \*.py`
 
+WC:
+	wc -l `find . -type f -name \*.py`
+
 
 PYREVERSE_DIR=pyreversed/
 PYREVERSE_FORMAT=svg

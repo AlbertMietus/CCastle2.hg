@@ -10,7 +10,7 @@ class CC_Event(CC_Base):
 
        It has a name, a return-type (can be void), and a sequence of typed parameters."""
 
-    name: fstring
+    name: str
     _: KW_ONLY # The field below must be passed as keywords, when initialising
     return_type: type=None
     typedParameters: Sequence[CC_TypedParameter]=()                                ## A tuple `()` is inmutable
