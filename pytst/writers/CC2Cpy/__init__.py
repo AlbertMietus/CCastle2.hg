@@ -26,7 +26,10 @@ def CCompare(ref_code: str, try_code: str, log=True, log_all=False) ->bool:
             if log_all: print(f'{a}')
         return True
     except ValueError: # The zip-input do not have the same length ==> Not equal
-        if log: print("Not the same length")
+        if log:
+            print("Not the same length")
+            print("**** ref_code:: ****\n" + ref_code +"\n********************\n")
+            print("**** try_code:: ****\n" + try_code +"\n********************\n")
         return False
 
 
