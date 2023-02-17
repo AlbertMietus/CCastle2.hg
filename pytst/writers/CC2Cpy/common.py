@@ -25,7 +25,7 @@ struct CC_B_ComponentClass  cc_C_empty = {
  .isa           = NULL,
  .interface     = &cc_CI_empty,
  .instance_size = sizeof(CC_C_empty),
- .methods       = cc_B_empty_methods,
+ .methods       = cc_S_empty_methods,
 };
 """
 
@@ -63,7 +63,7 @@ struct CC_B_ComponentClass  cc_C_demo2Comp = {
  .isa           = NULL,
  .interface     = &cc_CI_demo2Comp,
  .instance_size = sizeof(CC_C_demo2Comp),
- .methods       = cc_B_demo2Comp_methods,
+ .methods       = cc_S_demo2Comp_methods,
 };
 """
 
