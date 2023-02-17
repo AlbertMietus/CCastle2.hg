@@ -73,7 +73,7 @@ def test_1a_ProtoInter(simpleSieveProto, sieveInterface, tmp_path):
         f.write(sieveInterface.render())
     verify_it_compiles(f.name, tmp_path)
 
-#@pytest.mark.skip(reason="sieveClass refer to ``cc_B_Sieve_methods`` and ``CC_C_Sieve`` which aren't renderable yet")
+@pytest.mark.skip(reason="sieveClass refer to ``cc_B_Sieve_methods`` and ``CC_C_Sieve`` which aren't renderable yet")
 def test_1b_ProtoInterClass(simpleSieveProto, sieveInterface, sieveClass, tmp_path):
     FILE="sieve-ProtoInterClass.c"
     with open(tmp_path/FILE, 'w') as f:
