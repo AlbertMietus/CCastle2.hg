@@ -45,13 +45,14 @@ def sieveInterface(simpleSieveProto):
 @pytest.fixture
 def sieveClass(sieveInterface):
     return CC_B_ComponentClass(sieveInterface,
-                               methods=[CC_ElementMethod("init", type=None, parameterTuple=CC_TypedParameter(name='prime', type=int))],
-                               handlers=[CC_EventHandler("SimpleSieve.input", port=sieveInterface.find_port_by_name('try'))])
+                                   handlers=[CC_EventHandler("SimpleSieve.input", port=sieveInterface.find_port_by_name('try'))],
+                                   methods=[CC_ElementMethod("init", type=None, parameterTuple=CC_TypedParameter(name='prime', type=int))])
 
 
 
+from datetime import datetime
 def write_header(f):
-    f.writelines("""/*(C) Alber Mietus, Generated code*/
+    f.writelines(f"""/*(C) Alber Mietus, Generated code:: {datetime.now()}*/
 #include <CC/buildin_types.h>
 #include <CC/runtime.h>
 
