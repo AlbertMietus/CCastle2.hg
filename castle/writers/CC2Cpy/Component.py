@@ -64,9 +64,6 @@ class CC_B_ComponentInterface(CC_Base):
 ########################################################################################################################
 ##################################### BUSY ### XXX ### BUZY ############################################################
 ########################################################################################################################
-
-
-
 @dataclass
 class CC_B_ComponentClass(CC_Base):
     metaclass="NULL"                         # //NULL for now, later: meta-class
@@ -88,10 +85,7 @@ class CC_B_ComponentClass(CC_Base):
               we need to call render_Typedef_CompName first!"""
         return ( "\n"+
             self.render_Typedef_CompName(prepend=prepend, indent=indent) + "\n" +
-            self.render_handlers(prepend=prepend, indent=indent) + "\n" +
-            self.render_methods(prepend=prepend, indent=indent) + "\n" +
-            self.render_(prepend=prepend, indent=indent) + "\n" +
-           
+            self.render_callables(prepend=prepend, indent=indent) + "\n" +   # handlers & methods (implementation) XXX TODO
             self.render_Fill_ComponentClass(prepend=prepend, indent=indent) + "\n" +
             "\n" )
 
@@ -124,6 +118,44 @@ class CC_B_ComponentClass(CC_Base):
         retval.append(f'}} {Typedef_CompName};')
 
         return '\n'.join(retval)+"\n"
+
+
+    def render_callables(self, prepend:str="", indent:str="   ") ->str:
+        return """\
+/** TODO: render_callables::
+     all Event/Data/Stream-handlers and local ("internal") methods/functions.
+
+    This are a lot of (tobe static) C-function implementations, like
+    * CC_C_Sieve*  CC_Mi_Sieve__init(CC_C_Sieve* self, int prime) ...
+    * CC_C_Sieve*  CC_E_Sieve__SimpleSieve_input__try(CC_C_Sieve* self, CC_OutPortType sender, int try) ...
+    * etc (one for every event in every input-port, plus the local ones
+
+    Those functions are collected in CC_B_methodHandler-array and CC_B_eventHandler-arrays (aka dispatch-tables).
+    those are NOW generated here*/"""
+
+    def render_Fill_MethodHandlers(self, prepend:str="", indent:str="   ") ->str:
+        retval = []
+        retval.append(f'CC_B_methodHandler cc_S_Sieve_methods[] = {{')
+
+        retval.append("""/* TODO: render_Fill_MethodHandlers
+                            the local/internal functions & methods */
+                            Note: cc_S_Sieve_methods is hardcoded""")
+        retval.append(f'}};')
+        return '\n'.join(retval)+"\n"
+
+    def render_Fill_PortHandlers(self, port, prepend:str="", indent:str="   ") ->str:
+        retval = []
+
+        retval.append(f'CC_B_methodHandler cc_S_Sieve_try[] = {{')
+
+        retval.append("""/* TODO: ``render_Fill_PortHandlers(port)``
+                             the local/internal functions & methods
+                             Note: `cc_S_Sieve_try` is hardcoded""")
+        retval.append(f'}};')
+        return '\n'.join(retval)+"\n"
+
+
+
 
     def _bases_classes(self) ->Sequence:   #XXX
         return ()                          #XXX WRONG

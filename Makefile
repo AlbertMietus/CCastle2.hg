@@ -10,7 +10,7 @@ LAST = \
 	pytst/writers/CC2Cpy/test_3c_CompClass.py		\
 #
 CURRENT_TESTS = \
-	pytst/writers/CC2Cpy/test_3d_CompStruct.py 		\
+	pytst/writers/CC2Cpy/test_4a_HandlerTables.py 		\
 	pytst/writers/CC2Cpy/test_9_genSieve.py			\
 #
 TODO_TESTS = \

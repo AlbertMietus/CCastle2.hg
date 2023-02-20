@@ -37,3 +37,11 @@ def test_3_CC_B_Protocol_baseProtocol():
     assert p1.name == 'aName'
     assert p1.kind == CC_ProtocolKind.Unknown
     assert p1.based_on is baseProtocol
+
+
+import dataclasses
+
+def test_3_dataclasses_are_dataclasses():
+    assert dataclasses.is_dataclass(CC_RootProtocol)
+    assert dataclasses.is_dataclass(baseProtocol)
+
