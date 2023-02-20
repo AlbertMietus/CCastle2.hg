@@ -74,6 +74,9 @@ class CC_B_ComponentClass(CC_Base):
     methods:      Sequence[CC_Method]  =()       # All kind of "internal only" callable(s)
 
     def _name(self): 					return self.interface.name
+    def _ports(self):					return self.interface.ports
+    def _in_ports(self):                return (p for p in self._ports() if p.isInPort())
+
     def portray_interface_name(self): 	return f'cc_CI_{self._name()}'
     def portray_Typedef_CompName(self):	return f'CC_C_{self._name()}'
     def portray_methods_name(self):		return f'cc_S_{self._name()}_methods'
@@ -85,6 +88,8 @@ class CC_B_ComponentClass(CC_Base):
               we need to call render_Typedef_CompName first!"""
         return ( "\n"+
             self.render_Typedef_CompName(prepend=prepend, indent=indent) + "\n" +
+            self.render_Fill_MethodHandlers(prepend=prepend, indent=indent) + "\n" +
+            "\n".join(self.render_Fill_PortHandlers(p, prepend=prepend, indent=indent) for p in self._in_ports()) + "\n" +
             self.render_callables(prepend=prepend, indent=indent) + "\n" +   # handlers & methods (implementation) XXX TODO
             self.render_Fill_ComponentClass(prepend=prepend, indent=indent) + "\n" +
             "\n" )
@@ -138,8 +143,9 @@ class CC_B_ComponentClass(CC_Base):
         retval.append(f'CC_B_methodHandler cc_S_Sieve_methods[] = {{')
 
         retval.append("""/* TODO: render_Fill_MethodHandlers
-                            the local/internal functions & methods */
-                            Note: cc_S_Sieve_methods is hardcoded""")
+                            the local/internal functions & methods
+                            Note: cc_S_Sieve_methods is hardcoded
+                          */""")
         retval.append(f'}};')
         return '\n'.join(retval)+"\n"
 
@@ -148,9 +154,10 @@ class CC_B_ComponentClass(CC_Base):
 
         retval.append(f'CC_B_methodHandler cc_S_Sieve_try[] = {{')
 
-        retval.append("""/* TODO: ``render_Fill_PortHandlers(port)``
+        retval.append(f"""/* TODO: ``render_Fill_PortHandlers(port={port})``
                              the local/internal functions & methods
-                             Note: `cc_S_Sieve_try` is hardcoded""")
+                             Note: `cc_S_Sieve_try` is hardcoded
+                          */""")
         retval.append(f'}};')
         return '\n'.join(retval)+"\n"
 

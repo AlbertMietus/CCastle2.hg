@@ -39,6 +39,8 @@ class CC_Port(CC_Base):
     direction: CC_PortDirection =  CC_PortDirection.Unknown
     type: type
 
+    def isInPort(self):
+        return self.direction in (CC_PortDirection.In, CC_PortDirection.BiDir)
     def portray_name(self) ->str:                                           ### <port name>
         return f'{self.name}'
 

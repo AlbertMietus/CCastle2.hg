@@ -6,6 +6,7 @@ from . import * # CCompare
 
 from castle.writers.CC2Cpy.Component import * # CC_B_ComponentClass
 
+from .sieve_fixtures import *
 
 ref_sieveMethods="""\
 CC_B_methodHandler cc_S_Sieve_methods[] = {
@@ -28,21 +29,20 @@ CC_B_eventHandler cc_S_Sieve_try[] = {
 };
 """
 
-#XXX move to common?
-from .test_9_genSieve import *
 
-@pytest.mark.skip
+
+#@pytest.mark.skip
 def test_SieveMethods(sieveClass):
     dispatch_table= sieveClass.render_Fill_MethodHandlers()
     logger.debug("\n%s\n", dispatch_table)
     assert CCompare(ref_sieveMethods,dispatch_table, log_all=True)
 
 TRY="fill_in_later"
-@pytest.mark.skip
+#@pytest.mark.skip
 def test_TryPortHandlers(sieveClass):
     dispatch_table= sieveClass.render_Fill_PortHandlers(TRY)
     logger.debug("\n%s\n", dispatch_table)
-    assert CCompare(ref_TryPorr, dispatch_table, log_all=True)
+    assert CCompare(ref_TryPort, dispatch_table, log_all=True)
 
 
 @pytest.mark.skip(reason="More CompStruct-tests are needed")
