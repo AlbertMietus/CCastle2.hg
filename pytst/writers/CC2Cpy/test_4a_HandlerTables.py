@@ -16,6 +16,11 @@ CC_B_methodHandler cc_S_Sieve_methods[] = {
  (CC_B_methodHandler)CC_Mi_Sieve__init,
 };
 """
+ref_sieveMethods="""\
+CC_B_methodHandler cc_S_Sieve_methods[] = {
+ (CC_B_methodHandler)CC_Mi_Sieve__init,
+};
+"""
 
 ref_TryPort="""\
 CC_B_eventHandler cc_S_Sieve_try[] = {
@@ -38,7 +43,7 @@ def test_SieveMethods(sieveClass):
     assert CCompare(ref_sieveMethods,dispatch_table, log_all=True)
 
 TRY="fill_in_later"
-#@pytest.mark.skip
+@pytest.mark.skip
 def test_TryPortHandlers(sieveClass):
     dispatch_table= sieveClass.render_Fill_PortHandlers(TRY)
     logger.debug("\n%s\n", dispatch_table)

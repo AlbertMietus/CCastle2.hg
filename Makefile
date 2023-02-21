@@ -63,8 +63,6 @@ current-todo:
 	PYTHONPATH=`pwd` pytest ${PYTEST_OPTONS}  ${TODO_TESTS}
 current-ds current-sd:
 	PYTHONPATH=`pwd` pytest ${PYTEST_OPTONS}  --log-cli-level=DEBUG -s ${CURRENT_TESTS}
-
-
 demo: pytest-demo python-demo
 
 python-demo:

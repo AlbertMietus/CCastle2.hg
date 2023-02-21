@@ -30,8 +30,8 @@ class CC_B_ComponentInterface(CC_Base):
             count += len(self.ports)
         return count
 
-    def find_port_by_name(self,name:str) -> CC_Port:
-        return next(p for p in self.ports if p.name=='try')
+    def find_port_by_name(self, name:str) -> CC_Port:
+        return next(p for p in self.ports if p.name==name)
 
     def render(self, prepend:str="", indent:str="   ") ->str:
         return (
@@ -138,16 +138,25 @@ class CC_B_ComponentClass(CC_Base):
     Those functions are collected in CC_B_methodHandler-array and CC_B_eventHandler-arrays (aka dispatch-tables).
     those are NOW generated here*/"""
 
+
+
+
+
+
     def render_Fill_MethodHandlers(self, prepend:str="", indent:str="   ") ->str:
         retval = []
-        retval.append(f'CC_B_methodHandler cc_S_Sieve_methods[] = {{')
+        retval.append(f'{prepend}CC_B_methodHandler cc_S_{self._name()}_methods[] = {{')
+        ### XXX TODO:: loop over base_classes
 
-        retval.append("""/* TODO: render_Fill_MethodHandlers
-                            the local/internal functions & methods
-                            Note: cc_S_Sieve_methods is hardcoded
-                          */""")
+        for m in self.methods:
+            retval.append(f'{prepend}{indent}(CC_B_methodHandler)CC_Mi_{self._name()}__{m.name},')
+
         retval.append(f'}};')
         return '\n'.join(retval)+"\n"
+
+
+
+
 
     def render_Fill_PortHandlers(self, port, prepend:str="", indent:str="   ") ->str:
         retval = []

@@ -17,3 +17,4 @@ _ToCS-reports/
 castle/writers/CC2Cpy/_ComponentClass.c
 castle/writers/CC2Cpy/_SIEVE.c
 castle/writers/CC2Cpy/jinja_hack.py
+.mypy_cache
