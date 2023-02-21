@@ -1,6 +1,7 @@
 # (C) Albert Mietus, 2022, 2023. Part of Castle/CCastle project
 
-__all__ = ['CC_B_ComponentInterface', 'CC_Port', 'CC_PortDirection', 'CC_B_ComponentClass']
+__all__ = ['CC_B_ComponentInterface', 'CC_B_ComponentClass']
+__all__+= ['CC_Port', 'CC_PortDirection'] #defined in CCbase
 
 import logging; logger = logging.getLogger(__name__)
 
