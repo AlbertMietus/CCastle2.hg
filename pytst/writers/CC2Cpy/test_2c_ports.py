@@ -8,8 +8,7 @@ import logging; logger = logging.getLogger(__name__)
 import pytest
 from . import * # CCompare
 
-from castle.writers.CC2Cpy.Component import *
-from castle.writers.CC2Cpy.CCbase import CC_Base
+from castle.writers.CC2Cpy.CCbase import *
 
 def test_1a_CC_PortDirection():
     # Test the (int) value -- needed for the generated C code

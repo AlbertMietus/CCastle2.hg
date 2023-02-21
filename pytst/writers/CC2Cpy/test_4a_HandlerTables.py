@@ -4,7 +4,8 @@ import logging; logger = logging.getLogger(__name__)
 import pytest
 from . import * # CCompare
 
-from castle.writers.CC2Cpy.Component import * # CC_B_ComponentClass
+from castle.writers.CC2Cpy.CCbase import *
+from castle.writers.CC2Cpy.CC_B_ComponentClass import CC_B_ComponentClass
 
 from .sieve_fixtures import *
 

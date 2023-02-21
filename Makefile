@@ -5,7 +5,7 @@ all: current demo test mutmut pyanalyse XXX missing current-todo
 LAST = \
 	pytst/writers/CC2Cpy/test_2a_groundwork.py		\
 	pytst/writers/CC2Cpy/test_2b_EventProtocol.py		\
-	pytst/writers/CC2Cpy/test_3a_CompPort.py		\
+	pytst/writers/CC2Cpy/test_2c_ports.py			\
 	pytst/writers/CC2Cpy/test_3b_CompInterface.py		\
 	pytst/writers/CC2Cpy/test_3c_CompClass.py		\
 #

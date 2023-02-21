@@ -3,9 +3,11 @@
 import logging; logger = logging.getLogger(__name__)
 import pytest
 
+from castle.writers.CC2Cpy.CCbase import *
 from castle.writers.CC2Cpy.Protocol import *
 from castle.writers.CC2Cpy.Event import *
-from castle.writers.CC2Cpy.Component import *
+from castle.writers.CC2Cpy.CC_B_ComponentInterface import CC_B_ComponentInterface
+from castle.writers.CC2Cpy.CC_B_ComponentClass import CC_B_ComponentClass
 
 ### protocol SimpleSieve : Protocol {
 ###   kind: event;

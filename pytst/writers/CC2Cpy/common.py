@@ -3,8 +3,9 @@
 import logging; logger = logging.getLogger(__name__)
 import pytest
 
-from castle.writers.CC2Cpy.Component import * # CC_B_ComponentInterface
+from castle.writers.CC2Cpy.CC_B_ComponentInterface import CC_B_ComponentInterface
 from castle.writers.CC2Cpy.Protocol import * #CC_EventProtocol
+from castle.writers.CC2Cpy.CCbase import *
 
 ########## empty ##########
 def emptyComp():

@@ -12,7 +12,8 @@ import pytest
 from . import * # CCompare
 
 from . import common
-from castle.writers.CC2Cpy.Component import * # CC_B_ComponentInterface
+from castle.writers.CC2Cpy.CC_B_ComponentInterface import CC_B_ComponentInterface
+from castle.writers.CC2Cpy.CCbase import *
 
 @pytest.fixture
 def emptyComp():

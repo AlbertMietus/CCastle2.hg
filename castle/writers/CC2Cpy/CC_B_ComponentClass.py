@@ -3,6 +3,7 @@
 import logging; logger = logging.getLogger(__name__)
 
 from .CCbase import *
+from .CC_B_ComponentInterface import CC_B_ComponentInterface
 from castle.auxiliary.pack import mk_tuple
 
 CC_Component: TypeAlias = 'CC_Component' # Forward ref                          # pragma: no mutate
