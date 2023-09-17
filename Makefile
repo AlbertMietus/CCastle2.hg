@@ -118,6 +118,6 @@ clean_caches:
 cleaner: clean
 	rm -rf ${COVERAGE_dir}
 	rm -rf ${MUTMUT_dir}
-	rm -rf {PYREVERSE_DIR}*
+	rm -rf ${PYREVERSE_DIR}*
 
 cleanest veryclean: cleaner
