@@ -31,7 +31,7 @@ current-only:
 	PYTHONPATH=`pwd` pytest ${PYTEST_OPTONS}  ${CURRENT}
 current:
 	PYTHONPATH=`pwd` pytest ${PYTEST_OPTONS}  ${CURRENT} ${TODO}
-current-todo:
+todo:
 	PYTHONPATH=`pwd` pytest ${PYTEST_OPTONS}  ${TODO}
 current-ds current-sd:
 	PYTHONPATH=`pwd` pytest ${PYTEST_OPTONS}  --log-cli-level=DEBUG -s ${CURRENT}

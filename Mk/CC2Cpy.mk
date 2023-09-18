@@ -28,4 +28,4 @@ CC2Cpy: CC2CpyNote
 
 CC2Cpy_last:;		make last    LAST="${CC2Cpy_LAST}"
 CC2Cpy_current:;	make current CURRENT="${CC2Cpy_CURRENT}"
-CC2Cpy_todo:;		make toto    TODO="${CC2Cpy_TODO}"
+CC2Cpy_todo:;		make todo    TODO="${CC2Cpy_TODO}"
