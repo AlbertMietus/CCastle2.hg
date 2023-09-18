@@ -94,19 +94,20 @@ WC:
 	wc -l `find . -type f -name \*.py`
 
 
-PYREVERSE_DIR=pyreversed/
+PYREVERSE_DIR=_pyreversed/
 PYREVERSE_FORMAT=svg
-PYREVERSE_OPTIONS=-k -A -my
+PYREVERSE_OPTIONS=-k -A
 PYREVERSE_PRJS= castle castle.readers castle.ast castle.writers.CC2Cpy
 
 pyanalyse pyreverse: ${PYREVERSE_DIR}
 	for P in ${PYREVERSE_PRJS}; do \
 		echo "PYANALYSE::" $$P "...";\
-		pyreverse -d ${PYREVERSE_DIR} -o ${PYREVERSE_FORMAT} ${PYREVERSE_OPTIONS} -p $$P --colorized --max-color-depth=42 -my $$P >>/dev/null;\
-		echo ".. done. Result-files:" ;\
-		ls -l ${PYREVERSE_DIR}*$${P}.${PYREVERSE_FORMAT} ;\
-		echo;\
+		pyreverse -d ${PYREVERSE_DIR} -o ${PYREVERSE_FORMAT} ${PYREVERSE_OPTIONS} -p $$P-noModules -mn --colorized --max-color-depth=42  $$P >>/dev/null;\
+		pyreverse -d ${PYREVERSE_DIR} -o ${PYREVERSE_FORMAT} ${PYREVERSE_OPTIONS} -p $$P-Modules -my --colorized --max-color-depth=42  $$P >>/dev/null;\
 	done
+	@echo ".. done. Result:"
+	@ls -l ${PYREVERSE_DIR}/*.${PYREVERSE_FORMAT}
+
 
 clean: clean_caches
 clean_caches:
