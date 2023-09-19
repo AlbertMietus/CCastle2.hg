@@ -14,7 +14,7 @@ rPY_CURRENT = \
 	pytst/writers/RPy/test_0.py 				\
 #
 CC2CPy_TODO = \
-	pytst/writers/TPy/test_999.py 				\
+	pytst/writers/RPy/test_999.py 				\
 #
 
 include Mk/settings.mk
