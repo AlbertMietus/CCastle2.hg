@@ -8,9 +8,9 @@ import pytest
 from . import *
 from castle.writers import RPy
 
-
 template_dir ="./templates/"
-def test_load_template():
+
+def test_simpel_template():
     HW_file = 'HW_template.txt'
     t_dir = get_dirPath_of_file(__file__) / template_dir
 
@@ -19,3 +19,4 @@ def test_load_template():
 
     ref=open(t_dir / HW_file).read()
     assert end_with_NL(ref) == end_with_NL(out), f"ref::\n{ref}\nout::\n{out}\nDo not match"
+
