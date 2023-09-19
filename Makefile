@@ -1,6 +1,6 @@
 default: all
 
-all: current demo test mutmut pyanalyse XXX missing current-todo
+all: current demo test mutmut pyanalyse XXX missing todo
 NOTES: CC2CpyNote
 include Mk/RPy.mk
 
