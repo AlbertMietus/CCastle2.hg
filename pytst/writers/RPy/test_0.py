@@ -9,10 +9,11 @@ from . import *
 from castle.writers import RPy
 
 template_dir ="./templates/"
+t_dir = get_dirPath_of_file(__file__) / template_dir
 
 def test_simpel_template():
     HW_file = 'HW_template.txt'
-    t_dir = get_dirPath_of_file(__file__) / template_dir
+
 
     template = RPy.Template(searchpath=t_dir, template=HW_file)
     out=template.render(Hello='{{Hello}}', World='{{World}}')           # Generates itself
@@ -20,3 +21,8 @@ def test_simpel_template():
     ref=open(t_dir / HW_file).read()
     assert end_with_NL(ref) == end_with_NL(out), f"ref::\n{ref}\nout::\n{out}\nDo not match"
 
+
+def test_base_child_template():
+    child = 'child.txt'
+
+    template = RPy.Template(searchpath=t_dir, template=child)
