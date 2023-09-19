@@ -1,9 +1,10 @@
 # (C) Albert Mietus, 2023. Part of Castle/CCastle project  -- PYTEST init for RPY
 
+from pathlib import Path
+import os
 
-def get_dirPath_of_file(f=__file__): 
-    from pathlib import Path
-    import os
+
+def get_dirPath_of_file(f=__file__):
     print("XXXX", Path(os.path.realpath(f)))
     return Path(os.path.realpath(f)).parent
 

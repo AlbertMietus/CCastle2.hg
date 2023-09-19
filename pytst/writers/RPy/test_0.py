@@ -8,17 +8,6 @@ import pytest
 from . import *
 from castle.writers import RPy
 
-from pathlib import Path
-
-#OLD
-#def test_run():
-#    print(f"{__name__}::")
-
-#OLD
-#def test_import():
-#    print(f"{__name__}:: {RPy._version}")
-
-
 
 template_dir ="./templates/"
 def test_load_template():
