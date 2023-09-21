@@ -1,0 +1,7 @@
+{# See:: http://docideas.mietus.nl/en/default/CCastle/3.Design/B.Workshop/rPY/8.RPY_Jinja.html #}
+{%macro EventIndexName(ProtoName, EventName) -%}
+   CC_P_{{ProtoName}}_{{EventName}}
+{%- endmacro %}
+
+{# used as (for example): #}
+{%macro SetEventIndex(ProtoName, EventName, indexNo) %} {{EventIndexName(ProtoName, EventName)}} = {{indexNo}} {% endmacro %}

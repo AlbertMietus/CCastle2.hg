@@ -14,7 +14,7 @@ t_dir = get_dirPath_of_file(__file__) / template_dir
 def test_simpel_template():
     HW_file = 'HW_template.txt'
 
-    template = RPy.Template(searchpath=t_dir, template=HW_file)
+    template = RPy.Template(template=HW_file, search_path=t_dir)
     out=template.render(Hello='{{Hello}}', World='{{World}}')           # Generates itself
 
     ref=open(t_dir / HW_file).read()
@@ -25,7 +25,7 @@ def test_template_extends():
     child = 'child.txt'
     base  = 'base.txt' # Not used to render, only to test
 
-    template = RPy.Template(searchpath=t_dir, template=child)
+    template = RPy.Template(template=child, search_path=t_dir)
     out = template.render(v1 ='Var 1', v2 ='Var 2', TOP='top: but not completely', BOTTOM="bottom, really")
 
     ref_lines = open(t_dir / base).readlines()
@@ -40,5 +40,9 @@ def test_template_extends():
     assert any('SUPER-CHILD' in l for l in ref_lines), "Make sure the marker is in `base`"
     assert any('SUPER-CHILD' in l for l in out_lines), "As the 2nd block uses `super()` it should be in"
 
-
-
+def test_use_RPy_template():
+    file = "protocol.jinja2"
+    template = RPy.Template(file)
+    assert template.def_template is not None, "Can't find ``fine``, should be in <RPy-module>/templates"
+    out = template.render()
+    assert out is not None, "At least some lines should be there"

@@ -1,0 +1,23 @@
+# -*- python -*-
+# {#- Hi-lock: (( "{{\\(.*\\)}}"     (1 'font-lock-constant-face        prepend))) -#}
+# {#- Hi-lock: (( "{%\\(.*\\)%}"     (1 'font-lock-function-name-face   prepend))) -#}
+# {#- Hi-lock: (( "{#\\(.*\\)\\(#\\)}"    (1 'font-lock-preprocessor-face    prepend))) -#} {# regexp: '(#)}' to escape for rendering
+# {#- Hi-lock: (( "{[{%#]\\|[}%#]}"  (0 'markdown-language-keyword-face prepend))) -#}
+# {#- Hi-lock: end -- highlight jinja2 #}
+
+{#------#}
+{% import "CastleMacros.jinja2" as m1 %}
+
+{# These imports are static #}
+from CC import buildin
+from CC import base
+
+{% block imports %}
+#Put the Castle/generated imports here
+{% endblock %}
+
+{% block EventIndexes %}
+   {% for e in events %}
+     {{- EventIndexName(e.ProtoName, e.EventName) -}} = {{e.indexNo}}
+   {% endfor %}
+{% endblock %}
