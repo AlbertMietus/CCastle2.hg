@@ -8,10 +8,10 @@ include Mk/RPy.mk
 # CURRENT:	The now current test, in TDD phase
 # TODO:		Some test that are needed soon
 rPY_LAST = \
-	pytst/writers/RPy/test_0.py 				\
+	pytst/writers/RPy/test_0_templating.py			\
 #
 rPY_CURRENT = \
-	pytst/writers/RPy/test_0.py 				\
+	pytst/writers/RPy/test_0_templating.py			\
 #
 CC2CPy_TODO = \
 	pytst/writers/RPy/test_999.py 				\

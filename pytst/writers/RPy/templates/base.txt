@@ -1,0 +1,11 @@
+-*- jinja2 -*- (marker)
+This base file is extended by 'base.txt'
+Read that file, replace some blocks
+{{TOP}}
+{% block B1 %}
+  In base:: v1: {{v1}} NOT-IN-CHILD (marker)
+{% endblock %}
+{% block B2 %}
+  In base:: v2: {{v2}} SUPER-CHILD (marker)
+{% endblock %}
+{{BOTTOM}} (marker)

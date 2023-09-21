@@ -1,0 +1,9 @@
+{% extends "base.txt" %}
+{% block B1 %}
+  In child:: v1: {{v1}}
+{% endblock %}
+{% block B2 %}
+  In child:: super: {{ super() }}
+  In child:: v2: {{V2}}
+{% endblock %}
+
