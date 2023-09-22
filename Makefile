@@ -12,10 +12,10 @@ rPY_LAST = \
 #
 rPY_CURRENT = \
 	pytst/auxiliary/test_2_AIGR.py				\
-	pytst/writers/RPy/test_1_protocol.py			\
 #
 CC2CPy_TODO = \
 	pytst/writers/RPy/test_999.py 				\
+	pytst/writers/RPy/test_1_protocol.py			\
 #
 
 include Mk/settings.mk
