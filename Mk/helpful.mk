@@ -32,6 +32,7 @@ WC:
 PYREVERSE_DIR=_pyreversed/
 PYREVERSE_FORMAT=svg
 PYREVERSE_OPTIONS=-k -A
+PYREVERSE_OPTIONS=-A
 PYREVERSE_PRJS= castle castle.readers castle.ast castle.writers.CC2Cpy
 
 pyanalyse pyreverse: ${PYREVERSE_DIR}

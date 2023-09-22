@@ -5,3 +5,5 @@ class ABCD:                                          # Abstract Base Class for D
         if cls == ABCD or ABCD in cls.__bases__:
             raise NotImplementedError(f"Instantiate a subclass of {cls}, not the `AbstractBaseClass for Dataclasses` itself")
         return super().__new__(cls)
+
+

@@ -11,7 +11,8 @@ rPY_LAST = \
 	pytst/writers/RPy/test_0_templating.py			\
 #
 rPY_CURRENT = \
-	pytst/writers/RPy/test_0_templating.py			\
+	pytst/auxiliary/test_2_AIGR.py				\
+	pytst/writers/RPy/test_1_protocol.py			\
 #
 CC2CPy_TODO = \
 	pytst/writers/RPy/test_999.py 				\

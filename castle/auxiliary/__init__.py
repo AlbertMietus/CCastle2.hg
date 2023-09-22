@@ -3,3 +3,4 @@
 
 They are used py CCastle, part of the CCastle code; but further not related to CCastle"""
 
+from .aigr import AIGR
