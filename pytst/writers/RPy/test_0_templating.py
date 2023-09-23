@@ -40,9 +40,21 @@ def test_template_extends():
     assert any('SUPER-CHILD' in l for l in ref_lines), "Make sure the marker is in `base`"
     assert any('SUPER-CHILD' in l for l in out_lines), "As the 2nd block uses `super()` it should be in"
 
+
 def test_use_RPy_template():
     file = "protocol.jinja2"
     template = RPy.Template(file)
     assert template.def_template is not None, "Can't find ``fine``, should be in <RPy-module>/templates"
     out = template.render()
     assert out is not None, "At least some lines should be there"
+
+
+def test_template_parts():
+    big_file  = "big.txt"                                             # Uses: part-include.txt &  part-import.txt
+
+    template = RPy.Template(template=big_file, search_path=t_dir)
+    out = template.render()
+
+    assert 'INCLUDED' in out, "this line in part-include.txt"
+    assert 'IMPORTED' in out, "this line in part-import.txt"
+
