@@ -2,8 +2,10 @@
 
 import logging; logger = logging.getLogger(__name__)
 import pytest
+
 from castle.aigr.types import TypedParameter
-from . import T_EventIndexes as EventIndexes
+
+from . import T_EventIndexes
 from . import MockEvent, MockProtocol
 from . import T_Protocol
 
@@ -17,16 +19,16 @@ def assert_markers(marker, txt, need):
 
 
 
-def test_template_0_NoEvent(EventIndexes):
-    out=EventIndexes.render(protocol=MockProtocol("NoEventsMOCK"), events=[])
+def test_template_0_NoEvent(T_EventIndexes):
+    out=T_EventIndexes.render(protocol=MockProtocol("NoEventsMOCK"), events=[])
     logger.debug("out::\n%s", out)
 
     assert_markers(EventIndex_PreFix, out, 0)
     assert_markers('=', out, 0)
 
 
-def test_template_1_event(EventIndexes):
-    out=EventIndexes.render(protocol=MockProtocol("MOCK"),
+def test_template_1_event(T_EventIndexes):
+    out=T_EventIndexes.render(protocol=MockProtocol("MOCK"),
                             events=[MockEvent("input", indexNo=-7, typedParameters=[TypedParameter(name='event', type=int)])])
     logger.debug("out::\n%s", out)
 
@@ -34,8 +36,8 @@ def test_template_1_event(EventIndexes):
     assert_markers('=', out, 1)
 
 
-def test_template_2_SomeEvent(EventIndexes):
-    out=EventIndexes.render(protocol=MockProtocol("MOCK"),
+def test_template_2_SomeEvent(T_EventIndexes):
+    out=T_EventIndexes.render(protocol=MockProtocol("MOCK"),
                             events=[
                                 MockEvent("one",  indexNo=1),
                                 MockEvent("two",  indexNo=2),
@@ -54,9 +56,3 @@ def test_IndexInProtocol(T_Protocol):
     assert_markers(EventIndex_PreFix, out, 1)
     assert_markers('=', out, 1)
 
-
-
-    
-@pytest.mark.skip("more tests are needed")
-def test_99():
-    pass
