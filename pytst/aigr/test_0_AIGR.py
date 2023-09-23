@@ -1,6 +1,6 @@
 # (C) Albert Mietus, 2023. Part of Castle/CCastle project
 
-from castle.auxiliary import AIGR
+from castle.aigr import AIGR
 
 class Demo(AIGR):
     pass
