@@ -11,14 +11,14 @@ rPY_LAST = \
 	pytst/writers/RPy/test_0_templating.py			\
 	pytst/aigr/test_0_AIGR.py				\
 	pytst/aigr/test_1_events.py				\
-#
-rPY_CURRENT = \
 	pytst/aigr/test_2a_protocolKind.py			\
 	pytst/aigr/test_2b_protocol.py				\
 #
+rPY_CURRENT = \
+	pytst/writers/RPy/test_1_events.py			\
+#
 CC2CPy_TODO = \
 	pytst/writers/RPy/test_999.py 				\
-	pytst/writers/RPy/test_1_protocol.py			\
 #
 
 include Mk/settings.mk

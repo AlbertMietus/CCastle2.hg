@@ -1,0 +1,11 @@
+{#- (C) Albert Mietus, 2023. Part of Castle/CCastle project -#}
+{% import "CastleMacros.jinja2" as m %}
+
+##
+## EventIndexes (All {{events|length}} events of {{protocol.name}})
+##
+{% block EventIndexes %}
+   {% for e in events %}
+     {{- m.EventIndexName(protocol.name, e.name) }} = {{e.indexNo}}
+   {% endfor %}
+{% endblock %}
