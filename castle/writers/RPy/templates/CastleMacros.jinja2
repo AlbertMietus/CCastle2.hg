@@ -1,7 +1,15 @@
 {#- (C) Albert Mietus, 2023. Part of Castle/CCastle project -#}
 
 {# See:: http://docideas.mietus.nl/en/default/CCastle/3.Design/B.Workshop/rPY/8.RPY_Jinja.html #}
+
+
+{%macro ProtocolName(ProtoName) -%}
+   cc_P_{{ProtoName}}
+{%- endmacro %}
+
 {%macro EventIndexName(ProtoName, EventName) -%}
    CC_P_{{ProtoName}}_{{EventName}}
 {%- endmacro %}
+
+
 

@@ -13,11 +13,13 @@ rPY_LAST = \
 	pytst/aigr/test_1_events.py				\
 	pytst/aigr/test_2a_protocolKind.py			\
 	pytst/aigr/test_2b_protocol.py				\
+	pytst/writers/RPy/test_1_EventIndexes.py		\
 #
 rPY_CURRENT = \
-	pytst/writers/RPy/test_1_events.py			\
+	pytst/writers/RPy/test_2_ProtocolDataStructures.py	\
 #
 CC2CPy_TODO = \
+	pytst/writers/RPy/test_99_StartSieve.py			\
 	pytst/writers/RPy/test_999.py 				\
 #
 

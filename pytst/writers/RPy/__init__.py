@@ -19,13 +19,23 @@ class MockProtocol():
     name: str
 
 @pytest.fixture
+def T_Protocol():
+    return RPy.Template("protocol.jinja2")
+
+@pytest.fixture
 def T_EventIndexes():
     return RPy.Template("EventIndexes.jinja2")
 
 @pytest.fixture
-def T_Protocol():
-    return RPy.Template("protocol.jinja2")
+def T_ProtocolDataStructures():
+    return RPy.Template("ProtocolDataStructures.jinja2")
 
+
+
+def assert_marker(marker, txt, need):
+    lines = txt.splitlines()
+    c = sum(1 if (marker in line) else 0 for line in lines)
+    assert c == need, f"Needed {need} lines with '{marker}'-markers, found {c} -- in {len(lines)} lines"
 
 
 def get_dirPath_of_file(f=__file__):

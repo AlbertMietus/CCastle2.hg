@@ -1,4 +1,4 @@
-# (C) Albert Mietus, 2022, 2023. Part of Castle/CCastle project
+# (C) Albert Mietus, 2023. Part of Castle/CCastle project
 
 from castle.aigr import Event
 from castle.aigr.types import TypedParameter
