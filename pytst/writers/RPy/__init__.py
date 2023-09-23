@@ -22,6 +22,7 @@ class MockProtocol():
 def T_EventIndexes():
     return RPy.Template("EventIndexes.jinja2")
 
+@pytest.fixture
 def T_Protocol():
     return RPy.Template("protocol.jinja2")
 

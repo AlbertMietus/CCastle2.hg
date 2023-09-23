@@ -5,6 +5,7 @@ import pytest
 from castle.aigr.types import TypedParameter
 from . import T_EventIndexes as EventIndexes
 from . import MockEvent, MockProtocol
+from . import T_Protocol
 
 EventIndex_PreFix = "CC_P_"               #Keep in sync with implementation
 
@@ -45,7 +46,16 @@ def test_template_2_SomeEvent(EventIndexes):
     assert_markers(EventIndex_PreFix, out, 4)
     assert_markers('=', out, 4)
 
-#def test_IndexInProtocol():
+
+def test_IndexInProtocol(T_Protocol):
+    out=T_Protocol.render(protocol=MockProtocol("MOCK"), events=[MockEvent("input", indexNo=-7)])
+    logger.debug("out::\n%s", out)
+
+    assert_markers(EventIndex_PreFix, out, 1)
+    assert_markers('=', out, 1)
+
+
+
     
 @pytest.mark.skip("more tests are needed")
 def test_99():
