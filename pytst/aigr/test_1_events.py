@@ -1,8 +1,8 @@
 # (C) Albert Mietus, 2022, 2023. Part of Castle/CCastle project
 
-
 from castle.aigr import Event
 from castle.aigr.types import TypedParameter
+
 
 def test_0_Event_empty():
     e = Event("leeg_event")

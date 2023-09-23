@@ -10,9 +10,11 @@ include Mk/RPy.mk
 rPY_LAST = \
 	pytst/writers/RPy/test_0_templating.py			\
 	pytst/aigr/test_0_AIGR.py				\
+	pytst/aigr/test_1_events.py				\
 #
 rPY_CURRENT = \
-	pytst/aigr/test_1_events.py				\
+	pytst/aigr/test_2a_protocolKind.py			\
+	pytst/aigr/test_2b_protocol.py				\
 #
 CC2CPy_TODO = \
 	pytst/writers/RPy/test_999.py 				\
@@ -40,5 +42,5 @@ cleaner: clean
 
 cleanest veryclean: cleaner
 
-#CC2Cpy is outdated -- see make CC2CpyNote 
+#CC2Cpy is outdated -- see make CC2CpyNote
 include mk/CC2Cpy.mk
