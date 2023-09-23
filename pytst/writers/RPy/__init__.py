@@ -1,7 +1,30 @@
 # (C) Albert Mietus, 2023. Part of Castle/CCastle project  -- PYTEST init for RPY
 
+import logging; logger = logging.getLogger(__name__)
+import pytest
+
 from pathlib import Path
 import os
+from dataclasses import dataclass
+
+from castle.aigr import Event, Protocol
+from castle.writers import RPy
+
+@dataclass
+class MockEvent(Event):
+    indexNo: int
+
+@dataclass
+class MockProtocol():
+    name: str
+
+@pytest.fixture
+def T_EventIndexes():
+    return RPy.Template("EventIndexes.jinja2")
+
+def T_Protocol():
+    return RPy.Template("protocol.jinja2")
+
 
 
 def get_dirPath_of_file(f=__file__):
