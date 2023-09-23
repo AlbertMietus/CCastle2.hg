@@ -7,8 +7,10 @@
 TODO: update the CC2Cpy parts to use this generic AIGR layer
 """
 
+import typing as PTH                                                    # Python TypeHints
 from enum import Enum
 from dataclasses import dataclass, KW_ONLY
+from dataclasses import field as dc_field
 from . import AIGR
 from .events import Event
 
@@ -27,18 +29,18 @@ class ProtocolKind(Enum):
     Stream   = 3
 
 
-Protocol: TypeAlias = 'Protocol'            # forward reference                                      # pragma: no mutate
+Protocol: PTH.TypeAlias = 'Protocol'            # forward reference                                      # pragma: no mutate
 @dataclass
 class Protocol(AIGR):
     """ .. note:: Use one of the subclasses -- Only Event is defined yet
         .. todo:: Design: What is the `kind` self and the inherited ones are not the same?
                   overriding ProtocolKind.Unknown is always allowed
     """
-    _BASE: ClassVar=None                                                                             # pragma: no mutate
+    _BASE: PTH.ClassVar=None                                                                             # pragma: no mutate
 
     name: str
     kind: ProtocolKind
-    based_on: Optional[Protocol]=dc_field(default_factory= lambda :Protocol._BASE)
+    based_on: PTH.Optional[Protocol]=dc_field(default_factory= lambda :Protocol._BASE)
 
 
 @dataclass
@@ -62,5 +64,5 @@ class EventProtocol(Protocol):
     """
     _: KW_ONLY
     kind: ProtocolKind = ProtocolKind.Event
-    events: Sequence[Event]
+    events: PTH.Sequence[Event]
 

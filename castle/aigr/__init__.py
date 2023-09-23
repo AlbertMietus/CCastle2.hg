@@ -8,4 +8,5 @@ class AIGR: # Abstract Intermediate Graph Representation
         return super().__new__(cls)
 
 
-
+from .events import *
+from .protocols import *

@@ -9,9 +9,10 @@ include Mk/RPy.mk
 # TODO:		Some test that are needed soon
 rPY_LAST = \
 	pytst/writers/RPy/test_0_templating.py			\
+	pytst/aigr/test_0_AIGR.py				\
 #
 rPY_CURRENT = \
-	pytst/aigr/test_0_AIGR.py				\
+	pytst/aigr/test_1_events.py				\
 #
 CC2CPy_TODO = \
 	pytst/writers/RPy/test_999.py 				\
