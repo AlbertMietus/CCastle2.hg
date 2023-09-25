@@ -50,3 +50,19 @@ def test_template_parts():
     assert 'INCLUDED' in out, "this line in part-include.txt"
     assert 'IMPORTED' in out, "this line in part-import.txt"
 
+
+def test_not_founda_1():
+    T= RPy.Template()
+    try:
+        T.render()
+        assert False, "No (default) templates shouldn't render..."                   # pragma: no cover
+    except FileNotFoundError:
+        pass
+
+def test_not_founda1():
+    import jinja2
+    try:
+        RPy.Template('This file does NOT exist')
+        assert False, "Handled by jinja"                                         # pragma: no cover  
+    except jinja2.TemplateNotFound:
+        pass

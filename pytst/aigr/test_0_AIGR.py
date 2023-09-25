@@ -8,7 +8,7 @@ class Demo(AIGR):
 def test_noAIGR():
     try:
         AIGR()
-        assert False , "shouldn't be able to initiate an AIGR directly"
+        assert False , "shouldn't be able to initiate an AIGR directly"                   # pragma: no cover
     except NotImplementedError:
         pass
 
