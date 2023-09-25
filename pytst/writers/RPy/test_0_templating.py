@@ -66,3 +66,6 @@ def test_not_founda1():
         assert False, "Handled by jinja"                                         # pragma: no cover  
     except jinja2.TemplateNotFound:
         pass
+
+def test_verion():
+    assert RPy._version == "VERY_DRAFT"
