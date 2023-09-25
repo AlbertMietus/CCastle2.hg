@@ -35,5 +35,7 @@ todo:
 	PYTHONPATH=`pwd` pytest ${PYTEST_OPTONS}  ${TODO}
 current-ds current-sd:
 	PYTHONPATH=`pwd` pytest ${PYTEST_OPTONS}  --log-cli-level=DEBUG -s ${CURRENT}
+current-info:
+	PYTHONPATH=`pwd` pytest ${PYTEST_OPTONS}  --log-cli-level=INFO -s ${CURRENT}
 
 clean: clean_caches

@@ -21,7 +21,10 @@ from CC import base
 {% endblock %}
 
 {% block EventIndexes %}
-{% include 'EventIndexes.jinja2' %}
+{% for protocol in protocols %}
+   {% set events = protocol.events %}
+   {% include 'EventIndexes.jinja2' %}
+{% endfor %}
 {% endblock %}
 
 {% block ProtocolDataStructures %}

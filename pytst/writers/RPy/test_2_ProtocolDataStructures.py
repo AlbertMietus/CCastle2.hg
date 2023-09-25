@@ -36,16 +36,35 @@ def p_2e_1i(p_1e):
 ##  2*e  (each event: 1 [ <P-name>...append ] + 1 part_of=<P-name>
 ##  The  inherited events dont' count
 
-def test_0(T_ProtocolDataStructures, p_1e):
+def test_simpleProto_rendering(T_ProtocolDataStructures, p_1e):
+    "a simple protocol: no inheritance, 1 event"
     out = T_ProtocolDataStructures.render(protocols=[p_1e])
     logger.debug("\n---------- out:: ------------------------\n%s\n--------------------------------", out)
 
     assert_marker(protoData_PreFix + 'P1', out, 1+2*1)
 
 
-def test_0n(T_ProtocolDataStructures, p_1e, p_2e_1i):
+
+def test_subProcotol_rendering(T_ProtocolDataStructures, p_1e, p_2e_1i):
+    """This protocol inherits the above one, and add two events. So it should have 2 events (not 3!!)
+       Only this second protocol in rendered"""
+    out = T_ProtocolDataStructures.render(protocols=[p_2e_1i])
+    logger.debug("\n---------- out:: ------------------------\n%s\n--------------------------------", out)
+
+    assert_marker(protoData_PreFix + 'P2', out, 1+2*2)
+    assert_marker(protoData_PreFix + 'P1', out, 1, "Need one ref to inherited protocol") #
+
+
+
+def test_2Procotol_rendering(T_ProtocolDataStructures, p_1e, p_2e_1i):
+    "Same as above, but now render both protocols"
     out = T_ProtocolDataStructures.render(protocols=[p_1e, p_2e_1i])
     logger.debug("\n---------- out:: ------------------------\n%s\n--------------------------------", out)
 
     assert_marker(protoData_PreFix + 'P2', out, 1+2*2)
-    
+
+
+def test_ProtocolDataStructures_in_protocol(T_Protocol, p_1e, p_2e_1i):
+    out = T_Protocol.render(protocols=[p_1e, p_2e_1i])
+    logger.info("\n---------- out:: ------------------------\n%s\n--------------------------------", out)
+    assert True, "No assert (not maintainable) only check it runs"

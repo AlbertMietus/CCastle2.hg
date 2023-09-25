@@ -32,10 +32,10 @@ def T_ProtocolDataStructures():
 
 
 
-def assert_marker(marker, txt, need):
+def assert_marker(marker, txt, need, msg=None):
     lines = txt.splitlines()
     c = sum(1 if (marker in line) else 0 for line in lines)
-    assert c == need, f"Needed {need} lines with '{marker}'-markers, found {c} -- in {len(lines)} lines"
+    assert c == need, f"Needed {need} lines with '{marker}'-markers, found {c} -- in {len(lines)} lines" + ((+ ' ' + msg) if msg else "")
 
 
 def get_dirPath_of_file(f=__file__):
