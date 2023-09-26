@@ -4,12 +4,21 @@ import logging; logger = logging.getLogger(__name__)
 
 import pytest
 
-from pytst.TestDoubles.protocols import StartSieve   #XXX
+from TestDoubles.AIGR.protocols import Sieve
 
 from . import T_Protocol
 
-@pytest.mark.xfail
+
+
+ref_file = 'TestDoubles/reference/protocols/StartSieve.rpy'
+gen_file = 'Testdoubles/_generated/StartSieve.rpy'
+
+import filecmp
+
 def test_99_StartSieve(T_Protocol):
-    out = T_Protocol.render(protocols=[StartSieve,])
-    logger.info("\n---------- out:: ------------------------\n%s\n--------------------------------", out)
-    assert False
+    out = T_Protocol.render(protocols=[Sieve.StartSieve,])
+    with  open(gen_file, 'w') as f:
+        f.write(out)
+    logger.debug(f"Comparing the generated file ({gen_file}) and the reference ({ref_file})")
+    assert filecmp.cmp(gen_file, ref_file), f"The generated file ({gen_file}) and the reference ({ref_file}) are not the same"
+

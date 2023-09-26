@@ -9,7 +9,7 @@ include Mk/RPy.mk
 # TODO:		Some test that are needed soon
 rPY_LAST = \
 	pytst/aigr/test_0_AIGR.py				\
-	pytst/aigr/test_1_events.py				\
+	pytst/writers/RPy/test_1_EventIndexes.py		\
 	pytst/aigr/test_2a_protocolKind.py			\
 	pytst/aigr/test_2b_protocol.py				\
 	pytst/aigr/test_2b_protocol.py				\
@@ -18,10 +18,9 @@ rPY_LAST = \
 	pytst/writers/RPy/test_2_ProtocolDataStructures.py	\
 #
 rPY_CURRENT = \
-	pytst/writers/RPy/test_1_EventIndexes.py		\
+	pytst/writers/RPy/test_99_StartSieve.py			\
 #
 CC2CPy_TODO = \
-	pytst/writers/RPy/test_99_StartSieve.py			\
 	pytst/writers/RPy/test_999.py 				\
 #
 
