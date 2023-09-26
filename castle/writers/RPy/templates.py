@@ -1,4 +1,4 @@
-import logging; logger = logging.getLogger(__name__)
+import logging; logger = logging.getLogger(__name__)  # pragma: no mutate
 
 import jinja2 as jinja
 
@@ -18,14 +18,14 @@ class Template():
 
         logger.info(f"template={template}, top_dir={top_dir}, search_path={search_path}")
 
-        self.environment = jinja.Environment(loader=jinja.FileSystemLoader(search_path), trim_blocks=True, lstrip_blocks=True)
+        self.environment = jinja.Environment(loader=jinja.FileSystemLoader(search_path), trim_blocks=True, lstrip_blocks=True)  # pragma: no mutate
         self.def_template = self.environment.get_template(template) if template else None
 
 
 
     def render(self, template=None, **kwargs):
         if not template and not self.def_template:
-            raise FileNotFoundError("No template nor default template specified")
+            raise FileNotFoundError("No template nor default template specified")                    # pragma: no mutate
 
         template = self.environment.get_template(template) if template  else self.def_template
         return template.render(**kwargs)

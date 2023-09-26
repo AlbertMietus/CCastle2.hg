@@ -66,3 +66,16 @@ class EventProtocol(Protocol):
     kind: ProtocolKind = ProtocolKind.Event
     events: PTH.Sequence[Event]
 
+    def _noEvents(self):
+        inherited = self.based_on._noEvents() if isinstance(self.based_on, EventProtocol) else 0
+        return inherited + len(self.events)
+
+    def eventIndex(self, event: Event) -> int:
+        try:
+            return self.based_on.eventIndex(event)
+        except ValueError: # not inherited
+            inherited_events = self.based_on._noEvents()
+        except AttributeError: # self.based_on === None
+            inherited_events = 0
+        # `event` not inherited: search locally and number of inherited events
+        return self.events.index(event) + inherited_events

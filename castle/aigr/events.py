@@ -27,3 +27,4 @@ class Event(AIGR):
     _: KW_ONLY
     return_type: type=None
     typedParameters: PTH.Sequence[TypedParameter]=()
+
