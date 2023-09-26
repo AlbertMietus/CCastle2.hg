@@ -32,6 +32,9 @@ missing: missing_visitor missing_serialization
 open:    coverage-open mutmut-open
 remake:  veryclean coverage mutmut open
 
+clean_generated:
+	rm -rf TestDoubles/_generated/*
+
 clean_caches:
 	find . -type d -name __pycache__    -print0 | xargs -0  rm -r
 	find . -type d -name .pytest_cache  -print0 | xargs -0  rm -r
