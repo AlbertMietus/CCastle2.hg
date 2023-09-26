@@ -3,11 +3,10 @@
 import logging; logger = logging.getLogger(__name__)
 import pytest
 
-from castle.aigr import Event, EventProtocol
+from castle.aigr import EventProtocol, Event
 from castle.aigr.types import TypedParameter
 
 from . import T_ProtocolDataStructures
-from . import MockEvent
 from . import T_Protocol
 from . import assert_marker
 
@@ -19,14 +18,14 @@ def test_ToDo(): pass
 @pytest.fixture
 def p_1e():
     "Protocol with 1 event"
-    p = EventProtocol(name="P1", events=(MockEvent(name="e1", indexNo=101),))
+    p = EventProtocol(name="P1", events=(Event(name="e1"),))
     logger.debug("%s", p)
     return p
 
 @pytest.fixture
 def p_2e_1i(p_1e):
     "Protocol with 2 events, and 1 inherited; so 3 in total"
-    p = EventProtocol(name="P2", events=(MockEvent(name="e2", indexNo=102), MockEvent(name="e3", indexNo=103)), based_on=p_1e)
+    p = EventProtocol(name="P2", events=(Event(name="e2"), Event(name="e3")), based_on=p_1e)
     logger.debug("%s", p)
     return p
 

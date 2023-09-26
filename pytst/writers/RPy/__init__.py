@@ -10,13 +10,6 @@ from dataclasses import dataclass
 from castle.aigr import Event, Protocol
 from castle.writers import RPy
 
-@dataclass
-class MockEvent(Event):
-    indexNo: int
-
-@dataclass
-class MockProtocol():
-    name: str
 
 @pytest.fixture
 def T_Protocol():
@@ -32,10 +25,13 @@ def T_ProtocolDataStructures():
 
 
 
-def assert_marker(marker, txt, need, msg=None):
+def assert_marker(marker, txt, need=None, msg=None):
     lines = txt.splitlines()
     c = sum(1 if (marker in line) else 0 for line in lines)
-    assert c == need, f"Needed {need} lines with '{marker}'-markers, found {c} -- in {len(lines)} lines" + ((+ ' ' + msg) if msg else "")
+    if need is None:
+        assert c > 0, f"Expected lines with '{marker}'-marker, found nothing in:\n----\n{txt}\n----"
+    else:
+        assert c == need, f"Needed {need} lines with '{marker}'-markers, found {c} -- in {len(lines)} lines" + ((+ ' ' + msg) if msg else "")
 
 
 def get_dirPath_of_file(f=__file__):
