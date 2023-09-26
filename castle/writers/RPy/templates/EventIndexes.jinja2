@@ -13,6 +13,6 @@
 ##
 
 {% for e in events %}
-  {{- m.EventIndexName(protocol.name, e.name) }} = {{e.indexNo}}
+  {{- m.EventIndexName(protocol.name, e.name) }} = {{ protocol.eventIndex(e)}}
 {% endfor %}
 
