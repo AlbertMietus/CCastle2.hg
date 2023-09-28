@@ -12,8 +12,6 @@ from . import assert_marker
 
 protoData_PreFix = "cc_P_"               #Keep in sync with implementation
 
-@pytest.mark.skip("XXX ToDo:: The MockProtocol should go")
-def test_ToDo(): pass
 
 @pytest.fixture
 def p_1e():
@@ -62,10 +60,39 @@ def test_2Procotol_rendering(T_ProtocolDataStructures, p_1e, p_2e_1i):
 
     assert_marker(protoData_PreFix + 'P2', out, 1+2*2)
 
-@pytest.mark.skip("Need to test AIGR.protocols:: parameters first")
+
+def test_protocol_with_NoParms_a(T_ProtocolDataStructures):
+    "An (event) protocol without parameters does not render the parameter line"
+    out = T_ProtocolDataStructures.render(protocols=[EventProtocol(name="NoParms_", events=[])])
+    assert 'parameters' not in out
+
+def test_protocol_with_NoParms_b(T_ProtocolDataStructures):
+    out = T_ProtocolDataStructures.render(protocols=[EventProtocol(name="NoParms",
+                                                                   events=[],
+                                                                   typedParameters=[])])
+    assert 'parameters' not in out
+
+def test_protocol_with_1parm(T_ProtocolDataStructures):
+    out = T_ProtocolDataStructures.render(protocols=[EventProtocol(name="With_1_Parm",
+                                                                       events=[],
+                                                                       typedParameters=[TypedParameter(name='a_parm', type="A_Type")])])
+    logger.debug("\n---------- out:: ------------------------\n%s\n--------------------------------", out)
+    assert 'parameters=' in out
+    assert False, "check rendering"
+
 def test_protocol_with_parms(T_ProtocolDataStructures):
-    "An (event) protocol can have parameters itself (see SlowStart)"
-    assert False
+    out = T_ProtocolDataStructures.render(protocols=[EventProtocol(name="WithParms",
+                                                                       events=[],
+                                                                       typedParameters=[
+                                                                           TypedParameter(name='a_parm', type="A_Type"),
+                                                                           TypedParameter(name='b_parm', type=int),
+                                                                           TypedParameter(name='c_parm', type=float),
+                                                                           TypedParameter(name='1', type=int)
+                                                                           ])])
+    logger.debug("\n---------- out:: ------------------------\n%s\n--------------------------------", out)
+    assert 'parameters=' in out
+    assert False, "check rendering"
+
 
 
 def test_ProtocolDataStructures_in_protocol(T_Protocol, p_1e, p_2e_1i):

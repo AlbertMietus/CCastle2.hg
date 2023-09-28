@@ -16,7 +16,6 @@ rPY_LAST = \
 	pytst/writers/RPy/test_1_EventIndexes.py		\
 #
 rPY_CURRENT = \
-	pytst/aigr/test_2b_protocol.py				\
 	pytst/writers/RPy/test_2_ProtocolDataStructures.py	\
 
 #
