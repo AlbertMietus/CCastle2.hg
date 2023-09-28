@@ -1,6 +1,7 @@
 default: all
 
 all: current demo test mutmut pyanalyse XXX missing todo diff_TestDoubles
+
 NOTES: CC2CpyNote
 include Mk/RPy.mk
 
@@ -28,7 +29,7 @@ include Mk/settings.mk
 include Mk/testing.mk
 include Mk/helpful.mk
 
-diff_TestDoubles:
+diff_TestDoubles: 
 	diff -w -rs TestDoubles/reference/ TestDoubles/_generated/
 
 missing: missing_visitor missing_serialization

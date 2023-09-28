@@ -3,9 +3,7 @@
 {# parameters: ``protocols``: PTH.Sequence[aigr.EventProtocol]
 #}
 
-{% import "CastleMacros.jinja2" as m %}
-
-{#GAM Note: do not put {% block ... inside the loop - does not work#}
+{%- import "CastleMacros.jinja2" as m -%}
 
 {%- macro Str_or_Type(t) -%}
   {%- if t is string -%}
@@ -15,7 +13,7 @@
   {%- endif -%}
 {%- endmacro -%}
 
-{% for proto in protocols %}
+{%- for proto in protocols %}
   {{- m.ProtocolName(proto.name) }} = buildin.CC_B_Protocol(name="{{ proto.name }}",
   {% if proto.typedParameters  %}
                                 parameters=(

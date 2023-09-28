@@ -3,7 +3,6 @@
 # (C) Albert Mietus, 2023. Part of Castle/CCastle project
 
 ####
-
 from CC import buildin
 from CC import base
 
@@ -17,9 +16,6 @@ from CC import base
 
 CC_P_StartSieve_runTo = 0
 CC_P_StartSieve_newMax = 1
-
-
-
 
 
 cc_P_StartSieve = buildin.CC_B_Protocol(name="StartSieve",
