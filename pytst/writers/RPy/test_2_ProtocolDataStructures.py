@@ -72,27 +72,41 @@ def test_protocol_with_NoParms_b(T_ProtocolDataStructures):
                                                                    typedParameters=[])])
     assert 'parameters' not in out
 
+
 def test_protocol_with_1parm(T_ProtocolDataStructures):
     out = T_ProtocolDataStructures.render(protocols=[EventProtocol(name="With_1_Parm",
                                                                        events=[],
                                                                        typedParameters=[TypedParameter(name='a_parm', type="A_Type")])])
     logger.debug("\n---------- out:: ------------------------\n%s\n--------------------------------", out)
-    assert 'parameters=' in out
-    assert False, "check rendering"
 
+    assert 'parameters=(' in out
+    assert 'a_parm' in out
+    assert 'A_T' in out
+
+sQUOTE="'"
+dQUOTE='"'
 def test_protocol_with_parms(T_ProtocolDataStructures):
-    out = T_ProtocolDataStructures.render(protocols=[EventProtocol(name="WithParms",
-                                                                       events=[],
-                                                                       typedParameters=[
-                                                                           TypedParameter(name='a_parm', type="A_Type"),
-                                                                           TypedParameter(name='b_parm', type=int),
-                                                                           TypedParameter(name='c_parm', type=float),
-                                                                           TypedParameter(name='1', type=int)
-                                                                           ])])
+    p= EventProtocol(name="WithParms",
+                         events=[],
+                         typedParameters=[
+                             TypedParameter(name='a_parm', type="A_Type"),
+                             TypedParameter(name='b_parm', type=int),
+                             TypedParameter(name='c_parm', type=float),
+                             TypedParameter(name='foo',    type=int)
+                             ])
+    out = T_ProtocolDataStructures.render(protocols=[p])
     logger.debug("\n---------- out:: ------------------------\n%s\n--------------------------------", out)
-    assert 'parameters=' in out
-    assert False, "check rendering"
+    assert 'parameters=(' in out
+    assert "'a_parm'" in out
+    for parm in p.typedParameters:
+        assert sQUOTE + parm.name + sQUOTE in out
+        type_val = (dQUOTE + parm.type + dQUOTE) if isinstance(parm.type, str) else parm.type.__name__
+        assert type_val in out
 
+
+@pytest.mark.skip("Later: assert on types of the TypedParameter -- see note in ``ProtocolDataStructures.jinja2``")
+def test_todo_with_parms():
+    assert False
 
 
 def test_ProtocolDataStructures_in_protocol(T_Protocol, p_1e, p_2e_1i):

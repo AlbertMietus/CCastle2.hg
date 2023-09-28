@@ -7,14 +7,22 @@
 
 {#GAM Note: do not put {% block ... inside the loop - does not work#}
 
+{%- macro Str_or_Type(t) -%}
+  {%- if t is string -%}
+    "{{t}}"
+  {%- else -%}
+    {{t.__name__}}
+  {%- endif -%}
+{%- endmacro -%}
+
 {% for proto in protocols %}
   {{- m.ProtocolName(proto.name) }} = buildin.CC_B_Protocol(name="{{ proto.name }}",
   {% if proto.typedParameters  %}
                                 parameters=(
-    {%- for parm in proto.typedParameters -%}
-                                    ({{ parm.name}} , {{parm.type}}), 
-    {%- endfor -%}
-                                ), # XXX ToDo: parms: (seq of] typle, namedType,  strings?
+    {% for parm in proto.typedParameters %}
+                                    ('{{ parm.name}}' , {{ Str_or_Type(parm.type) }}),
+    {% endfor %}
+                                ), ### XXX ToDo: parms: tuple, namedType, strings, ... (see event -- use macro?)
   {% endif %}
 				kind=buildin.{{proto.kind}},
 				inherit_from={{m.ProtocolName(proto.based_on.name)}}
