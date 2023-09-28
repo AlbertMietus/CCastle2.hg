@@ -38,4 +38,3 @@ current-ds current-sd:
 current-info:
 	PYTHONPATH=`pwd` pytest ${PYTEST_OPTONS}  --log-cli-level=INFO -s ${CURRENT}
 
-clean: clean_caches

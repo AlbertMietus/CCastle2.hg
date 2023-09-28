@@ -9,6 +9,9 @@
 
 {% for p in protocols %}
   {{- m.ProtocolName(p.name) }} = buildin.CC_B_Protocol(name="{{ p.name }}",
+  {% if p.typedParameters  %}
+                                parameters= XXX {{ p.typedParameters }}
+  {% endif %}
 				kind=buildin.{{p.kind}},
 				inherit_from={{m.ProtocolName(p.based_on.name)}}
 				events = []) {#- filled in below -- see design notes // limitation #}

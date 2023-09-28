@@ -11,3 +11,11 @@ StartSieve = EventProtocol('StartSieve',
                                    Event(name='newMax', return_type=None, typedParameters=(TypedParameter(name='max', type=int),))])
 
 
+SlowStart = EventProtocol('SlowStart',
+                              typedParameters=(TypedParameter(name='queue_max', type=int),),
+                              events=[
+                                   Event(name='setMax', return_type=None, typedParameters=(TypedParameter(name='queue_max', type=int),))],
+                              #parameters
+                              )
+
+

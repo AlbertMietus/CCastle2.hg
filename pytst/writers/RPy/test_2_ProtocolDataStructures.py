@@ -62,6 +62,11 @@ def test_2Procotol_rendering(T_ProtocolDataStructures, p_1e, p_2e_1i):
 
     assert_marker(protoData_PreFix + 'P2', out, 1+2*2)
 
+@pytest.mark.skip("Need to test AIGR.protocols:: parameters first")
+def test_protocol_with_parms(T_ProtocolDataStructures):
+    "An (event) protocol can have parameters itself (see SlowStart)"
+    assert False
+
 
 def test_ProtocolDataStructures_in_protocol(T_Protocol, p_1e, p_2e_1i):
     out = T_Protocol.render(protocols=[p_1e, p_2e_1i])

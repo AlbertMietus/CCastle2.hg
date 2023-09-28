@@ -13,6 +13,7 @@ from dataclasses import dataclass, KW_ONLY
 from dataclasses import field as dc_field
 from . import AIGR
 from .events import Event
+from .types import TypedParameter                                      # Castle/AIGR types
 
 __all__ = ['ProtocolKind', 'Protocol', 'EventProtocol']
 # DataProtocol, StreamProtocol are added eventually
@@ -41,6 +42,7 @@ class Protocol(AIGR):
     name: str
     kind: ProtocolKind
     based_on: PTH.Optional[Protocol]=dc_field(default_factory= lambda :Protocol._BASE)
+    typedParameters: PTH.Optional[PTH.Sequence[TypedParameter]]=()
 
 
 @dataclass
