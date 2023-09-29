@@ -61,15 +61,13 @@ def test_2Procotol_rendering(T_ProtocolDataStructures, p_1e, p_2e_1i):
     assert_marker(protoData_PreFix + 'P2', out, 1+2*2)
 
 
-def test_protocol_with_NoParms_a(T_ProtocolDataStructures):
+def test_protocol_with_NoParms_a_notSet(T_ProtocolDataStructures):
     "An (event) protocol without parameters does not render the parameter line"
     out = T_ProtocolDataStructures.render(protocols=[EventProtocol(name="NoParms_", events=[])])
     assert 'parameters' not in out
 
-def test_protocol_with_NoParms_b(T_ProtocolDataStructures):
-    out = T_ProtocolDataStructures.render(protocols=[EventProtocol(name="NoParms",
-                                                                   events=[],
-                                                                   typedParameters=[])])
+def test_protocol_with_NoParms_b_emptyList(T_ProtocolDataStructures):
+    out = T_ProtocolDataStructures.render(protocols=[EventProtocol(name="NoParms", events=[], typedParameters=[])])
     assert 'parameters' not in out
 
 
@@ -77,15 +75,13 @@ def test_protocol_with_1parm(T_ProtocolDataStructures):
     out = T_ProtocolDataStructures.render(protocols=[EventProtocol(name="With_1_Parm",
                                                                        events=[],
                                                                        typedParameters=[TypedParameter(name='a_parm', type="A_Type")])])
-    logger.debug("\n---------- out:: ------------------------\n%s\n--------------------------------", out)
-
     assert 'parameters=(' in out
     assert 'a_parm' in out
     assert 'A_T' in out
 
 sQUOTE="'"
 dQUOTE='"'
-def test_protocol_with_parms(T_ProtocolDataStructures):
+def test_protocol_with_SomeParms(T_ProtocolDataStructures):
     p= EventProtocol(name="WithParms",
                          events=[],
                          typedParameters=[
