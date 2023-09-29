@@ -58,15 +58,15 @@ def test_3c_eventIndex_inherited():
 def test_protocol_with_Noparms(emptyProtocol):
     assert emptyProtocol.typedParameters == ()
 
-def test_protocol_with_parm():
-    e = EventProtocol("WithParms", events=[], based_on=None,
+def test_protocol_with_aParm():
+    e = EventProtocol("With_a_parm", events=[], based_on=None,
                           typedParameters=[TypedParameter(name='p', type=float)])
     assert len(e.typedParameters) ==1
     assert e.typedParameters[0].name == 'p'
     assert e.typedParameters[0].type == float
 
-def test_protocol_with_parm():
-    e = EventProtocol("WithParms", events=[], based_on=None,
+def test_protocol_with_4Parms():
+    e = EventProtocol("With_4_Parms", events=[], based_on=None,
                           typedParameters=(
                               TypedParameter(name='p0', type=float ),
                               TypedParameter(name='p1', type=int ),

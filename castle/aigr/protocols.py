@@ -45,7 +45,7 @@ class Protocol(AIGR):
     typedParameters: PTH.Optional[PTH.Sequence[TypedParameter]]=()
 
 
-@dataclass
+@dataclass                                                                                           # pragma: no mutate
 class _RootProtocol(Protocol):
     """This is the base protocol; it exist as we can't instantiate Protocol"""
 
