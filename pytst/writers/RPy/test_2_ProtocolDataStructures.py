@@ -100,7 +100,7 @@ def test_protocol_with_SomeParms(T_ProtocolDataStructures):
         assert type_val in out
 
 
-@pytest.mark.skip("Later: assert on types of the TypedParameter -- see note in ``ProtocolDataStructures.jinja2``")
+@pytest.mark.skip("ToDo/Later: assert on types of the TypedParameter -- see note in ``ProtocolDataStructures.jinja2``")
 def test_todo_with_parms():
     assert False
 

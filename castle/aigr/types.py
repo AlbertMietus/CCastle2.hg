@@ -20,5 +20,5 @@ class TypedParameter(AIGR):
     type: type
 
 
-TypedParameterTuple: PTH.TypeAlias = PTH.Sequence[TypedParameter]
+#not needed/used? TypedParameterTuple: PTH.TypeAlias = PTH.Sequence[TypedParameter]
 
