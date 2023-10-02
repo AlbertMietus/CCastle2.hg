@@ -43,4 +43,19 @@ def end_with_NL(txt):
 
 
 
+class TstDoubles():
+    _top = Path('TestDoubles')
+    _ref, _gen = Path('reference'), Path('_generated')
+
+    def __init__(self, base_name):
+       self.base_name = Path(base_name)
+
+    @property
+    def ref_file(self, ext='.rpy'):
+        return self._top / self._ref / self.base_name.with_suffix(ext)
+
+    @property
+    def gen_file(self, ext='.rpy'):
+        return self._top / self._gen / self.base_name.with_suffix(ext)
+
 
