@@ -15,7 +15,6 @@ SlowStart = EventProtocol('SlowStart',
                               typedParameters=(TypedParameter(name='queue_max', type=int),),
                               events=[
                                    Event(name='setMax', return_type=None, typedParameters=(TypedParameter(name='queue_max', type=int),))],
-                              #parameters
                               )
 
 

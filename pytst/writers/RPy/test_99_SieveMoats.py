@@ -24,7 +24,7 @@ def test_01_StartSieve(T_Protocol):
     assert filecmp.cmp(gen_file, ref_file), f"The generated file ({gen_file}) and the reference ({ref_file}) are not the same"
 
 
-@pytest.mark.skip("Need to test AIGR.protocols:: parameters first (and writer for it to)")
+#@pytest.mark.skip("Need to test AIGR.protocols:: parameters first (and writer for it to)")
 def test_03_SlowStart(T_Protocol):
     ref_file = 'TestDoubles/reference/protocols/SlowStart.rpy'
     gen_file = 'Testdoubles/_generated/protocols/SlowStart.rpy'

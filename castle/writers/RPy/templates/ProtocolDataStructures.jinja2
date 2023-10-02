@@ -18,21 +18,19 @@
   {% if proto.typedParameters  %}
                                 parameters=(
     {% for parm in proto.typedParameters %}
-                                    ('{{ parm.name}}' , {{ Str_or_Type(parm.type) }}),
+                                    ('{{ parm.name}}', {{ Str_or_Type(parm.type) }}),
     {% endfor %}
-                                ), ### XXX ToDo: parms: tuple, namedType, strings, ... (see event -- use macro?)
+                                ), {#- XXX ToDo: parms: tuple, namedType, strings, ... (see event -- use macro?) #}
+
   {% endif %}
-				kind=buildin.{{proto.kind}},
-				inherit_from={{m.ProtocolName(proto.based_on.name)}}
-				events = []) {#- filled in below -- see design notes // limitation #}
+                                kind=buildin.{{proto.kind}},
+                                inherit_from={{m.ProtocolName(proto.based_on.name)}},
+                                events=[])
 
   {% for e in proto.events %}
     {{- m.ProtocolName(proto.name) }}.events.append(buildin.CC_B_P_EventID(name="{{- e.name -}}",
-				seqNo={{- m.EventIndexName(proto.name, e.name) }},
-				part_of={{ m.ProtocolName(proto.name) }} ))
+                                seqNo={{- m.EventIndexName(proto.name, e.name) }},
+                                part_of={{ m.ProtocolName(proto.name) }}))
   {% endfor %} {#- event #}
 
-{% endfor %} {# protocols #}
-
-
-
+{% endfor %} {#- protocols #}
