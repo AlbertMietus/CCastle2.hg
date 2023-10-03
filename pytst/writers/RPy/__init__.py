@@ -1,12 +1,10 @@
 # (C) Albert Mietus, 2023. Part of Castle/CCastle project  -- PYTEST init for RPY
-
 import logging; logger = logging.getLogger(__name__)
-import pytest
 
+import pytest
 from pathlib import Path
 import os
 from dataclasses import dataclass
-
 from castle.aigr import Event, Protocol
 from castle.writers import RPy
 
@@ -22,7 +20,6 @@ def T_EventIndexes():
 @pytest.fixture
 def T_ProtocolDataStructures():
     return RPy.Template("ProtocolDataStructures.jinja2")
-
 
 
 def assert_marker(marker, txt, need=None, msg=None):
@@ -42,10 +39,10 @@ def end_with_NL(txt):
     return txt +'\n' if (txt[-1] != '\n') else txt
 
 
-
 class TstDoubles():
     _top = Path('TestDoubles')
-    _ref, _gen = Path('reference'), Path('_generated')
+    _ref = Path('reference')
+    #_ref = Path('_generated')             #Not used anymore
 
     def __init__(self, base_name):
        self.base_name = Path(base_name)
@@ -54,8 +51,15 @@ class TstDoubles():
     def ref_file(self, ext='.rpy'):
         return self._top / self._ref / self.base_name.with_suffix(ext)
 
-    @property
-    def gen_file(self, ext='.rpy'):
-        return self._top / self._gen / self.base_name.with_suffix(ext)
+    #@property
+    #def gen_file(self, ext='.rpy'):
+    #    return self._top / self._gen / self.base_name.with_suffix(ext)
 
 
+@pytest.fixture
+def generatedProtocol_verifier(T_Protocol):
+     def matcher(aigr_mock, td):
+        out = T_Protocol.render(protocols=(aigr_mock,))
+        ref = open(td.ref_file).read()
+        assert out == ref
+     return matcher

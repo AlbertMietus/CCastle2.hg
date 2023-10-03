@@ -8,7 +8,7 @@ import pytest
 from . import *
 from castle.writers import RPy
 
-my_dir =  get_dirPath_of_file(__file__) 
+my_dir =  get_dirPath_of_file(__file__)
 template_r_dir = "./templates/"
 template_a_dir = my_dir / template_r_dir
 

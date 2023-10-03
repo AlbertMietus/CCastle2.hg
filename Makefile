@@ -1,6 +1,7 @@
-default: all
+default: most
 
-all: current demo test mutmut pyanalyse XXX missing todo diff_TestDoubles
+all:  most current demo test mutmut pyanalyse XXX missing todo
+most:      current      test mutmut pyanalyse             todo
 
 NOTES: CC2CpyNote
 include Mk/RPy.mk
@@ -28,15 +29,12 @@ include Mk/settings.mk
 include Mk/testing.mk
 include Mk/helpful.mk
 
-diff_TestDoubles:
-	diff -w -rs TestDoubles/reference/ TestDoubles/_generated/
-
 missing: missing_visitor missing_serialization
 open:    coverage-open mutmut-open
 remake:  veryclean coverage mutmut open
 
-clean_generated:
-	rm -f TestDoubles/_generated/*.* TestDoubles/_generated/*/*.*
+clean_generated:; #None
+
 clean_caches:
 	find . -type d -name __pycache__    -print0 | xargs -0  rm -r
 	find . -type d -name .pytest_cache  -print0 | xargs -0  rm -r

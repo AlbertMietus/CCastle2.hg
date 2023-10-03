@@ -1,24 +1,10 @@
 # (C) Albert Mietus, 2023. Part of Castle/CCastle project
-
 import logging; logger = logging.getLogger(__name__)
-import filecmp
 
 import pytest
-
 from TestDoubles.AIGR.protocols import Sieve
-
-from . import T_Protocol, TstDoubles
-from castle.writers import RPy
-
-
-@pytest.fixture
-def generatedProtocol_verifier():
-     def matcher(aigr_mock, td):
-        template = RPy.Template("protocol.jinja2")
-        out = template.render(protocols=(aigr_mock,))
-        ref = open(td.ref_file).read()
-        assert out == ref
-     return matcher
+from . import TstDoubles, generatedProtocol_verifier, T_Protocol
+##Note: T_Protocol is used in generatedProtocol_verifier; but need to be in this scope
 
 
 def test_01_StartSieve(generatedProtocol_verifier):
@@ -31,5 +17,5 @@ def test_02_SlowStart(generatedProtocol_verifier):
 
 @pytest.mark.skip("After SlowStart")
 def test_03_SimpleSieve(generatedProtocol_verifier):
-        assert False
+    generatedProtocol_verifier(aigr_mock=Sieve.SimpleSieve, td=TstDoubles('protocols/SimpleSieve'))
 
