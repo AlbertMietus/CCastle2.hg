@@ -20,3 +20,4 @@ castle/writers/CC2Cpy/jinja_hack.py
 .mypy_cache
 TestDoubles/_generated/
 
+html

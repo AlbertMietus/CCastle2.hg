@@ -1,7 +1,5 @@
 # (C) Albert Mietus, 2022, 2023. Part of Castle/CCastle project
-
-
-import logging; logger = logging.getLogger(__name__)
+import logging; logger = logging.getLogger(__name__)                    # pragma: no mutate
 
 from .CCbase import *
 from castle.auxiliary.pack import mk_tuple
@@ -30,7 +28,7 @@ class CC_B_ComponentInterface(CC_Base):
         return count
 
     def find_port_by_name(self, name:str) -> CC_Port:
-        return next(p for p in self.ports if p.name==name)
+        return next(p for p in self.ports if p.name==name)              # pragma: no mutate (OLD)
 
     def render(self, prepend:str="", indent:str="   ") ->str:
         return (

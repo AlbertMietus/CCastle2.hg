@@ -19,7 +19,7 @@ class CC_TypedParameter(CC_Base):
     type: type
 
 
-CC_TypedParameterTuple: TypeAlias = Sequence[CC_TypedParameter]
+CC_TypedParameterTuple: TypeAlias = Sequence[CC_TypedParameter]         # pragma: no mutate (OLD)
 
 class CC_PortDirection(Enum):
     CC_B_PortDirectionIs_UNKNOWN  = Unknown   = 0
@@ -40,7 +40,7 @@ class CC_Port(CC_Base):
     type: type
 
     def isInPort(self):
-        return self.direction in (CC_PortDirection.In, CC_PortDirection.BiDir)
+        return self.direction in (CC_PortDirection.In, CC_PortDirection.BiDir) # pragma: no mutate (OLD)
     def portray_name(self) ->str:                                           ### <port name>
         return f'{self.name}'
 
@@ -52,7 +52,7 @@ class CC_Port(CC_Base):
         else:
             from warnings import warn
             tn = self.type if isinstance(self.type, str) else self.type.__name__
-            warn(f"Using string (or other non CC_Base types) port.types (for >>{tn}<<) is not wise", DeprecationWarning, stacklevel=2)
+            warn(f"Using string (or other non CC_Base types) port.types (for >>{tn}<<) is not wise", DeprecationWarning, stacklevel=2) # pragma: no mutate (OLD)
             return f'&cc_P_{tn}'
 
 
@@ -60,11 +60,11 @@ class CC_Port(CC_Base):
 class CC_Function(ABCD, CC_Base):               # ABC
     name: str
     _ : KW_ONLY
-    type: type=None                      # the return type of the callable
-    body=None                            # XXX Add the (AST of the) body LATER
+    type: type=None                      # the return type of the callable                  # pragma: no mutate (OLD)
+    body=None                            # XXX Add the (AST of the) body LATER              # pragma: no mutate (OLD)
 
 
-@dataclass
+@dataclass # pragma: no mutate
 class CC_Handler(CC_Function):            # ABC Can be an event of data/stream -- with or without parameters
     _ : KW_ONLY
     port: CC_Port
@@ -72,12 +72,12 @@ class CC_Handler(CC_Function):            # ABC Can be an event of data/stream -
 @dataclass
 class CC_EventHandler(CC_Handler):
     _ : KW_ONLY
-    parameterTuple: CC_TypedParameterTuple=()
+    parameterTuple: CC_TypedParameterTuple=()                           # pragma: no mutate (OLD)
 
 @dataclass
 class CC_Method(CC_Function, ABCD):
     _ : KW_ONLY
-    parameterTuple: CC_TypedParameterTuple=()
+    parameterTuple: CC_TypedParameterTuple=()                           # pragma: no mutate (OLD)
 
 class CC_ClassMethod(CC_Method): pass
 class CC_ElementMethod(CC_Method): pass      #Or CC InstanceMethod??
