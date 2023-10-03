@@ -33,7 +33,11 @@ missing: missing_visitor missing_serialization
 open:    coverage-open mutmut-open
 remake:  veryclean coverage mutmut open
 
-clean_generated:; #None
+diff_TestDoubles:
+	diff -w -rs TestDoubles/reference/ TestDoubles/_generated/
+
+clean_generated:
+	rm -f TestDoubles/_generated/*.* TestDoubles/_generated/*/*.*
 
 clean_caches:
 	find . -type d -name __pycache__    -print0 | xargs -0  rm -r
