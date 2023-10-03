@@ -18,10 +18,9 @@ rPY_LAST = \
 #
 rPY_CURRENT = \
 	pytst/writers/RPy/test_2_ProtocolDataStructures.py	\
-
+	pytst/writers/RPy/test_99_SieveMoats.py			\
 #
 CC2CPy_TODO = \
-	pytst/writers/RPy/test_99_SieveMoats.py			\
 	pytst/writers/RPy/test_999.py 				\
 #
 

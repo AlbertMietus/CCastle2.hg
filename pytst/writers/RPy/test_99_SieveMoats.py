@@ -8,22 +8,25 @@ import pytest
 from TestDoubles.AIGR.protocols import Sieve
 
 from . import T_Protocol, TstDoubles
+from castle.writers import RPy
 
 
-def test_01_StartSieve(T_Protocol):
-    td = TstDoubles('protocols/StartSieve')
-    out = T_Protocol.render(protocols=[Sieve.StartSieve,])
-    with  open(td.gen_file, 'w') as f:
-        f.write(out)
-    assert filecmp.cmp(td.gen_file, td.ref_file), f"The generated file ({td.gen_file}) and the reference ({td.ref_file}) are not the same"
+@pytest.fixture
+def generatedProtocol_verifier():
+    def file_matcher(aigr_dummy, td):
+        template = RPy.Template("protocol.jinja2")
+        out = template.render(protocols=(aigr_dummy,))
+        with  open(td.gen_file, 'w') as f:
+            f.write(out)
+        assert filecmp.cmp(td.gen_file, td.ref_file), f"The generated file ({td.gen_file}) and the reference ({td.ref_file}) are not the same"
+    return file_matcher
 
 
-def test_03_SlowStart(T_Protocol):
-    td = TstDoubles('protocols/SlowStart')
-    out = T_Protocol.render(protocols=[Sieve.SlowStart,])
-    with  open(td.gen_file, 'w') as f:
-        f.write(out)
-    assert filecmp.cmp(td.gen_file, td.ref_file), f"The generated file ({td.gen_file}) and the reference ({td.ref_file}) are not the same"
+def test_01_StartSieve(generatedProtocol_verifier):
+    generatedProtocol_verifier(aigr_dummy=Sieve.StartSieve, td=TstDoubles('protocols/StartSieve'))
+
+def test_02_SlowStart(generatedProtocol_verifier):
+    generatedProtocol_verifier(aigr_dummy=Sieve.SlowStart, td=TstDoubles('protocols/SlowStart'))
 
 
 
