@@ -69,7 +69,7 @@ class CC_Handler(CC_Function):            # ABC Can be an event of data/stream -
     _ : KW_ONLY
     port: CC_Port
 
-@dataclass
+@dataclass # pragma: no mutate
 class CC_EventHandler(CC_Handler):
     _ : KW_ONLY
     parameterTuple: CC_TypedParameterTuple=()                           # pragma: no mutate (OLD)
