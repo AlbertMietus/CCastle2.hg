@@ -55,22 +55,35 @@ class TstDoubles():
     def gen_file(self, ext='.rpy'):
         return self._top / self._gen / self.base_name.with_suffix(ext)
 
+    def read_ref(self) -> str:             #File content as one (long, multi-line) string (aka Text)
+        with open(self.ref_file) as f:
+            ref = f.read()
+        logger.debug("---------- ref: ----------\n%s\n==========================", ref)
+        return ref
+
+    def write_gen(self,txt) ->None:
+        with open(self.gen_file, 'w') as f:
+            f.write(txt)
+        logger.info("Saved rendered protocol in: %s", self.gen_file)
+
 
 @pytest.fixture
 def generatedProtocol_verifier(T_Protocol):
      def matcher(aigr_mock, td, save_file=False):
         out = T_Protocol.render(protocols=(aigr_mock,))
         logger.debug("---------- out: (%s)----------\n%s", aigr_mock, out)
-        if save_file:
-            with open(td.gen_file, 'w') as f:
-                f.write(out)
-            logger.info("Saved rendered protocol in: %s", td.gen_file)
-        ref = open(td.ref_file).read()
-        logger.debug("---------- ref: ----------\n%s\n==========================", out)
 
-        #assert line by line: gives better feedback when they do not match
-        for n, (o,r) in enumerate(zip(out.splitlines(keepends=True), ref.splitlines(keepends=True), strict=True)):
-            assert o == r, "line %s does not match: >>%s<< != <<%s>>" % (n, o.strip('\n'), r.strip('\n'))
+        if save_file:
+            td.write_gen(out)
+
+        ref = td.read_ref()
+        try:
+            #assert line by line: gives better feedback when they do not match
+            for n, (o,r) in enumerate(zip(out.splitlines(keepends=True), ref.splitlines(keepends=True), strict=True)):
+                assert o == r, "line %s does not match: >>%s<< != <<%s>>" % (n, o.strip('\n'), r.strip('\n'))
+        except ValueError as err:
+            assert False, f"Note the same length: files {td.gen_file} and {td.ref_file}"
+
         assert out == ref                 #Should be needed
      return matcher
 

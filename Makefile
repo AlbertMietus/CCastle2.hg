@@ -20,6 +20,7 @@ rPY_LAST = \
 rPY_CURRENT = \
 	pytst/writers/RPy/test_2_ProtocolDataStructures.py	\
 	pytst/writers/RPy/test_99_SieveMoats.py			\
+	pytst/aigr/test_2b_protocol.py				\
 #
 CC2CPy_TODO = \
 	pytst/writers/RPy/test_999.py 				\
@@ -37,7 +38,7 @@ diff_TestDoubles:
 	diff -w -rs TestDoubles/reference/ TestDoubles/_generated/
 
 clean_generated:
-	rm -f TestDoubles/_generated/*.* TestDoubles/_generated/*/*.*
+	rm -f TestDoubles/_generated/*.{py,rpy} TestDoubles/_generated/*/*.{py,rpy}
 
 clean_caches:
 	find . -type d -name __pycache__    -print0 | xargs -0  rm -r

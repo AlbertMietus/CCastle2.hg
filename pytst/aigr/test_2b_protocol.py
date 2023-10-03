@@ -78,3 +78,8 @@ def test_protocol_with_4Parms():
     assert (e.typedParameters[1].name, e.typedParameters[1].type) == ('p1', int)
     assert (e.typedParameters[2].name, e.typedParameters[2].type) == ('p2', str)
     assert (e.typedParameters[3].name, e.typedParameters[3].type) == ('p3', None)
+
+
+@pytest.mark.xfail(reason="Implementation is needed (test & prod)")
+def test_inherit_base_withParms():
+    assert False
