@@ -42,7 +42,7 @@ def end_with_NL(txt):
 class TstDoubles():
     _top = Path('TestDoubles')
     _ref = Path('reference')
-    #_ref = Path('_generated')             #Not used anymore
+    _gen = Path('_generated')
 
     def __init__(self, base_name):
        self.base_name = Path(base_name)
@@ -51,15 +51,27 @@ class TstDoubles():
     def ref_file(self, ext='.rpy'):
         return self._top / self._ref / self.base_name.with_suffix(ext)
 
-    #@property
-    #def gen_file(self, ext='.rpy'):
-    #    return self._top / self._gen / self.base_name.with_suffix(ext)
+    @property
+    def gen_file(self, ext='.rpy'):
+        return self._top / self._gen / self.base_name.with_suffix(ext)
 
 
 @pytest.fixture
 def generatedProtocol_verifier(T_Protocol):
-     def matcher(aigr_mock, td):
+     def matcher(aigr_mock, td, save_file=False):
         out = T_Protocol.render(protocols=(aigr_mock,))
+        logger.debug("---------- out: (%s)----------\n%s", aigr_mock, out)
+        if save_file:
+            with open(td.gen_file, 'w') as f:
+                f.write(out)
+            logger.info("Saved rendered protocol in: %s", td.gen_file)
         ref = open(td.ref_file).read()
-        assert out == ref
+        logger.debug("---------- ref: ----------\n%s\n==========================", out)
+
+        #assert line by line: gives better feedback when they do not match
+        for n, (o,r) in enumerate(zip(out.splitlines(keepends=True), ref.splitlines(keepends=True), strict=True)):
+            assert o == r, "line %s does not match: >>%s<< != <<%s>>" % (n, o.strip('\n'), r.strip('\n'))
+        assert out == ref                 #Should be needed
      return matcher
+
+

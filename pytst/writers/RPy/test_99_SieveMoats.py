@@ -13,9 +13,6 @@ def test_01_StartSieve(generatedProtocol_verifier):
 def test_02_SlowStart(generatedProtocol_verifier):
     generatedProtocol_verifier(aigr_mock=Sieve.SlowStart, td=TstDoubles('protocols/SlowStart'))
 
-
-
-@pytest.mark.skip("After SlowStart")
 def test_03_SimpleSieve(generatedProtocol_verifier):
-    generatedProtocol_verifier(aigr_mock=Sieve.SimpleSieve, td=TstDoubles('protocols/SimpleSieve'))
+    generatedProtocol_verifier(aigr_mock=Sieve.SimpleSieve, td=TstDoubles('protocols/SimpleSieve'), save_file=True)
 
