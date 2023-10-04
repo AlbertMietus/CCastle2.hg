@@ -5,7 +5,8 @@ import pytest
 
 from castle.aigr import Protocol, ProtocolKind
 from castle.aigr import Event, EventProtocol
-from castle.aigr.types import TypedParameter
+from castle.aigr.aid import TypedParameter
+
 
 @pytest.fixture
 def emptyProtocol():
@@ -58,12 +59,14 @@ def test_3c_eventIndex_inherited():
 def test_protocol_with_Noparms(emptyProtocol):
     assert emptyProtocol.typedParameters == ()
 
+
 def test_protocol_with_aParm():
     e = EventProtocol("With_a_parm", events=[], based_on=None,
                           typedParameters=[TypedParameter(name='p', type=float)])
     assert len(e.typedParameters) ==1
     assert e.typedParameters[0].name == 'p'
     assert e.typedParameters[0].type == float
+
 
 def test_protocol_with_4Parms():
     e = EventProtocol("With_4_Parms", events=[], based_on=None,
@@ -80,6 +83,5 @@ def test_protocol_with_4Parms():
     assert (e.typedParameters[3].name, e.typedParameters[3].type) == ('p3', None)
 
 
-@pytest.mark.xfail(reason="Implementation is needed (test & prod)")
-def test_inherit_base_withParms():
-    assert False
+#Note: for more complicated cases, see :file:`test_2c_WrappedProtocols.py`
+

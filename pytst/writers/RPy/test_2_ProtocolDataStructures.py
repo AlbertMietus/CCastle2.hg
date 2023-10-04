@@ -4,7 +4,7 @@ import logging; logger = logging.getLogger(__name__)
 import pytest
 
 from castle.aigr import EventProtocol, Event
-from castle.aigr.types import TypedParameter
+from castle.aigr.aid import TypedParameter
 
 from . import T_ProtocolDataStructures
 from . import T_Protocol

@@ -3,7 +3,7 @@
 import logging; logger = logging.getLogger(__name__)
 import pytest
 
-from castle.aigr.types import TypedParameter
+from castle.aigr.aid import TypedParameter
 
 from castle.aigr import EventProtocol, Event
 from . import T_EventIndexes

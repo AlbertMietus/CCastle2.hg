@@ -8,13 +8,13 @@ TODO: update the CC2Cpy parts to use this generic AIGR layer
 """
 
 from __future__ import annotations
-import typing as PTH                                                    # Python TypeHints
+import typing as PTH                                                                                  # Python TypeHints
 from enum import Enum
 from dataclasses import dataclass, KW_ONLY
 from dataclasses import field as dc_field
 from . import AIGR
 from .events import Event
-from .types import TypedParameter                                      # Castle/AIGR types
+from .aid import TypedParameter                                                                      # Castle/AIGR types
 
 __all__ = ['ProtocolKind', 'Protocol', 'EventProtocol']
 # DataProtocol, StreamProtocol are added eventually
@@ -30,14 +30,13 @@ class ProtocolKind(Enum):
     Data     = 2
     Stream   = 3
 
-
 @dataclass
 class Protocol(AIGR):
     """ .. note:: Use one of the subclasses -- Only Event is defined yet
         .. todo:: Design: What is the `kind` self and the inherited ones are not the same?
                   overriding ProtocolKind.Unknown is always allowed
     """
-    _BASE: PTH.ClassVar=None                                                                             # pragma: no mutate
+    _BASE: PTH.ClassVar=None                                                                        # pragma: no mutate
 
     name: str
     kind: ProtocolKind
@@ -45,20 +44,32 @@ class Protocol(AIGR):
     typedParameters: PTH.Optional[PTH.Sequence[TypedParameter]]=()
 
 
-@dataclass                                                                                           # pragma: no mutate
+@dataclass                                                                                          # pragma: no mutate
 class _RootProtocol(Protocol):
     """This is the base protocol; it exist as we can't instantiate Protocol"""
 
-baseProtocol = _RootProtocol("Protocol", kind=ProtocolKind.Unknown, based_on=None)                   # pragma: no mutate
+baseProtocol = _RootProtocol("Protocol", kind=ProtocolKind.Unknown, based_on=None)                  # pragma: no mutate
 Protocol._BASE=baseProtocol
 
-@dataclass                                                                                           # pragma: no mutate
+@dataclass                                                                                          # pragma: no mutate
 class DataProtocol(Protocol): pass ### XXX ToDo (not exported)
-@dataclass                                                                                           # pragma: no mutate
+@dataclass                                                                                          # pragma: no mutate
 class StreamProtocol(Protocol): pass ### XXX ToDo (not exported)
 
+@dataclass                                                                                          # pragma: no mutate
+class ProtocolWrapper(Protocol):
+    name: str=""
+    kind : ProtocolKind=None
+    _: KW_ONLY
+    arguments: PTH.Sequence[Argument]=()
 
-@dataclass                                                                                           # pragma: no mutate
+    def __post_init__(self):
+        if not self.kind:
+            self.kind = self.based_on.kind
+        if self.name == "":
+            self.name = f"Wrapper for {self.based_on.name}({self.arguments})"
+
+@dataclass                                                                                          # pragma: no mutate
 class EventProtocol(Protocol):
     """An event-based protocol is basically a set of events.
 

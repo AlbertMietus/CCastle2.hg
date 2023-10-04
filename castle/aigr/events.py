@@ -7,17 +7,17 @@
 TODO: update the CC2Cpy parts to use this generic AIGR layer
 """
 
-import typing as PTH                                                    # Python TypeHints
+import typing as PTH                                                                                  # Python TypeHints
 from dataclasses import dataclass, KW_ONLY
 from . import AIGR
-from .types import TypedParameter                                      # Castle/AIGR types
+from .aid import TypedParameter                                                                       # Castle/AIGR type
 
 __all__ = ['Event']
 
 
 
 
-@dataclass                                                  # pragma: no mutate
+@dataclass                                                                                          # pragma: no mutate
 class Event(AIGR):
     """An event is like a (remote) function-call
 
