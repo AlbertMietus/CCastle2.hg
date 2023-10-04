@@ -7,6 +7,7 @@
 TODO: update the CC2Cpy parts to use this generic AIGR layer
 """
 
+from __future__ import annotations
 import typing as PTH                                                    # Python TypeHints
 from enum import Enum
 from dataclasses import dataclass, KW_ONLY
@@ -30,7 +31,6 @@ class ProtocolKind(Enum):
     Stream   = 3
 
 
-Protocol: PTH.TypeAlias = 'Protocol'            # forward reference                                      # pragma: no mutate
 @dataclass
 class Protocol(AIGR):
     """ .. note:: Use one of the subclasses -- Only Event is defined yet
@@ -67,6 +67,8 @@ class EventProtocol(Protocol):
     _: KW_ONLY
     kind: ProtocolKind = ProtocolKind.Event
     events: PTH.Sequence[Event]
+    #redefine type: EventProtocol always inherit from an EventProtocol
+    based_on: EventProtocol = dc_field(default_factory= lambda :Protocol._BASE)
 
     def _noEvents(self):
         inherited = self.based_on._noEvents() if isinstance(self.based_on, EventProtocol) else 0

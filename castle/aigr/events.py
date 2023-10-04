@@ -25,6 +25,6 @@ class Event(AIGR):
 
     name: str
     _: KW_ONLY
-    return_type: type=None
+    return_type: PTH.Optional[type]=None
     typedParameters: PTH.Sequence[TypedParameter]=()
 
