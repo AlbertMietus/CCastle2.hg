@@ -1,12 +1,12 @@
 import logging; logger = logging.getLogger(__name__)  # pragma: no mutate
-
+import typing as PTH                                                    # Python TypeHints
 import jinja2 as jinja
 
 from pathlib import Path
 import os
 
 
-def _addTopDir(top_dir: Path, search_path: [Path]) ->[Path]:
+def _addTopDir(top_dir: Path, search_path: PTH.Sequence[Path]) ->PTH.Sequence[Path]:
     return tuple(d if d.is_absolute() else top_dir/d  for d in (Path(d) for d in search_path))
 
 class Template():
