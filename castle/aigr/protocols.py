@@ -40,7 +40,7 @@ class Protocol(AIGR):
 
     name: str
     kind: ProtocolKind
-    based_on: PTH.Optional[Protocol]=dc_field(default_factory= lambda :Protocol._BASE)
+    based_on: PTH.Optional[Protocol]=dc_field(default_factory= lambda :Protocol._BASE)             # pragma: no mutate
     typedParameters: PTH.Optional[PTH.Sequence[TypedParameter]]=()
 
 
@@ -56,15 +56,17 @@ class DataProtocol(Protocol): pass ### XXX ToDo (not exported)
 @dataclass                                                                                          # pragma: no mutate
 class StreamProtocol(Protocol): pass ### XXX ToDo (not exported)
 
+
+marker_kind=object() # pragma: no mutate -- Just an unknown, unique marker
 @dataclass                                                                                          # pragma: no mutate
 class ProtocolWrapper(Protocol):
     name: str=""
-    kind : ProtocolKind=None
+    kind : ProtocolKind=marker_kind
     _: KW_ONLY
-    arguments: PTH.Sequence[Argument]=()
+    arguments: PTH.Sequence[Argument]
 
     def __post_init__(self):
-        if not self.kind:
+        if self.kind is marker_kind:
             self.kind = self.based_on.kind
         if self.name == "":
             self.name = f"Wrapper for {self.based_on.name}({self.arguments})"

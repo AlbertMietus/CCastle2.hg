@@ -21,6 +21,7 @@ rPY_LAST = \
 #
 rPY_CURRENT = \
 	pytst/aigr/test_2c_GenericProtocols.py			\
+	pytst/aigr/test_0_aid.py				\
 #
 CC2CPy_TODO = \
 	pytst/writers/RPy/test_999.py 				\
