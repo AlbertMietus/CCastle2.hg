@@ -65,16 +65,20 @@ def sub_a(base):
 def sub_b(base):
     return EventProtocol("Sub_b", events=[], based_on=ProtocolWrapper(based_on=base, arguments=(Argument(value=1),)))
 
+@pytest.fixture
+def sub_strange(base):
+    return EventProtocol("SubStrange", events=[], based_on=ProtocolWrapper(name="Strange", kind=42,
+                                                                      based_on=base, arguments=(Argument(value=1),)))
+
 def assert_GP_kind(base, sub):
     assert sub.kind == base.kind
     assert sub.based_on.kind == base.kind
     assert sub.based_on.based_on is base
 
-
 def test_GenericProtocol_kind_a(base, sub_a):
     assert_GP_kind(base, sub_a)
 
-def test_GenericProtocol_kind_a(base, sub_b):
+def test_GenericProtocol_kind_b(base, sub_b):
     assert_GP_kind(base, sub_b)
 
 
@@ -82,9 +86,15 @@ def assert_GP_name(base, sub):
     assert "Wrapper"   in sub.based_on.name
     assert "Base"      in sub.based_on.name
 
-def test_GenericProtocol_name(base, sub_a):
+def test_GenericProtocol_name_a(base, sub_a):
     assert_GP_name(base, sub_a)
-    assert "queue_max" in sub.based_on.name
+    assert "queue_max" in sub_a.based_on.name   # the argument-name is only in the (a) version
 
-def test_GenericProtocol_name(base, sub_b):
+def test_GenericProtocol_name_b(base, sub_b):
     assert_GP_name(base, sub_b)
+    assert "queue_max" not in sub_b.based_on.name   # the argument-name is only in the (a) version
+
+def test_strange(sub_strange):
+    """This is (very) atypical use -- but it helps to get coverage"""
+    assert sub_strange.based_on.name == "Strange"
+    assert sub_strange.based_on.kind == 42, "When we set a strange kind-number it should be stored"

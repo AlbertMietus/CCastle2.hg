@@ -13,6 +13,10 @@ def emptyProtocol():
     return EventProtocol("EMPTY", events=[], based_on=None)
 
 @pytest.fixture
+def emptyProtocol_baseNotSet():
+    return Protocol("VeryEmpty", kind=ProtocolKind.Unknown)
+
+@pytest.fixture
 def anEvent():
     return Event("input", typedParameters=[TypedParameter(name='event', type=int)])
 
@@ -27,9 +31,13 @@ def test_1_isEvent(emptyProtocol, simpleSieve):
     assert simpleSieve.kind == ProtocolKind.Event
 
 
-def test_2_based_onRoot(emptyProtocol):
+def test_2a_based_onRoot(emptyProtocol):
     import castle.aigr.protocols
     emptyProtocol.based_on is castle.aigr.protocols._RootProtocol
+
+def test_2b_based_onRoot_notSet(emptyProtocol_baseNotSet):
+    import castle.aigr.protocols
+    emptyProtocol_baseNotSet.based_on is castle.aigr.protocols._RootProtocol
 
 
 def test_3a_eventIndex_empty(emptyProtocol, anEvent):
