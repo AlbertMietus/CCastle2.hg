@@ -2,8 +2,8 @@
 
 {# parameters: ``protocols``: PTH.Sequence[aigr.EventProtocol]
 #}
-
-{%- import "CastleMacros.jinja2" as m -%}
+{% import 'macros/CastleMacros.jinja2' as m %}
+{#------------------------------------------#}
 
 {%- macro Str_or_Type(t) -%}
   {%- if t is string -%}

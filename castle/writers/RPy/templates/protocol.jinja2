@@ -1,7 +1,5 @@
 {% include '_header.jinja2' %}
 {#--------------------------#}
-{% import 'CastleMacros.jinja2' as m1 %}
-{#------------------------------------#}
 
 
 {# These imports are static #}
@@ -18,10 +16,10 @@ from CC import base
 {% block EventIndexes %}
 {% for protocol in protocols %}
    {% set events = protocol.events %}
-   {% include 'EventIndexes.jinja2' %}
+   {% include 'parts/protocol_EventIndexes.jinja2' %}
 {% endfor %}
 {% endblock %}
 
 {% block ProtocolDataStructures %}
-{% include 'ProtocolDataStructures.jinja2' %}
+{% include 'parts/protocol_DataStructures.jinja2' %}
 {% endblock %}
