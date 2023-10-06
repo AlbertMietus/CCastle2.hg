@@ -34,7 +34,15 @@
     This *syntax detail* is handled in the parser!
 
     In the AIGR, the specialised *SlowStart(1)* protocol is modeled by a ProtocolWrapper; which in placed in-between
-    (the generic) Slowstart and SimpleSieve. """
+    (the generic) Slowstart and SimpleSieve.
+
+    .. hint:: (implementation of Generic Protocols)
+
+       With ``functools.partial``, it seams possible to make a "partial class". BUT, that is NOT VALID RPython!
+       (see:  .../PyPy+Rpython/new/partialCLass.py).
+
+       So, it will be implemented in normal the normale AST-->AIGT-->AIGT-->RPY train (as in C++ template's): just fill in
+"""
 
 import logging; logger = logging.getLogger(__name__)
 import pytest
