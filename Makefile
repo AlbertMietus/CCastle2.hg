@@ -1,7 +1,7 @@
 default: most
 
-all:  most current demo test mutmut pyanalyse XXX missing todo
-most:      current      test mutmut pyanalyse             todo
+all:  most current demo test mutmut pyanalyse XXX missing todo mypy_all
+most:      current      test mutmut pyanalyse             todo mypy_now
 
 NOTES: CC2CpyNote
 include Mk/RPy.mk
@@ -30,6 +30,7 @@ CC2CPy_TODO = \
 include Mk/settings.mk
 include Mk/testing.mk
 include Mk/helpful.mk
+include Mk/mypy.mk
 
 missing: missing_visitor missing_serialization
 open:    coverage-open mutmut-open

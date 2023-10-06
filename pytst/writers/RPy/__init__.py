@@ -8,6 +8,8 @@ from dataclasses import dataclass
 from castle.aigr import Event, Protocol
 from castle.writers import RPy
 
+SAVE_FILE=True                            #By default, save the generated files
+
 
 @pytest.fixture
 def T_Protocol():
@@ -86,7 +88,7 @@ def _gen_matcher(aigr_mock, td, save_file, out):
 
 @pytest.fixture
 def generatedProtocol_verifier(T_Protocol):
-     def protocol_matcher(aigr_mock, td, save_file=False):
+     def protocol_matcher(aigr_mock, td, save_file=SAVE_FILE):
          out = T_Protocol.render(protocols=(aigr_mock,))
          return _gen_matcher(aigr_mock, td, save_file, out)
      return protocol_matcher

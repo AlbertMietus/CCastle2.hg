@@ -8,5 +8,8 @@ class AIGR: # Abstract Intermediate Graph Representation
         return super().__new__(cls)
 
 
+class _Marker: pass
+
 from .events import *
 from .protocols import *
+from .interfaces import *

@@ -6,9 +6,8 @@ from castle.aigr import ProtocolKind
 def test_0_Unknow_value():
     assert ProtocolKind.Unknown.value ==0
 
-def test_0_ConsecutiveSeries():
-    for n in range(ProtocolKind.Unknown.value, len(ProtocolKind)):
-        assert ProtocolKind(n)
+def test_O_unset_value():
+    assert ProtocolKind._unset.value < 0
 
 def test_1_NameExist():
     assert ProtocolKind.Unknown

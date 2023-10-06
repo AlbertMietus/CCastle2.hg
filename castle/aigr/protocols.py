@@ -1,24 +1,19 @@
 # (C) Albert Mietus, 2023. Part of Castle/CCastle project
 
-""" This file is based (a fork) on `../writers/CC2Cpy/Protocol.py`,
-  - the rendering part is removed
-  - the prefixed are gone
-  - better
-TODO: update the CC2Cpy parts to use this generic AIGR layer
-"""
+""" See ./ReadMe.rst"""
 
 from __future__ import annotations
-import typing as PTH                                                                                  # Python TypeHints
+import typing as PTH                                                                                 # Python TypeHints
 from enum import Enum
 from dataclasses import dataclass, KW_ONLY
 from dataclasses import field as dc_field
-from . import AIGR
+from . import AIGR, _Marker
 from .events import Event
-from .aid import TypedParameter                                                                      # Castle/AIGR types
+from .aid import TypedParameter, Argument                                                            # Castle/AIGR types
 
 __all__ = ['ProtocolKind', 'Protocol', 'EventProtocol']
-# DataProtocol, StreamProtocol are added eventually
-
+# DataProtocol, StreamProtocol are added/implemented later
+# Do Not Export: _RootProtocol and ProtocolWrapper`
 
 class ProtocolKind(Enum):
     """There are several kinds (types) of protocols.
@@ -29,6 +24,7 @@ class ProtocolKind(Enum):
     Event    = 1
     Data     = 2
     Stream   = 3
+    _unset  = -1
 
 @dataclass
 class Protocol(AIGR):
@@ -39,6 +35,7 @@ class Protocol(AIGR):
     _BASE: PTH.ClassVar=None                                                                        # pragma: no mutate
 
     name: str
+    _: KW_ONLY
     kind: ProtocolKind
     based_on: PTH.Optional[Protocol]=dc_field(default_factory= lambda :Protocol._BASE)             # pragma: no mutate
     typedParameters: PTH.Optional[PTH.Sequence[TypedParameter]]=()
@@ -57,16 +54,15 @@ class DataProtocol(Protocol): pass ### XXX ToDo (not exported)
 class StreamProtocol(Protocol): pass ### XXX ToDo (not exported)
 
 
-marker_kind=object() # pragma: no mutate -- Just an unknown, unique marker
 @dataclass                                                                                          # pragma: no mutate
 class ProtocolWrapper(Protocol):
     name: str=""
-    kind : ProtocolKind=marker_kind
+    kind : ProtocolKind=ProtocolKind._unset
     _: KW_ONLY
     arguments: PTH.Sequence[Argument]
 
     def __post_init__(self):
-        if self.kind is marker_kind:
+        if self.kind is ProtocolKind._unset:
             self.kind = self.based_on.kind
         if self.name == "":
             self.name = f"Wrapper for {self.based_on.name}({self.arguments})"
