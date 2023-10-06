@@ -19,11 +19,11 @@ def T_Moat():
 
 @pytest.fixture
 def T_EventIndexes():
-    return RPy.Template("EventIndexes.jinja2")
+    return RPy.Template("parts/protocol_EventIndexes.jinja2")
 
 @pytest.fixture
 def T_ProtocolDataStructures():
-    return RPy.Template("ProtocolDataStructures.jinja2")
+    return RPy.Template("parts/protocol_DataStructures.jinja2")
 
 
 def assert_marker(marker, txt, need=None, msg=None):
