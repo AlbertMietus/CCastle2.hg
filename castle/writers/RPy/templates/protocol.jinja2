@@ -1,19 +1,15 @@
-# -*- python -*-
-# Generated (R)Python file
-# (C) Albert Mietus, 2023. Part of Castle/CCastle project
-
-# {#- Hi-lock: (( "{{\\(.*\\)}}"     (1 'font-lock-constant-face        prepend))) -#}
-# {#- Hi-lock: (( "{%\\(.*\\)%}"     (1 'font-lock-function-name-face   prepend))) -#}
-# {#- Hi-lock: (( "{#\\(.*\\)\\(#\\)}"    (1 'font-lock-preprocessor-face    prepend))) -#} {# regexp: '(#)}' to escape for rendering
-# {#- Hi-lock: (( "{[{%#]\\|[}%#]}"  (0 'markdown-language-keyword-face prepend))) -#}
-# {#- Hi-lock: end -- highlight jinja2 #}
-
-{% import "CastleMacros.jinja2" as m1 %}
+{% include '_header.jinja2' %}
+{#--------------------------#}
+{% import 'CastleMacros.jinja2' as m1 %}
 {#------------------------------------#}
 
+
 {# These imports are static #}
+{% block static_imports %}
+####
 from CC import buildin
 from CC import base
+{% endblock %}
 
 {% block imports %}
 #Put the Castle/generated imports here

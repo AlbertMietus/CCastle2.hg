@@ -3,7 +3,6 @@
 from castle.aigr.aid import TypedParameter
 from castle.aigr import EventProtocol, Event
 
-import pytest
 
 StartSieve = EventProtocol('StartSieve',
                               events=[

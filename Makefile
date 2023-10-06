@@ -17,11 +17,11 @@ rPY_LAST = \
 	pytst/writers/RPy/test_0_templating.py			\
 	pytst/writers/RPy/test_1_EventIndexes.py		\
 	pytst/writers/RPy/test_2_ProtocolDataStructures.py	\
+	pytst/aigr/test_2c_GenericProtocols.py			\
+	pytst/aigr/test_0_aid.py				\
 #
 rPY_CURRENT = \
 	pytst/writers/RPy/test_99_SieveMoats.py			\
-	pytst/aigr/test_2c_GenericProtocols.py			\
-	pytst/aigr/test_0_aid.py				\
 #
 CC2CPy_TODO = \
 	pytst/writers/RPy/test_999.py 				\

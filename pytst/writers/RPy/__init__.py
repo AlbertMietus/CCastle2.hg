@@ -14,6 +14,10 @@ def T_Protocol():
     return RPy.Template("protocol.jinja2")
 
 @pytest.fixture
+def T_Moat():
+    return RPy.Template("moat.jinja2")
+
+@pytest.fixture
 def T_EventIndexes():
     return RPy.Template("EventIndexes.jinja2")
 
@@ -69,9 +73,7 @@ class TstDoubles():
 
 def _gen_matcher(aigr_mock, td, save_file, out):
     logger.debug("---------- out: (%s)----------\n%s", aigr_mock, out)
-    if save_file:
-        td.write_gen(out)
-
+    if save_file: td.write_gen(out)
     ref = td.read_ref()
     try:
         #assert line by line: gives better feedback when they do not match
@@ -85,7 +87,14 @@ def _gen_matcher(aigr_mock, td, save_file, out):
 @pytest.fixture
 def generatedProtocol_verifier(T_Protocol):
      def protocol_matcher(aigr_mock, td, save_file=False):
-         out = T_Protocol.render(protocols=(aigr_mock,)) 
+         out = T_Protocol.render(protocols=(aigr_mock,))
+         return _gen_matcher(aigr_mock, td, save_file, out)
+     return protocol_matcher
+
+@pytest.fixture
+def generatedMoat_verifier(T_Moat):
+     def protocol_matcher(aigr_mock, td, save_file=False):
+         out = T_Moat.render(XXXX=aigr_mock)
          return _gen_matcher(aigr_mock, td, save_file, out)
      return protocol_matcher
 
