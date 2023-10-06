@@ -67,24 +67,26 @@ class TstDoubles():
         logger.info("Saved rendered protocol in: %s", self.gen_file)
 
 
+def _gen_matcher(aigr_mock, td, save_file, out):
+    logger.debug("---------- out: (%s)----------\n%s", aigr_mock, out)
+    if save_file:
+        td.write_gen(out)
+
+    ref = td.read_ref()
+    try:
+        #assert line by line: gives better feedback when they do not match
+        for n, (o,r) in enumerate(zip(out.splitlines(keepends=True), ref.splitlines(keepends=True), strict=True)):
+                assert o == r, "line %s does not match: >>%s<< != <<%s>>" % (n, o.strip('\n'), r.strip('\n'))
+    except ValueError as err:
+        assert False, f"Note the same length: files {td.gen_file} and {td.ref_file}"
+    assert out == ref                 #Shouldn't be needed
+
+
 @pytest.fixture
 def generatedProtocol_verifier(T_Protocol):
-     def matcher(aigr_mock, td, save_file=False):
-        out = T_Protocol.render(protocols=(aigr_mock,))
-        logger.debug("---------- out: (%s)----------\n%s", aigr_mock, out)
-
-        if save_file:
-            td.write_gen(out)
-
-        ref = td.read_ref()
-        try:
-            #assert line by line: gives better feedback when they do not match
-            for n, (o,r) in enumerate(zip(out.splitlines(keepends=True), ref.splitlines(keepends=True), strict=True)):
-                assert o == r, "line %s does not match: >>%s<< != <<%s>>" % (n, o.strip('\n'), r.strip('\n'))
-        except ValueError as err:
-            assert False, f"Note the same length: files {td.gen_file} and {td.ref_file}"
-
-        assert out == ref                 #Should be needed
-     return matcher
+     def protocol_matcher(aigr_mock, td, save_file=False):
+         out = T_Protocol.render(protocols=(aigr_mock,)) 
+         return _gen_matcher(aigr_mock, td, save_file, out)
+     return protocol_matcher
 
 
