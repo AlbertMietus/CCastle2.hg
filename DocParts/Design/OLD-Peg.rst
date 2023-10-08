@@ -1,0 +1,139 @@
+OLD-Peg Diagram
+===============
+
+This anayse/design(?) date from  around 2021/2022
+
+.. UML::
+
+   @startuml
+
+   package _base {
+
+   abstract AST_BASE {
+     -_parse_tree
+     +position()
+     +position_end()
+     ~serialize()
+   }
+
+   class ID {
+     +name
+     #validate_or_raise()
+   }
+
+   ID  =|> AST_BASE
+   }
+
+   package MixIns  #Gray {
+
+     class MixIn_value_attribute<MixIn> {
+     _value
+     value()
+     }
+
+     class MixIn_expr_attribute<MixIn> {
+     _expr
+     expr()
+     }
+
+     class MixIn_children_tuple<MixIn> {
+      _children :Tuple
+     __len__()
+     __getitem__()
+     __iter__()
+     }
+   }
+
+   package Peg #0077ff {
+
+   abstract PEG
+   AST_BASE <|== PEG
+
+
+
+   abstract Terminal
+   PEG                   <|==   Terminal
+   MixIn_value_attribute <|...  Terminal
+   Terminal              <|==   StrTerm
+   Terminal              <|==   RexExpTerm
+   Terminal              <|==   Number
+
+   abstract    Markers #Orange
+   annotation  EOF     #Orange
+   PEG         <|==    Markers
+   Markers     <|==    EOF
+
+   abstract NonTerminal
+   PEG          <|== NonTerminal
+   abstract Expression
+   NonTerminal  <|== Expression
+
+   class Setting  {
+    name  : ID
+    value
+   }
+   PEG      <|==  Setting
+
+   class Rule {
+     name  :ID
+     expr  :[] Expression
+   }
+   NonTerminal  <|==  Rule
+
+   interface Rules
+   PEG                   <|==    Rules
+   MixIn_children_tuple  <|...  Rules
+   Rules                 <|==    ParseRules
+   Rules                 <|==    Settings
+
+   class Grammar {
+     +all_rules    :Rules
+     -parse_rules  :ParseRules
+     -settings     :Settings
+   }
+   NonTerminal  <|== Grammar
+
+
+   abstract Group
+   Expression            <|== Group
+   Group                 <|== UnorderedGroup
+   MixIn_expr_attribute  <|... UnorderedGroup
+   abstract Quantity
+   Group                   <|==    Quantity
+   MixIn_expr_attribute    <|...    Quantity
+   Expression              <|==    Sequence
+   MixIn_children_tuple    <|...  Sequence
+
+   Expression             <|==   OrderedChoice
+   MixIn_children_tuple   <|...  OrderedChoice
+
+   class Optional   << (?, #0077ff) >>
+   Quantity          <|==   Optional
+   class ZeroOrMore << (*, #0077ff) >>
+   Quantity          <|==   ZeroOrMore
+   class OneOrMore  << (+, #0077ff) >>
+   Quantity          <|==   OneOrMore
+
+   abstract Predicate
+   Expression             <|==   Predicate
+   MixIn_expr_attribute   <|... Predicate
+   class AndPredicate << (&, #0077ff) notconsuming >>
+   Predicate               <|== AndPredicate
+   class NotPredicate << (! ,#0077ff) not consuming >>
+   Predicate               <|== NotPredicate
+
+   }
+   @enduml
+
+
+
+
+
+
+
+
+
+
+
+
+
