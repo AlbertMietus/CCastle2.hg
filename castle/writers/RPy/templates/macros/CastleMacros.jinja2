@@ -3,13 +3,8 @@
 {# See:: http://docideas.mietus.nl/en/default/CCastle/3.Design/B.Workshop/rPY/8.RPY_Jinja.html #}
 
 
-{%macro ProtocolName(ProtoName) -%}
-   cc_P_{{ProtoName}}
-{%- endmacro %}
-
-{%macro EventIndexName(ProtoName, EventName) -%}
-   CC_P_{{ProtoName}}_{{EventName}}
-{%- endmacro %}
-
-
-
+{%macro ProtocolName(ProtoName)			-%}  cc_P_{{ProtoName}}			{%- endmacro %}
+{%macro EventIndexName(ProtoName, EventName)	-%}  CC_P_{{ProtoName}}_{{EventName}}	{%- endmacro %}
+{%macro comp_interface_Name(CompName) 		-%}  cc_CI_{{CompName}}      		{%- endmacro %}
+{%macro comp_component_Name(CompName)		-%}  CC_{{CompName}}         		{%- endmacro %}
+{%macro comp_compClass_Name(CompName)		-%}  cc_C_{{CompName}}       		{%- endmacro %}

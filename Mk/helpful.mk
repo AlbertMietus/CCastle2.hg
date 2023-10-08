@@ -33,7 +33,7 @@ PYREVERSE_DIR=_pyreversed/
 PYREVERSE_FORMAT=svg
 PYREVERSE_OPTIONS=-k -A
 PYREVERSE_OPTIONS=-A
-PYREVERSE_PRJS= castle castle.readers castle.ast castle.writers.CC2Cpy
+PYREVERSE_PRJS= castle castle.readers castle.ast castle.writers.CC2Cpy castle.aigr TestDoubles.AIGR
 
 pyanalyse pyreverse: ${PYREVERSE_DIR}
 	for P in ${PYREVERSE_PRJS}; do \

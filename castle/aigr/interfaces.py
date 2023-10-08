@@ -42,4 +42,8 @@ class Port:
 class ComponentInterface:
     name: str
     _: KW_ONLY
+    based_on: PTH.Optional[ComponentInterface]=dc_field(default_factory= lambda: baseComponent)
     ports: PTH.Sequence[Port]=()
+
+
+baseComponent=ComponentInterface("Component", based_on=None, ports=())   #XXX Add base-ports

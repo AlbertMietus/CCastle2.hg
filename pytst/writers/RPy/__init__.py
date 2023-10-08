@@ -17,7 +17,7 @@ def T_Protocol():
 
 @pytest.fixture
 def T_Moat():
-    return RPy.Template("moat.jinja2")
+    return RPy.Template("interface.jinja2")
 
 @pytest.fixture
 def T_EventIndexes():
@@ -95,8 +95,8 @@ def generatedProtocol_verifier(T_Protocol):
 
 @pytest.fixture
 def generatedMoat_verifier(T_Moat):
-     def protocol_matcher(aigr_mock, td, save_file=False):
-         out = T_Moat.render(XXXX=aigr_mock)
+     def protocol_matcher(aigr_mock, td, save_file=SAVE_FILE):
+         out = T_Moat.render(interfaces=(aigr_mock,))
          return _gen_matcher(aigr_mock, td, save_file, out)
      return protocol_matcher
 

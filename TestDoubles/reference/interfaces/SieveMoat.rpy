@@ -13,6 +13,7 @@ import SimpleSieve
 cc_CI_Sieve = buildin.CC_B_ComponentInterface(name="Sieve",
                                 inherit_from=base.cc_CI_Component,
                                 ports=[])
+
 cc_CI_Sieve.ports.append(buildin.CC_B_C_PortID(name="try",
                                 portNo=2,   # XXXX
                                 protocol=SimpleSieve.cc_P_SimpleSieve,

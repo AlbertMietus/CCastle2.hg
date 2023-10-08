@@ -18,9 +18,9 @@ def test_02_SlowStart(generatedProtocol_verifier):
 def test_03_SimpleSieve(generatedProtocol_verifier):
     generatedProtocol_verifier(aigr_mock=sieve.SimpleSieve, td=TstDoubles('protocols/SimpleSieve'))
 
-@pytest.mark.xfail
 def test_04_SieveMoat(generatedMoat_verifier):
     generatedMoat_verifier(aigr_mock=sieve.SieveMoat, td=TstDoubles('interfaces/SieveMoat'))
-    assert False
+
+    assert False, "Not Done"
 
     

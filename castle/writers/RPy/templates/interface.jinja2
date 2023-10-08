@@ -1,6 +1,7 @@
 {# (C) Albert Mietus, 2023. Part of Castle/CCastle project #}
 {# parameters:
-   * ``protocols``: PTH.Sequence[aigr.EventProtocol]
+ * ``interfaces`` : PTH.Sequence[aigr.ComponentInterface]
+ * ``imports``    : PTH.Sequence[ XXX module/file // NS // XXX: ToDo]
 #}
 {% include '_header.jinja2' %}
 {#--------------------------#}
@@ -15,15 +16,10 @@ from CC import base
 
 {% block imports %}
 #Put the Castle/generated imports here
+{% include 'parts/interface_imports.jinja2' %}
 {% endblock %}
 
-{% block EventIndexes %}
-{% for protocol in protocols %}
-   {% set events = protocol.events %}
-   {% include 'parts/protocol_EventIndexes.jinja2' %}
-{% endfor %}
-{% endblock %}
 
-{% block ProtocolDataStructures %}
-{% include 'parts/protocol_DataStructures.jinja2' %}
+{% block InterfaceDataStructures %}
+{% include 'parts/interface_DataStructures.jinja2' %}
 {% endblock %}
