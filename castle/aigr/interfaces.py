@@ -26,7 +26,7 @@ class PortDirection(Enum):
 PortType = PTH.Union[ Protocol, type]
 
 @dataclass
-class Port:
+class Port(AIGR):
     """.. note ::
 
           * ``Port``s do *not* inherit
@@ -39,7 +39,7 @@ class Port:
 
 
 @dataclass
-class ComponentInterface:
+class ComponentInterface(AIGR):
     name: str
     _: KW_ONLY
     based_on: PTH.Optional[ComponentInterface]=dc_field(default_factory= lambda: baseComponent)

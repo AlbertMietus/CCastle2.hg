@@ -13,7 +13,8 @@ from .aid import TypedParameter, Argument                                       
 
 __all__ = ['ProtocolKind', 'Protocol', 'EventProtocol']
 # DataProtocol, StreamProtocol are added/implemented later
-# Do Not Export: _RootProtocol and ProtocolWrapper`
+# Do Not Export: _RootProtocol
+# How about:  ProtocolWrapper?
 
 class ProtocolKind(Enum):
     """There are several kinds (types) of protocols.
@@ -65,7 +66,11 @@ class ProtocolWrapper(Protocol):
         if self.kind is ProtocolKind._unset:
             self.kind = self.based_on.kind
         if self.name == "":
-            self.name = f"Wrapper for {self.based_on.name}({self.arguments})"
+            self.name = f"Wrapper for {self.based_on.name}({self.arguments})" ###
+
+    def __getattr__(self, name):          #delegate to base  XXX move to Wrapper Base?
+        return getattr(self.based_on, name)
+
 
 @dataclass                                                                                          # pragma: no mutate
 class EventProtocol(Protocol):
