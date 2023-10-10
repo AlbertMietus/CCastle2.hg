@@ -21,5 +21,4 @@ def test_2_ConsecutiveSeries():
     for v2 in values[1:]:
       assert v1+1==v2, f"{ProtocolKind(v1)}+1 <> {ProtocolKind(v2)}"
       v1=v2
-    
-    
+
