@@ -31,8 +31,16 @@ TestDoubles/AIGR: The protocols of the Sieve
 
    '---
 
+   object "SlowStart(1)" as SlowStart_1 <<ProtocolWrapper>> {
+   queue_max=1
+   }
+   SlowStart <-- SlowStart_1: based on
+
+
+   '---
+
    object SimpleSieve <<EventProtocol>>
-   SlowStart <-- SimpleSieve: based_on
+   SlowStart_1 <-- SimpleSieve: based_on
 
    object input <<Event>> {
      try :int
