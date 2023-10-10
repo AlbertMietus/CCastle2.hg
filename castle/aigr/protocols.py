@@ -57,9 +57,9 @@ class StreamProtocol(Protocol): pass ### XXX ToDo (not exported)
 
 @dataclass                                                                                          # pragma: no mutate
 class ProtocolWrapper(Protocol):
-    name: str=""
-    kind : ProtocolKind=ProtocolKind._unset
+    name: str
     _: KW_ONLY
+    kind : ProtocolKind=ProtocolKind._unset
     arguments: PTH.Sequence[Argument]
 
     def __post_init__(self):

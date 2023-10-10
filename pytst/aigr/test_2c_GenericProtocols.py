@@ -67,11 +67,11 @@ def base():
 
 @pytest.fixture
 def sub_a(base):
-    return EventProtocol("Sub_a", events=[], based_on=ProtocolWrapper(based_on=base, arguments=(Argument(name='queue_max', value=1),)))
+    return EventProtocol("Sub_a", events=[], based_on=ProtocolWrapper(name="", based_on=base, arguments=(Argument(name='queue_max', value=1),)))
 
 @pytest.fixture
 def sub_b(base):
-    return EventProtocol("Sub_b", events=[], based_on=ProtocolWrapper(based_on=base, arguments=(Argument(value=1),)))
+    return EventProtocol("Sub_b", events=[], based_on=ProtocolWrapper("", based_on=base, arguments=(Argument(value=1),)))
 
 def assert_GP_kind(base, sub):
     assert sub.kind == base.kind
