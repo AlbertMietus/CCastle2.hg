@@ -81,8 +81,8 @@ class EventProtocol(Protocol):
     _: KW_ONLY
     kind: ProtocolKind = ProtocolKind.Event
     events: PTH.Sequence[Event]
-    #redefine type: EventProtocol always inherit from an EventProtocol
-    based_on: EventProtocol = dc_field(default_factory= lambda :Protocol._BASE)
+    #redefine EventProtocol always inherit from an EventProtocol (or Wrapper)
+    based_on: EventProtocol|ProtocolWrapper = dc_field(default_factory= lambda :Protocol._BASE)
 
     def _noEvents(self):
         inherited = self.based_on._noEvents() if isinstance(self.based_on, EventProtocol) else 0
