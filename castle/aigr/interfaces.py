@@ -13,7 +13,7 @@ __all__ = ['PortDirection', 'Port', 'ComponentInterface']
 class PortDirection(Enum):
     """Ports always have a direction; most port are ``Out`` (sending)  or ``In``(receiving)``.
 
-    More options are (will become) possible, like master/slave and bidir(ectional)"""
+    More options are (will become) possible, like master/slave and bidir (=bidirectional)"""
 
     Unknown = 0
     In      = 1
@@ -23,7 +23,7 @@ class PortDirection(Enum):
     Master  = 4 # Not supported yet
     Slave   = 5 # Not supported yet
 
-PortType = PTH.Union[ Protocol, type]
+PortType = PTH.Union[Protocol, type]
 
 @dataclass
 class Port(AIGR):
