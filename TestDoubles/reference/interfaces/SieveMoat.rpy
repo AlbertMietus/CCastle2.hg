@@ -17,7 +17,7 @@ cc_CI_Sieve = buildin.CC_B_ComponentInterface(name="Sieve",
 cc_CI_Sieve.ports.append(buildin.CC_B_C_PortID(name="try",
                                 portNo=2,   # XXXX
                                 protocol=SimpleSieve.cc_P_SimpleSieve,
-                                direction=buildin.PortDirection.In,
+                                direction=buildin.PortDirection.In, ## or base.?
                                 part_of=cc_CI_Sieve))
 cc_CI_Sieve.ports.append(buildin.CC_B_C_PortID(name="coprime",
                                 portNo=3,      #XXX
