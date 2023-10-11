@@ -45,5 +45,10 @@ class ComponentInterface(AIGR):
     based_on: PTH.Optional[ComponentInterface]=dc_field(default_factory= lambda: baseComponent)
     ports: PTH.Sequence[Port]=()
 
+    def _noPorts(self): # left from (gone) auto-numbering - possible usefill as protocols has it to
+        inherited = self.based_on._noPorts() if isinstance(self.based_on, ComponentInterface) else 0
+        return inherited + len(self.ports)
 
-baseComponent=ComponentInterface("Component", based_on=None, ports=())   #XXX Add base-ports
+_rootComponent=ComponentInterface("RootComponent", based_on=None, ports=())   # The base of the baseComponent
+baseComponent=ComponentInterface("Component", based_on=_rootComponent, ports=())   #XXX Add base-ports
+
