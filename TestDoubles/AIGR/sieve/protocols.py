@@ -1,8 +1,8 @@
 # (C) Albert Mietus, 2023. Part of Castle/CCastle project
 
-from castle.aigr.aid import TypedParameter, Argument
 from castle.aigr import EventProtocol, Event
 from castle.aigr.protocols import ProtocolWrapper
+from castle.aigr.aid import TypedParameter, Argument
 
 
 StartSieve = EventProtocol('StartSieve',
