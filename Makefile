@@ -21,9 +21,11 @@ rPY_LAST = \
 	pytst/aigr/test_0_aid.py				\
 #
 rPY_CURRENT = \
-	pytst/writers/RPy/test_99_SieveMoats.py			\
+	pytst/writers/RPy/test_3_SieveProtocols.py		\
+	pytst/writers/RPy/test_4_NameSpaces.py			\
 #
 CC2CPy_TODO = \
+	pytst/writers/RPy/test_99_SieveMoats.py			\
 	pytst/writers/RPy/test_999.py 				\
 #
 
