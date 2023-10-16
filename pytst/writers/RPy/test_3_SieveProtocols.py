@@ -5,7 +5,7 @@ import pytest
 from TestDoubles.AIGR import sieve
 from . import TstDoubles, generatedProtocol_verifier
 ##Note: T_* are used in **_verifier; but need to be in this scope (or pytest can't find it)
-from . import T_Protocol, T_Moat
+from . import T_Protocol
 
 
 
