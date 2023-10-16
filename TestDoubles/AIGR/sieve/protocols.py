@@ -6,14 +6,14 @@ from castle.aigr.aid import TypedParameter, Argument
 
 
 StartSieve = EventProtocol('StartSieve',
-                              events=[
+                              events=(
                                    Event(name='runTo',  return_type=None, typedParameters=(TypedParameter(name='max', type=int),)),
-                                   Event(name='newMax', return_type=None, typedParameters=(TypedParameter(name='max', type=int),))])
+                                   Event(name='newMax', return_type=None, typedParameters=(TypedParameter(name='max', type=int),))))
 
 SlowStart = EventProtocol('SlowStart',
                               typedParameters=(TypedParameter(name='queue_max', type=int),),
-                              events=[
-                                   Event(name='setMax', return_type=None, typedParameters=(TypedParameter(name='queue_max', type=int),))])
+                              events=(
+                                   Event(name='setMax', return_type=None, typedParameters=(TypedParameter(name='queue_max', type=int),)),))
 
 SlowStart_1 = ProtocolWrapper("SlowStart_1",
                               based_on=SlowStart,
@@ -22,7 +22,7 @@ SlowStart_1 = ProtocolWrapper("SlowStart_1",
 
 SimpleSieve = EventProtocol('SimpleSieve',
                               based_on=SlowStart_1,
-                              events=[
-                                   Event(name='input', return_type=None, typedParameters=(TypedParameter(name='try', type=int),))])
+                              events=(
+                                   Event(name='input', return_type=None, typedParameters=(TypedParameter(name='try', type=int),)),))
 
 
