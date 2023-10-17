@@ -1,0 +1,65 @@
+Namespace & protocols
+*********************
+
+.. uml::
+
+   @startuml
+
+   package P1_start {
+      object start_sieve <<Source_NS>> #LightSkyBlue {
+        file: 'start_sieve.Castle'
+      }
+      object " " as P1_d <<dict>> #lightcyan {
+        startSieve
+      }
+      object StartSieve <<EventProtocol>>
+
+      start_sieve       o--  P1_d
+      P1_d::startSieve  ->   StartSieve
+      start_sieve       <--  StartSieve
+   }
+
+
+   '------------------
+
+   package P2_slow {
+      object slow_start <<Source_NS>> #LightSkyBlue {
+        file: 'slow_start.Castle'
+      }
+      object " " as P2_d <<dict>> #lightcyan {
+        SlowStart
+      }
+      object SlowStart  <<EventProtocol>> {
+        queue_max :int
+      }
+
+      slow_start       o-- P2_d
+      P2_d::slowStart  ->  SlowStart
+      slow_start       <-- SlowStart
+   }
+
+   '------------------
+
+   package P3_simple {
+      object simple_sieve <<Source_NS>> #LightSkyBlue {
+        file: 'simple_sieve.Castle'
+      }
+      object " " as P3_d <<dict>> #lightcyan {
+        SlowStart(1)
+        SimpleSieve
+      }
+      object "SlowStart(1)" as SlowStart_1 <<ProtocolWrapper>> {
+         queue_max=1
+      }
+      object SimpleSieve <<EventProtocol>>
+      SlowStart_1 <|-- SimpleSieve: based on
+
+      simple_sieve        o-- P3_d
+      P3_d::SlowStart_1   ->  SlowStart_1
+      P3_d::SimpleSieve   ->  SimpleSieve
+      simple_sieve       <-- SlowStart_1
+      simple_sieve       <--- SimpleSieve
+   }
+
+   SlowStart   <|---- SlowStart_1 #darkblue : based on
+   @enduml   
