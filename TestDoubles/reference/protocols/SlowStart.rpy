@@ -22,7 +22,7 @@ cc_P_SlowStart = buildin.CC_B_Protocol(name="SlowStart",
                                     ('queue_max', int),
                                 ),
                                 kind=buildin.ProtocolKind.Event,
-                                inherit_from=cc_P_Protocol,
+                                inherit_from=base.cc_P_Protocol,
                                 events=[])
 
 cc_P_SlowStart.events.append(buildin.CC_B_P_EventID(name="setMax",

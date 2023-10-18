@@ -13,3 +13,4 @@ class _Marker: pass
 from .events import *
 from .protocols import *
 from .interfaces import *
+from .namespaces import *

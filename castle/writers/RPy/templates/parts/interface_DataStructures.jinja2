@@ -14,7 +14,7 @@
   {% for p in interface.ports %}
     {{- m.comp_interface_Name(interface.name) }}.ports.append(buildin.CC_B_C_PortID(name="{{ p.name  }}",
                                 protocol={{m.ProtocolName(p.type.name)}},
-                                direction=XXX_NS_XXX. {{p.direction}},
+                                direction={{p.direction}},
                                 part_of={{ m.comp_interface_Name(interface.name) }}))
   {% endfor %} {#- ports #}
 

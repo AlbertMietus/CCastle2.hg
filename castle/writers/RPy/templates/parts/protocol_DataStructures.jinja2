@@ -24,7 +24,7 @@
 
   {% endif %}
                                 kind=buildin.{{proto.kind}},
-                                inherit_from={{m.ProtocolName(proto.based_on.name)}},
+                                inherit_from={{proto.based_on.ns}}.{{m.ProtocolName(proto.based_on.name)}}, # XXX NS not ready
                                 events=[])
 
   {% for e in proto.events %}

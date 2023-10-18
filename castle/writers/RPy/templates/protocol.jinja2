@@ -15,7 +15,9 @@ from CC import base
 
 {% block imports %}
 #Put the Castle/generated imports here
+{% include 'parts/protocol_imports.jinja2' %}
 {% endblock %}
+
 
 {% block EventIndexes %}
 {% for protocol in protocols %}

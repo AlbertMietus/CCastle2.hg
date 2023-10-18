@@ -10,6 +10,7 @@ from dataclasses import field as dc_field
 from . import AIGR, _Marker
 from .events import Event
 from .aid import TypedParameter, Argument                                                            # Castle/AIGR types
+from .namespaces import NameSpace
 
 __all__ = ['ProtocolKind', 'Protocol', 'EventProtocol']
 # DataProtocol, StreamProtocol are added/implemented later
@@ -35,11 +36,12 @@ class Protocol(AIGR):
     """
     _BASE: PTH.ClassVar=None                                                                        # pragma: no mutate
 
-    name: str
+    name             :str
     _: KW_ONLY
-    kind: ProtocolKind
-    based_on: PTH.Optional[Protocol]=dc_field(default_factory= lambda :Protocol._BASE)             # pragma: no mutate
-    typedParameters: PTH.Optional[PTH.Sequence[TypedParameter]]=()
+    kind             :ProtocolKind
+    based_on         :PTH.Optional[Protocol]=dc_field(default_factory= lambda :Protocol._BASE)             # pragma: no mutate
+    typedParameters  :PTH.Optional[PTH.Sequence[TypedParameter]]=()
+    _ns              :PTH.Optional[NameSpace]=dc_field(init=None, default=None)
 
 
 @dataclass                                                                                          # pragma: no mutate
