@@ -9,7 +9,7 @@ TODO: update the CC2Cpy parts to use this generic AIGR layer
 
 import typing as PTH                                                                                  # Python TypeHints
 from dataclasses import dataclass, KW_ONLY
-from . import AIGR
+from . import NamedNode
 from .aid import TypedParameter                                                                       # Castle/AIGR type
 
 __all__ = ['Event']
@@ -18,7 +18,7 @@ __all__ = ['Event']
 
 
 @dataclass                                                                                          # pragma: no mutate
-class Event(AIGR):
+class Event(NamedNode):
     """An event is like a (remote) function-call
 
     It has a name, a return-type (can be void), and an (inmutable) sequence of typed parameters."""

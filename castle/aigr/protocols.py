@@ -7,7 +7,7 @@ import typing as PTH                                                            
 from enum import Enum
 from dataclasses import dataclass, KW_ONLY
 from dataclasses import field as dc_field
-from . import AIGR, _Marker
+from . import AIGR, NamedNode
 from .events import Event
 from .aid import TypedParameter, Argument                                                            # Castle/AIGR types
 from .namespaces import NameSpace
@@ -29,7 +29,7 @@ class ProtocolKind(Enum):
     _unset  = -1
 
 @dataclass
-class Protocol(AIGR):
+class Protocol(NamedNode):
     """ .. note:: Use one of the subclasses -- Only Event is defined yet
         .. todo:: Design: What is the `kind` self and the inherited ones are not the same?
                   overriding ProtocolKind.Unknown is always allowed
@@ -39,9 +39,9 @@ class Protocol(AIGR):
     name             :str
     _: KW_ONLY
     kind             :ProtocolKind
-    based_on         :PTH.Optional[Protocol]=dc_field(default_factory= lambda :Protocol._BASE)             # pragma: no mutate
+    based_on         :PTH.Optional[Protocol]=dc_field(default_factory= lambda :Protocol._BASE)      # pragma: no mutate 
     typedParameters  :PTH.Optional[PTH.Sequence[TypedParameter]]=()
-    _ns              :PTH.Optional[NameSpace]=dc_field(init=None, default=None)
+    _ns              :PTH.Optional[NameSpace]=dc_field(init=None, default=None)                     #type: ignore[call-overload]
 
 
 @dataclass                                                                                          # pragma: no mutate

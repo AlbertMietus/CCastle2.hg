@@ -4,7 +4,7 @@ import typing as PTH                                                            
 from enum import Enum
 from dataclasses import dataclass, KW_ONLY
 from dataclasses import field as dc_field
-from . import AIGR
+from . import AIGR, NamedNode
 from .protocols import Protocol
 from .aid import TypedParameter                                                                      # Castle/AIGR types
 
@@ -26,7 +26,7 @@ class PortDirection(Enum):
 PortType = PTH.Union[Protocol, type]
 
 @dataclass
-class Port(AIGR):
+class Port(AIGR): # Note: not a NamedNode, as it does not live in a NS (but in a Component)
     """.. note ::
 
           * ``Port``s do *not* inherit
@@ -39,10 +39,10 @@ class Port(AIGR):
 
 
 @dataclass
-class ComponentInterface(AIGR):
+class ComponentInterface(NamedNode):
     name: str
     _: KW_ONLY
-    based_on: PTH.Optional[ComponentInterface]=dc_field(default_factory= lambda: baseComponent)
+    based_on: PTH.Optional[ComponentInterface]=dc_field(default_factory= lambda: baseComponent)  #type: ignore[has-type]
     ports: PTH.Sequence[Port]=()
 
     def _noPorts(self): # left from (gone) auto-numbering - possible usefill as protocols has it to

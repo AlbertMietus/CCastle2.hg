@@ -28,10 +28,3 @@ class Argument(AIGR):
     name: PTH.Optional[str]=None
 
 
-#@dataclass
-#class Invoke(AIGR):
-#    """call a callable: a callable and a list of Arguments"""
-#    _: KW_ONLY
-#    callable: PTH.Any # XXX
-#    arguments: PTH.Sequence[Argument]=()
-

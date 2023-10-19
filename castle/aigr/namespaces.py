@@ -15,16 +15,13 @@ from dataclasses import dataclass, KW_ONLY
 from dataclasses import field as dc_field
 
 
-from . import AIGR, _Marker
+from . import AIGR, _Marker, NamedNode, NameError
 
 class GENERATED(_Marker):pass
 
 
-class NamedNode(AIGR): pass # Move up, name:str is part of it
-class NameError(AttributeError):pass
-
 @dataclass
-class NameSpace(AIGR):
+class NameSpace(NamedNode):
     """This models a namespace (like a file, see ``Source_NS``).
 
     It contained *"named nodes"* that should be :method:`register()`ed and can be found by :method:`getID()` and/or :method:`findNode()`.
@@ -33,7 +30,7 @@ class NameSpace(AIGR):
 
     name       :str
     _: KW_ONLY
-    _dict      :dict=dc_field(init=None, default_factory=lambda: dict())
+    _dict      :PTH.Dict[str, NamedNode]=dc_field(init=None, default_factory=lambda: dict()) #type: ignore[call-overload]
 
     def register(self, named_node :NamedNode):
         name = named_node.name
@@ -43,10 +40,20 @@ class NameSpace(AIGR):
                            f"Removed: {old}. New: {named_node}")
 
         self._dict[name] = named_node
-        named_node.ns = self
+        named_node._ns = self
+###
+### The following 3 methods are overkill.
+### + findNode/getID only lock locally returning None (findNode) or raise NameError on no match
+### + search is like findNode, but looks also in subNS'ses
+###
+### So,
+### - ``NS.findNode(name)`` and ``NS.search(name)`` are equivalent
+###     (but search calls findNode, and can't be removed. find is also a better name)
+###- There is no getID() for dottedName's
+###
 
 
-    def findNode(self, name :str) ->PTH.Optional(NamedNode):
+    def findNode(self, name :str) ->PTH.Optional[NamedNode]:
         """Return the NamedNode with the specified name (aka ID), or None.
            See :method:`getID` for an alternative"""
         return self._dict.get(name, None)
@@ -60,7 +67,7 @@ class NameSpace(AIGR):
             raise NameError(f"No node named {name} in NS:{self.name}")
         return node
 
-    def search(self, dottedName :str) ->PTH.Optional(NamedNode):
+    def search(self, dottedName :str) ->PTH.Optional[NamedNode]:
         """Search the namespace for the 1st part of `dottedName`, then that NS for the next part, etc. And return the "deepest" node, or None"""
 
         parts = dottedName.split('.',maxsplit=1) # parts is [<name>, (<name>.)*] parts[1] can be absent, parts[0] always exist
@@ -68,9 +75,10 @@ class NameSpace(AIGR):
         if len(parts) == 1:
             return node
         try:
-            return node.search(parts[1])
+            return node.search(parts[1])                              #type: ignore[union-attr] # Assume a NS, else raise
+
         except AttributeError: #node isn't a search'able/NameSpace --> Not found --> return None
-            return none
+            return None
 
 @dataclass
 class Source_NS(NameSpace):
