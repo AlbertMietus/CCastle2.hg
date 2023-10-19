@@ -47,6 +47,7 @@ def test_2_NS_find_vs_get_when_not_registered(aNS):
         assert False, """`aNS.getID("Deze Bestaat Niet")` should raise an error"""
     except NameError: pass
 
+
 def test_3_sourceNS_combi(a_node, sourceNS):
     "The functionality as shown in _NS1 & _NS2 should also work with Source_NS"
     name = a_node.name
@@ -59,6 +60,7 @@ def test_3_sourceNS_combi(a_node, sourceNS):
         assert False, """`sourceNS.getID("Deze Bestaat Niet")` should raise an error"""
     except NameError: pass
 
+
 def test_4_sameName_is_replaced(aNS):
     logger.warning("""NOTICE: This test will issue the warning 'astle.aigr.namespaces:namespaces.py:42' You should ignore it""")
     name='TriggerWarning'
@@ -69,32 +71,6 @@ def test_4_sameName_is_replaced(aNS):
     aNS.register(two)
     assert aNS.getID(name) is two         #The test
 
-def NSsearch(ns, dottedName):
-    "This functionality should be moved to namespace"
-
-    parts = dottedName.split('.')
-    travarse, elm = parts[:-1], parts[-1]
-
-    for name in travarse:
-        next_ns = ns.findNode(name)
-        if isinstance(next_ns, NameSpace):
-            ns = next_ns
-        else:
-            return None # no found or no namespace
-    return ns.findNode(elm)
-
- 
-def test_5a_ns_in_ns_with_NSsearch():
-    "when we import a NS, we get a NS in a NS ..."
-    top = NameSpace('top')
-    sub = NameSpace('sub')
-    elm = DummyNode('elm', dummy="with.dotted.Name")
-    top.register(sub)
-    sub.register(elm)
-
-    assert top.getID('sub') is sub
-    assert sub.getID('elm') is elm
-    assert NSsearch(top, dottedName="sub.elm") is elm
 
 def test_5b_ns_in_ns():
     "when we import a NS, we get a NS in a NS ..."
@@ -108,4 +84,7 @@ def test_5b_ns_in_ns():
     assert sub.getID('elm') is elm
     assert top.search(dottedName="sub.elm") is elm
 
+@pytest.mark.skip("Todo: Unite `.search()` and `.find()` [& `.getID()] -- see comment in `aigr/namespaces.py`")
+def test_to_do_Unite():
+    assert False
    
