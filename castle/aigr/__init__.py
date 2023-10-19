@@ -20,7 +20,10 @@ class NamedNode(AIGR):
 
 class NameError(AttributeError):pass
 
-class _Marker: pass
+@dataclass
+class _Marker:
+    msg :str=""
+
 
 from .events import *
 from .protocols import *

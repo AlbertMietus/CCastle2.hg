@@ -17,7 +17,8 @@ from dataclasses import field as dc_field
 
 from . import AIGR, _Marker, NamedNode, NameError
 
-class GENERATED(_Marker):pass
+#class GENERATED(_Marker):pass
+GENERATED=_Marker('No Source as it is GENERATED')
 
 
 @dataclass
@@ -83,4 +84,4 @@ class NameSpace(NamedNode):
 @dataclass
 class Source_NS(NameSpace):
     _: KW_ONLY
-    source       :str
+    source       :str|_Marker
