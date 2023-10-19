@@ -84,7 +84,7 @@ def test_5b_ns_in_ns():
     assert sub.getID('elm') is elm
     assert top.search(dottedName="sub.elm") is elm
 
+
 @pytest.mark.skip("Todo: Unite `.search()` and `.find()` [& `.getID()] -- see comment in `aigr/namespaces.py`")
-def test_to_do_Unite():
+def test_ToDo_Unite():
     assert False
-   
