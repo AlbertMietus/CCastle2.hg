@@ -11,16 +11,17 @@ import typing as PTH                                                            
 from . import AIGR
 
 
-
 class NameError(AttributeError):pass
 
 @dataclass
 class NamedNode(AIGR):
     name       :str
     _: KW_ONLY
-    _ns        :PTH.Optional[NameSpace]=dc_field(init=None, default=None)  #type: ignore[call-overload]
+    # type(_ns) is NamedNode, but that leads to a cycle in imports, to use te more generic AIGR
+    _ns        :PTH.Optional[AIGR]=dc_field(init=None, default=None)  #type: ignore[call-overload]
 
-    def register_in_NS(self, ns):
+
+    def register_in_NS(self, ns: AIGR): #same: type(ns) is NameSpace, but ...
         self._ns = ns
 
     @property

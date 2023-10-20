@@ -10,9 +10,9 @@ from dataclasses import field as dc_field
 from . import AIGR
 from .events import Event
 from .aid import TypedParameter, Argument                                                            # Castle/AIGR types
+from .namednodes import NamedNode
 
-from .namednodes import *
-from .namespaces import NameSpace
+
 
 __all__ = ['ProtocolKind', 'Protocol', 'EventProtocol']
 # DataProtocol, StreamProtocol are added/implemented later
@@ -43,7 +43,6 @@ class Protocol(NamedNode):
     kind             :ProtocolKind
     based_on         :PTH.Optional[Protocol]=dc_field(default_factory= lambda :Protocol._BASE)      # pragma: no mutate 
     typedParameters  :PTH.Optional[PTH.Sequence[TypedParameter]]=()
-    _ns              :PTH.Optional[NameSpace]=dc_field(init=None, default=None)                     #type: ignore[call-overload]
 
 
 @dataclass                                                                                          # pragma: no mutate

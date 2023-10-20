@@ -28,6 +28,17 @@ def aNS(a_node):
     return ns
 
 @pytest.fixture
+def top():
+    top = NameSpace('top')
+    return top
+
+@pytest.fixture
+def sub(top):
+    sub = NameSpace('sub')
+    top.register(sub)
+    return sub
+
+@pytest.fixture
 def sourceNS(a_node):
     ns = Source_NS("sourceNS", source="dummy")
     ns.register(a_node)
@@ -72,7 +83,7 @@ def test_4_sameName_is_replaced(aNS):
     assert aNS.getID(name) is two         #The test
 
 
-def test_5b_ns_in_ns():
+def test_5a_ns_in_ns():
     "when we import a NS, we get a NS in a NS ..."
     top = NameSpace('top')
     sub = NameSpace('sub')
@@ -83,6 +94,18 @@ def test_5b_ns_in_ns():
     assert top.getID('sub') is sub
     assert sub.getID('elm') is elm
     assert top.search(dottedName="sub.elm") is elm
+
+
+def test_5b_seach_1level(aNS,a_node):
+    name = a_node.name
+    assert (aNS.search(name) is a_node) and (aNS.getID(name) is a_node), "serach should find that what getID returns"
+
+
+def test_5c_seachNotFound_1(top):
+    assert top.search("Deze bestaat niet") is None
+
+def test_5d_seachNotFound_sub(top, sub):
+    assert top.search("top.Deze.bestaat.niet") is None
 
 def test_6a_registered_is_2ways(aNS, a_node):
     """When a NamedNode is registered in a NameSpace, it should a backlink (`ns property) to the NS again"""

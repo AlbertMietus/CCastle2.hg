@@ -13,7 +13,8 @@ import typing as PTH                                                            
 from enum import Enum
 from dataclasses import dataclass, KW_ONLY
 from dataclasses import field as dc_field
-from .namednodes import *
+
+from .namednodes import NamedNode, NameError
 
 from . import AIGR, _Marker
 
