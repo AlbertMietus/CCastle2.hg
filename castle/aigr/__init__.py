@@ -18,6 +18,11 @@ class NamedNode(AIGR):
     _: KW_ONLY
     _ns        :PTH.Optional[NameSpace]=dc_field(init=None, default=None)  #type: ignore[call-overload]
 
+    def register_in_NS(self, ns):
+        self._ns = ns
+
+
+
 class NameError(AttributeError):pass
 
 @dataclass

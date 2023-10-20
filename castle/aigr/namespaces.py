@@ -39,9 +39,11 @@ class NameSpace(NamedNode):
             old=self._dict[name]
             logger.warning(f"The '{name}'-node is already in this namespace; -- it will be lost." +
                            f"Removed: {old}. New: {named_node}")
-
         self._dict[name] = named_node
-        named_node._ns = self
+        self._register_2ways(named_node)
+
+    def _register_2ways(self, node):
+        node.register_in_NS(self)
 ###
 ### The following 3 methods are overkill.
 ### + findNode/getID only lock locally returning None (findNode) or raise NameError on no match

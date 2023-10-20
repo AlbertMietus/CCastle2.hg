@@ -22,10 +22,10 @@ rPY_LAST = \
 #
 rPY_CURRENT = \
 	pytst/aigr/test_3_namespaces.py				\
+	pytst/writers/RPy/test_3_SieveProtocols.py		\
 #
 CC2CPy_TODO = \
 	pytst/aigr/test_0_AIGR.py				\
-	pytst/writers/RPy/test_3_SieveProtocols.py		\
 	pytst/writers/RPy/test_4_NameSpaces.py			\
 	pytst/writers/RPy/test_99_SieveMoats.py			\
 	pytst/writers/RPy/test_999.py 				\

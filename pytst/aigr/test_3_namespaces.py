@@ -84,6 +84,9 @@ def test_5b_ns_in_ns():
     assert sub.getID('elm') is elm
     assert top.search(dottedName="sub.elm") is elm
 
+def test_6_registered_is_2way(aNS, a_node):
+    assert a_node._ns is aNS
+
 
 @pytest.mark.skip("Todo: Unite `.search()` and `.find()` [& `.getID()] -- see comment in `aigr/namespaces.py`")
 def test_ToDo_Unite():
