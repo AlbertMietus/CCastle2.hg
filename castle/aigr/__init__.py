@@ -1,10 +1,9 @@
 # (C) Albert Mietus, 2023. Part of Castle/CCastle project
 
 from __future__ import annotations
+from dataclasses import dataclass
 
-from dataclasses import dataclass, KW_ONLY
-from dataclasses import field as dc_field
-import typing as PTH                                                                                  # Python TypeHints
+
 
 class AIGR: # Abstract Intermediate Graph Representation
     def __new__(cls, *args, **kwargs):
@@ -12,25 +11,14 @@ class AIGR: # Abstract Intermediate Graph Representation
             raise NotImplementedError(f"Instantiate a subclass of {cls}, not the `Abstract Intermediate Graph Representation`` itself")
         return super().__new__(cls)
 
-@dataclass
-class NamedNode(AIGR):
-    name       :str
-    _: KW_ONLY
-    _ns        :PTH.Optional[NameSpace]=dc_field(init=None, default=None)  #type: ignore[call-overload]
 
-    def register_in_NS(self, ns):
-        self._ns = ns
-
-
-
-class NameError(AttributeError):pass
 
 @dataclass
 class _Marker:
     msg :str=""
 
-
 from .events import *
 from .protocols import *
 from .interfaces import *
 from .namespaces import *
+from .namednodes import *

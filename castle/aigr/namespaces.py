@@ -13,11 +13,10 @@ import typing as PTH                                                            
 from enum import Enum
 from dataclasses import dataclass, KW_ONLY
 from dataclasses import field as dc_field
+from .namednodes import *
 
+from . import AIGR, _Marker
 
-from . import AIGR, _Marker, NamedNode, NameError
-
-#class GENERATED(_Marker):pass
 GENERATED=_Marker('No Source as it is GENERATED')
 
 

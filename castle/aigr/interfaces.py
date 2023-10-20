@@ -4,9 +4,10 @@ import typing as PTH                                                            
 from enum import Enum
 from dataclasses import dataclass, KW_ONLY
 from dataclasses import field as dc_field
-from . import AIGR, NamedNode
+from . import AIGR
 from .protocols import Protocol
 from .aid import TypedParameter                                                                      # Castle/AIGR types
+from .namednodes import *
 
 __all__ = ['PortDirection', 'Port', 'ComponentInterface']
 

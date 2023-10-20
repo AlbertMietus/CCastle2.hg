@@ -9,8 +9,8 @@ TODO: update the CC2Cpy parts to use this generic AIGR layer
 
 import typing as PTH                                                                                  # Python TypeHints
 from dataclasses import dataclass, KW_ONLY
-from . import NamedNode
 from .aid import TypedParameter                                                                       # Castle/AIGR type
+from .namednodes import *
 
 __all__ = ['Event']
 
