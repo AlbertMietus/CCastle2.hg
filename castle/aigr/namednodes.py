@@ -23,3 +23,7 @@ class NamedNode(AIGR):
     def register_in_NS(self, ns):
         self._ns = ns
 
+    @property
+    def ns(self):
+        return self._ns
+

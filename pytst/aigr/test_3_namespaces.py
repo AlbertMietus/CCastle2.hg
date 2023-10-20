@@ -84,8 +84,20 @@ def test_5b_ns_in_ns():
     assert sub.getID('elm') is elm
     assert top.search(dottedName="sub.elm") is elm
 
-def test_6_registered_is_2way(aNS, a_node):
-    assert a_node._ns is aNS
+def test_6a_registered_is_2ways(aNS, a_node):
+    """When a NamedNode is registered in a NameSpace, it should a backlink (`ns property) to the NS again"""
+    assert a_node.ns is aNS
+
+def test_6b_registered_is_2ways_once(aNS, a_node):
+    """Currently, a NamedNode can be registered in multiple namespaces, but the backlink is always the last
+       XXX ToDo: is that the intent? For now test as is"""
+    name = a_node.name
+    other = NameSpace('other')
+    other.register(a_node)
+
+    assert (aNS.getID(name) is a_node) and (other.getID(name) is a_node),  "A NamedNode can be registered in two NS'ses ..."
+    assert a_node.ns is other, " ...but Only the last NS is remembered"
+
 
 
 @pytest.mark.skip("Todo: Unite `.search()` and `.find()` [& `.getID()] -- see comment in `aigr/namespaces.py`")
