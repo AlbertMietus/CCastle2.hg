@@ -15,9 +15,9 @@ Namespace & protocols
          }
          object StartSieve <<EventProtocol>>
 
-         start_sieve       o--  P1_d
-         P1_d::startSieve  ->   StartSieve
-         start_sieve       <--  StartSieve
+         start_sieve          o--  P1_d
+         P1_d::startSieve     ->   StartSieve
+         start_sieve          <--  StartSieve
       }
 
       package slow_start {
@@ -31,9 +31,9 @@ Namespace & protocols
            queue_max :int
          }
 
-         slow_start       o-- P2_d
-         P2_d::slowStart  ->  SlowStart
-         slow_start       <-- SlowStart
+         slow_start           o--  P2_d
+         P2_d::slowStart      ->   SlowStart
+         slow_start           <--  SlowStart
       }
 
       package simple_sieve {
@@ -48,15 +48,26 @@ Namespace & protocols
             queue_max=1
          }
          object SimpleSieve <<EventProtocol>>
-         SlowStart_1 <|-- SimpleSieve: based on
+         SlowStart_1 <|-- SimpleSieve: based_on
 
-         simple_sieve        o-- P3_d
-         P3_d::SlowStart_1   ->  SlowStart_1
-         P3_d::SimpleSieve   ->  SimpleSieve
-         simple_sieve       <-- SlowStart_1
-         simple_sieve       <--- SimpleSieve
+         simple_sieve         o--  P3_d
+         P3_d::SlowStart_1    ->   SlowStart_1
+         P3_d::SimpleSieve    ->   SimpleSieve
+         simple_sieve         <--  SlowStart_1
+         simple_sieve         <--- SimpleSieve
       }
 
-      SlowStart   <|---- SlowStart_1 #darkblue : based on
+      SlowStart   <|---- SlowStart_1 #darkblue : based_on
    }
+
+   package "Build-in Protocols" <<Node>> {
+      package base {
+         object Protocol <<_RootProtocol>>
+      }
+      package buildin {
+      }
+   }
+   Protocol  <|..  StartSieve #aqua : based_on
+   Protocol  <|..  SlowStart  #aqua : based_on
+
    @enduml
