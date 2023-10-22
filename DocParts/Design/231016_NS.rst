@@ -20,6 +20,7 @@ Namespace & protocols
          start_sieve          o--  P1A_d
          start_sieve          <--  StartSieve
          P1A_d::StartSieve    ->   StartSieve #DarkMagenta
+         P1A_d::base          -->  base       #DarkMagenta
       }
 
       package slow_start as P1B {
@@ -37,6 +38,7 @@ Namespace & protocols
          slow_start           o--  P1B_d
          slow_start           <--  SlowStart
          P1B_d::SlowStart     ->   SlowStart #DarkMagenta
+         P1B_d::base          ->   base  #DarkMagenta
       }
 
       package simple_sieve as P1C {
@@ -63,17 +65,15 @@ Namespace & protocols
       SlowStart   <|---- SlowStart_1 #SkyBlue : based_on
    }
 
-   package "Build-in Protocols" as P4 <<Node>> {
+   package "Build-in Protocols" as P2 <<Node>> {
       package base {
          object Protocol <<_RootProtocol>>
       }
       package buildin {
       }
    }
+
    Protocol  <|--  StartSieve #SkyBlue : based_on
    Protocol  <|--  SlowStart  #SkyBlue : based_on
-
-   P1A_d::base  -> base #DarkMagenta
-   P1B_d::base  -> base #DarkMagenta
 
    @enduml
