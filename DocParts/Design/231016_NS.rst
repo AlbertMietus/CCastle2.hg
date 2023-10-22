@@ -5,42 +5,45 @@ Namespace & protocols
 
    @startuml
 
-   package "Protocols in ‘TheSieve’" <<Node>> {
-      package start_sieve {
+   package "Protocols in ‘TheSieve’" as P1 <<Node>> {
+
+      package start_sieve as P1A {
          object start_sieve <<Source_NS>> #LightSkyBlue {
            file: 'start_sieve.Castle'
          }
-         object " " as P1_d <<dict>> #lightcyan {
-           startSieve
+         object " " as P1A_d <<dict>> #lightcyan {
+           StartSieve
+           base :NS
          }
          object StartSieve <<EventProtocol>>
 
-         start_sieve          o--  P1_d
-         P1_d::startSieve     ->   StartSieve
+         start_sieve          o--  P1A_d
          start_sieve          <--  StartSieve
+         P1A_d::StartSieve    ->   StartSieve #DarkMagenta
       }
 
-      package slow_start {
+      package slow_start as P1B {
          object slow_start <<Source_NS>> #LightSkyBlue {
            file: 'slow_start.Castle'
          }
-         object " " as P2_d <<dict>> #lightcyan {
+         object " " as P1B_d <<dict>> #lightcyan {
            SlowStart
+           base :NS
          }
          object SlowStart  <<EventProtocol>> {
            queue_max :int
          }
 
-         slow_start           o--  P2_d
-         P2_d::slowStart      ->   SlowStart
+         slow_start           o--  P1B_d
          slow_start           <--  SlowStart
+         P1B_d::SlowStart     ->   SlowStart #DarkMagenta
       }
 
-      package simple_sieve {
+      package simple_sieve as P1C {
          object simple_sieve <<Source_NS>> #LightSkyBlue {
            file: 'simple_sieve.Castle'
          }
-         object " " as P3_d <<dict>> #lightcyan {
+         object " " as P1C_d <<dict>> #lightcyan {
            SlowStart(1)
            SimpleSieve
          }
@@ -50,24 +53,27 @@ Namespace & protocols
          object SimpleSieve <<EventProtocol>>
          SlowStart_1 <|-- SimpleSieve: based_on
 
-         simple_sieve         o--  P3_d
-         P3_d::SlowStart_1    ->   SlowStart_1
-         P3_d::SimpleSieve    ->   SimpleSieve
+         simple_sieve         o--  P1C_d
          simple_sieve         <--  SlowStart_1
          simple_sieve         <--- SimpleSieve
+         P1C_d::SlowStart_1   ->   SlowStart_1 #DarkMagenta
+         P1C_d::SimpleSieve   ->   SimpleSieve #DarkMagenta
       }
 
-      SlowStart   <|---- SlowStart_1 #darkblue : based_on
+      SlowStart   <|---- SlowStart_1 #SkyBlue : based_on
    }
 
-   package "Build-in Protocols" <<Node>> {
+   package "Build-in Protocols" as P4 <<Node>> {
       package base {
          object Protocol <<_RootProtocol>>
       }
       package buildin {
       }
    }
-   Protocol  <|..  StartSieve #aqua : based_on
-   Protocol  <|..  SlowStart  #aqua : based_on
+   Protocol  <|--  StartSieve #SkyBlue : based_on
+   Protocol  <|--  SlowStart  #SkyBlue : based_on
+
+   P1A_d::base  -> base #DarkMagenta
+   P1B_d::base  -> base #DarkMagenta
 
    @enduml
