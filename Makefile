@@ -21,6 +21,7 @@ rPY_LAST = \
 	pytst/aigr/test_0_aid.py				\
 #
 rPY_CURRENT = \
+	pytst/TD_AIGR/test_0_base.py				\
 	pytst/aigr/test_3_namespaces.py				\
 	pytst/writers/RPy/test_3_SieveProtocols.py		\
 #

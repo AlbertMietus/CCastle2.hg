@@ -1,4 +1,13 @@
 # (C) Albert Mietus, 2023. Part of Castle/CCastle project
+"""Verify the SieveProtocols are correctly 'generated' with the RPy backend.
+
+   - It used/reads a (manually crafted) AIGR, see  ``.../TestDoubles/AIGR/``,
+   - the output is rendered, using a (jinja) Template (T_Protocol)
+   - and compared to a reference-file ``.../TestDoubles/reference/`` - same of not
+   - optionally, the output is aslo written to file (``.../TestDoubles/_generated/``),
+     to diff line-by-line (for debugging)
+"""
+
 import logging; logger = logging.getLogger(__name__)
 
 import pytest

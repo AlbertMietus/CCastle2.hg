@@ -25,5 +25,4 @@ def test_ID_many():
     It holds the name in AIGR -nodes ipv de str class. Model it a bit like pathlib.Path
 
     We should have atomic_ID, relative_ID, DottedName_ID, ect
-    """ 
-
+    """
