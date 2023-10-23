@@ -121,7 +121,12 @@ def test_6b_registered_is_2ways_once(aNS, a_node):
     assert (aNS.getID(name) is a_node) and (other.getID(name) is a_node),  "A NamedNode can be registered in two NS'ses ..."
     assert a_node.ns is other, " ...but Only the last NS is remembered"
 
-
+def test_7_alias(aNS):
+    node=DummyNode("aliased")
+    alias="anOtherName"
+    aNS.register(node, asName=alias)
+    assert aNS.findNode(name=alias) is node,    f"it should be registered with the given alias: {alias}"
+    assert aNS.findNode(name=node.name) is None, f"The realname should not be registered"
 
 @pytest.mark.skip("Todo: Unite `.search()` and `.find()` [& `.getID()] -- see comment in `aigr/namespaces.py`")
 def test_ToDo_Unite():

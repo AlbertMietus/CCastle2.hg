@@ -33,8 +33,8 @@ class NameSpace(NamedNode):
     _: KW_ONLY
     _dict      :PTH.Dict[str, NamedNode]=dc_field(init=None, default_factory=lambda: dict()) #type: ignore[call-overload]
 
-    def register(self, named_node :NamedNode):
-        name = named_node.name
+    def register(self, named_node :NamedNode, asName:str=None):
+        name = named_node.name if asName is None else asName
         if name in self._dict:
             old=self._dict[name]
             logger.warning(f"The '{name}'-node is already in this namespace; -- it will be lost." +
