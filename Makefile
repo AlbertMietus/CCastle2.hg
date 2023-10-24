@@ -20,13 +20,14 @@ rPY_LAST = \
 	pytst/aigr/test_2c_GenericProtocols.py			\
 	pytst/aigr/test_0_aid.py				\
 	pytst/TD_AIGR/test_0_base.py				\
+	pytst/TD_AIGR/test_1_sieve_protocols.py			\
 #
 rPY_CURRENT = \
-	pytst/TD_AIGR/test_1_sieve_protocols.py			\
-	pytst/aigr/test_3_namespaces.py				\
-	pytst/writers/RPy/test_3_SieveProtocols.py		\
+	pytst/TD_AIGR/test_2_sieve_NS.py			\
 #
 CC2CPy_TODO = \
+	pytst/aigr/test_3_namespaces.py				\
+	pytst/writers/RPy/test_3_SieveProtocols.py		\
 	pytst/aigr/test_0_AIGR.py				\
 	pytst/writers/RPy/test_4_NameSpaces.py			\
 	pytst/writers/RPy/test_99_SieveMoats.py			\
