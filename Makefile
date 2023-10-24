@@ -19,9 +19,10 @@ rPY_LAST = \
 	pytst/writers/RPy/test_2_ProtocolDataStructures.py	\
 	pytst/aigr/test_2c_GenericProtocols.py			\
 	pytst/aigr/test_0_aid.py				\
+	pytst/TD_AIGR/test_0_base.py				\
 #
 rPY_CURRENT = \
-	pytst/TD_AIGR/test_0_base.py				\
+	pytst/TD_AIGR/test_1_sieve.py				\
 	pytst/aigr/test_3_namespaces.py				\
 	pytst/writers/RPy/test_3_SieveProtocols.py		\
 #
