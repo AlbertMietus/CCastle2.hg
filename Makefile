@@ -22,7 +22,7 @@ rPY_LAST = \
 	pytst/TD_AIGR/test_0_base.py				\
 #
 rPY_CURRENT = \
-	pytst/TD_AIGR/test_1_sieve.py				\
+	pytst/TD_AIGR/test_1_sieve_protocols.py			\
 	pytst/aigr/test_3_namespaces.py				\
 	pytst/writers/RPy/test_3_SieveProtocols.py		\
 #
