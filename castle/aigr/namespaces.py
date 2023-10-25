@@ -14,7 +14,7 @@ from enum import Enum
 from dataclasses import dataclass, KW_ONLY
 from dataclasses import field as dc_field
 
-from .namednodes import NamedNode, NameError
+from .namednodes import NamedNode, NameError, ID
 
 from . import AIGR, _Marker
 
@@ -29,11 +29,11 @@ class NameSpace(NamedNode):
 
     XXX More"""
 
-    name       :str
+    name       :ID
     _: KW_ONLY
-    _dict      :PTH.Dict[str, NamedNode]=dc_field(init=None, default_factory=lambda: dict()) #type: ignore[call-overload]
+    _dict      :PTH.Dict[ID, NamedNode]=dc_field(init=None, default_factory=lambda: dict()) #type: ignore[call-overload]
 
-    def register(self, named_node :NamedNode, asName:str=None):
+    def register(self, named_node :NamedNode, asName:ID=None):
         name = named_node.name if asName is None else asName
         if name in self._dict:
             old=self._dict[name]
@@ -56,13 +56,13 @@ class NameSpace(NamedNode):
 ###
 
 
-    def findNode(self, name :str) ->PTH.Optional[NamedNode]:
+    def findNode(self, name :ID) ->PTH.Optional[NamedNode]:
         """Return the NamedNode with the specified name (aka ID), or None.
            See :method:`getID` for an alternative"""
         return self._dict.get(name, None)
 
 
-    def getID(self, name :str) ->NamedNode: #Or raise NameError
+    def getID(self, name :ID) ->NamedNode: #Or raise NameError
         """Return the NamedNode with the specified name (aka ID), or raised an NameError:AttributeError.
            See :method:`findNode` for an alternative"""
         node = self.findNode(name)
@@ -70,7 +70,7 @@ class NameSpace(NamedNode):
             raise NameError(f"No node named {name} in NS:{self.name}")
         return node
 
-    def search(self, dottedName :str) ->PTH.Optional[NamedNode]:
+    def search(self, dottedName :ID) ->PTH.Optional[NamedNode]:
         """Search the namespace for the 1st part of `dottedName`, then that NS for the next part, etc. And return the "deepest" node, or None"""
 
         parts = dottedName.split('.',maxsplit=1) # parts is [<name>, (<name>.)*] parts[1] can be absent, parts[0] always exist
@@ -79,11 +79,15 @@ class NameSpace(NamedNode):
             return node
         try:
             return node.search(parts[1])                              #type: ignore[union-attr] # Assume a NS, else raise
-
         except AttributeError: #node isn't a search'able/NameSpace --> Not found --> return None
             return None
+
+    def find_byType(self, cls:type) ->dict[ID, NamedNode]:
+        return {name: node for name, node in self._dict.items() if isinstance(node, cls)}
+
+
 
 @dataclass
 class Source_NS(NameSpace):
     _: KW_ONLY
-    source       :str|_Marker
+    source       :str|_Marker             #Node an ID!

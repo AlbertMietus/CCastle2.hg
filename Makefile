@@ -23,6 +23,7 @@ rPY_LAST = \
 	pytst/TD_AIGR/test_1_sieve_protocols.py			\
 #
 rPY_CURRENT = \
+	pytst/aigr/test_3_namespaces.py				\
 	pytst/TD_AIGR/test_2_sieve_NS.py			\
 #
 CC2CPy_TODO = \

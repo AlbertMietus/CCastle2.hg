@@ -128,6 +128,28 @@ def test_7_alias(aNS):
     assert aNS.findNode(name=alias) is node,    f"it should be registered with the given alias: {alias}"
     assert aNS.findNode(name=node.name) is None, f"The realname should not be registered"
 
+
+def test_byType_None(aNS):
+    d = aNS.find_byType(type(None)) # There should be  None's in aNS
+    assert isinstance(d, dict)
+    assert len(d)==0
+
+def test_byType_Dummy(aNS, a_node):
+    d = aNS.find_byType(DummyNode)
+    assert len(d)==1
+    assert a_node.name in d
+    assert d[a_node.name] is a_node # note: this assumed no aliasses are used ('asName')
+
+def test_byType_NS(top, sub, sourceNS):
+    top.register(sourceNS) # Note: sub is already 'in; top
+
+    d = top.find_byType(NameSpace)
+    assert len(d) == 2 # sub, sourceNS
+    assert d['sub'] is sub
+    assert d['sourceNS'] is sourceNS
+
+
+
 @pytest.mark.skip("Todo: Unite `.search()` and `.find()` [& `.getID()] -- see comment in `aigr/namespaces.py`")
 def test_ToDo_Unite():
     assert False
