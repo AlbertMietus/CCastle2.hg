@@ -4,11 +4,11 @@
       No such 'top-namespaces' exist, so we have to initiate it here.
 """
 
-from castle.aigr.protocols import baseProtocol
+from castle.aigr.protocols import baseProtocol, ID
 from castle.aigr import NameSpace
 
 Protocol = baseProtocol
 
-base = NameSpace('base')
+base = NameSpace(ID('base'))
 base.register(Protocol)
 

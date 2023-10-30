@@ -29,12 +29,11 @@ class NameSpace(NamedNode):
 
     XXX More"""
 
-    name       :ID
     _: KW_ONLY
     _dict      :PTH.Dict[ID, NamedNode]=dc_field(init=None, default_factory=lambda: dict()) #type: ignore[call-overload]
 
-    def register(self, named_node :NamedNode, asName:ID=None):
-        name = named_node.name if asName is None else asName
+    def register(self, named_node :NamedNode, asName:PTH.Optional[ID|str]|str=None):
+        name = named_node.name if asName is None else ID(asName)
         if name in self._dict:
             old=self._dict[name]
             logger.warning(f"The '{name}'-node is already in this namespace; -- it will be lost." +
@@ -56,9 +55,10 @@ class NameSpace(NamedNode):
 ###
 
 
-    def findNode(self, name :ID) ->PTH.Optional[NamedNode]:
+    def findNode(self, name :ID|str) ->PTH.Optional[NamedNode]:
         """Return the NamedNode with the specified name (aka ID), or None.
            See :method:`getID` for an alternative"""
+        if not isinstance(name, ID): name=ID(name)
         return self._dict.get(name, None)
 
 

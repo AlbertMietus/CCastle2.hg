@@ -10,7 +10,7 @@ from dataclasses import field as dc_field
 from . import AIGR
 from .events import Event
 from .aid import TypedParameter, Argument                                                            # Castle/AIGR types
-from .namednodes import NamedNode
+from .namednodes import NamedNode, ID
 
 
 
@@ -38,7 +38,6 @@ class Protocol(NamedNode):
     """
     _BASE: PTH.ClassVar=None                                                                        # pragma: no mutate
 
-    name             :str
     _: KW_ONLY
     kind             :ProtocolKind
     based_on         :PTH.Optional[Protocol]=dc_field(default_factory= lambda :Protocol._BASE)      # pragma: no mutate
@@ -49,7 +48,7 @@ class Protocol(NamedNode):
 class _RootProtocol(Protocol):
     """This is the base protocol; it exist as we can't instantiate Protocol"""
 
-baseProtocol = _RootProtocol("Protocol", kind=ProtocolKind.Unknown, based_on=None)                  # pragma: no mutate
+baseProtocol = _RootProtocol(ID("Protocol"), kind=ProtocolKind.Unknown, based_on=None)                  # pragma: no mutate
 Protocol._BASE=baseProtocol
 
 @dataclass                                                                                          # pragma: no mutate
@@ -60,7 +59,6 @@ class StreamProtocol(Protocol): pass ### XXX ToDo (not exported)
 
 @dataclass                                                                                          # pragma: no mutate
 class ProtocolWrapper(Protocol):
-    name: str
     _: KW_ONLY
     kind : ProtocolKind=ProtocolKind._unset
     arguments: PTH.Sequence[Argument]
