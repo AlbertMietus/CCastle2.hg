@@ -64,7 +64,6 @@ class TstDoubles():
     def read_ref(self) -> str:             #File content as one (long, multi-line) string (aka Text)
         with open(self.ref_file) as f:
             ref = f.read()
-        logger.debug("---------- ref: ----------\n%s\n==========================", ref)
         return ref
 
     def write_gen(self,txt) ->None:
@@ -73,29 +72,39 @@ class TstDoubles():
         logger.info("Saved rendered protocol in: %s", self.gen_file)
 
 
-def _gen_matcher(aigr_mock, td, save_file, out):
-    logger.debug("---------- out: (%s)----------\n%s", aigr_mock, out)
+def _gen_matcher(aigr_mock, td, save_file, out, strip_remarker=False, template=None):
+    MARKER='#XXX#'
+    def match_line(out, ref, strip_remarker=False, filename=None):
+        if out == ref:
+            return True
+        elif strip_remarker and (MARKER in out):
+            marker_start = out.find(MARKER)
+            logger.debug(f"strip remark: '''{o[marker_start:].rstrip()}'''")
+            out = out[:marker_start].rstrip().strip('\n')
+            ref = ref.rstrip().strip('\n')
+        assert out == ref, f"line %s does not match: >>%s<< != <<%s>> (file: {td.base_name})" % (n, o.strip('\n'), r.strip('\n'))
+
     if save_file: td.write_gen(out)
     ref = td.read_ref()
     try:
         #assert line by line: gives better feedback when they do not match
         for n, (o,r) in enumerate(zip(out.splitlines(keepends=True), ref.splitlines(keepends=True), strict=True)):
-                assert o == r, "line %s does not match: >>%s<< != <<%s>>" % (n, o.strip('\n'), r.strip('\n'))
+            match_line(o,r, strip_remarker=strip_remarker)
     except ValueError as err:
         assert False, f"Note the same length: files {td.gen_file} and {td.ref_file}"
-    assert out == ref                 #Shouldn't be needed
+
 
 
 @pytest.fixture
 def generatedProtocol_verifier(T_Protocol):
-     def protocol_matcher(aigr_mock, td, save_file=SAVE_FILE):
+     def protocol_matcher(aigr_mock, td, save_file=SAVE_FILE, **kw):
          out = T_Protocol.render(protocols=(aigr_mock,))
-         return _gen_matcher(aigr_mock, td, save_file, out)
+         return _gen_matcher(aigr_mock, td, save_file=save_file, out=out, template=T_Protocol, **kw)
      return protocol_matcher
 
 @pytest.fixture
 def generatedMoat_verifier(T_Moat):
-     def protocol_matcher(aigr_mock, td, save_file=SAVE_FILE):
+     def protocol_matcher(aigr_mock, td, save_file=SAVE_FILE, strip_remarker=False):
          out = T_Moat.render(interfaces=(aigr_mock,))
          return _gen_matcher(aigr_mock, td, save_file, out)
      return protocol_matcher

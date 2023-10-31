@@ -17,9 +17,9 @@ from . import TstDoubles, generatedProtocol_verifier
 from . import T_Protocol
 
 
-@pytest.mark.xfail(reason="NS support in ``TestDoubles/reference/protocols/*``, not in code")
+
 def test_01_StartSieve(generatedProtocol_verifier):
-    generatedProtocol_verifier(aigr_mock=sieve.StartSieve, td=TstDoubles('protocols/StartSieve'))
+    generatedProtocol_verifier(aigr_mock=sieve.StartSieve, td=TstDoubles('protocols/StartSieve'), strip_remarker=True)
 
 
 @pytest.mark.skip("Top one first")

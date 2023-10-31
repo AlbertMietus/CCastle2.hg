@@ -8,12 +8,14 @@ import pytest
 
 import castle.aigr as aigr
 from TestDoubles.AIGR.sieve import namespaces
+from TestDoubles.AIGR.base import base as base_ns
 
 def verify_NS(ns, name, registered_names, as_name=None):
     if as_name is None: as_name=name
     assert ns.name == as_name
     for n in registered_names:
         if isinstance(n, (list, tuple)):
+            #This is hardly/not used: be we support `import n[1] as n[0]`
             assert len(n) == 2
             name, asName = n[1], n[0]
         else:
@@ -36,3 +38,9 @@ def test_top():
     ns = namespaces.top
     verify_NS(ns, "top", as_name='TheSieve', registered_names=('start_sieve', 'slow_start', 'simple_sieve'))
     verify_NS(ns, "top", as_name='TheSieve', registered_names=('base',))
+
+
+def test_all_NS_base_in_start_sieve():
+    nss = namespaces.start_sieve.all_NS()
+    for n,ns in nss.items(): print(f'name={n}: {ns.name} // {ns}')
+    assert nss['base'] is base_ns

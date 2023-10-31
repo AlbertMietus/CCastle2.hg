@@ -23,12 +23,12 @@ rPY_LAST = \
 	pytst/TD_AIGR/test_1_sieve_protocols.py			\
 #
 rPY_CURRENT = \
+	pytst/writers/RPy/test_3_SieveProtocols.py		\
 	pytst/aigr/test_3_namespaces.py				\
 	pytst/TD_AIGR/test_2_sieve_NS.py			\
 #
 CC2CPy_TODO = \
 	pytst/aigr/test_3_namespaces.py				\
-	pytst/writers/RPy/test_3_SieveProtocols.py		\
 	pytst/aigr/test_0_AIGR.py				\
 	pytst/writers/RPy/test_4_NameSpaces.py			\
 	pytst/writers/RPy/test_99_SieveMoats.py			\
@@ -45,7 +45,7 @@ open:    coverage-open mutmut-open
 remake:  veryclean coverage mutmut open
 
 diff_TestDoubles:
-	diff -w -rs TestDoubles/reference/ TestDoubles/_generated/
+	diff -w -rs  -x _keepThisDir -x .DS_Store TestDoubles/reference/ TestDoubles/_generated/
 
 clean_generated:
 	rm -f TestDoubles/_generated/*.{py,rpy} TestDoubles/_generated/*/*.{py,rpy}

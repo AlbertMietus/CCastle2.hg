@@ -4,9 +4,10 @@
 
 ####
 from CC import buildin
-from CC import base
 
 #Put the Castle/generated imports here
+from CC import base
+
 
 
 

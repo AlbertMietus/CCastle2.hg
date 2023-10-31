@@ -24,7 +24,7 @@
 
   {% endif %}
                                 kind=buildin.{{proto.kind}},
-                                inherit_from={{proto.based_on.ns}}.{{m.ProtocolName(proto.based_on.name)}}, # XXX NS not ready
+                                inherit_from={{proto.based_on.ns.name}}.{{m.ProtocolName(proto.based_on.name)}}, #XXX# NS works, but isn't done. Add a bit python-abstraction in RPy
                                 events=[])
 
   {% for e in proto.events %}

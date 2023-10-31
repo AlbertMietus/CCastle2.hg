@@ -15,6 +15,8 @@ simple_sieve.register(protocols.SlowStart_1)
 simple_sieve.register(protocols.SimpleSieve)
 
 from ..base import base
+for all in (start_sieve, slow_start, simple_sieve): all.register(base)
+
 
 top = NameSpace(ID('TheSieve'))
 top.register(start_sieve)

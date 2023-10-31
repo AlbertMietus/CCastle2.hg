@@ -85,6 +85,8 @@ class NameSpace(NamedNode):
     def find_byType(self, cls:type) ->dict[ID, NamedNode]:
         return {name: node for name, node in self._dict.items() if isinstance(node, cls)}
 
+    def all_NS(self) ->dict[ID, NamedNode]:
+        return self.find_byType(NameSpace)
 
 
 @dataclass
