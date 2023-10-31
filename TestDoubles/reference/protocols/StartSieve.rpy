@@ -9,8 +9,6 @@ from CC import buildin
 from CC import base
 
 
-
-
 ##
 ## EventIndexes (All 2 events of StartSieve)
 ##

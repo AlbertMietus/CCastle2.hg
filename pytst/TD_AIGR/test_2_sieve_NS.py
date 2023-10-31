@@ -1,8 +1,8 @@
 # (C) Albert Mietus, 2023. Part of Castle/CCastle project
 """Test AIGR representation of the TheSieve protocols
+
    See file:///Users/albert/work/DocIdeas,hg/__result/html/CCastle/HACK/DocParts/Design/231016_NS.html
-    (not published yet -- see .../DocParts/Design/231016_NS.rst for source)
-"""
+   (not published yet -- see .../DocParts/Design/231016_NS.rst for source)"""
 
 import pytest
 
@@ -15,24 +15,25 @@ def verify_NS(ns, name, registered_names, as_name=None):
     assert ns.name == as_name
     for n in registered_names:
         if isinstance(n, (list, tuple)):
-            #This is hardly/not used: be we support `import n[1] as n[0]`
+            # This is hardly/not used: but .... We support `import n[1] as n[0]`
             assert len(n) == 2
             name, asName = n[1], n[0]
         else:
             name, asName = n, n
         assert ns.getID(asName).name == name
 
-def test_start_sieve():
-    ns = namespaces.start_sieve
-    verify_NS(ns, "start_sieve", ["StartSieve"])
-
-def test_slow_start():
+def test_slow_start_has_SlowStart():
     ns = namespaces.slow_start
     verify_NS(ns, "slow_start", ["SlowStart"])
 
-def test_simple_sieve():
+def test_start_sieve_has_StartSieve():
+    ns = namespaces.start_sieve
+    verify_NS(ns, "start_sieve", ["StartSieve"])
+
+def test_simple_sieve_has_SimpleSieve_and_SpecialiseGeneric():
     ns = namespaces.simple_sieve
     verify_NS(ns, "simple_sieve", ["SlowStart_1", "SimpleSieve"])
+
 
 def test_top():
     ns = namespaces.top

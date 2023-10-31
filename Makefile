@@ -10,22 +10,12 @@ include Mk/RPy.mk
 # CURRENT:	The now current test, in TDD phase
 # TODO:		Some test that are needed soon
 rPY_LAST = \
-	pytst/aigr/test_0_AIGR.py				\
-	pytst/writers/RPy/test_1_EventIndexes.py		\
-	pytst/aigr/test_2a_protocolKind.py			\
-	pytst/aigr/test_2b_protocol.py				\
-	pytst/writers/RPy/test_0_templating.py			\
-	pytst/writers/RPy/test_1_EventIndexes.py		\
-	pytst/writers/RPy/test_2_ProtocolDataStructures.py	\
-	pytst/aigr/test_2c_GenericProtocols.py			\
-	pytst/aigr/test_0_aid.py				\
-	pytst/TD_AIGR/test_0_base.py				\
-	pytst/TD_AIGR/test_1_sieve_protocols.py			\
+	pytst/aigr/test_3_namespaces.py				\
+	pytst/TD_AIGR/test_2_sieve_NS.py			\
 #
 rPY_CURRENT = \
 	pytst/writers/RPy/test_3_SieveProtocols.py		\
-	pytst/aigr/test_3_namespaces.py				\
-	pytst/TD_AIGR/test_2_sieve_NS.py			\
+
 #
 CC2CPy_TODO = \
 	pytst/aigr/test_3_namespaces.py				\
@@ -39,6 +29,8 @@ include Mk/settings.mk
 include Mk/testing.mk
 include Mk/helpful.mk
 include Mk/mypy.mk
+
+GAM: clean_generated current-only diff_TestDoubles
 
 missing: missing_visitor missing_serialization
 open:    coverage-open mutmut-open

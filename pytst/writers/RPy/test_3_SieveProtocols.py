@@ -21,20 +21,18 @@ from . import T_Protocol
 def test_01_StartSieve(generatedProtocol_verifier):
     generatedProtocol_verifier(aigr_mock=sieve.StartSieve, td=TstDoubles('protocols/StartSieve'), strip_remarker=True)
 
-
-@pytest.mark.skip("Top one first")
-@pytest.mark.xfail(reason="NS support in ``TestDoubles/reference/protocols/*``, not in code")
 def test_02_SlowStart(generatedProtocol_verifier):
-    generatedProtocol_verifier(aigr_mock=sieve.SlowStart, td=TstDoubles('protocols/SlowStart'))
+    generatedProtocol_verifier(aigr_mock=sieve.SlowStart, td=TstDoubles('protocols/SlowStart'), strip_remarker=True)
 
-@pytest.mark.skip("Top one first")
-@pytest.mark.xfail(reason="NS support in ``TestDoubles/reference/protocols/*``, not in code")
-def test_03a_SlowStart1(generatedProtocol_verifier):
-    generatedProtocol_verifier(aigr_mock=sieve.SlowStart_1, td=TstDoubles('protocols/SlowStart_1'))
+if False: # SlowStart1 and SimpleSieve are in the same NS, so in the same file
+    def test_03_SlowStart1(generatedProtocol_verifier):
+        generatedProtocol_verifier(aigr_mock=sieve.SlowStart_1, td=TstDoubles('protocols/SlowStart_1'), strip_remarker=True)
 
-@pytest.mark.skip("Top one first")
-@pytest.mark.xfail(reason="NS support in ``TestDoubles/reference/protocols/*``, not in code")
-def test_03b_SimpleSieve(generatedProtocol_verifier):
-    generatedProtocol_verifier(aigr_mock=sieve.SimpleSieve, td=TstDoubles('protocols/SimpleSieve'))
+    def test_04_SimpleSieve(generatedProtocol_verifier):
+        generatedProtocol_verifier(aigr_mock=sieve.SimpleSieve, td=TstDoubles('protocols/SimpleSieve'), strip_remarker=True)
 
+@pytest.mark.skip("ToDo: Merge")
+def test_03_SimpleSieve_withGeneric(generatedProtocol_verifier):
+    generatedProtocol_verifier(aigr_mock=(sieve.SlowStart_1, sieve.SimpleSieve), td=TstDoubles('protocols/SimpleSieve'), strip_remarker=True)
 
+    assert False, "Not yet done"

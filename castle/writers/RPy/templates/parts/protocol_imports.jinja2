@@ -3,11 +3,11 @@
    * ``protocols``: PTH.Sequence[aigr.EventProtocol]
 #}
 
-{%- for proto in protocols %}
-  {% set p_ns = proto.ns %}
-  {% if p_ns is not none %}
+{%- for proto in protocols -%}
+  {%- set p_ns = proto.ns -%}
+  {%- if p_ns is not none -%}
     {%- for ns_name in p_ns.all_NS() -%}
       from CC import {{ ns_name }}   #XXX# This works, but is a bit simple
-    {% endfor %}
-    {% endif %}
-{% endfor %}
+    {%- endfor -%}
+    {%- endif -%}
+{%- endfor -%}
