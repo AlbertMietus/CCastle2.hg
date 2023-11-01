@@ -14,7 +14,7 @@ template_a_dir = my_dir / template_r_dir
 
 def test_simpel_template():
     HW_file = 'HW_template.txt'
-    template = RPy.Template(template=HW_file, search_path=template_a_dir)
+    template = RPy.Template(name=HW_file, search_path=template_a_dir)
     out=template.render(Hello='{{Hello}}', World='{{World}}')           # Generates itself
 
     ref=open(template_a_dir / HW_file).read()
@@ -22,7 +22,7 @@ def test_simpel_template():
 
 def test_simpel_template_2():
     HW_file = 'HW_template.txt'
-    template = RPy.Template(template=HW_file, top_dir=my_dir)
+    template = RPy.Template(name=HW_file, top_dir=my_dir)
     out=template.render(Hello='{{Hello}}', World='{{World}}')           # Generates itself
 
     ref=open(template_a_dir / HW_file).read()
@@ -33,7 +33,7 @@ def test_template_extends():
     child = 'child.txt'
     base  = 'base.txt' # Not used to render, only to test
 
-    template = RPy.Template(template=child, search_path=template_a_dir)
+    template = RPy.Template(name=child, search_path=template_a_dir)
     out = template.render(v1 ='Var 1', v2 ='Var 2', TOP='top: but not completely', BOTTOM="bottom, really")
 
     ref_lines = open(template_a_dir / base).readlines()
@@ -52,7 +52,7 @@ def test_template_extends():
 def test_template_parts():
     big_file  = "big.txt"                                             # Uses: part-include.txt &  part-import.txt
 
-    template = RPy.Template(template=big_file, search_path=template_a_dir)
+    template = RPy.Template(name=big_file, search_path=template_a_dir)
     out = template.render()
 
     assert 'INCLUDED' in out, "this line in part-include.txt"
