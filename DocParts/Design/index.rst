@@ -1,4 +1,4 @@
-Partial Design Notes (LOCAL only)
+All kind of (LOCAL only) Designs
 =================================
 
 
