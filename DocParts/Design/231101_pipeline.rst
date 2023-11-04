@@ -1,12 +1,17 @@
 .. -*- plantuml -*-
 
+=============
 AIGR pipeline
 =============
+
+Overview
+========
 
 .. uml::
 
    @startuml
    skin rose
+   !include ../../DocParts/skins.inc
 
     () "files" as txt1
 
@@ -44,6 +49,48 @@ AIGR pipeline
    }
 
    Translators 0)-> bin
+
+   @enduml
+
+The Reader(s)
+=============
+
+.. uml::
+
+   @startuml
+   skin rose
+   !include ../../DocParts/skins.inc
+
+   frame "CC” #c0c0c0 {
+    package Readers #white {
+     'portout AIGR
+     'portin TXT
+
+     node Reader {
+        [parser]
+        [analyse\n(ast)] as ast_ana
+        [AST 2 AIGR] as AST2AIGR
+        () "AIGR"	as aigr1
+        [analyse\n(aigr)] as aigr_ana
+        () "AIGR"	as aigr2
+
+        parser    -> ast_ana  : AST
+        ast_ana   -> AST2AIGR : AST
+        AST2AIGR  -> aigr1
+        aigr1     -> aigr_ana
+        aigr_ana  -( aigr2
+     }
+
+     TXT -> Reader
+     node mock {
+        [py_data]
+        () "AIGR" as aigr3
+
+        py_data   -(  aigr3
+     }
+     Reader -[hidden]down-> mock
+    }
+   }
 
    @enduml
 
