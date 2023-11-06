@@ -1,0 +1,43 @@
+@startuml
+skin rose
+!include AR_skins.inc
+
+' it stat with txt-src
+file "*.Castle" as f1
+file "*.Moat"   as f2
+
+' those files are input
+() "files" as txt
+ f1 --> txt
+ f2 --> txt
+
+package "CCastle Compiler" as CCC {
+ txt -> CCC
+
+    () "AIGR"	as a1
+    () "AIGR"	as a2
+
+    [Readers]
+    [Transformers]
+    Folder Backends {
+        [Writers]
+        [Translators]
+
+        Backends #->Writers
+
+        () "files" as txt2
+        Writers  -(  txt2
+        txt2        )-> Translators
+     }
+
+
+
+  Readers       -(  a1
+  a1             )->  Transformers
+  Transformers  -(   a2
+  a2             )->  Backends
+}
+
+Translators 0)-> bin
+
+@enduml

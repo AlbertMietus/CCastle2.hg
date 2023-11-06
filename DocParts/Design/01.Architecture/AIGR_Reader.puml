@@ -1,0 +1,33 @@
+@startuml
+skin rose
+!include AR_skins.inc
+
+frame "CCastle Compiler" as CCC #c0c0c0 {
+    package Readers #white {
+
+    node typicalReader {
+        [parser]
+        [analyse\n(ast)] as ast_ana
+        [AST 2 AIGR] as AST2AIGR
+        () "AIGR"	as aigr1
+        [analyse\n(aigr)] as aigr_ana
+        () "AIGR"	as aigr2
+
+         parser    -> ast_ana  : AST
+         ast_ana   -> AST2AIGR : AST
+         AST2AIGR  -> aigr1
+         aigr1     -> aigr_ana
+         aigr_ana  -( aigr2
+     }
+      TXT -> typicalReader
+
+    node mockReader {
+        [TestDoubles/\nAIGR] as mock
+        () "AIGR" as aigr3
+         mock   -(  aigr3
+    }
+
+     typicalReader -[hidden]down-> mockReader
+}
+
+@enduml

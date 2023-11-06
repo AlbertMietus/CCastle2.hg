@@ -1,0 +1,80 @@
+.. (C) 2023 Albert Mietus. Part of CCastle project
+.. _AR_pipeline:
+
+======================
+Architectural overview
+======================
+
+The (new) CastleCompiler(s) share a common "pipeline" architecture. Which is flexible, both in functionality and
+implementation, as they share the :ref:`AIGR <AIGR>` --see below -- for input and/or output.
+
+AIGR pipeline
+==============
+
+The pipeline starts with source, in text format, that is explored by the :ref:`Readers` and translated in the
+:ref:`AIGR`. The next components all read this format, like the :ref:`Transformers`,  that transform it to a "better"
+form -- see later. Last, the `AIGR` is converted into a binary by (one of the) the :ref:`Backends`
+|BR|
+Most :ref:`Backends` consist of two main parts: the :ref:`Writers` (which is part of CCastle), and a *Translator*: an
+external *compiler* that translate/compiles the generated intermediate code into a binary.
+
+.. uml:: AIGR_pipeline.puml
+
+As the `AIGR` is a format (not a call-interface!), this architecture gives flexibility on deployment of the components.
+A simple (Castle)compiler can hold them as (plug-in) libraries in one process.
+|BR|
+Alternatively, each component can be a process, where te several processes communicate with e.g. unix-pipes, or
+network-connections). And there are many more option, not only separated in space, but also in time: As the AIGR can be
+serialised [#pickle]_, it is possible to save it in file, and read it for the next component, later ... 
+
+.. Important:: Although it is possible to saving a (pickled) AIGR, that component (nor action) is **NOT** a `Writer`!
+
+   One should typically speak about “saving” the AIGR, and “loading the (AIGR) file”. It is a feature of the
+   :ref:`AIGR_component` (see below).
+
+
+The Reader(s)
+=============
+
+A typical reader reads (some) source-files and then translate that, in a few steps, into the :ref:`AIGR`, as
+shown below.
+|BR|
+The :ref:`mockReader` is different: it does output (needed) ‘`AIGR`’, and so can act as the starts of a
+pipeline (and therefor considered as a ‘`Reader`’), but has no input.
+
+Some sub-components in the ‘`Reader`’ may also work on the ‘`AIGR`’, as shown. The difference (to a ‘`Translator`’) is
+simple: the '`Reader'` should do all error-checking, etc, to make sure the inputs (so the code of the developer) is
+valid. A normal Translator (nor the '`Backend'`) should ever find errors.
+|BR|
+When implementing that (`Reader`) functionality is more convenient as after converting the :ref:`ATS into the AIGR
+<AST-2-AIGR>` an “AIGR-analyser” is build.
+
+.. uml:: AIGR_Reader.puml
+
+Transformers
+============
+ToDo
+
+.. uml:: AIGR_Transformers.puml
+
+
+Writers (in the backend)
+========================
+ToDo
+
+.. _AIGR_component:
+
+The AIGR auxiliary component
+============================
+ToDo
+
+
+
+
+
+--------
+
+.. rubric:: Footnotes
+
+.. [#pickle]
+   This can be done by *pickling* in python, or using an XML format, or ...

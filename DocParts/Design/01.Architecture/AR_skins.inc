@@ -1,5 +1,5 @@
 '' -*- mode: plantuml -*- ''
-skinparam componentStyle uml1
+skinparam componentStyle uml2
 
 skinparam component {
     BorderColor white

@@ -5,7 +5,7 @@ This are “quick and dirty” design diagrams. That where useful when created (
 later.
 
 * Sound designs, are typically worked out (adding text & view), and move to a stable, to-be-maintained, location
-* Outdated  one are (will be) moved to :doc:`/../archived/index.rst` (and will never be maintained
+* Outdated ones are (will be) moved to :ref:`DocParts_Design_old` (and will never be maintained).
 * the one here, a undecided, may or may-not be maintained.
 
 .. toctree::
