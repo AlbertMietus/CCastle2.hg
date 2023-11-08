@@ -1,8 +1,8 @@
 @startuml
 skin rose
-'!include AR_skins.inc
+!include AR_skins.inc
 left to right direction
-scale 0.5
+
 
 ''NOTE: Old RTD/plantuml.1.2020.2.jar syntax!
 

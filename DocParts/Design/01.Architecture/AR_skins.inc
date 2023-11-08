@@ -27,3 +27,9 @@ skinparam node {
     BorderColor #000066
     BackgroundColor #eeeeff
 }
+
+skinparam object {
+    BorderColor #000066
+    BackgroundColor white
+    FontColor #000066
+}

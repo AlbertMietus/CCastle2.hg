@@ -28,7 +28,7 @@ A simple (Castle)compiler can hold them as (plug-in) libraries in one process.
 |BR|
 Alternatively, each component can be a process, where te several processes communicate with e.g. unix-pipes, or
 network-connections). And there are many more option, not only separated in space, but also in time: As the AIGR can be
-serialised [#pickle]_, it is possible to save it in file, and read it for the next component, later ... 
+serialised [#pickle]_, it is possible to save it in file, and read it for the next component, later ...
 
 .. Important:: Although it is possible to saving a (pickled) AIGR, that component (nor action) is **NOT** a `Writer`!
 
@@ -67,10 +67,10 @@ We show two examples.
 
 .. uml:: AIGR_Transformers.puml
    :align: right
+   :scale: 50%
 
 FSM
 ---
-
 In Castle, one can directly describe a FSM (see: :ref:`FSMs-are-needed`) including advance/extended variants. Like
 the non-deterministic “NFA”s, and the “State-Charts” (known from UML), with orthogonale regions and hierarchically
 ‘superstates’. See :need:`U_FSM_Syntax` for the demands.
@@ -104,7 +104,7 @@ Typically, one wil only use one Machinery: connecting two port with DDS, ‘send
 the receiving event-handler expect a traditional call, will not work. By choosing one Machinery-Transformer, all
 bolt-and nuts will fit.
 
-.. caution:: This is not an requirement
+.. caution:: This is **not** an requirement!
 
    One can imagine, that (eventually) a Mixed-Machinery is used. Ultimately, only the details of each (individual)
    connection should be aligned.
@@ -163,11 +163,49 @@ Some examples
 
 .. _AIGR_component:
 
-
-
 The AIGR auxiliary component
 ============================
-ToDo
+
+The `AIGR` *auxiliary* component describes & handles the ‘:ref:`AIGR`’ and is used by all regulair components. Sometimes
+it (the `AIGR`) is called an `“intermediate language” (‘IM’), or “intermediate representation” (‘IR’)
+<https://en.wikipedia.org/wiki/Intermediate_representation>`__.  Many existing IMs are quite “flat”, low-level and very
+operational, like `RTL <https://en.wikipedia.org/wiki/Register_transfer_language>`__ or `SSA
+<https://en.wikipedia.org/wiki/Static_single-assignment_form>`__ -- they are great to convert code to assembly.
+
+
+
+.. uml:: AIGR-exampleSieve.puml
+   :align: right
+   :scale: 70%
+   :caption: The *Sieve Protocols*, as example of a AIGR (part)
+
+For the *CCastle Workshop Tools*, a more abstract representation is chosen, with more structure. Visually, it resembles
+a tree, but without the need to have a single root (making it a “forest”), and with interconnects (making it a
+graph). Structurally, it is not dissimular to the XLM/DOM, known by many webpages; but again without the “single
+document-root” -- the DOM has interconnects, known as “links” (a term not used in the AIGR).
+|BR|
+The AIGR reminds also to the AST (of CCastle), after all, each language construct is “stored” in the AIGR. Some see it as a
+semantically parsed AST. A namedID (like a variable, or function) in the source, when in the same namespace denotes the
+same artifact -- even it is mention at several places (and can have aliases). In the AIGR it is the same ‘node’ having
+multiple incoming ‘edges’ -- and so, violates the tree’s non-cycle rule.
+
+The AIGR-component describes all possible elements, and the relations (so it is a bit like the XML `DTD
+<https://en.wikipedia.org/wiki/Document_type_definition>`__ or `Schema
+<https://en.wikipedia.org/wiki/XML_schema>`__). And has (will have) general routines to facilitate handling the AIGR.
+|BR|
+By example, you can expect routines to “save” an AIGR to file, and “load” is later.
+
+.. warning:: Although the AIGR is a graph, the AIGR-component will **not** be able to visualize that graph.
+
+   Other workshop tools may do that, and probably use the AIGR-component to read it. The visualising is part of that
+   tool
+
+
+Currently, the AIGR is in the design phase, and may change.
+|BR|
+For that reason, only a Python dataclass reference model is available (Work-in-Progress). The (unit & behaviour) tests
+and TesDoubles make it quite understandable. Once, it will be fully documented (and versioned) And available for
+multiple languages (including Castle :-)
 
 
 
