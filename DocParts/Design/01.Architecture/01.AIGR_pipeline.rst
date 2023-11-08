@@ -195,10 +195,12 @@ The AIGR-component describes all possible elements, and the relations (so it is 
 |BR|
 By example, you can expect routines to “save” an AIGR to file, and “load” is later.
 
-.. warning:: Although the AIGR is a graph, the AIGR-component will **not** be able to visualize that graph.
+.. warning::
+
+   Although the AIGR is a graph, the AIGR-component will **not** be able to visualize that graph.
 
    Other workshop tools may do that, and probably use the AIGR-component to read it. The visualising is part of that
-   tool
+   tool. For the example above an manual conversion to plantUML is made.
 
 
 Currently, the AIGR is in the design phase, and may change.
@@ -206,8 +208,6 @@ Currently, the AIGR is in the design phase, and may change.
 For that reason, only a Python dataclass reference model is available (Work-in-Progress). The (unit & behaviour) tests
 and TesDoubles make it quite understandable. Once, it will be fully documented (and versioned) And available for
 multiple languages (including Castle :-)
-
-
 
 
 
