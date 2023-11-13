@@ -6,7 +6,7 @@ There are several NameSpaces: the most prominent one is the ``Source_NS``, rough
 """
 from __future__ import annotations
 
-__all__ = ['NameSpace', 'Source_NS', 'GENERATED']
+__all__ = ['NameSpace', 'Source_NS']
 
 import logging; logger = logging.getLogger(__name__)
 import typing as PTH                                                                                  # Python TypeHints
@@ -17,8 +17,6 @@ from dataclasses import field as dc_field
 from .namednodes import NamedNode, NameError, ID
 
 from . import AIGR, _Marker
-
-GENERATED=_Marker('No Source as it is GENERATED')
 
 
 @dataclass
@@ -92,4 +90,4 @@ class NameSpace(NamedNode):
 @dataclass
 class Source_NS(NameSpace):
     _: KW_ONLY
-    source       :str|_Marker             #Node an ID!
+    source       :PTH.Optional[str]=None

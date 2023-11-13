@@ -19,21 +19,16 @@ from . import T_Protocol
 
 
 def test_01_StartSieve(generatedProtocol_verifier):
-    generatedProtocol_verifier(aigr_mocks=sieve.StartSieve, td=TstDoubles('protocols/StartSieve'), strip_remarker=True)
+    generatedProtocol_verifier(aigr_mocks=sieve.StartSieve, td=TstDoubles('protocols/start_sieve'), strip_remarker=True)
 
 def test_02_SlowStart(generatedProtocol_verifier):
-    generatedProtocol_verifier(aigr_mocks=sieve.SlowStart, td=TstDoubles('protocols/SlowStart'), strip_remarker=True)
-
-if False: # SlowStart1 and SimpleSieve are in the same NS, so in the same file
-    def test_03_SlowStart1(generatedProtocol_verifier):
-        generatedProtocol_verifier(aigr_mocks=sieve.SlowStart_1, td=TstDoubles('protocols/SlowStart_1'), strip_remarker=True)
-
-    def test_04_SimpleSieve(generatedProtocol_verifier):
-        generatedProtocol_verifier(aigr_mocks=sieve.SimpleSieve, td=TstDoubles('protocols/SimpleSieve'), strip_remarker=True)
-
+    generatedProtocol_verifier(aigr_mocks=sieve.SlowStart, td=TstDoubles('protocols/slow_start'), strip_remarker=True)
 
 @pytest.mark.xfail(reason="ToDo BUSY")
 def test_03_SimpleSieve_withGeneric(generatedProtocol_verifier):
-    generatedProtocol_verifier(aigr_mocks=(sieve.SlowStart_1, sieve.SimpleSieve), td=TstDoubles('protocols/SimpleSieve'), strip_remarker=True)
+    """``SimpleSieve`` depend on the instantiated generic ``SlowStart_1``.
+        They are in the same namespace and (so) need to be rendered in the same file.
+        And so, tested together!"""
+    generatedProtocol_verifier(aigr_mocks=(sieve.SlowStart_1, sieve.SimpleSieve),
+                                   td=TstDoubles('protocols/simple_sieve'), strip_remarker=True)
 
-    assert False, "Not yet done"

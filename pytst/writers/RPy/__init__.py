@@ -71,36 +71,55 @@ class TstDoubles():
             f.write(txt)
         logger.info("Saved rendered protocol in: %s", self.gen_file)
 
+class Matcher:
+    MARKER = '#XXX#'
 
-def _gen_matcher(td, save_file, out, strip_remarker=False, template=None):
-    MARKER='#XXX#'
-    def match_line(out, ref, strip_remarker=False, filename=None):
+    def __init__(self, td, strip_remarker=False, save_file=False):
+        self._strip_remarker = strip_remarker
+        self.td = td
+        self.save_file = save_file
+
+    def strip_remarker(self, line):
+        if not self._strip_remarker: return line
+        if self.MARKER in line:
+            marker_start = line.find(self.MARKER)
+            logger.debug(f"strip remark: '''{line[marker_start:].rstrip()}'''")
+            line = line[:marker_start]
+        line = line.rstrip().strip('\n') # Always remove trailing space and newline
+        return line
+
+    def assert_line(self, line_no, out, ref):
         if out == ref:
             return True
-        elif strip_remarker and (MARKER in out):
-            marker_start = out.find(MARKER)
-            logger.debug(f"strip remark: '''{o[marker_start:].rstrip()}'''")
-            out = out[:marker_start].rstrip().strip('\n')
-            ref = ref.rstrip().strip('\n')
-        assert out == ref, f"line %s does not match: >>%s<< != <<%s>> (file: {td.base_name})" % (n, o.strip('\n'), r.strip('\n'))
+        elif self._strip_remarker:
+            out = self.strip_remarker(out)
+            ref = self.strip_remarker(ref)
 
-    if save_file: td.write_gen(out)
-    ref = td.read_ref()
-    try:
+        assert out == ref, f"line %s does not match (file: {self.td.base_name}):\n\t>>%s<<\n\t<<%s>>" % (
+            line_no, out.strip('\n'), ref.strip('\n'))
+
+    def assert_file(self, out):
+        ref = self.td.read_ref()
         #assert line by line: gives better feedback when they do not match
-        for n, (o,r) in enumerate(zip(out.splitlines(keepends=True), ref.splitlines(keepends=True), strict=True)):
-            match_line(o,r, strip_remarker=strip_remarker)
-    except ValueError as err:
-        assert False, f"Note the same length: files {td.gen_file} and {td.ref_file}"
+        try:
+            for n, (o,r) in enumerate(zip(out.splitlines(keepends=True), ref.splitlines(keepends=True), strict=True)):
+                self.assert_line(n, o,r)
+        except ValueError as err:
+            assert False, f"Note the same length: files {td.gen_file} and {td.ref_file}"
+
+    def execute(self, out):
+        if self.save_file: self.td.write_gen(out)
+        self.assert_file(out)
 
 
 
 @pytest.fixture
 def generatedProtocol_verifier(T_Protocol):
-     def protocol_matcher(aigr_mocks, td, save_file=SAVE_FILE, **kw):
+     def protocol_matcher(aigr_mocks, td, save_file=SAVE_FILE, strip_remarker=False):
          if not isinstance(aigr_mocks, (tuple, list)): aigr_mocks= list((aigr_mocks,))
          out = T_Protocol.render(protocols=aigr_mocks)
-         return _gen_matcher(td, save_file=save_file, out=out, template=T_Protocol, **kw)
+         #return _gen_matcher(td, save_file=save_file, out=out, template=T_Protocol, **kw)
+         return Matcher(td=td, save_file=save_file, strip_remarker=strip_remarker).execute(out=out)
      return protocol_matcher
 
 @pytest.fixture

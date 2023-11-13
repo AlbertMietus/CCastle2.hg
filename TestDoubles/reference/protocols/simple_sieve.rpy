@@ -7,8 +7,10 @@ from CC import buildin
 
 #Put the Castle/generated imports here
 from CC import base
+from CC import slow_start
+from CC import base                                         #XXX# twice is not needed, but allowed
+from CC import slow_start                                   #XXX# twice is not needed, but allowed
 
-import SlowStart
 
 
 ##
@@ -27,7 +29,7 @@ CC_P_SimpleSieve_input = 1
 
 cc_P_SlowStart_1 = buildin.CC_B_Protocol(name="SlowStart_1",
                                 kind=buildin.ProtocolKind.Event,
-                                inherit_from=SlowStart.cc_P_SlowStart,
+                                inherit_from=slow_start.cc_P_SlowStart,
                                 events=[])
 
 cc_P_SlowStart_1.events.append(buildin.CC_B_P_EventID(name="setMax",
@@ -36,7 +38,7 @@ cc_P_SlowStart_1.events.append(buildin.CC_B_P_EventID(name="setMax",
 
 cc_P_SimpleSieve = buildin.CC_B_Protocol(name="SimpleSieve",
                                 kind=buildin.ProtocolKind.Event,
-                                inherit_from=SlowStart_1.cc_P_SlowStart_1,
+                                inherit_from=cc_P_SlowStart_1,
                                 events=[])
 
 cc_P_SimpleSieve.events.append(buildin.CC_B_P_EventID(name="input",
