@@ -30,6 +30,7 @@ Namespace & protocols
          object " " as P1B_d <<dict>> #lightcyan {
            SlowStart
            base :NS
+           
          }
          object SlowStart  <<EventProtocol>> {
            queue_max :int
@@ -48,6 +49,8 @@ Namespace & protocols
          object " " as P1C_d <<dict>> #lightcyan {
            SlowStart(1)
            SimpleSieve
+           base :NS
+           slow_start :NS
          }
          object "SlowStart(1)" as SlowStart_1 <<ProtocolWrapper>> {
             queue_max=1
@@ -62,7 +65,8 @@ Namespace & protocols
          P1C_d::SimpleSieve   ->   SimpleSieve #DarkMagenta
       }
 
-      SlowStart   <|---- SlowStart_1 #SkyBlue : based_on
+      P1B         <---   P1C_d        #LightSkyBlue  : //import// ""slow_start""
+      SlowStart   <|---- SlowStart_1 #SkyBlue        : based_on
    }
 
    package "Build-in Protocols" as P2 <<Node>> {
@@ -76,4 +80,15 @@ Namespace & protocols
    Protocol  <|--  StartSieve #SkyBlue : based_on
    Protocol  <|--  SlowStart  #SkyBlue : based_on
 
+
    @enduml
+
+Updates
+=======
+
+23Nov13
+-------
+
+* As ``SlowStart_1`` is based on ``SlowStart``, the  **source_NS** (aka *package*) ``start_sieve`` needs to be
+  “imported”. So, a line is added. As well as the `start_sieve` entry in the NS of the ``simple_sieve`` package
+* Also, the entry `base` was forgotten in that NS

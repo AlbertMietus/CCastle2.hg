@@ -1,4 +1,4 @@
-.. __DocParts_Design_old::
+.. _DocParts_Design_old:
 
 Old (design) notes (LOCAL only)
 ===============================
