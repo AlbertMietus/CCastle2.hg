@@ -89,14 +89,13 @@ class Matcher:
         return line
 
     def assert_line(self, line_no, out, ref):
-        if out == ref:
-            return True
-        elif self._strip_remarker:
+        if out == ref: return True # shortcut
+        #else:
+        if self._strip_remarker:
             out = self.strip_remarker(out)
             ref = self.strip_remarker(ref)
-
         assert out == ref, f"line %s does not match (file: {self.td.base_name}):\n\t>>%s<<\n\t<<%s>>" % (
-            line_no, out.strip('\n'), ref.strip('\n'))
+            line_no, out.strip().strip('\n'), ref.strip().strip('\n'))
 
     def assert_file(self, out):
         ref = self.td.read_ref()
@@ -107,7 +106,7 @@ class Matcher:
         except ValueError as err:
             assert False, f"Note the same length: files {td.gen_file} and {td.ref_file}"
 
-    def execute(self, out):
+    def verify(self, out):
         if self.save_file: self.td.write_gen(out)
         self.assert_file(out)
 
@@ -118,8 +117,7 @@ def generatedProtocol_verifier(T_Protocol):
      def protocol_matcher(aigr_mocks, td, save_file=SAVE_FILE, strip_remarker=False):
          if not isinstance(aigr_mocks, (tuple, list)): aigr_mocks= list((aigr_mocks,))
          out = T_Protocol.render(protocols=aigr_mocks)
-         #return _gen_matcher(td, save_file=save_file, out=out, template=T_Protocol, **kw)
-         return Matcher(td=td, save_file=save_file, strip_remarker=strip_remarker).execute(out=out)
+         return Matcher(td=td, save_file=save_file, strip_remarker=strip_remarker).verify(out=out)
      return protocol_matcher
 
 @pytest.fixture
