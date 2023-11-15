@@ -18,7 +18,7 @@
 ## The protocol Data Definitions for {{proto.name}} -- with {{proto.events|length}} events
 ##
 
-{{m.ProtocolName(proto.name) }} = buildin.CC_B_Protocol(name="{{ proto.name }}",
+{{m.ProtocolName(proto) }} = buildin.CC_B_Protocol(name="{{ proto.name }}",
   {% if proto.typedParameters  %}
                                 parameters=(
     {% for parm in proto.typedParameters %}
@@ -28,13 +28,13 @@
 
   {% endif %}
                                 kind=buildin.{{proto.kind}},
-                                inherit_from={{proto.based_on.ns.name}}.{{m.ProtocolName(proto.based_on.name)}}, #XXX# NS works, but isn't done. Add a bit python-abstraction in RPy
+                                inherit_from={{proto.based_on.ns.name}}.{{m.ProtocolName(proto.based_on)}}, #XXX# NS works, but isn't done. Add a bit python-abstraction in RPy
                                 events=[])
 
   {% for e in proto.events %}
-    {{- m.ProtocolName(proto.name) }}.events.append(buildin.CC_B_P_EventID(name="{{- e.name -}}",
-                                seqNo={{- m.EventIndexName(proto.name, e.name) }},
-                                part_of={{ m.ProtocolName(proto.name) }}))
+    {{- m.ProtocolName(proto)}}.events.append(buildin.CC_B_P_EventID(name="{{- e.name -}}",
+                                seqNo={{- m.EventIndexName(proto, e) }},
+                                part_of={{ m.ProtocolName(proto) }}))
   {% endfor %} {#- event #}
 
 {% endfor %} {#- protocols #}

@@ -7,15 +7,15 @@
 {#------------------------------------------#}
 
 {%- for interface in interfaces %}
-  {{- m.comp_interface_Name(interface.name) }} = buildin.CC_B_ComponentInterface(name="{{ interface.name }}",
-                                  inherit_from= XXX_NS_XXX. {{ m.comp_interface_Name(interface.based_on.name) }},
+  {{- m.comp_interface_Name(interface) }} = buildin.CC_B_ComponentInterface(name="{{ interface.name }}",
+                                  inherit_from= XXX_NS_XXX. {{ m.comp_interface_Name(interface.based_on) }},
                                   ports=[])
 
   {% for p in interface.ports %}
-    {{- m.comp_interface_Name(interface.name) }}.ports.append(buildin.CC_B_C_PortID(name="{{ p.name  }}",
-                                protocol={{m.ProtocolName(p.type.name)}},
+    {{- m.comp_interface_Name(interface) }}.ports.append(buildin.CC_B_C_PortID(name="{{ p.name  }}",
+                                protocol={{m.ProtocolName(p.type)}},
                                 direction={{p.direction}},
-                                part_of={{ m.comp_interface_Name(interface.name) }}))
+                                part_of={{ m.comp_interface_Name(interface) }}))
   {% endfor %} {#- ports #}
 
 {% endfor %} {#- interfaces #}
