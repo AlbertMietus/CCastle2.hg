@@ -17,6 +17,10 @@ from CC import base
 CC_P_SlowStart_setMax = 0
 
 
+##
+## The protocol Data Definitions for SlowStart -- with 1 events
+##
+
 cc_P_SlowStart = buildin.CC_B_Protocol(name="SlowStart",
                                 parameters=(
                                     ('queue_max', int),

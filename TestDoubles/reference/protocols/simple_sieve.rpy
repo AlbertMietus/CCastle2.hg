@@ -27,6 +27,10 @@ CC_P_SlowStart_1_setMax = 0
 CC_P_SimpleSieve_input = 1
 
 
+##
+## The protocol Data Definitions for SlowStart_1 -- with 1 events
+##
+
 cc_P_SlowStart_1 = buildin.CC_B_Protocol(name="SlowStart_1",
                                 kind=buildin.ProtocolKind.Event,
                                 inherit_from=slow_start.cc_P_SlowStart,
@@ -35,6 +39,10 @@ cc_P_SlowStart_1 = buildin.CC_B_Protocol(name="SlowStart_1",
 cc_P_SlowStart_1.events.append(buildin.CC_B_P_EventID(name="setMax",
                                 seqNo=CC_P_SlowStart_1_setMax,
                                 part_of=cc_P_SlowStart_1))
+
+##
+## The protocol Data Definitions for SimpleSieve -- with 1 events
+##
 
 cc_P_SimpleSieve = buildin.CC_B_Protocol(name="SimpleSieve",
                                 kind=buildin.ProtocolKind.Event,

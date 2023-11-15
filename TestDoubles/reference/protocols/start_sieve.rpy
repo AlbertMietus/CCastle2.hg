@@ -18,6 +18,10 @@ CC_P_StartSieve_runTo = 0
 CC_P_StartSieve_newMax = 1
 
 
+##
+## The protocol Data Definitions for StartSieve -- with 2 events
+##
+
 cc_P_StartSieve = buildin.CC_B_Protocol(name="StartSieve",
                                 kind=buildin.ProtocolKind.Event,
                                 inherit_from=base.cc_P_Protocol,

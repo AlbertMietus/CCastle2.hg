@@ -14,7 +14,11 @@
 {%- endmacro -%}
 
 {%- for proto in protocols %}
-  {{- m.ProtocolName(proto.name) }} = buildin.CC_B_Protocol(name="{{ proto.name }}",
+##
+## The protocol Data Definitions for {{proto.name}} -- with {{proto.events|length}} events
+##
+
+{{m.ProtocolName(proto.name) }} = buildin.CC_B_Protocol(name="{{ proto.name }}",
   {% if proto.typedParameters  %}
                                 parameters=(
     {% for parm in proto.typedParameters %}
