@@ -98,7 +98,7 @@ def test_5a_ns_in_ns():
 
 def test_5b_seach_1level(aNS,a_node):
     name = a_node.name
-    assert (aNS.search(name) is a_node) and (aNS.getID(name) is a_node), "serach should find that what getID returns"
+    assert (aNS.search(name) is a_node) and (aNS.getID(name) is a_node), "search should find that what getID returns"
 
 
 def test_5c_seachNotFound_1(top):
