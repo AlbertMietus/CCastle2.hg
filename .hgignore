@@ -21,4 +21,5 @@ castle/writers/CC2Cpy/jinja_hack.py
 TestDoubles/_generated/
 
 html
-Icon 
+Icon
+DocParts/Design/*/*.png

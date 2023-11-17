@@ -30,7 +30,7 @@ Namespace & protocols
          object " " as P1B_d <<dict>> #lightcyan {
            SlowStart
            base :NS
-           
+
          }
          object SlowStart  <<EventProtocol>> {
            queue_max :int
