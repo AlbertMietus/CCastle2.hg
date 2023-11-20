@@ -3,7 +3,7 @@
 {# See:: http://docideas.mietus.nl/en/default/CCastle/3.Design/B.Workshop/rPY/8.RPY_Jinja.html #}
 
 
-{%macro ProtocolName(Proto)			-%}  cc_P_{{Proto.name}}			{%- endmacro %}
+{%macro ProtocolName(Proto)			-%}  cc_P_{{Proto.name}}		{%- endmacro %}
 {%macro EventIndexName(Proto, Event)		-%}  CC_P_{{Proto.name}}_{{Event.name}}	{%- endmacro %}
 {%macro comp_interface_Name(Comp) 		-%}  cc_CI_{{Comp.name}}      		{%- endmacro %}
 {%macro comp_component_Name(Comp)		-%}  CC_{{Comp.name}}         		{%- endmacro %}

@@ -6,8 +6,8 @@ left to right direction
 
 ''NOTE: Old RTD/plantuml.1.2020.2.jar syntax!
 
-'!procedure $comp($name)
-!function  $comp($name)
+!procedure $comp($name)
+''!function  $comp($name)
  !$in  = $name + "in"
  !$out = $name + "out"
 
@@ -17,8 +17,8 @@ left to right direction
 
  $in )-- $name
  $name --( $out
-'!endprocedure
-!endfunction
+!endprocedure
+''!endfunction
 
 
 frame "CCastle Compiler" as CCC #c0c0c0 {

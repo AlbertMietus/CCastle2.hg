@@ -13,6 +13,17 @@
   {%- endif -%}
 {%- endmacro -%}
 
+
+{%- macro DotOrNot(opt_namespace, id) -%}
+  {%- if opt_namespace|length -%}
+    {{ opt_namespace }}.{{ id }}
+  {%- else -%}
+    {{ id }}
+  {%- endif -%}
+{%- endmacro -%}
+
+
+
 {%- for proto in protocols %}
 ##
 ## The protocol Data Definitions for {{proto.name}} -- with {{proto.events|length}} events
@@ -28,7 +39,8 @@
 
   {% endif %}
                                 kind=buildin.{{proto.kind}},
-                                inherit_from={{proto.based_on.ns.name}}.{{m.ProtocolName(proto.based_on)}}, #XXX# NSa & NSb
+                                inherit_from=
+                                {{- DotOrNot( proto.based_on.ns.name , m.ProtocolName(proto.based_on) ) -}}, #XXX# NSa & NSb
 {#
   * NSa:        Need cleanup
   * NSb: (Prio) Inserts "own" NS, which is wrong

@@ -8,8 +8,6 @@ from CC import buildin
 #Put the Castle/generated imports here
 from CC import base
 from CC import slow_start
-from CC import base                                         #XXX# twice is not needed, but allowed
-from CC import slow_start                                   #XXX# twice is not needed, but allowed
 
 
 

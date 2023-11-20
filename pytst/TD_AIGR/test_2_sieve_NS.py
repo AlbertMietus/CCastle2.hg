@@ -4,6 +4,7 @@
    See file:///Users/albert/work/DocIdeas,hg/__result/html/CCastle/HACK/DocParts/Design/231016_NS.html
    (not published yet -- see .../DocParts/Design/231016_NS.rst for source)"""
 
+import logging; logger = logging.getLogger(__name__)
 import pytest
 
 import castle.aigr as aigr
@@ -32,7 +33,8 @@ def test_start_sieve_has_StartSieve():
 
 def test_simple_sieve_has_SimpleSieve_and_SpecialiseGeneric():
     ns = namespaces.simple_sieve
-    verify_NS(ns, "simple_sieve", ["SlowStart_1", "SimpleSieve"])
+    #verify_NS(ns, "simple_sieve", ["SlowStart_1", "SimpleSieve"])
+    verify_NS(ns, "simple_sieve", ["SimpleSieve"])
 
 
 def test_top():

@@ -14,7 +14,7 @@ from . import protocols
 start_sieve.register(protocols.StartSieve)
 slow_start.register(protocols.SlowStart)
 simple_sieve.register(slow_start)             # Import/use, to be able to refer slow_start.SlowStart
-simple_sieve.register(protocols.SlowStart_1)
+#simple_sieve.register(protocols.SlowStart_1)
 simple_sieve.register(protocols.SimpleSieve)
 
 
