@@ -45,8 +45,9 @@ clean_generated:
 clean_caches:
 	find . -type d -name __pycache__    -print0 | xargs -0  rm -r
 	find . -type d -name .pytest_cache  -print0 | xargs -0  rm -r
-	rm -f ./.coverage
-	rm -f ./.mutmut-cache
+	rm -rf ./.coverage
+	rm -rf ./.mutmut-cache
+	rm -rf ./.mypy_cache
 
 clean: clean_caches
 
