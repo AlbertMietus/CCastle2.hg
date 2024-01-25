@@ -17,11 +17,6 @@ Readers [ToDo]
 Writers [ToDo]
 **************
 
-.. _Transformers:
-
-Transformers [ToDo]
-*******************
-
 .. _Backends:
 
 Backends [ToDo]

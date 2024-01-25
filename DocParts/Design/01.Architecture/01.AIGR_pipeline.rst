@@ -54,7 +54,7 @@ valid. A normal Translator (nor the '`Backend'`) should ever find errors.
 When implementing that (`Reader`) functionality is more convenient as after converting the :ref:`ATS into the AIGR
 <AST-2-AIGR>` an “AIGR-analyser” is build.
 
-
+.. _Transformers:
 
 Transformers
 ============
@@ -62,7 +62,10 @@ Transformers
 All ‘`Transformers`’ receive and post (a “dialect” of) the`AIGR`, pushing it into a form that van be handled by the
 backend to create an efficient binary. There can be many `Transformers`, and typically several of them are run in
 sequence. Other sets of `Transformers` exclude each other.
-|BR|
+
+
+A `Transformer` is often triggered by one of the :ref:`Rewriters`
+
 We show two examples.
 
 .. uml:: AIGR_Transformers.puml
