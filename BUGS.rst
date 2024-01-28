@@ -1,13 +1,6 @@
 BUGS
 ====
 
-.. todo:: comment at end .peg-file will give parsing errors
-
-   .. TIP:: As a workaround, just do put anything after the last rule ..
-
-   See `demos/ThinOnion/` ``grammar.grammar`` and its history
-
-
 .. need:: Replace Arpeggio, as it is not supporting **Left-Recursion**.
    :ID: WRONG_ARPEGGIO
    :status: todo

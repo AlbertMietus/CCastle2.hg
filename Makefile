@@ -27,6 +27,7 @@ CC2CPy_TODO = \
 include Mk/settings.mk
 include Mk/testing.mk
 include Mk/helpful.mk
+include Mk/pyanalyse.mk
 include Mk/mypy.mk
 
 GAM: clean_generated current-only diff_TestDoubles
