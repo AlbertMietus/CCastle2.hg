@@ -14,7 +14,7 @@ pytest-d pytest-ds pytest-sd:						# with debuging
 	pytest ${PYTEST_OPTONS} --log-cli-level=DEBUG -s pytst/
 
 mutmut: mutmut-3.11		    # Mutation testing (takes a long run) https://en.wikipedia.org/wiki/Mutation_testing
-	-mutmut run  --tests-dir pytst --paths-to-mutate castle
+	-mutmut run  --paths-to-exclude ARCHIVED --tests-dir pytst --paths-to-mutate castle  --runner "pytest -x   pytst/"
 	mutmut html && rm -rf ${MUTMUT_dir} && mv html ${MUTMUT_dir}
 	mutmut results
 mutmut-open: mutmut

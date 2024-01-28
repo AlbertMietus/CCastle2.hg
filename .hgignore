@@ -14,9 +14,7 @@ htmlcov
 .coverage
 .mutmut-cache
 _ToCS-reports/
-castle/writers/CC2Cpy/_ComponentClass.c
-castle/writers/CC2Cpy/_SIEVE.c
-castle/writers/CC2Cpy/jinja_hack.py
+ARCHIVED/CC2Cpy/castle/CC2Cpy/_*
 .mypy_cache
 TestDoubles/_generated/
 

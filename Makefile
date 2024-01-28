@@ -3,7 +3,6 @@ default: most
 all:  most current demo test mutmut pyanalyse XXX missing todo mypy_all
 most:      current      test mutmut pyanalyse             todo mypy_now
 
-NOTES: CC2CpyNote
 include Mk/RPy.mk
 
 # LAST: 	Just finisched test, should still pass
@@ -58,5 +57,3 @@ cleaner: clean
 
 cleanest veryclean: cleaner clean_generated
 
-#CC2Cpy is outdated -- see make CC2CpyNote
-include mk/CC2Cpy.mk
