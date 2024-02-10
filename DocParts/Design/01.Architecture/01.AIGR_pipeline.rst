@@ -1,6 +1,6 @@
-.. (C) 2023 Albert Mietus. Part of CCastle project
+.. (C) 2023,2024 Albert Mietus. Part of CCastle project
 
-.. include:: /std/localtoc.irst 
+.. include:: /std/localtoc.irst
 
 .. _AR_pipeline:
 
