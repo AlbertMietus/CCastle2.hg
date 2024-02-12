@@ -1,0 +1,163 @@
+.. (C) 2023,2024 Albert Mietus. Part of CCastle project
+
+.. _AR_PyPackages:
+
+.. sidebar:: Note
+
+   In this article we focus on the python implementation of CCastle Compiler, and use python terminology. Partly,
+   because it is needed to design that well, partly because this is a first step into the ultimate goal, the CCastle
+   implementation of all Castle :ref:`Workshop Tools <Workshop-Design>`.
+   |BR|
+   And, because “the zen of python” is a good inspiration, studding it seems wise.
+
+===============================
+Short: PyPackages (START/DRAFT)
+===============================
+
+Most of the AR-components as described in e.g ‘:ref:`AR_pipeline`’ are *plugins*: independent deplorable packages.
+As there are two views of *packages* [#packaging]_, associated by how to use them: (1) *import* and (2) *distribution*
+packages, we need to **design** this well.
+
+Seen from the ‘*4+1 Architectural View Model*’ [#4+1AR]_ this is part of the “Deployment view”. And as such, a valuable reason to describe &
+study the options in details
+
+.. admonition:: Summary & Conclusions (ToDo)
+
+   For those, that are not interested in de design-study, this is the result
+
+   * The top-level namespace is ‘castle’, for all public, more-or-less official packages
+   * Only base packages (which can’t be a plugin) are located directly in ‘castle’
+     |BR|
+     This is mainly the common intermediate langage (``castle.aigr``), and the code to load the plugins and put them in
+     the pipeline (``castle.monorail``). Also some generic “main/app” routines can be located there.
+   * Most packages are plugins and use a namespace that denotes the “location” in the pipeline; in plural form to
+     denotes the are options.
+     |BR|
+     ``castle.readers.<name>``, ``castle.transformers.<name>``, ``castle.writers.<name>`` (not *backends*, as only the
+     writer-part is part of Castle.)
+   * Use “pep 420” *native namespace packages* for all plugins.
+     |BR|
+     In short: do never put an `__init__.py` file in the shared namespaces -- Only the “main” packages is allowed to put
+     files there.
+   * Optional, auxiliary (plugin) packages are usually named (placed-in) ``castle.<loc>.plugins.<opt>``.
+   * Local (non public) extensions should normally *not* be in ‘castle’.
+
+Before we describe the design, let study the options, our needs and how others handle this.
+
+Importing
+---------
+
+When `import`\ing a package we (typical) use a hierarchical namespace to make the functionality of (a part of) the
+package available. For example ``import castle.aigr`` will load that common package.
+|BR|
+It dotted name show :ref:`aigr<AIGR>` is part of castle.
+
+Packages that are optional, or where alternatives are available, are conveniently bundled in an extra ‘layer’:
+
+- ``from castle.readers import typicalReader as reader``
+- ``from castle.readers import mockReader as reader``
+  |BR|
+  Although some would vote for ``from castle.readers.mocks import reader`` for the latter.
+
+The “dotted names” gives the user/sw-engineer an hint on which (sub)packages are available, and where it fits. Aside of
+that, the name is not very important -- the functionality doesn't depend on it.
+
+.. note:: The functionality does not depend on the name!
+
+   After a package is imported, all it’s functionality is available; always. The name of the (sub)package isn’t
+   relevant, nor is the (disk) location.
+   It is also possible to use castle-plugins when they are not located in the *castle.namespace*. As shown by the
+   next example:
+   |BR|
+   ``from myLocal.Hack import MyOwnReader as reader`` (not advised).
+
+Installing
+----------
+
+When `(pip) install`\ing a **distribution** package, typically a zip-file is downloaded, and extracte into a
+directory. The name of that directory typically correspondes with the namespace, when importing.
+|BR|
+The developer of a distribution specifies (has to design) in which namespaces (“directory”) the functionality becomes
+available.
+
+For small, simple packages this is straightforward. Typically, the *directories* ‘in’ the distribution (zipfile) match the
+name(s) that are used to import it.
+|BR|
+For bigger packages --especially when using plugins, and multiple parties can contribute and (independently) distribute
+sub-packages-- it a bit more complicated. All parties should agree on the name(s), to make is clear for the users.
+
+A typical user expect that all packages for CCastle become available in `castle.`, or something that is close to it
+[#sphinxcontrib]_
+
+Related
+-------
+
+There is a clear relation between the tow kind of packages, and for small packages the are typical 1:1. All (importable)
+sub-packages are in the same “zip.
+|BR|
+For bigger packages/distributions  -- and certainly for when using “plugins”-- this is not the case.
+
+Namespaces Packages
+-------------------
+
+It is possible to combine several *distribution packages* into one *importable* packages (structure). This is called
+*namespace package(s)*. Since python-3.3 (pep 420), this is standardised in `Native namespace packages
+<https://packaging.python.org/en/latest/guides/packaging-namespace-packages/#native-namespace-packages>`__.
+
+In short: each independent sub-package-developer should use of a common (same name), but “empty” top-directory. That
+dir should be ‘in’ the distribution-package (aka the zipfile). That dir should only contain a (1) sub-dir. And all files
+should be in that sub-dir.
+
+.. warning:: The name of that common directory should be aligned!
+
+XXXX
+
+
+
+Why?
+====
+
+Clarity
+--------
+
+It should be easy for the user to understand which package is related to CCastle and how it is related. Some packages are
+mandatory (e.g :ref:`castle.aigr <AIGR>`) or are needed in de base-setup, others are (external) plugins. But packages
+also have a place in the :ref:`AIGR pipeline <AR_pipeline>` -- it’s convenient to effortlessly tell *readers* and
+*backends*  (etc) aside.
+
+Ownership
+---------
+
+Each (distribution) package has an owner too. Typical, the have there own “code archive”, own “package-numbering” and
+“release cycle”, ect. This also aplies to plugins! They should be (able to) deployed independently.
+|BR|
+In practice, “ownership” (like: who owns the code-archive, but also “when” to release) are the borders that define the
+distribution-packages.
+
+
+
+------
+
+
+.. rubric:: Footnotes
+
+.. [#packaging]
+   .. seealso:: https://packaging.python.org/en/latest/tutorials/packaging-projects
+
+.. [#4+1AR]
+   I often use a “modern, OO variation of the standard `4+1 AR model <https://en.wikipedia.org/wiki/4+1_architectural_view_model>`__”
+   to describe architecture.  As the `original paper <https://www.cs.ubc.ca/~gregor/teaching/papers/4+1view-architecture.pdf>`__
+   comes from the pre-OO-era, its jargon is a   bit outdated.
+   |BR|
+   See e.g. http://systemenbetermaken.nl/AR/ for some slides about it -- one-day I will make a blog ..
+
+
+.. [#sphinxcontrib]
+   For example many extensions for “Sphinx” are available as a sub-package of ``sphinxcontrib``, where sphinx itself is
+   locates in ``sphinx`` (notice: `sphinxcontrib` is used, not `sphinx.contrib` -- possible because namespace-package
+   wheren’t available/standardised when sphinx(contrib) started.)
+   |BR|
+   In this location one can find  mostly “standard extensions”.
+
+   Other (independent) sphinx-additions are installed (aka can be found) in  ``sphinx_<name>``. Despite those namespaces
+   (and directories) are completely independent for a human/user it clear the are related.
