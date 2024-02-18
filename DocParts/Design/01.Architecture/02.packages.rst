@@ -62,6 +62,37 @@ study the options in details
        e.g. plugins. Or as reference for a reader.
 
 
+.. hint:: Suppose we make the “nice-fsm-plugin” that act as transformer ...
+
+   .. note:: The resulting namespace will be: |BR| ``castle.transformers.fsm.nice_fsm``
+
+   The name of the top directly does not matter (for python). We advice a name that shows it’s not a python-id, and is
+   related to the package name. For example:
+   |BR|
+   ``<nice-fsm-plugin>``
+
+   This directory contains the *only* package-info-file, which name a content depends on the (package) build systems.
+   E.g.
+
+   * ``setup.py`` (or ...)
+
+     + **name**     *:str*        e.g. “nice-fsm-castle-plugin”`
+     + **packages** *:List[str]*  =[ ``castle.transformers.fsm.nice_fsm``, ...]
+
+   We need a file-hierarchy, with *empty* directories, that mirror the (shared) namespace
+
+   * ``<nice-fsm-plugin>/castle/``                  -- empty, no `__init__,py`
+   * ``<nice-fsm-plugin>/castle/transformers/``     -- empty, no `__init__,py`
+   * ``<nice-fsm-plugin>/castle/transformers/fsm``  -- empty, no `__init__,py`
+   * ``<nice-fsm-plugin>/castle/transformers/fsm/nice_fsm``  Holds all code:
+
+     - **__init__.py**  can be empty, but typically uses ``from .<> import <>`` to have the “api functionality” available
+     - **<files>.py**        code
+     - **<sub>/**       sub-package, (full-dirname to be included in `packages=[...]` above
+
+
+
+
 Opportunity
 ===========
 Let study the options, our needs and how others handle packages & plugins, before designing for castle.
@@ -157,7 +188,9 @@ Each (distribution) package has an owner too. Typical, the have there own “cod
 In practice, “ownership” (like: who owns the code-archive, but also “when” to release) are the borders that define the
 distribution-packages.
 
+------
 
+XXXX
 
 ------
 
