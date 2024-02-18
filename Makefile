@@ -36,10 +36,12 @@ open:    coverage-open mutmut-open
 remake:  veryclean coverage mutmut open
 
 diff_TestDoubles:
+	echo "This rule is outdated"
 	diff -w -rs  -x _keepThisDir -x .DS_Store TestDoubles/reference/ TestDoubles/_generated/
 
 clean_generated:
-	rm -f TestDoubles/_generated/*.{py,rpy} TestDoubles/_generated/*/*.{py,rpy}
+	echo "This rule is outdated"
+	#rm -f TestDoubles/_generated/*.{py,rpy} TestDoubles/_generated/*/*.{py,rpy}
 
 clean_caches:
 	find . -type d -name __pycache__    -print0 | xargs -0  rm -r
