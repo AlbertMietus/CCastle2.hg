@@ -78,12 +78,12 @@ It dotted name show :ref:`aigr<AIGR>` is part of castle.
 Packages that are optional, or where alternatives are available, are conveniently bundled in an extra ‘layer’:
 
 - ``from castle.readers import typicalReader as reader``
-- ``from castle.readers import mockReader as reader``
-  |BR|
-  Although some would vote for ``from castle.readers.mocks import reader`` for the latter.
+- ``from castle.TESTDOUBLES.readers import mockReader as reader`` (selected option for mocks)
+- ``from castle.readers import mockReader as reader``    (alternative, not preferred)
 
-The “dotted names” gives the user/sw-engineer an hint on which (sub)packages are available, and where it fits. Aside of
-that, the name is not very important -- the functionality doesn't depend on it.
+
+The “dotted names” gives the user/SW-engineer an hint on which (sub)packages are available, and where it fits. Aside of
+that, the name is not very important. During importing we can even *rename* a package, with the `as <name>`  langage feature.
 
 .. note:: The functionality does not depend on the name!
 
