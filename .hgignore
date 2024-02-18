@@ -21,3 +21,4 @@ TestDoubles/_generated/
 html
 Icon
 DocParts/Design/*/*.png
+_setup.py
