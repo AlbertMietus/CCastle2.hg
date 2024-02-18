@@ -26,23 +26,46 @@ study the options in details
    For those, that are not interested in de design-study, this is the result
 
    * The top-level namespace is ‘castle’, for all public, more-or-less official packages
-   * Only base packages (which can’t be a plugin) are located directly in ‘castle’
-     |BR|
-     This is mainly the common intermediate langage (``castle.aigr``), and the code to load the plugins and put them in
-     the pipeline (``castle.monorail``). Also some generic “main/app” routines can be located there.
+   * Only base packages (which can’t be a plugin) are located directly in ‘castle’. Also some generic “main/app” routines can be located there. 
+
+     - ``castle.aigr``,      the common intermediate langage
+     - ``castle.monorail``,  the code to load the plugins and put them in the pipeline
+
    * Most packages are plugins and use a namespace that denotes the “location” in the pipeline; in plural form to
      denotes the are options.
-     |BR|
-     ``castle.readers.<name>``, ``castle.transformers.<name>``, ``castle.writers.<name>`` (not *backends*, as only the
-     writer-part is part of Castle.)
-   * Use “pep 420” *native namespace packages* for all plugins.
-     |BR|
-     In short: do never put an `__init__.py` file in the shared namespaces -- Only the “main” packages is allowed to put
-     files there.
-   * Optional, auxiliary (plugin) packages are usually named (placed-in) ``castle.<loc>.plugins.<opt>``.
-   * Local (non public) extensions should normally *not* be in ‘castle’.
 
-Before we describe the design, let study the options, our needs and how others handle this.
+     - ``castle.readers.<name>``
+     - ``castle.transformers.<name>``
+     - ``castle.writers.<name>`` (not *backends*, as only the writer-part is part of Castle.)
+
+   * Use “pep 420” *native namespace packages* for all plugins.
+
+     - *In short*:  plugins should **never** put an `__init__.py` file in a *shared* namespace-part (like castle.readers.)
+     - Only the “main” package is allowed to put files there.
+
+   * Optional, auxiliary (plugin) packages are usually named (placed-in)
+
+     - ``castle.<loc>.plugins.<opt>``.
+
+   * Local (non public) extensions should normally *not* be in ‘castle’.
+   * Optional plugins, that can be shared by many plugins for test, debug & development purposed are allowed in one
+     place in the castle-hierarchy,
+
+     - ``castle.TESTDOUBLES.<hier>``,
+
+       - *TESTDOUBLES* is in capitals, to signal it’s a specical case
+       - Those plugins should *not* have production code -- no application should depend/need those
+         |BR| (But for test & verification)
+       - *‘<hier>’* is typical namespace, below castle, like: aigr
+
+     - ``castle.TESTDOUBLES.aigr.sieve`` holds (parts of) ‘:ref:`Castle-TheSieve`’ in ‘:ref:`AIGR`’, As test-input for
+       e.g. plugins. Or as reference for a reader.
+
+
+Opportunity
+===========
+Let study the options, our needs and how others handle packages & plugins, before designing for castle.
+
 
 Importing
 ---------
