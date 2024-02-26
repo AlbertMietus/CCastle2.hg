@@ -4,13 +4,14 @@
 ### recursive::  Generic macro to run sub-makes, in each dir in SUBS
 ###
 
-# all possible recursive targets ..
-RECURSIVE	  =  clean all test docs cleaner cleanest demos pyreverse
-RECURSIVE_TARGETS =  $(foreach dir,$(SUBS),$(foreach target,$(RECURSIVE),$(dir)/$(target)))
+include ${TOPd}Mk/settings.mk
+TARGETS = $(sort ${FULL})
 
-.PHONY: ${RECURSIVE}  ${SUBS} ${RECURSIVE_TARGETS}
+RECURSIVE_TARGETS =  $(foreach dir,$(SUBS),$(foreach target,$(TARGETS),$(dir)/$(target)))
 
-$(RECURSIVE): % : $(foreach dir,$(SUBS),$(dir)/%)
+.PHONY: ${TARGETS}  ${SUBS} ${RECURSIVE_TARGETS}
+
+$(TARGETS): % : $(foreach dir,$(SUBS),$(dir)/%)
 $(SUBS)  : % : %/all
 
 ${RECURSIVE_TARGETS}:
@@ -18,9 +19,9 @@ ${RECURSIVE_TARGETS}:
 
 # re-test: clean first, then test
 retest : clean test
-veryclean: cleanest
 
-help-local::
-	@echo RECURSIVE: ${RECURSIVE}
-	@echo SUBS: ${SUBS}
+recursive_show:
+	@echo FULL: 	${FULL}
+	@echo TARGETS: 	${TARGETS}
+	@echo SUBS: 	${SUBS}
 	@echo RECURSIVE_TARGETS: ${RECURSIVE_TARGETS}
