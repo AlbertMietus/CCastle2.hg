@@ -1,7 +1,7 @@
 default: all
 
-TOPd=../../
-include ${TOPd}Mk/comp.mk
+# XXX read from ./setup.py ??
+PYREVERSE_PKGS = castle.writers.RPy
 
 LAST = \
 #
@@ -12,3 +12,7 @@ TODO = \
 	pytst/test_4_NameSpaces.py			\
 	pytst/test_99_SieveMoats.py			\
 	pytst/test_999.py 				\
+#
+
+TOPd=../../
+include ${TOPd}Mk/comp.mk

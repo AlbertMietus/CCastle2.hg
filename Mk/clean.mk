@@ -1,5 +1,5 @@
-clean: clean_caches
-cleaner: clean clean_gendirs
+clean: ; #Nothing
+cleaner: clean clean_caches clean_gendirs
 cleanest veryclean: cleaner clean_generated
 
 clean_caches:
