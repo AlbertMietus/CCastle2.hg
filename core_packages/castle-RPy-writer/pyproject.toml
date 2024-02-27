@@ -8,4 +8,4 @@ version = "0.0.1"
 dependencies = ["castle-aigr"]
 
 [tool.setuptools.packages.find]
-exclude = ["pytst"]
+exclude = ["pytst*"]
