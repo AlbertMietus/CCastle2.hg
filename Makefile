@@ -3,7 +3,8 @@ default: sub-build
 
 SUBS =\
 	base_packages/castle-aigr		\
-	core_packages/castle-RPy-writer	\
+	base_packages/castle-monorail		\
+	core_packages/castle-RPy-writer		\
 #
 
 
