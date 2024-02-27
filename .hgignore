@@ -8,6 +8,8 @@ __pycache__
 demos/ThinOnion/OUT_*
 OUT_*
 
+TMP
+
 Design/.*\.svg
 pyreversed/.*\.svg
 htmlcov

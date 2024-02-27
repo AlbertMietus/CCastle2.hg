@@ -74,10 +74,11 @@ study the options in details
    This directory contains the *only* package-info-file, which name a content depends on the (package) build systems.
    E.g.
 
-   * ``setup.py`` (or ...)
+   * ``pyproject.toml`` (`setup.py` is outdated)
 
-     + **name**     *:str*        e.g. “nice-fsm-castle-plugin”`
-     + **packages** *:List[str]*  =[ ``castle.transformers.fsm.nice_fsm``, ...]
+     + **name**     *:str*        e.g. ``castle-RPy-writer`` or “nice-fsm-castle-plugin”
+     + *version*    *:str*        typical a dotted number (as string)
+     + **dependencies** *:List[str]*  =[ ``castle-aigr``, `<package-names>`, ...]
 
    We need a file-hierarchy, with *empty* directories, that mirror the (shared) namespace
 
