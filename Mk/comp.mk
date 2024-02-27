@@ -20,6 +20,7 @@ include ${TOPd}Mk/testing.mk
 include ${TOPd}Mk/pyanalyse.mk
 include ${TOPd}Mk/mypy.mk
 include ${TOPd}Mk/clean.mk
+include ${TOPd}Mk/build.mk
 
 all:	${ALL}
 

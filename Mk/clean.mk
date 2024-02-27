@@ -1,6 +1,11 @@
-clean: ; #Nothing
+clean: clean_build
 cleaner: clean clean_caches clean_gendirs
 cleanest veryclean: cleaner clean_generated
+
+
+clean_build:
+	rm -rf dist/
+	rm -rf *.egg-info/
 
 clean_caches:
 	find . -type d -name __pycache__    -print0 | xargs -0  rm -r

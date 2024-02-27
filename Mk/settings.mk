@@ -6,7 +6,7 @@ PYREVERSE_dir 	 = _pyreversed/
 PYREVERSE_FORMAT = svg
 
 SETS	= last current-only current todo current-ds current-info
-TYPICAL = all clean cleaner cleanest veryclean doc test
-ALL	= current last todo pyanalyse todo mypy
+TYPICAL = all clean cleaner cleanest veryclean doc test build
+ALL	= current last todo pyanalyse todo mypy build
 TEST 	= test pytest coverage mutmut
 FULL	= ${SETS} ${TYPICAL} ${ALL} ${TEST}
