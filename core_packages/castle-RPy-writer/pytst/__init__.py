@@ -5,8 +5,8 @@ import pytest
 from pathlib import Path
 import os
 from dataclasses import dataclass
-from castle.aigr import Event, Protocol
-from castle.writers import RPy
+#from castle.aigr import Event, Protocol
+#from castle.writers import RPy
 
 SAVE_FILE=True                            #By default, save the generated files
 

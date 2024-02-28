@@ -4,6 +4,7 @@ default: all
 PYREVERSE_PKGS = castle.writers.RPy
 
 LAST = \
+	pytst/test_0_dummy.py				\
 #
 CURRENT = \
 	pytst/test_3_SieveProtocols.py			\
