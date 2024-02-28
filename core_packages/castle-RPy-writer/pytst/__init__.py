@@ -5,8 +5,8 @@ import pytest
 from pathlib import Path
 import os
 from dataclasses import dataclass
-#from castle.aigr import Event, Protocol
-#from castle.writers import RPy
+from castle.aigr import Event, Protocol
+from castle.writers import RPy
 
 SAVE_FILE=True                            #By default, save the generated files
 
@@ -120,7 +120,8 @@ def generatedProtocol_verifier(T_Protocol):
          return Matcher(td=td, save_file=save_file, strip_remarker=strip_remarker).verify(out=out)
      return protocol_matcher
 
+
+
 @pytest.fixture
-@pytest.mark.xfail(reason="To Busy with other things")
 def generatedMoat_verifier(T_Moat):
-    assert False, "see above"
+    assert False, "To Busy with other things"
