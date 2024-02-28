@@ -1,6 +1,7 @@
 # Need Python >3.11
 
--r requirements/testing.req
 -r requirements/modules.req
+-r requirements/testing.req
+-r requirements/build.req
 
 

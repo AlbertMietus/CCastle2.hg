@@ -23,4 +23,8 @@ TestDoubles/_generated/
 html
 Icon
 DocParts/Design/*/*.png
-_setup.py
+
+
+.*_packages/.*/castle.*\.egg-info/
+.*_packages/.*/dist/
+
