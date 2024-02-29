@@ -4,6 +4,8 @@ PYREVERSE_OPTIONS =  -k -A
 PYREVERSE_OPTIONS =  -A
 
 
+${PYREVERSE_dir}:; mkdir $@
+
 pyanalyse pyreverse: ${PYREVERSE_dir}
 	for P in ${PYREVERSE_PKGS}; do \
 		echo "PYANALYSE::" $$P "...";\

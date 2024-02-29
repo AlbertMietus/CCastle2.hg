@@ -3,7 +3,7 @@ __pycache__
 .*\.pyc
 .pytest_cache
 .*\.dot
-.*/pyreversed
+_pyreversed/
 
 demos/ThinOnion/OUT_*
 OUT_*
