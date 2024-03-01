@@ -7,42 +7,33 @@ import pytest
 
 import castle.aigr as aigr
 from castle.TESTDOUBLES.aigr.sieve import protocols
-from castle.TESTDOUBLES.aigr.base  import Protocol as base_Protocol
+from . import verify_Protocol
 
 
-def verify_Protocol(p, name, event_names, base=None, no_events=None, cls=None):
-    if base is None:
-        base=base_Protocol
-    if no_events is None:
-        no_events = len(event_names)
-    if cls is None:
-        cls = aigr.EventProtocol
+def test_0_all_sieveProtocols_exist():
+    for p in (protocols.StartSieve, protocols.SlowStart, protocols.SimpleSieve):
+        assert isinstance(p, aigr.EventProtocol)
 
-    assert isinstance(p, cls)
-    assert p.name == name
-    assert p.based_on is base
-    assert p._noEvents() == no_events
-    for no, name in enumerate(event_names):
-        assert p.events[no].name == name
+    for p in (protocols.SlowStart_1,):
+        assert isinstance(p, aigr.protocols.ProtocolWrapper) # ProtocolWrapper isn't exported
 
-
-
-def test_StartSieve():
+def test_1_StartSieve():
     p = protocols.StartSieve
     verify_Protocol(p, name="StartSieve", event_names=('runTo', 'newMax'))
 
-def test_SlowStart():
+def test_1_SlowStart():
     p = protocols.SlowStart
     verify_Protocol(p, name="SlowStart", event_names=['setMax'])
 
-def test_SlowStart_1():
+
+def test_2_SimpleSieve():
+    p = protocols.SimpleSieve
+    verify_Protocol(p, name="SimpleSieve", base=protocols.SlowStart_1, event_names=['input'])
+
+def test_2_SlowStart_1():
     from castle.aigr.protocols import ProtocolWrapper
     p = protocols.SlowStart_1
     verify_Protocol(p, name="SlowStart_1", cls=ProtocolWrapper, base=protocols.SlowStart, event_names=['setMax'])
-
-def test_SimpleSieve():
-    p = protocols.SimpleSieve
-    verify_Protocol(p, name="SimpleSieve", base=protocols.SlowStart_1, event_names=['input'])
 
 
 
