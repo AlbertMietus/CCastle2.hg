@@ -16,8 +16,9 @@ pytest-s:								# -s : No capure (so, show stdout/stderr)
 pytest-d pytest-ds pytest-sd:						# with debuging
 	${PYTEST} ${PYTEST_OPTONS} --log-cli-level=DEBUG -s pytst/
 
-mutmut: # Mutation testing (takes a long run) https://en.wikipedia.org/wiki/Mutation_testing
-	${EXTEDED_PYPATH} mutmut run  --tests-dir pytst --paths-to-mutate castle  --runner "pytest -x   pytst/"
+# Mutation testing (takes a long run) https://en.wikipedia.org/wiki/Mutation_testing -- not part of 'all'
+mutmut: ${ToCS_dir}
+	-${EXTEDED_PYPATH} mutmut run  --tests-dir pytst --paths-to-mutate castle  --runner "pytest -x   pytst/"
 	mutmut html && rm -rf ${MUTMUT_dir} && mv html ${MUTMUT_dir}
 	mutmut results
 mutmut-open: mutmut
