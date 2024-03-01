@@ -1,13 +1,13 @@
-# (C) Albert Mietus, 2023. Part of Castle/CCastle project
-"""Test AIGR representation of the TheSieve protocols
+# (C) Albert Mietus, 2023,2024 Part of Castle/CCastle project
+"""Test the AIGR TestDoubles of the Sieve protocols
    See: http://docideas.mietus.nl/en/default/CCastle/4.Blog/b.TheSieve.html#the-design
 """
 
 import pytest
 
 import castle.aigr as aigr
-from TestDoubles.AIGR.sieve import protocols
-from TestDoubles.AIGR.base import Protocol  as base_Protocol
+from castle.TESTDOUBLES.aigr.sieve import protocols
+from castle.TESTDOUBLES.aigr.base  import Protocol as base_Protocol
 
 
 def verify_Protocol(p, name, event_names, base=None, no_events=None, cls=None):
