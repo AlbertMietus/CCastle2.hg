@@ -8,14 +8,11 @@
      to diff line-by-line (for debugging)
 """
 
-import logging; logger = logging.getLogger(__name__)
 import pytest
+from castle.TESTDOUBLES.aigr import sieve 
 
-from TestDoubles.AIGR import sieve
-from . import TstDoubles, generatedProtocol_verifier
+from . import TstDoubles, generatedProtocol_verifier, T_Protocol
 ##Note: T_* are used in **_verifier; but need to be in this scope (or pytest can't find it)
-from . import T_Protocol
-
 
 
 def test_01_StartSieve(generatedProtocol_verifier):

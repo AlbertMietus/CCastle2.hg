@@ -46,7 +46,7 @@ def end_with_NL(txt):
 
 
 class TstDoubles():
-    _top = Path('TestDoubles')
+    _top = Path('pytst/TestDoubles')
     _ref = Path('reference')
     _gen = Path('_generated')
 
@@ -119,7 +119,6 @@ def generatedProtocol_verifier(T_Protocol):
          out = T_Protocol.render(protocols=aigr_mocks)
          return Matcher(td=td, save_file=save_file, strip_remarker=strip_remarker).verify(out=out)
      return protocol_matcher
-
 
 
 @pytest.fixture
