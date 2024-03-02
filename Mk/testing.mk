@@ -1,4 +1,5 @@
-EXTEDED_PYPATH=PYTHONPATH=`pwd`
+#EXTEDED_PYPATH=PYTHONPATH=`pwd` # Not needed with `pip install -e` ..
+EXTEDED_PYPATH=
 PYTEST=${EXTEDED_PYPATH} pytest
 PYTEST_OPTONS=-rxXsfE
 
