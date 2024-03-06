@@ -10,4 +10,5 @@ TYPICAL = all clean cleaner cleanest veryclean doc test pytest pytest-only
 ALL	= current last todo pyanalyse todo mypy
 BUILD	= ${ALL} build install-e
 TEST 	= test pytest coverage mutmut
-FULL	= ${SETS} ${TYPICAL} ${ALL} ${TEST} ${BUILD}
+OPENit	= coverage-open mutmut-open
+FULL	= ${SETS} ${TYPICAL} ${ALL} ${TEST} ${BUILD} ${OPENit}

@@ -4,7 +4,7 @@ PYTEST=${EXTEDED_PYPATH} pytest
 PYTEST_OPTONS=-rxXsfE
 
 test coverage:
-	${EXTEDED_PYPATH} coverage run --branch -m pytest ${PYTEST_OPTONS}  pytst/
+	${EXTEDED_PYPATH} coverage run  --source castle,pytst --branch -m pytest ${PYTEST_OPTONS} pytst/
 	coverage report  --skip-covered
 	coverage html --directory=${COVERAGE_dir}
 coverage-open: coverage
