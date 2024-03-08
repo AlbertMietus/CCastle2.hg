@@ -84,6 +84,11 @@ def test_GenericProtocol_kind_a(base, sub_a):
 def test_GenericProtocol_kind_b(base, sub_b):
     assert_GP_kind(base, sub_b)
 
+def test_GenericProtocol_delegate(base):
+    """The GenericProtocol delegates all methods to it `based_on` protocol. By examples ``._noEvents()``.
+        We use that to verify delegation"""
+    specialised = ProtocolWrapper("", based_on=base, arguments=(Argument(value=1),))
+    assert specialised._noEvents() == 0   #Note: the number is less relevant, goal is to check _noEvents is send to base
 
 def assert_GP_name(base, sub):
     assert "Wrapper"   in sub.based_on.name
