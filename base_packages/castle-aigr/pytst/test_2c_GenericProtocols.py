@@ -84,11 +84,27 @@ def test_GenericProtocol_kind_a(base, sub_a):
 def test_GenericProtocol_kind_b(base, sub_b):
     assert_GP_kind(base, sub_b)
 
-def test_GenericProtocol_delegate(base):
-    """The GenericProtocol delegates all methods to it `based_on` protocol. By examples ``._noEvents()``.
-        We use that to verify delegation"""
-    specialised = ProtocolWrapper("", based_on=base, arguments=(Argument(value=1),))
-    assert specialised._noEvents() == 0   #Note: the number is less relevant, goal is to check _noEvents is send to base
+class EventProtocol_Spy(EventProtocol):
+    def __init__(self, *t,**d):
+        super().__init__(*t, **d)
+        self._trace=["init"]
+
+    def _noEvents(self):
+        n = super()._noEvents()
+        self._trace.append(f'noEvents={n}')
+        return n
+    def mole(self):
+        TXT="I'm a mole, and do not exist in real classes"
+        self._trace.append(TXT)
+        return TXT
+
+def test_GenericProtocol_Spydelegate():
+    spy = EventProtocol_Spy("SpyBase", events=[], typedParameters=[TypedParameter(name='queue_max', type=int)])
+    specialised = ProtocolWrapper("", based_on=spy, arguments=(Argument(value=1),))
+
+    assert specialised._noEvents() == 0
+    assert spy._trace[-1] == "noEvents=0"
+    assert spy.mole() == spy._trace[-1]
 
 def assert_GP_name(base, sub):
     assert "Wrapper"   in sub.based_on.name

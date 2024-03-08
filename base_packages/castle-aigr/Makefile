@@ -7,6 +7,7 @@ LAST = \
 	pytst/test_3_namespaces.py			\
 #
 CURRENT = \
+	pytst/test_2c_GenericProtocols.py		\
 #
 TODO = \
 	pytst/test_0_AIGR.py				\
