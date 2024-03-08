@@ -11,13 +11,13 @@ from . import AIGR
 from .events import Event
 from .aid import TypedParameter, Argument                                                            # Castle/AIGR types
 from .namednodes import NamedNode, ID
-
+from .aid import Specialise
 
 
 __all__ = ['ProtocolKind', 'Protocol', 'EventProtocol']
 # DataProtocol, StreamProtocol are added/implemented later
 # Do Not Export: _RootProtocol
-# How about:  ProtocolWrapper?
+
 
 class ProtocolKind(Enum):
     """There are several kinds (types) of protocols.
@@ -56,25 +56,6 @@ class DataProtocol(Protocol): pass ### XXX ToDo (not exported)
 @dataclass                                                                                          # pragma: no mutate
 class StreamProtocol(Protocol): pass ### XXX ToDo (not exported)
 
-@dataclass                                                                                          # pragma: no mutate
-class ProtocolWrapper(Protocol):
-    _: KW_ONLY
-    kind : ProtocolKind=ProtocolKind._unset
-    arguments: PTH.Sequence[Argument]
-
-    def __post_init__(self):
-        if self.kind is ProtocolKind._unset:
-            self.kind = self.based_on.kind
-        if self.name == "":
-            self.name = f"Wrapper for {self.based_on.name}({self.arguments})" ###
-
-
-    def __getattr__(self, name):                                        ### XXX move to Wrapper Base?
-        """delegate "everything" to `.`based_on``!
-        Kind of inherit, but not to superclass (Protocol), but to the instance (a Protocol) that is wrapped"""
-
-        return getattr(self.based_on, name)
-
 
 @dataclass                                                                                          # pragma: no mutate
 class EventProtocol(Protocol):
@@ -85,8 +66,8 @@ class EventProtocol(Protocol):
     _: KW_ONLY
     kind: ProtocolKind = ProtocolKind.Event
     events: PTH.Sequence[Event]
-    #redefine EventProtocol always inherit from an EventProtocol (or Wrapper)
-    based_on: EventProtocol|ProtocolWrapper = dc_field(default_factory= lambda :Protocol._BASE)
+    #    ## redefine EventProtocol always inherit from an EventProtocol (or Specialise)
+    #    based_on: EventProtocol|Specialise = dc_field(default_factory= lambda :Protocol._BASE)
 
     def _noEvents(self):
         inherited = self.based_on._noEvents() if isinstance(self.based_on, EventProtocol) else 0

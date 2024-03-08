@@ -33,8 +33,8 @@
 
     This *syntax detail* is handled in the parser!
 
-    In the AIGR, the specialised *SlowStart(1)* protocol is modeled by a ProtocolWrapper; which in placed in-between
-    (the generic) Slowstart and SimpleSieve.
+    In the AIGR, the specialised *SlowStart(1)* protocol is modeled by a ``Specialise`` wrapper; which in placed
+    in-between (the generic) Slowstart and SimpleSieve.
 
     .. hint:: (implementation of Generic Protocols)
 
@@ -49,8 +49,7 @@ import pytest
 
 from castle.aigr import Protocol, ProtocolKind
 from castle.aigr import Event, EventProtocol
-from castle.aigr.aid import TypedParameter, Argument
-from castle.aigr.protocols import ProtocolWrapper
+from castle.aigr.aid import TypedParameter, Argument, Specialise
 
 """ There are a few cases
 ///CastleCode
@@ -67,11 +66,11 @@ def base():
 
 @pytest.fixture
 def sub_a(base):
-    return EventProtocol("Sub_a", events=[], based_on=ProtocolWrapper(name="", based_on=base, arguments=(Argument(name='queue_max', value=1),)))
+    return EventProtocol("Sub_a", events=[], based_on=Specialise(name="", based_on=base, arguments=(Argument(name='queue_max', value=1),)))
 
 @pytest.fixture
 def sub_b(base):
-    return EventProtocol("Sub_b", events=[], based_on=ProtocolWrapper("", based_on=base, arguments=(Argument(value=1),)))
+    return EventProtocol("Sub_b", events=[], based_on=Specialise(None, based_on=base, arguments=(Argument(value=1),)))
 
 def assert_GP_kind(base, sub):
     assert sub.kind == base.kind
@@ -100,35 +99,12 @@ class EventProtocol_Spy(EventProtocol):
 
 def test_GenericProtocol_Spydelegate():
     spy = EventProtocol_Spy("SpyBase", events=[], typedParameters=[TypedParameter(name='queue_max', type=int)])
-    specialised = ProtocolWrapper("", based_on=spy, arguments=(Argument(value=1),))
+    specialised = Specialise("", based_on=spy, arguments=(Argument(value=1),))
 
     assert specialised._noEvents() == 0
     assert spy._trace[-1] == "noEvents=0"
     assert spy.mole() == spy._trace[-1]
 
-def assert_GP_name(base, sub):
-    assert "Wrapper"   in sub.based_on.name
-    assert "Base"      in sub.based_on.name
-
-def test_GenericProtocol_name_a(base, sub_a):
-    assert_GP_name(base, sub_a)
-    assert "queue_max" in sub_a.based_on.name   # the argument-name is only in the (a) version
-
-def test_GenericProtocol_name_b(base, sub_b):
-    assert_GP_name(base, sub_b)
-    assert "queue_max" not in sub_b.based_on.name   # the argument-name is only in the (a) version
 
 
-def test_strange_1(base):
-    """This is (very) atypical use -- but it helps to get coverage"""
-    sub_strange = EventProtocol("SubStrange", events=[], based_on=ProtocolWrapper(name="Strange", kind=42,
-                                                                                  based_on=base, arguments=(Argument(value=1),)))
-    assert sub_strange.based_on.name == "Strange"
-    assert sub_strange.based_on.kind == 42, "When we set a strange kind-number it should be stored"
-
-def test_strange_2(base):
-    """This is (very) atypical use -- but it helps to get coverage"""
-    sub_strange = EventProtocol("SubStrange", events=[], based_on=ProtocolWrapper(name="Strange", kind=None,
-                                                                                  based_on=base, arguments=(Argument(value=1),)))
-    assert sub_strange.based_on.name == "Strange"
 

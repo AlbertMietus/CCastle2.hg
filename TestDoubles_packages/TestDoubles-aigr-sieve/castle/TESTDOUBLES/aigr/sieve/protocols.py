@@ -1,8 +1,7 @@
 # (C) Albert Mietus, 2023. Part of Castle/CCastle project
 
 from castle.aigr import EventProtocol, Event, ID
-from castle.aigr.protocols import ProtocolWrapper
-from castle.aigr.aid import TypedParameter, Argument
+from castle.aigr.aid import TypedParameter, Argument, Specialise
 
 
 StartSieve = EventProtocol(ID('StartSieve'),
@@ -16,7 +15,7 @@ SlowStart = EventProtocol(ID('SlowStart'),
                               events=(
                                    Event(name=ID('setMax'), return_type=None, typedParameters=(TypedParameter(name='queue_max', type=int),)),))
 
-SlowStart_1 = ProtocolWrapper(ID("SlowStart_1"),
+SlowStart_1 = Specialise(ID("SlowStart_1"),
                               based_on=SlowStart,
                               #OR: arguments=(Argument(name=queue_max, value=1),))
                               arguments=(Argument(value=1),))

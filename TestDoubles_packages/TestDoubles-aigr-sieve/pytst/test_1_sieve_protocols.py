@@ -15,7 +15,8 @@ def test_0_all_sieveProtocols_exist():
         assert isinstance(p, aigr.EventProtocol)
 
     for p in (protocols.SlowStart_1,):
-        assert isinstance(p, aigr.protocols.ProtocolWrapper) # ProtocolWrapper isn't exported
+        assert isinstance(p, aigr.aid.Specialise)
+        assert isinstance(p.based_on, aigr.EventProtocol)
 
 def test_1_StartSieve():
     p = protocols.StartSieve
@@ -31,9 +32,8 @@ def test_2_SimpleSieve():
     verify_Protocol(p, name="SimpleSieve", base=protocols.SlowStart_1, event_names=['input'])
 
 def test_2_SlowStart_1():
-    from castle.aigr.protocols import ProtocolWrapper
     p = protocols.SlowStart_1
-    verify_Protocol(p, name="SlowStart_1", cls=ProtocolWrapper, base=protocols.SlowStart, event_names=['setMax'])
+    verify_Protocol(p, name="SlowStart_1", cls=aigr.aid.Specialise, base=protocols.SlowStart, event_names=['setMax'])
 
 
 
