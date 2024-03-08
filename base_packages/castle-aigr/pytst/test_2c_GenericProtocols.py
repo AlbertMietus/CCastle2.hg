@@ -98,22 +98,16 @@ def test_GenericProtocol_name_b(base, sub_b):
     assert "queue_max" not in sub_b.based_on.name   # the argument-name is only in the (a) version
 
 
-
 def test_strange_1(base):
     """This is (very) atypical use -- but it helps to get coverage"""
-    sub_strange = EventProtocol("SubStrange", events=[], based_on=ProtocolWrapper(name="Strange",
-                                                                                  kind=42,
-                                                                                  based_on=base,
-                                                                                  arguments=(Argument(value=1),)))
+    sub_strange = EventProtocol("SubStrange", events=[], based_on=ProtocolWrapper(name="Strange", kind=42,
+                                                                                  based_on=base, arguments=(Argument(value=1),)))
     assert sub_strange.based_on.name == "Strange"
     assert sub_strange.based_on.kind == 42, "When we set a strange kind-number it should be stored"
 
 def test_strange_2(base):
     """This is (very) atypical use -- but it helps to get coverage"""
-    sub_strange = EventProtocol("SubStrange", events=[], based_on=ProtocolWrapper(name="Strange",
-                                                                                  kind=None,
-                                                                                  based_on=base,
-                                                                                  arguments=(Argument(value=1),)))
-
+    sub_strange = EventProtocol("SubStrange", events=[], based_on=ProtocolWrapper(name="Strange", kind=None,
+                                                                                  based_on=base, arguments=(Argument(value=1),)))
     assert sub_strange.based_on.name == "Strange"
 

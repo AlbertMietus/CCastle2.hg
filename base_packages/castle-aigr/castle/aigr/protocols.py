@@ -56,7 +56,6 @@ class DataProtocol(Protocol): pass ### XXX ToDo (not exported)
 @dataclass                                                                                          # pragma: no mutate
 class StreamProtocol(Protocol): pass ### XXX ToDo (not exported)
 
-
 @dataclass                                                                                          # pragma: no mutate
 class ProtocolWrapper(Protocol):
     _: KW_ONLY
@@ -69,8 +68,12 @@ class ProtocolWrapper(Protocol):
         if self.name == "":
             self.name = f"Wrapper for {self.based_on.name}({self.arguments})" ###
 
-    def __getattr__(self, name):          #delegate to base  XXX move to Wrapper Base?
-        return getattr(self.based_on, name)
+# GAM: When based_on is a Protocol, delegate to self.based_on isn;t needed. When move to generic wrappper, it is ?
+#    def __getattr__(self, name):                                        ### XXX move to Wrapper Base?
+#        """delegate "everything" to `.`based_on``!
+#        Kind of inherit, but not to superclass (Protocol), but to the instance (a Protocol) that is wrapped"""
+#
+#        return getattr(self.based_on, name)
 
 
 @dataclass                                                                                          # pragma: no mutate
