@@ -49,7 +49,7 @@ import pytest
 
 from castle.aigr import Protocol, ProtocolKind
 from castle.aigr import Event, EventProtocol
-from castle.aigr.aid import TypedParameter, Argument, Specialise
+from castle.aigr import TypedParameter, Argument, Specialise
 
 """ There are a few cases
 ///CastleCode

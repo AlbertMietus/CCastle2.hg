@@ -4,7 +4,7 @@
 import typing as PTH                                                                                  # Python TypeHints
 from dataclasses import dataclass, KW_ONLY
 from .aid import TypedParameter                                                                       # Castle/AIGR type
-from .namednodes import *
+from .nodes import *
 
 __all__ = ['Event']
 

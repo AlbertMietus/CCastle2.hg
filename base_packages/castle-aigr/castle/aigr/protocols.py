@@ -10,8 +10,8 @@ from dataclasses import field as dc_field
 from . import AIGR
 from .events import Event
 from .aid import TypedParameter, Argument                                                            # Castle/AIGR types
-from .namednodes import NamedNode, ID
-from .aid import Specialise
+from .nodes import NamedNode, ID
+
 
 
 __all__ = ['ProtocolKind', 'Protocol', 'EventProtocol']

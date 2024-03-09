@@ -7,7 +7,7 @@ from dataclasses import field as dc_field
 from . import AIGR
 from .protocols import Protocol
 from .aid import TypedParameter                                                                      # Castle/AIGR types
-from .namednodes import NamedNode, ID
+from .nodes import NamedNode, ID
 
 __all__ = ['PortDirection', 'Port', 'ComponentInterface']
 

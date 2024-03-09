@@ -5,7 +5,7 @@ import pytest
 
 from castle.aigr import Protocol, ProtocolKind
 from castle.aigr import Event, EventProtocol
-from castle.aigr.aid import TypedParameter
+from castle.aigr import TypedParameter
 
 
 @pytest.fixture
@@ -32,12 +32,12 @@ def test_1_isEvent(emptyProtocol, simpleSieve):
 
 
 def test_2a_based_onRoot(emptyProtocol):
-    import castle.aigr.protocols
-    emptyProtocol.based_on is castle.aigr.protocols._RootProtocol
+    from castle.aigr.protocols import _RootProtocol # Only available when imported
+    emptyProtocol.based_on is _RootProtocol
 
 def test_2b_based_onRoot_notSet(emptyProtocol_baseNotSet):
-    import castle.aigr.protocols
-    emptyProtocol_baseNotSet.based_on is castle.aigr.protocols._RootProtocol
+    from castle.aigr.protocols import _RootProtocol # Only available when imported
+    emptyProtocol_baseNotSet.based_on is _RootProtocol
 
 
 def test_3a_eventIndex_empty(emptyProtocol, anEvent):

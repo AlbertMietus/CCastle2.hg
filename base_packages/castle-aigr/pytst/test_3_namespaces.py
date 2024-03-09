@@ -8,8 +8,8 @@ from random import randint
 
 from castle.aigr import NameSpace, Source_NS
 
-from castle.aigr.namespaces import NamedNode ## May be moved ip
-from castle.aigr.namespaces import NameError
+from castle.aigr import NamedNode, NameError
+
 
 @dataclass
 class DummyNode(NamedNode):

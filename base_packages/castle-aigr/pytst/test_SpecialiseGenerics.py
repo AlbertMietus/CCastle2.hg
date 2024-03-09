@@ -2,9 +2,9 @@
 
 import pytest
 
-from castle.aigr import AIGR, NamedNode
-from castle.aigr.aid import TypedParameter, Argument
-from castle.aigr.aid import Specialise
+from castle.aigr import AIGR, NamedNode, Specialise
+from castle.aigr import TypedParameter, Argument
+
 
 @pytest.fixture
 def named_node():

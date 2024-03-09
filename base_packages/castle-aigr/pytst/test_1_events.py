@@ -1,7 +1,7 @@
 # (C) Albert Mietus, 2023. Part of Castle/CCastle project
 
 from castle.aigr import Event
-from castle.aigr.aid import TypedParameter
+from castle.aigr import TypedParameter
 
 
 def test_0_Event_empty():

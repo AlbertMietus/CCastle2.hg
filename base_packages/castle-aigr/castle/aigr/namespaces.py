@@ -14,7 +14,7 @@ from enum import Enum
 from dataclasses import dataclass, KW_ONLY
 from dataclasses import field as dc_field
 
-from .namednodes import NamedNode, NameError, ID
+from .nodes import NamedNode, NameError, ID
 
 from . import AIGR, _Marker
 
