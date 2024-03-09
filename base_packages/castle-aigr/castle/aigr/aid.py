@@ -12,16 +12,18 @@ __all__:PTH.List[str] = [] # Manually import what you need!
 
 @dataclass
 class TypedParameter(AIGR):
-    """This is many a helper class/struct to combine a parameter: a name and an type"""
-    name: str
+    """A parameter is a variable in a function/callable **definition**.
+       It acts as placeholder and has no specific value. In Castle, it always has a Type."""
+    name: str # XXX ToDo str or  ID?
     type: type
 
 @dataclass
 class Argument(AIGR):
-    """This is many a helper class/struct to combine a argument: a value and optional a name"""
+    """An argument is a value passed during function/callable **invocation**.
+       In Castle, we support both positional and named arguments. Hence, an argument can have a name."""
     value: PTH.Any
     _: KW_ONLY
-    name: PTH.Optional[str]=None
+    name: PTH.Optional[str]=None # XXX ToDo str or  ID?
 
 
 @dataclass
