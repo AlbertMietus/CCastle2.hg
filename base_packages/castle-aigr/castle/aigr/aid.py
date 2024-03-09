@@ -8,7 +8,7 @@ from dataclasses import field as dc_field
 from . import AIGR
 from .namednodes import NamedNode
 
-__all__ = [] # Manually import what you need!
+__all__:PTH.List[str] = [] # Manually import what you need!
 
 @dataclass
 class TypedParameter(AIGR):
