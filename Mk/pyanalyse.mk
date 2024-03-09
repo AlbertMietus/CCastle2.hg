@@ -15,3 +15,9 @@ pyanalyse pyreverse: ${PYREVERSE_dir}
 	@echo ".. done. Result; see: ./${PYREVERSE_dir}"
 
 
+
+
+
+pyanalyse-open: pyanalyse
+	open ./${PYREVERSE_dir}/*.${PYREVERSE_FORMAT}
+
