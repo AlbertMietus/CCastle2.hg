@@ -14,7 +14,7 @@ from dataclasses import field as dc_field
 from . import AIGR
 from .events import Event
 from .aid import ID, TypedParameter, Argument                                                            # Castle/AIGR types
-from .nodes import NamedNode
+from .nodes import NamedNode, Specialise
 
 
 
