@@ -44,7 +44,7 @@ class Protocol(NamedNode):
 
     _: KW_ONLY
     kind             :ProtocolKind
-    based_on         :PTH.Optional[Protocol]=dc_field(default_factory= lambda :Protocol._BASE)      # pragma: no mutate
+    based_on         :PTH.Optional[Protocol|Specialise]=dc_field(default_factory= lambda :Protocol._BASE)      # pragma: no mutate
     typedParameters  :PTH.Optional[PTH.Sequence[TypedParameter]]=()
 
 
