@@ -9,3 +9,6 @@ dependencies = []
 
 [tool.setuptools.packages.find]
 exclude = ["pytst*"]
+
+[tool.setuptools.package-data]
+"*" = ["py.typed", "*.pyi"]

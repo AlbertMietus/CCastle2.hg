@@ -27,4 +27,4 @@ DocParts/Design/*/*.png
 
 .*_packages/.*/castle.*\.egg-info/
 .*_packages/.*/dist/
-
+build/

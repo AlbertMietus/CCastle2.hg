@@ -3,6 +3,7 @@
 from castle.aigr import EventProtocol, Event, ID
 from castle.aigr import TypedParameter, Argument, Specialise
 
+import typing as PTH                                                                                 # Python TypeHints
 
 StartSieve = EventProtocol(ID('StartSieve'),
                               events=(
