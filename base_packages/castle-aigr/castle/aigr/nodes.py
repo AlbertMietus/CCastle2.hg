@@ -6,9 +6,8 @@ from dataclasses import dataclass, KW_ONLY
 from dataclasses import field as dc_field
 import typing as PTH                                                                                  # Python TypeHints
 
-from . import AIGR
-
-class ID(str): pass #XXX for now and ID is a string, but that can be changed
+from . import AIGR, ID
+from . import Argument
 
 
 class NameError(AttributeError):pass

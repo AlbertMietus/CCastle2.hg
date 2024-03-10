@@ -6,7 +6,9 @@ from enum import Enum
 from dataclasses import dataclass, KW_ONLY
 from dataclasses import field as dc_field
 from . import AIGR
-from .nodes import NamedNode
+
+
+class ID(str): pass #XXX for now and ID is a string, but that can be changed
 
 
 @dataclass

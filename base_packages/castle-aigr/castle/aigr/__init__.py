@@ -17,9 +17,10 @@ class AIGR: # Abstract Intermediate Graph Representation
 class _Marker:
     msg :str=""
 
+from .aid import *
 from .events import *
 from .protocols import *
 from .interfaces import *
 from .namespaces import *
 from .nodes import *
-from .aid import *
+

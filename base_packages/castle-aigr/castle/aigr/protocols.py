@@ -9,8 +9,8 @@ from dataclasses import dataclass, KW_ONLY
 from dataclasses import field as dc_field
 from . import AIGR
 from .events import Event
-from .aid import TypedParameter, Argument                                                            # Castle/AIGR types
-from .nodes import NamedNode, ID
+from .aid import ID, TypedParameter, Argument                                                            # Castle/AIGR types
+from .nodes import NamedNode
 
 
 

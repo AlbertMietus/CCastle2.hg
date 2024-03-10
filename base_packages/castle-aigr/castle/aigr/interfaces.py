@@ -6,8 +6,8 @@ from dataclasses import dataclass, KW_ONLY
 from dataclasses import field as dc_field
 from . import AIGR
 from .protocols import Protocol
-from .aid import TypedParameter                                                                      # Castle/AIGR types
-from .nodes import NamedNode, ID
+from .aid import ID, TypedParameter                                                                      # Castle/AIGR types
+from .nodes import NamedNode
 
 __all__ = ['PortDirection', 'Port', 'ComponentInterface']
 
