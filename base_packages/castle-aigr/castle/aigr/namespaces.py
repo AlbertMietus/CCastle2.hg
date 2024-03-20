@@ -90,5 +90,13 @@ class NameSpace(NamedNode):
 
 @dataclass
 class Source_NS(NameSpace):
+    """This namespace is used for CCastle source files (so: *.Moat- & *.Castle-files). That filename is stored in ``source``"""
     _: KW_ONLY
     source       :PTH.Optional[str]=None
+
+@dataclass
+class Target_NS(NameSpace):
+    """This ABSTARCT namespace is used to "store" AIGR-parts that will rendered into one *low-level* code-file.
+       Typical, each Backend.Writer will subclass this class for the specifics for that language."""
+    _: KW_ONLY
+    target_file     :PTH.Optional[str]=None
