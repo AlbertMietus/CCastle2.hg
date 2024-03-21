@@ -1,9 +1,10 @@
-#EXTEDED_PYPATH=PYTHONPATH=`pwd` # Not needed with `pip install -e` ..
-EXTEDED_PYPATH=
-PYTEST=${EXTEDED_PYPATH} pytest
+PYTEST= pytest
 PYTEST_OPTONS=-rxXsfE
 
-test coverage:
+test: coverage local_test
+local_test:: # Add local module test to this one
+
+coverage:
 	${EXTEDED_PYPATH} coverage run  --source castle,pytst --branch -m pytest ${PYTEST_OPTONS} pytst/
 	coverage report  --skip-covered
 	coverage html --directory=${COVERAGE_dir}

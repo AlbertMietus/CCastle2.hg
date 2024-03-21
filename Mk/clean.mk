@@ -19,5 +19,7 @@ clean_gendirs:
 	rm -rf ${MUTMUT_dir}
 	rm -rf ${PYREVERSE_dir}*
 
-clean_generated:
-	# None, for now
+clean_generated: local_clean_generated
+# None, for now
+
+local_clean_generated:: # Add local module test to this one
