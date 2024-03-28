@@ -28,3 +28,7 @@ DocParts/Design/*/*.png
 .*_packages/.*/castle.*\.egg-info/
 .*_packages/.*/dist/
 build/
+
+TestDoubles_packages/TestDoubles-aigr-sieve/castle/TESTDOUBLES/aigr/sieve/doc/moats.png
+TestDoubles_packages/TestDoubles-aigr-sieve/castle/TESTDOUBLES/aigr/sieve/doc/namespaces.png
+TestDoubles_packages/TestDoubles-aigr-sieve/castle/TESTDOUBLES/aigr/sieve/doc/protocols.png

@@ -8,6 +8,7 @@ LAST = \
 	pytst/test_2_sieve_NS.py		\
 #
 CURRENT = \
+	pytst/test_3_moat.py		\
 #
 
 TODO = \
