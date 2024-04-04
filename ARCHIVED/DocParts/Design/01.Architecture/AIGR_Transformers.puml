@@ -1,0 +1,44 @@
+@startuml
+skin rose
+!include AR_skins.inc
+left to right direction
+
+
+''NOTE: Old RTD/plantuml.1.2020.2.jar syntax!
+
+!procedure $comp($name)
+''!function  $comp($name)
+ !$in  = $name + "in"
+ !$out = $name + "out"
+
+ [$name]
+ () "AIGR" as $in
+ () "AIGR" as $out
+
+ $in )-- $name
+ $name --( $out
+!endprocedure
+''!endfunction
+
+
+frame "CCastle Compiler" as CCC #c0c0c0 {
+    folder Transformers #white {
+        package FSM {
+            $comp("FSM.NFA_2_FSM")
+            $comp("FSM.SuperStates")
+'            $comp("FSM.Epsilon")
+            $comp("FSM_2_Routine")
+        }
+        package Machinery {
+            $comp("DirectCall")
+            $comp("LibDispatch")
+            $comp("DDS")
+        }
+        package "more ..." as m {
+            $comp("...")
+        }
+    }
+}
+
+
+@enduml

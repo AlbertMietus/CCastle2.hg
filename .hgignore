@@ -3,14 +3,32 @@ __pycache__
 .*\.pyc
 .pytest_cache
 .*\.dot
-.*/pyreversed
+_pyreversed/
 
 demos/ThinOnion/OUT_*
 OUT_*
+
+TMP
 
 Design/.*\.svg
 pyreversed/.*\.svg
 htmlcov
 .coverage
-mutmut-report
 .mutmut-cache
+_ToCS-reports/
+ARCHIVED/CC2Cpy/castle/CC2Cpy/_*
+.mypy_cache
+TestDoubles/_generated/
+
+html
+Icon
+DocParts/Design/*/*.png
+
+
+.*_packages/.*/castle.*\.egg-info/
+.*_packages/.*/dist/
+build/
+
+TestDoubles_packages/TestDoubles-aigr-sieve/castle/TESTDOUBLES/aigr/sieve/doc/moats.png
+TestDoubles_packages/TestDoubles-aigr-sieve/castle/TESTDOUBLES/aigr/sieve/doc/namespaces.png
+TestDoubles_packages/TestDoubles-aigr-sieve/castle/TESTDOUBLES/aigr/sieve/doc/protocols.png

@@ -1,0 +1,251 @@
+.. (C) 2023,2024 Albert Mietus. Part of CCastle project
+
+.. include:: /std/localtoc.irst
+
+.. _AR_pipeline:
+
+======================
+Architectural overview
+======================
+
+The (new) CastleCompiler(s) share a common "pipeline" architecture. Which is flexible, both in functionality and
+implementation, as they share the :ref:`AIGR <AIGR>` --see below -- for input and/or output.
+
+AIGR pipeline
+==============
+
+The pipeline starts with source, in text format, that is explored by the :ref:`Readers` and translated in the
+:ref:`AIGR`. The next components all read this format, like the :ref:`Transformers`,  that transform it to a "better"
+form -- see later. Last, the `AIGR` is converted into a binary by (one of the) the :ref:`Backends`
+|BR|
+Most :ref:`Backends` consist of two main parts: the :ref:`Writers` (which is part of CCastle), and a *Translator*: an
+external *compiler* that translate/compiles the generated intermediate code into a binary.
+
+.. uml:: AIGR_pipeline.puml
+
+As the `AIGR` is a format (not a call-interface!), this architecture gives flexibility on deployment of the components.
+A simple (Castle)compiler can hold them as (plug-in) libraries in one process.
+|BR|
+Alternatively, each component can be a process, where te several processes communicate with e.g. unix-pipes, or
+network-connections). And there are many more option, not only separated in space, but also in time: As the AIGR can be
+serialised [#pickle]_, it is possible to save it in file, and read it for the next component, later ...
+
+.. Important:: Although it is possible to saving a (pickled) AIGR, that component (nor action) is **NOT** a `Writer`!
+
+   One should typically speak about “saving” the AIGR, and “loading the (AIGR) file”. It is a feature of the
+   :ref:`AIGR_component` (see below).
+
+
+The Reader(s)
+=============
+
+A typical reader reads (some) source-files and then translate that, in a few steps, into the :ref:`AIGR`, as
+shown below.
+|BR|
+The :ref:`mockReader` is different: it does output (needed) ‘`AIGR`’, and so can act as the starts of a
+pipeline (and therefor considered as a ‘`Reader`’), but has no input.
+
+.. uml:: AIGR_Reader.puml
+
+Some sub-components in the ‘`Reader`’ may also work on the ‘`AIGR`’, as shown. The difference (to a ‘`Translator`’) is
+simple: the '`Reader'` should do all error-checking, etc, to make sure the inputs (so the code of the developer) is
+valid. A normal Translator (nor the '`Backend'`) should ever find errors.
+|BR|
+When implementing that (`Reader`) functionality is more convenient as after converting the :ref:`ATS into the AIGR
+<AST-2-AIGR>` an “AIGR-analyser” is build.
+
+.. _Transformers:
+
+Transformers
+============
+
+All ‘`Transformers`’ receive and post (a “dialect” of) the`AIGR`, pushing it into a form that van be handled by the
+backend to create an efficient binary. There can be many `Transformers`, and typically several of them are run in
+sequence. Other sets of `Transformers` exclude each other.
+
+
+A `Transformer` is often triggered by one of the :ref:`Rewriters`
+
+We show two examples.
+
+.. uml:: AIGR_Transformers.puml
+   :align: right
+   :scale: 50%
+
+FSM
+---
+In Castle, one can directly describe a FSM (see: :ref:`FSMs-are-needed`) including advance/extended variants. Like
+the non-deterministic “NFA”s, and the “State-Charts” (known from UML), with orthogonale regions and hierarchically
+‘superstates’. See :need:`U_FSM_Syntax` for the demands.
+|BR|
+Those FSM are initially stored “asis” in the AIGR, and step-by-step rewritten by several FSM-Transformers.
+
+The ``FSM.NFA_2_FSM`` Transformer reworks a NFA into a (bigger, deterministic) FSM. This is a well know algorithm, such
+that non-deterministic edges and epsilon-transitions are gone.
+|BR|
+The resulting `AIGR` has the same functionality, but is simpler to translate into a binary
+
+Similarly, the ``FSM.SuperStates`` Transformer can “flatten” complex hierarchical FSM’s into ones that are easier to
+translate into executable code.
+
+This is an examples of set of `Transformers` that can work collectively. First, remove the non-determinisms, then handle
+the SuperStates and completely transformer the (simple) FSM into regulair routines.
+
+Machinery
+---------
+.. caution::
+   :class: clear-none
+
+   The Machinery part is still in development. And so, it’s **not** sure that the Machinery will be implemented as a
+   `Transformer`!
+
+‘:ref:`TheMachinery`’ is an abstraction of the technology to connect ports and send data (like events) over
+them. Several implementations are possible, like direct function-calls, dispatching to concurent thread-pools, or
+distributing them over a network.
+
+Typically, one wil only use one Machinery: connecting two port with DDS, ‘sending’ an event by dispatching it whereas
+the receiving event-handler expect a traditional call, will not work. By choosing one Machinery-Transformer, all
+bolt-and nuts will fit.
+
+.. caution:: This is **not** an requirement!
+
+   One can imagine, that (eventually) a Mixed-Machinery is used. Ultimately, only the details of each (individual)
+   connection should be aligned.
+
+   .. admonition:: Advanced example
+
+      The *Machinery-kind* can be seen an attribute of the (super)component that holds the connections (and
+      sub-component, with ports). By using that Machinery for those connections, it will work.
+      |BR|
+      But the (external) ports and connections of that super(component) can use another Machinery; when the
+      supper-super-component’s machinery-kind attribute has another value.
+
+   Again, this makes it complicated. But it gives flexibility: for deep-down connections we might prefer direct
+   calls, but use concurent options at a (bit) higher level. And use maximal decoupling for networking-applications.
+
+   .. note:: 
+
+      Here, we see an example of having the “connected/concurent components” abstraction and
+      ‘:ref:`TheMachinery`’ abstraction.
+
+      The CCastle code, use “components, ports and connections” only. Later, we compiling it, the details of the
+      Machinery are added.
+      |BR|
+      And by implementing it in/as a `Transformer` we can add more-and-more advanced options without the need to change
+      the source. Only some (global) “compiler options” have to be improved.
+      (many) sor
+
+
+Writers & Backends
+==================
+
+The ‘`Backends`’ read the (simplified & optimised) `AIGR` and transform it to a binary that can be executed. Typically
+this is a two-step approach: A ‘`Writer`’ renders the `AIGR` into a low-level intermediate [#intermediate]_ language [#lll-ex]_
+
+The interface between the ‘`Writer`’ and the ‘Translator’ is typically file-based, and depend heavily on the chosesn
+‘Translator’ -- which is not part of CCastle.
+|BR|
+As those two are very depending on each other, there is little commonality between various `Backend` variants.
+
+Some examples
+
+* The :ref:`RPy` backend/writer renders to RPython, such that (PyY’s) rpython-translator can handle it. The intermediate
+  file-format is fully described by RPython: the :ref:`RPy` `Writer` needs to emit exactly that format.
+* **CC2Cpy** (now defunct [#CC2Cpy-not-AIGR]_) generates standard C code, that can be translated into binaries by many
+  (standard, C) compilers. So, it’s a bit more generic (then **RPy**), but still the writer is limited to C -- and so
+  has to *emulate* namespaces, as that isn’t handled in C
+  |BR|
+  A possible variant is using C++, both as lll and translator (but as I’m not a a fan of it, somebody else has to make
+  it
+* Both mentioned writers are implemented in python, for now (that is the ‘py’ part of CC2Cpy).
+  |BR|
+  Future variants of those `Writers` will be implemented in Castle itself. This does not change the input (`AIGR`) not
+  the output of the `Writers` (rpython and C). And such we can use easily upgrade the `Backend` as the `Translator` does
+  not change.
+
+
+.. _AIGR_component:
+
+The AIGR auxiliary component
+============================
+
+The `AIGR` *auxiliary* component describes & handles the ‘:ref:`AIGR`’ and is used by all regulair components. Sometimes
+it (the `AIGR`) is called an `“intermediate language” (‘IM’), or “intermediate representation” (‘IR’)
+<https://en.wikipedia.org/wiki/Intermediate_representation>`__.  Many existing IMs are quite “flat”, low-level and very
+operational, like `RTL <https://en.wikipedia.org/wiki/Register_transfer_language>`__ or `SSA
+<https://en.wikipedia.org/wiki/Static_single-assignment_form>`__ -- they are great to convert code to assembly.
+
+
+
+.. uml:: AIGR-exampleSieve.puml
+   :align: right
+   :scale: 70%
+   :caption: The *Sieve Protocols*, as example of a AIGR (part)
+
+For the *CCastle Workshop Tools*, a more abstract representation is chosen, with more structure. Visually, it resembles
+a tree, but without the need to have a single root (making it a “forest”), and with interconnects (making it a
+graph). Structurally, it is not dissimular to the XLM/DOM, known by many webpages; but again without the “single
+document-root” -- the DOM has interconnects, known as “links” (a term not used in the AIGR).
+|BR|
+The AIGR reminds also to the AST (of CCastle), after all, each language construct is “stored” in the AIGR. Some see it as a
+semantically parsed AST. A namedID (like a variable, or function) in the source, when in the same namespace denotes the
+same artifact -- even it is mention at several places (and can have aliases). In the AIGR it is the same ‘node’ having
+multiple incoming ‘edges’ -- and so, violates the tree’s non-cycle rule.
+
+The AIGR-component describes all possible elements, and the relations (so it is a bit like the XML `DTD
+<https://en.wikipedia.org/wiki/Document_type_definition>`__ or `Schema
+<https://en.wikipedia.org/wiki/XML_schema>`__). And has (will have) general routines to facilitate handling the AIGR.
+|BR|
+By example, you can expect routines to “save” an AIGR to file, and “load” is later.
+
+.. warning::
+
+   Although the AIGR is a graph, the AIGR-component will **not** be able to visualize that graph.
+
+   Other workshop tools may do that, and probably use the AIGR-component to read it. The visualising is part of that
+   tool. For the example above an manual conversion to plantUML is made.
+
+
+Currently, the AIGR is in the design phase, and may change.
+|BR|
+For that reason, only a Python dataclass reference model is available (Work-in-Progress). The (unit & behaviour) tests
+and TesDoubles make it quite understandable. Once, it will be fully documented (and versioned) And available for
+multiple languages (including Castle :-)
+
+
+
+--------
+
+.. rubric:: Footnotes
+
+.. [#pickle]
+   This can be done by *pickling* in python, or using an XML format, or ...
+
+.. [#intermediate]
+   We call this low-level-language “intermediate”, as the user shouldn't care about it. And consider it as an internal
+   detail of the `Backend`.
+   |BR|
+   Note however, other tools/environments may speak about the *“Generaring to XXX-language ...”*, which is then
+   compiled in the normal way. (one may hope, the ‘generated source’ isn’t edited anymore, as old tools did allow).
+
+   Aside of terms, it’s the same!
+
+   .. XXX The hint below overlaps a bit. The |BR| hack is a workaround
+
+   |BR|
+
+   .. hint:: Generating (e.g.) C-code *sounds* like it is needed to intergrade existing code.
+      |BR|
+      That is an outdated view however.
+
+      Nowadays all modern languages support a ‘FFI’ (`Foreign Function Interface
+      <https://en.wikipedia.org/wiki/Foreign_function_interface>`__). Castle will support that to.
+
+.. [#lll-ex]
+   A well know example of  such low-level-languages is C, or C++. But also RPython --which translate to C, first and
+   then that an executable-- is can also be used.
+   Other options are the ‘LLVM-IM’ and so use the LLVM (known from e.g. CLang) backend as Transformer
+
+.. [#CC2Cpy-not-AIGR]
+   Notice, the current CC2Cpy module isn’t using the AIGR, and a therefore not a Writer. However, an upcomming version
+   of it  may use the AIGR as interface, making it true `Writer` and a good example.

@@ -1,0 +1,29 @@
+{# (C) Albert Mietus, 2023. Part of Castle/CCastle project #}
+{# parameters:
+   * ``protocols``: PTH.Sequence[aigr.EventProtocol]
+#}
+{% include '_header.jinja2' %}
+{#--------------------------#}
+
+
+{# These imports are static #}
+{% block static_imports %}
+####
+from CC import buildin
+{% endblock %}
+
+{% block imports %}
+#Put the Castle/generated imports here
+{% include 'parts/protocol_imports.jinja2' %}
+{% endblock %}
+
+{% block EventIndexes %}
+{% for protocol in protocols %}
+   {% set events = protocol.events %}
+   {% include 'parts/protocol_EventIndexes.jinja2' %}
+{% endfor %}
+{% endblock %}
+
+{% block ProtocolDataStructures %}
+{% include 'parts/protocol_DataStructures.jinja2' %}
+{% endblock %}

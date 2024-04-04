@@ -1,0 +1,25 @@
+{# (C) Albert Mietus, 2023. Part of Castle/CCastle project #}
+{# parameters:
+ * ``interfaces`` : PTH.Sequence[aigr.ComponentInterface]
+ * ``imports``    : PTH.Sequence[ XXX module/file // NS // XXX: ToDo]
+#}
+{% include '_header.jinja2' %}
+{#--------------------------#}
+
+
+{# These imports are static #}
+{% block static_imports %}
+####
+from CC import buildin
+from CC import base
+{% endblock %}
+
+{% block imports %}
+#Put the Castle/generated imports here
+{% include 'parts/interface_imports.jinja2' %}
+{% endblock %}
+
+
+{% block InterfaceDataStructures %}
+{% include 'parts/interface_DataStructures.jinja2' %}
+{% endblock %}

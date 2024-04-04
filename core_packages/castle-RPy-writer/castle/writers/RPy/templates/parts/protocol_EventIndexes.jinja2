@@ -1,0 +1,18 @@
+{#- (C) Albert Mietus, 2023. Part of Castle/CCastle project -#}
+{% import 'macros/CastleMacros.jinja2' as m %}
+
+{# parameters:
+- ``events``  : PTH.Sequence[aigr.Event]
+- ``protocol``: aigr.EventProtocol
+#}
+
+{# Note: the caller (:file:`protocol.jinja2` will loop over the sequence of protocols.
+         Or, should we do it here? #}
+##
+## EventIndexes (All {{events|length}} events of {{protocol.name}})
+##
+
+{% for e in events %}
+  {{- m.EventIndexName(protocol, e) }} = {{ protocol.eventIndex(e)}}
+{% endfor %}
+

@@ -1,0 +1,2 @@
+This directory is needed to store generated/rendered files (which is an option during testing)
+.. note:: a "mirror" of this file is found in :dir:`reference` -- to be able to diff dirs

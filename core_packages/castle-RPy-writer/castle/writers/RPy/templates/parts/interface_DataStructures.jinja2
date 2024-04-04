@@ -1,0 +1,21 @@
+{# (C) Albert Mietus, 2023. Part of Castle/CCastle project #}
+
+{# parameters:
+ * ``interfaces`` : PTH.Sequence[aigr.ComponentInterface]
+#}
+{% import 'macros/CastleMacros.jinja2' as m %}
+{#------------------------------------------#}
+
+{%- for interface in interfaces %}
+  {{- m.comp_interface_Name(interface) }} = buildin.CC_B_ComponentInterface(name="{{ interface.name }}",
+                                  inherit_from= XXX_NS_XXX. {{ m.comp_interface_Name(interface.based_on) }},
+                                  ports=[])
+
+  {% for p in interface.ports %}
+    {{- m.comp_interface_Name(interface) }}.ports.append(buildin.CC_B_C_PortID(name="{{ p.name  }}",
+                                protocol={{m.ProtocolName(p.type)}},
+                                direction={{p.direction}},
+                                part_of={{ m.comp_interface_Name(interface) }}))
+  {% endfor %} {#- ports #}
+
+{% endfor %} {#- interfaces #}

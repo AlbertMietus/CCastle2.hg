@@ -1,0 +1,12 @@
+{# -*- jinja2 -*- #}
+
+{# There are two ways:
+   - import is possible, but needs to be expanded.
+   - include is easier, directly
+#}
+
+{% import "part-import.txt" as X %}
+{{X}}
+
+{% include "part-include.txt" %}
+

@@ -1,0 +1,94 @@
+Namespace & protocols
+*********************
+
+.. uml::
+
+   @startuml
+
+   package "Protocols in ‘TheSieve’" as P1 <<Node>> {
+
+      package start_sieve as P1A {
+         object start_sieve <<Source_NS>> #LightSkyBlue {
+           file: 'start_sieve.Castle'
+         }
+         object " " as P1A_d <<dict>> #lightcyan {
+           StartSieve
+           base :NS
+         }
+         object StartSieve <<EventProtocol>>
+
+         start_sieve          o--  P1A_d
+         start_sieve          <--  StartSieve
+         P1A_d::StartSieve    ->   StartSieve #DarkMagenta
+         P1A_d::base          -->  base       #DarkMagenta
+      }
+
+      package slow_start as P1B {
+         object slow_start <<Source_NS>> #LightSkyBlue {
+           file: 'slow_start.Castle'
+         }
+         object " " as P1B_d <<dict>> #lightcyan {
+           SlowStart
+           base :NS
+
+         }
+         object SlowStart  <<EventProtocol>> {
+           queue_max :int
+         }
+
+         slow_start           o--  P1B_d
+         slow_start           <--  SlowStart
+         P1B_d::SlowStart     ->   SlowStart #DarkMagenta
+         P1B_d::base          ->   base  #DarkMagenta
+      }
+
+      package simple_sieve as P1C {
+         object simple_sieve <<Source_NS>> #LightSkyBlue {
+           file: 'simple_sieve.Castle'
+         }
+         object " " as P1C_d <<dict>> #lightcyan {
+           SlowStart(1)
+           SimpleSieve
+           base :NS
+           slow_start :NS
+         }
+         object "SlowStart(1)" as SlowStart_1 <<ProtocolWrapper>> {
+            queue_max=1
+         }
+         object SimpleSieve <<EventProtocol>>
+         SlowStart_1 <|-- SimpleSieve: based_on
+
+         simple_sieve         o--  P1C_d
+         simple_sieve         <--  SlowStart_1
+         simple_sieve         <--- SimpleSieve
+         P1C_d::SlowStart_1   ->   SlowStart_1 #DarkMagenta
+         P1C_d::SimpleSieve   ->   SimpleSieve #DarkMagenta
+      }
+
+      P1B         <---   P1C_d        #LightSkyBlue  : //import// ""slow_start""
+      SlowStart   <|---- SlowStart_1 #SkyBlue        : based_on
+   }
+
+   package "Build-in Protocols" as P2 <<Node>> {
+      package base {
+         object Protocol <<_RootProtocol>>
+      }
+      package buildin {
+      }
+   }
+
+   Protocol  <|--  StartSieve #SkyBlue : based_on
+   Protocol  <|--  SlowStart  #SkyBlue : based_on
+
+
+   @enduml
+
+Updates
+=======
+
+23Nov13
+-------
+
+* As ``SlowStart_1`` is based on ``SlowStart``, the  **source_NS** (aka *package*) ``start_sieve`` needs to be
+  “imported”. So, a line is added. As well as the `start_sieve` entry in the NS of the ``simple_sieve`` package
+* Also, the entry `base` was forgotten in that NS

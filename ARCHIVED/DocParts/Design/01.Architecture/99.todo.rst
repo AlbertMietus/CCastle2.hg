@@ -1,0 +1,34 @@
+ToDo: Temporary landings for AR-references
+==========================================
+
+.. _ToDoARC:
+
+Describing AR components (todo)
+-------------------------------
+
+
+.. _Readers:
+
+Readers [ToDo]
+**************
+
+.. _Writers:
+
+Writers [ToDo]
+**************
+
+.. _Backends:
+
+Backends [ToDo]
+***************
+
+
+.. _mockReader:
+
+mockReader [ToDo]
+*****************
+
+.. _AST-2-AIGR:
+
+AST-2-AIGR [ToDo]
+*****************
