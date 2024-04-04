@@ -26,6 +26,7 @@ class PortDirection(Enum):
 
 PortType = PTH.Union[Protocol, type]
 
+
 @dataclass
 class Port(AIGR): # Note: not a NamedNode, as it does not live in a NS (but in a Component)
     """.. note ::
