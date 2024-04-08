@@ -1,7 +1,7 @@
 default: all
 
 # XXX read from ./setup.py ??
-PYREVERSE_PKGS = castle.aigr
+PYREVERSE_PKGS = castle/aigr
 
 LAST = \
 	pytst/test_3_namespaces.py			\

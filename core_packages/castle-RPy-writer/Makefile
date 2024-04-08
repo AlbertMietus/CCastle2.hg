@@ -1,7 +1,7 @@
 default: all
 
 # XXX read from ./setup.py ??
-PYREVERSE_PKGS = castle.writers.RPy
+PYREVERSE_PKGS = castle/writers/RPy
 
 LAST = \
 	pytst/test_0_templating.py			\
