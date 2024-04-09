@@ -1,10 +1,11 @@
-# (C) Albert Mietus, 2023. Part of Castle/CCastle project
+# (C) Albert Mietus, 2023-2024. Part of Castle/CCastle project
 
-from __future__ import annotations
+from __future__ import annotations # Postponed evaluation of annotations
 from dataclasses import dataclass
 
 
 
+@dataclass
 class AIGR: # Abstract Intermediate Graph Representation
     def __new__(cls, *args, **kwargs):
         if cls == AIGR:
