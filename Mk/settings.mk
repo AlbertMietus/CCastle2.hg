@@ -3,7 +3,8 @@ COVERAGE_dir = ${ToCS_dir}Coverage/
 MUTMUT_dir   = ${ToCS_dir}MutMut/
 
 PYREVERSE_dir 	 = _pyreversed/
-PYREVERSE_FORMAT = svg
+PYREVERSE_FORMAT = plantuml
+
 
 SETS	= last current current-ds current-info recheck
 TYPICAL = all clean cleaner cleanest veryclean doc test pytest pytest-only
