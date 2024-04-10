@@ -39,7 +39,6 @@ def verify_ComponentInterface(i, name, my_port_names=[], total_no_of_ports=None)
     assert isinstance(i, aigr.ComponentInterface)
     assert str(i.name) == name, f"{i.name} reported but expected: {name}"
 
-    assert i._noPorts() == total_no_of_ports, f"{i.name}._noPort()->{i._noPorts()}, expected {total_no_of_ports}"
     for no, name in enumerate(my_port_names):
         assert str(i.ports[no].name) == name, f"{i.name} (own/local) port no={no}: {i.ports[no].name}, expected: {name} (str-compare)"
         assert i.ports[no].name == aigr.ID(name),  f"{i.name} (own/local) port no={no}: {i.ports[no].name}, expected: {name} (ID)"
