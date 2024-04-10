@@ -8,6 +8,7 @@ LAST = \
 	pytst/test_2c_GenericProtocols.py		\
 #
 CURRENT = \
+	pytst/machinery/test_0_dataclass.py		\
 	pytst/machinery/test_0.py			\
 #
 TODO = \

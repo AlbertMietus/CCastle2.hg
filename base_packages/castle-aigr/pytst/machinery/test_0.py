@@ -68,3 +68,5 @@ def test_eDispatchTable():
     assert o.handlers[0] == 'callable0'
     assert o.handlers[1] == 'callable1'
     assert len(o.handlers) == 2
+
+

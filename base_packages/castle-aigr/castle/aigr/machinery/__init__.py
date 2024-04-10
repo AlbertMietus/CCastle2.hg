@@ -7,14 +7,15 @@ from dataclasses import dataclass, KW_ONLY
 import typing as PTH                                                                                  # Python TypeHints
 
 from .. import AIGR, Port, Event, Argument, Protocol
-from ..develop import ToDo
+
+from .. import todo
 
 @dataclass
 class machinery(AIGR):
     _: KW_ONLY
     delegate : implementation = None
 
-implementation : PTH.TypeAlias = PTH.Optional[type[machinery]]
+implementation : PTH.TypeAlias = PTH.Optional[type[machinery]] # pragma: no mutate
 
 @dataclass
 class send_proto(machinery):
@@ -22,9 +23,9 @@ class send_proto(machinery):
     outport : Port
 
 @dataclass
-class sendStream(send_proto, ToDo): ...
+class sendStream(send_proto, todo.mark_Dataclass): ...
 @dataclass
-class sendData(send_proto, ToDo): ...
+class sendData(send_proto, todo.mark_Dataclass): ...
 
 @dataclass
 class sendEvent(send_proto):
@@ -40,7 +41,8 @@ class connection(machinery):
 @dataclass
 class DispatchTable(machinery):
     _: KW_ONLY
-    handlers : PTH.Sequence[Handlers] # XXX Handlers not yet defined
+    handlers : PTH.Sequence[Handler] # XXX Handlers not yet defined
+Handler = todo.Typing #XXX Weet nog niet waar/wanneer (Event)Handlers in de AIGR komen
 
 @dataclass
 class eDispatchTable(DispatchTable):
