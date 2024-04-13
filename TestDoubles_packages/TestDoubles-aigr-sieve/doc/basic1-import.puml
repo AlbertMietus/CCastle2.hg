@@ -1,0 +1,48 @@
+
+@startuml
+
+folder "src files" {
+
+   file "protocols.Moat"                as p #Technology {
+     node "protocol StartSieve"
+     node "protocol SimpleSieve"
+   }
+   file "interfaces.Moat"               as i #Technology {
+     node "component Generator"
+     node "component Sieve"
+     node "component Finder"
+   }
+     p <- i : "import <protocol>"
+
+
+   file "generator.Castle"              as G #DarkSeaGreen {
+     node "implement Generator"
+   }
+     i <-- G : import <interfaces>
+     p <-- G : import <protocols>
+   file "sieve.Castle"                  as S #DarkSeaGreen {
+     node "implement Sieve"
+   }
+     i <-- S : import <interfaces>
+     p <-- S : import <protocols>
+   file "finder.Castle"                 as F #DarkSeaGreen {
+     node "implement Finder"
+   }
+     i <-- F : import <interfaces>
+     p <-- F : import <protocols>
+
+   file "main.Castle"                   as M #SeaGreen {
+     node "component Main"
+     node "implement Main" {
+      control powerOn #LightSeaGreen
+     }
+   }
+     i <--- M : import <interfaces>
+     p <--- M : import <protocols>
+
+     G <. M
+     S <. M
+     F <. M
+}
+   @enduml
+
