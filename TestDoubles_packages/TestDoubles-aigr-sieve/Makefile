@@ -1,17 +1,16 @@
 default: all
 
-PYREVERSE_PKGS = castle/TESTDOUBLES/aigr.sieve castle/TESTDOUBLES/aigr.base
+PYREVERSE_PKGS = castle/TESTDOUBLES/aigr.base castle/TESTDOUBLES/aigr.sieve.basic
 
 LAST = \
-	pytst/test_0_base.py			\
-	pytst/test_1_sieve_protocols.py		\
-	pytst/test_2_sieve_NS.py		\
+	pytst/base/test_0_base.py			\
 #
 CURRENT = \
-	pytst/test_3_moat.py		\
+	pytst/sieve/basic1/test_2_sieve_NS.py		\
 #
 
 TODO = \
+	pytst/sieve/basic1/test_1_sieve_protocols.py	\
 #
 
 

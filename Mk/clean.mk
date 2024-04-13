@@ -9,6 +9,7 @@ clean_build:
 
 clean_caches:
 	find . -type d -name __pycache__    -print0 | xargs -0  rm -r
+	find . -type f -name \*.pyc         -print0 | xargs -0  rm
 	find . -type d -name .pytest_cache  -print0 | xargs -0  rm -r
 	rm -rf ./.coverage
 	rm -rf ./.mutmut-cache

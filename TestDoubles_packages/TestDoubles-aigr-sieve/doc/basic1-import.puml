@@ -4,15 +4,17 @@
 folder "src files" {
 
    file "protocols.Moat"                as p #Technology {
-     node "protocol StartSieve"
-     node "protocol SimpleSieve"
+     component "protocol StartSieve"
+     component "protocol SimpleSieve"
    }
    file "interfaces.Moat"               as i #Technology {
-     node "component Generator"
-     node "component Sieve"
-     node "component Finder"
+     component "component Generator" as gi
+     component "component Sieve"     as si
+     component "component Finder"    as fi
+     gi -right[hidden]-> si
+     si -right[hidden]-> fi
    }
-     p <- i : "import <protocol>"
+     i->p : "import <protocol>"
 
 
    file "generator.Castle"              as G #DarkSeaGreen {
@@ -32,17 +34,17 @@ folder "src files" {
      p <-- F : import <protocols>
 
    file "main.Castle"                   as M #SeaGreen {
-     node "component Main"
-     node "implement Main" {
+     component "component Main" #gray
+     node "implement Main" #application {
       control powerOn #LightSeaGreen
      }
    }
      i <--- M : import <interfaces>
      p <--- M : import <protocols>
 
-     G <. M
-     S <. M
-     F <. M
+     G <.. M
+     S <.. M
+     F <.. M
 }
    @enduml
 

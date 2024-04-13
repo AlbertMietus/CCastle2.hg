@@ -1,22 +1,20 @@
-# (C) Albert Mietus, 2023,2024 Part of Castle/CCastle project
-"""Test the AIGR TestDoubles of the Sieve protocols
-   See: http://docideas.mietus.nl/en/default/CCastle/4.Blog/b.TheSieve.html#the-design
+# (C) Albert Mietus, 2024 Part of Castle/CCastle project
+"""Test the AIGR TestDoubles of the BASIC1 Sieve protocols
+   documented in :
+       *  .../TestDoubles_packages/TestDoubles-aigr-sieve/doc/basic1-import.puml
+       *  http://docideas.mietus.nl/en/default/CCastle/4.Blog/b.TheSieve.html#the-design
 """
-
+import logging; logger = logging.getLogger(__name__)
 import pytest
 
 from castle import aigr
-from castle.TESTDOUBLES.aigr.sieve import protocols
+from castle.TESTDOUBLES.aigr.sieve.basic1 import protocols
 from . import verify_Protocol
 
 
 def test_0_all_sieveProtocols_exist():
     for p in (protocols.StartSieve, protocols.SlowStart, protocols.SimpleSieve):
         assert isinstance(p, aigr.EventProtocol)
-
-    for p in (protocols.SlowStart_1,):
-        assert isinstance(p, aigr.Specialise)
-        assert isinstance(p.based_on, aigr.EventProtocol)
 
 def test_1_StartSieve():
     p = protocols.StartSieve
@@ -36,3 +34,5 @@ def test_2_SimpleSieve():
 
 
 
+def test_99_update():
+    assert False

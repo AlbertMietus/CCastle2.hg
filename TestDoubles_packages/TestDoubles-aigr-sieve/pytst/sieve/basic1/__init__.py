@@ -20,18 +20,6 @@ def verify_Protocol(p, name, my_event_names, total_no_of_event=None, base=None, 
 
 
 
-def verify_NS(ns, name, registered_names, as_name=None):
-    if as_name is None: as_name=name
-    assert str(ns.name) == as_name, f"verify_NS:: name={ns.name}, expected: {as_name}\n\tns={ns}"
-    for n in registered_names:
-        if isinstance(n, (list, tuple)):
-            # This is hardly/not used: but .... We support `import n[1] as n[0]`
-            assert len(n) == 2
-            name, asName = n[1], n[0]
-        else:
-            name, asName = n, n
-        assert str(ns.getID(asName).name) == name
-
 def verify_ComponentInterface(i, name, my_port_names=[], total_no_of_ports=None):
     if total_no_of_ports is None:
         total_no_of_ports = len(my_port_names)

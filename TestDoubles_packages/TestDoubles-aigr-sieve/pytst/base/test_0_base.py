@@ -10,7 +10,7 @@ from castle.TESTDOUBLES.aigr.base import base as base_NS
 def test_0_baseProtocol_exist():
     assert isinstance(baseProtocol, aigr.Protocol)
 
-def test_o_baseNS_exist():
+def test_0_baseNS_exist():
     assert isinstance(base_NS, aigr.NameSpace)
 
 

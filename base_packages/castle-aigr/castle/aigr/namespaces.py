@@ -33,6 +33,9 @@ class NameSpace(NamedNode):
     def register(self, named_node :NamedNode, asName:PTH.Optional[ID|str]=None):
         name = ID(asName) if asName else PTH.cast(ID, named_node.name)
 
+        logger.debug(f"register: <{type(named_node).__name__}:{named_node.name}> in <{type(self).__name__}:{self.name}> as {name}")
+
+
         if name in self._dict:
             old = self._dict[name]
             logger.warning(f"The '{name}'-node is already in this namespace; -- it will be lost." +
