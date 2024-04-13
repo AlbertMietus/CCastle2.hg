@@ -10,24 +10,24 @@ import pytest
 
 from castle.aigr import NameSpace
 from castle import aigr
-from castle.TESTDOUBLES.aigr.sieve.basic1 import namespaces
+from castle.TESTDOUBLES.aigr.sieve.basic1 import sieve_namespaces
 
 moat_files = ('protocols', 'interfaces')
 comp_files = ('generator', 'sieve', 'finder')
 
 def test_0_all_sieveProtocols_exist():
-    for ns in (namespaces.interfaces, namespaces.protocols):
+    for ns in (sieve_namespaces.interfaces, sieve_namespaces.protocols):
         assert isinstance(ns, aigr.Source_NS)
-    for ns in (getattr(namespaces, name) for name in moat_files): # same loop as above!
+    for ns in (getattr(sieve_namespaces, name) for name in moat_files): # same loop as above!
         assert isinstance(ns, aigr.Source_NS)
-    for ns in (namespaces.comps[name] for name in comp_files):
+    for ns in (sieve_namespaces.comps[name] for name in comp_files):
         assert isinstance(ns, aigr.Source_NS)
-    assert isinstance(namespaces.main, aigr.Source_NS)
+    assert isinstance(sieve_namespaces.main, aigr.Source_NS)
 
 
 
 def test_1_comps_imports_moats():
-    for (comp_name, comp_ns) in ((name, namespaces.comps[name]) for name in comp_files):
+    for (comp_name, comp_ns) in ((name, sieve_namespaces.comps[name]) for name in comp_files):
         logger.debug(f"comp_name={comp_name}, comp_ns={comp_ns}")
         for moat_name in moat_files:
             moat_node = comp_ns.findNode(moat_name)
@@ -37,16 +37,16 @@ def test_1_comps_imports_moats():
 def test_2a_main_imports_moats():
     """ main imports <interfaces>, <protocols> and (see test_2b...)"""
     for name in moat_files:
-        ns_node = namespaces.main.findNode(name)
+        ns_node = sieve_namespaces.main.findNode(name)
         verify_nodeIsNS_withName(ns_node, name)
 
 def test_2b_main_imports_implements_optionally():
     """(see test_2a...) and optionally the 3 components"""
-    log_prefix =f"namespaces._OPT_MAIN_IMPORTS_COMPS={namespaces._OPT_MAIN_IMPORTS_COMPS}..."
-    if namespaces._OPT_MAIN_IMPORTS_COMPS:
+    log_prefix =f"sieve_namespaces._OPT_MAIN_IMPORTS_COMPS={sieve_namespaces._OPT_MAIN_IMPORTS_COMPS}..."
+    if sieve_namespaces._OPT_MAIN_IMPORTS_COMPS:
         logger.info(log_prefix +f"check the comp_files ({comp_files})")
         for name in comp_files:
-            ns_node = namespaces.main.findNode(name)
+            ns_node = sieve_namespaces.main.findNode(name)
             verify_nodeIsNS_withName(ns_node, name)
     else:
         logger.info(log_prefix +f"skip check on comp_files")
