@@ -10,7 +10,7 @@ import pytest
 
 from castle.aigr import NameSpace
 from castle import aigr
-from castle.TESTDOUBLES.aigr.sieve.basic1 import sieve_namespaces
+from castle.TESTDOUBLES.aigr.sieve.basic1 import namespaces as sieve_namespaces
 
 moat_files = ('protocols', 'interfaces')
 comp_files = ('generator', 'sieve', 'finder')
