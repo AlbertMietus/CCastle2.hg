@@ -1,0 +1,40 @@
+@startuml
+
+skinparam object {
+BackgroundColor #Technology
+}
+
+' component Generator : Component {
+'   port StartSieve<in>:controll;
+'   port SimpleSieve<out>:outlet;
+' }
+object "component Generator" as Generator <<ComponentInterface>> {
+   name = Generator
+   StartSieve<in>:       **controll**
+   SimpleSieve<out>: **outlet**
+}
+
+
+' component Sieve(onPrime:int) : Component {
+'   port SimpleSieve<in>:try;
+'   port SimpleSieve<out>:coprime;
+' }
+object "component Sieve"  as Sieve <<ComponentInterface>> {
+   name = Sieve
+   SimpleSieve<in>:      **try**
+   SimpleSieve<out>:   **coprime**
+
+}
+
+
+' component Finder : Component {
+'   port SimpleSieve<in>:newPrime;
+'   port SimpleSieve<out>:found;
+' }
+object "component Finder" as Finder <<ComponentInterface>> {
+   name = Finder
+   SimpleSieve<in>:    **newPrime**
+   SimpleSieve<out>:  **found**
+}
+
+@enduml

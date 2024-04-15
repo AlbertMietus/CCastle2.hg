@@ -14,7 +14,6 @@ def test_0_baseNS_exist():
     assert isinstance(base_NS, aigr.NameSpace)
     assert str(base_NS.name) == 'base'
 
-
 def test_1_baseNS_has_Protocol():
     baseNS_protocol = base_NS.getID('Protocol')
     assert isinstance(baseNS_protocol, aigr.Protocol)
