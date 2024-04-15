@@ -15,7 +15,7 @@ from castle.TESTDOUBLES.aigr.sieve.basic1 import namespaces as sieve_namespaces
 moat_files = ('protocols', 'interfaces')
 comp_files = ('generator', 'sieve', 'finder')
 
-def test_0_all_sieveProtocols_exist():
+def test_0a_all_sieveProtocols_exist():
     for ns in (sieve_namespaces.interfaces, sieve_namespaces.protocols):
         assert isinstance(ns, aigr.Source_NS)
     for ns in (getattr(sieve_namespaces, name) for name in moat_files): # same loop as above!
@@ -23,6 +23,11 @@ def test_0_all_sieveProtocols_exist():
     for ns in (sieve_namespaces.comps[name] for name in comp_files):
         assert isinstance(ns, aigr.Source_NS)
     assert isinstance(sieve_namespaces.main, aigr.Source_NS)
+
+def test_0b_all_NS_have_source():
+    for ns in (getattr(sieve_namespaces, name) for name in dir(sieve_namespaces)
+                   if isinstance(getattr(sieve_namespaces, name), aigr.Source_NS)):
+        assert ns.source == ns.name +'.Moat'
 
 
 

@@ -42,7 +42,7 @@ main.register(protocols)
 ##
 ## It's and option: _OPT_MAIN_IMPORTS_COMPS
 def _main_imports_comps():
-    for comp in (ns for name,ns in comps.items() if name != 'main'):
+    for comp in (ns for name,ns in comps.items() if name != 'main'): # pragma: no mutate
         main.register(comp)
-_OPT_MAIN_IMPORTS_COMPS=True
+_OPT_MAIN_IMPORTS_COMPS=True              # pragma: no mutate
 if _OPT_MAIN_IMPORTS_COMPS: _main_imports_comps()
