@@ -48,8 +48,7 @@ object "component Sieve"  as Sieve <<ComponentInterface>> {
    SimpleSieve<out>:   **coprime**
 }
 SimpleSieve --o Sieve
-'SimpleSieve --o Sieve: <in>
-'SimpleSieve --o Sieve: <out>
+
 
 ' component Finder : Component {
 '   port SimpleSieve<in>:newPrime;
@@ -61,8 +60,6 @@ object "component Finder" as Finder <<ComponentInterface>> {
    SimpleSieve<out>:  **found**
 }
 SimpleSieve --o Finder
-'SimpleSieve --o Finder: <in>
-'SimpleSieve --o Finder: <out>
 
 
 
