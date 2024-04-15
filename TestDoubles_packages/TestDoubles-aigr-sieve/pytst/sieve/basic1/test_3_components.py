@@ -4,7 +4,7 @@
 """
 
 import pytest
-from castle.TESTDOUBLES.aigr.sieve.basic1 import moats
+from castle.TESTDOUBLES.aigr.sieve.basic1 import components
 
 from castle import aigr
 
@@ -12,9 +12,9 @@ from castle import aigr
 def test_0_all_interfaces():
     "Just test the 3 component-interfaces exist, and have the correct name"
     for (name, i) in {
-            "Generator": moats.GeneratorMoat,
-            "Sieve"    : moats.SieveMoat,
-            "Finder"   : moats.FinderMoat,
+            "Generator": components.GeneratorMoat,
+            "Sieve"    : components.SieveMoat,
+            "Finder"   : components.FinderMoat,
             }.items():
         assert isinstance(i, aigr.ComponentInterface)
         assert str(i.name) == name
@@ -22,13 +22,13 @@ def test_0_all_interfaces():
 
 
 def test_2a_generator():
-    verify_ComponentInterface(moats.GeneratorMoat, "Generator", port_names=['controll', 'outlet'])
+    verify_ComponentInterface(components.GeneratorMoat, "Generator", port_names=['controll', 'outlet'])
 
 def test_2b_sieve():
-    verify_ComponentInterface(moats.SieveMoat, "Sieve", port_names=['try', 'coprime'])
+    verify_ComponentInterface(components.SieveMoat, "Sieve", port_names=['try', 'coprime'])
 
 def test_2c_finder():
-    verify_ComponentInterface(moats.FinderMoat, "Finder", port_names=['newPrime', 'found',])
+    verify_ComponentInterface(components.FinderMoat, "Finder", port_names=['newPrime', 'found',])
 
 
 

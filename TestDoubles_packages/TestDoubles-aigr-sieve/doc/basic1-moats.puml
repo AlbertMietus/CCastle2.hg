@@ -1,8 +1,30 @@
 @startuml
 
-skinparam object {
-BackgroundColor #Technology
+skinparam object<<EventProtocol>> {
+  BackgroundColor #LightSkyBlue
 }
+skinparam object<<ComponentInterface>> {
+  BackgroundColor #PowderBlue
+}
+
+' protocol StartSieve : EventProtocol {
+'   runTo(int:max);
+'   newMax(int:max);
+' }
+object "protocol StartSieve" as StartSieve <<EventProtocol>> {
+   name = StartSieve
+   **runTo**(int:max);
+   **newMax**(int:max)
+}
+
+' protocol SimpleSieve : EventProtocol {
+'   input(int:try);
+' }
+object "protocol SimpleSieve" as SimpleSieve <<EventProtocol>> {
+   name = SimpleSieve
+   **input**(int:try)
+}
+
 
 ' component Generator : Component {
 '   port StartSieve<in>:controll;
@@ -13,7 +35,8 @@ object "component Generator" as Generator <<ComponentInterface>> {
    StartSieve<in>:       **controll**
    SimpleSieve<out>: **outlet**
 }
-
+StartSieve  --o Generator: <in>
+SimpleSieve --o Generator: <out>
 
 ' component Sieve(onPrime:int) : Component {
 '   port SimpleSieve<in>:try;
@@ -23,9 +46,10 @@ object "component Sieve"  as Sieve <<ComponentInterface>> {
    name = Sieve
    SimpleSieve<in>:      **try**
    SimpleSieve<out>:   **coprime**
-
 }
-
+SimpleSieve --o Sieve
+'SimpleSieve --o Sieve: <in>
+'SimpleSieve --o Sieve: <out>
 
 ' component Finder : Component {
 '   port SimpleSieve<in>:newPrime;
@@ -36,5 +60,10 @@ object "component Finder" as Finder <<ComponentInterface>> {
    SimpleSieve<in>:    **newPrime**
    SimpleSieve<out>:  **found**
 }
+SimpleSieve --o Finder
+'SimpleSieve --o Finder: <in>
+'SimpleSieve --o Finder: <out>
+
+
 
 @enduml
