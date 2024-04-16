@@ -1,0 +1,69 @@
+@startuml
+note as N1
+<color:darkBlue>implement Sieve {
+<color:RoyalBlue>int myPrime;
+
+<color:Blue>init(int:onPrime) {
+  super.init();
+  .myPrime <b>:=</b> onPrime;
+<color:royalBlue>}
+
+<color:Blue>SimpleSieve.input(try) on .try {
+  if ( (try % .myPrime) !=0 ) {
+    .coprime.input(try);
+  }
+<color:Blue>}
+<color:darkBlue>} //@end Sieve
+end note
+
+database self
+storage myPrime
+self *- myPrime #RoyalBlue
+entity coprime
+entity try as try_port
+self *-- coprime #MediumBlue : port<out>
+self *-- try_port #MediumBlue : port<in>
+
+frame "init(int:<u>onPrime</u>)" as M1{
+  hexagon "super.init()" <<call>> as superinit
+  action super
+  superinit -->super
+
+  action ":="<<assign>> as become
+  storage onPrime
+  become --> myPrime :(lhs)
+  become --> onPrime :(rhs)
+
+  M1 ..> superinit #Blue :[1]
+  superinit ..> become #Blue :[2]
+}
+self *-- M1 #DarkBlue
+
+frame "SimpleSieve.input(<u>try</u>) on .try" as H1{
+  card if
+  storage try
+  card "%" as mod
+  card "!=" as isnot
+  usecase 0 as zero
+
+  mod --> try
+  mod --> myPrime
+  isnot --> mod
+  isnot --> zero
+
+  if --> isnot : expr
+
+  hexagon ".coprime.input(try)" <<Machinery.send>> as send_1
+  cloud "protocolsMoat.\nCC_P_SimpleSieve_input" as key1
+  send_1 --  coprime : outport
+  send_1 --  key1    : event_key
+  send_1 --  try      : args
+
+  if -> send_1: true
+  H1 ..> if #Blue :[1]
+}
+self     ...  H1 #DarkBlue
+try_port *--  H1 #DarkBlue
+
+
+@enduml
