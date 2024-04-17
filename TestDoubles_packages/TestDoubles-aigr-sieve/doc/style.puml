@@ -1,0 +1,25 @@
+skinparam storage {
+  BackgroundColor  #PowderBlue
+}
+skinparam card {
+  BackgroundColor  #Technology
+}
+skinparam database {
+  BackgroundColor #lightblue
+}
+skinparam entity {
+  BackgroundColor #lightblue
+}
+skinparam hexagon {
+  BackgroundColor #LightSkyBlue
+}
+
+skinparam frame {
+  BackgroundColor #white
+}
+
+'literral/constant
+skinparam usecase {
+  BackgroundColor #Cyan
+}
+
