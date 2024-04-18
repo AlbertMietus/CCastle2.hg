@@ -25,3 +25,4 @@ from .interfaces import *
 from .namespaces import *
 from .nodes import *
 
+from .statements import *

@@ -1,4 +1,4 @@
-# (C) Albert Mietus, 2023. Part of Castle/CCastle project
+# (C) Albert Mietus, 2023, 20214 Part of CCastle project
 
 import logging; logger = logging.getLogger(__name__)
 import pytest
@@ -7,7 +7,6 @@ from dataclasses import dataclass, KW_ONLY
 from random import randint
 
 from castle.aigr import NameSpace, Source_NS
-
 from castle.aigr import NamedNode, NameError
 
 

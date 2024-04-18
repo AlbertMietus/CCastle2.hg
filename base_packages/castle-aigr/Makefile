@@ -6,6 +6,7 @@ PYREVERSE_PKGS = castle/aigr castle/aigr.machinery
 LAST = \
 #
 CURRENT = \
+	pytst/test_4_statements.py	\
 #
 TODO = \
 	pytst/test_3_namespaces.py			\
