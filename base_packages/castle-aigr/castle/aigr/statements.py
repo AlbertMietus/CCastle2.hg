@@ -19,3 +19,20 @@ class If(_statement):
     test:   AIGR                     # Boolean Expr
     body:   AIGR                     # Typical: `AIGR.Body`
     orelse: PTH.Optional[AIGR]=None  # Typical: `AIGR.Body | AIGR.If`
+
+@dataclass
+class Become(_statement):
+    """ It can be a single assignment as `a:=2`; or `b=foo()`; or more complex ones ...
+
+        * Multiple assignment: `a,b := b,a` -- works as expected: swap the values
+        * For multiple assignment `len(targets)==len(values)`
+        * Tuple assignment `a := 1,2,3` is also possible -- then the two tuples do not have the same length
+        * Un/Packing as in Python `a,*b,c= 1,2,3,4,5;` is also possible -- here 'b' becomes '2,3,4'
+
+        Currently, only single assignment are supported -- so both tuples have len==1
+
+    """
+    _kids = ('targets', 'values')
+    _ : KW_ONLY
+    targets: tuple[AIGR]                   # LHS: (sequence of) Variables etc
+    values:  tuple[AIGR]                   # RGS: (sequence of) Values
