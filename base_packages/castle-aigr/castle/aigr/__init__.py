@@ -26,3 +26,4 @@ from .namespaces import *
 from .nodes import *
 
 from .statements import *
+from .expressions import *
