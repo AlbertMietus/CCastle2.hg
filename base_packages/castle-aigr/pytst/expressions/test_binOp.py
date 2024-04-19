@@ -26,12 +26,11 @@ def test_modulo_aigr():
     e = expressions.BinExpr(left=42, op=operators.Modulo(), right=5)
     verify_binOp(e, 42, '%', 5)
 
-if False:
-    def test_modulo_quick():
-        # Build interface, see above
-        e = builders.Modulo(42,5)
-        # As the result is the same we verify the same...
-        verify_binOp(e, 42, '%',5)
+def test_modulo_quick():
+    # Build interface, see above
+    e = builders.Modulo(42,5)
+    # As the result is the same we verify the same...
+    verify_binOp(e, 42, '%',5)
 
 
 
