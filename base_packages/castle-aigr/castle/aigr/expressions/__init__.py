@@ -9,3 +9,4 @@ from .. import AIGR
 class _expression(AIGR): pass #_kids = AIGR._kids
 
 from .OpExpr import *
+from .calls import *
