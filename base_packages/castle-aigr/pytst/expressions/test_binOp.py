@@ -7,8 +7,12 @@ from castle.aigr import builders
 
 def verify_binOp(expr, left, opstr, right):
     ops = {
-        '%': operators.Modulo,
-        '+': operators.Add
+        '**': operators.Power,
+        '*' : operators.Times,
+        '/' : operators.Div,
+        '%' : operators.Modulo,
+        '+' : operators.Add,
+        '-' : operators.Sub,
         }
     assert expr.left == left,	f"Expected '{left}' for left part of expr ({expr}), but found: {expr.left}"
     assert isinstance(expr.op, ops[opstr]), f"Expected '{opstr}'-operator, found {expr.op}. Details: needed an {ops[opstr]} class"
@@ -46,3 +50,25 @@ def test_add():
     verify_binOp(e2,42,'+',5)
     assert e1 == e2
 
+# Now the builders are meta-build, they are all the same. And we can use them here to test/verify the low-level
+# structure by only using those quick-builders
+
+def test_Power():
+    left, right = 1234,5678
+    verify_binOp(builders.Power(left, right), left, '**', right)
+
+def quick_verify_binOp(builder, opstr):
+    left, right = 1234,5678
+    verify_binOp(builder(left, right), left, opstr, right)
+
+
+def test_all_quick():
+    for builder, opstr in [
+            (builders.Power,  '**'),
+            (builders.Times,  '*'),
+            (builders.Div,    '/'),
+            (builders.Modulo, '%'),
+            (builders.Add,    '+'),
+            (builders.Sub,    '-'),
+            ]:
+        quick_verify_binOp(builder, opstr)
