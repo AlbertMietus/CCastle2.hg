@@ -10,11 +10,18 @@ from dataclasses import field as dc_field
 from . import AIGR
 
 @dataclass
-class _statement(AIGR): pass
+class _statement(AIGR): pass #_kids = AIGR._kids
+
 
 @dataclass
 class If(_statement):
-    _kids = ('test', 'body', 'orelse')
+    """The `If` statement has a test an at least one body.
+
+    The optional 'orelse' can be a simple body, acting as "else", or
+    another if-statement, modeling the "elif" as known in e.g. python.
+    """
+    _kids = _statement._kids + ('test', 'body', 'orelse')
+
     _ : KW_ONLY
     test:   AIGR                     # Boolean Expr
     body:   AIGR                     # Typical: `AIGR.Body`
@@ -22,17 +29,19 @@ class If(_statement):
 
 @dataclass
 class Become(_statement):
-    """ It can be a single assignment as `a:=2`; or `b=foo()`; or more complex ones ...
+    """The statement `Become` can model a single assignment or more complex ones ...
 
-        * Multiple assignment: `a,b := b,a` -- works as expected: swap the values
-        * For multiple assignment `len(targets)==len(values)`
-        * Tuple assignment `a := 1,2,3` is also possible -- then the two tuples do not have the same length
-        * Un/Packing as in Python `a,*b,c= 1,2,3,4,5;` is also possible -- here 'b' becomes '2,3,4'
+       * A Single-assignment, is the typical use, like in  `a:=2;` or `b:=foo();`
+       * Multiple assignment: `a,b := b,a'` -- works as expected: swap the values
+       * For multiple assignment `len(targets)==len(values)`
+       * Tuple assignment `a := 1,2,3` is also possible -- then the two tuples do not have the same length
+       * Un/Packing as in Python `a,*b,c= 1,2,3,4,5;` is also possible -- here 'b' becomes '2,3,4'
 
-        Currently, only single assignment are supported -- so both tuples have len==1
+       Currently, only single assignment are supported -- so both tuples have len==1
 
     """
-    _kids = ('targets', 'values')
+    _kids = _statement._kids + ('targets', 'values')
+    
     _ : KW_ONLY
     targets: tuple[AIGR]                   # LHS: (sequence of) Variables etc
     values:  tuple[AIGR]                   # RGS: (sequence of) Values

@@ -27,9 +27,7 @@ if False: # This code-block is passive; it's ref/doc only
 # * The name of the builder is the same as the name of the operators.<cls>
 # * All BinExpr-operators are a subclass of `operators._bin_op`
 # * We can add names:functions to this module, by writing to `globals()`
-if False: # This code-block is passive; it's ref/doc only
-    for op in ...:
-        globals()[op_name] = lambda this_op: BinExpr(left=left, op=this_op, right=right)
+#    ``globals()[op_name] = lambda this_op: BinExpr(left=left, op=this_op, right=right)``
 # Remember: we have to call the lambda and fill in an **instance** op the op-class
 def _meta_BinExpr():
     """Meta-build all builders of all defined `_bin_op` classes, and put the in this module

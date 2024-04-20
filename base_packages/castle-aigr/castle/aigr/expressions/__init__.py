@@ -6,6 +6,6 @@
 from .. import AIGR
 
 #@dataclass
-class _expression(AIGR): pass
+class _expression(AIGR): pass #_kids = AIGR._kids
 
 from .OpExpr import *
