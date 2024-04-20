@@ -10,7 +10,11 @@ from dataclasses import field as dc_field
 from .. import AIGR
 
 class _operator(AIGR): pass
+class _bin_op(_operator): pass
 
-class Modulo(_operator):pass
-class Add(_operator): pass
-class Sub(_operator): pass
+class Power(_bin_op)  :'**'
+class Times(_bin_op)  : '*'
+class Div(_bin_op)    : '/'
+class Modulo(_bin_op) : '%'
+class Add(_bin_op)    : '+'
+class Sub(_bin_op)    : '-'
