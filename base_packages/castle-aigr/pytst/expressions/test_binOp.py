@@ -14,6 +14,7 @@ def verify_binOp(expr, left, opstr, right):
     assert isinstance(expr.op, ops[opstr]), f"Expected '{opstr}'-operator, found {expr.op}. Details: needed an {ops[opstr]} class"
     assert expr.right == right, f"Expected '{right}' for right part of expr ({expr}), but found: {expr.right}"
 
+# We start with modulo, as we have to start somewhere ...
 
 def test_modulo_aigr():
     """The AIGR has a generic Binary Expression, with an (Modulo) Operator as parameter.
@@ -32,6 +33,15 @@ def test_modulo_quick():
     # As the result is the same we verify the same...
     verify_binOp(e, 42, '%',5)
 
+def test_modulo_same():
+    """They really are equivalent ..."""
+    assert builders.Modulo(42,5) == expressions.BinExpr(left=42, op=operators.Modulo(), right=5)
 
+# Now the others, in a compact test
 
-
+def test_add():
+    e1 = expressions.BinExpr(left=42, op=operators.Add(), right=5)
+    e2 = builders.Add(42,5)
+    verify_binOp(e1,42,'+',5)
+    verify_binOp(e2,42,'+',5)
+    assert e1 == e2
