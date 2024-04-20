@@ -45,3 +45,4 @@ def test_add():
     verify_binOp(e1,42,'+',5)
     verify_binOp(e2,42,'+',5)
     assert e1 == e2
+

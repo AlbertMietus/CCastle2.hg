@@ -13,3 +13,4 @@ class _operator(AIGR): pass
 
 class Modulo(_operator):pass
 class Add(_operator): pass
+class Sub(_operator): pass
