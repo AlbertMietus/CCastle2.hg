@@ -10,7 +10,7 @@ from dataclasses import field as dc_field
 from .. import AIGR
 from . import _expression
 
-
+from .operators import _bin_op
 
 @dataclass
 class BinExpr(_expression):
@@ -27,6 +27,6 @@ class BinExpr(_expression):
     _kids = _expression._kids + ('left', 'op', 'right')
 
     _: KW_ONLY
-    left: AIGR
-    op: int
-    right: AIGR
+    left  : AIGR
+    op    : _bin_op
+    right : AIGR

@@ -16,7 +16,7 @@ node "Sieve.Caste" #DarkSeaGreen {
      action super
      superinit -->super
 
-     action ":="<<assign>> as become
+     action ":="<<Become>> as become
      storage onPrime
      become --> myPrime :(lhs)
      become --> onPrime :(rhs)
