@@ -31,3 +31,4 @@ build/
 
 .*/doc/.*\.png
 .*/doc/.*\.svg
+.*/doc_
