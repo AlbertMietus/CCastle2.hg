@@ -3,9 +3,11 @@
 import logging; logger = logging.getLogger(__name__)
 
 import pytest
+from .. import  Dummy, verifyMark, verifyKids
+
 from castle.aigr import expressions
 from castle.aigr.expressions import operators
-#from castle.aigr import builders
+
 
 
 def test_simple_eq():
@@ -58,6 +60,7 @@ def _verify_base(e):
     assert not isinstance(e.ops, type), f"Expect instance, not a class ({e.ops})"
     assert isinstance(e.ops, operators._compare_op), f"Need a {operators._compare_op.__name__} subtype, not: {e.ops}"
     assert isinstance(e.values, tuple), f"values should be a tuple - got: {e.values}"
+    verifyKids(e)
 
 def verify_simple(e):
     _verify_base(e)
