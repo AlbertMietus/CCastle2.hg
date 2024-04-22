@@ -8,5 +8,5 @@ from .. import AIGR
 #@dataclass
 class _expression(AIGR): pass #_kids = AIGR._kids
 
-from .OpExpr import *
+from .expr_with_op import *
 from .calls import *

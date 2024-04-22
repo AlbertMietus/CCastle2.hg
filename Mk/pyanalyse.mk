@@ -12,10 +12,10 @@ pyanalyse pyreverse: ${PYREVERSE_dir}
 		pyreverse -d ${PYREVERSE_dir} -o ${PYREVERSE_FORMAT} ${PYREVERSE_OPTIONS} -p $$P-noModules -mn --max-color-depth=42  $$P ;\
 		pyreverse -d ${PYREVERSE_dir} -o ${PYREVERSE_FORMAT} ${PYREVERSE_OPTIONS} -p $$P-Modules   -my --max-color-depth=42  $$P ;\
 	done
-	if [ "plantuml" = ${PYREVERSE_FORMAT} ] ;then (cd  ${PYREVERSE_dir}; plantuml -tsvg ./*.plantuml); fi
+	if [ "plantuml" = ${PYREVERSE_FORMAT} ] ;then (\
+		echo "PYANALYSE: plantUML processing (all)"; \
+		cd  ${PYREVERSE_dir}; plantuml -tsvg ./*.plantuml); fi
 	@echo ".. done. Result; see: ./${PYREVERSE_dir}"
-
-
 
 
 

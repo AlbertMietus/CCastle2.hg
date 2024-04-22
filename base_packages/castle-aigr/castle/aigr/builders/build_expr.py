@@ -3,7 +3,7 @@
 import logging; logger = logging.getLogger(__name__)
 
 from ..expressions import operators
-from ..expressions.OpExpr import BinExpr
+from ..expressions.expr_with_op import BinExpr
 
 
 ##

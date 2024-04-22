@@ -12,7 +12,7 @@ from . import _expression
 
 from . import operators
 
-#ToDo: rename file (not only bin (=2-fold) expression
+
 #ToDo: option: Replace BinExpr by a more general (liniar, LR Expression sommething
 
 @dataclass
