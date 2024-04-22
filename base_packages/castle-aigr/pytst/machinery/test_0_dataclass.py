@@ -3,7 +3,7 @@
 """Just verify all @dataclasses are dataclasses ... Mostly for MutMut"""
 
 import pytest
-import dataclasses 
+import dataclasses
 
 from castle.aigr import machinery
 
@@ -25,6 +25,3 @@ def test_dataclass_all():
                 machinery.eDispatchTable,
                 ):
         isDataClass(cls)
-
-
-    
