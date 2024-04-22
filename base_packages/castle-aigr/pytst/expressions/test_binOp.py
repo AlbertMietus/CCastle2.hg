@@ -1,6 +1,8 @@
 # (C) Albert Mietus, 2024. Part of Castle/CCastle project
 
 import pytest
+from .. import verifyKids
+
 from castle.aigr import expressions
 from castle.aigr.expressions import operators
 from castle.aigr import builders
@@ -17,6 +19,7 @@ def verify_binOp(expr, left, opstr, right):
     assert expr.left == left,	f"Expected '{left}' for left part of expr ({expr}), but found: {expr.left}"
     assert isinstance(expr.op, ops[opstr]), f"Expected '{opstr}'-operator, found {expr.op}. Details: needed an {ops[opstr]} class"
     assert expr.right == right, f"Expected '{right}' for right part of expr ({expr}), but found: {expr.right}"
+    verifyKids(expr)
 
 # We start with modulo, as we have to start somewhere ...
 
@@ -60,7 +63,6 @@ def test_Power():
 def quick_verify_binOp(builder, opstr):
     left, right = 1234,5678
     verify_binOp(builder(left, right), left, opstr, right)
-
 
 def test_all_quick():
     for builder, opstr in [
