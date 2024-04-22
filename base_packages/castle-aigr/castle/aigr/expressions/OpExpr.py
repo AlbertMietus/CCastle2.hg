@@ -68,6 +68,6 @@ class Compare(_expression):
     _kids = _expression._kids + ('ops', 'values')
 
     _: KW_ONLY
-    ops    : operators._compare_op | tuple(operators._compare_op)
-    values : tuple(AIGR)
+    ops    : operators._compare_op | tuple[operators._compare_op]
+    values : tuple[AIGR]
 
