@@ -28,8 +28,10 @@ class Less(_compare_op):          '<'
 class LessEqual(_compare_op):     '<='
 class Greater(_compare_op):       '>'
 class GreaterEqual(_compare_op):  '>='
-class Is(_compare_op):            'is'		# Probably needed
-class IsNot(_compare_op):         'is not'	# Probably needed
+class Is(_compare_op):            'is'
+class IsNot(_compare_op):         'is not'
+class In(_compare_op):            'in'
+class NotIn(_compare_op):         'not in'
 
 
 class _boolean_op(_operator): "Operate on boolean values"
