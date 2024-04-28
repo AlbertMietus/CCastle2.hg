@@ -3,7 +3,7 @@
 import logging; logger = logging.getLogger(__name__)
 
 import pytest
-from .. import  verifyKids
+from .. import verifyKids
 
 from castle.aigr import expressions
 from castle.aigr.expressions import operators

@@ -74,3 +74,9 @@ def test_all_quick():
             (builders.Sub,    '-'),
             ]:
         quick_verify_binOp(builder, opstr)
+
+
+@pytest.mark.skip("Todo: Replace BinExpr by a more general (liniar, LR Expression sommething")
+def test_99_ReplaceBinExpr():
+    assert False, "The 'BinExpr' should become more general, like LRExpression, with 1 op and many values"
+

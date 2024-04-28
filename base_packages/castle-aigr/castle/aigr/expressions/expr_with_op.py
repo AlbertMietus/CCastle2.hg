@@ -14,10 +14,9 @@ from . import operators
 
 
 #ToDo: option: Replace BinExpr by a more general (liniar, LR Expression sommething
-
 @dataclass
 class BinExpr(_expression):
-    """A `BinExpr` models any expression two attributes (and an operator). 
+    """A `BinExpr` models any expression two attributes (and an operator).
 
     Such a "binary expression" is very typical, usually written in infix nation, like `1+2`.  It has
     tree "kids", the left and right (value) attributes, and an operator.
