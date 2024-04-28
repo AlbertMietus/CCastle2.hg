@@ -11,17 +11,17 @@ from ..expressions.operator_expressions import LRexpression, RLexpression
 ##
 ## It is possible to write then as normal function, as shown by two examples
 ## .. note:: the ``if False`` comments them out
-if False: # This code-block is passive; it's ref/doc only
-    def Modulo(left, right, *more):
-        return LRexpression(op=operators.Modulo(), values=(left,right)+more)
-    def Add(left, right, *more):
-        return LRexpression(op=operators.Add(), values=(left,right)+more)
+if False: # This code-block is passive; it's ref/doc only  						# pragma: no cover  # pragma: no mutate
+    def Modulo(left, right, *more):  											# pragma: no cover  # pragma: no mutate
+        return LRexpression(op=operators.Modulo(), values=(left,right)+more)  	# pragma: no cover  # pragma: no mutate
+    def Add(left, right, *more):  												# pragma: no cover  # pragma: no mutate
+        return LRexpression(op=operators.Add(), values=(left,right)+more) 		# pragma: no cover  # pragma: no mutate
     ...
 # As they are short, we can replace the '2-line def' by a 1-line lambda
-if False: # This code-block is passive; it's ref/doc only
-    Modulo = lambda left,right, *more: LRexpression(op=operators.Modulo(), values=(left,right)+more)
-    Add    = lambda left,right, *more: LRexpression(op=operators.Add(),    values=(left,right)+more)
-    ...
+if False: # This code-block is passive; it's ref/doc only  												# pragma: no cover  # pragma: no mutate
+    Modulo = lambda left,right, *more: LRexpression(op=operators.Modulo(), values=(left,right)+more)	# pragma: no cover  # pragma: no mutate
+    Add    = lambda left,right, *more: LRexpression(op=operators.Add(),    values=(left,right)+more)	# pragma: no cover  # pragma: no mutate
+    ... 																								# pragma: no cover  # pragma: no mutate
 # Again, there is a lot of repetition... which can be automated
 # * The name of the builder is the same as the name of the operators.<cls>
 # * We can add names:functions to this module, by writing to `globals()`
