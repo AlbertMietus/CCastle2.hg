@@ -13,25 +13,30 @@ from . import _expression
 from . import operators
 
 
-#ToDo: option: Replace BinExpr by a more general (liniar, LR Expression sommething
 @dataclass
-class BinExpr(_expression):
-    """A `BinExpr` models any expression two attributes (and an operator).
-
-    Such a "binary expression" is very typical, usually written in infix nation, like `1+2`.  It has
-    tree "kids", the left and right (value) attributes, and an operator.
-
-    .. note:: Notice, by modeling it with an operator, the is no need to have "AddExpression" and simular.
-        The AIGR doesn't have such an notation!
-
-        However, the aigr.builders module has some auxiliary functions to create the correct
-        "BinExp(left,<Op>,right) construct by calling builders.<Op>(left, right)."""
-    _kids = _expression._kids + ('left', 'op', 'right')
+class LRexpression(_expression):
+    _kids = _expression._kids + ('op', 'values')
 
     _: KW_ONLY
-    left  : AIGR
-    op    : operators._bin_op
-    right : AIGR
+    op    : operators._LeftAssociative
+    values : tuple[AIGR]
+
+
+@dataclass
+class RLexpression(_expression):
+    _kids = _expression._kids + ('op', 'values')
+
+    _: KW_ONLY
+    op    : operators._RightAssociative
+    values : tuple[AIGR]
+
+@dataclass
+class Unaryexpression(_expression):
+    _kids = _expression._kids + ('op', 'value')
+
+    _: KW_ONLY
+    op    : operators._unart_op
+    value : AIGR
 
 
 @dataclass
@@ -70,3 +75,15 @@ class Compare(_expression):
     ops    : operators._compare_op | tuple[operators._compare_op]
     values : tuple[AIGR]
 
+
+
+
+
+
+@dataclass
+class _ShortCircuitLogic(_expression):
+    "XXX"
+
+@dataclass
+class _OtherBoolean(_expression):
+    "XXX"
