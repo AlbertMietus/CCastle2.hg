@@ -14,6 +14,7 @@
 """
 
 import pytest
+import logging; logger = logging.getLogger(__name__)
 from .. import verifyKids
 
 from castle.aigr import expressions
@@ -84,6 +85,7 @@ def test_all_quick():
             (builders.Add,    '+'),
             (builders.Sub,    '-'),
             ]:
+        logger.debug("testing: %s (%s)", builder, opstr)
         quick_verify_binOp(builder, opstr)
 
 

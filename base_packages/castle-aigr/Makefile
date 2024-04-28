@@ -7,14 +7,13 @@ LAST = \
 	pytst/statements/test_become.py		\
 	pytst/expressions/test_callable.py	\
 	pytst/expressions/test_compare.py	\
+	pytst/expressions/test_LRbin.py		\
 #
 CURRENT = \
-	pytst//expressions/test_LRbin.py	\
-
+	pytst/expressions/test_LRmore.py	\
 #
 TODO = \
-	pytst//expressions/test_LRmore.py	\
-	pytst//expressions/test_RL.py		\
+	pytst/expressions/test_RL.py		\
 	pytst/test_3_namespaces.py		\
 	pytst/machinery/test_9_todo.py		\
 #
