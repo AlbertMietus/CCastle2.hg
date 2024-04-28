@@ -8,12 +8,12 @@ LAST = \
 	pytst/expressions/test_callable.py	\
 	pytst/expressions/test_compare.py	\
 	pytst/expressions/test_LRbin.py		\
-#
-CURRENT = \
 	pytst/expressions/test_LRmore.py	\
 #
-TODO = \
+CURRENT = \
 	pytst/expressions/test_RL.py		\
+#
+TODO = \
 	pytst/test_3_namespaces.py		\
 	pytst/machinery/test_9_todo.py		\
 #

@@ -10,29 +10,16 @@
    .. note:: An example of a expression that is not left-associative is power (operator: '**').
 
        ``2**3**4`` is the same as ``2**(3**4)``, and is right associative
-
 """
 
 import pytest
 import logging; logger = logging.getLogger(__name__)
-from .. import verifyKids
 
 from castle.aigr import expressions
 from castle.aigr.expressions import operators
 from castle.aigr import builders
 
-def verify_binOp(expr, left, opstr, right):
-    ops = {
-        '*' : operators.Times,
-        '/' : operators.Div,
-        '%' : operators.Modulo,
-        '+' : operators.Add,
-        '-' : operators.Sub,
-        }
-    assert isinstance(expr.op, ops[opstr]), f"Expected '{opstr}'-operator, found {expr.op}. Details: needed an {ops[opstr]} class"
-    assert expr.values[0] == left,	f"Expected '{left}' for values[0] of expr ({expr}), but found: {expr.values[0]}"
-    assert expr.values[1] == right,	f"Expected '{right}' for values[1] of expr ({expr}), but found: {expr.values[1]}"
-    verifyKids(expr)
+from . import verify_binOp
 
 # We start with modulo, as we have to start somewhere ...
 

@@ -3,7 +3,7 @@
 import logging; logger = logging.getLogger(__name__)
 
 from ..expressions import operators
-from ..expressions.operator_expressions import LRexpression
+from ..expressions.operator_expressions import LRexpression, RLexpression
 
 ##
 ## Many builder are very similar can be written very compact with a lambda...,
@@ -45,4 +45,20 @@ def _meta_LR():
         logger.debug(f"Creating builder '{op_name}' around {op}")
         globals()[op_name] = _build(op)
 
+def _meta_RL():
+    """Meta-build the RLexpression builders, like Power"""
+
+    def _build(op):
+        return lambda left,right, *more : RLexpression(op=op(), values=(left,right)+more)
+
+    pubs    = [n for n in dir(operators) if n[0]!='_']                        # The 'public' names in 'operators'
+    clsses  = [c for n in pubs   if isinstance(c:=getattr(operators,n),type)] # all classes
+    ops     = [c for c in clsses if issubclass(c, operators._RightAssociative)] # all operator (classes) that are LeftAssociative
+    for op in ops:
+        op_name = op.__name__
+        logger.debug(f"Creating builder '{op_name}' around {op}")
+        globals()[op_name] = _build(op)
+
+#Call the meta-builders
 _meta_LR()
+_meta_RL()
