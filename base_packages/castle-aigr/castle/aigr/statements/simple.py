@@ -7,25 +7,7 @@ import typing as PTH                                                            
 from dataclasses import dataclass, KW_ONLY
 from dataclasses import field as dc_field
 
-from . import AIGR
-
-@dataclass
-class _statement(AIGR): pass #_kids = AIGR._kids
-
-
-@dataclass
-class If(_statement):
-    """The `If` statement has a test an at least one body.
-
-    The optional 'orelse' can be a simple body, acting as "else", or
-    another if-statement, modeling the "elif" as known in e.g. python.
-    """
-    _kids = _statement._kids + ('test', 'body', 'orelse')
-
-    _ : KW_ONLY
-    test:   AIGR                     # Boolean Expr
-    body:   AIGR                     # Typical: `AIGR.Body`
-    orelse: PTH.Optional[AIGR]=None  # Typical: `AIGR.Body | AIGR.If`
+from . import _statement, AIGR
 
 @dataclass
 class Become(_statement):

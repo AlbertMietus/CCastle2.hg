@@ -1,6 +1,10 @@
 default: all
 
-PYREVERSE_PKGS = castle/aigr castle/aigr.machinery castle/aigr.expressions castle/aigr.builders
+PYREVERSE_PKGS = castle/aigr \
+	castle/aigr.machinery \
+	castle/aigr.statements \
+	castle/aigr.expressions \
+	castle/aigr.builders
 
 LAST = \
 	pytst/statements/test_if.py		\
