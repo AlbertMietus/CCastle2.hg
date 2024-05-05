@@ -9,3 +9,5 @@ class _statement(AIGR): pass #_kids = AIGR._kids
 
 from .simple import *
 from .flow import *
+from .compounds import *
+from .defs import *

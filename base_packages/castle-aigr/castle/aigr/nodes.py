@@ -1,5 +1,7 @@
 # (C) Albert Mietus, 2023. Part of Castle/CCastle project
 
+""" XXX ToDo: Test, Refactor, Split & Doc"""
+
 from __future__ import annotations
 
 from dataclasses import dataclass, KW_ONLY
@@ -15,6 +17,8 @@ class NameError(AttributeError):pass
 
 @dataclass
 class NamedNode(AIGR):
+    _kids = AIGR._kids + ('name',)
+
     name       : ID|str
     _: KW_ONLY
     # type(_ns) is NamedNode, but that leads to a imports-cycle. So, use te more generic AIGR
@@ -33,6 +37,8 @@ class NamedNode(AIGR):
 
 @dataclass
 class Specialise(NamedNode):
+    _kids = NamedNode._kids + ('based_on', 'arguments')
+
     _: KW_ONLY
     based_on:  NamedNode
     arguments: PTH.Sequence[Argument]

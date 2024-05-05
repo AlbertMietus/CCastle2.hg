@@ -23,7 +23,7 @@ class Become(_statement):
 
     """
     _kids = _statement._kids + ('targets', 'values')
-    
+
     _ : KW_ONLY
     targets: tuple[AIGR]                   # LHS: (sequence of) Variables etc
     values:  tuple[AIGR]                   # RGS: (sequence of) Values

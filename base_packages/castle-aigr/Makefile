@@ -13,9 +13,11 @@ LAST = \
 	pytst/expressions/test_compare.py	\
 	pytst/expressions/test_LRbin.py		\
 	pytst/expressions/test_LRmore.py	\
+	pytst/expressions/test_RL.py		\
+	pytst/statements/test_body.py		\
 #
 CURRENT = \
-	pytst/expressions/test_RL.py		\
+	pytst/statements/test_components.py 	\
 #
 TODO = \
 	pytst/test_3_namespaces.py		\

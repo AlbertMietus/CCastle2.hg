@@ -1,4 +1,7 @@
 # (C) Albert Mietus, 2023. Part of Castle/CCastle project
+
+""" XXX ToDo: Test, Refactor, Split & Doc"""
+
 from __future__ import annotations
 import typing as PTH                                                                                  # Python TypeHints
 from enum import Enum
@@ -10,6 +13,7 @@ from .aid import ID, TypedParameter                                             
 from .nodes import NamedNode
 
 __all__ = ['PortDirection', 'Port', 'ComponentInterface']
+
 
 class PortDirection(Enum):
     """Ports always have a direction; most port are ``Out`` (sending)  or ``In``(receiving)``.
@@ -34,6 +38,8 @@ class Port(AIGR): # Note: not a NamedNode, as it does not live in a NS (but in a
           * ``Port``s do *not* inherit
           * A `Port` has a type, like Event -- basically a protocol
 """
+    _kids = AIGR._kids + ('name', 'direction', 'type')
+
     name: str
     _: KW_ONLY
     direction: PortDirection
@@ -42,13 +48,12 @@ class Port(AIGR): # Note: not a NamedNode, as it does not live in a NS (but in a
 
 @dataclass
 class ComponentInterface(NamedNode):
+    _kids = NamedNode._kids + ('based_on', 'ports')
+
     _: KW_ONLY
     based_on: PTH.Optional[ComponentInterface]=dc_field(default_factory= lambda: baseComponent)  #type: ignore[has-type]
     ports: PTH.Sequence[Port]=()
 
-#    def _noPorts(self): # left from (gone) auto-numbering - possible usefill as protocols has it to
-#        inherited = self.based_on._noPorts() if isinstance(self.based_on, ComponentInterface) else 0
-#        return inherited + len(self.ports)
 
 _rootComponent=ComponentInterface(ID("RootComponent"), based_on=None, ports=())   # The base of the baseComponent
 baseComponent=ComponentInterface(ID("Component"), based_on=_rootComponent, ports=())   #XXX Add base-ports
