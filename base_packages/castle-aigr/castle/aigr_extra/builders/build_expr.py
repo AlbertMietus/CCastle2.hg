@@ -2,8 +2,8 @@
 
 import logging; logger = logging.getLogger(__name__)
 
-from ..expressions import operators
-from ..expressions.operator_expressions import LRexpression, RLexpression
+from ...aigr.expressions import operators
+from ...aigr.expressions.operator_expressions import LRexpression, RLexpression
 
 ##
 ## Many builder are very similar can be written very compact with a lambda...,

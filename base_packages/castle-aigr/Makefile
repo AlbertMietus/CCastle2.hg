@@ -4,7 +4,8 @@ PYREVERSE_PKGS = castle/aigr \
 	castle/aigr.machinery \
 	castle/aigr.statements \
 	castle/aigr.expressions \
-	castle/aigr.builders
+	castle/aigr_extra.builders \
+#
 
 LAST = \
 	pytst/statements/test_if.py		\
