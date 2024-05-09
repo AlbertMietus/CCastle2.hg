@@ -35,7 +35,8 @@ class ID(str):
         else:
           return f'ID({self}/{self.context})'
 
-
+class Label(str):
+    """A `Label` is a string, but unlike an ID it's NOT USED in CastleCode. This is an "internal" name, in the AIGR."""
 
 
 

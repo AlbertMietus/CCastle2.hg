@@ -12,7 +12,7 @@
 """
 
 import pytest
-from castle.TESTDOUBLES.aigr.sieve.basic1 import protocols
+from castle.TESTDOUBLES.aigr.sieve.basic1 import protocols # type: ignore 
 
 from . import TstDoubles, generatedProtocol_verifier, T_Protocol
 ##Note: T_* are used in **_verifier; but need to be in this scope (or pytest can't find it)

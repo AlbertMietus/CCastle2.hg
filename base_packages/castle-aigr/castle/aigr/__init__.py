@@ -16,9 +16,6 @@ class AIGR: # Abstract Intermediate Graph Representation
 
 
 
-@dataclass
-class _Marker:
-    msg :str=""
 
 from .base import *
 from .aid import *

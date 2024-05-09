@@ -16,7 +16,7 @@ from dataclasses import field as dc_field
 
 from .nodes import NamedNode, NameError, ID
 
-from . import AIGR, _Marker
+from . import AIGR
 
 
 @dataclass
