@@ -1,22 +1,20 @@
-# (C) Albert Mietus, 2023. Part of Castle/CCastle project
+# (C) Albert Mietus, 2023.2024. Part of Castle/CCastle project
 
 
 import typing as PTH                                       # Python TypeHints
-from enum import Enum
 from dataclasses import dataclass, KW_ONLY
 from dataclasses import field as dc_field
 from . import AIGR
 
-
-class ID(str): pass #XXX for now and ID is a string, but that can be changed
+""" XXX ToDo: refactor, rename & relocate ..."""
 
 
 @dataclass
 class TypedParameter(AIGR):
     """A parameter is a variable in a function/callable **definition**.
        It acts as placeholder and has no specific value. In Castle, it always has a Type."""
-    name: str # XXX ToDo str or  ID?
-    type: type
+    name: str   # XXX ToDo ``str`` or ``ID``?
+    type: type  # XXX ToDo: Really `type`? A python type?
 
 @dataclass
 class Argument(AIGR):
