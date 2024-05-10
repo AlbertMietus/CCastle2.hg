@@ -1,0 +1,43 @@
+--- _pyreversed/classes_castle_aigr-noModules.plantuml  2024-05-10 15:55:33
++++ doc_/classes_castle_aigr-240510.plantuml    2024-05-10 15:57:05
+@@ -1,5 +1,38 @@
+-@startuml classes_castle_aigr-noModules
+-set namespaceSeparator none
++@startuml classes_castle_aigr-DATE
++left to right direction
++
++package aigr.todo #OrangeRed{}
++
++package aigr.machinery                              #Tomato {}
++package aigr.base                                   #PowderBlue {}
++package aigr.base.AIGR                              #RoyalBlue {}
++package aigr.base.names                             #DodgerBlue {}
++package aigr.aid                                    #DeepSkyBlue {}
++package aigr.nodes                                  #Orange {}
++package aigr.namespaces                             #Orange {}
++
++together {
++ package aigr.expressions                           #Lime {}
++ package aigr.expressions.operators                 #LimeGreen {}
++ package aigr.expressions.calls                     #Olive{}
++ package aigr.expressions.operator_expressions      #OliveDrab {}
++ package aigr.statements                            #LawnGreen {}
++  aigr.expressions.operators -up[hidden]-> aigr.expressions.operator_expressions
++
++ package aigr.statements.simple                     #GreenYellow {}
++ package aigr.statements.compounds                  #SeaGreen {}
++ package aigr.statements.defs                       #SpringGreen {}
++ package aigr.statements.flow                       #PaleGreen {}
++  aigr.statements -up[hidden]-> aigr.expressions
++}
++
++together {
++ package aigr.interfaces                            #Magenta {}
++ package aigr.protocols                             #MediumVioletRed {}
++ package aigr.events                                #Violet {}
++  aigr.events    -up[hidden]-> aigr.protocols
++}
++
+ class "AIGR" as aigr.base.AIGR.AIGR {
+ }
+ class "Add" as aigr.expressions.operators.Add {
