@@ -18,6 +18,7 @@ LAST = \
 	pytst/statements/test_body.py		\
 #
 CURRENT = \
+	pytst/statements/test_method.py 	\
 	pytst/statements/test_components.py 	\
 #
 TODO = \

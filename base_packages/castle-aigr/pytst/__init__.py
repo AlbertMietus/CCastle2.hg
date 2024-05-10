@@ -28,7 +28,7 @@ def verifyMark(dummy, mark):
 
 
 def verifyKids(s):
-    logger.debug("verifyKids: statements: %s", s)
+    logger.debug("verifyKids of %s cls._kids= %s", s, type(s)._kids)
     unique = Dummy('unique')
     for k in s._kids:
         logger.debug("verifyKid  getattr(s,%s,unique) (%s) != unique (%s) %s",
