@@ -1,24 +1,24 @@
-# (C) Albert Mietus, 2023, 2024. Part of Castle/CCastle project
-
-# (C) Albert Mietus, 2023, 2024. Part of Castle/CCastle project
+# (C) Albert Mietus, 2024. Part of Castle/CCastle project
 
 """ This is the manual crafted AIGR TestDouble represents the sieve component implementation.
 
-   .. see also:: :file:`./__init__.py` for a general intro"""
+   .. see also:: :file:`./__init__.py` for a general intro
+"""
 
 
-from castle.aigr.aid import TypedParameter
-from castle.aigr import ComponentInterface, ID
-from castle.aigr import Port, PortDirection
-
-from . import protocols
+from castle.aigr import ComponentImplementation, Body
 
 
 # implement Sieve {
 #   int myPrime;
 # ...
 
+from . import components
 
+Sieve = ComponentImplementation('Sieve',
+                                interface=components.SieveMoat,
+                                parameters=(),
+                                body=Body()) # Body in filed below
 
 
 
