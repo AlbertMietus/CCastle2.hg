@@ -25,9 +25,8 @@ class _callable(_statement):
     body       : PTH.Optional[Body]               = None
     returns    : PTH.Optional[PTH.Any]            = None # XXX ToDo
 
-
+@dataclass
 class _Named_callable(NamedNode, _callable):
-    #    _kids = _callable._kids + tuple(k for k in NamedNode._kids if not k in _callable._kids)
     _kids = NamedNode._kids + tuple(k for k in _callable._kids if not k in NamedNode._kids)
 
 
@@ -35,4 +34,3 @@ class _Named_callable(NamedNode, _callable):
 class Method(_Named_callable):
     #_kids = _Named_callable
     pass
-

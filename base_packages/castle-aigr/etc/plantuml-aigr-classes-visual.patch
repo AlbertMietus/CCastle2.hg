@@ -1,6 +1,6 @@
 --- _pyreversed/classes_castle_aigr-noModules.plantuml  2024-05-10 15:55:33
 +++ doc_/classes_castle_aigr-240510.plantuml    2024-05-10 15:57:05
-@@ -1,5 +1,38 @@
+@@ -1,4 +1,38 @@
 -@startuml classes_castle_aigr-noModules
 -set namespaceSeparator none
 +@startuml classes_castle_aigr-DATE
@@ -12,6 +12,7 @@
 +package aigr.base                                   #PowderBlue {}
 +package aigr.base.AIGR                              #RoyalBlue {}
 +package aigr.base.names                             #DodgerBlue {}
++package aigr.base.errors                            #IndianRed {}
 +package aigr.aid                                    #DeepSkyBlue {}
 +package aigr.nodes                                  #Orange {}
 +package aigr.namespaces                             #Orange {}
@@ -40,4 +41,4 @@
 +
  class "AIGR" as aigr.base.AIGR.AIGR {
  }
- class "Add" as aigr.expressions.operators.Add {
+

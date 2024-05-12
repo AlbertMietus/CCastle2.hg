@@ -12,8 +12,6 @@ from . import AIGR, ID
 from . import Argument
 
 
-class NameError(AttributeError):pass
-
 
 @dataclass
 class NamedNode(AIGR):

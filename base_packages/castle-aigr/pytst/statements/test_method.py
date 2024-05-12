@@ -7,6 +7,7 @@ from .. import  Dummy, verifyMark, verifyKids
 from castle import aigr
 from castle.aigr import Method, ID
 
+
 def verify_NamedCallableTypes(c):
     logger.info("verify_NamedCallable: %s", c)
     assert isinstance(c.name, ID)

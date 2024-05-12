@@ -2,3 +2,5 @@
 
 from .names import *
 from .AIGR import *
+
+from . import errors # always use them as errors.XXXXX

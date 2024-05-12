@@ -7,6 +7,7 @@ import typing as PTH                                                            
 from castle.aigr import AIGR
 from castle.aigr import If
 
+import dataclasses
 from dataclasses import dataclass
 
 
@@ -35,3 +36,10 @@ def verifyKids(s):
                          k, getattr(s,k,unique), unique, getattr(s,k,unique)!=unique)
         assert unique != getattr(s,k, unique), f"Kid `{k}` should exist in {s}, but doesn't"
 
+
+def verifyisDataClass(cls):
+    logger.debug("verifyisDataClass: %s ", cls)
+    assert dataclasses.is_dataclass(cls) # This will also pass when cls inherits from a dataclass
+    my_init = getattr(cls, '__init__')
+    inherited_init = getattr(cls.mro()[1], '__init__')
+    assert my_init is not inherited_init, f"Probably you subclasses a dataclass, but forgot @dataclass for {cls}"

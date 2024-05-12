@@ -20,6 +20,7 @@ LAST = \
 CURRENT = \
 	pytst/statements/test_method.py 	\
 	pytst/statements/test_components.py 	\
+	pytst/statements/test_0_dataclass.py	\
 #
 TODO = \
 	pytst/test_3_namespaces.py		\
@@ -34,8 +35,7 @@ _FILE_base := _pyreversed/classes_castle_aigr-noModules
 _FILE_in   := ${_FILE_base}.plantuml
 _FILE_tmp  := _pyreversed/classes_castle_aigr-DATE.svg
 _FILE_out  := _pyreversed/classes_castle_aigr-${DATE}.svg
-
-doc-patch:
+patch-doc doc-patch:
 	@echo "patching '_pyreversed/classes_castle_aigr-noModules' to added packages"
 	patch -p0  ${_FILE_in} < etc/plantuml-aigr-classes-visual.patch
 	plantuml -tsvg ${_FILE_in}

@@ -25,6 +25,9 @@ class Body(_statement):
         """"Convenient function: return a statements in the body, based on an index (numbering like a list)"""
         return self.statements[index]
 
+    def __len__(self):
+        return len(self.statements)
+
     def expand(self, *s):
         """Convenient function: add one of more statements to the Body"""
         self.statements +=s

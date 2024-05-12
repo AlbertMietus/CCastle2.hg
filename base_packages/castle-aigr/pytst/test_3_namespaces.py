@@ -7,7 +7,8 @@ from dataclasses import dataclass, KW_ONLY
 from random import randint
 
 from castle.aigr import NameSpace, Source_NS
-from castle.aigr import NamedNode, NameError
+from castle.aigr import NamedNode
+from castle.aigr import errors
 
 
 @dataclass
@@ -55,7 +56,7 @@ def test_2_NS_find_vs_get_when_not_registered(aNS):
     try:
         aNS.getID("Deze Bestaat Niet")
         assert False, """`aNS.getID("Deze Bestaat Niet")` should raise an error"""
-    except NameError: pass
+    except errors.NameError: pass
 
 
 def test_3_sourceNS_combi(a_node, sourceNS):
@@ -68,7 +69,7 @@ def test_3_sourceNS_combi(a_node, sourceNS):
     try:
         sourceNS.getID("Deze Bestaat Niet")
         assert False, """`sourceNS.getID("Deze Bestaat Niet")` should raise an error"""
-    except NameError: pass
+    except errors.NameError: pass
 
 
 def test_4_sameName_is_replaced(aNS):

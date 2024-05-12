@@ -14,9 +14,11 @@ from enum import Enum
 from dataclasses import dataclass, KW_ONLY
 from dataclasses import field as dc_field
 
-from .nodes import NamedNode, NameError, ID
+from .nodes import NamedNode,  ID
+from .base import AIGR
+from .base import errors
 
-from . import AIGR
+
 
 
 @dataclass
@@ -69,7 +71,7 @@ class NameSpace(NamedNode):
            See :method:`findNode` for an alternative"""
         node = self.findNode(name)
         if node is None:
-            raise NameError(f"No node named {name} in NS:{self.name}")
+            raise errors.NameError(f"No node named {name} in NS:{self.name}")
         return node
 
     def search(self, dottedName :ID) ->PTH.Optional[NamedNode]:

@@ -4,11 +4,19 @@ import typing as PTH                                       # Python TypeHints
 from dataclasses import dataclass, KW_ONLY
 
 class _Context        : "The context of an ID (base class)"
+
 class Def(_Context)   : "Here, the name is defined"
 
 @dataclass
 class Ref(_Context):
     "Here, the name is defined"
+    _ : KW_ONLY
+    reference: PTH.Optional[PTH.Any] = None # like a href in html -- links to a Def - not used for now
+
+
+@dataclass
+class Set(_Context):
+    "Here, the name is set"
     _ : KW_ONLY
     reference: PTH.Optional[PTH.Any] = None # like a href in html -- links to a Def - not used for now
 
