@@ -21,6 +21,7 @@ CURRENT = \
 	pytst/statements/test_method.py 	\
 	pytst/statements/test_components.py 	\
 	pytst/statements/test_0_dataclass.py	\
+	pytst/statements/test_0_kids.py		\
 #
 TODO = \
 	pytst/test_3_namespaces.py		\
