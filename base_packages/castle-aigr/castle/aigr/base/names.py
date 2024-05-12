@@ -3,7 +3,9 @@
 import typing as PTH                                       # Python TypeHints
 from dataclasses import dataclass, KW_ONLY
 
-class _Context        : "The context of an ID (base class)"
+from .AIGR import AIGR
+
+class _Context(AIGR)  : "The context of an ID (base class)"
 
 class Def(_Context)   : "Here, the name is defined"
 
@@ -21,7 +23,7 @@ class Set(_Context):
     reference: PTH.Optional[PTH.Any] = None # like a href in html -- links to a Def - not used for now
 
 
-class ID(str):
+class ID(str,AIGR):
     """An `ID` is a name as used in a CastleCode, for component, functions, variables etc.
 
     An `ID` is a string, although not all string are allowed (ony those, as typical in code. The AIGR does not, however,

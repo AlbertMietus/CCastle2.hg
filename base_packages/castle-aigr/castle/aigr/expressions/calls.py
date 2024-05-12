@@ -33,7 +33,7 @@ class Part(_call):
     """
     _kids = _call._kids + ('base', 'attribute', 'index')
 
-    base      : ID
+    base      : PTH.Optional[AIGR]          # Usually an ID, but can be a ref/pointer, return-value etc
     _: KW_ONLY
     attribute : PTH.Optional[AIGR] = None   # Usually an ID
     index     : PTH.Optional[AIGR] = None   # Can be a number, an ID, or ....
