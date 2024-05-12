@@ -23,3 +23,4 @@ class ComponentImplementation(_statement, NamedNode):
     parameters : tuple[TypedParameter, ...]       = dc_field(default_factory=tuple)
     body       : PTH.Optional[Body]               = None
 
+## Method, Eventhandler, etc  are defined in :file:`callables.py`

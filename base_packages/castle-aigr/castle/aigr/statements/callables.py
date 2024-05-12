@@ -11,6 +11,7 @@ from . import _statement, AIGR, NamedNode
 
 if PTH.TYPE_CHECKING:
     from .. import Body, ComponentInterface, TypedParameter
+    from .. import Protocol, Event, Port
 
 @dataclass
 class _callable(_statement):
@@ -34,3 +35,25 @@ class _Named_callable(NamedNode, _callable):
 class Method(_Named_callable):
     #_kids = _Named_callable
     pass
+
+class _handlers(_Named_callable): pass #_kids = _Named_callable
+
+@dataclass
+class EventHandler(_handlers):
+    """An Eventhandler-callable is activated when the specified protocol-event, is received on the given port.
+
+    As CastleCode allows 'default' for all three parts, None is also valid (but not default).
+
+    Like all Named-handlers, it has a name(*), some parameters and a body. It returns typical nothing (None).
+    The 'name' however, is special: it is a blend of the protocol, the event and the port. It is advices to use
+    ``mangle_event_handler()`` to compute it.
+    That file :ref:`castle.aigr_extra.blend.mangle` is also the  correct specification.
+    """
+    _kids = _statement._kids + ('protocol', 'event', 'port')
+
+    _ : KW_ONLY
+    protocol  : Protocol|None
+    event     : Event|None
+    port      : Port|None
+
+
