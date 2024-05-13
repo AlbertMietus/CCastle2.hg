@@ -11,7 +11,8 @@ from . import _statement, AIGR, NamedNode
 
 if PTH.TYPE_CHECKING:
     from .. import Body, ComponentInterface, TypedParameter
-    from .. import Protocol, Event, Port
+    from .. import ID
+
 
 @dataclass
 class _callable(_statement):
@@ -48,12 +49,14 @@ class EventHandler(_handlers):
     The 'name' however, is special: it is a blend of the protocol, the event and the port. It is advices to use
     ``mangle_event_handler()`` to compute it.
     That file :ref:`castle.aigr_extra.blend.mangle` is also the  correct specification.
+
+    .. warning:: The protocol/event/port are IDs with `Ref` context (empty or with path to real objects. Not those objects themself!
     """
     _kids = _statement._kids + ('protocol', 'event', 'port')
 
     _ : KW_ONLY
-    protocol  : Protocol|None
-    event     : Event|None
-    port      : Port|None
+    protocol  : ID
+    event     : ID
+    port      : ID
 
 
