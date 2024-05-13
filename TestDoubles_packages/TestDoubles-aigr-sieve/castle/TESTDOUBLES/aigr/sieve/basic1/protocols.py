@@ -17,8 +17,8 @@ StartSieve = EventProtocol(ID('StartSieve'),
 """protocol SimpleSieve : EventProtocol {
      input(int:try);
    }"""
+input_event = Event(name=ID('input'), return_type=None, typedParameters=(TypedParameter(name='try', type=int),))
 SimpleSieve = EventProtocol(ID('SimpleSieve'),
-                              events=(
-                                   Event(name=ID('input'), return_type=None, typedParameters=(TypedParameter(name='try', type=int),)),))
+                              events=(input_event,))
 
 

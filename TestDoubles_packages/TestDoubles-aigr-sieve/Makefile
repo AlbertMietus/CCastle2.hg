@@ -8,7 +8,8 @@ LAST = \
 	pytst/sieve/basic1/test_2_sieve_NS.py		\
 	pytst/sieve/basic1/test_3_components.py		\
 #
-CURRENT = pytst/sieve/basic1/test_sieveCastle.py	\
+CURRENT = \
+	pytst/sieve/basic1/test_sieveCastle.py		\
 #
 
 TODO = \

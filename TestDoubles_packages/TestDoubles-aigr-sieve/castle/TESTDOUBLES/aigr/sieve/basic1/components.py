@@ -5,6 +5,8 @@
    .. see also:: :file:`./__init__.py` for a general intro
 """
 
+__all__= ['GeneratorMoat', 'SieveMoat', 'FinderMoat']
+
 from castle.aigr.aid import TypedParameter
 from castle.aigr import ComponentInterface, ID
 from castle.aigr import Port, PortDirection
@@ -27,11 +29,9 @@ GeneratorMoat = ComponentInterface(name=ID("Generator"),
 #   port SimpleSieve<in>:try;
 #   port SimpleSieve<out>:coprime;
 # }
-SieveMoat = ComponentInterface(name=ID("Sieve"),
-                                   ports=(
-                                       Port(name='try',     direction=PortDirection.In,  type=protocols.SimpleSieve),
-                                       Port(name='coprime', direction=PortDirection.Out, type=protocols.SimpleSieve),
-                                       ))
+port_try     = Port(name='try',     direction=PortDirection.In,  type=protocols.SimpleSieve)
+port_coprime = Port(name='coprime', direction=PortDirection.Out, type=protocols.SimpleSieve)
+SieveMoat = ComponentInterface(name=ID("Sieve"), ports=(port_try, port_coprime))
 
 
 # component Finder : Component {
