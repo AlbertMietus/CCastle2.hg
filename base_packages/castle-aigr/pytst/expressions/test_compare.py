@@ -43,7 +43,7 @@ def test_multi_1():
     e = expressions.Compare(ops=(
                   operators.Is(),
                   operators.Equal(),
-                  operators.Notequal(),
+                  operators.NotEqual(),
                   operators.Less(),
                   operators.LessEqual(),
                   operators.Greater(),

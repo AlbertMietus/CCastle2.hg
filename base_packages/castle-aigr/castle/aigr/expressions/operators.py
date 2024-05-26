@@ -19,8 +19,8 @@ class Power(_RightAssociative)       : '**'
 
 class _compare_op(_operator)         : "Compare 2 or more values --The expression can be cascaded `1<2<3`, always resulting in True/False"
 class Equal(_compare_op)             : '=='
-class Notequal(_compare_op)          : '!='
-#class Uequal(_compare_op)           : '<>'   	# Probably NOT needed
+class NotEqual(_compare_op)          : '!='
+#class Unequal(_compare_op)           : '<>'   	# Probably NOT needed
 class Less(_compare_op)              : '<'
 class LessEqual(_compare_op)         : '<='
 class Greater(_compare_op)           : '>'
