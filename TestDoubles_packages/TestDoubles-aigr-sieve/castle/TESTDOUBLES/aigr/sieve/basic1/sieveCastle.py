@@ -65,8 +65,14 @@ event_handler_1 = EventHandler(ID(mangle_event_handler(protocol="SimpleSieve", e
                                event=ID('input', context=aigr.Ref()),
                                port=ID('try', context=aigr.Ref()),
                                body=aigr.Body(statements=[
-                                   # XXXX
-                               ])) 
+                                   aigr.If(
+                                      test=aigr.Compare(ops=aigr.operators.NotEqual(), values=(
+                                          "try % .myPrime",
+                                          "0"
+                                          )),
+                                      body=aigr.Body(statements=[
+                                          "XXX"
+                                          ]))]))
 
 
 
