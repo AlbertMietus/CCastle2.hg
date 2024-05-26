@@ -30,13 +30,12 @@ class Become(_statement):
 
 @dataclass
 class VoidCall(_statement):
-    """As a (function) Call is an expression, not a statement, oen can wrap it with ``VoidCall` to make it s statement.
+    """As a (function) Call is an expression --not a statement--, it should be wrapped in ``VoidCall` to make it s statement.
 
     .. note::
 
        * In CastleCode, this wrapper is not needed
-       * Typical VoidCall is used with named parameters
-
+       * Typical VoidCall is used without named parameters
        """
     _kids = _statement._kids + ('call',)
 
