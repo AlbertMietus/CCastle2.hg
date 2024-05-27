@@ -16,13 +16,14 @@ LAST = \
 	pytst/expressions/test_LRmore.py	\
 	pytst/expressions/test_RL.py		\
 	pytst/statements/test_body.py		\
-#
-CURRENT = \
 	pytst/extra/test_mangle.py		\
 	pytst/statements/test_method.py 	\
 	pytst/statements/test_components.py 	\
 	pytst/statements/test_0_dataclass.py	\
 	pytst/statements/test_0_kids.py		\
+#
+CURRENT = \
+	pytst/expressions/test_literals.py 	\
 #
 TODO = \
 	pytst/test_3_namespaces.py		\
