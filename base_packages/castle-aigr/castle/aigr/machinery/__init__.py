@@ -20,7 +20,7 @@ implementation : PTH.TypeAlias = PTH.Optional[type[machinery]] # pragma: no muta
 @dataclass
 class send_proto(machinery):
     _: KW_ONLY
-    outport : Port
+    outport : AIGR # ID | Parts| ...
 
 @dataclass
 class sendStream(send_proto, todo.mark_Dataclass): ...
@@ -29,7 +29,8 @@ class sendData(send_proto, todo.mark_Dataclass): ...
 
 @dataclass
 class sendEvent(send_proto):
-    event: Event
+    _: KW_ONLY
+    event: AIGR # ID | Parts| ...
     arguments: PTH.Sequence[Argument]
 
 @dataclass

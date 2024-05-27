@@ -42,7 +42,7 @@ init_method = Method(ID('init'),
                              aigr.VoidCall(
                                  aigr.Call(
                                     callable=aigr.Part(
-                                        base=aigr.Call(callable=ID('super')), attribute=ID('init')),
+                                        base=aigr.Call(callable=ID('super')), attribute=ID('init', context=aigr.Ref())),
                                     arguments=())),
                              aigr.Become(
                                         targets=(aigr.Part(base=ID('self'), attribute=ID('myPrime', context=aigr.Set())),),
@@ -66,14 +66,20 @@ event_handler_1 = EventHandler(ID(mangle_event_handler(protocol="SimpleSieve", e
                                port=ID('try', context=aigr.Ref()),
                                body=aigr.Body(statements=[
                                    aigr.If(
-                                      test=aigr.Compare(ops=aigr.operators.NotEqual(), values=(
-                                          builders.Modulo(
-                                              ID("try", context=aigr.Ref()),
-                                              ID("myPrime",context=aigr.Ref())),
-                                          aigr.Constant(value=0))),
-                                      body=aigr.Body(statements=[
-                                          "XXX"
-                                          ]))]))
+                                       test=aigr.Compare(
+                                           ops=aigr.operators.NotEqual(),
+                                           values=(
+                                               builders.Modulo(
+                                                   ID("try", context=aigr.Ref()),
+                                                   ID("myPrime",context=aigr.Ref())),
+                                               aigr.Constant(value=0),)),
+                                       body=aigr.Body(
+                                           statements=[
+                                               aigr.machinery.sendEvent(
+                                                   outport=aigr.Part(base=ID('self'), attribute=ID('coprime', context=aigr.Ref())),
+                                                   event=ID('input',context=aigr.Ref()),
+                                                   arguments=[aigr.Argument(ID('try', context=aigr.Ref()))])
+                                               ]))]))
 
 
 

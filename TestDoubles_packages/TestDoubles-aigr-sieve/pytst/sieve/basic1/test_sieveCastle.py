@@ -15,6 +15,14 @@ from castle.TESTDOUBLES.aigr.sieve.basic1 import protocols, components
 from . import find_name_in_body
 
 
+def verify_ID(id, name, isRef=False, isDef=False, isSet=False):
+    assert isinstance(id, aigr.ID), f"Expected an ID, found {type(id)} for {id}"
+    assert id == name, f"wrong ID, expected {name}, got {id}"
+    if isRef: assert isinstance(id.context, aigr.Ref)
+    if isDef: assert isinstance(id.context, aigr.Def)
+    if isSet: assert isinstance(id.context, aigr.Set)
+
+
 @pytest.fixture
 def comp():
     return sieveCastle.Sieve
@@ -44,22 +52,48 @@ def test_0b_nameIsName(comp):
 def test_0c_noParms(comp):
     assert comp.parameters == ()
 
-def test_1_init_has_2lines(comp):
+def test_1a_init_has_2lines(comp):
     init = find_name_in_body('init', comp.body)
     assert isinstance(init, aigr.Method), f"Expected an init method, got {init}"
     assert len(init.body)==2, f"Expected that 'init' has 2 statements, but found: {len(init.body.statements)}"
 
 
-def verify_IDref(id, expected_name):
-    assert id == expected_name,              f"ID does not match, expected {expected_name}, got {id}"
-    assert isinstance(id, aigr.ID),          f"ID ({id}) is not an ID, but type:{type(id)}"
-    assert isinstance(id.context, aigr.Ref), f"found ID '{id}' has not ref"
-    # XXX ToDo: check the ref -- for now empty is fine
+def test_1b_init_1st_line_superinit(comp):
+    """ CastleCode:  super.init(); """
+    init = find_name_in_body('init', comp.body)
+    line = init.body[0]
+
+    assert isinstance(line, aigr.VoidCall) and isinstance(line.call, aigr.Call)
+    callable, arguments = line.call.callable, line.call.arguments
+
+    assert isinstance(callable, aigr.Part)
+    assert isinstance(callable.base, aigr.Call) and callable.base.callable == "super" and callable.base.arguments is ()
+    verify_ID(callable.attribute, "init", isRef=True)
+    assert callable.index is None
+
+    assert arguments is (), f"Expected no arguments, but found: {arguments}"
+
+
+def test_1c_init_2nd_line_become(comp):
+    """ CastleCode: .myPrime := onPrime; """
+
+    init = find_name_in_body('init', comp.body)
+    line = init.body[1]
+
+    assert isinstance(line, aigr.Become) and len(line.targets)==1 and len(line.values)==1
+    myPrime, onPrime = line.targets[0], line.values[0]
+
+    assert isinstance(myPrime, aigr.Part)
+    verify_ID(myPrime.base, "self")
+    verify_ID(myPrime.attribute, "myPrime", isSet=True)
+
+    verify_ID(onPrime, "onPrime", isRef=True)
+
 
 def test_2_handler_on_try(event_handler):
-    verify_IDref(event_handler.protocol, "SimpleSieve")
-    verify_IDref(event_handler.event,    "input")
-    verify_IDref(event_handler.port,     "try")
+    verify_ID(event_handler.protocol, "SimpleSieve", isRef=True)
+    verify_ID(event_handler.event,    "input",       isRef=True)
+    verify_ID(event_handler.port,     "try",         isRef=True)
 
 
 def test_3a_EH_is_one_statement(event_handler):
@@ -84,7 +118,7 @@ def test_3b_EH_is_one_if(event_handler):
 
 
 def test_3c_EH_test_exps(event_handler):
-    """ CastleCode: (try % .myPrime) !=0 """
+    """ CastleCode: try % .myPrime) !=0 """
     if_statement = event_handler.body[0]
     test_expr = if_statement.test
 
@@ -98,8 +132,8 @@ def test_3c_EH_test_exps(event_handler):
     assert len(lhs.values) == 2
     var_try, myPrime = lhs.values[0], lhs.values[1]
 
-    assert isinstance(var_try, aigr.ID) and var_try == 'try'     and isinstance(var_try.context, aigr.Ref)
-    assert isinstance(myPrime, aigr.ID) and myPrime == 'myPrime' and isinstance(myPrime.context, aigr.Ref)
+    verify_ID(var_try, "try", isRef=True)
+    verify_ID(myPrime, "myPrime", isRef=True)
 
     # The rhs is easy/simple
     logger.debug("rhs: %s -- ``0``", rhs)
@@ -108,10 +142,21 @@ def test_3c_EH_test_exps(event_handler):
 
 
 def test_3d_EH_then_send(event_handler):
+    """ CastleCode: .coprime.input(try); """
     if_statement=event_handler.body[0]
     then = if_statement.body
     assert len(then) == 1 # Not a test, only to check.
     send = then[0]
 
-    assert False, "ToDo if-then"
+    assert isinstance(send, aigr.machinery.sendEvent)
+
+    assert isinstance(send.outport, aigr.Part)
+    verify_ID(send.outport.base, "self")
+    verify_ID(send.outport.attribute, "coprime", isRef=True)
+
+    verify_ID(send.event, "input", isRef=True)
+
+    assert isinstance(send.arguments, (tuple, list)) and len(send.arguments) == 1
+    assert isinstance(send.arguments[0], aigr.Argument)
+    verify_ID(send.arguments[0].value, "try", isRef=True)
 
