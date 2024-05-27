@@ -84,10 +84,27 @@ def test_3b_EH_is_one_if(event_handler):
 
 
 def test_3c_EH_test_exps(event_handler):
+    """ CastleCode: (try % .myPrime) !=0 """
     if_statement = event_handler.body[0]
-    test = if_statement.test
+    test_expr = if_statement.test
 
-    assert False, "ToDo if-expr"
+    assert isinstance(test_expr, aigr.Compare) and isinstance(test_expr.ops, aigr.operators.NotEqual) and len(test_expr.values) == 2
+    lhs, rhs = test_expr.values[0], test_expr.values[1]
+
+    #The lhs:
+    logger.debug("lhs: %s -- ``try %% .myPrime``", lhs)
+    assert isinstance(lhs, aigr.expressions._expression) and isinstance(lhs.op, aigr.expressions.operators.Modulo)
+
+    assert len(lhs.values) == 2
+    var_try, myPrime = lhs.values[0], lhs.values[1]
+
+    assert isinstance(var_try, aigr.ID) and var_try == 'try'     and isinstance(var_try.context, aigr.Ref)
+    assert isinstance(myPrime, aigr.ID) and myPrime == 'myPrime' and isinstance(myPrime.context, aigr.Ref)
+
+    # The rhs is easy/simple
+    logger.debug("rhs: %s -- ``0``", rhs)
+    assert isinstance(rhs, aigr.expressions.Constant) and rhs.value==0
+
 
 
 def test_3d_EH_then_send(event_handler):

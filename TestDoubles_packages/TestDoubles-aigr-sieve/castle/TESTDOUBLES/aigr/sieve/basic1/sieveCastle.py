@@ -14,7 +14,7 @@ from castle.aigr import ComponentImplementation, ID
 from castle.aigr import Method, EventHandler
 
 from castle.aigr_extra.blend import mangle_event_handler
-
+from castle.aigr_extra  import builders
 
 from . import components, protocols
 
@@ -67,9 +67,10 @@ event_handler_1 = EventHandler(ID(mangle_event_handler(protocol="SimpleSieve", e
                                body=aigr.Body(statements=[
                                    aigr.If(
                                       test=aigr.Compare(ops=aigr.operators.NotEqual(), values=(
-                                          "try % .myPrime",
-                                          "0"
-                                          )),
+                                          builders.Modulo(
+                                              ID("try", context=aigr.Ref()),
+                                              ID("myPrime",context=aigr.Ref())),
+                                          aigr.Constant(value=0))),
                                       body=aigr.Body(statements=[
                                           "XXX"
                                           ]))]))
