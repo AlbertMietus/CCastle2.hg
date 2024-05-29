@@ -36,7 +36,7 @@ assert isinstance(Sieve.body, aigr.Body) # This make mypy happy to fill-in the B
 # }
 init_method = Method(ID('init'),
                          returns=None,
-                         parameters=(aigr.TypedParameter(name=ID('onPrime'), type=int),),
+                         parameters=(aigr.TypedParameter(name=ID('onPrime'), type=int),), # XXX Really: int?
                          body=aigr.Body(statements=[
                              aigr.VoidCall(
                                  aigr.Call(

@@ -73,7 +73,7 @@ class Compare(_expression):
 
     _: KW_ONLY
     ops    : operators._compare_op | tuple[operators._compare_op]
-    values : tuple[AIGR]
+    values : tuple[AIGR, ...]
 
 
 

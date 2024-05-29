@@ -67,11 +67,11 @@ def test_1b_init_1st_line_superinit(comp):
     callable, arguments = line.call.callable, line.call.arguments
 
     assert isinstance(callable, aigr.Part)
-    assert isinstance(callable.base, aigr.Call) and callable.base.callable == "super" and callable.base.arguments is ()
+    assert isinstance(callable.base, aigr.Call) and callable.base.callable == "super" and callable.base.arguments == ()
     verify_ID(callable.attribute, "init", isRef=True)
     assert callable.index is None
 
-    assert arguments is (), f"Expected no arguments, but found: {arguments}"
+    assert arguments == (), f"Expected no arguments, but found: {arguments}"
 
 
 def test_1c_init_2nd_line_become(comp):

@@ -2,6 +2,9 @@ ToCS_dir     = _ToCS-reports/
 COVERAGE_dir = ${ToCS_dir}Coverage/
 MUTMUT_dir   = ${ToCS_dir}MutMut/
 
+CONFIG_dir   = ${TOPd}config/
+MUTMUT_cfg_d = ${CONFIG_dir}MutMut/
+
 PYREVERSE_dir 	 = _pyreversed/
 PYREVERSE_FORMAT = plantuml
 
@@ -14,5 +17,3 @@ TEST 	= test pytest coverage mutmut
 OPENit	= coverage-open mutmut-open pyanalyse-open
 FULL	= ${SETS} ${TYPICAL} ${ALL} ${TEST} ${BUILD} ${OPENit}
 
-CONFIG_dir   = ${TOPd}config/
-MUTMUT_cfg_d = ${CONFIG_dir}MutMut/

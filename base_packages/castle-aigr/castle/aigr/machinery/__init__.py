@@ -7,7 +7,7 @@ from dataclasses import dataclass, KW_ONLY
 import typing as PTH                                                                                  # Python TypeHints
 
 from .. import AIGR, Port, Event, Argument, Protocol
-
+from ..statements import _statement
 from .. import todo
 
 @dataclass
@@ -18,7 +18,7 @@ class machinery(AIGR):
 implementation : PTH.TypeAlias = PTH.Optional[type[machinery]] # pragma: no mutate
 
 @dataclass
-class send_proto(machinery):
+class send_proto(machinery, _statement):
     _: KW_ONLY
     outport : AIGR # ID | Parts| ...
 
