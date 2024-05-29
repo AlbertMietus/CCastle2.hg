@@ -13,3 +13,6 @@ BUILD	= ${ALL} build install-e install-fast
 TEST 	= test pytest coverage mutmut
 OPENit	= coverage-open mutmut-open pyanalyse-open
 FULL	= ${SETS} ${TYPICAL} ${ALL} ${TEST} ${BUILD} ${OPENit}
+
+CONFIG_dir   = ${TOPd}config/
+MUTMUT_cfg_d = ${CONFIG_dir}MutMut/

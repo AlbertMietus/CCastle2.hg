@@ -4,7 +4,6 @@
 
    .. see also:: :file:`./__init__.py` for a general intro
 """
-import logging; logger = logging.getLogger(__name__)
 
 __all__ = ['Sieve']
 
@@ -47,7 +46,6 @@ init_method = Method(ID('init'),
                              aigr.Become(
                                         targets=(aigr.Part(base=ID('self'), attribute=ID('myPrime', context=aigr.Set())),),
                                         values=(ID('onPrime', context=aigr.Ref()),))]))
-
 Sieve.body.expand(init_method)
 
 
@@ -80,7 +78,4 @@ event_handler_1 = EventHandler(ID(mangle_event_handler(protocol="SimpleSieve", e
                                                    event=ID('input',context=aigr.Ref()),
                                                    arguments=[aigr.Argument(ID('try', context=aigr.Ref()))])
                                                ]))]))
-
-
-
 Sieve.body.expand(event_handler_1)
