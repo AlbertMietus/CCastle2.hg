@@ -19,7 +19,7 @@ class Constant(_literal):
     _kids = _literal._kids + ('value', 'type')
 
     _: KW_ONLY
-    value : PYH.Any
+    value : PTH.Any
     type  : PTH.Optional[type] = None
 
 
