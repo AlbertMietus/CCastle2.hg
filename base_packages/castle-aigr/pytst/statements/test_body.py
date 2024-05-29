@@ -10,7 +10,7 @@ def test_0_Body_has_kids():
 
 def test_1_emptyBody():
     b = Body()
-    assert len(b.statements) == 0
+    assert len(b) == 0
 
 def test_2_Body_withIndex():
     s1,s2 = Dummy('s1'), Dummy('s2')

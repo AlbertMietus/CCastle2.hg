@@ -9,7 +9,7 @@ from dataclasses import field as dc_field
 
 from . import _statement, AIGR, NamedNode
 
-if PTH.TYPE_CHECKING:
+if PTH.TYPE_CHECKING:                                                                                # pragma: no cover
     from .. import Body, ComponentInterface, TypedParameter
     from .. import ID
 

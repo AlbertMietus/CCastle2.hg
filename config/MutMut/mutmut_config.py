@@ -4,6 +4,7 @@ skip_lines_starting_with=(
     "_kids =",
     "logger.warning(",
     "logger.debug(",
+    "logger.info(",
     )
 
 def pre_mutation(context):
