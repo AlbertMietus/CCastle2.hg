@@ -30,5 +30,7 @@ class Template():
         if not name and not self.default_template:
             raise FileNotFoundError("No template (name), nor default template specified")                    # pragma: no mutate
 
-        return self._template.render(**kwargs)
+        txt = self._template.render(**kwargs)
+        logger.debug("renderd_text::\n%s\nEOF", txt)
+        return txt
 

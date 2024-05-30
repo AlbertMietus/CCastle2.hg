@@ -5,7 +5,7 @@ These tests only exist to show we can run a tests in RPy
 import logging; logger = logging.getLogger(__name__)
 import pytest
 
-from . import *
+from .. import *
 from castle.writers import RPy
 
 my_dir =  get_dirPath_of_file(__file__)
