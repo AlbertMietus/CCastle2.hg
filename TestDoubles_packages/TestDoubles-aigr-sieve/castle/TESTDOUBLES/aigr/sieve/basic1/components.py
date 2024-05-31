@@ -29,9 +29,10 @@ GeneratorMoat = ComponentInterface(name=ID("Generator"),
 #   port SimpleSieve<in>:try;
 #   port SimpleSieve<out>:coprime;
 # }
-port_try     = Port(name='try',     direction=PortDirection.In,  type=protocols.SimpleSieve)
-port_coprime = Port(name='coprime', direction=PortDirection.Out, type=protocols.SimpleSieve)
-SieveMoat = ComponentInterface(name=ID("Sieve"), ports=(port_try, port_coprime))
+SieveMoat = ComponentInterface(name=ID("Sieve"),
+    ports=(
+        Port(name='try',     direction=PortDirection.In,  type=protocols.SimpleSieve),
+        Port(name='coprime', direction=PortDirection.Out, type=protocols.SimpleSieve)))
 
 
 # component Finder : Component {
