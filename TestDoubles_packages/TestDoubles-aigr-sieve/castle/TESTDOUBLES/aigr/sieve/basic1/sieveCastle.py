@@ -20,7 +20,7 @@ from . import components, protocols
 # implement Sieve {
 #   int myPrime;
 # ...
-Sieve = ComponentImplementation('Sieve',
+Sieve = ComponentImplementation(ID('Sieve'),
                                 interface=components.SieveMoat,
                                 parameters=(),
                                 body=aigr.Body()) # Body filled-in below
