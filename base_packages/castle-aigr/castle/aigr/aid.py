@@ -11,8 +11,8 @@ from . import AIGR
 
 @dataclass
 class TypedParameter(AIGR):
-    """A parameter is a variable in a function/callable **definition**.
-       It acts as placeholder and has no specific value. In Castle, it always has a Type."""
+    """A parameter is a placeholder in a function/callable **definition**.
+       It acts as variable inside the body In Castle, it always has a Type."""
     name: str   # XXX ToDo ``str`` or ``ID``?
     type: type  # XXX ToDo: Really `type`? A python type?
 

@@ -24,3 +24,13 @@ class ComponentImplementation(_statement, NamedNode):
     body       : PTH.Optional[Body]               = None
 
 ## Method, Eventhandler, etc  are defined in :file:`callables.py`
+
+@dataclass
+class VariableDefintion(_statement, NamedNode):
+    """Define/Declare a variable, usually in a component
+    """
+    _kids = _statement._kids + ('name',) + ('type', 'value')
+    _: KW_ONLY
+
+    type   : type                                  # XXX ToDo: Really `type`? A python type?
+    value  : PTH.Optional[AIGR]=None

@@ -23,9 +23,12 @@ from . import components, protocols
 Sieve = ComponentImplementation(ID('Sieve'),
                                 interface=components.SieveMoat,
                                 parameters=(),
-                                body=aigr.Body()) # Body filled-in below
+                                body=aigr.Body(statements=[
+        aigr.VariableDefintion(
+            ID('MyPrime', context=aigr.Def()),
+            type=int)]))                   # XXX Really: int?
 
-assert isinstance(Sieve.body, aigr.Body) # This make mypy happy to fill-in the Body
+assert isinstance(Sieve.body, aigr.Body) # This make mypy happy to fill-in the rest of the Body
 
 
 
