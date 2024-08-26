@@ -11,6 +11,8 @@ coverage:
 coverage-open: coverage
 	open ${COVERAGE_dir}index.html
 
+pytest-show pytest-collect:
+	${PYTEST} --collect-only ${PYTEST_OPTONS}  pytst
 pytest pytest-only:							# No coverage reports
 	${PYTEST} ${PYTEST_OPTONS}  pytst
 pytest-s:								# -s : No capure (so, show stdout/stderr)
