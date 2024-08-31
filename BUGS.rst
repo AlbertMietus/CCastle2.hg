@@ -1,10 +1,13 @@
 BUGS
 ====
 
-.. need:: Replace Arpeggio, as it is not supporting **Left-Recursion**.
-   :ID: WRONG_ARPEGGIO
+.. bug:: Replace Arpeggio, as it is not supporting **Left-Recursion**.
+   :ID: B_ReplaceArpeggio
    :status: todo
-   :tag: improvement; CCastle-syntax
+   :tags: improvement; CCastle-syntax
+
+   Arpeggio does not support **Left-Recursion**, wheres other, modern PEG-parser do. Being able to use left-recursion,
+   make the grammar mutch easier and closer to the AIGT.
 
    .. seealso:: http://docideas.mietus.nl/en/latest/CCastle/2.Design/syntax/2.grammar_code.html#more-details, for why we
                 need Left-Recursion.
@@ -13,11 +16,12 @@ BUGS
             |BR|
             It does now, a bit
 
-.. need:: Possible, we can updated the grammar, visitors and ATS of CCastle itself
+.. bug:: Possible, we can updated the grammar, visitors and ATS of CCastle itself
+   :ID: B_UpdateGrammar
    :status: open
-   :tag: test;demo
-   :links: WRONG_ARPEGGIO
+   :tags: test; demo
+   :links: B_ReplaceArpeggio
 
    The grammar, and so AST as used is probably influed by not beeing able to handle reft-recursion.
-   See :need:`WRONG_ARPEGGIO`
+   See :need:`B_ReplaceArpeggio`
 
