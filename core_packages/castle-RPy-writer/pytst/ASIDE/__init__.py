@@ -47,6 +47,7 @@ def end_with_NL(txt):
 
 class TstDoubles():
     _top = Path('pytst/TestDoubles')
+    _top = Path('pytst/ASIDE/TestDoubles')
     _ref = Path('reference')
     _gen = Path('_generated')
 

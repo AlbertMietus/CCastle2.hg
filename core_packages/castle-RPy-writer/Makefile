@@ -18,6 +18,7 @@ TOPd=../../
 include ${TOPd}Mk/comp.mk
 
 TESTDOUBLESd = pytst/TestDoubles/
+TESTDOUBLESd = pytst/ASIDE/TestDoubles/
 diff_TestDoubles:
 	diff -w -rs  -x _keepThisDir -x .DS_Store ${TESTDOUBLESd}{reference/,_generated/}
 
