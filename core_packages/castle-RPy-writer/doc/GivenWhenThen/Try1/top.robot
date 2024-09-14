@@ -1,18 +1,48 @@
 [Documentation] Generic-tests (aka keywords) for the RPy writer
 
 *** Keywords ***
-
-Check rPython for ${AIRG}
-    [Documentation]  Every (full, basic) AIGR should result in (valid) rpython code
-    GIVEN a valid basic ${AIGR}
-    WHEN the RPy backend is called
-    THEN valid rPython is generated
-    [Documentation]  Valid can te verified by compiling it.
-
-When ${AIGR} Is compiled with ${WRITER} and run
-    [Documentation]  Generated code should match the expectations, when run.
-    GIVEN a valid basic ${$AIGR}
-    WHEN the ${WRITER} backend is called
-    THEN run the code and return result
+MockRead ${file}
+                LOG  MockRead:: ${file}
+    ${AIGR}=    Read and include ${file}    # ToDo (in python)
+                RETURN  ${AIGR}
 
 
+RPY generates code for ${AIGR}
+                Given a valid basic ${AIGR}         # check it is valid (V0.0:skip)
+    ${main}=    When the castle-RPy-writer is called with ${AIGR}
+                RETURN  ${main}
+
+Then the ${code} is valid rPython
+    call rpython for ${code}
+
+
+
+# MOCKS  -- implement in python
+
+a valid basic ${AIGR}
+    [Documentation]   check it is valid (V0.0:skip)
+    RETURN  True
+
+When the castle-RPy-writer is called with ${AIGR}
+    [Documentation]   implement in python
+    RETURN  True
+
+Read and include ${file}
+    [Documentation]   implement in python
+    RETURN      dummy AIGR
+
+call rpython for ${code}
+    [Documentation]   implement in python
+    RETURN  True
+
+RPY compiles it for ${AIGR}
+    [Documentation]   implement in python
+    RETURN  dummy exe
+
+runs ${prog} with @{ARGV}
+    [Documentation]   implement in python
+    RETURN  dummy actuals
+
+THEN ${outp} matches ${EXPECTATION}, given @{FILTERS}
+    [Documentation]   implement in python
+    RETURN  True

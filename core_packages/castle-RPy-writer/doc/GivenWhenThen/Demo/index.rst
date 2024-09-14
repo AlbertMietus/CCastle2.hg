@@ -50,7 +50,20 @@ With INCLUEDED .Robot file
    :language:  robotframework
 
 .. note::
+
    * the :file:`demo1.robot` contains the same code as the (top) above example
    * Now, however, that test is syntax-highlighted (in emacs) -- in html it is the same
    * See https://github.com/kopoli/robot-mode -- it is manually downloaded in ~/emacs/
-   
+
+
+
+Embedded arguments
+------------------
+
+.. literalinclude:: demo2.robot
+   :language:  robotframework
+
+.. note::
+
+   * A user-keyword with an embedded arguments/parameter is not (correctly/blue)highlighted in emacs
+   * But it is in rst/sphinx/pygymentize

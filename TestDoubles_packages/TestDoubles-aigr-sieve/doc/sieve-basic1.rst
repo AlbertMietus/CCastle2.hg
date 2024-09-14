@@ -17,7 +17,8 @@ Moats: (protocols & component(interfaces)
 
 .. uml:: ./basic1-moats.puml
 
-Castles: (component)-implementations
-====================================
 
-.. uml:: ./basic1-castles.puml (TODO)
+Sieve.Castle
+============
+
+.. uml:: ./basic1-sieve.puml
