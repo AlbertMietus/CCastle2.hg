@@ -14,7 +14,7 @@ protocols = Source_NS(ID('protocols'), source='protocols.Moat')
 interfaces = Source_NS(ID('interfaces'), source='interfaces.Moat')
 
 # Each (3) components are coded in its on Castle-file.
-comps = { name : Source_NS(ID(name), source=name+'.Moat') for name in ('generator', 'sieve', 'finder')}
+comps = { name : Source_NS(ID(name), source=name+'.Castle') for name in ('generator', 'sieve', 'finder')}
 
 ##
 ## IMPORTS
