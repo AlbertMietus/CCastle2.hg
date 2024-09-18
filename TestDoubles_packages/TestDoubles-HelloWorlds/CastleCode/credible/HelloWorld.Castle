@@ -1,0 +1,28 @@
+// (C) Albert Mietus, 2024. Part of Castle/CCastle project
+
+"""A credible version of HelloWorld.
+
+   This variant has two connected components.
+
+   See ``../*`` for other variants
+"""
+
+protocol Execute : EventProtocol {
+         execute();
+}
+
+
+implement Credible_HelloWorld {
+///ToBeDone
+
+init() {
+///ToBeDone
+}
+
+powerOn(max) on self.power {
+///ToBeDone
+}
+
+} /* Credible_HelloWorld*/
+
+

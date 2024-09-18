@@ -1,0 +1,25 @@
+// (C) Albert Mietus, 2024. Part of Castle/CCastle project
+
+"""Elemental version of HelloWorld.
+
+   This variant is very elemental (sic)
+   It does not even have protocols nor components -- the foundation of Castle.
+
+   The the alternatives (like 'primitive') for more realistic examples of HelloWorld in Castle.
+"""
+
+implement Elemental_HelloWorld
+
+HelloWorld(str:label)
+{
+   print("Hello {label} World")
+}
+
+powerOn(max) on self.power  ///GAM: Here it starts ...
+{
+   HelloWorld("Elemental")
+}
+
+} /* Elemental_HelloWorld */
+
+

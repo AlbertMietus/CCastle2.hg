@@ -1,0 +1,50 @@
+// (C) Albert Mietus, 2024. Part of Castle/CCastle project
+
+"""A primitive version of HelloWorld.
+
+   Note, this is most simple versions! See ``../elemental/`` for a variant is more simple.
+
+   This one uses a single component, and a protocol to trigger it.
+   It's modeled to the well known Command Design Patterns. (https://en.wikipedia.org/wiki/Command_pattern)
+
+   As there is only one element (of HW_Command), it is not possible/needed to connect ports.
+   The main component (Primitive_HelloWorld) will trigger the HW_Command element directly. See ``../credible/ for even more realistic version.
+
+"""
+
+protocol Execute : EventProtocol {
+         execute();
+}
+
+component HW_Command(str:label) : Component {
+  port Execute<in>:trigger;
+}
+
+implement HW_Command {
+   str label
+
+init(label) {
+  super.init();
+  .label := label
+}
+
+Execute.execute on .trigger {
+   print("Hello {label} World")
+}
+} /*HW_Command*/
+
+implement Primitive_HelloWorld {
+   sub .hello_world;
+
+init() {
+   super.init();
+   .hello_world := HW_Command('Primitive')
+}
+
+powerOn(max) on self.power { ///GAM: Here it starts ...
+   .hello_world.execute();
+}
+
+} /* Primitive_HelloWorld */
+
+
