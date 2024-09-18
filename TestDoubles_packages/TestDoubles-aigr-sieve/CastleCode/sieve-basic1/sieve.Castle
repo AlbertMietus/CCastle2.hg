@@ -1,0 +1,28 @@
+// (C) Albert Mietus, 2024. Part of Castle/CCastle project
+
+"""implementation of the Generator in the "basic1" version of 'The Sieve' in Castle.
+   And used as a reference the manual crafted AIGR TestDoubles in this directory.
+
+   .. seealso::
+
+      * http://docideas.mietus.nl/en/default/CCastle/4.Blog/1.TheSieve.html
+      * :file:`./__init__.py` for a general intro
+"""
+
+implement Sieve {
+   int myPrime;
+
+
+init(int:onPrime)
+{
+   super.init();    // `super` acts as port to the base-class
+   .myPrime := onPrime;
+}
+
+SimpleSieve.input(try) on .try
+{
+   if ( (try % .myPrime) !=0 ) {
+      .coprime.input(try);
+   }
+}
+} //@end Sieve

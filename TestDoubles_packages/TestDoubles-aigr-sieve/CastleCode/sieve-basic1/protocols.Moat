@@ -1,0 +1,19 @@
+// (C) Albert Mietus, 2024. Part of Castle/CCastle project
+
+"""Protocol file of the "basic1" version of 'The Sieve' in Castle.
+   And used as a reference the manual crafted AIGR TestDoubles in this directory.
+
+   .. seealso::
+
+      * http://docideas.mietus.nl/en/default/CCastle/4.Blog/1.TheSieve.html
+      * :file:`./__init__.py` for a general intro
+"""
+
+protocol StartSieve : EventProtocol {
+   runTo(int:max);
+   newMax(int:max);
+}
+
+protocol SimpleSieve : EventProtocol {
+  input(int:try);
+}
