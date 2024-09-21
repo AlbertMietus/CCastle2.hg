@@ -1,6 +1,6 @@
 default: all
 
-PYREVERSE_PKGS = castle/TESTDOUBLES/aigr.base
+PYREVERSE_PKGS = castle.TESTDOUBLES.aigr.base
 
 LAST = \
 #

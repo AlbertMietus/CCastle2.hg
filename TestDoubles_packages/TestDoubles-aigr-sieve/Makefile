@@ -1,6 +1,6 @@
 default: all
 
-PYREVERSE_PKGS = castle/TESTDOUBLES/aigr.sieve.basic1
+PYREVERSE_PKGS = castle.TESTDOUBLES.aigr.sieve.basic1
 
 LAST = \
 	pytst/sieve/basic1/test_1_sieve_protocols.py	\

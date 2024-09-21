@@ -1,10 +1,10 @@
 default: all
 
-PYREVERSE_PKGS = castle/aigr \
-	castle/aigr.machinery \
-	castle/aigr.statements \
-	castle/aigr.expressions \
-	castle/aigr_extra.builders \
+PYREVERSE_PKGS = castle.aigr \
+	castle.aigr.machinery \
+	castle.aigr.statements \
+	castle.aigr.expressions \
+	castle.aigr_extra.builders \
 #
 
 LAST = \
