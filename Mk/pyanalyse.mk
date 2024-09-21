@@ -3,11 +3,11 @@
 PYREVERSE_OPTIONS =  -k -A
 PYREVERSE_OPTIONS =  -A
 
-
 ${PYREVERSE_dir}:; mkdir $@
 
 pyanalyse pyreverse: ${PYREVERSE_dir}
 	for P in ${PYREVERSE_PKGS}; do \
+		P=`echo $$P | sed 's@\.@/@g'`;\
 		echo "PYANALYSE::" $$P "...";\
 		pyreverse -d ${PYREVERSE_dir} -o ${PYREVERSE_FORMAT} ${PYREVERSE_OPTIONS} -p $$P-noModules -mn --max-color-depth=42  $$P & \
 		pyreverse -d ${PYREVERSE_dir} -o ${PYREVERSE_FORMAT} ${PYREVERSE_OPTIONS} -p $$P-Modules   -my --max-color-depth=42  $$P & \
@@ -17,7 +17,6 @@ pyanalyse pyreverse: ${PYREVERSE_dir}
 		echo "PYANALYSE: plantUML processing (all)"; \
 		cd  ${PYREVERSE_dir}; plantuml -tsvg ./*.plantuml); fi
 	@echo ".. done. Result; see: ./${PYREVERSE_dir}"
-
 
 
 pyanalyse-open: pyanalyse
