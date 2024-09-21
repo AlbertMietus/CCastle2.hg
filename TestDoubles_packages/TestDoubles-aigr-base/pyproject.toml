@@ -1,0 +1,12 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "castle-TestDoubles-aigr-base"
+description = "Manually crafted ``aigr-aigr``, as TestDouble for other TestDoubles"
+version = "0.0.1"
+dependencies = ["castle-aigr"]
+
+[tool.setuptools.packages.find]
+exclude = ["pytst*", "CastleCode"]
