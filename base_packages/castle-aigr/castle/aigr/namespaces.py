@@ -2,7 +2,7 @@
 
 """This file contains AIGR-classes to model (all kind of) NameSpaces.
 
-There are several NameSpaces: the most prominent one is the ``Source_NS``, roughly the file that contains the (Castle) code.
+There are several NameSpaces: the most prominent one is the ``Source_NS``, roughly: the file that contains the (Castle) code.
 """
 from __future__ import annotations
 
