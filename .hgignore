@@ -7,8 +7,10 @@ _pyreversed/
 
 demos/ThinOnion/OUT_*
 OUT_*
-
+TAGS
 TMP
+
+.*/GivenWhenThen/.*/output.xml
 
 Design/.*\.svg
 pyreversed/.*\.svg
