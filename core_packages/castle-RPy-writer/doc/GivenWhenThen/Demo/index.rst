@@ -44,8 +44,9 @@ containing Robot Framework data are ignored as well.
        print('Hello, world!')
 
 
-With INCLUEDED .Robot file
---------------------------
+With INCLUEDED .Robot file (`demo1.robot`)
+------------------------------------------
+
 .. literalinclude:: demo1.robot
    :language:  robotframework
 
@@ -57,8 +58,8 @@ With INCLUEDED .Robot file
 
 
 
-Embedded arguments
-------------------
+Embedded arguments (`demo2.robot`)
+----------------------------------
 
 .. literalinclude:: demo2.robot
    :language:  robotframework
