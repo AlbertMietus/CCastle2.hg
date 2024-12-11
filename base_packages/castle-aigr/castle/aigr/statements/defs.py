@@ -8,11 +8,12 @@ from dataclasses import field as dc_field
 
 from . import _statement, AIGR
 from ..nodes import NamedNode
+from .compounds import Body
 
 if PTH.TYPE_CHECKING:                                                                                # pragma: no cover
-    from .. import Body, ComponentInterface, TypedParameter
+    from .. import ComponentInterface, TypedParameter
 
-from .compounds import Body
+
 
 @dataclass
 class ComponentImplementation(_statement, NamedNode):

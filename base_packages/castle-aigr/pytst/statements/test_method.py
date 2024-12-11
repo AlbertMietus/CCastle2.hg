@@ -5,14 +5,14 @@ import pytest
 from .. import  Dummy, verifyMark, verifyKids
 
 from castle import aigr
-from castle.aigr import Method, ID
+from castle.aigr import Method, ID, Body
 
 
 def verify_NamedCallableTypes(c):
     logger.info("verify_NamedCallable: %s", c)
     assert isinstance(c.name, ID)
     assert isinstance(c.parameters, tuple)
-    assert isinstance(c.body, (aigr.Body, type(None)))
+    assert isinstance(c.body, Body), f"a callable should have a Body, but type={type(comp.body)}"
     #assert isinstance(c.returns,  ... )  # XXX ToDo: # See test_9_returnType (merge once)
     verifyKids(c)
 
