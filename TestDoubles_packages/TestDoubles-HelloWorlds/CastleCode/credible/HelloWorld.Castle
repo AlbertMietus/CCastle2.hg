@@ -12,7 +12,8 @@ protocol Execute : EventProtocol {
 }
 
 
-implement Credible_HelloWorld {
+implement Credible_HelloWorld
+{
 ///ToBeDone
 
 init() {

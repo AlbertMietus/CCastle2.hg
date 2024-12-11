@@ -17,7 +17,9 @@ def verifyKidsTypes(comp):
     elif isinstance (comp, ComponentImplementation):
         assert isinstance(comp.interface, (ComponentInterface, type(None)))
         assert isinstance(comp.parameters, tuple)
-        assert isinstance(comp.body, (Body, type(None)))
+        #assert isinstance(comp.body, (Body, type(None)))
+        assert isinstance(comp.body, Body), f"an Implementation should have a Body, but type={type(comp.body)}"
+        assert isinstance(comp.body.statements, list), f"an Implementation should have a Body with a statement list, found type={type(comp.body.statement)}"
     else:
         assert False, f"{comp} is not a comp (ComponentInterface or ComponentImplementation)"
 

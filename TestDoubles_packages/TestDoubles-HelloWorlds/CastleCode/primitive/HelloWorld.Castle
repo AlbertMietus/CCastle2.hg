@@ -20,7 +20,8 @@ component HW_Command(str:label) : Component {
   port Execute<in>:trigger;
 }
 
-implement HW_Command {
+implement HW_Command
+{
    str label
 
 init(label) {
@@ -31,9 +32,11 @@ init(label) {
 Execute.execute on .trigger {
    print("Hello {label} World")
 }
+
 } /*HW_Command*/
 
-implement Primitive_HelloWorld {
+implement Primitive_HelloWorld
+{
    sub .hello_world;
 
 init() {

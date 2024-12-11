@@ -9,6 +9,7 @@
 """
 
 implement Elemental_HelloWorld
+{
 
 HelloWorld(str:label)
 {

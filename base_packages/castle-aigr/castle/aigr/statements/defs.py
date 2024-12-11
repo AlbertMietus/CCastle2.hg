@@ -12,6 +12,8 @@ from ..nodes import NamedNode
 if PTH.TYPE_CHECKING:                                                                                # pragma: no cover
     from .. import Body, ComponentInterface, TypedParameter
 
+from .compounds import Body
+
 @dataclass
 class ComponentImplementation(_statement, NamedNode):
     """The implementation of a component (keyword: 'implement'
@@ -21,7 +23,7 @@ class ComponentImplementation(_statement, NamedNode):
 
     interface  : PTH.Optional[ComponentInterface] = None
     parameters : tuple[TypedParameter, ...]       = dc_field(default_factory=tuple)
-    body       : PTH.Optional[Body]               = None
+    body       : PTH.Optional[Body]               = dc_field(default_factory=Body)
 
 ## Method, Eventhandler, etc  are defined in :file:`callables.py`
 
