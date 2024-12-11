@@ -4,7 +4,7 @@
 ${SIEVE_FILE}        sieve/basic1
 @{ARGV}              --max 25
 @{FILTERS}
-@{EXPECTATION}       2 3 5 7 11 13 17 19 23
+@{EXPECTATION}       2  3  5  7  11  13  17  19  23
 
 *** Settings ***
 Resource      ./top.robot
@@ -19,8 +19,7 @@ Valid rpython for sieve
 Run Sieve
     ${AIGR}=    Given MockRead ${SIEVE_FILE}
     ${prog}=    When RPY compiles it for ${AIGR}
-    ${outp}=    And runs ${prog} with @{ARGV}
-                Then ${outp} matches ${EXPECTATION}, given @{FILTERS}
-                LOG VARIABLES
+    @{outp}=    And runs ${prog} with @{ARGV}
+    		Then @{outp} matches ${EXPECTATION}, given @{FILTERS}
 
 

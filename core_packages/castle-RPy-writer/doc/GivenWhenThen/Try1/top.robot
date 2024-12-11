@@ -1,5 +1,9 @@
 [Documentation] Generic-tests (aka keywords) for the RPy writer
 
+*** Settings ***
+Library     Collections
+
+
 *** Keywords ***
 MockRead ${file}
                 LOG  MockRead:: ${file}
@@ -41,8 +45,10 @@ RPY compiles it for ${AIGR}
 
 runs ${prog} with @{ARGV}
     [Documentation]   implement in python
-    RETURN  dummy actuals
+    RETURN   FAKE   -2  -3  -4  -5  -6  -7  -8  -9
 
-THEN ${outp} matches ${EXPECTATION}, given @{FILTERS}
+
+THEN ${outp} matches ${EXPECTATION}, given ${FILTERS}
     [Documentation]   implement in python
-    RETURN  True
+    Convert To List 	     ${EXPECTATION}
+    Lists Should Be Equal    ${EXPECTATION}   ${outp}
