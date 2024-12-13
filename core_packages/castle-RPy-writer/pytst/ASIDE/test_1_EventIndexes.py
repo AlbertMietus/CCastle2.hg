@@ -9,7 +9,7 @@ from castle.aigr import EventProtocol, Event
 from . import T_EventIndexes
 from . import T_Protocol
 from . import assert_marker
-
+from castle.aigr import types
 
 EventIndex_PreFix = "CC_P_"               #Keep in sync with implementation
 
@@ -24,7 +24,7 @@ def test_template_0_NoEvent(T_EventIndexes):
 
 
 def test_template_1_event(T_EventIndexes):
-    p = EventProtocol("MOCK", events=[Event("input", typedParameters=[TypedParameter(name='event', type=int)])])
+    p = EventProtocol("MOCK", events=[Event("input", typedParameters=[TypedParameter(name='event', type=types.int)])])
     out=T_EventIndexes.render(protocol=p, events=p.events)
     logger.debug("out::\n%s", out)
 

@@ -10,6 +10,7 @@ import pytest
 from castle.TESTDOUBLES.aigr.sieve.basic1 import protocols as sieve_protocols
 
 from castle import aigr
+from castle.aigr import types
 from castle.TESTDOUBLES.aigr.base  import Protocol as base_Protocol
 
 
@@ -30,17 +31,17 @@ def test_1b_SimpleSieve():
 def test_2a_runTo_Event():
     p = sieve_protocols.StartSieve
     e = p.events[0]
-    verify_Event(e, name="runTo", return_type=None, parameters=[('max', int)])
+    verify_Event(e, name="runTo", return_type=None, parameters=[('max', types.int)])
 
 def test_2b_newMax_Event():
     p = sieve_protocols.StartSieve
     e = p.events[1]
-    verify_Event(e, name="newMax", return_type=None, parameters=[('max', int)])
+    verify_Event(e, name="newMax", return_type=None, parameters=[('max', types.int)])
 
 def test_2c_input_Event():
     p = sieve_protocols.SimpleSieve
     e = p.events[0]
-    verify_Event(e, name="input", return_type=None, parameters=[('try', int)])
+    verify_Event(e, name="input", return_type=None, parameters=[('try', types.int)])
 
 
 

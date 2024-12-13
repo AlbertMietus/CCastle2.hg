@@ -2,6 +2,7 @@
 
 from castle.aigr import EventProtocol, Event, ID
 from castle.aigr import TypedParameter, Argument, Specialise
+from castle.aigr import types
 
 import typing as PTH                                                                                 # Python TypeHints
 
@@ -11,13 +12,13 @@ import typing as PTH                                                            
    }"""
 StartSieve = EventProtocol(ID('StartSieve'),
                               events=(
-                                   Event(name=ID('runTo'),  return_type=None, typedParameters=(TypedParameter(name='max', type=int),)),
-                                   Event(name=ID('newMax'), return_type=None, typedParameters=(TypedParameter(name='max', type=int),))))
+                                   Event(name=ID('runTo'),  return_type=None, typedParameters=(TypedParameter(name='max', type=types.int),)),
+                                   Event(name=ID('newMax'), return_type=None, typedParameters=(TypedParameter(name='max', type=types.int),))))
 
 """protocol SimpleSieve : EventProtocol {
      input(int:try);
    }"""
-input_event = Event(name=ID('input'), return_type=None, typedParameters=(TypedParameter(name='try', type=int),))
+input_event = Event(name=ID('input'), return_type=None, typedParameters=(TypedParameter(name='try', type=types.int),))
 SimpleSieve = EventProtocol(ID('SimpleSieve'),
                               events=(input_event,))
 

@@ -11,6 +11,7 @@ __all__ = ['Sieve']
 from castle import aigr
 from castle.aigr import ComponentImplementation, ID
 from castle.aigr import Method, EventHandler
+from castle.aigr import types
 
 from castle.aigr_extra.blend import mangle_event_handler
 from castle.aigr_extra  import builders
@@ -26,7 +27,7 @@ Sieve = ComponentImplementation(ID('Sieve'),
                                 body=aigr.Body(statements=[
         aigr.VariableDefintion(
             ID('MyPrime', context=aigr.Def()),
-            type=int)]))                   # XXX Really: int?
+            type=types.int)]))
 
 assert isinstance(Sieve.body, aigr.Body) # This make mypy happy to fill-in the rest of the Body
 
@@ -39,7 +40,7 @@ assert isinstance(Sieve.body, aigr.Body) # This make mypy happy to fill-in the r
 # }
 init_method = Method(ID('init'),
                          returns=None,
-                         parameters=(aigr.TypedParameter(name=ID('onPrime'), type=int),), # XXX Really: int?
+                         parameters=(aigr.TypedParameter(name=ID('onPrime'), type=types.int),),
                          body=aigr.Body(statements=[
                              aigr.VoidCall(
                                  aigr.Call(

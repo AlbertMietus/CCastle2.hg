@@ -2,6 +2,7 @@
 
 import logging; logger = logging.getLogger(__name__)
 import pytest
+from castle.aigr import types
 
 from castle.writers.CC2Cpy.CCbase import *
 from castle.writers.CC2Cpy.Protocol import *
@@ -39,7 +40,7 @@ def sieveInterface(simpleSieveProto):
 def sieveClass(sieveInterface):
     return CC_B_ComponentClass(sieveInterface,
                                    handlers=[CC_EventHandler("SimpleSieve.input", port=sieveInterface.find_port_by_name('try'))],
-                                   methods=[CC_ElementMethod("init", type=None, parameterTuple=CC_TypedParameter(name='prime', type=int))])
+                                   methods=[CC_ElementMethod("init", type=None, parameterTuple=CC_TypedParameter(name='prime', type=types.int))])
 
 
 

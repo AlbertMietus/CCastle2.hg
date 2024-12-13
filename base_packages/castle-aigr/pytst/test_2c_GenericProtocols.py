@@ -50,6 +50,7 @@ import pytest
 from castle.aigr import Protocol, ProtocolKind
 from castle.aigr import Event, EventProtocol
 from castle.aigr import TypedParameter, Argument, Specialise
+from castle.aigr import types
 
 """ There are a few cases
 ///CastleCode
@@ -62,7 +63,7 @@ from castle.aigr import TypedParameter, Argument, Specialise
 
 @pytest.fixture
 def base():
-    return EventProtocol("Base", events=[], typedParameters=[TypedParameter(name='queue_max', type=int)])
+    return EventProtocol("Base", events=[], typedParameters=[TypedParameter(name='queue_max', type=types.int)])
 
 @pytest.fixture
 def sub_a(base):
@@ -98,7 +99,7 @@ class EventProtocol_Spy(EventProtocol):
         return TXT
 
 def test_GenericProtocol_Spydelegate():
-    spy = EventProtocol_Spy("SpyBase", events=[], typedParameters=[TypedParameter(name='queue_max', type=int)])
+    spy = EventProtocol_Spy("SpyBase", events=[], typedParameters=[TypedParameter(name='queue_max', type=types.int)])
     specialised = Specialise("", based_on=spy, arguments=(Argument(value=1),))
 
     assert specialised._noEvents() == 0

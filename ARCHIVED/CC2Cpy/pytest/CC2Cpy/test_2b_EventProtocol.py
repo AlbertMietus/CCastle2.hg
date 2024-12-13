@@ -10,6 +10,9 @@ from castle.writers.CC2Cpy.Protocol import * #CC_EventProtocol
 from castle.writers.CC2Cpy.Event import CC_Event
 from castle.writers.CC2Cpy.CCbase import CC_TypedParameter
 
+from castle.aigr import types
+
+
 ###
 ### NOTE
 ###
@@ -34,7 +37,7 @@ struct CC_B_Protocol cc_P_EMPTY = {
 
 @pytest.fixture
 def simpleSieve():
-    return CC_EventProtocol("SimpleSieve", events=[CC_Event("input", typedParameters=[CC_TypedParameter(name='event', type=int)])])
+    return CC_EventProtocol("SimpleSieve", events=[CC_Event("input", typedParameters=[CC_TypedParameter(name='event', type=types.int)])])
 
 ref_simpleSieve="""\
 struct CC_B_Protocol  cc_P_SimpleSieve = {

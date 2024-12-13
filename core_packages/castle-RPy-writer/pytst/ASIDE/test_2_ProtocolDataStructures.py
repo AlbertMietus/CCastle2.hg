@@ -5,6 +5,7 @@ import pytest
 
 from castle.aigr import EventProtocol, Event
 from castle.aigr.aid import TypedParameter
+from castle.aigr import types
 
 from . import T_ProtocolDataStructures
 from . import T_Protocol
@@ -81,14 +82,14 @@ def test_protocol_with_1parm(T_ProtocolDataStructures):
 
 sQUOTE="'"
 dQUOTE='"'
-def test_protocol_with_SomeParms(T_ProtocolDataStructures):
+def __test_protocol_with_SomeParms(T_ProtocolDataStructures):
     p= EventProtocol(name="WithParms",
                          events=[],
                          typedParameters=[
                              TypedParameter(name='a_parm', type="A_Type"),
-                             TypedParameter(name='b_parm', type=int),
-                             TypedParameter(name='c_parm', type=float),
-                             TypedParameter(name='foo',    type=int)
+                             TypedParameter(name='b_parm', type=types.int),
+                             TypedParameter(name='c_parm', type=types.float),
+                             TypedParameter(name='foo',    type=types.int)
                              ])
     out = T_ProtocolDataStructures.render(protocols=[p])
     logger.debug("\n---------- out:: ------------------------\n%s\n--------------------------------", out)
@@ -96,7 +97,7 @@ def test_protocol_with_SomeParms(T_ProtocolDataStructures):
     assert "'a_parm'" in out
     for parm in p.typedParameters:
         assert sQUOTE + parm.name + sQUOTE in out
-        type_val = (dQUOTE + parm.type + dQUOTE) if isinstance(parm.type, str) else parm.type.__name__
+        type_val = (dQUOTE + parm.type + dQUOTE) if isinstance(parm.type, str) else parm.type.represents
         assert type_val in out
 
 

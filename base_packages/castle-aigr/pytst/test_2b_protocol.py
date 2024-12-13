@@ -6,7 +6,8 @@ import pytest
 from castle.aigr import Protocol, ProtocolKind
 from castle.aigr import Event, EventProtocol
 from castle.aigr import TypedParameter
-
+from castle.aigr import types
+from castle.aigr import types
 
 @pytest.fixture
 def emptyProtocol():
@@ -18,7 +19,7 @@ def emptyProtocol_baseNotSet():
 
 @pytest.fixture
 def anEvent():
-    return Event("input", typedParameters=[TypedParameter(name='event', type=int)])
+    return Event("input", typedParameters=[TypedParameter(name='event', type=types.int)])
 
 @pytest.fixture
 def simpleSieve(anEvent):
@@ -70,24 +71,24 @@ def test_protocol_with_Noparms(emptyProtocol):
 
 def test_protocol_with_aParm():
     e = EventProtocol("With_a_parm", events=[], based_on=None,
-                          typedParameters=[TypedParameter(name='p', type=float)])
+                          typedParameters=[TypedParameter(name='p', type=types.float)])
     assert len(e.typedParameters) ==1
     assert e.typedParameters[0].name == 'p'
-    assert e.typedParameters[0].type == float
+    assert e.typedParameters[0].type == types.float
 
 
 def test_protocol_with_4Parms():
     e = EventProtocol("With_4_Parms", events=[], based_on=None,
                           typedParameters=(
-                              TypedParameter(name='p0', type=float ),
-                              TypedParameter(name='p1', type=int ),
-                              TypedParameter(name='p2', type=str ),
+                              TypedParameter(name='p0', type=types.float ),
+                              TypedParameter(name='p1', type=types.int ),
+                              TypedParameter(name='p2', type=types.string ),
                               TypedParameter(name='p3', type=None ),
                               ))
     assert len(e.typedParameters) == 4
-    assert (e.typedParameters[0].name, e.typedParameters[0].type) == ('p0', float)
-    assert (e.typedParameters[1].name, e.typedParameters[1].type) == ('p1', int)
-    assert (e.typedParameters[2].name, e.typedParameters[2].type) == ('p2', str)
+    assert (e.typedParameters[0].name, e.typedParameters[0].type) == ('p0', types.float)
+    assert (e.typedParameters[1].name, e.typedParameters[1].type) == ('p1', types.int)
+    assert (e.typedParameters[2].name, e.typedParameters[2].type) == ('p2', types.string)
     assert (e.typedParameters[3].name, e.typedParameters[3].type) == ('p3', None)
 
 
