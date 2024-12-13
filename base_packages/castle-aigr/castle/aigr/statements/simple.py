@@ -30,7 +30,7 @@ class Become(_statement):
 
 @dataclass
 class VoidCall(_statement):
-    """As a (function) Call is an expression --not a statement--, it should be wrapped in ``VoidCall` to make it s statement.
+    """As a (function) Call is an expression --not a statement--, it should be wrapped in ``VoidCall` to make it a statement.
 
     .. note::
 
