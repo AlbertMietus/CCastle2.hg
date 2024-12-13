@@ -6,7 +6,7 @@ import typing as PTH                                                            
 from dataclasses import dataclass, KW_ONLY
 from dataclasses import field as dc_field
 
-from .. import AIGR
+from .AIGR import AIGR
 
 @dataclass
 class _types(AIGR):
