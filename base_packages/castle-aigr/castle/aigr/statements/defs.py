@@ -9,6 +9,8 @@ from dataclasses import field as dc_field
 from . import _statement, AIGR
 from ..nodes import NamedNode
 from .compounds import Body
+from castle.aigr import types
+
 
 if PTH.TYPE_CHECKING:                                                                                # pragma: no cover
     from .. import ComponentInterface, TypedParameter
@@ -35,5 +37,5 @@ class VariableDefintion(_statement, NamedNode):
     _kids = _statement._kids + ('name',) + ('type', 'value')
     _: KW_ONLY
 
-    type   : type                                  # XXX ToDo: Really `type`? A python type?
+    type   : types # An AIGR-type
     value  : PTH.Optional[AIGR]=None

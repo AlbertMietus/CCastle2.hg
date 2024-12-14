@@ -5,6 +5,7 @@ import typing as PTH                                       # Python TypeHints
 from dataclasses import dataclass, KW_ONLY
 from dataclasses import field as dc_field
 from . import AIGR
+from castle.aigr import types
 
 """ XXX ToDo: refactor, rename & relocate ..."""
 
@@ -14,7 +15,8 @@ class TypedParameter(AIGR):
     """A parameter is a placeholder in a function/callable **definition**.
        It acts as variable inside the body In Castle, it always has a Type."""
     name: str   # XXX ToDo ``str`` or ``ID``?
-    type: type  # XXX ToDo: Really `type`? A python type?
+    type   : types # An AIGR-type
+
 
 @dataclass
 class Argument(AIGR):
