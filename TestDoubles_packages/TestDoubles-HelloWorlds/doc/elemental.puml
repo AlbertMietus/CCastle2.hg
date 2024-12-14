@@ -1,0 +1,59 @@
+@startuml
+
+object Elemental_HelloWorld <<ComponentImplementation>> {
+}
+
+object HelloWorld <<Method>> {
+  returns:		None
+  parameters: 	str:label
+  body
+}
+
+
+object " " as s11 <<VoidCall>>
+object "print()" as s12 <<Call>> {
+  "Hello {label} World"
+  label: ID.Ref
+}
+s11 ->s12
+
+map _HelloWorld_Body {
+ statements *-> s11
+}
+HelloWorld 		*-- _HelloWorld_Body
+Elemental_HelloWorld 	o-- HelloWorld
+
+
+
+object "powerOn(max) on self.power" as powerOn <<EventHandler>> {
+  protocol:		Power
+  event:		powerOn
+  port:		power
+  parameters:	max:int
+  body
+}
+
+object "Elemental" as c1 <<Constant>>
+object " " as s21 <<VoidCall>>
+object "HelloWorld" as s22 <<Call>> {
+  arguments
+}
+s22::arguments -->c1
+
+s21 ->s22
+s22 ..> HelloWorld
+
+
+map _powerOn_Body {
+statements *->s21
+}
+powerOn 		*-- _powerOn_Body
+Elemental_HelloWorld 	o-- powerOn
+
+
+
+
+
+
+}
+@enduml
