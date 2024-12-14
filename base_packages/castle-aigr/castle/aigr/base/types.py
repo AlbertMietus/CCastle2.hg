@@ -17,7 +17,8 @@ class _types(AIGR):
     So, the build-in-type 'foo' is a instance of `_buildin` with "foo" as value (stored in ``.represents``).
     A user defined-type in never a `_buildin`, (but a `_user` instance) and will never conflict"""
 
-    represents : string
+    represents : str # the 'name of the AIGR-type
+
 
 class _buildin(_types): pass
 class _Number(AIGR): pass
