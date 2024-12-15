@@ -1,3 +1,5 @@
+.. _xcross-elemental_HW:
+
 Elemental
 =========
 

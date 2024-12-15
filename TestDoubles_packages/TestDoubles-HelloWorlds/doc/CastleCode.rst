@@ -20,6 +20,3 @@ CastleCode (ref)
       .. literalinclude:: ./2code/primitive_HelloWorld.Castle
          :language:  ReasonML
 
-.. seealso::
-
-   * :ref:`HelloWord_variants` for an explanation of the variants.

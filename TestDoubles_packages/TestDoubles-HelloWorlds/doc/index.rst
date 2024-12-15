@@ -1,3 +1,5 @@
+.. _TestDoubles-HelloWorlds:
+
 =======================
 TestDoubles-HelloWorlds
 =======================
@@ -45,5 +47,5 @@ By Variant
 The same code & diagrams can also be variant by variant
 
 .. toctree::
-   
+
    ./xcross-elemental
