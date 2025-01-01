@@ -24,6 +24,7 @@ LAST = \
 #
 CURRENT = \
 	pytst/expressions/test_literals.py 	\
+	pytst/test_3_namespaces.py		\
 #
 TODO = \
 	pytst/test_3_namespaces.py		\

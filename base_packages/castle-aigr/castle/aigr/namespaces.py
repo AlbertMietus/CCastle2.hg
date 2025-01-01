@@ -6,7 +6,7 @@ There are several NameSpaces: the most prominent one is the ``Source_NS``, rough
 """
 from __future__ import annotations
 
-__all__ = ['NameSpace', 'Source_NS']
+__all__ = ['NameSpace', 'Source_NS', 'Subscope']
 
 import logging; logger = logging.getLogger(__name__)
 import typing as PTH                                                                                  # Python TypeHints
@@ -47,15 +47,21 @@ class NameSpace(NamedNode):
 
     def _register_2ways(self, node):
         node.register_in_NS(self)
+
 ###
 ### The following 3 methods are overkill.
-### + findNode/getID only lock locally returning None (findNode) or raise NameError on no match
+### + findNode/getID only looks locally returning None (findNode) or raise NameError on no match
 ### + search is like findNode, but looks also in subNS'ses
 ###
 ### So,
 ### - ``NS.findNode(name)`` and ``NS.search(name)`` are equivalent
 ###     (but search calls findNode, and can't be removed. find is also a better name)
 ###- There is no getID() for dottedName's
+###
+### findNode() is the basic function, all other call it
+###   So, only that needs to be overwritten
+###   Possible rename it to _findNode()
+###
 ###
 
 
@@ -105,3 +111,19 @@ class Target_NS(NameSpace):
        Typical, each Backend.Writer will subclass this class for the specifics for that language."""
     _: KW_ONLY
     target_file     :PTH.Optional[str]=None
+
+
+@dataclass
+class Subscope(NameSpace):
+    """An body (```{ ....}```) has it own namespace, as it defines a scope. But many names (``ID``s) in that namespace
+    are defines (registered) in an outer namespace . Therefore we have this special *Subscope* dataclass"""
+    _: KW_ONLY
+    outer_ns : NameSpace
+
+    def findNode(self, name :ID|str) ->PTH.Optional[NamedNode]:
+        if not isinstance(name, ID): name=ID(name)
+
+        node = super().findNode(name)
+        if node is None:
+            node = self.outer_ns.findNode(name)
+        return node

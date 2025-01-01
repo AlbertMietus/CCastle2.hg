@@ -10,6 +10,7 @@ from castle.aigr import NameSpace, Source_NS
 from castle.aigr import NamedNode
 from castle.aigr import errors
 
+from castle.aigr import Subscope
 
 @dataclass
 class DummyNode(NamedNode):
@@ -43,6 +44,10 @@ def sourceNS(a_node):
     ns = Source_NS("sourceNS", source="dummy")
     ns.register(a_node)
     return ns
+
+@pytest.fixture
+def SubscopeNS(top):
+    return Subscope('body', outer_ns=top)
 
 
 def test_1_NS_stored(a_node, aNS):
@@ -149,6 +154,15 @@ def test_byType_NS(top, sub, sourceNS):
     assert d['sourceNS'] is sourceNS
 
 
+def test_Subscope_is_NS(SubscopeNS):
+    assert SubscopeNS.name ==  'body'
+    outer = SubscopeNS.outer_ns; assert outer.name ==  'top'
+
+def test_Subscope_find_inOuter(SubscopeNS, a_node):
+    outer = SubscopeNS.outer_ns
+    outer.register(a_node); assert outer.findNode('a_node') is a_node, "a_node is in the outer namespace"
+    assert SubscopeNS.findNode('a_node') is a_node, "Nodes can be found in outer namespace too"
+    
 
 @pytest.mark.skip("Todo: Unite `.search()` and `.find()` [& `.getID()] -- see comment in `aigr/namespaces.py`")
 def test_ToDo_Unite():
