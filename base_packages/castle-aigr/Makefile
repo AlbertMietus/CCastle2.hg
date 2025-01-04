@@ -30,12 +30,14 @@ LAST = \
 	pytst/statements/test_components.py 	\
 	pytst/statements/test_0_dataclass.py	\
 	pytst/statements/test_0_kids.py		\
+	pytst/test_3_namespaces.py		\
+	pytst/base/test_ID.py	\
 #
 CURRENT = \
-	pytst/expressions/test_literals.py 	\
-	pytst/test_3_namespaces.py		\
+	pytst/expressions/test_kids.py	\
 #
 TODO = \
+	pytst/expressions/test_literals.py 	\
 	pytst/test_3_namespaces.py		\
 	pytst/machinery/test_9_todo.py		\
 #

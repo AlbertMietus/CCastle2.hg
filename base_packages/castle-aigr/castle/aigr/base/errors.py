@@ -3,12 +3,11 @@
 #Note: Errors do not inherit for AIGR, as they are not part of the "tree"
 
 class AIGR_ERROR(Warning):
-    "Base class for all errors in AIGR"
+    "Base class for all errors in AIGR"                                         # pragma: no mutate
 
 class NameError(AIGR_ERROR, AttributeError):
-    "This name (or ID) does not exits, when looking for it"
-
+    "This name (or ID) does not exits, when looking for it"                     # pragma: no mutate
 
 class PartError(AIGR_ERROR, AttributeError,LookupError):
-    "An error for Part (generalisation of Index & Attribute operations)"
+    "An error for Part (generalisation of Index & Attribute operations)"        # pragma: no mutate
 

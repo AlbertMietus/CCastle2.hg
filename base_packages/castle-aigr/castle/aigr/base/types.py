@@ -25,7 +25,6 @@ class _Number(AIGR): pass
 class _buildinNumber(_buildin, _Number): """For Now, we use python types as reference, as they are uniq"""
 class _user(_types): pass
 
-int		= _buildinNumber('int')
-float	= _buildinNumber('float')
-
-string 	= _buildin('string')
+int		= _buildinNumber('int')                                                 # pragma: no mutate
+float	= _buildinNumber('float')                                               # pragma: no mutate
+string 	= _buildin('string')                                                    # pragma: no mutate

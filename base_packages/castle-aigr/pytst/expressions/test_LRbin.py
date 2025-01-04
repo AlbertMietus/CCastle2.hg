@@ -16,7 +16,7 @@ import pytest
 import logging; logger = logging.getLogger(__name__)
 
 from castle.aigr import expressions
-from castle.aigr.expressions import operators
+sfrom castle.aigr.expressions import operators
 from castle.aigr_extra import builders
 
 from . import verify_binOp

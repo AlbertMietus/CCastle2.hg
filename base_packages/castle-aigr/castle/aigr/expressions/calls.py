@@ -40,7 +40,7 @@ class Part(_call):
 
     def __post_init__(self):
         if (self.attribute is not None) and (self.index is not None):
-            raise errors.PartError("Use only ONE:  attribute or index, not both:: {self.attribute} and {self.index}")
+            raise errors.PartError("Use only ONE:  attribute or index, not both:: {self.attribute} and {self.index}")   # pragma: no mutate
         if (self.attribute is None) and (self.index is  None):
-            raise errors.PartError("Use ONE: attribute or index - now both are None")
+            raise errors.PartError("Use ONE: attribute or index - now both are None")                                   # pragma: no mutate
 

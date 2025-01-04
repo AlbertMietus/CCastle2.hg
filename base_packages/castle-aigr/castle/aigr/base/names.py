@@ -5,22 +5,20 @@ from dataclasses import dataclass, KW_ONLY
 
 from .AIGR import AIGR
 
-class _Context(AIGR)  : "The context of an ID (base class)"
+class _Context(AIGR)  : "The context of an ID (base class)"                     # pragma: no mutate
+class Def(_Context)   : "Here, the name is defined"                             # pragma: no mutate
 
-class Def(_Context)   : "Here, the name is defined"
-
-@dataclass
+@dataclass                                                                      # pragma: no mutate
 class Ref(_Context):
-    "Here, the name is defined"
+    "Points to a Def() of an name"                                              # pragma: no mutate
     _ : KW_ONLY
-    reference: PTH.Optional[PTH.Any] = None # like a href in html -- links to a Def - not used for now
+    reference: PTH.Optional[PTH.Any] = None  ##not used for now                 # pragma: no mutate
 
-
-@dataclass
+@dataclass                                                                      # pragma: no mutate
 class Set(_Context):
-    "Here, the name is set"
+    "Here, the name is set/changed"                                             # pragma: no mutate
     _ : KW_ONLY
-    reference: PTH.Optional[PTH.Any] = None # like a href in html -- links to a Def - not used for now
+    reference: PTH.Optional[PTH.Any] = None  ##not used for now                 # pragma: no mutate
 
 
 class ID(str,AIGR):
@@ -43,7 +41,8 @@ class ID(str,AIGR):
         if self.context is None:
           return super().__repr__()
         else:
-          return f'ID({self}/{self.context})'
+          return f'ID({str(self)}/{repr(self.context)})'
+
 
 class Label(str):
     """A `Label` is a string, but unlike an ID it's NOT USED in CastleCode. This is an "internal" name, in the AIGR."""
