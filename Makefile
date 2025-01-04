@@ -11,6 +11,8 @@ SUBS =\
 
 include ${TOPd}Mk/dirs.mk
 
-
+.PHONY: TAGS etags tags
+TAGS etags tags:
+	find . -name "*.py" -print | etags -
 
 

@@ -31,7 +31,7 @@ BUGS
    :links: B_ReplaceArpeggio
 
    NamedNodes --like an Eventhandler-- life in a ComponentImplementation, and have a name. So, we should be able to
-   search/find it, like with a NameSpace
+   search/find it, like with a namespace
 
-   Same for vars: the should be findable and as such be .register()ed in a NameSpace.
+   Same for vars: the should be findable and as such be .register()ed in a namespace.
    
