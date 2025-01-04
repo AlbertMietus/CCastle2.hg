@@ -1,12 +1,20 @@
 # (C) Albert Mietus, 2023. Part of Castle/CCastle project
 
-"""This file contains AIGR-classes to model (all kind of) NameSpaces.
+"""This file contains AIGR-classes to model (all kind of) namespaces, including "scopes". A namespace can be named, or unamed.
 
-There are several NameSpaces: the most prominent one is the ``Source_NS``, roughly: the file that contains the (Castle) code.
+There are several kind of namespaces, like:
+ * ``Source_NS`` : roughly, the file that contains (Castle) code.
+ * ``Scope``     : an (unamed) namespace like the body of a function, class, component ect
+ * ``SubScope``  : roughly anything between '{'  and '}' which defines names.
+
+.. note::
+
+   * Many namespaces have a name (where the name is registered in the outer NS).
+   * That dataclasses is called NamedSpace (with a _d_) and use NamedNode as a MixIn
+   * Unamed namedspace are often called a scope
 """
-from __future__ import annotations
 
-__all__ = ['NameSpace', 'Source_NS', 'Subscope']
+from __future__ import annotations
 
 import logging; logger = logging.getLogger(__name__)
 import typing as PTH                                                                                  # Python TypeHints
@@ -19,24 +27,23 @@ from .base import AIGR
 from .base import errors
 
 
-
-
 @dataclass
-class NameSpace(NamedNode):
-    """This models a namespace (like a file, see ``Source_NS``).
+class _NameSpace(AIGR):
+    """This models a namespace and/or scope (baseclass).
 
     It contained *"named nodes"* that should be :method:`register()`ed and can be found by :method:`getID()` and/or :method:`findNode()`.
 
-    XXX More"""
-
+    Most namespace have a ``outer_ns`` which is also used to lookup names. Howver, qua interface it is optional.
+    """
     _: KW_ONLY
+    outer_ns   :PTH.Optional[_NameSpace]=None
     _dict      :PTH.Dict[ID, NamedNode]=dc_field(init=None, default_factory=lambda: dict()) #type: ignore[call-overload]
+
 
     def register(self, named_node :NamedNode, asName:PTH.Optional[ID|str]=None):
         name = ID(asName) if asName else PTH.cast(ID, named_node.name)
 
-        logger.debug(f"register: <{type(named_node).__name__}:{named_node.name}> in <{type(self).__name__}:{self.name}> as {name}")
-
+        logger.debug(f"register: <{type(named_node).__name__}:{named_node.name}> as {name} in <{type(self).__name__}:{getattr(self, 'name', '_UnNamed_')}>")
 
         if name in self._dict:
             old = self._dict[name]
@@ -58,26 +65,34 @@ class NameSpace(NamedNode):
 ###     (but search calls findNode, and can't be removed. find is also a better name)
 ###- There is no getID() for dottedName's
 ###
-### findNode() is the basic function, all other call it
+### _findNode() is the basic function, all others call it
 ###   So, only that needs to be overwritten
 ###   Possible rename it to _findNode()
 ###
 ###
 
+    def _findNode(self, name :ID) ->PTH.Optional[NamedNode]:
+        """Return the NamedNode with the specified ID, or None.
+           It looks in 'this' namespace, and in outer_ns's when they exist.
+           All public interfaces will use this method."""
+
+        node = self._dict.get(name, None)
+        if node is None and self.outer_ns:
+            node = self.outer_ns._findNode(name)
+        return node
 
     def findNode(self, name :ID|str) ->PTH.Optional[NamedNode]:
-        """Return the NamedNode with the specified name (aka ID), or None.
-           See :method:`getID` for an alternative"""
         if not isinstance(name, ID): name=ID(name)
-        return self._dict.get(name, None)
+        return self._findNode(name)
 
 
     def getID(self, name :ID) ->NamedNode: #Or raise NameError
         """Return the NamedNode with the specified name (aka ID), or raised an NameError:AttributeError.
            See :method:`findNode` for an alternative"""
-        node = self.findNode(name)
+        if not isinstance(name, ID): name=ID(name)
+        node = self._findNode(name)
         if node is None:
-            raise errors.NameError(f"No node named {name} in NS:{self.name}")
+            raise errors.NameError(f"No node named {name} in NS:{getattr(self,'name','')}")
         return node
 
     def search(self, dottedName :ID) ->PTH.Optional[NamedNode]:
@@ -89,24 +104,29 @@ class NameSpace(NamedNode):
             return node
         try:
             return node.search(parts[1])                              #type: ignore[union-attr] # Assume a NS, else raise
-        except AttributeError: #node isn't a search'able/NameSpace --> Not found --> return None
+        except AttributeError: #node isn't a search'able/namespace --> Not found --> return None
             return None
 
     def find_byType(self, cls:type) ->dict[ID, NamedNode]:
         return {name: node for name, node in self._dict.items() if isinstance(node, cls)}
 
     def all_NS(self) ->dict[ID, NamedNode]:
-        return self.find_byType(NameSpace)
+        return self.find_byType(_NameSpace)
+
+@dataclass
+class NamedSpace(NamedNode, _NameSpace):
+    """A ``NamedSpace`` is a namedspace with a name ...."""
+
 
 
 @dataclass
-class Source_NS(NameSpace):
+class Source_NS(NamedSpace):
     """This namespace is used for CCastle source files (so: *.Moat- & *.Castle-files). That filename is stored in ``source``"""
     _: KW_ONLY
     source       :PTH.Optional[str]=None
 
 @dataclass
-class Target_NS(NameSpace):
+class Target_NS(_NameSpace):
     """This ABSTARCT namespace is used to "store" AIGR-parts that will rendered into one *low-level* code-file.
        Typical, each Backend.Writer will subclass this class for the specifics for that language."""
     _: KW_ONLY
@@ -114,16 +134,9 @@ class Target_NS(NameSpace):
 
 
 @dataclass
-class Subscope(NameSpace):
+class Scope(_NameSpace):
     """An body (```{ ....}```) has it own namespace, as it defines a scope. But many names (``ID``s) in that namespace
-    are defines (registered) in an outer namespace . Therefore we have this special *Subscope* dataclass"""
+    are defines (registered) in an outer namespace . Therefore we have this special namespace *Scope* dataclass"""
     _: KW_ONLY
-    outer_ns : NameSpace
+    outer_ns : _NameSpace
 
-    def findNode(self, name :ID|str) ->PTH.Optional[NamedNode]:
-        if not isinstance(name, ID): name=ID(name)
-
-        node = super().findNode(name)
-        if node is None:
-            node = self.outer_ns.findNode(name)
-        return node

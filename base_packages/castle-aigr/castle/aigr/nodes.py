@@ -26,7 +26,7 @@ class NamedNode(AIGR):
         if not isinstance(self.name, ID):
             self.name = ID(self.name)
 
-    def register_in_NS(self, ns: AIGR): #same: type(ns) is NameSpace, but ...
+    def register_in_NS(self, ns: AIGR): #same: type(ns) is namespace, but ...
         self._ns = ns
 
     @property
@@ -35,6 +35,7 @@ class NamedNode(AIGR):
 
 @dataclass
 class Specialise(NamedNode):
+    """XXX: Doc, Move to ..."""
     _kids = NamedNode._kids + ('based_on', 'arguments')
 
     _: KW_ONLY

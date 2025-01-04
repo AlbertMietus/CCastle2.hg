@@ -6,11 +6,10 @@ import typing as PTH                                                            
 from dataclasses import dataclass, KW_ONLY
 from random import randint
 
-from castle.aigr import NameSpace, Source_NS
+from castle.aigr import NamedSpace, Source_NS, Scope
 from castle.aigr import NamedNode
 from castle.aigr import errors
 
-from castle.aigr import Subscope
 
 @dataclass
 class DummyNode(NamedNode):
@@ -24,18 +23,18 @@ def a_node():
 
 @pytest.fixture
 def aNS(a_node):
-    ns = NameSpace("aNS")
+    ns = NamedSpace("aNS")
     ns.register(a_node)
     return ns
 
 @pytest.fixture
 def top():
-    top = NameSpace('top')
+    top = NamedSpace('top')
     return top
 
 @pytest.fixture
 def sub(top):
-    sub = NameSpace('sub')
+    sub = NamedSpace('sub')
     top.register(sub)
     return sub
 
@@ -46,8 +45,10 @@ def sourceNS(a_node):
     return ns
 
 @pytest.fixture
-def SubscopeNS(top):
-    return Subscope('body', outer_ns=top)
+def aScope(top, a_node):
+    scope_ns = Scope(outer_ns=top)
+    scope_ns.register(a_node)
+    return scope_ns
 
 
 def test_1_NS_stored(a_node, aNS):
@@ -90,8 +91,8 @@ def test_4_sameName_is_replaced(aNS):
 
 def test_5a_ns_in_ns():
     "when we import a NS, we get a NS in a NS ..."
-    top = NameSpace('top')
-    sub = NameSpace('sub')
+    top = NamedSpace('top')
+    sub = NamedSpace('sub')
     elm = DummyNode('elm', dummy="with.dotted.Name")
     top.register(sub)
     sub.register(elm)
@@ -113,14 +114,14 @@ def test_5d_seachNotFound_sub(top, sub):
     assert top.search("top.Deze.bestaat.niet") is None
 
 def test_6a_registered_is_2ways(aNS, a_node):
-    """When a NamedNode is registered in a NameSpace, it should a backlink (`ns property) to the NS again"""
+    """When a NamedNode is registered in a NamedSpace, it should a backlink (`ns property) to the NS again"""
     assert a_node.ns is aNS
 
 def test_6b_registered_is_2ways_once(aNS, a_node):
     """Currently, a NamedNode can be registered in multiple namespaces, but the backlink is always the last
        XXX ToDo: is that the intent? For now test as is"""
     name = a_node.name
-    other = NameSpace('other')
+    other = NamedSpace('other')
     other.register(a_node)
 
     assert (aNS.getID(name) is a_node) and (other.getID(name) is a_node),  "A NamedNode can be registered in two NS'ses ..."
@@ -148,21 +149,29 @@ def test_byType_Dummy(aNS, a_node):
 def test_byType_NS(top, sub, sourceNS):
     top.register(sourceNS) # Note: sub is already 'in; top
 
-    d = top.find_byType(NameSpace)
+    d = top.find_byType(NamedSpace)
     assert len(d) == 2 # sub, sourceNS
     assert d['sub'] is sub
     assert d['sourceNS'] is sourceNS
 
+def test_find_in_outer_NS(aNS):
+    a_node=aNS.findNode('a_node')
+    localNS = NamedSpace('local', outer_ns=aNS)
+    assert getattr(localNS._dict, 'a_node', 'NotLocal') == 'NotLocal', "a_node shouldn't be in localNS"
+    assert localNS.findNode('a_node') is a_node
 
-def test_Subscope_is_NS(SubscopeNS):
-    assert SubscopeNS.name ==  'body'
-    outer = SubscopeNS.outer_ns; assert outer.name ==  'top'
 
-def test_Subscope_find_inOuter(SubscopeNS, a_node):
-    outer = SubscopeNS.outer_ns
+def test_Scope_is_a_NS(aScope, a_node):
+    assert aScope.findNode('a_node') is a_node
+
+def test_subScope_has_an_outerNS(aScope):
+    assert aScope.outer_ns.name ==  'top'
+
+def test_Subscope_find_inOuter(aScope, a_node):
+    outer = aScope.outer_ns
     outer.register(a_node); assert outer.findNode('a_node') is a_node, "a_node is in the outer namespace"
-    assert SubscopeNS.findNode('a_node') is a_node, "Nodes can be found in outer namespace too"
-    
+    assert aScope.findNode('a_node') is a_node, "Nodes can be found in outer namespace too"
+
 
 @pytest.mark.skip("Todo: Unite `.search()` and `.find()` [& `.getID()] -- see comment in `aigr/namespaces.py`")
 def test_ToDo_Unite():

@@ -1,10 +1,19 @@
 default: all
 
-PYREVERSE_PKGS = castle.aigr \
+PYREVERSE_PKGS = \
+	castle.aigr \
+	\
+	castle.aigr.base \
+	castle.aigr.expressions \
 	castle.aigr.machinery \
 	castle.aigr.statements \
-	castle.aigr.expressions \
+	\
+	castle.aigr_extra \
+	castle.aigr_extra.blend \
 	castle.aigr_extra.builders \
+	\
+	castle.aigr.namespaces
+
 #
 
 LAST = \
