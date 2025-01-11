@@ -19,14 +19,15 @@ if PTH.TYPE_CHECKING:                                                           
 
 @dataclass
 class ComponentImplementation(_hasScope, _statement, NamedNode):
-    """The implementation of a component (keyword: 'implement'
+    """The implementation of a component (keyword: 'implement')
+
+    .. note :: Although a Component( Implementation) uses '{' ... '}' that is not a ``Body``, but a `namespace` --see _hasScope
     """
-    _kids = _statement._kids + ('interface', 'parameters', 'body')
+    _kids = _statement._kids + ('interface', 'parameters')
     _: KW_ONLY
 
     interface  : PTH.Optional[ComponentInterface] = None
     parameters : tuple[TypedParameter, ...]       = dc_field(default_factory=tuple)
-    body       : PTH.Optional[Body]               = dc_field(default_factory=Body)
 
 ## Method, Eventhandler, etc  are defined in :file:`callables.py`
 
