@@ -1,6 +1,6 @@
 # (C) Albert Mietus, 2023,2024 Part of Castle/CCastle project
 
-from castle.aigr import NameSpace, Source_NS, ID
+from castle.aigr import NamedSpace, Source_NS, ID
 
 # Note: this file only creates the namespaces, not the components (etc in those file)
 ##

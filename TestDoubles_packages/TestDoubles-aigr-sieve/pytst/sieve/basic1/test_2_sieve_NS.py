@@ -8,7 +8,7 @@
 import logging; logger = logging.getLogger(__name__)
 import pytest
 
-from castle.aigr import NameSpace
+from castle.aigr import NamedSpace
 from castle import aigr
 from castle.TESTDOUBLES.aigr.sieve.basic1 import namespaces as sieve_namespaces
 
@@ -64,5 +64,5 @@ def test_2b_main_imports_implements_optionally():
 
 
 def verify_nodeIsNS_withName(node, name:str):
-    assert isinstance(node, aigr.NameSpace)
+    assert isinstance(node, aigr.NamedSpace)
     assert node.name == name
