@@ -12,9 +12,6 @@ from castle.TESTDOUBLES.aigr.sieve.basic1 import sieveCastle
 from castle.TESTDOUBLES.aigr.sieve.basic1 import protocols, components
 
 
-from . import find_name_in_body
-
-
 def verify_ID(id, name, isRef=False, isDef=False, isSet=False):
     assert isinstance(id, aigr.ID), f"Expected an ID, found {type(id)} for {id}"
     assert id == name, f"wrong ID, expected {name}, got {id}"
@@ -33,7 +30,7 @@ def event_handler(comp):
       ##  - event(`input`) -- this protocol has only one event, so its simple
       ##  - port('try')    -- thats the 1ste one. But keep it in sync (CastleCode is leading)
     (protocol, event, port)  = protocols.SimpleSieve, protocols.SimpleSieve.events[0], components.SieveMoat.ports[0]
-    handler = find_name_in_body(mangle_event_handler(protocol=protocol.name,  event=event.name,  port=port.name), comp.body)
+    handler = comp.findNode(mangle_event_handler(protocol=protocol.name,  event=event.name,  port=port.name))
     assert isinstance(handler, aigr.EventHandler), f"Expected EventHandler, got {handler} (type={type(handler)})" # Not a test, only to check.
     logger.debug("Found <%s> as event_handler", handler)
     return handler
@@ -43,7 +40,6 @@ def test_0a_types(comp):
     assert isinstance(comp, aigr.ComponentImplementation)
     assert isinstance(comp.interface, aigr.ComponentInterface)
     assert isinstance(comp.parameters, (type(None), tuple))
-    assert isinstance(comp.body, aigr.Body)
 
 def test_0b_nameIsName(comp):
     assert comp.name == comp.interface.name
@@ -53,14 +49,14 @@ def test_0c_noParms(comp):
     assert comp.parameters == ()
 
 def test_1a_init_has_2lines(comp):
-    init = find_name_in_body('init', comp.body)
+    init = comp.findNode('init')
     assert isinstance(init, aigr.Method), f"Expected an init method, got {init}"
     assert len(init.body)==2, f"Expected that 'init' has 2 statements, but found: {len(init.body.statements)}"
 
 
 def test_1b_init_1st_line_superinit(comp):
     """ CastleCode:  super.init(); """
-    init = find_name_in_body('init', comp.body)
+    init = comp.findNode('init')
     line = init.body[0]
 
     assert isinstance(line, aigr.VoidCall) and isinstance(line.call, aigr.Call)
@@ -76,8 +72,7 @@ def test_1b_init_1st_line_superinit(comp):
 
 def test_1c_init_2nd_line_become(comp):
     """ CastleCode: .myPrime := onPrime; """
-
-    init = find_name_in_body('init', comp.body)
+    init = comp.findNode('init')
     line = init.body[1]
 
     assert isinstance(line, aigr.Become) and len(line.targets)==1 and len(line.values)==1

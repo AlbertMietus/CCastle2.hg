@@ -23,13 +23,9 @@ from . import components, protocols
 # ...
 Sieve = ComponentImplementation(ID('Sieve'),
                                 interface=components.SieveMoat,
-                                parameters=(),
-                                body=aigr.Body(statements=[
-        aigr.VariableDefintion(
-            ID('MyPrime', context=aigr.Def()),
-            type=types.int)]))
+                                parameters=())
+Sieve.register(aigr.VariableDefintion(ID('MyPrime', context=aigr.Def()), type=types.int))
 
-assert isinstance(Sieve.body, aigr.Body) # This make mypy happy to fill-in the rest of the Body
 
 
 
@@ -50,7 +46,8 @@ init_method = Method(ID('init'),
                              aigr.Become(
                                         targets=(aigr.Part(base=ID('self'), attribute=ID('myPrime', context=aigr.Set())),),
                                         values=(ID('onPrime', context=aigr.Ref()),))]))
-Sieve.body.expand(init_method)
+Sieve.register(init_method)
+
 
 
 
@@ -82,4 +79,4 @@ event_handler_1 = EventHandler(ID(mangle_event_handler(protocol="SimpleSieve", e
                                                    event=ID('input',context=aigr.Ref()),
                                                    arguments=[aigr.Argument(ID('try', context=aigr.Ref()))])
                                                ]))]))
-Sieve.body.expand(event_handler_1)
+Sieve.register(event_handler_1)
