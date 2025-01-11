@@ -4,11 +4,14 @@ import logging; logger = logging.getLogger(__name__)
 import pytest
 import typing as PTH                                                                                  # Python TypeHints
 
+
 from castle.aigr import AIGR
 from castle.aigr import If
+from castle.aigr import NamedNode
 
+from random import randint
 import dataclasses
-from dataclasses import dataclass
+from dataclasses import dataclass, KW_ONLY
 
 
 @dataclass
@@ -18,6 +21,15 @@ class Dummy(AIGR):
     def __repr__(self):
         return f'<Dummy.{self.mark}>'
 
+@dataclass
+class DummyNode(NamedNode):
+    name       :str
+    _: KW_ONLY
+    dummy      :PTH.Any=None
+
+@pytest.fixture
+def a_node():
+    return DummyNode("a_node", dummy=randint(42,2023))
 
 def verifyMark(dummy, mark):
     logger.debug("verifyMark: dummy=%s, mark=%s", dummy, mark)
@@ -43,3 +55,6 @@ def verifyisDataClass(cls):
     my_init = getattr(cls, '__init__')
     inherited_init = getattr(cls.mro()[1], '__init__')
     assert my_init is not inherited_init, f"Probably you subclasses a dataclass, but forgot @dataclass for {cls}"
+
+
+

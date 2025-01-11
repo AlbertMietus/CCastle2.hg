@@ -140,3 +140,7 @@ class Scope(_NameSpace):
     _: KW_ONLY
     outer_ns : _NameSpace
 
+class _hasScope(Scope):
+    """This Mixin adds a (sub)scope to an Class, and 'forward' the namespace-API to that scope-namespace
+    Typical, the class to which this Mixin is added has a 'aigr.Body' but that is not mandatory"""
+

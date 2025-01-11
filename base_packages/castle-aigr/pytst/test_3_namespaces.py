@@ -1,4 +1,4 @@
-# (C) Albert Mietus, 2023, 20214 Part of CCastle project
+# (C) Albert Mietus, 2023-2025 Part of CCastle project
 
 import logging; logger = logging.getLogger(__name__)
 import pytest
@@ -9,17 +9,7 @@ from random import randint
 from castle.aigr import NamedSpace, Source_NS, Scope
 from castle.aigr import NamedNode
 from castle.aigr import errors
-
-
-@dataclass
-class DummyNode(NamedNode):
-    name       :str
-    _: KW_ONLY
-    dummy      :PTH.Any=None
-
-@pytest.fixture
-def a_node():
-    return DummyNode("a_node", dummy=randint(42,2023))
+from . import DummyNode, a_node
 
 @pytest.fixture
 def aNS(a_node):

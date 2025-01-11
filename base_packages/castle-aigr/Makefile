@@ -17,29 +17,17 @@ PYREVERSE_PKGS = \
 #
 
 LAST = \
-	pytst/statements/test_if.py		\
-	pytst/statements/test_become.py		\
-	pytst/expressions/test_callable.py	\
-	pytst/expressions/test_compare.py	\
-	pytst/expressions/test_LRbin.py		\
-	pytst/expressions/test_LRmore.py	\
-	pytst/expressions/test_RL.py		\
-	pytst/statements/test_body.py		\
-	pytst/extra/test_mangle.py		\
-	pytst/statements/test_method.py 	\
+	pytst/base/test_ID.py					\
 	pytst/statements/test_components.py 	\
-	pytst/statements/test_0_dataclass.py	\
-	pytst/statements/test_0_kids.py		\
-	pytst/test_3_namespaces.py		\
-	pytst/base/test_ID.py	\
+	pytst/test_3_namespaces.py				\
 #
 CURRENT = \
-	pytst/expressions/test_kids.py	\
+	pytst/test_scope.py						\
 #
 TODO = \
-	pytst/expressions/test_literals.py 	\
-	pytst/test_3_namespaces.py		\
-	pytst/machinery/test_9_todo.py		\
+	pytst/expressions/test_literals.py 		\
+	pytst/test_3_namespaces.py				\
+	pytst/machinery/test_9_todo.py			\
 #
 
 TOPd=../../

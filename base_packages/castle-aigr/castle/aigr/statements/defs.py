@@ -10,7 +10,7 @@ from . import _statement, AIGR
 from ..nodes import NamedNode
 from .compounds import Body
 from castle.aigr import types
-
+from ..namespaces import _hasScope
 
 if PTH.TYPE_CHECKING:                                                                                # pragma: no cover
     from .. import ComponentInterface, TypedParameter
@@ -18,7 +18,7 @@ if PTH.TYPE_CHECKING:                                                           
 
 
 @dataclass
-class ComponentImplementation(_statement, NamedNode):
+class ComponentImplementation(_hasScope, _statement, NamedNode):
     """The implementation of a component (keyword: 'implement'
     """
     _kids = _statement._kids + ('interface', 'parameters', 'body')
