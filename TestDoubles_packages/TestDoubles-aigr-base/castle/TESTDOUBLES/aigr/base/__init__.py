@@ -5,10 +5,10 @@
 """
 
 from castle.aigr.protocols import baseProtocol, ID
-from castle.aigr import NameSpace
+from castle.aigr import NamedSpace
 
 Protocol = baseProtocol
 
-base = NameSpace(ID('base'))
+base = NamedSpace(ID('base'))
 base.register(Protocol)
 
