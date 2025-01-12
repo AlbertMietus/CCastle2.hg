@@ -1,7 +1,13 @@
 @startuml
 
-object Elemental_HelloWorld <<ComponentImplementation>> {
+object Elemental_HelloWorld  <<ComponentImplementation>> {
 }
+map "Hello_World" as ns1 <<Source_NS>> #Cornsilk {
+  source 					=> "Hello_World.Castle"
+  __doc_ 					=>
+  "Elemental_HelloWorld" 	*--> Elemental_HelloWorld
+}
+
 
 object HelloWorld <<Method>> {
   returns:		None
@@ -10,19 +16,20 @@ object HelloWorld <<Method>> {
 }
 
 
-object " " as s11 <<VoidCall>>
-object "print()" as s12 <<Call>> {
-  "Hello {label} World"
-  label: ID.Ref
+together {
+	object " " as s11 <<VoidCall>>
+    object "print()" as s12 <<Call>> {
+	  "Hello {label} World"
+	  label: ID.Ref
+	}
+	s11 ->s12
 }
-s11 ->s12
-
-map _HelloWorld_Body {
- statements *-> s11
+together {
+	map "statements" as  _HelloWorld_Body  #lightblue {
+	 1 *-> s11
+	}
+    HelloWorld 		*-- _HelloWorld_Body: body
 }
-HelloWorld 		*-- _HelloWorld_Body
-Elemental_HelloWorld 	o-- HelloWorld
-
 
 
 object "powerOn(max) on self.power" as powerOn <<EventHandler>> {
@@ -41,19 +48,33 @@ object "HelloWorld" as s22 <<Call>> {
 s22::arguments -->c1
 
 s21 ->s22
-s22 ..> HelloWorld
+s22 ..> HelloWorld #green: <color:blue>NS:Elemental_HelloWorld
 
 
-map _powerOn_Body {
-statements *->s21
+map "statements" as _powerOn_Body #lightblue{
+1 *->s21
 }
-powerOn 		*-- _powerOn_Body
-Elemental_HelloWorld 	o-- powerOn
+powerOn 		*-- _powerOn_Body :body
 
 
 
+map "Elemental_HelloWorld" as ns2 <<NamedSpace>> #Cornsilk {
+    self 					=>
+    Power::powerOn::power 	*->  powerOn
+    HelloWorld 				*->  HelloWorld
+}
+Elemental_HelloWorld *-> ns2
+
+map "HelloWorld" as ns3 << Scope>> #Cornsilk {
+}
+HelloWorld *-> ns3
 
 
+map "Power::powerOn::power" as ns4 <<Scope>> #Cornsilk {
+}
+powerOn *-> ns4
 
+ns2 *... ns4 #red: outher
+ns2 *... ns3 #red: outher
 }
 @enduml
