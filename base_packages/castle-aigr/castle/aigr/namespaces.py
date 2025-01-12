@@ -40,7 +40,7 @@ class _NameSpace(AIGR):
     _dict      :PTH.Dict[ID, NamedNode]=dc_field(init=None, default_factory=lambda: dict()) #type: ignore[call-overload]
 
 
-    def register(self, named_node :NamedNode, asName:PTH.Optional[ID|str]=None):
+    def register(self, named_node :NamedNode, asName :PTH.Optional[ID|str]=None):
         name = ID(asName) if asName else PTH.cast(ID, named_node.name)
 
         logger.debug(f"register: <{type(named_node).__name__}:{named_node.name}> as {name} in <{type(self).__name__}:{getattr(self, 'name', '_UnNamed_')}>")
@@ -50,10 +50,10 @@ class _NameSpace(AIGR):
             logger.warning(f"The '{name}'-node is already in this namespace; -- it will be lost." +
                            f"Removed: {old}. New: {named_node}")
         self._dict[name] = named_node
-        self._register_2ways(named_node)
+        #self._register_2ways(named_node)
 
-    def _register_2ways(self, node):
-        node.register_in_NS(self)
+    #def _register_2ways(self, node):
+    #    node.register_in_NS(self)
 
 ###
 ### The following 3 methods are overkill.
