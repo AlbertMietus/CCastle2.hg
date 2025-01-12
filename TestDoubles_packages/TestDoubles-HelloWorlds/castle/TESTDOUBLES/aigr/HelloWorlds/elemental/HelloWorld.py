@@ -4,40 +4,44 @@
 
     This file is manually crafted  from: :file:`../../../../../CastleCode/elemental/HelloWorld.Castle`"""
 
+import logging; logger = logging.getLogger(__name__)
+
 from castle import aigr
-from castle.aigr import Source_NS, ID
+from castle.aigr import Source_NS
+from castle.aigr import ID
 from castle.aigr import ComponentImplementation, Method, EventHandler
 from castle.aigr_extra.blend import mangle_event_handler
 
-ALL = ["elemental"]
+ALL = ["Hello_World"]
 
-elemental = Source_NS(ID('HelloWorld'), source="HelloWorld.Castle")
+Hello_World = Source_NS(ID('HelloWorld'), source="HelloWorld.Castle")
 
 #implement Elemental_HelloWorld
 #{
-Elemental_HelloWorld = ComponentImplementation(ID('Elemental_HelloWorld'))
-
+Elemental_HelloWorld    = ComponentImplementation(ID('Elemental_HelloWorld'))
 
 #HelloWorld(str:label)
 #{
 #   print("Hello {label} World")
 #}
-HelloWorld = Method(ID('HelloWorld'),
+HelloWorld = Method(ID('HelloWorld', context=aigr.Def()),
                     returns=None,
                     parameters=(aigr.TypedParameter(name=ID('label'), type=str),),
                     body=aigr.Body(statements=[
                         aigr.VoidCall(
-                            aigr.Call(callable=ID(print), arguments=(
-                                aigr.Constant(value="Hello {label} World"),
-                                ID('label',context=aigr.Ref()))))]))
-Elemental_HelloWorld.body.expand(HelloWorld)
+                            aigr.Call(callable=ID(print),
+                                      arguments=(
+                                          aigr.Constant(value="Hello {label} World"),
+                                          ID('label',context=aigr.Ref()))))]))
+#HelloWorld._register_parameters() -- now automaticly
+Elemental_HelloWorld.register(HelloWorld)
 
 
-#powerOn(max) on self.power  ///GAM: Here it starts ...
+
+#powerOn(max) on self.power
 #{
 #   HelloWorld("Elemental")
 #}
-
 powerOn = EventHandler(ID(mangle_event_handler(protocol='Power', event='powerOn', port='power'),context=aigr.Def()),
                        protocol=ID('Power', context=aigr.Ref()),
                        event=ID('powerOn', context=aigr.Ref()),
@@ -45,17 +49,17 @@ powerOn = EventHandler(ID(mangle_event_handler(protocol='Power', event='powerOn'
                        parameters=(aigr.TypedParameter(name=ID('max'), type=int),),
                        body=aigr.Body(statements=[
                            aigr.VoidCall(
-                               aigr.Call(
-                                   callable=ID('HelloWorld', context=aigr.Ref(reference=HelloWorld)),
-                                   arguments=(aigr.Constant(value="Elemental"),))) ]))
-Elemental_HelloWorld.body.expand(HelloWorld, powerOn)
+                               aigr.Call(callable=ID('HelloWorld', context=aigr.Ref(reference=HelloWorld)),
+                                         arguments=(aigr.Constant(value="Elemental"),)))]))
+#powerOn._register_parameters() -- now automaticly
+Elemental_HelloWorld.register(powerOn)
 
 
 #} /* Elemental_HelloWorld */
-elemental.register(Elemental_HelloWorld)
+Hello_World.register(Elemental_HelloWorld)
 
 if __name__ == '__main__':
     print("Debug: print elemental_helloworld")
-    print("elemental (NS) =\n", elemental)
+    print("Hello_World (NS) =\n", Hello_World)
     print("HelloWorld (Method) =\n", HelloWorld)
     print("powerOn (Event) =\n", powerOn)
