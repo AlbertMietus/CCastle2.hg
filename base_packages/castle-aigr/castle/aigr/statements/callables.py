@@ -6,6 +6,7 @@ import logging; logger = logging.getLogger(__name__)
 import typing as PTH                                                                                 # Python TypeHints
 from dataclasses import dataclass, KW_ONLY
 from dataclasses import field as dc_field
+from ..namespaces import _hasScope
 
 from . import _statement, AIGR, NamedNode
 
@@ -16,7 +17,7 @@ if PTH.TYPE_CHECKING:                                                           
 
 
 @dataclass
-class _callable(_statement):
+class _callable(_hasScope, _statement):
     """A callable is like a function, but more generic; this includes methods, (event)handlers, etc.
 
     Most callable(s) have a name, but not all -- therefor it's not a NamedNode
