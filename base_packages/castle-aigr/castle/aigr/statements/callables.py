@@ -29,9 +29,13 @@ class _callable(_hasScope, _statement):
     body       : PTH.Optional[Body]               = dc_field(default_factory=Body)
     returns    : PTH.Optional[PTH.Any]            = None # XXX ToDo
 
+
 @dataclass
 class _Named_callable(NamedNode, _callable):
     _kids = NamedNode._kids + tuple(k for k in _callable._kids if not k in NamedNode._kids)
+
+    def __post_init__(self):
+        self._register_parameters(True)
 
 
 @dataclass
