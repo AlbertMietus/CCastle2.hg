@@ -1,80 +1,98 @@
 @startuml
 
-object Elemental_HelloWorld  <<ComponentImplementation>> {
+skinparam packageBackgroundColor  AntiqueWhite-Gold
+skinparam mapBackgroundColor      Cornsilk
+
+package " " as p_comp <<Node>> {
+   object Elemental_HelloWorld  <<ComponentImplementation>> {
+   }
 }
-map "Hello_World" as ns1 <<Source_NS>> #Cornsilk {
+
+package " " as p_m_HW <<Rectangle>>  {
+   object "HelloWorld(str:label)" as HelloWorld <<Method>> {
+     returns:		None
+     parameters: 	str:label
+     body
+   }
+
+   object " " as s11 <<VoidCall>>
+   object "print()" as s12 <<Call>> {
+     "Hello {label} World"
+     label: ID.Ref
+   }
+   s11 ->s12
+}
+
+
+
+
+package " " as p_ev_power <<Rectangle>>   {
+   object "powerOn(max) on self.power" as powerOn <<EventHandler>> {
+     protocol:		Power
+     event:		powerOn
+     port:		power
+     parameters:	max:int
+     body
+   }
+
+   object "Elemental" as c1 <<Constant>>
+   object " " as s21 <<VoidCall>>
+   object "HelloWorld" as s22 <<Call>> {
+     arguments
+   }
+    s22 .> p_m_HW #green
+   s21 ->s22
+   s22::arguments -->c1
+}
+
+
+map "Hello_World" as ns1 <<Source_NS>> {
   source 					=> "Hello_World.Castle"
   __doc_ 					=>
   "Elemental_HelloWorld" 	*--> Elemental_HelloWorld
 }
 
+package  p_comp {
+   map "Elemental_HelloWorld" as ns2 <<_hasScope>> {
+      self 					=>
+      Power::powerOn::power 	*->  powerOn
+      HelloWorld 				*->  HelloWorld
+   }
+   Elemental_HelloWorld *-> ns2
+   ns1 <.* ns2: outer_ns
+}
 
-object HelloWorld <<Method>> {
-  returns:		None
-  parameters: 	str:label
-  body
+package p_m_HW {
+   map "HelloWorld" as ns3 <<_hasScope>> {
+   label => str
+   }
+   HelloWorld *-> ns3
+   ns2 <..* ns3 : outer_ns
+
+
+}
+
+package p_ev_power {
+   map " " as ns4 <<_hasScope>> {
+   max => int
+   }
+   powerOn *-> ns4
+   ns2 <..* ns4 : outer_ns
+}
+
+package p_m_HW {
+   map "statements" as  _HelloWorld_Body  #lightblue {
+      1 *-> s11
+   }
+   HelloWorld 		*-- _HelloWorld_Body:body
+}
+package p_ev_power {
+   map "statements" as _powerOn_Body #lightblue{
+      1 *->s21
+   }
+   powerOn *-- _powerOn_Body:body
 }
 
 
-together {
-	object " " as s11 <<VoidCall>>
-    object "print()" as s12 <<Call>> {
-	  "Hello {label} World"
-	  label: ID.Ref
-	}
-	s11 ->s12
-}
-together {
-	map "statements" as  _HelloWorld_Body  #lightblue {
-	 1 *-> s11
-	}
-    HelloWorld 		*-- _HelloWorld_Body: body
-}
 
-
-object "powerOn(max) on self.power" as powerOn <<EventHandler>> {
-  protocol:		Power
-  event:		powerOn
-  port:		power
-  parameters:	max:int
-  body
-}
-
-object "Elemental" as c1 <<Constant>>
-object " " as s21 <<VoidCall>>
-object "HelloWorld" as s22 <<Call>> {
-  arguments
-}
-s22::arguments -->c1
-
-s21 ->s22
-s22 ..> HelloWorld #green: <color:blue>NS:Elemental_HelloWorld
-
-
-map "statements" as _powerOn_Body #lightblue{
-1 *->s21
-}
-powerOn 		*-- _powerOn_Body :body
-
-
-
-map "Elemental_HelloWorld" as ns2 <<NamedSpace>> #Cornsilk {
-    self 					=>
-    Power::powerOn::power 	*->  powerOn
-    HelloWorld 				*->  HelloWorld
-}
-Elemental_HelloWorld *-> ns2
-
-map "HelloWorld" as ns3 << Scope>> #Cornsilk {
-}
-HelloWorld *-> ns3
-
-
-map "Power::powerOn::power" as ns4 <<Scope>> #Cornsilk {
-}
-powerOn *-> ns4
-
-ns2 *... ns4 #red: outher
-ns2 *... ns3 #red: outher
-}
 @enduml
