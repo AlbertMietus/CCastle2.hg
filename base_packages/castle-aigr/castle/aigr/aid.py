@@ -5,7 +5,7 @@ import typing as PTH                                       # Python TypeHints
 from dataclasses import dataclass, KW_ONLY
 from dataclasses import field as dc_field
 from . import AIGR
-from castle.aigr import types
+from castle.aigr import ID, types
 
 """ XXX ToDo: refactor, rename & relocate ..."""
 
@@ -14,8 +14,12 @@ from castle.aigr import types
 class TypedParameter(AIGR):
     """A parameter is a placeholder in a function/callable **definition**.
        It acts as variable inside the body In Castle, it always has a Type."""
-    name: str   # XXX ToDo ``str`` or ``ID``?
+    name: ID
     type   : types # An AIGR-type
+
+    def __post_init__(self):
+        if not isinstance(self.name, ID):
+            self.name = ID(self.name)
 
 
 @dataclass
@@ -25,6 +29,10 @@ class Argument(AIGR):
     value: PTH.Any
     _: KW_ONLY
     name: PTH.Optional[str]=None # XXX ToDo str or  ID?
+
+    def __post_init__(self):
+        if self.name and not isinstance(self.name, ID):
+            self.name = ID(self.name)
 
 
 
