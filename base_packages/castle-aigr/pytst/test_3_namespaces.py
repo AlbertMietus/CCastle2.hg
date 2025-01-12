@@ -103,19 +103,7 @@ def test_5c_seachNotFound_1(top):
 def test_5d_seachNotFound_sub(top, sub):
     assert top.search("top.Deze.bestaat.niet") is None
 
-#def test_6a_registered_is_2ways(aNS, a_node):
-#    """When a NamedNode is registered in a NamedSpace, it should a backlink (`ns property) to the NS again"""
-#    assert a_node.ns is aNS
-
-#def test_6b_registered_is_2ways_once(aNS, a_node):
-#    """Currently, a NamedNode can be registered in multiple namespaces, but the backlink is always the last
-#       XXX ToDo: is that the intent? For now test as is"""
-#    name = a_node.name
-#    other = NamedSpace('other')
-#    other.register(a_node)
-#
-#    assert (aNS.getID(name) is a_node) and (other.getID(name) is a_node),  "A NamedNode can be registered in two NS'ses ..."
-#    assert a_node.ns is other, " ...but Only the last NS is remembered"
+#def test_6_registered_is_2ways(): Not usefull
 
 def test_7_alias(aNS):
     node=DummyNode("aliased")
