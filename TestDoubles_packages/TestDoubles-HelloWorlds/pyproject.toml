@@ -1,0 +1,12 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "castle-TestDoubles-HelloWorlds"
+description = "A (partial, manually crafted) ``aigr`` TestDouble(s) for Sieve(s) -- as ref for reading(parsing) or input for writing"
+version = "0.0.1"
+dependencies = ["castle-aigr",]
+
+[tool.setuptools.packages.find]
+exclude = ["pytst*", "CastleCode"]
