@@ -1,24 +1,24 @@
 PYTEST= pytest
-PYTEST_OPTONS=-rxXsfE
+PYTEST_OPTIONS=-rxXsfE
 
 test: coverage local_test
 local_test:: # Add local module test to this one
 
 coverage:
-	coverage run  --source castle,pytst --branch -m pytest ${PYTEST_OPTONS} pytst/
+	coverage run  --source castle,pytst --branch -m pytest ${PYTEST_OPTIONS} pytst/
 	coverage report  --skip-covered
 	coverage html --directory=${COVERAGE_dir}
 coverage-open: coverage
 	open ${COVERAGE_dir}index.html
 
 pytest-show pytest-collect:
-	${PYTEST} --collect-only ${PYTEST_OPTONS}  pytst
+	${PYTEST} --collect-only ${PYTEST_OPTIONS}  pytst
 pytest pytest-only:							# No coverage reports
-	${PYTEST} ${PYTEST_OPTONS}  pytst
+	${PYTEST} ${PYTEST_OPTIONS}  pytst
 pytest-s:								# -s : No capure (so, show stdout/stderr)
-	${PYTEST} ${PYTEST_OPTONS} -s pytst
+	${PYTEST} ${PYTEST_OPTIONS} -s pytst
 pytest-d pytest-ds pytest-sd:						# with debuging
-	${PYTEST} ${PYTEST_OPTONS} --log-cli-level=DEBUG -s pytst/
+	${PYTEST} ${PYTEST_OPTIONS} --log-cli-level=DEBUG -s pytst/
 
 # Mutation testing (takes a long run) https://en.wikipedia.org/wiki/Mutation_testing -- not part of 'all'
 mutmut: ${ToCS_dir}
@@ -30,15 +30,15 @@ mutmut-open: mutmut
 
 
 last:
-	${PYTEST}  ${PYTEST_OPTONS}  ${LAST}
+	${PYTEST}  ${PYTEST_OPTIONS}  ${LAST}
 current:
-	${PYTEST}  ${PYTEST_OPTONS}  ${CURRENT}
+	${PYTEST}  ${PYTEST_OPTIONS}  ${CURRENT}
 current-ds current-sd:
-	${PYTEST}  ${PYTEST_OPTONS}  --log-cli-level=DEBUG -s ${CURRENT}
+	${PYTEST}  ${PYTEST_OPTIONS}  --log-cli-level=DEBUG -s ${CURRENT}
 current-info:
-	${PYTEST}  ${PYTEST_OPTONS}  --log-cli-level=INFO -s ${CURRENT}
+	${PYTEST}  ${PYTEST_OPTIONS}  --log-cli-level=INFO -s ${CURRENT}
 recheck:
-	${PYTEST}  ${PYTEST_OPTONS}   ${LAST} ${CURRENT}
+	${PYTEST}  ${PYTEST_OPTIONS}   ${LAST} ${CURRENT}
 todo:
-	${PYTEST}  ${PYTEST_OPTONS}  ${TODO}
+	${PYTEST}  ${PYTEST_OPTIONS}  ${TODO}
 
