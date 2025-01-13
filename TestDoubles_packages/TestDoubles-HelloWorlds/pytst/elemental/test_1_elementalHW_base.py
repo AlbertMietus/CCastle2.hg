@@ -6,19 +6,8 @@ import pytest
 from castle import aigr
 from castle.aigr_extra.blend import mangle_event_handler
 
-from castle.TESTDOUBLES.aigr.HelloWorlds.elemental.HelloWorld import Hello_World
-
-
-@pytest.fixture
-def elemental():
-    return Hello_World
-
-@pytest.fixture
-def HW(elemental):
-    comp = elemental.findNode('Elemental_HelloWorld')
-    assert isinstance(comp, aigr.ComponentImplementation)
-    return  comp
-
+from . import elemental, HW
+from . import dummy
 
 def test_0():
     logger.info("Reading `Hello_World` is a test in itself")
@@ -46,3 +35,15 @@ def test_3b__parms(HW):
     eventhandler = HW.findNode(name)
     assert eventhandler.findNode(p), f"parm: {p} not found in '{name}'"
 
+def test_4a_HW_has_outer_ns(HW, elemental, dummy):
+    "The HW ComponentImplementation, has an outer_ns: the file/SOURCE_NS: that is: elemental)"
+    elemental.register(dummy)
+    assert HW.findNode('dummy') is dummy, "This dummy node should be in the scope of HW"
+
+def test_4a_HW_has_outer_ns(HW,  dummy):
+    "The callables in HW have HW as outer_ns"
+    HW.register(dummy)
+    for name in ('HelloWorld', mangle_event_handler(protocol='Power', event='powerOn', port='power')):
+        callable=HW.findNode(name); assert callable
+        assert callable.findNode('dummy') is dummy, f"This dummy node should be in the scope of {name}"
+    

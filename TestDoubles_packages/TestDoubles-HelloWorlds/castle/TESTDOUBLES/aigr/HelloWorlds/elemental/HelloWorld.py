@@ -18,7 +18,7 @@ Hello_World = Source_NS(ID('HelloWorld'), source="HelloWorld.Castle")
 
 #implement Elemental_HelloWorld
 #{
-Elemental_HelloWorld    = ComponentImplementation(ID('Elemental_HelloWorld'))
+Elemental_HelloWorld    = ComponentImplementation(ID('Elemental_HelloWorld'), outer_ns=Hello_World)
 
 #HelloWorld(str:label)
 #{
@@ -26,6 +26,7 @@ Elemental_HelloWorld    = ComponentImplementation(ID('Elemental_HelloWorld'))
 #}
 HelloWorld = Method(ID('HelloWorld', context=aigr.Def()),
                     returns=None,
+                    outer_ns=Elemental_HelloWorld,
                     parameters=(aigr.TypedParameter(name=ID('label'), type=str),),
                     body=aigr.Body(statements=[
                         aigr.VoidCall(
@@ -47,6 +48,7 @@ powerOn = EventHandler(ID(mangle_event_handler(protocol='Power', event='powerOn'
                        event=ID('powerOn', context=aigr.Ref()),
                        port=ID('power', context=aigr.Ref()),
                        parameters=(aigr.TypedParameter(name=ID('max'), type=int),),
+                       outer_ns=Elemental_HelloWorld,
                        body=aigr.Body(statements=[
                            aigr.VoidCall(
                                aigr.Call(callable=ID('HelloWorld', context=aigr.Ref(reference=HelloWorld)),
