@@ -4,14 +4,13 @@ import logging; logger = logging.getLogger(__name__)
 import pytest
 import typing as PTH                                                                                  # Python TypeHints
 
-
-from castle.aigr import AIGR
-from castle.aigr import If
-from castle.aigr import NamedNode
-
 from random import randint
 import dataclasses
 from dataclasses import dataclass, KW_ONLY
+
+from castle.aigr import AIGR, ID
+from castle.aigr import If
+from castle.aigr import NamedNode, NamedSpace
 
 
 @dataclass
@@ -30,6 +29,13 @@ class DummyNode(NamedNode):
 @pytest.fixture
 def a_node():
     return DummyNode("a_node", dummy=randint(42,2023))
+
+@pytest.fixture
+def outer_NS(a_node):
+    ns = NamedSpace(ID('outer_namespace'))
+    ns.register(a_node)
+    return ns
+
 
 def verifyMark(dummy, mark):
     logger.debug("verifyMark: dummy=%s, mark=%s", dummy, mark)

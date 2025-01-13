@@ -1,4 +1,7 @@
-default: all
+default: none
+
+none:
+	@echo "This dir needs work before ..."
 
 PYREVERSE_PKGS = castle/writers/RPy
 

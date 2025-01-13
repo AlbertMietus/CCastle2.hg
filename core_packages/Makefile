@@ -2,7 +2,7 @@ default: sub-build
 
 
 SUBS =\
-	castle-RPy-writer	\
+#	castle-RPy-writer	\
 #
 
 TOPd=../
