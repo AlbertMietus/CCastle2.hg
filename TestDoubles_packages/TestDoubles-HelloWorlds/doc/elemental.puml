@@ -23,9 +23,6 @@ package " " as p_m_HW <<Rectangle>>  {
    s11 ->s12
 }
 
-
-
-
 package " " as p_ev_power <<Rectangle>>   {
    object "powerOn(max) on self.power" as powerOn <<EventHandler>> {
      protocol:		Power
@@ -64,17 +61,15 @@ package  p_comp {
 
 package p_m_HW {
    map "HelloWorld" as ns3 <<_hasScope>> {
-   label => str
+      label => str
    }
    HelloWorld *-> ns3
    ns2 <..* ns3 : outer_ns
-
-
 }
 
 package p_ev_power {
    map " " as ns4 <<_hasScope>> {
-   max => int
+      max => int
    }
    powerOn *-> ns4
    ns2 <..* ns4 : outer_ns
@@ -94,5 +89,19 @@ package p_ev_power {
 }
 
 
+note as N2
+<color:green>implement</color> <color:darkBlue>Elemental_HelloWorld</color>
+<color:Lime>{</color>
 
+<color:Blue>HelloWorld</color><color:Lime>(</color><color:CornflowerBlue>str</color><color:Navy><color:Lime>:</color </color><color:OliveDrab>label</color><color:Lime>)</color> <color:Lime>{</color>
+   print<color:Lime>(</color><color:Sandybrown>"Hello {label} World"</color><color:Lime>)</color>
+<color:Lime>}</color>
+
+<color:Blue>powerOn</color><color:Lime>(</color><color:OliveDrab>max</color><color:Lime>)</color> <color:green>on</color> self.power <color:Lime>{</color> <color:Orchid>///GAM: Here it starts ...</color>
+   HelloWorld<color:Lime>(</color><color:Sandybrown>"Elemental"</color><color:Lime>)</color>
+<color:Lime>}</color>
+
+<color:Lime>}</color> <color:Orchid>/* Elemental_HelloWorld */</color>
+end note
+'<color:RED>
 @enduml
