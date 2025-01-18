@@ -11,13 +11,11 @@
 implement Elemental_HelloWorld
 {
 
-HelloWorld(str:label)
-{
+HelloWorld(str:label) {
    print("Hello {label} World")
 }
 
-powerOn(max) on self.power  ///GAM: Here it starts ...
-{
+powerOn(max) on self.power { ///GAM: Here it starts ...
    HelloWorld("Elemental")
 }
 
