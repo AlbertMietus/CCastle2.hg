@@ -1,21 +1,21 @@
-default: none
+default: all
 
-none:
+#none:
 	@echo "This dir needs work before ..."
 
 PYREVERSE_PKGS = castle/writers/RPy
 
 LAST = \
-	pytst/ASIDE/	\
+	pytst/test_dummy.py
 #
 CURRENT = \
-	pytst/ASIDE/test_0_templating/test_gen_basic_txt.py	\
+	pytst/test_dummy.py
 #
 TODO = \
-	pytst/ASIDE/	\
+	pytst/test_dummy.py
 #
 
-local_test:: diff_TestDoubles
+#local_test:: diff_TestDoubles
 
 TOPd=../../
 include ${TOPd}Mk/comp.mk
