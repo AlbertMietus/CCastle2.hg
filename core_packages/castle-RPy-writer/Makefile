@@ -9,7 +9,7 @@ LAST = \
 	pytst/test_dummy.py
 #
 CURRENT = \
-	pytst/test_dummy.py
+	pytst/CC/test_0_CC.py
 #
 TODO = \
 	pytst/test_dummy.py
