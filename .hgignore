@@ -36,4 +36,5 @@ build/
 .*/doc/.*\.svg
 .*/doc_
 
-_run/
+_run
+_ref
