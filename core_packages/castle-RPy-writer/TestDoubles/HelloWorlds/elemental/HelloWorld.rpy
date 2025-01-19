@@ -45,14 +45,14 @@ class CC_Elemental_HelloWorld(buildin.CC_B_Component) : # Generated class;
         """///CastleCode: none"""
         pass
 
-    def HelloWord(self, label):
+    def HelloWorld(self, label):
         """///CastlecodeCOL
         HelloWorld(str:label) {
            print("Hello {label} World")
         }"""
         print(f'''Hello {label} World''')
 
-    def Power_powerOn__power(_dummy__Max):   #///GAM: power-api may change to args of none; max is stange
+    def Power_powerOn__power(self, _dummy__Max):   #///GAM: power-api may change to args of none; max is stange
         """///CastlecodeCOL
         powerOn(max) on self.power {
            HelloWorld("Elemental")
@@ -67,6 +67,7 @@ cc_C_Elemental_HelloWorld = buildin.CC_B_ComponentClass(
     interface = cc_CI_Elemental_HelloWorld,
     )
 
+CC_P_Power_On = 1 # XXX ToDo: move to ..
 cc_S_Elemental_HelloWorld_power = [
     None,
     CC_Elemental_HelloWorld.Power_powerOn__power,
