@@ -26,6 +26,7 @@ ${CCln}: ${RUNd}
 
 run: run_${TARGET}
 run_${TARGET}: ${RUNd} ${PY_files} ${CCln}
+	@echo ; echo "run ${TARGET}"
 	cd ${RUNd}; python ${TARGET}.py
 
 rpy2py:${PY_files}
@@ -36,4 +37,4 @@ clean:;
 cleaner: 
 	rm -rf ${RUNd}
 
-very_clean cleanst: cleaner
+veryclean very_clean cleanest: cleaner
