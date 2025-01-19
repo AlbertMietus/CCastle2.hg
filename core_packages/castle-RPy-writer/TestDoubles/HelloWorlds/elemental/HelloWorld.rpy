@@ -64,10 +64,15 @@ class CC_Elemental_HelloWorld(buildin.CC_B_Component) : # Generated class;
 
 
 cc_C_Elemental_HelloWorld = buildin.CC_B_ComponentClass(
-    interface = XXX.cc_CI_Elemental_HelloWorld,   # XXX: namespace
+    interface = cc_CI_Elemental_HelloWorld,
     )
 
 cc_S_Elemental_HelloWorld_power = [
     None,
-    Elemental_HelloWorld.powerOn__power,
+    CC_Elemental_HelloWorld.Power_powerOn__power,
     ]
+
+
+if __name__ == "__main__":
+    print('demo')
+    print(f'\tcc_CI_Elemental_HelloWorld {cc_CI_Elemental_HelloWorld}')
