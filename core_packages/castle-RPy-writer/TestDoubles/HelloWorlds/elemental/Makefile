@@ -1,5 +1,7 @@
 default: none
 
+TARGET=main_HW
+
 RUNd= _run/
 
 CCln 	=	${RUNd}CC
@@ -14,6 +16,7 @@ ${RUNd}:
 ${PY_files}: ${RUNd}%.py  : %.rpy
 	cp $< $@
 
+
 ${CCln}: ${RUNd}
 	@if [ ! -x ${CCln} ] ; then 	\
 	  echo ln -s ${CCorg} ${CCln} 	;\
@@ -21,11 +24,11 @@ ${CCln}: ${RUNd}
 	fi
 
 
-run: run_HW
-run_HW: ${RUNd} ${PY_files} ${CCln}
-	cd ${RUNd}; python HelloWorld.py
+run: run_${TARGET}
+run_${TARGET}: ${RUNd} ${PY_files} ${CCln}
+	cd ${RUNd}; python ${TARGET}.py
 
-
+rpy2py:${PY_files}
 clean:;
 	@echo Noting to do
 	@echo "	Use  make cleaner -- to remove ${RUNd}"
@@ -33,3 +36,4 @@ clean:;
 cleaner: 
 	rm -rf ${RUNd}
 
+very_clean cleanst: cleaner
