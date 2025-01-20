@@ -1,4 +1,5 @@
-default: none
+default all: run
+demo: run
 
 TARGET=main_HW
 

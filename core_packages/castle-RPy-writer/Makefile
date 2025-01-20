@@ -17,8 +17,15 @@ TODO = \
 
 #local_test:: diff_TestDoubles
 
+all: demo
+demo: demo_HW_elemental
+
+demo_HW_elemental:
+	make -C TestDoubles/HelloWorlds/elemental demo
+
 TOPd=../../
 include ${TOPd}Mk/comp.mk
+
 
 TESTDOUBLESd = pytst/TestDoubles/
 TESTDOUBLESd = pytst/ASIDE/TestDoubles/
