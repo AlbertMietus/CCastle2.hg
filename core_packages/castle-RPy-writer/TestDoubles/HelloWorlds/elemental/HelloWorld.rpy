@@ -10,10 +10,10 @@
 # Hi-lock: (("///.*$" (0 (quote hi-pink) prepend)))
 # Hi-lock: (("XXX" (0 (quote hi-yellow) prepend)))
 
-from CC import buildin
-from CC import base
-from CC import machinery
-from CC import _debug
+from castle.writers.RPy.CC import buildin
+from castle.writers.RPy.CC import base
+from castle.writers.RPy.CC import machinery
+from castle.writers.RPy.CC import _debug
 
 #GAM: XXX The component `Elemental_HelloWorld` is also needed
 #GAM: XXX That translate to constant like ``cc_C_Elemental_HelloWorld``, which are used below
