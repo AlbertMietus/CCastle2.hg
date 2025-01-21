@@ -6,13 +6,14 @@ default: all
 PYREVERSE_PKGS = castle/writers/RPy
 
 LAST = \
-	pytst/test_dummy.py
+	pytst/test_dummy.py 	\
+	pytst/CC/test_0_CC.py	\
 #
 CURRENT = \
-	pytst/CC/test_0_CC.py
+	pytst/CC/test_CCbuildin_1.py \
 #
 TODO = \
-	pytst/test_dummy.py
+	pytst/test_dummy.py	\
 #
 
 #local_test:: diff_TestDoubles
