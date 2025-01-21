@@ -8,20 +8,15 @@
 # - castle/TESTDOUBLES/aigr/HelloWorlds/elemental/HelloWorld.py 	(AIGR)
 
 # Hi-lock: (("///.*$" (0 (quote hi-pink) prepend)))
-# Hi-lock: (("XXX" (0 (quote hi-yellow) prepend)))
 
 from castle.writers.RPy.CC import buildin
 from castle.writers.RPy.CC import base
 from castle.writers.RPy.CC import machinery
 from castle.writers.RPy.CC import _debug
 
-#GAM: XXX The component `Elemental_HelloWorld` is also needed
-#GAM: XXX That translate to constant like ``cc_C_Elemental_HelloWorld``, which are used below
-#GAM: XXX It also set's the number of ports, which is used in __init__: Here none
 
-
-"""///CastleCode
-This code is "missing (or auto ...?
+"""///CastleCode ToDo
+GAM: This code is "missing (or auto ...?
 component Elemental_HelloWorld : Component {}
 ///end"""
 cc_CI_Elemental_HelloWorld = buildin.CC_B_ComponentInterface(

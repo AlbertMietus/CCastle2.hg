@@ -8,7 +8,6 @@ from HelloWorld import *
 
 def demo(argv):
 
-    #main_comp = HelloWorld.CC_Elemental_HelloWorld
     main_comp = CC_Elemental_HelloWorld
     main_elm  = main_comp()
 
