@@ -10,7 +10,7 @@ LAST = \
 	pytst/CC/test_0_CC.py	\
 #
 CURRENT = \
-	pytst/CC/test_CCbuildin_1.py \
+	pytst/CC/test_CCbuildin_1_prefix.py \
 #
 TODO = \
 	pytst/test_dummy.py	\
