@@ -11,8 +11,6 @@
 
 from castle.writers.RPy.CC import buildin
 from castle.writers.RPy.CC import base
-from castle.writers.RPy.CC import machinery
-from castle.writers.RPy.CC import _debug
 
 
 """///CastleCode ToDo
