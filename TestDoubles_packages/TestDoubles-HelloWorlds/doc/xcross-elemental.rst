@@ -21,3 +21,8 @@ Elemental
 
       *Remember*: this diagram is manually made and may not be accurate.
 
+   .. tab:: RPY (ref file)
+
+      .. literalinclude:: 2code/elemental-HelloWorld.rpy
+         :language:  python
+

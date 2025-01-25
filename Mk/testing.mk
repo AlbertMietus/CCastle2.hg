@@ -32,7 +32,7 @@ mutmut-open: mutmut
 last:
 	${PYTEST}  ${PYTEST_OPTIONS}  ${LAST}
 current:
-	${PYTEST}  ${PYTEST_OPTIONS}  ${CURRENT}
+	${PYTEST}  ${PYTEST_OPTIONS}  -s ${CURRENT}
 current-ds current-sd:
 	${PYTEST}  ${PYTEST_OPTIONS}  --log-cli-level=DEBUG -s ${CURRENT}
 current-info:
