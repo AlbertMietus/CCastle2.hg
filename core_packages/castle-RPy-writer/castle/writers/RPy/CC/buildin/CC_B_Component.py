@@ -15,6 +15,6 @@ class CC_B_Component(_debug.DebugMixIn):
         pass
 
 def _debug_name(self):
-        return 'isA.interface->' + self.isa.interface._debug_name()
+        return 'isa.interface->' + self.isa.interface._debug_name()
 
 
