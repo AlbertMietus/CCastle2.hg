@@ -10,11 +10,14 @@ from . import my_renderer
 @pytest.fixture
 def ComponentImplementation():
     impl = Hello_World.findNode('Elemental_HelloWorld')
-    assert impl
+    assert impl # check only, no test
     return impl
 
- 
-def test_1_render(ComponentImplementation, my_renderer):
+def verify_line(expect, got, line=0):
+    assert expect in got.splitlines()[line], f"Expected: {expect}...., got: {got}"
+
+
+def test_line1_render(ComponentImplementation, my_renderer):
     txt = my_renderer.render(ComponentImplementation)
-    expected = 'class CC_Elemental_HelloWorld(buildin.CC_B_Component):'
-    assert expected in txt.splitlines()[0], f"Expected: {expected}...., got: {txt}"
+    verify_line('class CC_Elemental_HelloWorld(buildin.CC_B_Component):', txt, 0)
+    print(f'\nXXX\nXXX{txt}\nXXX')
