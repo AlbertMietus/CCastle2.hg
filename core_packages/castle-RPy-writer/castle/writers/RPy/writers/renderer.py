@@ -33,7 +33,7 @@ class Renderer(Visitor):
         isa_elm_name = self.cc_elm_prefix(node.name)
         return (
             f"{isa_elm_name} = buildin.CC_B_ComponentClass(\n"
-            f"    name = \"{node.name}\",\n"
+            f"    interface = cc_CI_Elemental_HelloWorld,\n"
             f")\n"
             f"\n")
 
