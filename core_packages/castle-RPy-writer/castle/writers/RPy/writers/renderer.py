@@ -16,4 +16,11 @@ class Renderer(Visitor):
 
     def visit_ComponentImplementation(self, node) -> str:
         gen_cls_name = self.CC_cls_prefix + str(node.name)
-        return f"class {gen_cls_name}({self.CompBase}):"
+        return (
+            f"class {gen_cls_name}({self.CompBase}):\n"
+            "\n"
+            "    def __init__(self, *args):\n"
+            "        buildin.CC_B_Component.__init__(self, isa=cc_C_Elemental_HelloWorld)\n" # XXX isa
+            "        self._castle_init()\n"
+            "\n")
+

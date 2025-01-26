@@ -13,11 +13,16 @@ def ComponentImplementation():
     assert impl # check only, no test
     return impl
 
-def verify_line(expect, got, line=0):
-    assert expect in got.splitlines()[line], f"Expected: {expect}...., got: {got}"
+def verify_line(expect, got, line=None):
+    txt = got.splitlines()[line] if line else got
+    assert expect in txt, f"Expected: {expect}...., got: {got}"
 
 
 def test_line1_render(ComponentImplementation, my_renderer):
     txt = my_renderer.render(ComponentImplementation)
-    verify_line('class CC_Elemental_HelloWorld(buildin.CC_B_Component):', txt, 0)
-    print(f'\nXXX\nXXX{txt}\nXXX')
+    verify_line('class CC_Elemental_HelloWorld(buildin.CC_B_Component):\n', txt,0)
+
+def test_render_init(ComponentImplementation, my_renderer):
+    txt = my_renderer.render(ComponentImplementation)
+    verify_line('    def __init__(self, *args):', txt)
+    print(f'\n<<<\n{txt}>>>')
