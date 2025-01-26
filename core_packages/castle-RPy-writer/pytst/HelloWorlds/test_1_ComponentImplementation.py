@@ -31,7 +31,7 @@ def test_render_init(ComponentImplementation, my_renderer):
 def test_depart(ComponentImplementation, my_renderer):
     txt = my_renderer.render(ComponentImplementation)
     verify_line('cc_C_Elemental_HelloWorld = buildin.CC_B_ComponentClass(', txt, 6)
-    verify_line('    name = "Elemental_HelloWorld",', txt, 7)
+    verify_line('    interface = cc_CI_Elemental_HelloWorld,',              txt, 7)
 
 @pytest.mark.xfail(reason="TODO")
 def test_depart_999():
