@@ -17,7 +17,3 @@ class Renderer(Visitor):
     def visit_ComponentImplementation(self, node) -> str:
         gen_cls_name = self.CC_cls_prefix + str(node.name)
         return f"class {gen_cls_name}({self.CompBase}):"
-        
-
-
-
