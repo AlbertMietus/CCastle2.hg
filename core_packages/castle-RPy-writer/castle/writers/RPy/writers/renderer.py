@@ -21,6 +21,6 @@ class Renderer(Visitor):
             "\n"
             "    def __init__(self, *args):\n"
             "        buildin.CC_B_Component.__init__(self, isa=cc_C_Elemental_HelloWorld)\n" # XXX isa
-            "        self._castle_init()\n"
+            "        self._castle_init(*args)\n"
             "\n")
 
