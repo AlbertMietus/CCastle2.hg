@@ -7,9 +7,9 @@ from ..base.visitors import Visitor
 
 class Renderer(Visitor):
 
-    def CC_cls_prefix(self, name):		return 'CC_'   + str(name)
-    def cc_elm_prefix(self, name):		return 'cc_C_' + str(name)
-    def CompBase(self):      			return 'buildin.CC_B_Component'
+    def _CC_cls_prefix(self, name):		return 'CC_'   + str(name)
+    def _cc_elm_prefix(self, name):		return 'cc_C_' + str(name)
+    def _CompBase(self):      			return 'buildin.CC_B_Component'
 
     def render(self, node: aigr.AIGR) ->str:
         txt = ""
@@ -19,10 +19,10 @@ class Renderer(Visitor):
         return txt
 
     def visit_ComponentImplementation(self, node) -> str:
-        gen_cls_name = self.CC_cls_prefix(node.name)
-        isa_elm_name = self.cc_elm_prefix(node.name)
+        gen_cls_name = self._CC_cls_prefix(node.name)
+        isa_elm_name = self._cc_elm_prefix(node.name)
         return (
-            f"class {gen_cls_name}({self.CompBase()}):\n"
+            f"class {gen_cls_name}({self._CompBase()}):\n"
             f"\n"
             f"    def __init__(self, *args):\n"
             f"        buildin.CC_B_Component.__init__(self, isa={isa_elm_name})\n" # XXX isa
@@ -30,7 +30,7 @@ class Renderer(Visitor):
             f"\n")
 
     def depart_ComponentImplementation(self, node) -> str:
-        isa_elm_name = self.cc_elm_prefix(node.name)
+        isa_elm_name = self._cc_elm_prefix(node.name)
         return (
             f"{isa_elm_name} = buildin.CC_B_ComponentClass(\n"
             f"    interface = cc_CI_Elemental_HelloWorld,\n"
