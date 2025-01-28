@@ -14,7 +14,7 @@ from . import Argument
 
 @dataclass
 class NamedNode(AIGR):
-    _kids = AIGR._kids + ('name',)
+#    _kids = AIGR._kids + ('name',) # ID/name is not a kid
 
     name       : ID|str
 

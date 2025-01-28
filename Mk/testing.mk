@@ -1,5 +1,6 @@
 PYTEST= pytest
 PYTEST_OPTIONS=-rxXsfE
+PYTEST_OPTIONS_NOxFAIL=-rXsfE
 
 test: coverage local_test
 local_test:: # Add local module test to this one
@@ -30,7 +31,7 @@ mutmut-open: mutmut
 
 
 last:
-	${PYTEST}  ${PYTEST_OPTIONS}  ${LAST}
+	${PYTEST}  ${PYTEST_OPTIONS_NOxFAIL}  ${LAST}
 current:
 	${PYTEST}  ${PYTEST_OPTIONS}  -s ${CURRENT}
 current-ds current-sd:

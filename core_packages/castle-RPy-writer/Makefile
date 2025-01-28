@@ -6,13 +6,11 @@ default: all
 PYREVERSE_PKGS = castle/writers/RPy
 
 LAST = \
-	pytst/test_dummy.py 	\
-	pytst/CC/test_0_CC.py	\
-	pytst/CC/test_CCbuildin_1_prefix.py \
-	pytst/HelloWorlds/test_0.py
+	pytst/CC/test_CCbuildin_1_prefix.py 					\
+	pytst/HelloWorlds/test_1_ComponentImplementation.py		\
 #
 CURRENT = \
-	pytst/HelloWorlds/test_1_ComponentImplementation.py	\
+	pytst/HelloWorlds/test_2_Method.py						\
 #
 TODO = \
 	pytst/test_dummy.py	\

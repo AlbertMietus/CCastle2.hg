@@ -5,7 +5,8 @@ import pytest
 
 from castle.TESTDOUBLES.aigr.HelloWorlds.elemental.HelloWorld import Hello_World
 
-from . import my_renderer
+from . import my_renderer, verify_line
+from . import print_out
 
 @pytest.fixture
 def ComponentImplementation():
@@ -13,12 +14,8 @@ def ComponentImplementation():
     assert impl # check only, no test
     return impl
 
-def verify_line(expect, got, line=None):
-    txt = got.splitlines()[line] if line else got
-    assert expect in txt, f"Expected: {expect}...., got: {got}"
 
-
-def test_line1_render(ComponentImplementation, my_renderer):
+def test_1_1stLine_is_class(ComponentImplementation, my_renderer):
     txt = my_renderer.render(ComponentImplementation)
     verify_line('class CC_Elemental_HelloWorld(buildin.CC_B_Component):\n', txt,0)
 
@@ -35,5 +32,12 @@ def test_depart(ComponentImplementation, my_renderer):
 
 @pytest.mark.xfail(reason="TODO")
 def test_depart_999():
-    assert False, 'TODO: depart_ComponentImplementation as hardcode details XXX'
+    assert False, 'TODO: depart_ComponentImplementation has hardcode details XXX'
+
+
+def test_NotBut_print(ComponentImplementation, my_renderer):
+    txt = my_renderer.render(ComponentImplementation)
+    print_out(txt)
+
+
 
