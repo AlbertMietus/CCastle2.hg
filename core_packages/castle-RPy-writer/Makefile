@@ -10,9 +10,10 @@ LAST = \
 	pytst/HelloWorlds/test_1_ComponentImplementation.py		\
 #
 CURRENT = \
-	pytst/HelloWorlds/test_2_Method.py						\
+	pytst/aid/test_blocks.py								\
 #
 TODO = \
+	pytst/HelloWorlds/test_2_Method.py						\
 	pytst/test_dummy.py	\
 #
 
