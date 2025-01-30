@@ -56,4 +56,21 @@ def test_3b_indent_block(block):
 def test_4_blockblock(txt, block):
     b = Block(block)
     assert str(b) == txt
-    
+
+def test_buggy_notEmptyLines_areFine():
+    b = Block()
+    b += "line 1"
+    b += "line 2" 
+    b += "line 3"
+    lines=str(b).splitlines()
+    assert len(lines) == 3, f"Not correct number of lines: >>{lines}<<"
+
+def test_buggy_anEmptyLines_isMissing():
+    b = Block()
+    b += "line 1"
+    b += "" #empty line 2
+    b += "line 3"
+
+    lines=str(b).splitlines()
+    assert len(lines) == 3, f"Not correct number of lines: >>{lines}<<"
+

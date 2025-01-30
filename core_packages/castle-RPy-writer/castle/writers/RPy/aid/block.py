@@ -10,16 +10,21 @@ class Block:
 
     def __init__(self, text: PTH.Optional[PTH.Union[str, PTH.Sequence[str], 'Block']] = None, indent: PTH.Optional[str] = None):
         logger.debug("Block.init: text=>>%s<<", text)
-        if text:
-            self._add_lines(text)
-        else: self.lines=[]
+        self.lines=[]
         self.sub_blocks: PTH.List[PTH.Tuple[int, 'Block']] = []
         self.current_indent_level = 0
         self.indentation = indent if indent is not None else ' ' * 4
+        if text or text=="":
+            self._add_lines(text)
+        logger.debug(f"Block.init: SIZE #lines={len(self.lines)} #sub_blocks={len(self.sub_blocks)}")
 
     def _add_lines(self, text):
-        if isinstance(text, str):
+        if text == "":
+            self.lines = [text]
+            logger.debug(f"Block._add_lines: >>>{text}<<< #lines={len(self.lines)} #sub_blocks={len(self.sub_blocks)}")
+        elif isinstance(text, str):
             self.lines = text.splitlines()
+            logger.debug(f"Block._add_lines: >>>{text}<<< #lines={len(self.lines)} #sub_blocks={len(self.sub_blocks)}")
         elif isinstance(text, PTH.Sequence):
             self.lines = list(text)
         else:
@@ -33,12 +38,14 @@ class Block:
         elif other is Block.DEDENT:
             self.current_indent_level = max(0, self.current_indent_level - 1)
         elif isinstance(other, str):
+            logger.debug("Block.__iadd__: STRING")
             self.sub_blocks.append((self.current_indent_level, Block(other)))
         elif isinstance(other, Block):
             self.sub_blocks.append((self.current_indent_level, other))
         elif isinstance(other, PTH.Sequence):
             for line in other:
                 self.sub_blocks.append((self.current_indent_level, Block(line)))
+        logger.debug(f"Block.__iadd__: SIZE #lines={len(self.lines)} #sub_blocks={len(self.sub_blocks)}")
         return self
 
     def set_indent(self, indent: str) -> None:
