@@ -1,3 +1,7 @@
+# (C) Albert Mietus, 2025. Part of Castle/CCastle project
+# Base version with codeAI (chatGTP) -- needed work. Still needs more work. Bur for now ...
+
+import logging; logger = logging.getLogger(__name__)
 import typing as PTH
 
 class Block:
@@ -5,7 +9,10 @@ class Block:
     DEDENT = object()
 
     def __init__(self, text: PTH.Optional[PTH.Union[str, PTH.Sequence[str], 'Block']] = None, indent: PTH.Optional[str] = None):
-        self._add_lines(text)
+        logger.debug("Block.init: text=>>%s<<", text)
+        if text:
+            self._add_lines(text)
+        else: self.lines=[]
         self.sub_blocks: PTH.List[PTH.Tuple[int, 'Block']] = []
         self.current_indent_level = 0
         self.indentation = indent if indent is not None else ' ' * 4
@@ -20,6 +27,7 @@ class Block:
 
 
     def __iadd__(self, other: PTH.Union[str, PTH.Sequence[str], 'Block', object]) -> 'Block':
+        logger.debug("Block.__iadd__: other=>>%s<<", other)
         if other is Block.INDENT:
             self.current_indent_level += 1
         elif other is Block.DEDENT:

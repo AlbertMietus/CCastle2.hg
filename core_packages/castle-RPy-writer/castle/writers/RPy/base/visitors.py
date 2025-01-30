@@ -7,7 +7,7 @@ from castle import aigr
 class Visitor():
     _phases = ('visit', 'depart',)
 
-    def _vistor(self, node, prefix='visit') -> str:
+    def _vistor(self, node, prefix='visit'):
         if not prefix in self._phases:
             logger.warning("not a known phase: %s -- continuing with fingers crossed", prefix)
         cls_name = type(node).__qualname__
@@ -18,23 +18,23 @@ class Visitor():
             method_name = f'_default_{prefix}'
             method = getattr(self, method_name, None)
             if not method:
-                logger.warning("No vistor for phase %s for node %s - return empty string", prefix, node)
-                return ""
+                logger.warning("No vistor for phase %s for node %s - return None", prefix, node)
+                return
 
         logger.debug("Going to call '%s' (%s) for %s in phase: %s", method, method_name, node, prefix)
         return method(node)
 
-    def visit(self, node: aigr.AIGR) -> str:
+    def visit(self, node: aigr.AIGR):
         return self._vistor(node, 'visit')
 
     def depart(self, node):
         return self._vistor(node, 'depart')
 
-    def _default_visit(self, node: aigr.AIGR) ->str:
+    def _default_visit(self, node: aigr.AIGR):
         logger.warning(f"The default (phase=visit) visitor is called for {node} -- often that is a mistake")
-        return "#XXX"
+        return
 
-    def _default_depart(self, node: aigr.AIGR) ->str:
+    def _default_depart(self, node: aigr.AIGR):
         # No depart visitor is fine.
-        return ""
+        return
 

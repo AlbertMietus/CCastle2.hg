@@ -13,8 +13,12 @@ def my_renderer() ->Renderer:
     return cls()
 
 def verify_line(expect, got, line=None):
-    txt = got.splitlines()[line] if line else got
-    assert expect in txt, f"Expected: {expect}...., got: {txt}"
+    logger.debug("verify_line\n\texpect:\t%s\ngot\t>>%s<<\n\tline=%s", expect, got, line)
+    try:
+        txt = got.splitlines()[line] if line else got
+    except IndexError:
+        assert False, f"line={line} does not exist in got:>>{got}<< -- Expected: {expect}"
+    assert expect in txt, f"Expected: {expect}...., txt: {txt} -- got:>>{got}<<"
 
 def print_out(txt):
     print(f"\n=====[print]=====\n{txt}\n=====[ end ]=====\n")
