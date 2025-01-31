@@ -29,7 +29,7 @@ class Block:
     def __iadd__(self, text): # 'extend semantics'
         return self._addText(text, splitlines=False)
 
-    def sub(self, block:'BLOCK'): #append semantics
+    def sub(self, block:'Block'): #append semantics
         self._txt.append(block)
         return self
 
