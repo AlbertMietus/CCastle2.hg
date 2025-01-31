@@ -65,7 +65,7 @@ def test_3b_indent_block(block):
 def test_buggy_notEmptyLines_areFine():
     b = Block()
     b += "line 1"
-    b += "line 2" 
+    b += "line 2"
     b += "line 3"
     lines=str(b).splitlines()
     assert len(lines) == 3, f"Not correct number of lines: >>{lines}<<"
@@ -76,8 +76,15 @@ def test_buggy_EmptyLines_areFineTo():
     b += "line 1"
     b += "" #empty line 2
     b += "line 3"
-
-
     lines=str(b).splitlines()
     assert len(lines) == 3, f"Not correct number of lines: >>{lines}<<"
 
+def test_subsubsub():
+    b1=Block('X', indent='_1_')
+    b2=Block('X', indent='_2_');
+    b3=Block('X', indent='_3_');
+    b4=Block('X', indent='_4_')
+    b1+=b2; b2+=b3; b3+=b4
+    txt=str(b1)
+    print(f'\n{str(b1)}\n{txt}\n')
+    assert '_1__2__3_' in txt
