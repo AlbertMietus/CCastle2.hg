@@ -34,7 +34,7 @@ class Renderer(Visitor):
     def render(self, node: aigr.AIGR) ->str:
         txt = Block()
         txt += self.visit(node)
-        txt +=""
+        txt += ""
         txt += self.depart(node)
         txt +=""
         return str(txt)
@@ -42,30 +42,35 @@ class Renderer(Visitor):
     def visit_ComponentImplementation(self, node) -> str:
         gen_cls_name = self._CC_cls_prefix(node.name)
         isa_elm_name = self._cc_C_elm_prefix(node.name)
-        return Block((
+        comp = Block((
             f"class {gen_cls_name}({self._CompBase()}):",
-            f"",
-            f"    def __init__(self, *args):",
-            f"        buildin.CC_B_Component.__init__(self, isa={isa_elm_name})", # XXX isa
-            f"        self._castle_init(*args)",
+            f"",))
+        init = Block(f"def __init__(self, *args):")
+        init += Block((
+            f"buildin.CC_B_Component.__init__(self, isa={isa_elm_name})", # XXX isa
+            f"self._castle_init(*args)",
             f""))
+        comp += init
+        comp += ""
+        return comp
 
     def depart_ComponentImplementation(self, node) -> str: #XXX Is this strcuture  needed?
         isa_elm_name = self._cc_C_elm_prefix(node.name)
-        return Block((
-            f"{isa_elm_name} = buildin.CC_B_ComponentClass(",
-            f"    interface = {self._cc_CI_elm_prefix(node.name)},",
-            f")",
-            f""))
+        elm = Block(f"{isa_elm_name} = buildin.CC_B_ComponentClass(")
+        ind = Block(f"interface = {self._cc_CI_elm_prefix(node.name)},")
+        elm += ind
+        elm += f")"
+        elm += ""
+        return elm
 
-    def visit_Method(lf, node) -> str:
-        method_name = str(node.name)
-        parms = ', '.join(str(p.name) for p in node.parameters)
-        block = Block()
-        block += Block.INDENT
-        block += (
-            f"def {method_name}(self, {parms}):",
-            f'XXX',
-            )
-        return block
+    # def visit_Method(lf, node) -> str:
+    #     method_name = str(node.name)
+    #     parms = ', '.join(str(p.name) for p in node.parameters)
+    #     block = Block()
+    #     block += Block.INDENT
+    #     block += (
+    #         f"def {method_name}(self, {parms}):",
+    #         f'XXX',
+    #         )
+    #     return block
 

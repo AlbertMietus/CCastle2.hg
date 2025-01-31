@@ -23,7 +23,7 @@ class Block:
         elif isinstance(text, Block):
             lines = [text]
         else:
-            assert False, f"Unknown type ({type(text)}) text: >>{text}<<"
+            assert False, f"Unknown type ({type(text)}) text: >>{text}<< self: {str(self)}"
         self._txt.extend(lines)
         return self
     def __iadd__(self, text):
