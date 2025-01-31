@@ -34,9 +34,7 @@ class Renderer(Visitor):
     def render(self, node: aigr.AIGR) ->str:
         txt = Block()
         txt += self.visit(node)
-        txt += ""
         txt += self.depart(node)
-        txt +=""
         return str(txt)
 
     def visit_ComponentImplementation(self, node) -> str:
@@ -46,31 +44,28 @@ class Renderer(Visitor):
             f"class {gen_cls_name}({self._CompBase()}):",
             f"",))
         init = Block(f"def __init__(self, *args):")
-        init += Block((
+        init.sub(Block((
             f"buildin.CC_B_Component.__init__(self, isa={isa_elm_name})", # XXX isa
             f"self._castle_init(*args)",
-            f""))
-        comp += init
+            f"")))
+        comp.sub(init)
         comp += ""
         return comp
 
-    def depart_ComponentImplementation(self, node) -> str: #XXX Is this strcuture  needed?
+    def depart_ComponentImplementation(self, node) -> str: #XXX Is this structure needed?
         isa_elm_name = self._cc_C_elm_prefix(node.name)
         elm = Block(f"{isa_elm_name} = buildin.CC_B_ComponentClass(")
         ind = Block(f"interface = {self._cc_CI_elm_prefix(node.name)},")
-        elm += ind
+        elm.sub(ind)
         elm += f")"
         elm += ""
         return elm
 
-    # def visit_Method(lf, node) -> str:
-    #     method_name = str(node.name)
-    #     parms = ', '.join(str(p.name) for p in node.parameters)
-    #     block = Block()
-    #     block += Block.INDENT
-    #     block += (
-    #         f"def {method_name}(self, {parms}):",
-    #         f'XXX',
-    #         )
-    #     return block
+    def visit_Method(lf, node) -> str:
+        method_name = str(node.name)
+        parms = ', '.join(str(p.name) for p in node.parameters)
+        meth = Block(f"def {method_name}(self, {parms}):")
+        body = Block(f'XXX')
+        meth.sub(body)
+        return meth
 
