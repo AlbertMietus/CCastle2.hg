@@ -11,6 +11,17 @@ def txt():
 def block(txt):
     return Block(txt)
 
+@pytest.fixture
+def indented_txt():
+    return "InDeNtEd"
+
+@pytest.fixture
+def indented_block(indented_txt):
+    return Block(indented_txt)
+
+def print_block(b): # For debugging
+    print(f"\n=====[str(b), b._txt]=====\n{str(b)}\n{b._txt}\n==========\n")
+
 
 def test_1_2line(txt, block):
     assert str(block) == txt
@@ -27,35 +38,29 @@ def test_2_simpleAdd(txt):
     b+=lines[1]
     assert str(b) == txt
 
-def test_3a_indent_default_4space(block):
-    indented = "InDeNtEd"
-    block += Block.INDENT
-    block += indented
-    assert (' '*4 + indented) in str(block)
+def test_3a_indent_default_4space(block, indented_txt, indented_block):
+    block +=  indented_block
+    assert (' '*4 + indented_txt) in str(block)
 
-def test_3b_indent_late(block):
-    indented = "InDeNtEd"
-    block += Block.INDENT
-    block += indented
+def test_3b_indent_late(block, indented_txt, indented_block):
+    block +=  indented_block
     block.set_indent('\t')
-    assert ' '*4 + indented not in str(block)
-    assert '\t' + indented  in str(block)
+    assert ' x'*4 + indented_txt not in str(block)
+    assert '\t' + indented_txt  in str(block)
 
 def test_3b_indent_block(block):
     sub_block = Block("subBlock")
-    block += block.INDENT
     block += sub_block
-    block += Block.DEDENT
     block +="not indented"
     sub_block += "above last line"
 
+    block.set_indent('MARK_')
     txt = str(block)
-    assert " above" in txt, "This line in the sub_block should be indented"
-    assert ("not indented" in txt) and (" not indented" not in txt), "There should be a space before the 'not indented'"
-
-def test_4_blockblock(txt, block):
-    b = Block(block)
-    assert str(b) == txt
+    assert "MARK_above" in txt, "This line in the sub_block should be indented"
+    assert (
+        ("MARK_not indented" not in txt) and   # check on no prefix, before the text
+        ("not indented" in txt)                # check the test is there
+        ),  "'not indented' shouldn't be indented (with MARK_)"
 
 def test_buggy_notEmptyLines_areFine():
     b = Block()
@@ -65,11 +70,13 @@ def test_buggy_notEmptyLines_areFine():
     lines=str(b).splitlines()
     assert len(lines) == 3, f"Not correct number of lines: >>{lines}<<"
 
-def test_buggy_anEmptyLines_isMissing():
+def test_buggy_EmptyLines_areFineTo():
+    """This used to go wring in all codeAI generated code ... (My version works:-)"""
     b = Block()
     b += "line 1"
     b += "" #empty line 2
     b += "line 3"
+
 
     lines=str(b).splitlines()
     assert len(lines) == 3, f"Not correct number of lines: >>{lines}<<"

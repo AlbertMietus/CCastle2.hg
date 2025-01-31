@@ -5,72 +5,37 @@ import logging; logger = logging.getLogger(__name__)
 import typing as PTH
 
 class Block:
-    INDENT = object()
-    DEDENT = object()
+    def __init__(self, text: PTH.Optional[str | PTH.Sequence[str] | 'Block']=None, indent: PTH.Optional[str]=None):
+        self._txt: PTH.List[str | 'Block'] = []
+        self.set_indent(indent)
+        if text is not None:                                                              # ``if ""`` is False, None is needed
+            self._addText(text, splitlines=True)
 
-    def __init__(self, text: PTH.Optional[PTH.Union[str, PTH.Sequence[str], 'Block']] = None, indent: PTH.Optional[str] = None):
-        logger.debug("Block.init: text=>>%s<<", text)
-        self.lines=[]
-        self.sub_blocks: PTH.List[PTH.Tuple[int, 'Block']] = []
-        self.current_indent_level = 0
-        self.indentation = indent if indent is not None else ' ' * 4
-        if text or text=="":
-            self._add_lines(text)
-        logger.debug(f"Block.init: SIZE #lines={len(self.lines)} #sub_blocks={len(self.sub_blocks)}")
-
-    def _add_lines(self, text):
-        if text == "":
-            self.lines = [text]
-            logger.debug(f"Block._add_lines: >>>{text}<<< #lines={len(self.lines)} #sub_blocks={len(self.sub_blocks)}")
-        elif isinstance(text, str):
-            self.lines = text.splitlines()
-            logger.debug(f"Block._add_lines: >>>{text}<<< #lines={len(self.lines)} #sub_blocks={len(self.sub_blocks)}")
+    def _addText(self, text: (str | PTH.Sequence[str] | 'Block'), splitlines: bool=False):
+        lines:PTH.Sequence[str|'Block']
+        if isinstance(text, str):
+            if text == "" or splitlines==False:                                         # ``"".splitlines()`` gives empty list
+                lines=[text]
+            else: # Add every line, line by line
+                lines=text.splitlines()
         elif isinstance(text, PTH.Sequence):
-            self.lines = list(text)
+            lines = text
+        elif isinstance(text, Block):
+            lines = [text]
         else:
-            self._add_lines(str(text)) # Typical:  isinstance(text, Block)
-
-
-    def __iadd__(self, other: PTH.Union[str, PTH.Sequence[str], 'Block', object]) -> 'Block':
-        logger.debug("Block.__iadd__: other=>>%s<<", other)
-        if other is Block.INDENT:
-            self.current_indent_level += 1
-        elif other is Block.DEDENT:
-            self.current_indent_level = max(0, self.current_indent_level - 1)
-        elif isinstance(other, str):
-            logger.debug("Block.__iadd__: STRING")
-            self.sub_blocks.append((self.current_indent_level, Block(other)))
-        elif isinstance(other, Block):
-            self.sub_blocks.append((self.current_indent_level, other))
-        elif isinstance(other, PTH.Sequence):
-            for line in other:
-                self.sub_blocks.append((self.current_indent_level, Block(line)))
-        logger.debug(f"Block.__iadd__: SIZE #lines={len(self.lines)} #sub_blocks={len(self.sub_blocks)}")
+            assert False, f"Unknown type ({type(text)}) text: >>{text}<<"
+        self._txt.extend(lines)
         return self
+    def __iadd__(self, text):
+        return self._addText(text, splitlines=False)
 
-    def set_indent(self, indent: str) -> None:
-        self.indentation = indent
+    def toStr(self, prefix="", end='\n'):
+        return end.join(prefix+str(l) if isinstance(l, str) else l.toStr(prefix=self._indent, end=end) for l in self._txt)
+    def __str__(self):
+        return self.toStr()
 
-    def __str__(self) -> str:
-        result = []
+    def set_indent(self, indent=None):
+        """Set the prefix for the sub-blocks. Or None for the default)"""
+        self._indent=str(indent) if indent is not None else ' '*4                                  #prefix when converting to str
 
-        for line in self.lines:
-            result.append(line)
 
-        for level, block in self.sub_blocks:
-            block_indent = self.indentation * level
-            for line in str(block).splitlines():
-                result.append(block_indent + line)
-
-        return '\n'.join(result)
-
-# Demo
-if __name__ == "__main__":
-    b = Block("if True:")
-    b += Block.INDENT
-    b += "print('1')"
-    b += Block.DEDENT
-    b += "else:"
-    b += Block.INDENT
-    b += "print('2')"
-    print(str(b))

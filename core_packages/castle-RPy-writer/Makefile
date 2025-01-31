@@ -7,12 +7,12 @@ PYREVERSE_PKGS = castle/writers/RPy
 
 LAST = \
 	pytst/CC/test_CCbuildin_1_prefix.py 					\
-#
-CURRENT = \
 	pytst/aid/test_blocks.py								\
 #
-TODO = \
+CURRENT = \
 	pytst/HelloWorlds/test_1_ComponentImplementation.py		\
+#
+TODO = \
 	pytst/test_dummy.py	\
 	pytst/HelloWorlds/test_2_Method.py						\
 #
