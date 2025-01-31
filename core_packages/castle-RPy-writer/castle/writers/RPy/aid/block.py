@@ -30,7 +30,7 @@ class Block:
         return self._addText(text, splitlines=False)
 
     def toStr(self, prefix="", end='\n'):
-        return end.join(prefix+str(l) if isinstance(l, str) else l.toStr(prefix=self._indent, end=end) for l in self._txt)
+        return end.join(prefix+str(l) if isinstance(l, str) else l.toStr(prefix=prefix+self._indent, end=end) for l in self._txt)
     def __str__(self):
         return self.toStr()
 

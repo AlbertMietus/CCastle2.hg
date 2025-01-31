@@ -86,5 +86,4 @@ def test_subsubsub():
     b4=Block('X', indent='_4_')
     b1+=b2; b2+=b3; b3+=b4
     txt=str(b1)
-    print(f'\n{str(b1)}\n{txt}\n')
-    assert '_1__2__3_' in txt
+    assert '_1__2__3_' in txt, "Each sub-block should be indented by concatenated prefixes of outer-blocks"
