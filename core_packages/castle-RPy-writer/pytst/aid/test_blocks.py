@@ -5,7 +5,7 @@ from castle.writers.RPy.aid import Block
 
 @pytest.fixture
 def txt():
-    return "A B C\nKLM"
+    return "A B C\nKLM\n"
 
 @pytest.fixture
 def block(txt):
@@ -32,25 +32,39 @@ def test_1_3ways_of_aLine(txt):
     assert str(b1) == str(b2)
     assert str(b1) == str(b3)
 
-def test_2_simpleAdd(txt):
+def test_2a_simpleAdd(txt):
     lines = txt.splitlines()
     b=Block(lines[0])
     b+=lines[1]
     assert str(b) == txt
 
+def verify_BlockOf4(b, txt):
+    result=str(b)
+    assert len(result.splitlines()) == 4, f"Adding 2 lines to a block ({b._txt})of 2 lines should give 4 lines"
+    assert result == txt*2
+
+def test_2a_extendTxt_results_in_moreLines(block,txt):
+    for l in txt.splitlines():
+        block += l
+    verify_BlockOf4(block,txt)
+
+def test_2_extendBlock_results_in_moreLines(block,txt):
+    block += Block(txt)
+    verify_BlockOf4(block,txt)
+
 def test_3a_indent_default_4space(block, indented_txt, indented_block):
-    block +=  indented_block
+    block.sub(indented_block)
     assert (' '*4 + indented_txt) in str(block)
 
 def test_3b_indent_late(block, indented_txt, indented_block):
-    block +=  indented_block
+    block.sub(indented_block)
     block.set_indent('\t')
     assert ' x'*4 + indented_txt not in str(block)
     assert '\t' + indented_txt  in str(block)
 
 def test_3b_indent_block(block):
     sub_block = Block("subBlock")
-    block += sub_block
+    block.sub(sub_block)
     block +="not indented"
     sub_block += "above last line"
 
@@ -84,6 +98,6 @@ def test_subsubsub():
     b2=Block('X', indent='_2_');
     b3=Block('X', indent='_3_');
     b4=Block('X', indent='_4_')
-    b1+=b2; b2+=b3; b3+=b4
+    b1.sub(b2); b2.sub(b3); b3.sub(b4)
     txt=str(b1)
     assert '_1__2__3_' in txt, "Each sub-block should be indented by concatenated prefixes of outer-blocks"

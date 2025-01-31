@@ -20,17 +20,22 @@ class Block:
                 lines=text.splitlines()
         elif isinstance(text, PTH.Sequence):
             lines = text
-        elif isinstance(text, Block):
-            lines = [text]
+        elif isinstance(text, Block): # extend semantics
+            lines = text._txt
         else:
             assert False, f"Unknown type ({type(text)}) text: >>{text}<< self: {str(self)}"
         self._txt.extend(lines)
         return self
-    def __iadd__(self, text):
+    def __iadd__(self, text): # 'extend semantics'
         return self._addText(text, splitlines=False)
 
+    def sub(self, block:'BLOCK'): #append semantics
+        self._txt.append(block)
+        return self
+
+        
     def toStr(self, prefix="", end='\n'):
-        return end.join(prefix+str(l) if isinstance(l, str) else l.toStr(prefix=prefix+self._indent, end=end) for l in self._txt)
+        return end.join(prefix+str(l) if isinstance(l, str) else l.toStr(prefix=prefix+self._indent, end=end) for l in self._txt)+'\n'
     def __str__(self):
         return self.toStr()
 
