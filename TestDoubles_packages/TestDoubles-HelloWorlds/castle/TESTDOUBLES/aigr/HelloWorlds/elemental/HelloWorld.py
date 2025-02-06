@@ -30,10 +30,11 @@ HelloWorld = Method(ID('HelloWorld', context=aigr.Def()),
                     parameters=(aigr.TypedParameter(name=ID('label'), type=str),),
                     body=aigr.Body(statements=[
                         aigr.VoidCall(
-                            aigr.Call(callable=ID(print),
+                            aigr.Call(callable=ID('print'), # GAM/BUG: was print without quote -- build-in function
                                       arguments=(
-                                          aigr.Constant(value="Hello {label} World"),
-                                          ID('label',context=aigr.Ref()))))]))
+                                          aigr.Constant(value="Hello {label} World", type=aigr.types.string),
+                                          #ID('label',context=aigr.Ref()) # GAM deze lijkt fout
+                                          )))]))
 #HelloWorld._register_parameters() -- now automaticly
 Elemental_HelloWorld.register(HelloWorld)
 
