@@ -34,6 +34,7 @@ class Renderer(Visitor):
     def render(self, node: aigr.AIGR) ->str:
         txt = Block()
         txt += self.visit(node)
+        # node.walk ....
         txt += self.depart(node)
         return str(txt)
 
@@ -61,7 +62,7 @@ class Renderer(Visitor):
         elm += ""
         return elm
 
-    def visit_Method(lf, node) -> str:
+    def visit_Method(self, node) -> str:
         method_name = str(node.name)
         parms = ', '.join(str(p.name) for p in node.parameters)
         meth = Block(f"def {method_name}(self, {parms}):")
@@ -69,3 +70,20 @@ class Renderer(Visitor):
         meth.sub(body)
         return meth
 
+    def visit_Call(self, node) -> str:
+        callable= self.visit(node.callable)
+        args=", ".join(str(self.visit(a)) for a in node.arguments) # XXX
+        return f'{callable}({args})'
+
+
+
+    def visit_Constant(self, node) -> str: # GAM: XXX
+        if node.type == aigr.types.string:
+            return f"f'''{node.value}'''"
+        elif isinstance(node.type, aigr.types._buildinNumber):
+            return f"{node.value}"
+        else:
+            assert False, f"visit_Constant is not done  ... type={node.type}"
+
+    def visit_ID(self, node) -> str: # GAM: Nog niet overal gebruikt (bijna niet)
+        return str(node)

@@ -4,16 +4,25 @@ import logging; logger = logging.getLogger(__name__)
 import pytest
 
 from castle.TESTDOUBLES.aigr.HelloWorlds.elemental.HelloWorld import Hello_World
+from castle import aigr
 
 from . import my_renderer, verify_line
 from . import print_out
 
 @pytest.fixture
 def Method():
-    impl = Hello_World.findNode('Elemental_HelloWorld')
-    m = impl.findNode('HelloWorld')
-    assert m # check only, no test
+    m = Hello_World.search('Elemental_HelloWorld.HelloWorld')
+    assert isinstance(m, aigr.Method) # check only, no test
     return m
+
+@pytest.fixture
+def expected():    #C&P: HelloWorld.rpy::
+    return("""\
+def HelloWorld(self, label):
+    print(f'''Hello {label} World''')
+""")
+
+
 
 
 def test_1_1stLine_is_def(Method, my_renderer):
@@ -41,4 +50,8 @@ def test_2_print(Method, my_renderer):
     verify_line("""   print(f'''Hello {label} World''')""", txt, 1)
 
 
-
+@pytest.mark.xfail(reason="ToDo")
+def test_999(Method, my_renderer, expected):
+    txt = my_renderer.render(Method)
+    print('\n'+expected)
+    assert txt == expected
