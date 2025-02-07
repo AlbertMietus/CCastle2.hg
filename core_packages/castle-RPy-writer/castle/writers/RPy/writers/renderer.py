@@ -6,17 +6,12 @@ import typing as PTH                                                            
 from castle import aigr
 from castle.writers.RPy.aid import Block
 from ..base.visitors import Visitor
+from . walker import Walker
 
-INDENT =' '*4
-def indent(block: PTH.Sequence[str]|str, level: int, asStr=False)-> PTH.Sequence[str] | str:
-    if isinstance(block, str):
-        block = block.splitlines()
-    _indent = INDENT * level
-    block = [_indent + line for line in block]
-    return '\n'.join(block)+'\n' if asStr else block
-
+TextBlock = PTH.Optional[str|Block]
 
 class Renderer(Visitor):
+    walker = Walker() # XXXX
 
     def _CC_cls_prefix(self, name):			return 'CC_'   + str(name)
     def _cc_C_elm_prefix(self, name):		return 'cc_C_' + str(name)
@@ -34,11 +29,13 @@ class Renderer(Visitor):
     def render(self, node: aigr.AIGR) ->str:
         txt = Block()
         txt += self.visit(node)
-        # node.walk ....
+        subnodes = self.walker.visit(node)
+        for next_node in subnodes if subnodes else []:
+            txt += self.render(next_node)
         txt += self.depart(node)
         return str(txt)
 
-    def visit_ComponentImplementation(self, node) -> str:
+    def visit_ComponentImplementation(self, node) -> TextBlock:
         gen_cls_name = self._CC_cls_prefix(node.name)
         isa_elm_name = self._cc_C_elm_prefix(node.name)
         comp = Block((
@@ -53,7 +50,7 @@ class Renderer(Visitor):
         comp += ""
         return comp
 
-    def depart_ComponentImplementation(self, node) -> str: #XXX Is this structure needed?
+    def depart_ComponentImplementation(self, node) -> TextBlock:
         isa_elm_name = self._cc_C_elm_prefix(node.name)
         elm = Block(f"{isa_elm_name} = buildin.CC_B_ComponentClass(")
         ind = Block(f"interface = {self._cc_CI_elm_prefix(node.name)},")
@@ -62,7 +59,7 @@ class Renderer(Visitor):
         elm += ""
         return elm
 
-    def visit_Method(self, node) -> str:
+    def visit_Method(self, node) -> TextBlock:
         method_name = str(node.name)
         parms = ', '.join(str(p.name) for p in node.parameters)
         meth = Block(f"def {method_name}(self, {parms}):")
@@ -70,14 +67,14 @@ class Renderer(Visitor):
         meth.sub(body)
         return meth
 
-    def visit_Call(self, node) -> str:
+    def visit_Call(self, node) -> TextBlock:
         callable= self.visit(node.callable)
         args=", ".join(str(self.visit(a)) for a in node.arguments) # XXX
         return f'{callable}({args})'
 
 
 
-    def visit_Constant(self, node) -> str: # GAM: XXX
+    def visit_Constant(self, node) -> TextBlock:
         if node.type == aigr.types.string:
             return f"f'''{node.value}'''"
         elif isinstance(node.type, aigr.types._buildinNumber):
@@ -85,5 +82,5 @@ class Renderer(Visitor):
         else:
             assert False, f"visit_Constant is not done  ... type={node.type}"
 
-    def visit_ID(self, node) -> str: # GAM: Nog niet overal gebruikt (bijna niet)
+    def visit_ID(self, node) -> TextBlock: # GAM: Nog niet overal gebruikt (bijna niet)
         return str(node)

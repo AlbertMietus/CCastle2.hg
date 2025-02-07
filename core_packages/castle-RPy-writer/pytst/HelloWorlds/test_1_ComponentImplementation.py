@@ -29,7 +29,6 @@ def test_3_depart(ComponentImplementation, my_renderer): #Not sure those lines a
     txt = my_renderer.render(ComponentImplementation)
     verify_line('cc_C_Elemental_HelloWorld = buildin.CC_B_ComponentClass(', txt)
     verify_line('    interface = cc_CI_Elemental_HelloWorld,',              txt)
-    print_out(txt)
 
 
 
