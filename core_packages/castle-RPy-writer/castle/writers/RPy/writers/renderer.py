@@ -24,9 +24,13 @@ class Renderer(Visitor):
     def render(self, node: aigr.AIGR) ->str:
         txt = Block()
         txt += self.visit(node)
+
+        subTxt = Block()
+        txt.sub(subTxt)
         subnodes = self.walker.visit(node)
         for next_node in subnodes if subnodes else []:
-            txt += self.render(next_node)
+            subTxt += self.visit(next_node)
+
         txt += self.depart(node)
         return str(txt)
 
@@ -39,10 +43,8 @@ class Renderer(Visitor):
         init = Block(f"def __init__(self, *args):")
         init.sub(Block((
             f"buildin.CC_B_Component.__init__(self, isa={isa_elm_name})", # XXX isa
-            f"self._castle_init(*args)",
-            f"")))
+            f"self._castle_init(*args)",)))
         comp.sub(init)
-        comp += ""
         return comp
 
     def depart_ComponentImplementation(self, node) -> TextBlock:

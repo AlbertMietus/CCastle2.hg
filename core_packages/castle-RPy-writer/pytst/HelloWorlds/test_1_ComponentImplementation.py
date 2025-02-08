@@ -31,4 +31,6 @@ def test_3_depart(ComponentImplementation, my_renderer): #Not sure those lines a
     verify_line('    interface = cc_CI_Elemental_HelloWorld,',              txt)
 
 
-
+def test_NoTest_butPrint(ComponentImplementation, my_renderer):
+    txt = my_renderer.render(ComponentImplementation)
+    print_out(txt)
