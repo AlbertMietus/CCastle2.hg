@@ -11,6 +11,8 @@ from . walker import Walker
 TextBlock = PTH.Optional[str|Block]
 
 class Renderer(Visitor):
+    _defaultType=str
+
     walker = Walker() # XXXX
 
     def _CC_cls_prefix(self, name):			return 'CC_'   + str(name)
@@ -18,13 +20,6 @@ class Renderer(Visitor):
     def _cc_CI_elm_prefix(self, name):		return 'cc_CI_' + str(name)
     def _CompBase(self):      				return 'buildin.CC_B_Component'
 
-    def _default_visit(self, node: aigr.AIGR):
-        Visitor._default_visit(self, node) # Default, but return a string
-        return ""
-
-    def _default_depart(self, node: aigr.AIGR):
-        Visitor._default_depart(self, node) # Default, but return a string
-        return ""
 
     def render(self, node: aigr.AIGR) ->str:
         txt = Block()
