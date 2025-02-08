@@ -12,7 +12,7 @@ from ..base.visitors import Visitor
 class Walker(Visitor):
     _defaultType=tuple
 
-    def visit_NamedSpace(self, node) -> PTH.Optional[aigr.AIGR]:
+    def visit__NameSpace(self, node) -> PTH.Optional[aigr.AIGR]:
         named_callables = node.find_byType(aigr.AIGR)
         logger.info(f"{node.name} has subnodes: {', '.join(f'{k}:<{type(v).__name__}>' for k,v in named_callables.items())}")
         return tuple(named_callables.values())
