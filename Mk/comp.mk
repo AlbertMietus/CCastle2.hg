@@ -1,3 +1,4 @@
+# (C) Albert Mietus, 2025. Part of Castle/CCastle project
 
 # SET in each <comp>/Makefile
 #
@@ -21,6 +22,7 @@ include ${TOPd}Mk/pyanalyse.mk
 include ${TOPd}Mk/mypy.mk
 include ${TOPd}Mk/clean.mk
 include ${TOPd}Mk/build.mk
+include ${TOPd}Mk/admin.mk
 
 all:	${ALL}
 

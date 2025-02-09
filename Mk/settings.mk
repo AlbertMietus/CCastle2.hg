@@ -1,3 +1,5 @@
+# (C) Albert Mietus, 2025. Part of Castle/CCastle project
+
 ToCS_dir     = _ToCS-reports/
 COVERAGE_dir = ${ToCS_dir}Coverage/
 MUTMUT_dir   = ${ToCS_dir}MutMut/
@@ -17,3 +19,5 @@ TEST 	= test pytest coverage mutmut
 OPENit	= coverage-open mutmut-open pyanalyse-open
 FULL	= ${SETS} ${TYPICAL} ${ALL} ${TEST} ${BUILD} ${OPENit}
 
+show_targets targets:
+	awk '/^[A-Za-z][A-Za-z_ ]+:+/ { print $$1}' ${TOPd}mk/* | sort --ignore-case --unique

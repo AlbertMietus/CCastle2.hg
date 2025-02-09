@@ -1,8 +1,18 @@
-# Makefile -- GNU syntax 			(C) 2000-2016 reuse freely -- http://ALbert.mietus.nl
+# (C) Albert Mietus, (C) 2000-2025 reuse freely -- http://ALbert.mietus.nl
+# Castle/CCastle version
+# Makefile -- GNU syntax
 
 ###
 ### recursive::  Generic macro to run sub-makes, in each dir in SUBS
-###
+### SET in each Makefile
+#
+## SUBS:
+# List of dirs (with a Makefile)
+#
+## TOPd:
+# - the rpath to "this dir": .../Mk/
+# - It ends with a '/'!
+
 
 include ${TOPd}Mk/settings.mk
 TARGETS = $(sort ${FULL})

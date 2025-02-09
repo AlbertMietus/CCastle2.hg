@@ -1,3 +1,5 @@
+# (C) Albert Mietus, 2025. Part of Castle/CCastle project
+
 mypy: mypy_castle
 
 #DOC: mypy will complain with 'Module "castle.aigr" has no attribute "types"  [attr-defined]' (and such)

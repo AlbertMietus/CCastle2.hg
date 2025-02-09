@@ -1,3 +1,5 @@
+# (C) Albert Mietus, 2025. Part of Castle/CCastle project
+
 clean: clean_build
 cleaner: clean clean_caches clean_gendirs
 cleanest veryclean: cleaner clean_generated

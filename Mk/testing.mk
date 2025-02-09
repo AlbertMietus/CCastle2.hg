@@ -1,3 +1,5 @@
+# (C) Albert Mietus, 2025. Part of Castle/CCastle project
+
 PYTEST= pytest
 PYTEST_OPTIONS=-rxXsfE
 PYTEST_OPTIONS_NOxFAIL=-rXsfE
