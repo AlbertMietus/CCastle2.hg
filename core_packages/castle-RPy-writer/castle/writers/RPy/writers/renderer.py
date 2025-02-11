@@ -22,17 +22,29 @@ class Renderer(Visitor):
 
 
     def render(self, node: aigr.AIGR) ->str:
+        """"`render` is the main entrypoint.
+
+        It will call ``visit_*`` for `node`; where the class of `node` determines the ``*-suffix``.
+        Then it will call `visit` for all subnodes of `node`, using the the `walker` to determine those nodes.
+        Last, it call `depart_*` for node.
+
+        When visiting nodes, the RPy-code for those nodes will be rendered in TextBlock's.  Which can be text (stings) or Block
+        (roughly: indended lines).
+        `render` always returns str-text."""
+
         txt = Block()
         txt += self.visit(node)
-
-        subTxt = Block()
-        txt.sub(subTxt)
-        subnodes = self.walker.visit(node)
-        for next_node in subnodes if subnodes else []:
-            subTxt += self.visit(next_node)
-
+        txt.sub(self.render_subNodes(node))
         txt += self.depart(node)
         return str(txt)
+
+    def render_subNodes(self, node)-> Block:
+        txt = Block()
+        subnodes = self.walker.visit(node)
+        for next_node in subnodes if subnodes else []:
+            txt += self.visit(next_node)
+        return txt
+
 
     def visit_ComponentImplementation(self, node) -> TextBlock:
         gen_cls_name = self._CC_cls_prefix(node.name)
@@ -43,6 +55,7 @@ class Renderer(Visitor):
         init = Block(f"def __init__(self, *args):")
         init.sub(Block((
             f"buildin.CC_B_Component.__init__(self, isa={isa_elm_name})", # XXX isa
+            f"#XXX: init instance vars -- ToDo",
             f"self._castle_init(*args)",)))
         comp.sub(init)
         return comp
@@ -56,13 +69,22 @@ class Renderer(Visitor):
         elm += ""
         return elm
 
-    def visit_Method(self, node) -> TextBlock:
-        method_name = str(node.name)
+    def _render_def(self, node) ->Block:
+        callable_name = str(node.name)
         parms = ', '.join(str(p.name) for p in node.parameters)
-        meth = Block(f"def {method_name}(self, {parms}):")
-        body = Block(f'XXX')
-        meth.sub(body)
-        return meth
+        return Block(f"def {callable_name}(self, {parms}):")
+
+    def visit_Method(self, node) -> TextBlock:
+        txt = self._render_def(node)
+        txt.sub(self.render_subNodes(node))
+        txt += self.depart(node)
+        return txt
+
+    def visit_EventHandler(self, node) -> TextBlock:
+        txt = self._render_def(node)
+        txt.sub(self.render_subNodes(node))
+        txt += self.depart(node)
+        return txt
 
     def visit_Call(self, node) -> TextBlock:
         callable= self.visit(node.callable)
