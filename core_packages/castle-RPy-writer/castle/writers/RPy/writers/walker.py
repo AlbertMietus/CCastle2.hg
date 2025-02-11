@@ -12,6 +12,7 @@ class Walker(Visitor):
     _defaultType=tuple
 
     def visit__NameSpace(self, node) -> PTH.Sequence[aigr.AIGR]:
+        """Many general nodes have a namespace, like ComponentImplementation; they use this walker as default"""
         named_callables = node.find_byType(aigr.AIGR)
         logger.info("%s (%s) has subnodes: %s", node.name, type(node).__name__, ', '.join(f'{k}:<{type(v).__name__}>' for k,v in named_callables.items()))
         return tuple(named_callables.values())

@@ -32,6 +32,7 @@ class Renderer(Visitor):
         (roughly: indended lines).
         `render` always returns str-text."""
 
+        logger.debug("Going to render %s", node)
         txt = Block()
         txt += self.visit(node)
         txt.sub(self.render_subNodes(node))
@@ -41,6 +42,7 @@ class Renderer(Visitor):
     def render_subNodes(self, node)-> Block:
         txt = Block()
         subnodes = self.walker.visit(node)
+        logger.debug("render_subNodes: %s", subnodes)
         for next_node in subnodes if subnodes else []:
             txt += self.visit(next_node)
         return txt
@@ -86,15 +88,27 @@ class Renderer(Visitor):
         txt += self.depart(node)
         return txt
 
-    def visit_Call(self, node) -> TextBlock:
-        callable= self.visit(node.callable)
-        args=", ".join(str(self.visit(a)) for a in node.arguments) # XXX
-        return f'{callable}({args})'
+    def visit_VoidCall(self, node) -> TextBlock:
+        return self.render_subNodes(node)
 
+    def visit_Call(self, node) -> TextBlock:
+        callable= node.callable
+        try:
+            context  = callable.context
+            reference = context.reference
+            base = 'self.' if isinstance(reference, aigr.Method) else ''
+        except AttributeError:
+            base = ''
+            reference= '[|absend]|'
+
+        args=", ".join(str(self.visit(a)) for a in node.arguments) # XXX
+        txt = f'{base}{callable}({args})'
+
+        return txt
 
 
     def visit_Constant(self, node) -> TextBlock:
-        if node.type == aigr.types.string:
+        if node.type == aigr.types.string or node.type is None:
             return f"f'''{node.value}'''"
         elif isinstance(node.type, aigr.types._buildinNumber):
             return f"{node.value}"

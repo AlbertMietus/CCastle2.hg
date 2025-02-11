@@ -8,7 +8,7 @@ class Visitor():
     _phases = ('visit', 'depart',)
     _defaultType=type(None)
 
-    def _vistor(self, node, prefix='visit'):
+    def _visitor(self, node, prefix='visit'):
         if not prefix in self._phases:
             logger.warning("not a known phase: %s -- continuing with fingers crossed", prefix)
 
@@ -17,7 +17,7 @@ class Visitor():
             method = self._find_default_method(node, prefix)
         if not method:
             empty = self._defaultType()
-            logger.warning("No vistor for phase %s for node %s - returning empty (%s)", prefix, node, empty)
+            logger.warning("No visitor for phase %s for node %s - returning empty (%s)", prefix, node, empty)
             return empty
 
         logger.debug("Going to call %s for %s in phase: %s", method,  node, prefix)
@@ -43,10 +43,10 @@ class Visitor():
         return method # or None
 
     def visit(self, node: aigr.AIGR):
-        return self._vistor(node, 'visit')
+        return self._visitor(node, 'visit')
 
     def depart(self, node):
-        return self._vistor(node, 'depart')
+        return self._visitor(node, 'depart')
 
     def _default_visit(self, node: aigr.AIGR):
         logger.warning(f"Default visitor for {type(self).__name__} is called for {node} --in phase=visit) that is often a mistake")
