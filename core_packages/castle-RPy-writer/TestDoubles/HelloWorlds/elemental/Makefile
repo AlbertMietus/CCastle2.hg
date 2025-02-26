@@ -1,5 +1,5 @@
 default all: run exe
-demo: run
+demo: run exe
 
 TARGET=main_HW
 
