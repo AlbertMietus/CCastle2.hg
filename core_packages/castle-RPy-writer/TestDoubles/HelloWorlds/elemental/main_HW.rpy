@@ -12,6 +12,7 @@ def demo(argv):
     main_elm  = main_comp()
 
     cc_S_Elemental_HelloWorld_power[CC_P_Power_On](main_elm, "__dummy__")
+    return 0
 
 
 def target(*args):

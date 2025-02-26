@@ -11,7 +11,7 @@ class CC_B_Component(_debug.DebugMixIn):
         return ("isa="  + self.isa._debug_(name_only=name_only))
 
     def _castle_init(self, *args):
-        """This function is called by __init__, and holds the code of CastleCode's init""" 
+        """This function is called by __init__, and holds the code of CastleCode's init"""
         pass
 
 def _debug_name(self):
