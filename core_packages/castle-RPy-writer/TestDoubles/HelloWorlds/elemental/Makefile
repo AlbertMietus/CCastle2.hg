@@ -1,41 +1,62 @@
-default all: run
+default all: run exe
 demo: run
 
 TARGET=main_HW
 
+## 'run' with cpython
+## 'exe' with rpython translor
 RUNd= _run/
+EXEd= _translated/
 
-#CCln 	=	${RUNd}CC
-#CCorg	= ../../../../castle/writers/RPy/CC # rel _run
+${RUNd} ${EXEd}:; mkdir $@
+
+## Which translor: select dir with `PyPy_Vd`
+PYPY_HGd	= /Users/albert/NoTimeMachine/PyPy,hgs/
+#PyPy_Vd	= PyPy.release-pypy2.7-v7.x/
+PyPy_Vd		= PyPy.dev/
+PYPY_SRCd	= ${PYPY_HGd}${PyPy_Vd}
+RPYTHON		= ${PYPY_SRCd}./rpython/bin/rpython
+PYPY_APPSd	= /Users/albert/Apps/PyPy/
+PYPY2_BINd	= ${PYPY_APPSd}./pypy2.7-v7.3.12-macos_arm64/bin/
+TRANSLOR	= PATH=${PYPY2_BINd}:$$PATH ${RPYTHON} --no-pdb
 
 RPY_files := $(wildcard *.rpy)
-PY_files := $(patsubst %.rpy,${RUNd}%.py,${RPY_files})
+PY_files_RUN := $(patsubst %.rpy,${RUNd}%.py,${RPY_files})
+PY_files_EXE := $(patsubst %.rpy,${EXEd}%.py,${RPY_files})
 
-${RUNd}:
-	mkdir $@
 
-${PY_files}: ${RUNd}%.py  : %.rpy
+${PY_files_RUN}: ${RUNd}%.py  : %.rpy
+	cp $< $@
+${PY_files_EXE}: ${EXEd}%.py  : %.rpy
 	cp $< $@
 
-
-#${CCln}: ${RUNd}
-#	@if [ ! -x ${CCln} ] ; then 	\
-#	  echo ln -s ${CCorg} ${CCln} 	;\
-#	  ln -s ${CCorg} ${CCln} 		;\
-#	fi
-
-
 run: run_${TARGET}
-run_${TARGET}: ${RUNd} ${PY_files} #${CCln}
+run_${TARGET}: ${RUNd} ${PY_files_RUN}
 	@echo ; echo "run ${TARGET}"
 	cd ${RUNd}; python ${TARGET}.py
 
-rpy2py:${PY_files}
-clean:;
-	@echo Noting to do
-	@echo "	Use  make cleaner -- to remove ${RUNd}"
 
-cleaner:
+exe: exe_${TARGET}
+exe_${TARGET}: ${EXEd} ${EXEd}${TARGET}
+	@echo ; echo "exe ${TARGET}"
+	./${EXEd}${TARGET}
+
+${EXEd}${TARGET}: ${PY_files_EXE}
+	cd ${EXEd} ;\
+	${TRANSLOR} --output=${TARGET} main_HW.py
+
+
+
+clean: clean_run clean_exe
+cleaner: clean
+
+clean_run:
 	rm -rf ${RUNd}
+
+clean_exe: # Do not remove the dirs, as the are include dirs
+	rm -f ${PY_files_EXE}
+	rm -f ./${EXEd}${TARGET}
+	rm -f ./${EXEd}*.py ./${EXEd}*.pyc
+
 
 veryclean very_clean cleanest: cleaner
