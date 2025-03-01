@@ -6,7 +6,7 @@ TARGET=main_HW
 ## 'run' with cpython
 ## 'exe' with rpython translor
 RUNd= _run/
-EXEd= _translated/
+EXEd= _exe/
 
 ${RUNd} ${EXEd}:; mkdir $@
 
@@ -32,14 +32,15 @@ ${PY_files_EXE}: ${EXEd}%.py  : %.rpy
 
 run: run_${TARGET}
 run_${TARGET}: ${RUNd} ${PY_files_RUN}
-	@echo ; echo "run ${TARGET}"
-	cd ${RUNd}; python ${TARGET}.py
-
+	@echo "========== $@ =========="
+	@cd ${RUNd}; python ${TARGET}.py
+	@echo "========== $@ =========="
 
 exe: exe_${TARGET}
 exe_${TARGET}: ${EXEd} ${EXEd}${TARGET}
-	@echo ; echo "exe ${TARGET}"
-	./${EXEd}${TARGET}
+	@echo "========== $@ =========="
+	@./${EXEd}${TARGET}
+	@echo "========== $@ =========="
 
 ${EXEd}${TARGET}: ${PY_files_EXE}
 	cd ${EXEd} ;\
@@ -60,3 +61,7 @@ clean_exe: # Do not remove the dirs, as the are include dirs
 
 
 veryclean very_clean cleanest: cleaner
+
+#Manual dependendies
+_run/HelloWorld.py : HelloWorld.rpy
+_translated/HelloWorld.py : HelloWorld.rpy
