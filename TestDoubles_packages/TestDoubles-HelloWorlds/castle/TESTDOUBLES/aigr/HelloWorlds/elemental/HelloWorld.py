@@ -30,9 +30,14 @@ HelloWorld = Method(ID('HelloWorld', context=aigr.Def()),
                     parameters=(aigr.TypedParameter(name=ID('label'), type=str),),
                     body=aigr.Body(statements=[
                         aigr.VoidCall(
-                            aigr.Call(callable=ID('print'), # GAM/BUG: was print without quote -- build-in function
+                            aigr.Call(callable=ID('print'), # GAM/BUG: was print (the build-in function); now with quotes
                                       arguments=(
-                                          aigr.fString(value="Hello {label} World", type=aigr.types.string),)
+                                          aigr.fString(
+                                              value="Hello {label} World",
+                                              type=aigr.types.string,
+                                              args=(
+                                                  ID('label',context=aigr.Ref()),
+                                                  )),)
                                           ))]))
 Elemental_HelloWorld.register(HelloWorld)
 
