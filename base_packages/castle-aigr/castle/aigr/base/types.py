@@ -28,3 +28,5 @@ class _user(_types): pass
 int		= _buildinNumber('int')                                                 # pragma: no mutate
 float	= _buildinNumber('float')                                               # pragma: no mutate
 string 	= _buildin('string')                                                    # pragma: no mutate
+
+

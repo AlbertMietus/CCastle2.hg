@@ -9,18 +9,47 @@ from dataclasses import field as dc_field
 
 from .. import AIGR
 from . import _expression
+from ..base import types
 
-class _literal(_expression):pass # _kids = _expression._kids
+XXX_STR_format= str.format
+
+@dataclass
+class _literal(_expression):
+    _kids = _expression._kids + ('value', 'type')
+
+    _: KW_ONLY
+    value : PTH.Any
+    type  : PTH.Optional[types._types] = None
 
 @dataclass
 class Constant(_literal):
     """A (literal) Constant is a value that is given in code-text, like 0 (an int), 3.14 (a float) or "Hoi" (a string)"""
 
-    _kids = _literal._kids + ('value', 'type')
+    pass
+
+
+@dataclass
+class _TemplateLiteral(_literal):
+    """A template literal is like a **f-string** in Python, or a **tagged template literal** in JavaScript;
+       but more generic: not only for strings"""
+    _kids = _literal._kids + ('formater',)
 
     _: KW_ONLY
-    value : PTH.Any
-    type  : PTH.Optional[type] = None
+    formater : PTH.Any = None  #Typical: aigr.statements.callables._callable
 
+@dataclass
+class fString(_TemplateLiteral):
+    """"XXX Name can change
+        This `_TemplateLiteral` results in a string, by filling in the (str) value of (local) variables.
+        It is like fstrings in python (but potential more restricted)"""
 
+    _kids = _TemplateLiteral._kids + ('formater',)
 
+    value : str # Allow to set without keyword
+    _: KW_ONLY
+
+    def __post_init__(self):
+        if self.type is None:
+            self.type  = types.string
+        if self.formater is None:
+            self.formater = XXX_STR_format

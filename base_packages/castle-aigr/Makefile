@@ -19,14 +19,14 @@ PYREVERSE_PKGS = \
 LAST = \
 	pytst/base/test_ID.py					\
 	pytst/statements/test_components.py 	\
-#
-CURRENT = \
+	pytst/expressions/test_literals.py 		\
 	pytst/test_scope.py						\
 	pytst/test_3_namespaces.py				\
 #
-TODO = \
+CURRENT = \
 	pytst/expressions/test_literals.py 		\
-	pytst/test_3_namespaces.py				\
+#
+TODO = \
 	pytst/machinery/test_9_todo.py			\
 #
 

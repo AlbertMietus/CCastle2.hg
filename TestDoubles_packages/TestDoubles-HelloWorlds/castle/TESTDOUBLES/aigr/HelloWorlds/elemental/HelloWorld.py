@@ -32,8 +32,9 @@ HelloWorld = Method(ID('HelloWorld', context=aigr.Def()),
                         aigr.VoidCall(
                             aigr.Call(callable=ID('print'), # GAM/BUG: was print without quote -- build-in function
                                       arguments=(
+                                          aigr.
                                           aigr.Constant(value="Hello {label} World", type=aigr.types.string),
-                                          #ID('label',context=aigr.Ref()) # GAM deze lijkt fout
+                                          ID('label',context=aigr.Ref()) 
                                           )))]))
 #HelloWorld._register_parameters() -- now automaticly
 Elemental_HelloWorld.register(HelloWorld)
