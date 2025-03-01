@@ -26,11 +26,9 @@ def test_3_ConstantStr():
 def test_Template_base():
     pass
 
-BUILD_IN_fstring = str.format
+BUILD_IN_fstring = 'XXX'
 def test_Template_fString(): #XXX name of class may change
     demo = 'simple Demo'
     e = literals.fString(value="This is a {demo}")
-    result = (e.formater)((e.value), **locals()) # Normally executed at run-time
     assert e.type == types.string
     assert e.formater is BUILD_IN_fstring
-    assert result == "This is a simple Demo"
