@@ -40,10 +40,10 @@ def test_4a_HW_has_outer_ns(HW, elemental, dummy):
     elemental.register(dummy)
     assert HW.findNode('dummy') is dummy, "This dummy node should be in the scope of HW"
 
-def test_4a_HW_has_outer_ns(HW,  dummy):
+def test_4b_HW_outer_nss(HW,  dummy):
     "The callables in HW have HW as outer_ns"
     HW.register(dummy)
     for name in ('HelloWorld', mangle_event_handler(protocol='Power', event='powerOn', port='power')):
         callable=HW.findNode(name); assert callable
         assert callable.findNode('dummy') is dummy, f"This dummy node should be in the scope of {name}"
-    
+
