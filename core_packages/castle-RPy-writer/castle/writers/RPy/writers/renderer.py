@@ -107,13 +107,20 @@ class Renderer(Visitor):
         return txt
 
 
-    def visit_Constant(self, node) -> TextBlock:
+    def visit__literal(self, node) -> TextBlock:
         if node.type == aigr.types.string or node.type is None:
             return f"f'''{node.value}'''"
         elif isinstance(node.type, aigr.types._buildinNumber):
             return f"{node.value}"
         else:
             assert False, f"visit_Constant is not done  ... type={node.type}"
+
+
+    def visit_fString(self, node) -> TextBlock:
+        formater = node.formater
+        assert formater, "the fString.formater should be set in aigr"
+        return f"""{formater}('{node.value}', <NS>)"""
+
 
     def visit_ID(self, node) -> TextBlock: # GAM: Nog niet overal gebruikt (bijna niet)
         return str(node)

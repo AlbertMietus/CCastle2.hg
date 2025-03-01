@@ -11,9 +11,10 @@ LAST = \
 	pytst/visitors/test_walker.py							\
 #
 CURRENT = \
-	pytst/HelloWorlds/test_1_ComponentImplementation.py		\
+	pytst/HelloWorlds/test_1_fstring.py
 #
 TODO = \
+	pytst/HelloWorlds/test_11_ComponentImplementation.py	\
 	pytst/HelloWorlds/test_3_Call.py						\
 	pytst/HelloWorlds/test_2_Method.py						\
 	pytst/test_dummy.py	\

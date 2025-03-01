@@ -11,7 +11,7 @@ from .. import AIGR
 from . import _expression
 from ..base import types
 
-XXX_STR_format= str.format
+XXX_STR_format= "str.format"
 
 @dataclass
 class _literal(_expression):

@@ -32,7 +32,7 @@ HelloWorld = Method(ID('HelloWorld', context=aigr.Def()),
                         aigr.VoidCall(
                             aigr.Call(callable=ID('print'), # GAM/BUG: was print without quote -- build-in function
                                       arguments=(
-                                          aigr.fString(value="Hello {label} World", type=aigr.types.string))
+                                          aigr.fString(value="Hello {label} World", type=aigr.types.string),)
                                           ))]))
 Elemental_HelloWorld.register(HelloWorld)
 
