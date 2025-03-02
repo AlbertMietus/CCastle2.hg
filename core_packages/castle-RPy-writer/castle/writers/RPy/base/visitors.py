@@ -52,7 +52,7 @@ class Visitor():
         logger.warning(f"Default visitor for {type(self).__name__} is called for {node} --in phase=visit) that is often a mistake")
         return self._defaultType() # type: ignore
 
-    def _default_depart(self, node: aigr.AIGR):
-        # No depart visitor is fine.
-        return self._defaultType() # type: ignore 
+    def _default_depart(self, node: aigr.AIGR):        # No depart visitor is fine.
+        return None
+        #return self._defaultType() # type: ignore 
 

@@ -7,6 +7,8 @@ from castle import aigr
 from castle.writers.RPy.aid import Block
 from ..base.visitors import Visitor
 from . walker import Walker
+from ..aid.convert import fString_2_modulo
+
 
 TextBlock = PTH.Optional[str|Block]
 
@@ -35,13 +37,20 @@ class Renderer(Visitor):
         logger.debug("Going to render %s", node)
         txt = Block()
         txt += self.visit(node)
-        txt.sub(self.render_subNodes(node))
+        subs = self.render_subNodes(node)
+        if subs:
+            txt.sub(subs)
         txt += self.depart(node)
+
         return str(txt)
 
+
     def render_subNodes(self, node)-> Block:
-        txt = Block()
         subnodes = self.walker.visit(node)
+        if not subnodes:
+            return None
+
+        txt = Block()
         logger.debug("render_subNodes: %s", subnodes)
         for next_node in subnodes if subnodes else []:
             txt += self.visit(next_node)
@@ -117,9 +126,9 @@ class Renderer(Visitor):
 
 
     def visit_fString(self, node) -> TextBlock:
-        formater = node.formater
-        assert formater, "the fString.formater should be set in aigr"
-        return f"""{formater}('{node.value}', <NS>)"""
+        formater = node.formater; assert formater, "the fString.formater should be set in aigr"
+        string, args = fString_2_modulo(node.value)
+        return f'''"{string}" % ({", ".join(str(arg) for arg in args)},)'''
 
 
     def visit_ID(self, node) -> TextBlock: # GAM: Nog niet overal gebruikt (bijna niet)

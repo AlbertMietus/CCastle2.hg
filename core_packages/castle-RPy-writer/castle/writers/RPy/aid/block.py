@@ -1,5 +1,4 @@
 # (C) Albert Mietus, 2025. Part of Castle/CCastle project
-# Base version with codeAI (chatGTP) -- needed work. Still needs more work. Bur for now ...
 
 import logging; logger = logging.getLogger(__name__)
 import typing as PTH
@@ -10,9 +9,12 @@ class Block:
         self.set_indent(indent)
         if text is not None:                                                              # ``if ""`` is False, None is needed
             self._addText(text, splitlines=True)
+        logger.debug("Block is make: >>%s<<", self)
 
-    def _addText(self, text: (str | PTH.Sequence[str] | 'Block'), splitlines: bool=False):
+    def _addText(self, text: (None| str | PTH.Sequence[str] | 'Block'), splitlines: bool=False):
         lines:PTH.Sequence[str|'Block']
+        if text is None:
+            return self
         if isinstance(text, str):
             if text == "" or splitlines==False:                                         # ``"".splitlines()`` gives empty list
                 lines=[text]
@@ -25,15 +27,17 @@ class Block:
         else:
             assert False, f"Unknown type ({type(text)}) text: >>{text}<< self: {str(self)}"
         self._txt.extend(lines)
+        logger.debug("_addText (%s) results in: >>%s<<", repr(text), self)
         return self
+
     def __iadd__(self, text): # 'extend semantics'
         return self._addText(text, splitlines=False)
 
     def sub(self, block:'Block'): #append semantics
         self._txt.append(block)
+        logger.debug(".sub() results in: >>%s<<", self)
         return self
 
-        
     def toStr(self, prefix="", end='\n'):
         return end.join(prefix+str(l) if isinstance(l, str) else l.toStr(prefix=prefix+self._indent, end=end) for l in self._txt)+'\n'
     def __str__(self):

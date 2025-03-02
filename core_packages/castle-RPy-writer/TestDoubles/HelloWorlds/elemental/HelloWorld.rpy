@@ -40,7 +40,7 @@ class CC_Elemental_HelloWorld(buildin.CC_B_Component) : # Generated class;
            print("Hello {label} World")
         }"""
         #print('''Hello %s World''' %(label,)) # GAM: rpython-translate has no f-strings (and no str.format(), kwarsg)
-        print("Hello %s World" %)
+        print("Hello %s World" % (label,))
 
     def Power_powerOn__power(self, _dummy__Max):   #///GAM: power-api may change to args of none; max is stange
         """///Castlecode

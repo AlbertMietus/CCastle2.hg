@@ -10,4 +10,3 @@ from __future__ import annotations # Postponed evaluation of annotations
 
 from .block import *
 
-

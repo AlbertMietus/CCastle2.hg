@@ -18,7 +18,7 @@ def verify_line(expect, got, line=None):
         txt = got.splitlines()[line] if line else got
     except IndexError:
         assert False, f"line={line} does not exist in got:>>{got}<< -- Expected: {expect}"
-    assert expect in txt, f"Expected: {expect}...., txt: {txt} -- got:>>{got}<<"
+    assert expect in txt, f"Expected: {expect}...., txt: {txt} -- got:>>{repr(got)}<<"
 
 def print_out(txt,label='print'):
     print(f"\n=====[{label}]=====\n{txt}\n=====[end]=====\n")
