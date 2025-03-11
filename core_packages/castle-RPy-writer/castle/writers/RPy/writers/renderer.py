@@ -25,23 +25,21 @@ class Renderer(Visitor):
 
     def render(self, node: aigr.AIGR) ->str:
         """"`render` is the main entrypoint.
-
         It will call ``visit_*`` for `node`; where the class of `node` determines the ``*-suffix``.
-        Then it will call `visit` for all subnodes of `node`, using the the `walker` to determine those nodes.
-        Last, it call `depart_*` for node.
 
-        When visiting nodes, the RPy-code for those nodes will be rendered in TextBlock's.  Which can be text (stings) or Block
-        (roughly: indended lines).
-        `render` always returns str-text."""
+        Typically, those visitors will
+        - render the node itself
+        - call render_subNodes() to render those subnodes
+          - which uses the `walker` to find all subnodes
+            (but not always, as some are "fixed"
+        - call the depart_<node> visitor (when relevant -- default a no-op)
+
+        `render()` will always return a str --whereas the visitors return a TextBlock -- by converting it to a str
+        """
 
         logger.debug("Going to render %s", node)
         txt = Block()
         txt += self.visit(node)
-        subs = self.render_subNodes(node)
-        if subs:
-            txt.sub(subs)
-        txt += self.depart(node)
-
         return str(txt)
 
 
@@ -51,7 +49,7 @@ class Renderer(Visitor):
             return None
 
         txt = Block()
-        logger.debug("render_subNodes: %s", subnodes)
+        logger.debug("render_subNodes: %s" , subnodes)
         for next_node in subnodes if subnodes else []:
             txt += self.visit(next_node)
         return txt
@@ -112,7 +110,6 @@ class Renderer(Visitor):
 
         args=", ".join(str(self.visit(a)) for a in node.arguments) # XXX
         txt = f'{base}{callable}({args})'
-
         return txt
 
 

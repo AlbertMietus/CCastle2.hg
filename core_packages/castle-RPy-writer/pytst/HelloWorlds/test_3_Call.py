@@ -15,9 +15,11 @@ def Call():
     assert isinstance(call, aigr.Call) # Check only
     return call
 
+
 def test_1_render_visitCallNeedsMoreWork_ButFineForNow(Call, my_renderer):
+    EXPECTED = '''print("Hello %s World" % (label,))'''
     txt = my_renderer.render(Call)
-    verify_line("print(f'''Hello {label} World''')", txt)
+    verify_line(EXPECTED, txt)
 
 
 

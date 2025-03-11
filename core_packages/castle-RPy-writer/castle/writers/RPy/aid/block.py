@@ -9,7 +9,7 @@ class Block:
         self.set_indent(indent)
         if text is not None:                                                              # ``if ""`` is False, None is needed
             self._addText(text, splitlines=True)
-        logger.debug("Block is make: >>%s<<", self)
+        logger.debug("Block is made: >>%s<<", repr(str(self)))
 
     def _addText(self, text: (None| str | PTH.Sequence[str] | 'Block'), splitlines: bool=False):
         lines:PTH.Sequence[str|'Block']
@@ -27,7 +27,7 @@ class Block:
         else:
             assert False, f"Unknown type ({type(text)}) text: >>{text}<< self: {str(self)}"
         self._txt.extend(lines)
-        logger.debug("_addText (%s) results in: >>%s<<", repr(text), self)
+        logger.debug("_addText (%s) results in: >>%s<<", repr(text), repr(str(self)))
         return self
 
     def __iadd__(self, text): # 'extend semantics'
@@ -35,7 +35,7 @@ class Block:
 
     def sub(self, block:'Block'): #append semantics
         self._txt.append(block)
-        logger.debug(".sub() results in: >>%s<<", self)
+        logger.debug(".sub(<<%s>>) results in: >>%s<<", repr(str(block)), repr(str(self)))
         return self
 
     def toStr(self, prefix="", end='\n'):

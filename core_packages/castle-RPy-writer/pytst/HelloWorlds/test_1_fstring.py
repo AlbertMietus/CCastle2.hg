@@ -24,14 +24,10 @@ def test_visit_fString(fString, my_renderer):
 
 
 def test_render_fString(fString, my_renderer):
-    """Now via the render method""" # It (did/once) fail as it adds newlines
+    """Now via the render method"""
     assert fString.value == "Hello {label} World" #Check only
-
     EXPECTED = '''"Hello %s World" % (label,)\n''' # with newline
-
     txt = my_renderer.render(fString)
-
-    verify_line(EXPECTED, txt)     # At least the EXPECTED text is there
     verify_line(EXPECTED, txt, 0)   # But no more lines are needed
 
 

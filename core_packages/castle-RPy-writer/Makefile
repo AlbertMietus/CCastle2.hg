@@ -9,14 +9,15 @@ LAST = \
 	pytst/CC/test_CCbuildin_1_prefix.py 					\
 	pytst/aid/test_blocks.py								\
 	pytst/visitors/test_walker.py							\
+	pytst/HelloWorlds/test_1_fstring.py						\
+	pytst/HelloWorlds/test_3_Call.py						\
 #
 CURRENT = \
-	pytst/HelloWorlds/test_1_fstring.py
+	pytst/HelloWorlds/test_2_Method.py						\
 #
 TODO = \
 	pytst/HelloWorlds/test_11_ComponentImplementation.py	\
 	pytst/HelloWorlds/test_3_Call.py						\
-	pytst/HelloWorlds/test_2_Method.py						\
 	pytst/test_dummy.py	\
 #
 
