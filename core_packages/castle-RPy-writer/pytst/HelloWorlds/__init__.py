@@ -32,4 +32,4 @@ def imprint(*parts):
 def verify_line_by_line(expect, got):
     expect_lines, got_lines = expect.splitlines(), got.splitlines()
     for e,g, no in zip(expect_lines, got_lines, range(999)):
-        assert e == g, f'Line: {no} expect: >>{e}<< != got:>>{g}<<'
+        assert e == g, f'Line: {no} not as expected\nexpect:\n{e}\ngot:\n{g}'

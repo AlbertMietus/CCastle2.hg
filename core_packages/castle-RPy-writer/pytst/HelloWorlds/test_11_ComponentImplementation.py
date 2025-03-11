@@ -5,7 +5,7 @@ import pytest
 
 from castle.TESTDOUBLES.aigr.HelloWorlds.elemental.HelloWorld import Hello_World
 
-from . import my_renderer, verify_line
+from . import my_renderer, verify_line, verify_line_by_line
 from . import print_out
 
 @pytest.fixture
@@ -26,12 +26,39 @@ def test_2_render_init(ComponentImplementation, my_renderer):
     # Line 4: remark on instance vars -- do not verify
     verify_line('        self._castle_init(*args)', txt, 5)
 
-def test_3_depart(ComponentImplementation, my_renderer): #Not sure those lines are needed...
-    txt = my_renderer.render(ComponentImplementation)
-    verify_line('cc_C_Elemental_HelloWorld = buildin.CC_B_ComponentClass(', txt)
-    verify_line('    interface = cc_CI_Elemental_HelloWorld,',              txt)
+#def test_3_depart(ComponentImplementation, my_renderer): #Not sure those lines are needed...
+#    txt = my_renderer.render(ComponentImplementation)
+#    verify_line('cc_C_Elemental_HelloWorld = buildin.CC_B_ComponentClass(', txt)
+#    verify_line('    interface = cc_CI_Elemental_HelloWorld,',              txt)
+
+EXPECTED_RPY_CODE="""\
+class CC_Elemental_HelloWorld(buildin.CC_B_Component):
+
+    def __init__(self, *args):
+        buildin.CC_B_Component.__init__(self, isa=cc_C_Elemental_HelloWorld)
+        self._castle_init(*args)
 
 
-def test_NoTest_butPrint(ComponentImplementation, my_renderer):
+    def HelloWorld(self, label):
+        print("Hello %s World" % (label,))
+
+    def Power_powerOn__power(self, max):
+        self.HelloWorld('''Elemental''')
+
+
+cc_C_Elemental_HelloWorld = buildin.CC_B_ComponentClass(
+    interface = cc_CI_Elemental_HelloWorld,
+    )
+
+CC_P_Power_On = 1 # XXX ToDo: move to ..
+cc_S_Elemental_HelloWorld_power = [
+    None,
+    CC_Elemental_HelloWorld.Power_powerOn__power,
+    ]
+""" #C&P: HelloWorld.rpy
+
+def test_4_full(ComponentImplementation, my_renderer):
     txt = my_renderer.render(ComponentImplementation)
-    print_out(txt)
+    #print_out(EXPECTED_RPY_CODE, label='expected')
+    #print_out(txt,      label='got/txt')
+    verify_line_by_line(EXPECTED_RPY_CODE, txt)

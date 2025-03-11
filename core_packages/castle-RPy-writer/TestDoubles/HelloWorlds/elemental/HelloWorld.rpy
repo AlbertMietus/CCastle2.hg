@@ -25,12 +25,12 @@ cc_CI_Elemental_HelloWorld = buildin.CC_B_ComponentInterface(
 
 
 
-class CC_Elemental_HelloWorld(buildin.CC_B_Component) : # Generated class;
+class CC_Elemental_HelloWorld(buildin.CC_B_Component): # Generated class;
     """///CastleCode
     implement Elemental_HelloWorld
     {///"""
 
-    def __init__(self,  *args):
+    def __init__(self, *args):
         buildin.CC_B_Component.__init__(self, isa=cc_C_Elemental_HelloWorld)
         self._castle_init(*args)
 
@@ -39,7 +39,6 @@ class CC_Elemental_HelloWorld(buildin.CC_B_Component) : # Generated class;
         HelloWorld(str:label) {
            print("Hello {label} World")
         }"""
-        #print('''Hello %s World''' %(label,)) # GAM: rpython-translate has no f-strings (and no str.format(), kwarsg)
         print("Hello %s World" % (label,))
 
     def Power_powerOn__power(self, _dummy__Max):   #///GAM: power-api may change to args of none; max is stange

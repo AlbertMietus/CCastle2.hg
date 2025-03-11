@@ -11,14 +11,14 @@ LAST = \
 	pytst/visitors/test_walker.py							\
 	pytst/HelloWorlds/test_1_fstring.py						\
 	pytst/HelloWorlds/test_3_Call.py						\
-#
-CURRENT = \
 	pytst/HelloWorlds/test_2_Method.py						\
 #
-TODO = \
+CURRENT = \
 	pytst/HelloWorlds/test_11_ComponentImplementation.py	\
+#
+TODO = \
 	pytst/HelloWorlds/test_3_Call.py						\
-	pytst/test_dummy.py	\
+	pytst/test_dummy.py		\
 #
 
 #local_test:: diff_TestDoubles

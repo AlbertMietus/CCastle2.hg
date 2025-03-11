@@ -15,7 +15,7 @@ TextBlock = PTH.Optional[str|Block]
 class Renderer(Visitor):
     _defaultType=str
 
-    walker = Walker() # XXXX
+    walker = Walker() # XXX
 
     def _CC_cls_prefix(self, name):			return 'CC_'   + str(name)
     def _cc_C_elm_prefix(self, name):		return 'cc_C_' + str(name)
@@ -34,8 +34,7 @@ class Renderer(Visitor):
             (but not always, as some are "fixed"
         - call the depart_<node> visitor (when relevant -- default a no-op)
 
-        `render()` will always return a str --whereas the visitors return a TextBlock -- by converting it to a str
-        """
+        `render()` will always return a str --whereas the visitors return a TextBlock -- by converting it to a str."""
 
         logger.debug("Going to render %s", node)
         txt = Block()
@@ -58,24 +57,30 @@ class Renderer(Visitor):
     def visit_ComponentImplementation(self, node) -> TextBlock:
         gen_cls_name = self._CC_cls_prefix(node.name)
         isa_elm_name = self._cc_C_elm_prefix(node.name)
-        comp = Block((
+
+        txt = Block((
             f"class {gen_cls_name}({self._CompBase()}):",
             f"",))
+
         init = Block(f"def __init__(self, *args):")
         init.sub(Block((
             f"buildin.CC_B_Component.__init__(self, isa={isa_elm_name})", # XXX isa
-            f"#XXX: init instance vars -- ToDo",
+            f"#XXX: init instance vars -- ToDo",                          # XXX
             f"self._castle_init(*args)",)))
-        comp.sub(init)
-        return comp
+        txt.sub(init)
+
+        txt.sub(self.render_subNodes(node))
+        txt += self.depart(node)
+
+        return txt
+
 
     def depart_ComponentImplementation(self, node) -> TextBlock:
         isa_elm_name = self._cc_C_elm_prefix(node.name)
         elm = Block(f"{isa_elm_name} = buildin.CC_B_ComponentClass(")
         ind = Block(f"interface = {self._cc_CI_elm_prefix(node.name)},")
+        ind += ")"
         elm.sub(ind)
-        elm += f")"
-        elm += ""
         return elm
 
     def _render_def(self, node) ->Block:
@@ -115,7 +120,7 @@ class Renderer(Visitor):
 
     def visit__literal(self, node) -> TextBlock:
         if node.type == aigr.types.string or node.type is None:
-            return f"f'''{node.value}'''"
+            return f"'''{node.value}'''"
         elif isinstance(node.type, aigr.types._buildinNumber):
             return f"{node.value}"
         else:
