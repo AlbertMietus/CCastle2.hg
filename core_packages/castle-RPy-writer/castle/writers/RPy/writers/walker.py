@@ -33,10 +33,9 @@ class Walker(Visitor):
         return tuple((call,))
 
     def visit_Call(self, node) -> PTH.Sequence[aigr.AIGR]:
-        return None
-        #callable = node.callable #single node
-        #logger.info("visit_Call: %s in %s",  callable, node)
-        #return tuple((callable,))
+        callable = node.callable #single node
+        logger.info("visit_Call: %s in %s",  callable, node)
+        return tuple((callable,))
 
     def visit_fString(self, node) -> PTH.Sequence[aigr.AIGR]:
-        return None
+        return ()

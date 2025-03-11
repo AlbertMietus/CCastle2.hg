@@ -9,7 +9,7 @@ START,END = '{','}'
 TXT       = "STATE_TEXT"
 VAL        = "STATE_VALUE"
 
-def fString_2_modulo(s:str) -> (str, tuple):
+def fString_2_modulo(s:str) -> PTH.Tuple[str, tuple]:
     state=TXT
     result, args = "", []
     for c in s:
