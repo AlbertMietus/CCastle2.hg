@@ -65,7 +65,6 @@ class Renderer(Visitor):
         init = Block(f"def __init__(self, *args):")
         init.sub(Block((
             f"buildin.CC_B_Component.__init__(self, isa={isa_elm_name})", # XXX isa
-            f"#XXX: init instance vars -- ToDo",                          # XXX
             f"self._castle_init(*args)",)))
         txt.sub(init)
 

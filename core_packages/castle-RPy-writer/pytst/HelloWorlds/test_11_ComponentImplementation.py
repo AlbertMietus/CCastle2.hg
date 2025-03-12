@@ -23,13 +23,9 @@ def test_2_render_init(ComponentImplementation, my_renderer):
     txt = my_renderer.render(ComponentImplementation)
     verify_line('    def __init__(self, *args):',   txt, 2)
     verify_line('        buildin.CC_B_Component.__init__(self, isa=cc_C_Elemental_HelloWorld)', txt, 3)
-    # Line 4: remark on instance vars -- do not verify
-    verify_line('        self._castle_init(*args)', txt, 5)
+    verify_line('        self._castle_init(*args)', txt, 4)
+    ### XXXX ToDo: init instance vars
 
-#def test_3_depart(ComponentImplementation, my_renderer): #Not sure those lines are needed...
-#    txt = my_renderer.render(ComponentImplementation)
-#    verify_line('cc_C_Elemental_HelloWorld = buildin.CC_B_ComponentClass(', txt)
-#    verify_line('    interface = cc_CI_Elemental_HelloWorld,',              txt)
 
 EXPECTED_RPY_CODE="""\
 class CC_Elemental_HelloWorld(buildin.CC_B_Component):
