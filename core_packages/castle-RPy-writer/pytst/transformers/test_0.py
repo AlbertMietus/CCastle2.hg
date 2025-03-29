@@ -7,8 +7,6 @@ from castle.writers.RPy import transformers
 from castle.TESTDOUBLES.aigr.HelloWorlds.elemental import HelloWorld
 
 
-
-
 def test_0_dummy():
     assert HelloWorld, "Expect an module"
     for name in getattr(HelloWorld, 'ALL'):
