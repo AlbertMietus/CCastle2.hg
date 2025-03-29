@@ -3,8 +3,7 @@
 import logging; logger = logging.getLogger(__name__)
 import pytest
 
-
-import castle.writers.RPy.transformers
+from castle.writers.RPy import transformers
 from castle.TESTDOUBLES.aigr.HelloWorlds.elemental import HelloWorld
 
 
@@ -15,3 +14,10 @@ def test_0_dummy():
     for name in getattr(HelloWorld, 'ALL'):
          assert getattr(HelloWorld,name), f"All objects in ALL should exist, including {name}"
 
+
+def test_1_replace_extention():
+    assert transformers.replace_extention('test_1')                == 'test_1.rpy'
+    assert transformers.replace_extention('test_2', new_ext='.py') == 'test_2.py'
+    assert transformers.replace_extention('test_3.Castle')         == 'test_3.rpy'
+    assert transformers.replace_extention('test_4.Moat')           == 'test_4.rpy'
+    assert transformers.replace_extention('test_5.foo')            == 'test_5.foo.rpy'
