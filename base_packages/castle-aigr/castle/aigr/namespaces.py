@@ -107,6 +107,9 @@ class _NameSpace(AIGR):
     def find_byType(self, cls:type) ->dict[ID, NamedNode]:
         return {name: node for name, node in self._dict.items() if isinstance(node, cls)}
 
+    def list_names(self) -> tuple[str]:
+        return tuple(self._dict.keys())
+
 @dataclass
 class NamedSpace(NamedNode, _NameSpace):
     """A ``NamedSpace`` is a namedspace with a name ...."""
@@ -120,7 +123,7 @@ class Source_NS(NamedSpace):
     source       :PTH.Optional[str]=None
 
 @dataclass
-class Target_NS(_NameSpace):
+class _Target_NS(_NameSpace):
     """This ABSTARCT namespace is used to "store" AIGR-parts that will rendered into one *low-level* code-file.
        Typical, each Backend.Writer will subclass this class for the specifics for that language."""
     _: KW_ONLY
