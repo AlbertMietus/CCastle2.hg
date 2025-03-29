@@ -1,9 +1,9 @@
 default: all
 
-#none:
-	@echo "This dir needs work before ..."
-
-PYREVERSE_PKGS = castle/writers/RPy
+PYREVERSE_PKGS = \
+	castle/writers/RPy					\
+	castle/writers/RPy/CC				\
+	castle/writers/RPy/writers			\
 
 LAST = \
 	pytst/CC/test_CCbuildin_1_prefix.py 					\
