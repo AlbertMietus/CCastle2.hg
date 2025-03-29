@@ -4,17 +4,14 @@ PYREVERSE_PKGS = \
 	castle/writers/RPy					\
 	castle/writers/RPy/CC				\
 	castle/writers/RPy/writers			\
-
+#
 LAST = \
 	pytst/CC/test_CCbuildin_1_prefix.py 					\
-	pytst/aid/test_blocks.py								\
-	pytst/visitors/test_walker.py							\
-	pytst/HelloWorlds/test_1_fstring.py						\
-	pytst/HelloWorlds/test_3_Call.py						\
-	pytst/HelloWorlds/test_2_Method.py						\
+	pytst/HelloWorlds/test_11_ComponentImplementation.py	\
 #
 CURRENT = \
-	pytst/HelloWorlds/test_11_ComponentImplementation.py	\
+	pytst/transformers/test_0.py							\
+	pytst/transformers/test_1_toTargetNS.py					\
 #
 TODO = \
 	pytst/HelloWorlds/test_3_Call.py						\
