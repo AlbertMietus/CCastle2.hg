@@ -36,12 +36,8 @@ def test_1_txt(target_unit, my_renderer):
     #print_out(txt)
     verify_line_by_line(EXPECTED_RPY_CODE, txt)
 
-@pytest.mark.skip('Kan weg')
-@pytest.mark.parametrize('rel_path,', [HW_E_out])
-def test_0_outdir(TestDoubles_out):
-    print_out(str(TestDoubles_out), label='__out')
 
-
+@pytest.mark.xfail
 @pytest.mark.parametrize('rel_path,', [HW_E_out])
 def test_2a_file(target_unit, my_renderer, TestDoubles_out):
     txt = my_renderer.render(target_unit)

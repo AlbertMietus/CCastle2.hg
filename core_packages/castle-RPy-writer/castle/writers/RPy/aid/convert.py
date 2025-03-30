@@ -7,7 +7,7 @@ __all__ = ['fstring_2_modulo']
 
 START,END = '{','}'
 TXT       = "STATE_TEXT"
-VAL        = "STATE_VALUE"
+VAL       = "STATE_VALUE"
 
 def fString_2_modulo(s:str) -> PTH.Tuple[str, tuple]:
     state=TXT
