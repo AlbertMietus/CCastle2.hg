@@ -11,8 +11,8 @@ from castle.TESTDOUBLES.aigr.HelloWorlds.elemental.HelloWorld import Hello_World
 
 from . import my_renderer, verify_line, verify_line_by_line
 from . import print_out
-from . import EXPECTED_RPY_CODE
 from . import TestDoubles_dir
+from . import EXPECTED_unit
 
 HW_E_out    = Path('HelloWorlds', 'elemental', '__out')
 
@@ -32,8 +32,9 @@ def TestDoubles_out(TestDoubles_dir, rel_path):
 
 def test_1_txt(target_unit, my_renderer):
     txt = my_renderer.render(target_unit)
-    #print_out(txt)
-    verify_line_by_line(EXPECTED_RPY_CODE, txt)
+    #print_out(txt, label='got')
+    #print_out(EXPECTED_unit, label='EXPECTED_unit')
+    verify_line_by_line(EXPECTED_unit, txt)
 
 
 @pytest.mark.xfail

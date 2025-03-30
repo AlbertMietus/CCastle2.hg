@@ -48,7 +48,7 @@ ${EXEd}${TARGET}: ${PY_files_EXE}
 
 
 
-clean: clean_run clean_exe
+clean: clean_run clean_exe clean_out
 cleaner: clean
 
 clean_run:
@@ -59,6 +59,9 @@ clean_exe: # Do not remove the dirs, as the are include dirs
 	rm -f ./${EXEd}${TARGET}
 	rm -f ./${EXEd}*.py ./${EXEd}*.pyc
 
+clean_out:
+	rm -f __out/*.rpy
+	rm -f __out/*.py
 
 veryclean very_clean cleanest: cleaner
 

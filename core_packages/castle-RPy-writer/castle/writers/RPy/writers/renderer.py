@@ -70,7 +70,6 @@ class Renderer(Visitor):
 
         txt.sub(self.render_subNodes(node))
         txt += self.depart(node)
-
         return txt
 
 
@@ -136,5 +135,30 @@ class Renderer(Visitor):
         return str(node)
 
     def visit_RPy_unit(self, node) ->TextBlock:
-        return self.render_subNodes(node)
-        
+        txt = Block()
+        txt += """\
+#hack (pre)
+from castle.writers.RPy.CC import buildin
+from castle.writers.RPy.CC import base
+""" # XXX HACK of default?	
+
+        txt += """\
+cc_CI_Elemental_HelloWorld = buildin.CC_B_ComponentInterface(
+    name = "Elemental_HelloWorld",
+    inherit_from   = base.cc_CI_Component,
+    ports          = [])
+#end hack
+""" # REALLY XXX HACK         
+
+        txt += self.render_subNodes(node)
+
+        txt += """\
+#hack (post)
+CC_P_Power_On = 1 # XXX ToDo: move to ..
+cc_S_Elemental_HelloWorld_power = [
+    None,
+    CC_Elemental_HelloWorld.Power_powerOn__power,
+    ]
+#end hack
+"""
+        return txt
