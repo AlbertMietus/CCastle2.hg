@@ -32,15 +32,15 @@ ${PY_files_EXE}: ${EXEd}%.py  : %.rpy
 
 run: run_${TARGET}
 run_${TARGET}: ${RUNd} ${PY_files_RUN}
-	@echo "========== $@ =========="
+	@echo "========== $@ ========== (cpython)"
 	@cd ${RUNd}; python ${TARGET}.py
-	@echo "========== $@ =========="
+	@echo "========= /$@ =========="
 
 exe: exe_${TARGET}
 exe_${TARGET}: ${EXEd} ${EXEd}${TARGET}
-	@echo "========== $@ =========="
+	@echo "========== $@ ========== (translated)"
 	@./${EXEd}${TARGET}
-	@echo "========== $@ =========="
+	@echo "========= /$@ =========="
 
 ${EXEd}${TARGET}: ${PY_files_EXE}
 	cd ${EXEd} ;\

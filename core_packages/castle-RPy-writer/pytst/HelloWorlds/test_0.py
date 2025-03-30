@@ -15,5 +15,6 @@ def test_0_dummy_HW():
 
 def test_0_RPy_file():
     DUMMY='file.name'
-    f = RPy_file(target_file=DUMMY)
+    f = RPy_file(target_file=DUMMY, name=DUMMY)
     assert f.target_file == DUMMY
+    assert f.name == DUMMY

@@ -12,9 +12,12 @@ OptStr = PTH.Optional[str]
 
 def Source2RPy(src: aigr.Source_NS, filename:OptStr=None, ext:OptStr=None) -> RPy_file:
     assert isinstance(src, aigr.Source_NS)
-    if not filename: filename = src.source if src.source else str(src.name)
-    filename = replace_extention(filename, ext)
-    target = RPy_file(target_file=filename, outer_ns=src.outer_ns)
+    if not filename:
+        filename = src.source if src.source else str(src.name)
+
+    target = RPy_file(target_file=replace_extention(filename, ext),
+                          name=filename,
+                          outer_ns=src.outer_ns)
     for name,node in src._dict.items():
         target.register(node, asName=name)
     return target

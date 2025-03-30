@@ -10,8 +10,8 @@ There are several kind of namespaces, like:
 .. note::
 
    * Many namespaces have a name (where the name is registered in the outer NS).
-   * That dataclasses is called NamedSpace (with a _d_) and use NamedNode as a MixIn
-   * Unnamed namedspace are often called a scope
+   * That dataclasses is called NamedSpace (with a ``d``) and use NamedNode as a MixIn
+   * Unnamed namedspace are often called a scope 
 """
 
 from __future__ import annotations

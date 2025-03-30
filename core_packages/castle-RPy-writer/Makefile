@@ -8,10 +8,11 @@ PYREVERSE_PKGS = \
 LAST = \
 	pytst/CC/test_CCbuildin_1_prefix.py 					\
 	pytst/HelloWorlds/test_11_ComponentImplementation.py	\
-#
-CURRENT = \
 	pytst/transformers/test_0.py							\
 	pytst/transformers/test_1_toTargetNS.py					\
+#
+CURRENT = \
+	pytst/HelloWorlds/test_12_file.py						\
 #
 TODO = \
 	pytst/HelloWorlds/test_3_Call.py						\

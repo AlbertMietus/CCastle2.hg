@@ -134,3 +134,7 @@ class Renderer(Visitor):
 
     def visit_ID(self, node) -> TextBlock: # GAM: Nog niet overal gebruikt (bijna niet)
         return str(node)
+
+    def visit_RPy_file(self, node) ->TextBlock:
+        return self.render_subNodes(node)
+        

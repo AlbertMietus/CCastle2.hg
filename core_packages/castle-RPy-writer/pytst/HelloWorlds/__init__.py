@@ -33,3 +33,30 @@ def verify_line_by_line(expect, got):
     expect_lines, got_lines = expect.splitlines(), got.splitlines()
     for e,g, no in zip(expect_lines, got_lines, range(999)):
         assert e == g, f'Line: {no} not as expected\nexpect:\n{e}\ngot:\n{g}'
+
+#C&P&E: HelloWorld.rpy
+EXPECTED_RPY_CODE="""\
+class CC_Elemental_HelloWorld(buildin.CC_B_Component):
+
+    def __init__(self, *args):
+        buildin.CC_B_Component.__init__(self, isa=cc_C_Elemental_HelloWorld)
+        self._castle_init(*args)
+
+
+    def HelloWorld(self, label):
+        print("Hello %s World" % (label,))
+
+    def Power_powerOn__power(self, max):
+        self.HelloWorld('''Elemental''')
+
+
+cc_C_Elemental_HelloWorld = buildin.CC_B_ComponentClass(
+    interface = cc_CI_Elemental_HelloWorld,
+    )
+
+CC_P_Power_On = 1 # XXX ToDo: move to ..
+cc_S_Elemental_HelloWorld_power = [
+    None,
+    CC_Elemental_HelloWorld.Power_powerOn__power,
+    ]
+"""
