@@ -36,6 +36,9 @@ build/
 .*/doc/.*\.svg
 .*/doc_
 
-_run
-_ref
-_exe
+core_packages/castle-RPy-writer/castle/writers/RPy/CC/_ref
+
+.*/TestDoubles/.*/_run
+.*/TestDoubles/.*/_ref
+.*/TestDoubles/.*/_exe
+.*/TestDoubles/.*/__out

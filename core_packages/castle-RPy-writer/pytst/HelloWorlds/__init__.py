@@ -5,6 +5,7 @@ import pytest
 
 from castle import aigr
 from castle.writers.RPy.writers import Renderer
+from ..TestDoubles import *
 
 @pytest.fixture
 def my_renderer() ->Renderer:
@@ -60,3 +61,6 @@ cc_S_Elemental_HelloWorld_power = [
     CC_Elemental_HelloWorld.Power_powerOn__power,
     ]
 """
+
+
+    

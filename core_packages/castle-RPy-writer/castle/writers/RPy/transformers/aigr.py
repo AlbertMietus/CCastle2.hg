@@ -1,7 +1,10 @@
 # (C) Albert Mietus, 2025. Part of Castle/CCastle project
 
+import logging; logger = logging.getLogger(__name__)
+
 import typing as PTH                                                                                  # Python TypeHints
 from dataclasses import dataclass, KW_ONLY
+from pathlib import Path
 
 from castle.aigr import namespaces, NamedNode
 
@@ -11,13 +14,16 @@ class RPy_file(NamedNode, namespaces._Target_NS):
 
     This ``_NameSpace`` is has a name, maily for debug/log purposes. This name comes from the NamedNode-mixin"""
 
-    def write_out(self, dir=None):
+    def write_out(self, dir):
         assert False, f'ToDo {self.__class__}::write_out'
         txt = self._render()
         self.save(txt, dir)
 
-    def save(self, txt, dir=None):
-        assert False, f'ToDo {self.__class__}::save'
+    def save(self, txt, dir):
+        logger.info('%s.save(txt=%s..., dir=%s) file:=%s', self.__class__.__name__, txt[:7], dir, self.target_file)
+
+        out_file= Path(dir) / self.target_file
+        out_file.write_text(txt)
 
     def _render(self, renderer=None) ->str:
         assert False, f'ToDo {self.__class__}::_render//self.renderer'
