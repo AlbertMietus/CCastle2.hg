@@ -33,8 +33,9 @@ class Block:
     def __iadd__(self, text): # 'extend semantics'
         return self._addText(text, splitlines=False)
 
-    def sub(self, block:'Block'): #append semantics
-        self._txt.append(block)
+    def sub(self, block:PTH.Optional['Block']): #append semantics
+        if block:
+            self._txt.append(block)
         logger.debug(".sub(<<%s>>) results in: >>%s<<", repr(str(block)), repr(str(self)))
         return self
 

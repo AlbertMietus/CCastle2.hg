@@ -42,7 +42,7 @@ class Renderer(Visitor):
         return str(txt)
 
 
-    def render_subNodes(self, node)-> Block:
+    def render_subNodes(self, node)-> PTH.Optional[Block]:
         subnodes = self.walker.visit(node)
         if not subnodes:
             return None
