@@ -4,18 +4,20 @@ import typing as PTH                                                            
 from types import ModuleType
 
 from castle import aigr
-from .aigr import RPy_file
+
+#from ..writers.targets import RPy_unit
+from ..writers import RPy_unit
 
 EXTENTIONS=('.Moat', '.Castle')
 
 OptStr = PTH.Optional[str]
 
-def Source2RPy(src: aigr.Source_NS, filename:OptStr=None, ext:OptStr=None) -> RPy_file:
+def Source2RPy(src: aigr.Source_NS, filename:OptStr=None, ext:OptStr=None) -> RPy_unit:
     assert isinstance(src, aigr.Source_NS)
     if not filename:
         filename = src.source if src.source else str(src.name)
 
-    target = RPy_file(target_file=replace_extention(filename, ext),
+    target = RPy_unit(target_file=replace_extention(filename, ext),
                           name=filename,
                           outer_ns=src.outer_ns)
     for name,node in src._dict.items():

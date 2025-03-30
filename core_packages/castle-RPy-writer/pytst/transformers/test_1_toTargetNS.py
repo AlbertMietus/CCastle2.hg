@@ -7,7 +7,7 @@ from types import ModuleType
 import typing as PTH                                                                                  # Python TypeHints
 
 from castle import aigr
-from castle.writers.RPy import transformers
+from castle.writers import RPy
 
 from castle.TESTDOUBLES.aigr.HelloWorlds.elemental import HelloWorld
 ## HelloWorld is Module
@@ -19,14 +19,15 @@ def verify_same_nodes(src: aigr.namespaces._NameSpace, out: aigr.namespaces._Nam
         assert src.findNode(n) is out.findNode(n)
         logger.debug(f'Node: "{n}" is both in {out} as {src}')
 
+
 def test_0_dummy():
     assert isinstance(HelloWorld, ModuleType)
     assert isinstance(HelloWorld.Hello_World, aigr.Source_NS)
-    assert issubclass(transformers.RPy_file, aigr.AIGR)
+    assert issubclass(RPy.writers.RPy_unit, aigr.AIGR) # RPy_unit isa aigr._Target_NS isa aigr.AIGR
 
 def test_transformSource_NS():
     src = HelloWorld.Hello_World # Source_NS
-    out = transformers.Source2RPy(src)
-    assert isinstance(out, transformers.RPy_file), f'Expect a RPy_file type, got {out}'
+    out = RPy.transformers.namespace.Source2RPy(src)
+    assert isinstance(out, RPy.writers.RPy_unit), f'Expect a RPy_unit type, got {out}'
     verify_same_nodes(src, out)
     verify_same_nodes(out, src)

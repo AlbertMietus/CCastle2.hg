@@ -4,7 +4,9 @@ import logging; logger = logging.getLogger(__name__)
 import pytest
 
 from castle import aigr
-from castle.writers.RPy.transformers import RPy_file
+from castle.writers import RPy
+
+
 from castle.TESTDOUBLES.aigr.HelloWorlds.elemental.HelloWorld import Hello_World
 
 
@@ -13,8 +15,8 @@ def test_0_dummy_HW():
     assert isinstance(Hello_World, aigr.Source_NS),  f"Unexpected class: {Hello_World}"
     assert Hello_World.name == 'HelloWorld'
 
-def test_0_RPy_file():
+def test_0_RPy_unit():
     DUMMY='file.name'
-    f = RPy_file(target_file=DUMMY, name=DUMMY)
+    f = RPy.writers.RPy_unit(target_file=DUMMY, name=DUMMY)
     assert f.target_file == DUMMY
     assert f.name == DUMMY

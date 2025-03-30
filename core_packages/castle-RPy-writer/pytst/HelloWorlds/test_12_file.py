@@ -6,7 +6,6 @@ import pytest
 from pathlib import Path
 
 from castle.writers import RPy
-from castle.writers.RPy import transformers
 
 from castle.TESTDOUBLES.aigr.HelloWorlds.elemental.HelloWorld import Hello_World # Source_NS
 
@@ -21,7 +20,7 @@ HW_E_out    = Path('HelloWorlds', 'elemental', '__out')
 @pytest.fixture
 def target_unit():
     ns = RPy.transformers.Source2RPy(Hello_World)
-    assert isinstance(ns, RPy.transformers.RPy_file) # check only, no test
+    assert isinstance(ns, RPy.writers.RPy_unit) # check only, no test
     return ns
 
 @pytest.fixture
@@ -43,6 +42,7 @@ def test_2a_file(target_unit, my_renderer, TestDoubles_out):
     txt = my_renderer.render(target_unit)
     target_unit.save(txt, dir=TestDoubles_out)
     assert False, "ToDo: How to check"
+
 
 @pytest.mark.skip
 def test_2b_file(target_unit):

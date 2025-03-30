@@ -2,6 +2,5 @@
 
 """The module `castle.writers.RPy.transformers` contains some :term:`AIGR`-:term:`transformers` that are (sololy) used in the RPy-:term:`writer`"""
 
-from .aigr import *
 from .namespace import *
 
