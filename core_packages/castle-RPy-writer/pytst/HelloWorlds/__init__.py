@@ -3,10 +3,13 @@
 import logging; logger = logging.getLogger(__name__)
 import pytest
 
+from pathlib import Path
+
 from castle import aigr
 from castle.writers.RPy.writers import Renderer
 from ..TestDoubles import *
 from .ExpectedTxt import *
+
 
 
 @pytest.fixture
@@ -40,3 +43,9 @@ def verify_line_by_line(expect, got):
     assert len(expect) == len(got), f"Not the same number of lines: expect: {len(expect)}, got: {len(got)}"
 
 
+def verify_file(expect: str, file: Path|str):
+    if isinstance(file, str):
+        file = Path(file)
+    logger.info("read from: %s", file)
+    assert file.is_file()
+    verify_line_by_line(expect, file.read_text())

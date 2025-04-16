@@ -21,6 +21,7 @@ import typing as PTH                                                            
 from enum import Enum
 from dataclasses import dataclass, KW_ONLY
 from dataclasses import field as dc_field
+from pathlib import Path
 
 from .nodes import NamedNode,  ID
 from .base import AIGR
@@ -120,14 +121,23 @@ class NamedSpace(NamedNode, _NameSpace):
 class Source_NS(NamedSpace):
     """This namespace is used for CCastle source files (so: *.Moat- & *.Castle-files). That filename is stored in ``source``"""
     _: KW_ONLY
-    source       :PTH.Optional[str]=None
+    source       :PTH.Optional[Path|str]=None
+
+    def __post_init__(self):
+        if isinstance(self.source, str):
+            self.source = Path(self.source)
 
 @dataclass
 class _Target_NS(_NameSpace):
     """This ABSTARCT namespace is used to "store" AIGR-parts that will rendered into one *low-level* code-file.
        Typical, each Backend.Writer will subclass this class for the specifics for that language."""
     _: KW_ONLY
-    target_file     :PTH.Optional[str]=None
+    target_file     :PTH.Optional[Path|str]=None
+
+    def __post_init__(self):
+        if isinstance(self.target_file, str):
+            self.target_file = Path(self.target_file)
+
 
 
 @dataclass

@@ -8,8 +8,9 @@ from castle.TESTDOUBLES.aigr.HelloWorlds.elemental import HelloWorld
 
 
 def test_1_replace_extention():
-    assert transformers.replace_extention('test_1')                == 'test_1.rpy'
-    assert transformers.replace_extention('test_2', new_ext='.py') == 'test_2.py'
-    assert transformers.replace_extention('test_3.Castle')         == 'test_3.rpy'
-    assert transformers.replace_extention('test_4.Moat')           == 'test_4.rpy'
-    assert transformers.replace_extention('test_5.foo')            == 'test_5.foo.rpy'
+    # The default extention has become .py, not .rpy
+    assert transformers.replace_extention('test_1')                 == 'test_1.py'
+    assert transformers.replace_extention('test_2', new_ext='.rpy') == 'test_2.rpy'
+    assert transformers.replace_extention('test_3.Castle')          == 'test_3.py'
+    assert transformers.replace_extention('test_4.Moat')            == 'test_4.py'
+    assert transformers.replace_extention('test_5.foo')             == 'test_5.foo.py'

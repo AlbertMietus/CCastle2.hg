@@ -5,8 +5,10 @@ TARGET=main_HW
 
 ## 'run' with cpython
 ## 'exe' with rpython translor
+## 'out' are RPy generated files
 RUNd= _run/
 EXEd= _exe/
+OUTd= __out/
 
 ${RUNd} ${EXEd}:; mkdir $@
 
@@ -60,11 +62,37 @@ clean_exe: # Do not remove the dirs, as the are include dirs
 	rm -f ./${EXEd}*.py ./${EXEd}*.pyc
 
 clean_out:
-	rm -f __out/*.rpy
-	rm -f __out/*.py
+	rm -f ${OUTd}*.rpy
+	rm -f ${OUTd}*.py  ${OUTd}*.pyc 
+	rm -f ${OUTd}${TARGET}
+	rm -rf ${OUTd}/__pycache__
 
 veryclean very_clean cleanest: cleaner
 
 #Manual dependendies
 _run/HelloWorld.py : HelloWorld.rpy
-_translated/HelloWorld.py : HelloWorld.rpy
+_exe/HelloWorld.py : HelloWorld.rpy
+
+#####
+out: ${OUTd} out_cpython out_exe
+HW=HelloWorld
+
+out_cpython:  ${OUTd}${TARGET}.py ${OUTd}${HW}.py
+	@echo "========== $@ ========== (generated+cpython)"
+	python  ${OUTd}${TARGET}.py
+	@echo "========= /$@ =========="
+
+${OUTd}${TARGET}.py: ${TARGET}.rpy
+	cp $< $@
+${OUTd}${HW}.py: ${OUTd}${HW}.rpy
+	cp $< $@
+
+out_exe: ${OUTd}${TARGET} ${OUTd}${TARGET}.py ${OUTd}${HW}.py
+	@echo "========== $@ ========== (generated+translated)"
+	./${OUTd}${TARGET}
+	@echo "========= /$@ =========="
+
+
+${OUTd}${TARGET}: ${OUTd}${TARGET}.py ${OUTd}${HW}.py
+	cd ${OUTd} ;\
+	${TRANSLOR} --output=${TARGET} main_HW.py

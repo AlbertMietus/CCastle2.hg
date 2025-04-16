@@ -9,13 +9,14 @@ from castle import aigr
 from ..writers import RPy_unit
 
 EXTENTIONS=('.Moat', '.Castle')
+RPY_EXT= 'py' # No need to use .rpy and rename later ...
 
 OptStr = PTH.Optional[str]
 
 def Source2RPy(src: aigr.Source_NS, filename:OptStr=None, ext:OptStr=None) -> RPy_unit:
     assert isinstance(src, aigr.Source_NS)
     if not filename:
-        filename = src.source if src.source else str(src.name)
+        filename = str(src.source if src.source else src.name)
 
     target = RPy_unit(target_file=replace_extention(filename, ext),
                           name=filename,
@@ -27,8 +28,9 @@ def Source2RPy(src: aigr.Source_NS, filename:OptStr=None, ext:OptStr=None) -> RP
 
 
 def replace_extention(filename: str, new_ext=None) -> str:
-    if not new_ext: new_ext = '.rpy'
-    if new_ext[0] != '.': new_ext = '.'+ new_ext
+    new_ext = new_ext if new_ext  else RPY_EXT
+    new_ext = new_ext if new_ext[0] == '.' else '.'+ new_ext
+
     for ext in EXTENTIONS:
         if filename.endswith(ext):
             return filename[:-1*len(ext)] + new_ext
