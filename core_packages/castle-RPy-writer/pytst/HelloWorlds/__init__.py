@@ -10,7 +10,6 @@ from castle import aigr
 from castle.writers import RPy
 from castle.writers.RPy.writers import Renderer
 
-from ..TestDoubles import *
 from .ExpectedTxt import *
 
 from castle.TESTDOUBLES.aigr.HelloWorlds.elemental.HelloWorld import Hello_World # Source_NS
@@ -30,6 +29,7 @@ def target_unit():
     ns = RPy.transformers.Source2RPy(Hello_World)
     assert isinstance(ns, RPy.writers.RPy_unit) # check only, no test
     return ns
+
 
 @pytest.fixture
 def TestDoubles_out(TestDoubles_dir, rel_path) -> Path:

@@ -11,9 +11,9 @@ from castle.TESTDOUBLES.aigr.HelloWorlds.elemental.HelloWorld import Hello_World
 from . import my_renderer, Renderer
 from . import verify_line, verify_line_by_line, verify_file
 from . import print_out
-from . import TestDoubles_dir
 from . import EXPECTED_unit
 
+from ..TestDoubles import TestDoubles_dir # Needed for TestDoubles_out
 from . import target_unit, TestDoubles_out, HW_E_out
 
 
