@@ -6,9 +6,6 @@ import typing as PTH                                                            
 from pathlib import Path
 import pytest
 
-
-from castle.writers import RPy
-
 from castle.TESTDOUBLES.aigr.HelloWorlds.elemental.HelloWorld import Hello_World # Source_NS
 
 from . import my_renderer, Renderer
@@ -17,20 +14,7 @@ from . import print_out
 from . import TestDoubles_dir
 from . import EXPECTED_unit
 
-HW_E_out    = Path('HelloWorlds', 'elemental', '__out')
-
-
-@pytest.fixture
-def target_unit():
-    ns = RPy.transformers.Source2RPy(Hello_World)
-    assert isinstance(ns, RPy.writers.RPy_unit) # check only, no test
-    return ns
-
-@pytest.fixture
-def TestDoubles_out(TestDoubles_dir, rel_path):
-    out_dir = TestDoubles_dir / rel_path
-    assert out_dir.exists() and out_dir.is_dir(), f" Not valid: {out_dir}"
-    return out_dir
+from . import target_unit, TestDoubles_out, HW_E_out
 
 
 def test_1_txt(target_unit, my_renderer):

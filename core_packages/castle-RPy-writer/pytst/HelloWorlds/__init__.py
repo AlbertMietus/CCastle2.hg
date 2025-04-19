@@ -6,17 +6,39 @@ import pytest
 from pathlib import Path
 
 from castle import aigr
+
+from castle.writers import RPy
 from castle.writers.RPy.writers import Renderer
+
 from ..TestDoubles import *
 from .ExpectedTxt import *
 
+from castle.TESTDOUBLES.aigr.HelloWorlds.elemental.HelloWorld import Hello_World # Source_NS
 
+HW_E_out    = Path('HelloWorlds', 'elemental', '__out')
 
 @pytest.fixture
 def my_renderer() ->Renderer:
     cls = Renderer
     logger.debug(f'Using "{cls}" as Renderer')
     return cls()
+
+
+
+@pytest.fixture
+def target_unit():
+    ns = RPy.transformers.Source2RPy(Hello_World)
+    assert isinstance(ns, RPy.writers.RPy_unit) # check only, no test
+    return ns
+
+@pytest.fixture
+def TestDoubles_out(TestDoubles_dir, rel_path) -> Path:
+    out_dir = TestDoubles_dir / rel_path
+    assert out_dir.exists() and out_dir.is_dir(), f" Not valid: {out_dir}"
+    return out_dir
+
+
+
 
 def verify_line(expect, got, line=None):
     logger.debug("verify_line\n\texpect:\t%s\ngot\t>>%s<<\n\tline=%s", expect, got, line)
