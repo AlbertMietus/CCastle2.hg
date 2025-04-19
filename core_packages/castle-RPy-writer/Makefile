@@ -6,14 +6,15 @@ PYREVERSE_PKGS = \
 	castle/writers/RPy/writers			\
 #
 LAST = \
-	pytst/HelloWorlds/test_12_file.py						\
+	pytst/HelloWorlds/test_12_file.py 		\
+	pytst/translators/test_0.py				\
 #
 CURRENT = \
-	pytst/translators/test_0.py
+	pytst/HelloWorlds/test_13_translate.py	\
 #
 TODO = \
-	pytst/HelloWorlds/test_3_Call.py						\
-	pytst/test_dummy.py		\
+	pytst/test_dummy.py					\
+	pytst/HelloWorlds/test_3_Call.py 	\
 #
 
 HW_Ed = TestDoubles/HelloWorlds/elemental

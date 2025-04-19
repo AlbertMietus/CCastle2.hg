@@ -57,6 +57,7 @@ class RPY_Translator(TranslatorCommand):
 
         logger.debug("subprocess.run:: cmd: >%s< cwd: >%s< (self.inDir) env: >%s<", cmd, self.inDir, env)
         res = subprocess.run(cmd, cwd=self.inDir, env=env, shell=False, capture_output=True, text=True)
+        logger.debug("-->%s", res)
 
         assert res.returncode == 0, f"Failed with {res.returncode}; stderr={res.stderr}; stdout={res.stdout}; res={res}"
         return res.stdout

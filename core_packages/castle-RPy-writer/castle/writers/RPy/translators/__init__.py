@@ -4,5 +4,6 @@
 """
 
 from . import base
+from .eval import Evaluate
 
 
