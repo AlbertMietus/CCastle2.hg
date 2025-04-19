@@ -6,13 +6,10 @@ PYREVERSE_PKGS = \
 	castle/writers/RPy/writers			\
 #
 LAST = \
-	pytst/CC/test_CCbuildin_1_prefix.py 					\
-	pytst/HelloWorlds/test_11_ComponentImplementation.py	\
-	pytst/transformers/test_0.py							\
-	pytst/transformers/test_1_toTargetNS.py					\
+	pytst/HelloWorlds/test_12_file.py						\
 #
 CURRENT = \
-	pytst/HelloWorlds/test_12_file.py						\
+	pytst/translators/test_0.py
 #
 TODO = \
 	pytst/HelloWorlds/test_3_Call.py						\

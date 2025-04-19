@@ -16,18 +16,18 @@ class RPy_unit(NamedNode, namespaces._Target_NS):
 
     This namespace has a name --mainly for debug/log purposes-- by using the NamedNode-mixin"""
 
-    def save(self, txt: str, inDir :Path|str =None):
+    def save(self, txt: str, inDir :PTH.Optional[Path|str] =None) ->None:
         logger.debug('%s.save(txt=%s..., inDir=%s) file:=%s', self.__class__.__name__, txt[:7], inDir, self.target_file)
 
         if inDir:
             self.target_file =  Path(inDir) / self.target_file # remember the (actual) location
         elif not isinstance(self.target_file, Path):
-            self.target_file = self.target_file  # shouldn't be needed, biut be forgiving
+            self.target_file = Path(self.target_file)  # shouldn't be needed, but be forgiving
 
         self.target_file.write_text(txt)
 
 
-    def write_out(self, inDir :Path|str =None, renderCls: PTH.Optional[type] =None):
+    def write_out(self, inDir :PTH.Optional[Path|str] =None, renderCls: PTH.Optional[type] =None) ->None:
         logger.debug('%s.write_out(inDir=%s) file:=%s', self.__class__.__name__,  inDir, self.target_file)
 
         if renderCls and not isinstance(renderCls,type):

@@ -1,3 +1,5 @@
+.. _RPY-Translators:
+
 ===============
 RPY-Translators
 ===============
