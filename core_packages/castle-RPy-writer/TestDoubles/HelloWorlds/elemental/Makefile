@@ -84,8 +84,6 @@ out_cpython:  ${OUTd}${TARGET}.py ${OUTd}${HW}.py
 
 ${OUTd}${TARGET}.py: ${TARGET}.rpy
 	cp $< $@
-${OUTd}${HW}.py: ${OUTd}${HW}.rpy
-	cp $< $@
 
 out_exe: ${OUTd}${TARGET} ${OUTd}${TARGET}.py ${OUTd}${HW}.py
 	@echo "========== $@ ========== (generated+translated)"

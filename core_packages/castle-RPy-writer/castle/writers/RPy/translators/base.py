@@ -51,7 +51,7 @@ class RPY_Translator(TranslatorCommand):
         if PATH_prefix:
             env=os.environ
             env['PATH']=f"PATH_prefix:{env['PATH']}"
-            logger.info("PATH: %s", env['PATH'])                                  # XXX .info will become .debug
+            logger.debug("PATH: %s", env['PATH'])
         else:
             env=None # default for `subprocess.run`
 
