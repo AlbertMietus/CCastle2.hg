@@ -13,11 +13,11 @@ class Dummy_ABC(translators.base.TranslatorCommand):
     def runner(self): #called via execute()
         return _FLAG_ABC
 
-class Dummy_RPY(translators.base.RPY_Base):
+class Dummy_RPY(translators.base.RPY_Translator):
     def runner(self): #called via execute()
         return _FLAG_RPY
 
-class Dummy_ls(translators.base.RPY_Base):
+class Dummy_ls(translators.base.RPY_Translator):
     def runner(self): #called via execute()
         return self.process(cmd=['ls', '-l'])
 

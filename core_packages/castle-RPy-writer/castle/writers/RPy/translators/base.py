@@ -25,7 +25,7 @@ class TranslatorCommand(ABC):
 
 
 
-class RPY_Base(TranslatorCommand):
+class RPY_Translator(TranslatorCommand):
     # XXX hardcoded paths & (partial) filenames XXXX
     PyPy_SRCd    = Path('/Users/albert/NoTimeMachine/PyPy,hgs/') / 'PyPy.dev'
     PyPy_APPSd	 = Path('/Users/albert/Apps/PyPy/')
