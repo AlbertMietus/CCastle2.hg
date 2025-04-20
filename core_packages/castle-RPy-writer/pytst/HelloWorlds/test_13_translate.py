@@ -22,6 +22,9 @@ def target_files(target_unit, TestDoubles_out):
 #--------HACK--------
 from castle.writers.RPy import translators
 class Hack_cp(translators.base.RPY_Translator):
+    def __init__(self, **kwargs):
+        super().__init__(driver=None, **kwargs)
+
     def runner(self): #called via execute()
         stem = self.files[0]
         logging.warning(f"Making main driver by copy (HACK XXX)")

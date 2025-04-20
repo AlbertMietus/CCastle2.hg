@@ -26,25 +26,30 @@ class TranslatorCommand(ABC):
 
 _PyPy_SRCd   = Path('/Users/albert/NoTimeMachine/PyPy,hgs/') / 'PyPy.dev'
 _PyPy_APPSd	 = Path('/Users/albert/Apps/PyPy/')
+TIMEOUT      = 60 #second
 
 class RPY_Translator(TranslatorCommand):
     # XXX hardcoded paths & (partial) filenames XXXX
     PyPy_BINd	 = _PyPy_APPSd / 'pypy2.7-v7.3.12-macos_arm64/bin'
     RPYTHON	     = _PyPy_SRCd  / 'rpython/bin/rpython'
-#    MAIN         = 'main_HW' # Without ext!
+
     #@abstractmethod
     def __init__(self, *,
-                     files  :PTH.List[Path|str]|str=[],
-                     inDir  :PTH.Optional[Path|str]=None,
-                     driver :str):                                 # driver is a stem,  not a path
-        """Run a command (to be set in subclass) in directory `inDir` (default: current working dir), using `files` and `driver` as main-file
+                     inDir   :PTH.Optional[Path|str]=None,
+                     files   :PTH.List[Path|str]|str=[],
+                     driver  :str,                                # driver is a stem,  not a path
+                     timeout :int= TIMEOUT):
+        """Run a translator-command (to be set in subclass) in directory `inDir`, using `driver` as main-file (stem only).
+
+        * Typically a list of files is passed, but they can also be named in the main-driver (python-file)
+        * The command is run in inDir; default: current working dir. It will be terminated after `timeout` seconds
         """
         if isinstance(files, (str, Path)):
             files = [files]
         self.files = [p if isinstance(p, Path) else Path(p) for p in files]
-        self.driver = driver 
+        self.driver = driver
         self.inDir  = Path(inDir if inDir else '.')
- 
+        self._timeout = timeout
 
     def process(self, cmd: list[str],*, PATH_prefix:PTH.Optional[str]=None) ->str:
         if PATH_prefix:
@@ -54,9 +59,12 @@ class RPY_Translator(TranslatorCommand):
         else:
             env=None # default for `subprocess.run`
 
-        logger.debug("subprocess.run:: cmd: >%s< cwd: >%s< (self.inDir) env: >%s<", cmd, self.inDir, env)
-        res = subprocess.run(cmd, cwd=self.inDir, env=env, shell=False, capture_output=True, text=True)
-        logger.debug("-->%s", res)
+        try:
+            logger.debug("subprocess.run:: cmd: >%s< cwd: >%s< (self.inDir) env: >%s<", cmd, self.inDir, env)
+            res = subprocess.run(cmd, cwd=self.inDir, env=env, shell=False, capture_output=True, text=True, timeout=TIMEOUT)
+            logger.debug("-->%s", res)
+        except subprocess.TimeoutExpired as err:
+            assert False, f"TimeOut when running {cmd}: {err}"
 
         assert res.returncode == 0, f"Failed with {res.returncode}; stderr={res.stderr}; stdout={res.stdout}; res={res}"
         return res.stdout

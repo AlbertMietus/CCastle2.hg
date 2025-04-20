@@ -14,10 +14,16 @@ class Dummy_ABC(translators.base.TranslatorCommand):
         return _FLAG_ABC
 
 class Dummy_RPY(translators.base.RPY_Translator):
+    def __init__(self, **kwargs):
+        super().__init__(driver=None, **kwargs)
+
     def runner(self): #called via execute()
         return _FLAG_RPY
 
 class Dummy_ls(translators.base.RPY_Translator):
+    def __init__(self, **kwargs):
+        super().__init__(driver=None, **kwargs)
+
     def runner(self): #called via execute()
         return self.process(cmd=['ls', '-l'])
 
