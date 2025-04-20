@@ -18,25 +18,42 @@ def target_files(target_unit, TestDoubles_out):
     target_unit.write_out(inDir=TestDoubles_out)
     return [target_unit.target_file]
 
+
+#--------HACK--------
+from castle.writers.RPy import translators
+class Hack_cp(translators.base.RPY_Translator):
+    def runner(self): #called via execute()
+        stem = self.files[0]
+        logging.warning(f"Making main driver by copy (HACK XXX)")
+        return self.process(cmd=["cp", f"../{stem}.rpy", f"{stem}.py"])
+
+
 @pytest.fixture
 def HackMain(TestDoubles_out): #XXX
-    main = "main_HW.py"
-    logging.warning(f"The Main driver >{main}< isn't made, we hope the Hack works (Else: make it manually)")
-    assert (TestDoubles_out / main).exists(), f"No {main} in {TestDoubles_out} -- See HackMain"
+    HW_stem = "main_HW"
+    HW_py   = HW_stem + ".py"
+    fpy    = TestDoubles_out / HW_py
+    logging.warning(f"The Main driver >{HW_py}< isn't generated; we use a HACK ...")
+    if not fpy.exists():
+        Hack_cp(files=[HW_stem], inDir=TestDoubles_out).execute()
+    assert fpy.exists(), f"No {HW_py} in {TestDoubles_out} -- See HackMain"
 
+#--------/HACK--------
+
+driver='main_HW'
 exe='main_HW'
 
 
 @pytest.mark.parametrize('rel_path,', [HW_E_out])
 def test_1_eval(target_files, TestDoubles_out, HackMain):
-    runner =  RPy.translators.Evaluate(files=target_files, inDir=TestDoubles_out)
+    runner =  RPy.translators.Evaluate(files=target_files, inDir=TestDoubles_out, driver=driver)
     std_out = runner.execute()
     assert std_out.strip() == "Hello Elemental World"
 
 
 @pytest.mark.parametrize('rel_path,', [HW_E_out])
 def test_2_compile(target_files, TestDoubles_out, HackMain):
-    runner =  RPy.translators.Compile(files=target_files, inDir=TestDoubles_out)
+    runner =  RPy.translators.Compile(files=target_files, inDir=TestDoubles_out, driver=driver)
 
     print("\tTranslating can take some time ....",end="", flush=True)
     runner.execute()
@@ -47,7 +64,7 @@ def test_2_compile(target_files, TestDoubles_out, HackMain):
 
 @pytest.mark.parametrize('rel_path,', [HW_E_out])
 def test_3_execute(target_files, TestDoubles_out, HackMain):
-    runner =  RPy.translators.Execute(inDir=TestDoubles_out) # XXX Hardcoded
+    runner =  RPy.translators.Execute(inDir=TestDoubles_out, driver=driver) 
 
     print(f"\tAssuming >>{exe}<< is as translatored above " ,end="", flush=True)
     std_out = runner.execute()

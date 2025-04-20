@@ -8,4 +8,5 @@ from . import base
 
 class Evaluate(base.RPY_Translator):
     def runner(self):
-        return self.process(cmd=["python", "main_HW.py"])
+        main = self.driver+".py"
+        return self.process(cmd=["python", main])
