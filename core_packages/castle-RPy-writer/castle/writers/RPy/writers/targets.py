@@ -20,7 +20,7 @@ class RPy_unit(NamedNode, namespaces._Target_NS):
         logger.debug('%s.save(txt=%s..., inDir=%s) file:=%s', self.__class__.__name__, txt[:7], inDir, self.target_file)
 
         if inDir:
-            self.target_file =  Path(inDir) / self.target_file # remember the (actual) location
+            self.target_file :Path =  Path(inDir) / self.target_file # remember the (actual) location
         elif not isinstance(self.target_file, Path):
             self.target_file = Path(self.target_file)  # shouldn't be needed, but be forgiving
 
