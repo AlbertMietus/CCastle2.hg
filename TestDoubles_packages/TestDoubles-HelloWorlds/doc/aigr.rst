@@ -15,6 +15,10 @@ UML
 
       .. uml:: ./elemental.puml
 
+      .. uml:: ./credible.puml
+
+      .. uml:: ./primitive.puml
+
 Python
 ------
 
@@ -23,5 +27,11 @@ Python
    .. group-tab:: elemental
 
       .. literalinclude:: ./2code/elemental-aigr.py
+         :language:  python
+
+      .. literalinclude:: ./2code/credible-aigr.py
+         :language:  python
+
+      .. literalinclude:: ./2code/primitive-aigr.py
          :language:  python
 

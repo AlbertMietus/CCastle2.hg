@@ -8,6 +8,7 @@
    The the alternatives (like 'primitive') for more realistic examples of HelloWorld in Castle.
 """
 
+@impliciet ///GAM: This `rewriter` auto-generates ``component Elemental_HelloWorld``
 implement Elemental_HelloWorld
 {
 

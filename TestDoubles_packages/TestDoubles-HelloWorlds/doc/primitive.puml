@@ -1,0 +1,9 @@
+@startuml
+
+skinparam packageBackgroundColor  AntiqueWhite-Gold
+skinparam mapBackgroundColor      Cornsilk
+
+
+
+
+@enduml
