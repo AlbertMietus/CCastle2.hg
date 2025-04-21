@@ -108,7 +108,7 @@ class _NameSpace(AIGR):
     def find_byType(self, cls:type) ->dict[ID, NamedNode]:
         return {name: node for name, node in self._dict.items() if isinstance(node, cls)}
 
-    def list_names(self) -> tuple[str]:
+    def list_names(self) -> tuple[ID, ...]:
         return tuple(self._dict.keys())
 
 @dataclass
