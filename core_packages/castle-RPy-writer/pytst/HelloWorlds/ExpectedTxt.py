@@ -27,7 +27,7 @@ HACK_PRE="""\
 from castle.writers.RPy.CC import buildin
 from castle.writers.RPy.CC import base
 
-cc_CI_Elemental_HelloWorld = buildin.CC_B_ComponentInterface(
+cc_CI_Elemental_HelloWorld = buildin.CC_B_ComponentInterface(			# HACK
     name = "Elemental_HelloWorld",
     inherit_from   = base.cc_CI_Component,
     ports          = [])

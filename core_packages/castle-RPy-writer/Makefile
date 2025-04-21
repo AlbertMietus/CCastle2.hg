@@ -6,10 +6,10 @@ PYREVERSE_PKGS = \
 	castle/writers/RPy/writers			\
 #
 LAST = \
-	pytst/HelloWorlds/test_12_file.py 		\
 	pytst/translators/test_0.py				\
 #
 CURRENT = \
+	pytst/HelloWorlds/test_12_file.py 		\
 	pytst/HelloWorlds/test_13_translate.py	\
 #
 TODO = \
