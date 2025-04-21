@@ -48,3 +48,9 @@ def test_2c_file(target_unit, TestDoubles_out):
     target_unit.write_out(inDir=TestDoubles_out,)
     verify_file(EXPECTED_unit, target_unit.target_file)
 
+
+@pytest.mark.xfail(reason="Yep, there are hacks")
+def test_99_noHack():
+    import re
+    hacks = list(re.finditer('HACK', EXPECTED_unit, flags=re.IGNORECASE))
+    assert len(hacks) == 0, f"Still HACKS in Expected_unit: {hacks} -- {EXPECTED_unit}"
