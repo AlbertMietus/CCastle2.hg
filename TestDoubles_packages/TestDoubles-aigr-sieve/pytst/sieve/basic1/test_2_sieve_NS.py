@@ -27,11 +27,12 @@ def test_0a_all_sieveProtocols_exist():
 def test_0b_all_NS_have_source():
     for ns in (getattr(sieve_namespaces, name) for name in dir(sieve_namespaces)
                    if isinstance(getattr(sieve_namespaces, name), aigr.Source_NS)):
+        logger.debug(f".name={ns.name}:{type(ns.name)} .source={ns.source}:{type(ns.source)} in NS:{ns}")
         assert ns.source is not None, f"No source(file) is set for namespace:'{ns.name}'"
         # The two test below will not fail, but give a warning
-        if not ns.name in ns.source:
+        if not ns.name in str(ns.source):
             pytest.skip(f"Warning: namespace-name: '{ns.name}' is not in filename: `{ns.source}`")
-        if not ns.source.split('.')[-1].capitalize() in ('Castle', 'Moat'):
+        if not str(ns.source).split('.')[-1].capitalize() in ('Castle', 'Moat'):
             pytest.skip(f"Warning: namespace-source: '{ns.source}' is not using a standard extension (.Castle, .Moat)")
 
 

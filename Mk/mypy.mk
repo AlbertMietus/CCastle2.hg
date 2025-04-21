@@ -15,5 +15,6 @@ mypy_castle:
 	@echo "MYPY::"
 	mypy	--follow-imports=skip --exclude=/_ref/ 	castle
 	mypy	--follow-imports=skip --exclude=/_ref/ 	pytst
+	mypy	                      --exclude=/_ref/ 	pytst
 
 
