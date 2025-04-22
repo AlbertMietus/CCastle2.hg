@@ -11,14 +11,23 @@ from castle.aigr import Source_NS
 from castle.aigr import ID
 from castle.aigr import ComponentImplementation, Method, EventHandler
 from castle.aigr_extra.blend import mangle_event_handler
+from castle.aigr import ComponentInterface
 
 ALL = ["Hello_World"]
 
 Hello_World = Source_NS(ID('HelloWorld'), source="HelloWorld.Castle")
 
+
+#@impliciet(Component) ..
+#implement Elemental_HelloWorld ...
+__impliciet_Component_Elemental_HelloWorld = ComponentInterface(ID('Elemental_HelloWorld'), ports=[]) # default: based_on=baseComponent
+
+Hello_World.register(__impliciet_Component_Elemental_HelloWorld, asName="__impliciet_Component_Elemental_HelloWorld")
+
+
 #implement Elemental_HelloWorld
 #{
-Elemental_HelloWorld    = ComponentImplementation(ID('Elemental_HelloWorld'), outer_ns=Hello_World)
+Elemental_HelloWorld    = ComponentImplementation(ID('Elemental_HelloWorld'), outer_ns=Hello_World, interface=__impliciet_Component_Elemental_HelloWorld)
 
 #HelloWorld(str:label)
 #{

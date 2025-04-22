@@ -52,7 +52,8 @@ class _NameSpace(AIGR):
                            f"Removed: {old}. New: {named_node}")
         self._dict[name] = named_node
 
-
+    def __len__(self):
+        return len(self._dict)
 
 ### The following 3 methods are overkill.
 ### + findNode/getID only looks locally returning None (findNode) or raise NameError on no match

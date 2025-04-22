@@ -5,10 +5,10 @@ PYREVERSE_PKGS = \
 #
 
 LAST = \
-
+	pytst/elemental/test_1_elementalHW_base.py		\
 #
 CURRENT = \
-	pytst/elemental/test_1_elementalHW_base.py
+	pytst/elemental/test_2_impliciet.py				\
 #
 
 TODO = \
