@@ -7,15 +7,14 @@ PYREVERSE_PKGS = \
 #
 LAST = \
 	pytst/translators/test_0.py				\
-	pytst/HelloWorlds/test_12_file.py 		\
-	pytst/HelloWorlds/test_13_translate.py	\
 #
 CURRENT = \
 	pytst/HelloWorlds/test_06_implicietComp.py 		\
 #
 TODO = \
-	pytst/test_dummy.py					\
-	pytst/HelloWorlds/test_03_Call.py 	\
+	pytst/HelloWorlds/test_12_file.py 		\
+	pytst/HelloWorlds/test_13_translate.py	\
+
 #
 
 HW_Ed = TestDoubles/HelloWorlds/elemental
