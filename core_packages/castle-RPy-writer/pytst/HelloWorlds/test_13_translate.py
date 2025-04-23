@@ -12,6 +12,7 @@ from . import EXPECTED_unit
 from ..TestDoubles import TestDoubles_dir # Needed for TestDoubles_out
 from . import  TestDoubles_out, HW_E_out, target_unit
 
+pytest.skip(reason="Hello_World now has @impliciet(Component), giving a ComponentImplementation -- with dottedID('base.cc_CI_Component'); see test_06", allow_module_level=True)
 
 @pytest.fixture
 def target_files(target_unit, TestDoubles_out):

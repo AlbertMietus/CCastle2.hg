@@ -25,7 +25,7 @@ def verify_Types(gotNodes, needClasses):
 
 def test_1_Hello_World_hasComp(tree, Hello_World):
     nodes = tree.visit(Hello_World)
-    verify_Types(nodes, (aigr.ComponentImplementation,))
+    verify_Types(nodes, (aigr.ComponentImplementation, aigr.ComponentImplementation)) # @impliciet() ...
 
 def test_2_ComponentImplementation_has_2callables(tree, Hello_World):
     """The Comp should have HelloWorld:Method and  Power_powerOn__power:EventHandler"""

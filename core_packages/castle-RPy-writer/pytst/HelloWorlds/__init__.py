@@ -45,17 +45,17 @@ def verify_line(expect, got, line=None):
     if expect == got:
         return
     try:
-        txt = got.splitlines()[line] if line else got
+        txt = (got.splitlines()[line]) if line else got
     except IndexError:
         assert False, f"line={line} does not exist in got:>>{got}<< -- Expected: {expect}"
-    assert expect in txt, imprint((expect,'EXPECT'),(got, 'Got'))
+    assert expect in txt, imprint((expect,'EXPECT'),(txt, 'Txt'),(got, 'Got'))
 
 def print_out(txt,label='print'):
     print(imprint((txt, label)))
     pass
 
 def imprint(*parts):
-    return "\n".join(f"\n=====[{label}:{len(txt)}/{len(txt.splitlines())}]=====\n{txt}\n=====[end]=====\n" for txt, label in parts)
+    return "\n".join(f"\n=====[{label}:{len(txt)}/{len(txt.splitlines())}]=====\n{txt}\n=====[end]=====" for txt, label in parts)
 
 def verify_line_by_line(expect, got):
     expect_lines, got_lines = expect.splitlines(), got.splitlines()

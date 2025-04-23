@@ -11,7 +11,7 @@ There are several kind of namespaces, like:
 
    * Many namespaces have a name (where the name is registered in the outer NS).
    * That dataclasses is called NamedSpace (with a ``d``) and use NamedNode as a MixIn
-   * Unnamed namedspace are often called a scope 
+   * Unnamed namedspace are often called a scope
 """
 
 from __future__ import annotations
@@ -55,6 +55,7 @@ class _NameSpace(AIGR):
     def __len__(self):
         return len(self._dict)
 
+
 ### The following 3 methods are overkill.
 ### + findNode/getID only looks locally returning None (findNode) or raise NameError on no match
 ### + search is like findNode, but looks also in subNS'ses
@@ -67,8 +68,6 @@ class _NameSpace(AIGR):
 ### _findNode() is the basic function, all others call it
 ###   So, only that needs to be overwritten
 ###   Possible rename it to _findNode()
-###
-###
 
     def _findNode(self, name :ID) ->PTH.Optional[NamedNode]:
         """Return the NamedNode with the specified ID, or None.
@@ -79,6 +78,7 @@ class _NameSpace(AIGR):
         if node is None and self.outer_ns:
             node = self.outer_ns._findNode(name)
         return node
+
 
     def findNode(self, name :ID|str) ->PTH.Optional[NamedNode]:
         if not isinstance(name, ID): name=ID(name)
@@ -94,6 +94,7 @@ class _NameSpace(AIGR):
             raise errors.NameError(f"No node named {name} in NS:{getattr(self,'name','')}")
         return node
 
+
     def search(self, dottedName :ID) ->PTH.Optional[NamedNode]:
         """Search the namespace for the 1st part of `dottedName`, then that NS for the next part, etc. And return the "deepest" node, or None"""
 
@@ -106,11 +107,15 @@ class _NameSpace(AIGR):
         except AttributeError: #node isn't a search'able/namespace --> Not found --> return None
             return None
 
+
     def find_byType(self, cls:type) ->dict[ID, NamedNode]:
         return {name: node for name, node in self._dict.items() if isinstance(node, cls)}
 
+
     def list_names(self) -> tuple[ID, ...]:
         return tuple(self._dict.keys())
+
+
 
 @dataclass
 class NamedSpace(NamedNode, _NameSpace):

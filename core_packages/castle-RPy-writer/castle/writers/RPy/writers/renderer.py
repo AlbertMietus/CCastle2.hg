@@ -53,6 +53,17 @@ class Renderer(Visitor):
             txt += self.visit(next_node)
         return txt
 
+    def visit_ComponentInterface(self, node) -> TextBlock:
+        interface_name = self._cc_CI_elm_prefix(node.name)
+        txt = Block(f'{interface_name} = buildin.CC_B_ComponentInterface(')
+        txt.sub(Block((
+            (f'name         = "{node.name}",'),
+            (f'inherit_from = {self._cc_CI_elm_prefix(node.based_on.name)},'), ## `base.cc_CI_Component` XXX how to get `base`
+            (f'ports        = {tuple(node.ports)},'),
+            (f')'),
+            )))
+        return txt
+
 
     def visit_ComponentImplementation(self, node) -> TextBlock:
         gen_cls_name = self._CC_cls_prefix(node.name)

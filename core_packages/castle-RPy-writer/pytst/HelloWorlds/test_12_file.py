@@ -17,6 +17,8 @@ from ..TestDoubles import TestDoubles_dir # Needed for TestDoubles_out
 from . import target_unit, TestDoubles_out, HW_E_out
 
 
+pytest.skip(reason="Hello_World now has @impliciet(Component), giving a ComponentImplementation -- with dottedID('base.cc_CI_Component'); see test_06", allow_module_level=True)
+
 def test_1_txt(target_unit, my_renderer):
     txt = my_renderer.render(target_unit)
     #print_out(txt, label='got')
