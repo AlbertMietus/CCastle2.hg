@@ -1,7 +1,12 @@
-#C&P&E: HelloWorld.rpy
+EXPECTED_ComponentInterface = """\
+cc_CI_Elemental_HelloWorld = buildin.CC_B_ComponentInterface(
+    name         = "Elemental_HelloWorld",
+    inherit_from = base.cc_CI_Component,
+    ports        = (),
+    )
+\n"""
 
-
-EXPECTED_CompImp="""\
+EXPECTED_CompImplementation = """\
 class CC_Elemental_HelloWorld(buildin.CC_B_Component):
 
     def __init__(self, *args):
@@ -27,12 +32,7 @@ HACK_PRE="""\
 from castle.writers.RPy.CC import buildin
 from castle.writers.RPy.CC import base
 
-cc_CI_Elemental_HelloWorld = buildin.CC_B_ComponentInterface(			# HACK
-    name = "Elemental_HelloWorld",
-    inherit_from   = base.cc_CI_Component,
-    ports          = [])
-#end hack
-\n"""
+"""
 
 HACK_POST="""\
 #hack (post)
@@ -44,5 +44,5 @@ cc_S_Elemental_HelloWorld_power = [
 #end hack
 \n"""
 
-EXPECTED_unit = HACK_PRE + EXPECTED_CompImp +HACK_POST
+EXPECTED_unit = HACK_PRE + EXPECTED_ComponentInterface + EXPECTED_CompImplementation +HACK_POST
 

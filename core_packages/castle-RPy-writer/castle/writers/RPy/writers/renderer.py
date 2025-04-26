@@ -146,7 +146,7 @@ class Renderer(Visitor):
     def visit_fString(self, node) -> TextBlock:
         formater = node.formater; assert formater, "the fString.formater should be set in aigr"
         string, args = fString_2_modulo(node.value)
-        if len(args)==0:
+        if len(args) == 0:
             return f'''"{string}"'''
         return f'''"{string}" % ({", ".join(str(arg) for arg in args)},)'''
 
@@ -160,16 +160,7 @@ class Renderer(Visitor):
 #hack (pre)
 from castle.writers.RPy.CC import buildin
 from castle.writers.RPy.CC import base
-""" # XXX HACK of default?	
-
-        txt += """\
-cc_CI_Elemental_HelloWorld = buildin.CC_B_ComponentInterface(			# HACK
-    name = "Elemental_HelloWorld",
-    inherit_from   = base.cc_CI_Component,
-    ports          = [])
-#end hack
-""" # REALLY XXX HACK         
-
+""" # XXX HACK of default?
         txt += self.render_subNodes(node)
 
         txt += """\

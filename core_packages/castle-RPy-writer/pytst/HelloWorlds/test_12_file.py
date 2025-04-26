@@ -17,12 +17,10 @@ from ..TestDoubles import TestDoubles_dir # Needed for TestDoubles_out
 from . import target_unit, TestDoubles_out, HW_E_out
 
 
-@pytest.skip(reason="Hello_World now has @impliciet(Component), giving a ComponentImplementation -- with dottedID('base.cc_CI_Component'); see test_06", allow_module_level=True)
 
 def test_1_txt(target_unit, my_renderer):
     txt = my_renderer.render(target_unit)
-    #print_out(txt, label='got')
-    #print_out(EXPECTED_unit, label='EXPECTED_unit')
+    #print_out(txt, label='got'); print_out(EXPECTED_unit, label='EXPECTED_unit')
     verify_line_by_line(EXPECTED_unit, txt)
 
 
@@ -51,7 +49,7 @@ def test_2c_file(target_unit, TestDoubles_out):
     verify_file(EXPECTED_unit, target_unit.target_file)
 
 
-@pytest.mark.xfail(reason="Yep, there are hacks")
+@pytest.mark.xfail(reason="Yep, there are (still) hacks-- import & cc_S_Elemental_HelloWorld_power = [...")
 def test_99_noHack():
     import re
     hacks = list(re.finditer('HACK', EXPECTED_unit, flags=re.IGNORECASE))
