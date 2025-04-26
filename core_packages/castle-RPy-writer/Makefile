@@ -7,9 +7,10 @@ PYREVERSE_PKGS = \
 #
 LAST = \
 	pytst/translators/test_0.py				\
+	pytst/HelloWorlds/test_06_implicietComp.py 		\
 #
 CURRENT = \
-	pytst/HelloWorlds/test_06_implicietComp.py 		\
+	pytst/writers/test_leaves.py	\
 #
 TODO = \
 	pytst/HelloWorlds/test_12_file.py 		\
