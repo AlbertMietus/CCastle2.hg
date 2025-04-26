@@ -17,9 +17,16 @@ class Renderer(Visitor):
 
     walker = Walker() # XXX
 
-    def _CC_cls_prefix(self, name):			return 'CC_'   + str(name)
-    def _cc_C_elm_prefix(self, name):		return 'cc_C_' + str(name)
-    def _cc_CI_elm_prefix(self, name):		return 'cc_CI_' + str(name)
+    @staticmethod
+    def _prefix(prefix:str, id) ->str:
+        parts=str(id).split('.')
+        ns, n = ".".join(parts[:-1]), parts[-1]
+        if ns :ns+="."
+        return ns+prefix+n
+
+    def _CC_cls_prefix(self, name):			return self._prefix('CC_',    name)
+    def _cc_C_elm_prefix(self, name):		return self._prefix('cc_C_',  name)
+    def _cc_CI_elm_prefix(self, name):		return self._prefix('cc_CI_', name)
     def _CompBase(self):      				return 'buildin.CC_B_Component'
 
 
@@ -58,7 +65,7 @@ class Renderer(Visitor):
         txt = Block(f'{interface_name} = buildin.CC_B_ComponentInterface(')
         txt.sub(Block((
             (f'name         = "{node.name}",'),
-            (f'inherit_from = {self._cc_CI_elm_prefix(node.based_on.name)},'), ## `base.cc_CI_Component` XXX how to get `base`
+            (f'inherit_from = {self._cc_CI_elm_prefix(node.based_on.name)},'), ## XXXX
             (f'ports        = {tuple(node.ports)},'),
             (f')'),
             )))
@@ -139,6 +146,8 @@ class Renderer(Visitor):
     def visit_fString(self, node) -> TextBlock:
         formater = node.formater; assert formater, "the fString.formater should be set in aigr"
         string, args = fString_2_modulo(node.value)
+        if len(args)==0:
+            return f'''"{string}"'''
         return f'''"{string}" % ({", ".join(str(arg) for arg in args)},)'''
 
 
