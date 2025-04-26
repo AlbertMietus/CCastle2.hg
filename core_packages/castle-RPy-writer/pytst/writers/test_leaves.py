@@ -16,31 +16,38 @@ def my_renderer() ->Renderer:
     return cls()
 
 
-def test_visit_ID(my_renderer):
+def test_ID(my_renderer):
     node = ID("id")
-    txt = my_renderer.visit(node)
-    assert txt == str(node)
+    assert my_renderer.visit(node) == str(node)
+    assert my_renderer.render(node) ==  str(node) + "\n"
 
-def test_render_ID(my_renderer): # ends in '\n'
-    node = ID("id")
-    txt = my_renderer.render(node)
-    assert txt == str(node) + "\n"
+def test_intConstant(my_renderer):
+    node = aigr.Constant(value=123, type=aigr.types.int)
+    assert my_renderer.visit(node) == "123"
+    assert my_renderer.render(node) == "123\n"
 
-def test_visit_fString(my_renderer):
+def test_floatConstant(my_renderer):
+    node = aigr.Constant(value=3.14, type=aigr.types.float)
+    assert my_renderer.visit(node) == "3.14"
+    assert my_renderer.render(node) == "3.14\n"
+
+def test__stringConstant(my_renderer):
+    node = aigr.Constant(value='str', type=aigr.types.string)
+    assert my_renderer.visit(node) == "'''str'''"
+    assert my_renderer.render(node) == "'''str'''\n"
+
+def test_fString(my_renderer):
     node = aigr.fString("NoVars")
-    txt = my_renderer.visit(node)
-    assert txt == '"' + node.value + '"'
-
-def test_render_fString(my_renderer):
-    node = aigr.fString("NoVars")
-    txt = my_renderer.render(node)
-    assert txt == '"' + node.value + '"' +'\n'
-
+    assert my_renderer.visit(node) == '"NoVars"'
+    assert my_renderer.render(node) == '"NoVars"\n'
 
 
 def test_noSubNodes(my_renderer):
     for node in (
             ID('a'),
+            aigr.Constant(value=123, type=aigr.types.int),
+            aigr.Constant(value=3.14, type=aigr.types.float),
+            aigr.Constant(value='str', type=aigr.types.string),
             aigr.fString("NoVars"),
             ): # XXX Add more nodes
         assert my_renderer.render_subNodes(node) is None
