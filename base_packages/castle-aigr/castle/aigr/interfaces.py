@@ -56,5 +56,5 @@ class ComponentInterface(NamedNode):
 
 
 _rootComponent=ComponentInterface(ID("RootComponent"), based_on=None, ports=())   # The base of the baseComponent
-baseComponent=ComponentInterface(ID("Component"), based_on=_rootComponent, ports=())   #XXX Add base-ports
+baseComponent=ComponentInterface(ID("base.Component"), based_on=_rootComponent, ports=())   #XXX Add base-ports
 

@@ -28,7 +28,7 @@ class Argument(AIGR):
        In Castle, we support both positional and named arguments. Hence, an argument can have a name."""
     value: PTH.Any
     _: KW_ONLY
-    name: PTH.Optional[str]=None # XXX ToDo str or  ID?
+    name: PTH.Optional[str]=None # XXX ToDo str or ID?
 
     def __post_init__(self):
         if self.name and not isinstance(self.name, ID):
