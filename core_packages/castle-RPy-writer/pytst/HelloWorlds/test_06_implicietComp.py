@@ -21,13 +21,12 @@ def test_0(implicietComp):
     from castle import aigr
     assert isinstance(implicietComp, aigr.ComponentInterface)
 
-@pytest.mark.xfail(reason="First I need to workout dottedID in general. Then: 'base.cc_CI_Component'")
 def test_1_full(implicietComp, my_renderer):
     txt = my_renderer.render(implicietComp)
     #print_out(txt, label="implicietComp")
     verify_line('cc_CI_Elemental_HelloWorld = buildin.CC_B_ComponentInterface(',	txt, 0)
     verify_line('    name         = "Elemental_HelloWorld",',						txt, 1)
+    verify_line('    inherit_from = base.cc_CI_Component,',							txt, 2)
     verify_line('    ports        = (),',											txt, 3)
     verify_line('    )',															txt, 4)
-    #Move this up, when it works
-    verify_line('    inherit_from = base.cc_CI_Component,',							txt, 2) # dottedID: base.cc_CI_Component ? XXXX
+
