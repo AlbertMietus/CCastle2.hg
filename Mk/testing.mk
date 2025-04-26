@@ -14,6 +14,8 @@ coverage:
 coverage-open: coverage
 	open ${COVERAGE_dir}index.html
 
+list-tests list-test list_tests list_test collect-only: pytest-collect
+
 pytest-show pytest-collect:
 	${PYTEST} --collect-only ${PYTEST_OPTIONS}  pytst
 pytest pytest-only:							# No coverage reports
@@ -31,7 +33,6 @@ mutmut-open: mutmut
 	open ${MUTMUT_dir}index.html
 
 
-
 last:
 	${PYTEST}  ${PYTEST_OPTIONS_NOxFAIL}  ${LAST}
 current:
@@ -44,4 +45,5 @@ recheck:
 	${PYTEST}  ${PYTEST_OPTIONS}   ${LAST} ${CURRENT}
 todo:
 	${PYTEST}  ${PYTEST_OPTIONS}  ${TODO}
+
 
