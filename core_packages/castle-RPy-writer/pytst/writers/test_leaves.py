@@ -4,7 +4,7 @@ import logging; logger = logging.getLogger(__name__)
 import typing as PTH                                                                                  # Python TypeHints
 import pytest
 
-from castle import aigr 
+from castle import aigr
 from castle.aigr import ID
 from castle.writers.RPy.writers import Renderer
 
@@ -35,7 +35,6 @@ def test_render_fString(my_renderer):
     node = aigr.fString("NoVars")
     txt = my_renderer.render(node)
     assert txt == '"' + node.value + '"' +'\n'
-    
 
 
 
