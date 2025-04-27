@@ -4,7 +4,7 @@ find_Makefiles:
 	find . -type f -iname Makefile | fgrep -v ./Makefile | sort
 
 SUBS ?=.
-XXX ToDo Really:
-	-! grep $@ `find ${SUBS} -type f -iname \*.py` /dev/null # Reverse and ignore error-code
+XXX ToDo Really hack HACK :
+	-! grep -i $@ `find ${SUBS} -type f -iname \*.py` /dev/null # Reverse and ignore error-code
 
 show: XXX ToDo Really
