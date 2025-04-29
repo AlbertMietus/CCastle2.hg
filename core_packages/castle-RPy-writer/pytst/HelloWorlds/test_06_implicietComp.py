@@ -7,7 +7,7 @@ from castle.TESTDOUBLES.aigr.HelloWorlds.elemental.HelloWorld import Hello_World
 
 from . import my_renderer, verify_line, verify_line_by_line
 from . import print_out
-from . import EXPECTED_CompImplementation
+
 
 @pytest.fixture
 def implicietComp():

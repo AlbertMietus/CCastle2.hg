@@ -19,8 +19,9 @@ class CC_Elemental_HelloWorld(buildin.CC_B_Component):
 
     def Power_powerOn__power(self, max):
         self.HelloWorld('''Elemental''')
+\n\n"""
 
-
+EXPECTED_DispatchTables = """\
 cc_C_Elemental_HelloWorld = buildin.CC_B_ComponentClass(
     interface = cc_CI_Elemental_HelloWorld,
     )
@@ -44,5 +45,5 @@ cc_S_Elemental_HelloWorld_power = [
 #end hack
 \n"""
 
-EXPECTED_unit = HACK_PRE + EXPECTED_ComponentInterface + EXPECTED_CompImplementation +HACK_POST
+EXPECTED_unit = HACK_PRE + EXPECTED_ComponentInterface + EXPECTED_CompImplementation  + EXPECTED_DispatchTables + HACK_POST
 

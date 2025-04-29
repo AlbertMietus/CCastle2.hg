@@ -7,7 +7,7 @@ from castle.TESTDOUBLES.aigr.HelloWorlds.elemental.HelloWorld import Hello_World
 
 from . import my_renderer, verify_line, verify_line_by_line
 from . import print_out
-from . import EXPECTED_CompImplementation
+from . import EXPECTED_CompImplementation, EXPECTED_DispatchTables
 
 @pytest.fixture
 def ComponentImplementation():
@@ -32,4 +32,4 @@ def test_4_full(ComponentImplementation, my_renderer):
     txt = my_renderer.render(ComponentImplementation)
     #print_out(EXPECTED_RPY_CODE, label='expected')
     #print_out(txt,      label='got/txt')
-    verify_line_by_line(EXPECTED_CompImplementation, txt)
+    verify_line_by_line(EXPECTED_CompImplementation + EXPECTED_DispatchTables, txt)
