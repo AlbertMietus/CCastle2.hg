@@ -50,6 +50,8 @@ def verify_line(expect, got, line=None):
         assert False, f"line={line} does not exist in got:>>{got}<< -- Expected: {expect}"
     assert expect in txt, imprint((expect,'EXPECT'),(txt, 'Txt'),(got, 'Got'))
 
+
+
 def print_out(txt,label='print'):
     print(imprint((txt, label)))
     pass
@@ -57,11 +59,17 @@ def print_out(txt,label='print'):
 def imprint(*parts):
     return "\n".join(f"\n=====[{label}:{len(txt)}/{len(txt.splitlines())}]=====\n{txt}\n=====[end]=====" for txt, label in parts)
 
+
 def verify_line_by_line(expect, got):
     expect_lines, got_lines = expect.splitlines(), got.splitlines()
     for e,g, no in zip(expect_lines, got_lines, range(999)):
         NL,context="\n\t",3
-        assert e == g, f'Line: {no+1} not as expected\nexpect:\n{e}\ngot:\n{g}\nBefore\n{NL.join(got_lines[:no][-context:])}\nAfter\n{NL.join(got_lines[no+1:][:context])} '
+        assert e == g, f'''Line: {no+1} not as expected
+expect:\t>{e}<
+   got:\t<{g}>
+After_E\n {NL.join(expect_lines[no+1:][:context])}
+After_G\n {NL.join(got_lines[no+1:][:context])}
+Before\n{NL.join(got_lines[:no][-context:])}'''
     assert len(expect) == len(got), f"Not the same number of lines: expect: {len(expect)}, got: {len(got)}"
 
 

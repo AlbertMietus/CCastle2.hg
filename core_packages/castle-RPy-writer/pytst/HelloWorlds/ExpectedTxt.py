@@ -1,3 +1,7 @@
+# (C) Albert Mietus, 2025. Part of Castle/CCastle project
+
+"""Some pieces of text, that are expected in some test when using the RPy-writer to render Elemental_HelloWorld (see TestDoubles for input)"""
+
 EXPECTED_ComponentInterface = """\
 cc_CI_Elemental_HelloWorld = buildin.CC_B_ComponentInterface(
     name         = "Elemental_HelloWorld",
@@ -5,6 +9,7 @@ cc_CI_Elemental_HelloWorld = buildin.CC_B_ComponentInterface(
     ports        = (),
     )
 \n"""
+
 
 EXPECTED_CompImplementation = """\
 class CC_Elemental_HelloWorld(buildin.CC_B_Component):
@@ -21,19 +26,20 @@ class CC_Elemental_HelloWorld(buildin.CC_B_Component):
         self.HelloWorld('''Elemental''')
 \n\n"""
 
+
 EXPECTED_DispatchTables = """\
 cc_C_Elemental_HelloWorld = buildin.CC_B_ComponentClass(
     interface = cc_CI_Elemental_HelloWorld,
     )
+\n"""
 
-"""
 
 HACK_PRE="""\
 #hack (pre)
 from castle.writers.RPy.CC import buildin
 from castle.writers.RPy.CC import base
+\n"""
 
-"""
 
 HACK_POST="""\
 #hack (post)
