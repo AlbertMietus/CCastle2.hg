@@ -51,7 +51,7 @@ Analyse
          #define CC_P_PowerProto_powerOn    CC_P_Protocol_NoEvents      /*6*/
 
       .. code-block:: C
-         :emphasize-lines: 1,4
+         :emphasize-lines: 1,8
 
          CC_B_eventHandler cc_S_Main_power[CC_P_PowerProto_NoEvents] = { /*[7]*/
            /*CC_P_Protocol_qazEventA 0 */  (CC_B_eventHandler)CC_Mi_error,
@@ -80,20 +80,29 @@ Analyse
 Design
 ======
 
-We need several kinds of DispatchTables. Each event in a protocol can trigger an (event)-handler, on every *(in) port*
--- where protocol can inherit from others. So we need event-DispatchTable for every* (input, event-kind)* port. We need
-something simular for other port-kinds (data & stream). Maybe we also need a DispatchTable for (component) internal
-call; althogh we may depend on the OO semantics of RPy, for now.
 
-The exact (RPY) pyyhon code depends on the :ref:`Machinery`; although the abtract conscepts are the same. So, we need an
-abtract one in te AIGR, and specific one for RPY-writer, possible even depending on the Machinery.
+We need several kinds of DispatchTables; the most eminent ones are the event-DispatchTables.  There is one for each
+(input) port, for each Component.
 
-It is tempting to see the DispatchTable as a (C-style) array, with an integer-index into a vector of function-pointer
-(as in the hand-compiled C version). That however is to detailist.
+Each port can react to (all) events in a `Protocol`; including the events of the base protocols. The (“name” of the)
+event-handler within a component is hidden/private and not related to the name of the event; at least not
+directly. Again, there is inheritance; also for Components.
 |BR|
-Also remember, this is “int index” typically start at 0 for the most base protocol-event. But the lowest index in a
-protocol depend on the number of inherited protocols (or actually on the total number of events in the inherited
-protocols.
+To trigger the correct eventhandler for a specific event (within a specific Component and a specific Port) the (event)
+DispatchTable is used. Each component has some, one for every (input/event) port.
+|BR|
+Something simular is needed for other port-kinds (data & stream). Maybe we also need a DispatchTable for (component)
+internal call; althogh we may depend on the OO semantics of RPy, for now.
+
+The exact (RPy) python code depends also on the :ref:`Machinery` -- although the abtract conscepts are the same. So, we
+need an abtract one in te AIGR, and specific one for RPY-writer, possible even depending on the Machinery.
+
+It is tempting to see the DispatchTable as a (C-style) array, with an const-int (`#define` aka a file-global
+constant-var) as index into a vector of function-pointer (as in the hand-compiled C version). That however is to
+detailed.
+|BR|
+Also remember, only the most base-protocol has an event with “int index” zero (0). Most protocols inherit from another
+protocol, and so the lowwest (allowed) index should be higher as inherited once.
 
 More generic, the index of an event should be unique (in the set of related, inherited protocols), and the should be an
 ordening that reflecs the ordening of the protocols.
