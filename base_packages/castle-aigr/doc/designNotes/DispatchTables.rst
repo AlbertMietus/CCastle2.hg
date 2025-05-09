@@ -8,12 +8,13 @@ DispatchTables
 Event-DispatchTables
 ====================
 
-Conceptually, an EventDispatchTable is the mapping between an event, on a specify port, and the event-handler
-that should be called then that event occurs. As the event-handler (including the name for the callable in the
-generated lower-code) is an implementation detail, the dispatchtable itself are also an implementation detail.
+Conceptually, an EventDispatchTable is the mapping between an ``Event``, on a specific ``Port``, and the
+``EventHandler`` that should be called when that event occurs. As the event-handler (including the name for the
+callable in the generated lower-code) is an implementation detail, the DispatchTables itself are also an
+implementation detail.
 
-Externally (outside the complonent-implementation) the dispatchtable are not visable; although the
-Castle-programmer might be aware, there is such a mechanism. A bit simulair to *vtables* in f.e. C++ -- many
+Externally (outside the component-implementation) the DispatchTables are not visable; although a Castle
+programmer might be aware that such a mechanism exists.  This is a bit simulair to *vtables* in f.e. C++ -- many
 developers "know" it is there, but are not aware of the details. And don't need to know it.
 
 Protocols & inheritance
