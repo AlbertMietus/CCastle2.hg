@@ -1,6 +1,7 @@
 =====================
 DispatchTables in RPy
 =====================
+:status: outdated
 
 Analyse
 =======
@@ -84,7 +85,7 @@ Design
 We need several kinds of DispatchTables; the most eminent ones are the event-DispatchTables.  There is one for each
 (input) port, for each Component.
 
-Each port can react to (all) events in a `Protocol`; including the events of the base protocols. The (“name” of the)
+Each port can react to (all) events in a ``Protocol``; including the events of the base protocols. The (“name” of the)
 event-handler within a component is hidden/private and not related to the name of the event; at least not
 directly. Again, there is inheritance; also for Components.
 |BR|

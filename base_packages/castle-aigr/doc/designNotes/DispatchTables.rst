@@ -3,7 +3,7 @@ DispatchTables
 ==============
 
 .. seealso:: DispatchTables in RPy -- that is old and wrong
-	     
+
 
 Event-DispatchTables
 ====================
