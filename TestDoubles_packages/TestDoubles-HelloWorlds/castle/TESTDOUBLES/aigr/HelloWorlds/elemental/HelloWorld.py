@@ -18,16 +18,16 @@ ALL = ["Hello_World"]
 Hello_World = Source_NS(ID('HelloWorld'), source="HelloWorld.Castle")
 
 
-#@impliciet(Component) ..
+#@impliciet(Main) ..
 #implement Elemental_HelloWorld ...
-__impliciet_Component_Elemental_HelloWorld = ComponentInterface(ID('Elemental_HelloWorld'), ports=[]) # default: based_on=baseComponent
+__impliciet_Main_Elemental_HelloWorld = ComponentInterface(ID('Elemental_HelloWorld'), ports=[]) #ToDo: 1based_on=lib/..
 
-Hello_World.register(__impliciet_Component_Elemental_HelloWorld, asName="__impliciet_Component_Elemental_HelloWorld")
+Hello_World.register(__impliciet_Main_Elemental_HelloWorld, asName="__impliciet_Main_Elemental_HelloWorld")
 
 
 #implement Elemental_HelloWorld
 #{
-Elemental_HelloWorld    = ComponentImplementation(ID('Elemental_HelloWorld'), outer_ns=Hello_World, interface=__impliciet_Component_Elemental_HelloWorld)
+Elemental_HelloWorld    = ComponentImplementation(ID('Elemental_HelloWorld'), outer_ns=Hello_World, interface=__impliciet_Main_Elemental_HelloWorld)
 
 #HelloWorld(str:label)
 #{
@@ -52,22 +52,21 @@ Elemental_HelloWorld.register(HelloWorld)
 
 
 
-#powerOn(max) on self.power
-#{
+
+#//OLD: powerOn(max) on self.power
+#invoke() on self.std {
 #   HelloWorld("Elemental")
 #}
-powerOn = EventHandler(ID(mangle_event_handler(protocol='Power', event='powerOn', port='power'),context=aigr.Def()),
-                       protocol=ID('Power', context=aigr.Ref()),
-                       event=ID('powerOn', context=aigr.Ref()),
-                       port=ID('power', context=aigr.Ref()),
-                       parameters=(aigr.TypedParameter(name=ID('max'), type=int),),
+invoke = EventHandler(ID(mangle_event_handler(protocol='std', event='invoke', port='std'),context=aigr.Def()),
+                       protocol=ID('std', context=aigr.Ref()),
+                       event=ID('invoke', context=aigr.Ref()),
+                       port=ID('std',     context=aigr.Ref()),
                        outer_ns=Elemental_HelloWorld,
                        body=aigr.Body(statements=[
                            aigr.VoidCall(
                                aigr.Call(callable=ID('HelloWorld', context=aigr.Ref(reference=HelloWorld)),
                                          arguments=(aigr.Constant(value="Elemental"),)))]))
-#powerOn._register_parameters() -- now automaticly
-Elemental_HelloWorld.register(powerOn)
+Elemental_HelloWorld.register(invoke)
 
 
 #} /* Elemental_HelloWorld */

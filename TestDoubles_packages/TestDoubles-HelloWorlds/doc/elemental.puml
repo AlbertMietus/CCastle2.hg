@@ -8,6 +8,12 @@ package " " as p_comp <<Node>> {
    }
 }
 
+note as N1
+     The impliciet ComponentInterface
+     `impliciet_Main_Elemental_HelloWorld`
+     is **not** shown (yet)
+end note
+
 package " " as p_m_HW <<Rectangle>>  {
    object "HelloWorld(str:label)" as HelloWorld <<Method>> {
      returns:		None
@@ -23,12 +29,11 @@ package " " as p_m_HW <<Rectangle>>  {
    s11 ->s12
 }
 
-package " " as p_ev_power <<Rectangle>>   {
-   object "powerOn(max) on self.power" as powerOn <<EventHandler>> {
-     protocol:		Power
-     event:		powerOn
-     port:		power
-     parameters:	max:int
+package " " as std_invoke <<Rectangle>>   {
+   object "invoke() on self.std" as invoke <<EventHandler>> {
+     protocol:		std
+     event:		invoke
+     port:		std
      body
    }
 
@@ -52,12 +57,13 @@ map "Hello_World" as ns1 <<Source_NS>> {
 package  p_comp {
    map "Elemental_HelloWorld" as ns2 <<_hasScope>> {
       self 					=>
-      Power::powerOn::power 	*->  powerOn
-      HelloWorld 				*->  HelloWorld
+      std::invoke::std 		*->  invoke
+      HelloWorld 			*->  HelloWorld
    }
    Elemental_HelloWorld *-> ns2
    ns1 <.* ns2: outer_ns
 }
+
 
 package p_m_HW {
    map "HelloWorld" as ns3 <<_hasScope>> {
@@ -67,13 +73,6 @@ package p_m_HW {
    ns2 <..* ns3 : outer_ns
 }
 
-package p_ev_power {
-   map " " as ns4 <<_hasScope>> {
-      max => int
-   }
-   powerOn *-> ns4
-   ns2 <..* ns4 : outer_ns
-}
 
 package p_m_HW {
    map "statements" as  _HelloWorld_Body  #lightblue {
@@ -81,15 +80,19 @@ package p_m_HW {
    }
    HelloWorld 		*-- _HelloWorld_Body:body
 }
-package p_ev_power {
-   map "statements" as _powerOn_Body #lightblue{
+
+package std_invoke {
+   map "statements" as _invoke_Body #lightblue{
       1 *->s21
    }
-   powerOn *-- _powerOn_Body:body
+   invoke *-- _invoke_Body:body
 }
 
 
+
+
 note as N2
+@impliciet(<color:darkBlue>Main</color>)
 <color:green>implement</color> <color:darkBlue>Elemental_HelloWorld</color>
 <color:Lime>{</color>
 
@@ -97,7 +100,7 @@ note as N2
    print<color:Lime>(</color><color:Sandybrown>"Hello {label} World"</color><color:Lime>)</color>
 <color:Lime>}</color>
 
-<color:Blue>powerOn</color><color:Lime>(</color><color:OliveDrab>max</color><color:Lime>)</color> <color:green>on</color> self.power <color:Lime>{</color> <color:Orchid>///GAM: Here it starts ...</color>
+<color:Blue>invoke</color>() <color:green>on</color> self.std <color:Lime>{</color> <color:Orchid>///GAM: Here it starts ...</color>
    HelloWorld<color:Lime>(</color><color:Sandybrown>"Elemental"</color><color:Lime>)</color>
 <color:Lime>}</color>
 

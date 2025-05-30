@@ -8,7 +8,7 @@
    The the alternatives (like 'primitive') for more realistic examples of HelloWorld in Castle.
 """
 
-@impliciet(Component)                   ///GAM: This `rewriter` auto-generates ``component Elemental_HelloWorld``
+@impliciet(Main)                   ///GAM: This `rewriter` auto-generates ``component Elemental_HelloWorld`` based on Main
 implement Elemental_HelloWorld
 {
 
@@ -16,7 +16,8 @@ HelloWorld(str:label) {
    print("Hello {label} World")
 }
 
-powerOn(max) on self.power {            ///GAM: Here it starts ...
+//OLD: powerOn(max) on self.power
+invoke() on self.std {
    HelloWorld("Elemental")
 }
 
