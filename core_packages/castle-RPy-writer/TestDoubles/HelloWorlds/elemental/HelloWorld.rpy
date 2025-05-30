@@ -11,7 +11,9 @@
 
 from castle.writers.RPy.CC import buildin
 from castle.writers.RPy.CC import base
+from castle.writers.RPy.CC.HACK import std   #XXX
 
+from MACHINERY import MACHINERY
 
 """///CastleCode ToDo
 GAM: This code is "missing (or auto ...?
@@ -19,9 +21,8 @@ component Elemental_HelloWorld : Component {}
 ///end"""
 cc_CI_Elemental_HelloWorld = buildin.CC_B_ComponentInterface(
     name = "Elemental_HelloWorld",
-    inherit_from   = base.cc_CI_Component,
+    inherit_from   = std.cc_CI_Main,
     ports          = [])
-
 
 
 
@@ -39,13 +40,14 @@ class CC_Elemental_HelloWorld(buildin.CC_B_Component): # Generated class;
         HelloWorld(str:label) {
            print("Hello {label} World")
         }"""
-        print("Hello %s World" % (label,))
+        print("Hello %s World -- machinery:%s, base:%s" % (label, MACHINERY, cc_CI_Elemental_HelloWorld.inherit_from.name))
 
-    def Power_powerOn__power(self, _dummy__Max):   #///GAM: power-api may change to args of none; max is stange
+    def std_invoke__std(self):            #GAM `std::invoke` is an great candidate for the Main component's port `std`
         """///Castlecode
-        powerOn(max) on self.power {
+         invoke() on self.std {
            HelloWorld("Elemental")
         }"""
+
         self.HelloWorld('''Elemental''')
 #///Castlecode:
 # } /* Elemental_HelloWorld */
@@ -56,11 +58,34 @@ cc_C_Elemental_HelloWorld = buildin.CC_B_ComponentClass(
     interface = cc_CI_Elemental_HelloWorld,
     )
 
-CC_P_Power_On = 1 # XXX ToDo: move to ..
-cc_S_Elemental_HelloWorld_power = [
-    None,
-    CC_Elemental_HelloWorld.Power_powerOn__power,
-    ]
+# if MACHINERY == 'list' or MACHINERY == 'default':
+#     CC_P_Power_On = 1                        # XXX ToDo: move to ..
+#     cc_S_Elemental_HelloWorld_power = [
+#         None,
+#         CC_Elemental_HelloWorld.Power_powerOn__power,
+#         ]
+# elif MACHINERY == 'tuple':
+#     cc_S_Elemental_HelloWorld_power = (
+#         None,
+#         CC_Elemental_HelloWorld.Power_powerOn__power,
+#     )
+# elif MACHINERY == 'dict':
+#     cc_S_Elemental_HelloWorld_power = {
+#         'CC_P_Power_On' : CC_Elemental_HelloWorld.Power_powerOn__power,
+#         }
+# else:
+#     assert False, "Set 'MACHINERY'!"
 
 
-#Note: no if main -- as that isn't needed and distracting
+if MACHINERY == 'list' or MACHINERY == 'default':
+    pass
+elif MACHINERY == 'tuple':
+    pass
+elif MACHINERY == 'dict':
+    cc_S_Elemental_HelloWorld_std = {
+        'CC_P_std_invoke' : CC_Elemental_HelloWorld.std_invoke__std
+        }
+else:
+    assert False, "Set 'MACHINERY'!"
+
+

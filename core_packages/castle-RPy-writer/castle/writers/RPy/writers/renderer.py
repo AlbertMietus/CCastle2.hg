@@ -160,16 +160,20 @@ class Renderer(Visitor):
 #hack (pre)
 from castle.writers.RPy.CC import buildin
 from castle.writers.RPy.CC import base
-""" # XXX HACK of default?
+
+from castle.writers.RPy.CC.HACK import std   #XXX
+from MACHINERY import MACHINERY
+\n""" # XXX HACK of default?
         txt += self.render_subNodes(node)
 
         txt += """\
 #hack (post)
-CC_P_Power_On = 1 # XXX ToDo: move to ..
-cc_S_Elemental_HelloWorld_power = [
-    None,
-    CC_Elemental_HelloWorld.Power_powerOn__power,
-    ]
+if MACHINERY == 'dict':
+    cc_S_Elemental_HelloWorld_std = {
+        'CC_P_std_invoke' : CC_Elemental_HelloWorld.std_invoke__std
+        }
+else:
+    assert False, "Set 'MACHINERY'!"
 #end hack
 """
         return txt

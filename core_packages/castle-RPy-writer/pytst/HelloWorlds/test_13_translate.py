@@ -28,20 +28,19 @@ class Hack_cp(translators.base.RPY_Translator):
 
     def runner(self): #called via execute()
         stem = self.files[0]
-        logging.warning(f"Making main driver by copy (HACK XXX)")
+        logging.warning(f"cp ../{stem}.rpy {stem}.py")
         return self.process(cmd=["cp", f"../{stem}.rpy", f"{stem}.py"])
 
 
 @pytest.fixture
-def HackMain(TestDoubles_out): #XXX
-    HW_stem = "main_HW"
-    HW_py   = HW_stem + ".py"
-    fpy    = TestDoubles_out / HW_py
-    logging.warning(f"The Main driver >{HW_py}< isn't generated; we use a HACK ...")
-    if not fpy.exists():
-        Hack_cp(files=[HW_stem], inDir=TestDoubles_out).execute()
-    assert fpy.exists(), f"No {HW_py} in {TestDoubles_out} -- See HackMain"
-
+def CopyHack(TestDoubles_out, stems=["main_HW","MACHINERY"]): #XXX
+    for stem in stems:
+        py_file =stem + ".py"
+        fpy    = TestDoubles_out / py_file
+        if not fpy.exists():
+            logging.warning(f"The file >{fpy}< isn't generated; we use a Copy-Hack ...")
+            Hack_cp(files=[stem], inDir=TestDoubles_out).execute()
+    assert fpy.exists()
 #--------/HACK--------
 
 driver='main_HW'
@@ -49,14 +48,14 @@ exe='main_HW'
 
 
 @pytest.mark.parametrize('rel_path,', [HW_E_out])
-def test_1_eval(target_files, TestDoubles_out, HackMain):
+def test_1_eval(target_files, TestDoubles_out, CopyHack):
     runner =  RPy.translators.Evaluate(files=target_files, inDir=TestDoubles_out, driver=driver)
     std_out = runner.execute()
     assert std_out.strip() == "Hello Elemental World"
 
 
 @pytest.mark.parametrize('rel_path,', [HW_E_out])
-def test_2_compile(target_files, TestDoubles_out, HackMain):
+def test_2_compile(target_files, TestDoubles_out, CopyHack):
     runner =  RPy.translators.Compile(files=target_files, inDir=TestDoubles_out, driver=driver)
 
     print("\tTranslating can take some time ....",end="", flush=True)
@@ -67,8 +66,8 @@ def test_2_compile(target_files, TestDoubles_out, HackMain):
 
 
 @pytest.mark.parametrize('rel_path,', [HW_E_out])
-def test_3_execute(target_files, TestDoubles_out, HackMain):
-    runner =  RPy.translators.Execute(inDir=TestDoubles_out, driver=driver) 
+def test_3_execute(target_files, TestDoubles_out, CopyHack):
+    runner =  RPy.translators.Execute(inDir=TestDoubles_out, driver=driver)
 
     print(f"\tAssuming >>{exe}<< is as translatored above " ,end="", flush=True)
     std_out = runner.execute()

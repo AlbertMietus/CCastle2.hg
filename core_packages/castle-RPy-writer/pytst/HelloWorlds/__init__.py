@@ -60,17 +60,19 @@ def imprint(*parts):
     return "\n".join(f"\n=====[{label}:{len(txt)}/{len(txt.splitlines())}]=====\n{txt}\n=====[end]=====" for txt, label in parts)
 
 
-def verify_line_by_line(expect, got):
-    expect_lines, got_lines = expect.splitlines(), got.splitlines()
-    for e,g, no in zip(expect_lines, got_lines, range(999)):
+def verify_line_by_line(expect, result):
+    expect_lines, result_lines = expect.splitlines(), result.splitlines()
+    logger.info("expect\n%s", expect)
+    logger.info("result\n%s", result)
+    for e,g, no in zip(expect_lines, result_lines, range(999)):
         NL,context="\n\t",3
         assert e == g, f'''Line: {no+1} not as expected
 expect:\t>{e}<
-   got:\t<{g}>
+result:\t<{g}>
 After_E\n {NL.join(expect_lines[no+1:][:context])}
-After_G\n {NL.join(got_lines[no+1:][:context])}
-Before\n{NL.join(got_lines[:no][-context:])}'''
-    assert len(expect) == len(got), f"Not the same number of lines: expect: {len(expect)}, got: {len(got)}"
+After_G\n {NL.join(result_lines[no+1:][:context])}
+Before\n{NL.join(result_lines[:no][-context:])}'''
+    assert len(expect) == len(result), f"Not the same number of lines: expect: {len(expect)}, result: {len(result)}"
 
 
 def verify_file(expect: str, file: Path|str):

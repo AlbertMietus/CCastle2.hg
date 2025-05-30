@@ -1,7 +1,17 @@
-=====================
-DispatchTables in RPy
-=====================
+.. (C) 2025 Albert Mietus. Part of CCastle project
+
+.. _DispatchTables-RPy:
+
+================================
+DispatchTables in RPy (outdated)
+================================
 :status: outdated
+
+.. seealso::
+
+
+   * :ref:`DispatchTables-AIGR`, which is more up to date.
+   * This page will be updated (once), with that  general view as base, specificly for the :ref:`castle-RPy-writer`
 
 Analyse
 =======

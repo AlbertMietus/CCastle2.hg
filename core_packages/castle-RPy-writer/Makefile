@@ -11,6 +11,7 @@ LAST = \
 	pytst/writers/test_leaves.py	\
 #
 CURRENT = \
+	pytst/HelloWorlds/test_12_file.py 		\
 	pytst/HelloWorlds/test_13_translate.py	\
 #
 TODO = \

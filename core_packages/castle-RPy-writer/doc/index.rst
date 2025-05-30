@@ -1,3 +1,5 @@
+.. _castle-RPy-writer:
+
 castle-RPy-writer (local)
 =========================
 

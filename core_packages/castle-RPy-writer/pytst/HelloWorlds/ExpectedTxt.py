@@ -22,7 +22,7 @@ class CC_Elemental_HelloWorld(buildin.CC_B_Component):
     def HelloWorld(self, label):
         print("Hello %s World" % (label,))
 
-    def Power_powerOn__power(self, max):
+    def std_invoke__std(self, ):
         self.HelloWorld('''Elemental''')
 \n\n"""
 
@@ -38,16 +38,20 @@ HACK_PRE="""\
 #hack (pre)
 from castle.writers.RPy.CC import buildin
 from castle.writers.RPy.CC import base
-\n"""
 
+from castle.writers.RPy.CC.HACK import std   #XXX
+from MACHINERY import MACHINERY
+\n
+"""
 
 HACK_POST="""\
 #hack (post)
-CC_P_Power_On = 1 # XXX ToDo: move to ..
-cc_S_Elemental_HelloWorld_power = [
-    None,
-    CC_Elemental_HelloWorld.Power_powerOn__power,
-    ]
+if MACHINERY == 'dict':
+    cc_S_Elemental_HelloWorld_std = {
+        'CC_P_std_invoke' : CC_Elemental_HelloWorld.std_invoke__std
+        }
+else:
+    assert False, "Set 'MACHINERY'!"
 #end hack
 \n"""
 

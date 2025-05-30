@@ -49,8 +49,13 @@ def test_2c_file(target_unit, TestDoubles_out):
     verify_file(EXPECTED_unit, target_unit.target_file)
 
 
-@pytest.mark.xfail(reason="Yep, there are (still) hacks-- import & cc_S_Elemental_HelloWorld_power = [...")
+import re
+def show(hack):
+    return [match.string.splitlines()[match.string[:match.start()].count('\n')] for match in hack]
+
+#pytest.mark.fail...
 def test_99_noHack():
-    import re
     hacks = list(re.finditer('HACK', EXPECTED_unit, flags=re.IGNORECASE))
-    assert len(hacks) == 0, f"Still HACKS in Expected_unit: {hacks} -- {EXPECTED_unit}"
+    txt = show(hacks)
+    assert len(hacks) == 0, pytest.xfail(reason="Yep, there are (still) hacks %s" % txt) 
+
