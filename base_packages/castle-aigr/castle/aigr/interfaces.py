@@ -25,6 +25,7 @@ class PortDirection(Enum):
     Out     = 2
     Bidir   = 3 # Not supported yet
     Bidirectional = Bidir
+    BiDirectional = Bidir
     Master  = 4 # Not supported yet
     Slave   = 5 # Not supported yet
 

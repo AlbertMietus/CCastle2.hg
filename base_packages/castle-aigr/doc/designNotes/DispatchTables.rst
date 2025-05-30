@@ -1,8 +1,12 @@
-==============
-DispatchTables
-==============
+.. (C) 2025 Albert Mietus. Part of CCastle project
 
-.. seealso:: DispatchTables in RPy -- that is old and wrong
+.. _DispatchTables-aigr:
+
+==========================
+DispatchTables (AIGR view)
+==========================
+
+.. seealso:: :ref:`DispatchTables-RPy` -- that is old and wrong
 
 
 Event-DispatchTables

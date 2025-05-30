@@ -38,6 +38,7 @@ build/
 .*/doc_
 
 core_packages/castle-RPy-writer/castle/writers/RPy/CC/_ref
+core_packages/castle-RPy-writer/TestDoubles/HelloWorlds/elemental/_timeIt
 
 .*/TestDoubles/.*/_run
 .*/TestDoubles/.*/_ref
