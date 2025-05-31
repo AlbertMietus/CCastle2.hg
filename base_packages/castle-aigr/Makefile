@@ -19,10 +19,11 @@ PYREVERSE_PKGS = \
 LAST = \
 #
 CURRENT = \
-	pytst/base/test_aid.py						\
+	pytst/components/implementation/test_eDispatchTables.py 	\
 #
 TODO = \
-	pytst/machinery/test_9_todo.py			\
+	pytst/components/implementation/test_DispatchTables.py 		\
+	pytst/machinery/test_9_todo.py								\
 #
 
 TOPd=../../
