@@ -19,5 +19,7 @@ TEST 	= test pytest coverage mutmut
 OPENit	= coverage-open mutmut-open pyanalyse-open
 FULL	= ${SETS} ${TYPICAL} ${ALL} ${TEST} ${BUILD} ${OPENit}
 
+full:	${FULL}
+
 show_targets targets:
 	awk '/^[A-Za-z][A-Za-z_ ]+:+/ { print $$1}' ${TOPd}mk/* | sort --ignore-case --unique

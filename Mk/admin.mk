@@ -7,4 +7,4 @@ SUBS ?=.
 XXX ToDo Really hack HACK :
 	-! grep -i $@ `find ${SUBS} -type f -iname \*.py` /dev/null # Reverse and ignore error-code
 
-show: XXX ToDo Really
+show: XXX ToDo Really hack HACK
