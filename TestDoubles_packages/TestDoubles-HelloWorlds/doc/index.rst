@@ -28,14 +28,26 @@ primitive
 
   Again, a bit more complex handle.
 
-All variants (will) have a implementaion in Castle (the ‘CastleCode’) and a AIGR respresentation. Other mocks can be
-added, like a reference rpython (manual compiled code). And/Or similar for other Backends.
-
 Overview
 ========
 
+All variants (will) have a implementaion in Castle (the ‘CastleCode’) and a AIGR respresentation. Other views may be
+added, like a reference RPython implementation (manual compiled code).
+
+The same diagrams are shown in two ways: by variants (with tabs for the view), and by layer (with tabs per variant).
+
+By Variant
+-----------
+
+.. toctree::
+
+   ./xcross-elemental
+   ./xcross-credible
+   ./xcross-primitive
+
 By layer
 --------
+
 .. toctree::
    :maxdepth: 1
 
@@ -43,13 +55,3 @@ By layer
    ./aigr
    ./rpy_ref
 
-By Variant
------------
-
-The same code & diagrams can also be variant by variant
-
-.. toctree::
-
-   ./xcross-elemental
-   ./xcross-credible
-   ./xcross-primitive
