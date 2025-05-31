@@ -29,19 +29,18 @@ class PortDirection(Enum):
     Master  = 4 # Not supported yet
     Slave   = 5 # Not supported yet
 
-PortType = PTH.Union[Protocol, type]
+PortType = PTH.Union[Protocol, type] # XXX 'type" or  "aigr-Type" -- GAM
 
 
 @dataclass
-class Port(AIGR): # Note: not a NamedNode, as it does not live in a NS --but in a Component
+class Port(NamedNode):
     """.. note ::
 
           * ``Port``s do *not* inherit
           * A `Port` has a type, like Event -- basically a protocol
-"""
-    _kids = AIGR._kids + ('name', 'direction', 'type')
+          * The Port's ID is stored in the Component's (interface) namespace."""
+    _kids = AIGR._kids + ('direction', 'type')
 
-    name: str
     _: KW_ONLY
     direction: PortDirection
     type: PortType
