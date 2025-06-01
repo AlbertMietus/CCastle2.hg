@@ -5,17 +5,25 @@ import typing as PTH                                                            
 
 from castle import aigr
 from castle.writers.RPy.aid import Block
-from ..base.visitors import Visitor
-from . walker import Walker
-from ..aid.convert import fString_2_modulo
 
+from ..base.visitors import Visitor
+from ..aid.convert import fString_2_modulo
+from . walker import Walker
+from . machinery import Machinery
 
 TextBlock = PTH.Optional[str|Block]
 
 class Renderer(Visitor):
-    _defaultType=str
+    _defaultType=str                      #used in Visitor, to return a default value of the right type
 
-    walker = Walker() # XXX
+    def __init__(self, walker:PTH.Optional[Walker]=None, machinery:PTH.Optional[Machinery]=None, **kw):
+        super().__init__(**kw)
+        self.walker = walker if walker else Walker()
+        self.machinery = machinery if machinery else Machinery() # The baseclass will select one
+
+        logger.debug("Using Walker: %s", self.walker)
+        logger.debug("Using Machinery: %s", self.machinery)
+
 
     @staticmethod
     def _prefix(prefix:str, id) ->str:
@@ -128,11 +136,9 @@ class Renderer(Visitor):
         except AttributeError:
             base = ''
             reference= '[|absend]|'
-
         args=", ".join(str(self.visit(a)) for a in node.arguments) # XXX
         txt = f'{base}{callable}({args})'
         return txt
-
 
     def visit__literal(self, node)						->  TextBlock:
         if node.type == aigr.types.string or node.type is None:
@@ -142,7 +148,6 @@ class Renderer(Visitor):
         else:
             assert False, f"visit_Constant is not done  ... type={node.type}"
 
-
     def visit_fString(self, node)						->  TextBlock:
         formater = node.formater; assert formater, "the fString.formater should be set in aigr"
         string, args = fString_2_modulo(node.value)
@@ -150,9 +155,18 @@ class Renderer(Visitor):
             return f'''"{string}"'''
         return f'''"{string}" % ({", ".join(str(arg) for arg in args)},)'''
 
-
     def visit_ID(self, node)							->  TextBlock: # GAM: Nog niet overal gebruikt (bijna niet)
         return str(node)
+
+    def visit_EventDispatchTable(self, node)			->  TextBlock:
+        """XXX Rendering the EventDispatchTables depends on the selected MACHINERY. So, this code has to be slit off XXX"""
+        txt = Block()
+        txt += """HACK XXXX"""
+        return txt
+
+
+
+
 
     def visit_RPy_unit(self, node)						->  TextBlock:
         txt = Block()

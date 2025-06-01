@@ -54,5 +54,4 @@ class Visitor():
 
     def _default_depart(self, node: aigr.AIGR):        # No depart visitor is fine.
         return None
-        #return self._defaultType() # type: ignore 
-
+        #return self._defaultType() # type: ignore

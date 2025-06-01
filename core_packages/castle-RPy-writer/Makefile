@@ -11,11 +11,11 @@ LAST = \
 	pytst/writers/test_leaves.py	\
 #
 CURRENT = \
-	pytst/HelloWorlds/test_12_file.py 		\
-	pytst/HelloWorlds/test_13_translate.py	\
+	pytst/writers/test_render_eDispatchTable.py 		\
 #
 TODO = \
 	pytst/HelloWorlds/test_12_file.py 		\
+	pytst/HelloWorlds/test_13_translate.py	\
 #
 
 HW_Ed = TestDoubles/HelloWorlds/elemental
