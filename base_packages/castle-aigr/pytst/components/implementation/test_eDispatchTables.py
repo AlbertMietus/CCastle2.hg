@@ -12,24 +12,12 @@ from castle import aigr
 from castle.aigr import ID
 
 @pytest.fixture
-def mockEvents() -> list[aigr.Event]:
-    return [
-        aigr.Event("mockEvent_1"),
-        aigr.Event("mockEvent_2")]
-
-@pytest.fixture
-def mockProtocol(mockEvents) ->aigr.EventProtocol:
-    return aigr.EventProtocol("MockProtocol", events=mockEvents)
-
-@pytest.fixture
-def mockPort(mockProtocol) ->aigr.Port:
-    return aigr.Port("MockPort", direction=aigr.PortDirection.In, type=mockProtocol)
-
-
-@pytest.fixture
-def mockHandler():
+def mockHandler(): # More (unused) mocks are in ./mocks.py
     return ID('mockHandler')
 
+@pytest.fixture
+def mockTriple(mockHandler):
+    return ID('port'), ID('event'), mockHandler
 
 def test_1_startEmpty():
     table = EventDispatchTable()
@@ -44,6 +32,7 @@ def test_2_register_oneEvent_with_IDs(mockHandler):
     assert len(table) == 1, "After one registration, the length should be one"
     assert table.find_byNames(p,e) == mockHandler, "Can't find the just registered event"
 
+
 def test_3_overwrite_Event(mockHandler):
     p,e = ID('port'), ID('event')
     table = EventDispatchTable()
@@ -53,6 +42,27 @@ def test_3_overwrite_Event(mockHandler):
 
     assert len(table) == 1, "After one registration, the length should be one"
     assert table.find_byNames(p,e) == mockHandler, "Can't find the just registered event"
-    
 
 
+def test_4a_findNone_asEmpty():
+    p,e = ID('port'), ID('event')
+    table = EventDispatchTable()
+
+    empty =table.find_byNames(p,e)
+    assert empty is None
+
+def test_4b_findNone_asOtherPort(mockHandler):
+    p,e = ID('port'), ID('event')
+    table = EventDispatchTable()
+    table.register_event(p,e, mockHandler)
+
+    empty =table.find_byNames(ID('otherPort'), e)
+    assert empty is None
+
+def test_4c_findNone_asOtherEvent(mockHandler):
+    p,e = ID('port'), ID('event')
+    table = EventDispatchTable()
+    table.register_event(p,e, mockHandler)
+
+    empty =table.find_byNames(p,ID('otherEvent'))
+    assert empty is None

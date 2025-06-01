@@ -27,7 +27,6 @@ class EventDispatchTable(_DispatchTable):
     def __len__(self):
         return sum(len(port_registrations) for port_registrations in self._registration_byPort.values())
 
-
     def register_event(self, port_name:ID,  event_name:ID, handler_name:ID):
         port_registration = self._registration_byPort.setdefault(port_name,{})
         if port_registration.get(event_name):
@@ -36,8 +35,6 @@ class EventDispatchTable(_DispatchTable):
         else:
             logger.debug("Register an event-handler for port=%s, event=%s :: %s", port_name, event_name, handler_name)
         port_registration[event_name] = handler_name
-
-
 
     def find_byNames(self, port_name:ID,  event_name:ID) -> ID|None:
         """Return the registered event_name, or None"""
@@ -48,5 +45,6 @@ class EventDispatchTable(_DispatchTable):
             logger.debug("No event-handler for port=%s, event=%s; due KeyError: %s", port_name, event_name, err)
             return None
         return handler_name
+
 
 # LocalWords:  eventhandler dottedName EventDispatchTable
