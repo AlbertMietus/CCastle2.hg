@@ -5,6 +5,7 @@ import pytest
 
 from castle.writers.RPy.writers import Renderer
 
+from .verify import *
 
 @pytest.fixture
 def my_renderer() ->Renderer:
