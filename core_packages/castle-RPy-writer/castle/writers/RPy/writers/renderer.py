@@ -60,7 +60,7 @@ class Renderer(Visitor):
             txt += self.visit(next_node)
         return txt
 
-    def visit_ComponentInterface(self, node) -> TextBlock:
+    def visit_ComponentInterface(self, node)			-> TextBlock:
         interface_name = self._cc_CI_elm_prefix(node.name)
         txt = Block(f'{interface_name} = buildin.CC_B_ComponentInterface(')
         txt.sub(Block((
@@ -72,7 +72,7 @@ class Renderer(Visitor):
         return txt
 
 
-    def visit_ComponentImplementation(self, node) -> TextBlock:
+    def visit_ComponentImplementation(self, node)		-> TextBlock:
         gen_cls_name = self._CC_cls_prefix(node.name)
         isa_elm_name = self._cc_C_elm_prefix(node.name)
 
@@ -91,7 +91,7 @@ class Renderer(Visitor):
         return txt
 
 
-    def depart_ComponentImplementation(self, node) -> TextBlock:
+    def depart_ComponentImplementation(self, node)		-> TextBlock:
         isa_elm_name = self._cc_C_elm_prefix(node.name)
         elm = Block(f"{isa_elm_name} = buildin.CC_B_ComponentClass(")
         ind = Block(f"interface = {self._cc_CI_elm_prefix(node.name)},")
@@ -104,22 +104,22 @@ class Renderer(Visitor):
         parms = ', '.join(str(p.name) for p in node.parameters)
         return Block(f"def {callable_name}(self, {parms}):")
 
-    def visit_Method(self, node) -> TextBlock:
+    def visit_Method(self, node)						->  TextBlock:
         txt = self._render_def(node)
         txt.sub(self.render_subNodes(node))
         txt += self.depart(node)
         return txt
 
-    def visit_EventHandler(self, node) -> TextBlock:
+    def visit_EventHandler(self, node)					->  TextBlock:
         txt = self._render_def(node)
         txt.sub(self.render_subNodes(node))
         txt += self.depart(node)
         return txt
 
-    def visit_VoidCall(self, node) -> TextBlock:
+    def visit_VoidCall(self, node)						->  TextBlock:
         return self.render_subNodes(node)
 
-    def visit_Call(self, node) -> TextBlock:
+    def visit_Call(self, node)							->  TextBlock:
         callable= node.callable
         try:
             context  = callable.context
@@ -134,7 +134,7 @@ class Renderer(Visitor):
         return txt
 
 
-    def visit__literal(self, node) -> TextBlock:
+    def visit__literal(self, node)						->  TextBlock:
         if node.type == aigr.types.string or node.type is None:
             return f"'''{node.value}'''"
         elif isinstance(node.type, aigr.types._buildinNumber):
@@ -143,7 +143,7 @@ class Renderer(Visitor):
             assert False, f"visit_Constant is not done  ... type={node.type}"
 
 
-    def visit_fString(self, node) -> TextBlock:
+    def visit_fString(self, node)						->  TextBlock:
         formater = node.formater; assert formater, "the fString.formater should be set in aigr"
         string, args = fString_2_modulo(node.value)
         if len(args) == 0:
@@ -151,10 +151,10 @@ class Renderer(Visitor):
         return f'''"{string}" % ({", ".join(str(arg) for arg in args)},)'''
 
 
-    def visit_ID(self, node) -> TextBlock: # GAM: Nog niet overal gebruikt (bijna niet)
+    def visit_ID(self, node)							->  TextBlock: # GAM: Nog niet overal gebruikt (bijna niet)
         return str(node)
 
-    def visit_RPy_unit(self, node) ->TextBlock:
+    def visit_RPy_unit(self, node)						->  TextBlock:
         txt = Block()
         txt += """\
 #hack (pre)
