@@ -16,8 +16,15 @@ def mockHandler(): # More (unused) mocks are in ./mocks.py
     return ID('mockHandler')
 
 @pytest.fixture
-def mockTriple(mockHandler):
-    return ID('port'), ID('event'), mockHandler
+def demoTable():
+    table = EventDispatchTable()
+    event_count=1
+    for p in (1,2,3):
+        for e in ('a', 'b'):
+            table.register_event(ID(f"port_{p}"), ID(f"event_{p}{e}"), ID(f"handler_{event_count}"))
+            event_count+=1
+    assert len(table) == 6 # Not a test, just a safety.
+    return table
 
 def test_1_startEmpty():
     table = EventDispatchTable()
@@ -66,3 +73,21 @@ def test_4c_findNone_asOtherEvent(mockHandler):
 
     empty =table.find_byNames(p,ID('otherEvent'))
     assert empty is None
+
+def test_5_listPorts(demoTable):
+    ports = demoTable.list_ports()
+    assert 'port_1' in ports
+    assert 'port_2' in ports
+    assert 'port_3' in ports
+    assert len(ports) == 3
+
+def check_listEvents_For_1Port(demoTable, portNo):
+    events = demoTable.list_events_for_port(ID(f'port_{portNo}'))
+    assert f'event_{portNo}a' in events
+    assert f'event_{portNo}b' in events
+    assert len(events) == 2
+    return True
+
+def test_6_listEvents_For_Ports(demoTable):
+    for p in (1,2,3):
+        assert check_listEvents_For_1Port(demoTable, portNo=p)

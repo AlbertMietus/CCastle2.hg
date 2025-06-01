@@ -46,5 +46,18 @@ class EventDispatchTable(_DispatchTable):
             return None
         return handler_name
 
+    def list_ports(self):
+        """Return all port-names, for which events are registered"""
+        return list(self._registration_byPort.keys())
+
+    def list_events_for_port(self, port_name:ID):
+        """Return all event-names, that are registered for the given port"""
+        try:
+            port_registration = self._registration_byPort[port_name]
+            return list(port_registration.keys())
+        except KeyError as err:
+            logger.debug("Nothing to list for port=%s; due KeyError: %s", port_name, err)
+            return ()# empty 'list'
+
 
 # LocalWords:  eventhandler dottedName EventDispatchTable
