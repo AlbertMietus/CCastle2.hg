@@ -8,12 +8,7 @@ from castle import aigr
 from castle.aigr import ID
 from castle.writers.RPy.writers import Renderer
 
-
-@pytest.fixture # COPY-PAST-- pytst/HelloWorlds/__init__.py
-def my_renderer() ->Renderer:
-    cls = Renderer
-    logger.debug(f'Using "{cls}" as Renderer')
-    return cls()
+from .. import my_renderer
 
 
 def test_ID(my_renderer):

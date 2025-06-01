@@ -3,25 +3,17 @@
 import logging; logger = logging.getLogger(__name__)
 import pytest
 
-from pathlib import Path
-
 from castle import aigr
-
 from castle.writers import RPy
 from castle.writers.RPy.writers import Renderer
 
-from .ExpectedTxt import *
+from .. import my_renderer
+from pathlib import Path
+HW_E_out    = Path('HelloWorlds', 'elemental', '__out')
 
 from castle.TESTDOUBLES.aigr.HelloWorlds.elemental.HelloWorld import Hello_World # Source_NS
 
-HW_E_out    = Path('HelloWorlds', 'elemental', '__out')
-
-@pytest.fixture
-def my_renderer() ->Renderer:
-    cls = Renderer
-    logger.debug(f'Using "{cls}" as Renderer')
-    return cls()
-
+from .ExpectedTxt import *
 
 
 @pytest.fixture
@@ -38,8 +30,6 @@ def TestDoubles_out(TestDoubles_dir, rel_path) -> Path:
     return out_dir
 
 
-
-
 def verify_line(expect, got, line=None):
     logger.debug("verify_line\n\texpect:\t%s\ngot\t>>%s<<\n\tline=%s", expect, got, line)
     if expect == got:
@@ -51,14 +41,12 @@ def verify_line(expect, got, line=None):
     assert expect in txt, imprint((expect,'EXPECT'),(txt, 'Txt'),(got, 'Got'))
 
 
-
 def print_out(txt,label='print'):
     print(imprint((txt, label)))
     pass
 
 def imprint(*parts):
     return "\n".join(f"\n=====[{label}:{len(txt)}/{len(txt.splitlines())}]=====\n{txt}\n=====[end]=====" for txt, label in parts)
-
 
 def verify_line_by_line(expect, result):
     expect_lines, result_lines = expect.splitlines(), result.splitlines()
