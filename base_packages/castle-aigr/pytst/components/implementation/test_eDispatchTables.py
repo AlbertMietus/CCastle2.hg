@@ -12,12 +12,16 @@ from castle import aigr
 from castle.aigr import ID
 
 @pytest.fixture
+def table():
+    return EventDispatchTable(component=None)   # XXX
+
+
+@pytest.fixture
 def mockHandler(): # More (unused) mocks are in ./mocks.py
     return ID('mockHandler')
 
 @pytest.fixture
-def demoTable():
-    table = EventDispatchTable()
+def demoTable(table):
     event_count=1
     for p in (1,2,3):
         for e in ('a', 'b'):
@@ -26,23 +30,19 @@ def demoTable():
     assert len(table) == 6 # Not a test, just a safety.
     return table
 
-def test_1_startEmpty():
-    table = EventDispatchTable()
+def test_1_startEmpty(table):
     assert len(table) == 0, "Initially the table should have 0 events"
 
-def test_2_register_oneEvent_with_IDs(mockHandler):
+def test_2_register_oneEvent_with_IDs(table, mockHandler):
     p,e = ID('port'), ID('event')
-    table = EventDispatchTable()
-
     table.register_event(p,e, mockHandler)
 
     assert len(table) == 1, "After one registration, the length should be one"
     assert table.find_byNames(p,e) == mockHandler, "Can't find the just registered event"
 
 
-def test_3_overwrite_Event(mockHandler):
+def test_3_overwrite_Event(table, mockHandler):
     p,e = ID('port'), ID('event')
-    table = EventDispatchTable()
     table.register_event(p,e, ID('This_one_will_be_overwritten'))
 
     table.register_event(p,e, mockHandler)
@@ -51,24 +51,21 @@ def test_3_overwrite_Event(mockHandler):
     assert table.find_byNames(p,e) == mockHandler, "Can't find the just registered event"
 
 
-def test_4a_findNone_asEmpty():
+def test_4a_findNone_asEmpty(table):
     p,e = ID('port'), ID('event')
-    table = EventDispatchTable()
 
     empty =table.find_byNames(p,e)
     assert empty is None
 
-def test_4b_findNone_asOtherPort(mockHandler):
+def test_4b_findNone_asOtherPort(table, mockHandler):
     p,e = ID('port'), ID('event')
-    table = EventDispatchTable()
     table.register_event(p,e, mockHandler)
 
     empty =table.find_byNames(ID('otherPort'), e)
     assert empty is None
 
-def test_4c_findNone_asOtherEvent(mockHandler):
+def test_4c_findNone_asOtherEvent(table, mockHandler):
     p,e = ID('port'), ID('event')
-    table = EventDispatchTable()
     table.register_event(p,e, mockHandler)
 
     empty =table.find_byNames(p,ID('otherEvent'))
