@@ -53,6 +53,4 @@ class _M_DC_dict(_M_DirectCall): #Abstract
 class M_DC_flat_dict(_M_DC_dict):
   pass
 
-@Machinery.register('DirectCall.dict.chained', "chained.dict", "chained_dict", "chained-dict", default=True)
-class M_DC_chained_dict(_M_DC_dict):
-    pass
+from .chained_dict import *

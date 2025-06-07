@@ -21,8 +21,7 @@ class Renderer(Visitor):
         self.walker = walker if walker else Walker()
         self.machinery = machinery if machinery else Machinery() # The baseclass will select one
 
-        logger.debug("Using Walker: %s", self.walker)
-        logger.debug("Using Machinery: %s", self.machinery)
+        logger.info("Using Machinery: %s,\t and Walker: %s", self.machinery,  self.walker)
 
 
     @staticmethod
@@ -160,12 +159,7 @@ class Renderer(Visitor):
 
     def visit_EventDispatchTable(self, node)			->  TextBlock:
         """XXX Rendering the EventDispatchTables depends on the selected MACHINERY. So, this code has to be slit off XXX"""
-        txt = Block()
-        txt += """HACK XXXX"""
-        return txt
-
-
-
+        return self.machinery.render_EventDispatchTable(self, node)
 
 
     def visit_RPy_unit(self, node)						->  TextBlock:

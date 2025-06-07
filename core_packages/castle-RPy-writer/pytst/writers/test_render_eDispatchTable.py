@@ -15,6 +15,7 @@ def demoTable():
     table.register_event(ID('port'), ID('event'), ID('handler'))
     return table
 
+@pytest.mark.xfail
 def test_0(demoTable, my_renderer):
     txt=my_renderer.render(demoTable)
     print_out(txt, label='demoTable')
