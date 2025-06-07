@@ -13,7 +13,7 @@ from .. import todo
 @dataclass
 class machinery(AIGR):
     _: KW_ONLY
-    delegate : implementation = None
+    delegate : implementation = None      #XXX
 
 implementation : PTH.TypeAlias = PTH.Optional[type[machinery]] # pragma: no mutate
 
