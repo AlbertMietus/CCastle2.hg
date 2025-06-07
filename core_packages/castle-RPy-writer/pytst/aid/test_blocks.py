@@ -101,3 +101,8 @@ def test_subsubsub():
     b1.sub(b2); b2.sub(b3); b3.sub(b4)
     txt=str(b1)
     assert '_1__2__3_' in txt, "Each sub-block should be indented by concatenated prefixes of outer-blocks"
+
+def test_subBlock_returnsSelf():
+    top = Block('top')
+    b = top.sub(Block('sub'))
+    assert b is top

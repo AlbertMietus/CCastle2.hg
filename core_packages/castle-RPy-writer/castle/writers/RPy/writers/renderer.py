@@ -31,10 +31,11 @@ class Renderer(Visitor):
         if ns :ns+="."
         return ns+prefix+n
 
-    def _CC_cls_prefix(self, name):			return self._prefix('CC_',    name)
-    def _cc_C_elm_prefix(self, name):		return self._prefix('cc_C_',  name)
-    def _cc_CI_elm_prefix(self, name):		return self._prefix('cc_CI_', name)
-    def _CompBase(self):      				return 'buildin.CC_B_Component'
+    def _CC_cls_prefix(self, name):			   return self._prefix('CC_',    name)                # generated cls for Component
+    def _cc_C_elm_prefix(self, name):		   return self._prefix('cc_C_',  name)                # element (instantiated Component)
+    def _cc_CI_elm_prefix(self, name):		   return self._prefix('cc_CI_', name)                # component-interface
+    def _cc_S_dispatchTable(self, comp,port):  return self._prefix('cc_S_',  f'{comp}_{port}')    # (event) dispatch-table
+    def _CompBase(self):      				   return 'buildin.CC_B_Component'
 
 
     def render(self, node: aigr.AIGR) ->str:

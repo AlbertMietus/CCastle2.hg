@@ -16,8 +16,7 @@ from castle.writers.RPy.CC.HACK import std   #XXX
 from MACHINERY import MACHINERY
 
 """///CastleCode ToDo
-GAM: This code is "missing (or auto ...?
-component Elemental_HelloWorld : Component {}
+@impliciet(Main) ...    port std<bidir>:std
 ///end"""
 cc_CI_Elemental_HelloWorld = buildin.CC_B_ComponentInterface(
     name = "Elemental_HelloWorld",
@@ -25,9 +24,9 @@ cc_CI_Elemental_HelloWorld = buildin.CC_B_ComponentInterface(
     ports          = [])
 
 
-
 class CC_Elemental_HelloWorld(buildin.CC_B_Component): # Generated class;
     """///CastleCode
+    @impliciet(Main)
     implement Elemental_HelloWorld
     {///"""
 

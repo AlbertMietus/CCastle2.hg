@@ -32,3 +32,18 @@ def test_3b_contains_chain(chain):
 def test_3c_containsNot(cd, chain):
     assert not ('not_a_Key' in cd)
     assert not ('not_a_Key' in chain)
+
+def test_4a_withMap():
+    d = ChainedDict({1:2, 2:3})
+    assert d[1] == 2
+    assert d[2] == 3
+
+def test_4b_withMapt():
+    d = ChainedDict(
+        map={
+            1:2,
+            2:3,
+            },
+        parent=None)
+    assert d[1] == 2
+    assert d[2] == 3
