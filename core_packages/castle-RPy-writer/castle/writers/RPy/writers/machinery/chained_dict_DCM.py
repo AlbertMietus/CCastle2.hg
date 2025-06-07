@@ -11,7 +11,12 @@ from . import Machinery, _M_DC_dict
 @Machinery.register('DirectCall.dict.chained', "chained.dict", "chained_dict", "chained-dict", default=True)
 class M_DC_chained_dict(_M_DC_dict):
 
-    def render_EventDispatchTable(self, renderer, node) 						->  Block:
+    def render_EventDispatchTable(self, renderer, node :aigr.machinery.eDispatchTable) 						->  Block:
         txt = Block()
-        txt += """HACK XXXX"""
+        txt += """ HACK XXXX
+cc_S_Elemental_HelloWorld_std = {
+    'CC_P_std_invoke' : CC_Elemental_HelloWorld.std_invoke__std
+    }
+/hack
+"""
         return txt
