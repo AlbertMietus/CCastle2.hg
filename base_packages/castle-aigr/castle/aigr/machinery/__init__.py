@@ -1,4 +1,4 @@
-# (C) Albert Mietus, 2024. Part of Castle/CCastle project
+# (C) Albert Mietus, 2024. Part of Castle/CCastle project #XXX OLDXXX
 
 from __future__ import annotations # Postponed evaluation of annotations
 from dataclasses import dataclass, KW_ONLY
