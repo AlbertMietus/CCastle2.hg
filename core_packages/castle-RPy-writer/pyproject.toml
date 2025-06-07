@@ -9,3 +9,9 @@ dependencies = ["castle-aigr"]
 
 [tool.setuptools.packages.find]
 exclude = ["pytst*", "ASIDE"]
+
+[tool.pytest.ini_options]
+markers = [
+    "slow: marks tests as slow (use --runslow to include)"
+]
+

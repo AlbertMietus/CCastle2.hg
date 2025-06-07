@@ -53,7 +53,7 @@ def test_1_eval(target_files, TestDoubles_out, CopyHack):
     std_out = runner.execute()
     assert std_out.strip() == "Hello Elemental World"
 
-
+@pytest.mark.slow
 @pytest.mark.parametrize('rel_path,', [HW_E_out])
 def test_2_compile(target_files, TestDoubles_out, CopyHack):
     runner =  RPy.translators.Compile(files=target_files, inDir=TestDoubles_out, driver=driver)
@@ -65,6 +65,7 @@ def test_2_compile(target_files, TestDoubles_out, CopyHack):
     assert (TestDoubles_out / exe).exists(), f"Expecting {exe} in {TestDoubles_out}, but it isn't there"
 
 
+@pytest.mark.slow # Note: it depends on `test_2_compile`, above
 @pytest.mark.parametrize('rel_path,', [HW_E_out])
 def test_3_execute(target_files, TestDoubles_out, CopyHack):
     runner =  RPy.translators.Execute(inDir=TestDoubles_out, driver=driver)
