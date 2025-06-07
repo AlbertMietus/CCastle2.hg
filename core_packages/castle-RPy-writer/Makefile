@@ -6,9 +6,8 @@ PYREVERSE_PKGS = \
 	castle/writers/RPy/writers			\
 #
 LAST = \
-	pytst/translators/test_0.py				\
 	pytst/HelloWorlds/test_06_implicietComp.py 		\
-	pytst/writers/test_leaves.py	\
+	pytst/CC/machinery/test_chainedDict.py				\
 #
 CURRENT = \
 	pytst/writers/test_render_eDispatchTable.py 		\

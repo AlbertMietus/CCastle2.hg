@@ -1,3 +1,5 @@
+# (C) Albert Mietus, 2025. Part of Castle/CCastle project
+
 from .CC_B_ComponentInterface import *    # Describes the interface
 from .CC_B_ComponentClass import *        # Describes the implement
 from .CC_B_Component import *             # Base of all generated $CompName classes
