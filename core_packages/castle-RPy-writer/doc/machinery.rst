@@ -1,4 +1,7 @@
-"""**The Machinery** is the concept on HOW component's *talk* to each-other. This has effect on several place where code is generated.
+Quick Note: Machinery
+=====================
+
+**The Machinery** is the concept on HOW component's *talk* to each-other. This has effect on several place where code is generated.
 
 When compiling, the machinery can set chosen/set (as compiler-flag). Conceptually, it act as a plug-in; such that more
 variants can be add. The early compilers will/may have a limited set (without plug-ins).
@@ -29,7 +32,7 @@ Note: eventually, we could have multiple machinery's actief. Where each *compone
 **sub-components** inside, but itself uses another to talk to other components within the **super-component**
 
 .. see also:: http://docideas.mietus.nl/en/default/CCastle/3.Design/zz.todo.html#the-machinery-todo
-"""
+
 
 DirectCall  = "Machinery.DirectCall"
 LibDispatch = "Machinery.LibDispatch"
