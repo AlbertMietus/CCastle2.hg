@@ -4,6 +4,7 @@ PYREVERSE_PKGS = \
 	castle.aigr \
 	\
 	castle.aigr.base \
+	castle.aigr.components \
 	castle.aigr.expressions \
 	castle.aigr.machinery \
 	castle.aigr.statements \
@@ -12,7 +13,7 @@ PYREVERSE_PKGS = \
 	castle.aigr_extra.blend \
 	castle.aigr_extra.builders \
 	\
-	castle.aigr.namespaces
+
 
 #
 
