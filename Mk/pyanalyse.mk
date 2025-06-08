@@ -4,6 +4,9 @@
 # Local setting (see Mk/settings.mk for global settings
 PYREVERSE_OPTIONS =  -k -A
 PYREVERSE_OPTIONS =  -A
+PYREVERSE_OPTIONS =  -A --filter-mode ALL  --colorized    --max-color-depth 99
+
+PYREVERSE_FORMAT  = svg
 
 ${PYREVERSE_dir}:; mkdir $@
 

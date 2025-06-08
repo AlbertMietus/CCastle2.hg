@@ -4,6 +4,8 @@ PYTEST= pytest
 PYTEST_OPTIONS=-rxXsfE
 PYTEST_OPTIONS_NOxFAIL=-rXsfE
 
+PYFAST= ${PYTEST} ${PYFAST_OPTON}
+
 test: coverage local_test
 local_test:: # Add local module test to this one
 
@@ -34,16 +36,16 @@ mutmut-open: mutmut
 
 
 last:
-	${PYTEST}  ${PYTEST_OPTIONS_NOxFAIL}  ${LAST}
+	${PYFAST}  ${PYTEST_OPTIONS_NOxFAIL}  ${LAST}
 current:
-	${PYTEST}  ${PYTEST_OPTIONS}  -s ${CURRENT}
+	${PYFAST}  ${PYTEST_OPTIONS}  -s ${CURRENT}
 current-ds current-sd:
-	${PYTEST}  ${PYTEST_OPTIONS}  --log-cli-level=DEBUG -s ${CURRENT}
+	${PYFAST}  ${PYTEST_OPTIONS}  --log-cli-level=DEBUG -s ${CURRENT}
 current-info:
-	${PYTEST}  ${PYTEST_OPTIONS}  --log-cli-level=INFO -s ${CURRENT}
-recheck:
-	${PYTEST}  ${PYTEST_OPTIONS}   ${LAST} ${CURRENT}
+	${PYFAST}  ${PYTEST_OPTIONS}  --log-cli-level=INFO -s ${CURRENT}
 todo:
-	${PYTEST}  ${PYTEST_OPTIONS}  ${TODO}
-
-
+	${PYFAST}  ${PYTEST_OPTIONS}  ${TODO}
+recheck:
+	${PYFAST}  ${PYTEST_OPTIONS}   ${LAST} ${CURRENT}
+fast:
+	${PYFAST}  ${PYTEST_OPTIONS}  pytst
