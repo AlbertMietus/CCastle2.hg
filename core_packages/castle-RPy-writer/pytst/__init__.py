@@ -3,13 +3,17 @@
 import logging; logger = logging.getLogger(__name__)
 import pytest
 
-from castle.writers.RPy.writers import Renderer
+from castle.writers.RPy.writers import Renderer, Machinery
 
 from .verify import *
 
 @pytest.fixture
 def my_renderer() ->Renderer:
-    cls = Renderer
-    logger.debug(f'Using "{cls}" as Renderer')
-    return cls()
+    return Renderer()
+
+@pytest.fixture
+def chainDict_renderer() ->Renderer:
+    r =  Renderer(machinery=Machinery(hint="chained_dict"))
+    logger.info("Using 'chained_dict' Machinery for Renderer: %s", r)
+    return r
 

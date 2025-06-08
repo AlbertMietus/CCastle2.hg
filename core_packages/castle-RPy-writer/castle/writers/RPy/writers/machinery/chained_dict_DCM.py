@@ -18,8 +18,8 @@ class M_DC_chained_dict(_M_DC_dict):
         return all_txt
 
 
-    def _render_EDT_forPort(self, renderer, e_dt, port) -> Block:
-        comp = e_dt.component
+    def _render_EDT_forPort(self, renderer, node, port) -> Block:
+        comp = node.component
         if isinstance(comp, aigr.ComponentImplementation):
             comp = comp.interface
         assert isinstance(comp, aigr.ComponentInterface), "EventDispatchTable should refer to a comp (Interface or Implementation)"
@@ -29,14 +29,14 @@ class M_DC_chained_dict(_M_DC_dict):
         parent_table = renderer._cc_S_dispatchTable(parent.name, port) if parent else 'None'
 
         txt = Block(f'{table_name} = buildin.machinery.ChainedDict(map={{')
-        sub = self._render_EDT_events_forPort(renderer, e_dt, port)
+        sub = self._render_EDT_events_forPort(renderer, node, port)
         sub += '},'
         sub += f'parent={parent_table})'
         txt.sub(sub)
         return txt
 
-    def _render_EDT_events_forPort(self, renderer, e_dt, port) -> Block:
+    def _render_EDT_events_forPort(self, renderer, node, port) -> Block:
         txt = Block()
-        for event in e_dt.list_events_for_port(port):
-            txt += f"{event} : {e_dt.find_byNames(port, event)},"
+        for event in node.list_events_for_port(port):
+            txt += f"{event} : {node.find_byNames(port, event)},"
         return txt

@@ -20,8 +20,7 @@ class Renderer(Visitor):
         super().__init__(**kw)
         self.walker = walker if walker else Walker()
         self.machinery = machinery if machinery else Machinery() # The baseclass will select one
-
-        logger.info("Using Machinery: %s,\t and Walker: %s", self.machinery,  self.walker)
+        logger.debug("Using Machinery: %s,\t and Walker: %s", self.machinery,  self.walker)
 
 
     @staticmethod

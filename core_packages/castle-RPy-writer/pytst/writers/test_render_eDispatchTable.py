@@ -10,14 +10,16 @@ from castle.aigr import ID
 
 
 
-from .. import my_renderer
+from .. import chainDict_renderer
 from ..verify import *
 
 @pytest.fixture
 def Mock_comp():
-    return aigr.ComponentImplementation(ID('Mock'),
-                                        interface=aigr.ComponentInterface(ID('Mock'),
-                                                                          ports=aigr.Port('a_Port', direction='X', type='X') ))
+    return aigr.ComponentImplementation(
+        ID('Mock'),
+        interface=aigr.ComponentInterface(
+            ID('Mock'),
+            ports=aigr.Port('a_Port', direction='nvt', type='nvt') ))
 
 @pytest.fixture
 def demoTable(Mock_comp):
@@ -26,9 +28,9 @@ def demoTable(Mock_comp):
     return table
 
 
-def test_demo(demoTable, my_renderer):
-    txt=my_renderer.render(demoTable)
-    #print_out(txt, label='demoTable')
+def test_demo(demoTable, chainDict_renderer):
+    txt=chainDict_renderer.render(demoTable)
+    print_out(txt, label='demoTable')
 
     verify_line_by_line("""\
 cc_S_Mock_a_port = buildin.machinery.ChainedDict(map={

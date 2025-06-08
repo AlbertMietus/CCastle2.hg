@@ -1,5 +1,7 @@
 default: all
 
+PYFAST_OPTON=--fast
+
 PYREVERSE_PKGS = \
 	castle/writers/RPy					\
 	castle/writers/RPy/CC				\
