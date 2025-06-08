@@ -5,37 +5,31 @@ import pytest
 
 from castle import aigr
 from castle.aigr.components import EventDispatchTable
-from castle.aigr_extra.blend import mangle_event_handler
+
 from castle.aigr import ID
-
-
 
 from .. import chainDict_renderer
 from ..verify import *
+from .mocks import *
+from castle.aigr_extra.blend import mangle_event_handler
 
 @pytest.fixture
-def Mock_comp():
-    return aigr.ComponentImplementation(
-        ID('Mock'),
-        interface=aigr.ComponentInterface(
-            ID('Mock'),
-            ports=aigr.Port('a_Port', direction='nvt', type='nvt') ))
+def demoTable(mockComp, mockPort, mockEvents):
+    table = EventDispatchTable(component=mockComp)
+    table.register_event(port_name=mockPort.name, event_name=mockEvents[0].name,
+                             handler_name=ID(mangle_event_handler(protocol='an', event='other', port='name')))
 
-@pytest.fixture
-def demoTable(Mock_comp):
-    table = EventDispatchTable(component=Mock_comp)
-    table.register_event(ID('a_port'), ID('an_event'), ID('the_handler'))
     return table
 
+Expected_demo_Chain="""\
+cc_S_MockComp_MockPort = buildin.machinery.ChainedDict(map={
+    MockEvent_1 : an_other__name,
+    },
+    parent=None)
+"""
 
 def test_demo(demoTable, chainDict_renderer):
-    txt=chainDict_renderer.render(demoTable)
-    print_out(txt, label='demoTable')
+    result = chainDict_renderer.render(demoTable)
+    print_out(result, label='demoTable - parent is wrong')
 
-    verify_line_by_line("""\
-cc_S_Mock_a_port = buildin.machinery.ChainedDict(map={
-    an_event : the_handler,
-    },
-    parent=base.cc_S_Component_a_port)
-\n""",
-    str(txt))
+    verify_line_by_line(Expected_demo_Chain, result)

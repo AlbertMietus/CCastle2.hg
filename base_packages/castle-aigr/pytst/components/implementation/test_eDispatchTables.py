@@ -17,7 +17,7 @@ def table():
 
 
 @pytest.fixture
-def mockHandler(): # More (unused) mocks are in ./mocks.py
+def mockHandler():
     return ID('mockHandler')
 
 @pytest.fixture
