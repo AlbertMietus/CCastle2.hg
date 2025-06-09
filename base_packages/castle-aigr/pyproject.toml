@@ -8,7 +8,12 @@ version = "0.0.1"
 dependencies = []
 
 [tool.setuptools.packages.find]
-exclude = ["pytst*"]
+exclude = ["pytst*", "CastleCode", "ASIDE"]
 
 [tool.setuptools.package-data]
 "*" = ["py.typed", "*.pyi"]
+
+[tool.pytest.ini_options]
+markers = [
+    "slow: marks tests as slow (use --fast to include)"
+]
