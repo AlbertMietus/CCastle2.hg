@@ -14,7 +14,7 @@ def cd():
 
 @pytest.fixture
 def chain(cd):
-    return ChainedDict(cd)
+    return ChainedDict(parent=cd)
 
 def test_1_asDict(cd):
     assert cd['key'] == 'value'
@@ -47,3 +47,4 @@ def test_4b_withMapt():
         parent=None)
     assert d[1] == 2
     assert d[2] == 3
+
