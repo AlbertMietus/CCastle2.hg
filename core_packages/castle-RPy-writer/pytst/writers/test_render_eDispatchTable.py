@@ -14,7 +14,7 @@ from .mocks import *
 from castle.aigr_extra.blend import mangle_event_handler
 
 @pytest.fixture
-def demoTable(mockComp, mockPort, mockEvents):
+def demoTable(mockComp, mockPort, mockEvents): --> aigr.EventDispatchTable
     table = EventDispatchTable(component=mockComp)
     table.register_event(port_name=mockPort.name, event_name=mockEvents[0].name,
                              handler_name=ID(mangle_event_handler(protocol='an', event='other', port='name')))
@@ -28,7 +28,7 @@ cc_S_MockComp_MockPort = buildin.machinery.ChainedDict(map={
     parent=None)
 """
 
-@pytest.mark.xfail(reason="Desing of 'EventDispatchTable' needs update: can't determine the parent")
+@pytest.mark.xfail(reason="Design of 'EventDispatchTable' needs update: can't determine the parent")
 def test_demo(demoTable, chainDict_renderer):
     result = chainDict_renderer.render(demoTable)
     print_out(result, label='demoTable - parent is wrong')
