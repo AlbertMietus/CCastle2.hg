@@ -1,4 +1,4 @@
-AIGR Desing Notes (local only)
+AIGR Design Notes (local only)
 ==============================
 
 .. toctree::

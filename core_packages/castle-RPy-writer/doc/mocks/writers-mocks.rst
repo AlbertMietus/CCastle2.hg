@@ -26,6 +26,8 @@ writers-mocks.rst
       .. uml::
 
          @startuml
+         skinparam  classBackgroundColor lightBlue
+
 
          entity mockProtocol <<EventProtocol>> {
             ID = MockProtocol
@@ -48,7 +50,7 @@ writers-mocks.rst
          }
          mockPort <- visible::ports
 
-         entity "mockComp" as intern <<ComponentImplementation >> {
+         entity "mockComp" as intern <<ComponentImplementation >> #lightgray {
             ID        \t= MockComp
             interface \t= mockComp
          }
@@ -60,3 +62,6 @@ writers-mocks.rst
       .. literalinclude:: _2code/mocks.py
          :language: Python
          :lines: 10-
+         :emphasize-lines: 9, 13, 17
+
+
