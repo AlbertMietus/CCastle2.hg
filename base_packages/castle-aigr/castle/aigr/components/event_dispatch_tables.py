@@ -10,17 +10,22 @@ from .dispatch_tables import _DispatchTable
 from castle import aigr
 from castle.aigr import ID
 
-##GAM: XXX/ToDo: Make it a dataclass. EventDispatchTable is part if the aigr, it shouldn't have (major) methods!!
+@dataclass
 class EventDispatchTable(_DispatchTable):
     """The EventDispatchTable maps port+event -> eventhandler. All 3 are IDs
-    Remember, the AIGR is a data-structure, it does not have "pointers"!
 
+    Remember, the AIGR is a data-structure, it does not have "pointers"!
+    |BR|
     Therefor a dispatch-table must IDs, which can be a dottedName or a mangled-name;
     the later is typically used for an eventhandler.
 
     Also notice, an ID can have `_Context`, like `Ref` which can "reference" to the real thing. (the 'Def' ID).
-    This may be used, but one should not thrust it."""
+    This may be used, but one should not thrust it
 
+    .. error:: See .../castle-aigr/designNotes/warning.html (BUSY on that)
+
+    """
+    
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self._registration_byPort: Dict[ID, Dict[ID, ID]] = {} # Dict[port-name, Dict[event-name, handler-name]]

@@ -5,19 +5,15 @@ from dataclasses import dataclass, KW_ONLY
 
 from .. import AIGR
 
-
-
-
+@dataclass
 class _DispatchTable(AIGR):
     """A DispatchTable is a mapping between *triggers* (like `Events`) on a specific port, and the Handler that handle it.
 
     The best known/documented trigger is the event, which mapping is stored in the ``EventDispatchTable``. See there for more info
 
-    .. error:: See .../castle-aigr/designNotes/warning.html
+    .. error:: See .../castle-aigr/designNotes/warning.html (BUSY on that)
     """
 
-    def __init__(self, component, **kwargs):
-        super().__init__(**kwargs)
-        self.component = component # ComponentImplementation, ComponentInterface, OR NOT RELEVANTe
+
 
 

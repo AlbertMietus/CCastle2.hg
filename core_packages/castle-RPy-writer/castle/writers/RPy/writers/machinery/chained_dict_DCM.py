@@ -11,14 +11,14 @@ from . import Machinery, _M_DC_dict
 @Machinery.register('DirectCall.dict.chained', "chained.dict", "chained_dict", "chained-dict", default=True)
 class M_DC_chained_dict(_M_DC_dict):
 
-    def render_EventDispatchTable(self, renderer, node :aigr.EventDispatchTable) ->  Block:
+    def render_EventDispatchTable(self, renderer, node :aigr.EventDispatchTable) ->  Block: #XXX node:EventDispatchTable
         all_txt = Block()
         for port in node.list_ports():
             all_txt += self._render_EDT_forPort(renderer, node, port=port)
         return all_txt
 
 
-    def _render_EDT_forPort(self, renderer, node, port) -> Block:
+    def _render_EDT_forPort(self, renderer, node, port) -> Block: #XXX node:EventDispatchTable
         comp = node.component
         if isinstance(comp, aigr.ComponentImplementation):
             comp = comp.interface
@@ -35,7 +35,7 @@ class M_DC_chained_dict(_M_DC_dict):
         txt.sub(sub)
         return txt
 
-    def _render_EDT_events_forPort(self, renderer, node, port) -> Block:
+    def _render_EDT_events_forPort(self, renderer, node, port) -> Block: #XXX node:EventDispatchTable
         txt = Block()
         for event in node.list_events_for_port(port):
             txt += f"{event} : {node.find_byNames(port, event)},"

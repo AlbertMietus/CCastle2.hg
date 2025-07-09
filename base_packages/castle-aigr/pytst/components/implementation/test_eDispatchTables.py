@@ -13,7 +13,7 @@ from castle.aigr import ID
 
 @pytest.fixture
 def table():
-    return EventDispatchTable(component=None)   # XXX
+    return EventDispatchTable()
 
 
 @pytest.fixture

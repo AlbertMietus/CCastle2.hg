@@ -1,5 +1,7 @@
 # (C) Albert Mietus, 2024. Part of Castle/CCastle project #XXX OLDXXX
 
+""" 9/Jul/2025: Is this file/module usefull?"""
+
 from __future__ import annotations # Postponed evaluation of annotations
 from dataclasses import dataclass, KW_ONLY
 #from dataclasses import field as dc_field
