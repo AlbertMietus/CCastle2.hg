@@ -15,7 +15,7 @@ SETS	= last current current-ds current-info recheck
 TYPICAL = all clean cleaner cleanest veryclean doc test pytest pytest-only
 ALL	= current last todo pyanalyse todo mypy
 BUILD	= ${ALL} build install-e install-fast
-TEST 	= test pytest coverage mutmut
+TEST 	= test pytest coverage mutmut fast
 OPENit	= coverage-open mutmut-open pyanalyse-open
 FULL	= ${SETS} ${TYPICAL} ${ALL} ${TEST} ${BUILD} ${OPENit}
 
