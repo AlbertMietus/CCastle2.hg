@@ -6,16 +6,10 @@ import pytest
 
 from castle.aigr import machinery
 
-class Demo_DirectCall(machinery.machinery):
-    """Just a demo"""
-
 def test_Abstact_machinery():
-    m = machinery.machinery()
-    assert m.delegate is None
-
-def test_DC_machinery():
-    m = machinery.machinery(delegate=Demo_DirectCall)
-    assert m.delegate is Demo_DirectCall
+    m = machinery._machinery()
+    assert m is not None
+    assert isinstance(m, machinery._machinery)
 
 def test_send_proto_OutPort_Dummy():
     o = machinery._send_proto(outport='Dummy')
@@ -59,14 +53,5 @@ def test_connection_bothPortsNeeded():
     with pytest.raises(TypeError, match='2 required keyword-only arguments'):
         machinery.connection()
 
-def test_DispatchTable():
-    o = machinery.DispatchTable(handlers=[])
-    assert len(o.handlers) == 0 # trivial test -- see eDispatchTable
-
-def test_eDispatchTable():
-    o = machinery.eDispatchTable(handlers=['callable0', 'callable1',])
-    assert o.handlers[0] == 'callable0'
-    assert o.handlers[1] == 'callable1'
-    assert len(o.handlers) == 2
 
 

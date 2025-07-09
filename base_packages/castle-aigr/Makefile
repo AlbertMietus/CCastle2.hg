@@ -19,11 +19,12 @@ LAST = \
 	pytst/ #dummy
 #
 CURRENT = \
-	pytst/components/implementation/test_DispatchTables.py 		\
-	pytst/components/implementation/test_eDispatchTables.py 	\
+	pytst/machinery/	\
 #
 TODO = \
 	pytst/machinery/test_9_todo.py								\
+	pytst/components/implementation/test_DispatchTables.py 		\
+	pytst/components/implementation/test_eDispatchTables.py 	\
 #
 
 TOPd=../../

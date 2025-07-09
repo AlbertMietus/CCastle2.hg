@@ -10,14 +10,12 @@ from .. import verifyisDataClass
 
 def test_dataclass_all():
     for cls in (
-            machinery.machinery,
+            machinery._machinery,
             machinery._send_proto,
             machinery.sendStream,
             machinery.sendData,
             machinery.sendEvent,
             machinery.connection,
-            machinery.DispatchTable,
-            machinery.eDispatchTable,
             ):
         verifyisDataClass(cls)
 

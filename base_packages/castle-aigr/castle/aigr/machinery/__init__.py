@@ -18,16 +18,13 @@ from ..statements import _statement
 from .. import todo
 
 @dataclass
-class machinery(AIGR):
+class _machinery(AIGR):
     _: KW_ONLY
-    delegate : implementation = None      #XXX 9/Jul/2025 probally remove
-
-implementation : PTH.TypeAlias = PTH.Optional[type[machinery]] # pragma: no mutate   #XXX 9/Jul/2025 probally remove
 
 @dataclass
-class _send_proto(machinery, _statement):
+class _send_proto(_machinery, _statement):
     _: KW_ONLY
-    outport : AIGR # ID | Parts| ...
+    outport : AIGR # ID | Parts | ...
 
 @dataclass
 class sendStream(_send_proto, todo.mark_Dataclass): ...
@@ -37,21 +34,11 @@ class sendData(_send_proto, todo.mark_Dataclass): ...
 @dataclass
 class sendEvent(_send_proto):
     _: KW_ONLY
-    event: AIGR # ID | Parts| ...
+    event: AIGR # ID | Parts | ...
     arguments: PTH.Sequence[Argument]
 
 @dataclass
-class connection(machinery):
+class connection(_machinery):
     _: KW_ONLY
     outport: Port
     inport: Port
-
-@dataclass
-class DispatchTable(machinery):
-    _: KW_ONLY
-    handlers : PTH.Sequence[Handler] # XXX Handlers not yet defined
-Handler = todo.Typing #XXX Weet nog niet waar/wanneer (Event)Handlers in de AIGR komen
-
-@dataclass
-class eDispatchTable(DispatchTable):
-    _: KW_ONLY
