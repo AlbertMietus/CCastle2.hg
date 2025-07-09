@@ -11,7 +11,7 @@ from .. import verifyisDataClass
 def test_dataclass_all():
     for cls in (
             machinery.machinery,
-            machinery.send_proto,
+            machinery._send_proto,
             machinery.sendStream,
             machinery.sendData,
             machinery.sendEvent,

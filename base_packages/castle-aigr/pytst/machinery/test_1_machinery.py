@@ -18,12 +18,12 @@ def test_DC_machinery():
     assert m.delegate is Demo_DirectCall
 
 def test_send_proto_OutPort_Dummy():
-    o = machinery.send_proto(outport='Dummy')
+    o = machinery._send_proto(outport='Dummy')
     assert o.outport=='Dummy'
 
 def test_send_proto_needsOutPort():
     with pytest.raises(TypeError, match="""'outport'"""):
-        o = machinery.send_proto()
+        o = machinery._send_proto()
 
 def test_ToDo__sendStreamd():
     with pytest.raises(NotImplementedError, match='ToDo'):

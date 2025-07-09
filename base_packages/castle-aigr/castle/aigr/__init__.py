@@ -14,6 +14,6 @@ from .nodes import *
 from .statements import *
 from .expressions import *
 
-from . import machinery
-
 from .components import *
+
+from . import machinery

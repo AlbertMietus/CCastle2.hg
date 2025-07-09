@@ -13,11 +13,10 @@ PYREVERSE_PKGS = \
 	castle.aigr_extra.blend \
 	castle.aigr_extra.builders \
 	\
-
-
 #
 
 LAST = \
+	pytst/ #dummy
 #
 CURRENT = \
 	pytst/components/implementation/test_DispatchTables.py 		\
