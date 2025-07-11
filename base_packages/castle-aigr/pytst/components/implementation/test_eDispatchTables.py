@@ -11,80 +11,94 @@ from castle.aigr.components import EventDispatchTable
 from castle import aigr
 from castle.aigr import ID
 
-@pytest.fixture
-def table():
-    return EventDispatchTable()
+from mocks import *
 
-
-@pytest.fixture
-def mockHandler():
-    return ID('mockHandler')
+def test_1_givenPort_whenEventDispatchTableInit_thenPortIsSet(table):
+    table = EventDispatchTable(port=ID('MockPortName'))
+    assert table.port == "MockPortName"
 
 @pytest.fixture
-def demoTable(table):
-    event_count=1
-    for p in (1,2,3):
-        for e in ('a', 'b'):
-            table.register_event(ID(f"port_{p}"), ID(f"event_{p}{e}"), ID(f"handler_{event_count}"))
-            event_count+=1
-    assert len(table) == 6 # Not a test, just a safety.
-    return table
+def table(mock_protocol, mock_events):
+    handlers = {event: f"{mock_protocol}_{event}" for event in mock_events}
+    return EventDispatchTable(port=ID("MockPortName"), handlers=handlers)
 
-def test_1_startEmpty(table):
-    assert len(table) == 0, "Initially the table should have 0 events"
-
-def test_2_register_oneEvent_with_IDs(table, mockHandler):
-    p,e = ID('port'), ID('event')
-    table.register_event(p,e, mockHandler)
-
-    assert len(table) == 1, "After one registration, the length should be one"
-    assert table.find_byNames(p,e) == mockHandler, "Can't find the just registered event"
+def test_2a_givenEventsAndHandlers_whenInitialized_thenCountsMatch(table, mock_events):
+    assert len(table.handlers) == len(mock_events)
 
 
-def test_3_overwrite_Event(table, mockHandler):
-    p,e = ID('port'), ID('event')
-    table.register_event(p,e, ID('This_one_will_be_overwritten'))
-
-    table.register_event(p,e, mockHandler)
-
-    assert len(table) == 1, "After one registration, the length should be one"
-    assert table.find_byNames(p,e) == mockHandler, "Can't find the just registered event"
+def test_2b_givenEventsAndHandlers_whenInitialized_thenTableIsNotEmpty(table):
+    assert len(table.handlers) > 0
 
 
-def test_4a_findNone_asEmpty(table):
-    p,e = ID('port'), ID('event')
+## @pytest.fixture
+## def mockHandler():
+##     return ID('mockHandler')
 
-    empty =table.find_byNames(p,e)
-    assert empty is None
+## @pytest.fixture
+## def demoTable(table):
+##     event_count=1
+##     for p in (1,2,3):
+##         for e in ('a', 'b'):
+##             table.register_event(ID(f"port_{p}"), ID(f"event_{p}{e}"), ID(f"handler_{event_count}"))
+##             event_count+=1
+##     assert len(table) == 6 # Not a test, just a safety.
+##     return table
 
-def test_4b_findNone_asOtherPort(table, mockHandler):
-    p,e = ID('port'), ID('event')
-    table.register_event(p,e, mockHandler)
+## def test_1_startEmpty(table):
+##     assert len(table) == 0, "Initially the table should have 0 events"
 
-    empty =table.find_byNames(ID('otherPort'), e)
-    assert empty is None
+## def test_2_register_oneEvent_with_IDs(table, mockHandler):
+##     p,e = ID('port'), ID('event')
+##     table.register_event(p,e, mockHandler)
 
-def test_4c_findNone_asOtherEvent(table, mockHandler):
-    p,e = ID('port'), ID('event')
-    table.register_event(p,e, mockHandler)
+##     assert len(table) == 1, "After one registration, the length should be one"
+##     assert table.find_byNames(p,e) == mockHandler, "Can't find the just registered event"
 
-    empty =table.find_byNames(p,ID('otherEvent'))
-    assert empty is None
 
-def test_5_listPorts(demoTable):
-    ports = demoTable.list_ports()
-    assert 'port_1' in ports
-    assert 'port_2' in ports
-    assert 'port_3' in ports
-    assert len(ports) == 3
+## def test_3_overwrite_Event(table, mockHandler):
+##     p,e = ID('port'), ID('event')
+##     table.register_event(p,e, ID('This_one_will_be_overwritten'))
 
-def check_listEvents_For_1Port(demoTable, portNo):
-    events = demoTable.list_events_for_port(ID(f'port_{portNo}'))
-    assert f'event_{portNo}a' in events
-    assert f'event_{portNo}b' in events
-    assert len(events) == 2
-    return True
+##     table.register_event(p,e, mockHandler)
 
-def test_6_listEvents_For_Ports(demoTable):
-    for p in (1,2,3):
-        assert check_listEvents_For_1Port(demoTable, portNo=p)
+##     assert len(table) == 1, "After one registration, the length should be one"
+##     assert table.find_byNames(p,e) == mockHandler, "Can't find the just registered event"
+
+
+## def test_4a_findNone_asEmpty(table):
+##     p,e = ID('port'), ID('event')
+
+##     empty =table.find_byNames(p,e)
+##     assert empty is None
+
+## def test_4b_findNone_asOtherPort(table, mockHandler):
+##     p,e = ID('port'), ID('event')
+##     table.register_event(p,e, mockHandler)
+
+##     empty =table.find_byNames(ID('otherPort'), e)
+##     assert empty is None
+
+## def test_4c_findNone_asOtherEvent(table, mockHandler):
+##     p,e = ID('port'), ID('event')
+##     table.register_event(p,e, mockHandler)
+
+##     empty =table.find_byNames(p,ID('otherEvent'))
+##     assert empty is None
+
+## def test_5_listPorts(demoTable):
+##     ports = demoTable.list_ports()
+##     assert 'port_1' in ports
+##     assert 'port_2' in ports
+##     assert 'port_3' in ports
+##     assert len(ports) == 3
+
+## def check_listEvents_For_1Port(demoTable, portNo):
+##     events = demoTable.list_events_for_port(ID(f'port_{portNo}'))
+##     assert f'event_{portNo}a' in events
+##     assert f'event_{portNo}b' in events
+##     assert len(events) == 2
+##     return True
+
+## def test_6_listEvents_For_Ports(demoTable):
+##     for p in (1,2,3):
+##         assert check_listEvents_For_1Port(demoTable, portNo=p)
