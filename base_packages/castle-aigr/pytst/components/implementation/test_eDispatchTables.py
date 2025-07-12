@@ -13,21 +13,28 @@ from castle.aigr import ID
 
 from mocks import *
 
-def test_1_givenPort_whenEventDispatchTableInit_thenPortIsSet(table):
+
+def test_1_givenPort_whenEventDispatchTableInit_thenPortIsSet():
     table = EventDispatchTable(port=ID('MockPortName'))
-    assert table.port == "MockPortName"
-
-@pytest.fixture
-def table(mock_protocol, mock_events):
-    handlers = {event: f"{mock_protocol}_{event}" for event in mock_events}
-    return EventDispatchTable(port=ID("MockPortName"), handlers=handlers)
-
-def test_2a_givenEventsAndHandlers_whenInitialized_thenCountsMatch(table, mock_events):
-    assert len(table.handlers) == len(mock_events)
+    assert table.port == "MockPortName",   "Any DispatchTable should be associated with a Port -Found {table.port}"
+    assert isinstance(table.port, ID), "The port should be an ID"
 
 
-def test_2b_givenEventsAndHandlers_whenInitialized_thenTableIsNotEmpty(table):
-    assert len(table.handlers) > 0
+def test_2a_InitializedWithEventsAndHandlers_TableIsNotEmpty(etable):
+    assert len(etable.map) != 0
+
+def test_2b_InitializedWithEventsAndHandlers_CountsMatch(etable, mock_events):
+    assert len(etable.map) == len(mock_events)
+
+
+def test_3a_InitializedWithEventsAndHandlers_NotNone(etable, mock_events):
+    map = etable.map
+    for e,h in map.items():
+        for name in (e,h):
+            assert isinstance(name, ID) and name != "", f"All names in a table should be an ID and never empty. Found: {name}:{type(name)}"
+
+
+
 
 
 ## @pytest.fixture

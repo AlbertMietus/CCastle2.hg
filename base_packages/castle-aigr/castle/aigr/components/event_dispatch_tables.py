@@ -35,7 +35,7 @@ class EventDispatchTable(_DispatchTable):
     Similar, one can use wrappers to read it."""
 
     _: KW_ONLY
-    handlers: PTH.Optional[dict[ID, str]] = dc_field(default_factory= lambda: dict())
+    map: PTH.Optional[dict[ID, str]] = dc_field(default_factory= lambda: dict())
 
 
 
