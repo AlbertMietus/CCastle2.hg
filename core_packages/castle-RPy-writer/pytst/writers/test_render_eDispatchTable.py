@@ -14,11 +14,10 @@ from .mocks import *
 from castle.aigr_extra.blend import mangle_event_handler
 
 @pytest.fixture
-def demoTable(mockPort, mockEvents) -> aigr.EventDispatchTable:
-    table = EventDispatchTable()
-    table.register_event(port_name=mockPort.name, event_name=mockEvents[0].name,
-                             handler_name=ID(mangle_event_handler(protocol='an', event='other', port='name')))
+def demoTable(mockPort, mockProtocol) -> aigr.EventDispatchTable:
+    map = {event.name: ID(mangle_event_handler(event=event.name, port=mockPort.name, protocol=mockProtocol.name)) for event in mockProtocol.events}
 
+    table = EventDispatchTable(port=mockPort.name, map=map)
     return table
 
 Expected_demo_Chain="""\

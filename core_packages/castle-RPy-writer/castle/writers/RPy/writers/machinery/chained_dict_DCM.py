@@ -12,10 +12,11 @@ from . import Machinery, _M_DC_dict
 class M_DC_chained_dict(_M_DC_dict):
 
     def render_EventDispatchTable(self, renderer, node :aigr.EventDispatchTable) ->  Block: #XXX node:EventDispatchTable
-        all_txt = Block()
-        for port in node.list_ports():
-            all_txt += self._render_EDT_forPort(renderer, node, port=port)
-        return all_txt
+#OLD#        all_txt = Block()
+#OLD#        for port in node.list_ports():
+#OLD#            all_txt += self._render_EDT_forPort(renderer, node, port=port)
+#OLD#        return all_txt
+        assert False, "needs to be implemented" #XXX
 
 
     def _render_EDT_forPort(self, renderer, node, port) -> Block: #XXX node:EventDispatchTable

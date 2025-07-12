@@ -20,10 +20,9 @@ def mockProtocol(mockEvents) ->aigr.EventProtocol:
 
 @pytest.fixture
 def mockPort(mockProtocol) ->aigr.Port:
-    return aigr.Port("MockPort", direction=aigr.PortDirection.In, type=mockProtocol)
+    return aigr.Port(ID("MockPort"), direction=aigr.PortDirection.In, type=mockProtocol)
 
 @pytest.fixture
 def mockComp(mockPort) ->aigr.ComponentImplementation:
-    name=ID("MockComp")
-    return aigr.ComponentImplementation(name, interface=aigr.ComponentInterface(name, ports=[mockPort]))
+    return aigr.ComponentImplementation(name=ID("MockComp"), interface=aigr.ComponentInterface(name, ports=[mockPort]))
 
