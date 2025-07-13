@@ -46,14 +46,6 @@ def verifyMark(dummy, mark):
         assert dummy.mark == mark, f"Expecting mark: {mark}, but got {dummy.mark}"
 
 
-def verifyKids(s):
-    logger.debug("verifyKids of %s cls._kids= %s", s, type(s)._kids)
-    unique = Dummy('unique')
-    for k in s._kids:
-        logger.debug("verifyKid  getattr(s,%s,unique) (%s) != unique (%s) %s",
-                         k, getattr(s,k,unique), unique, getattr(s,k,unique)!=unique)
-        assert unique != getattr(s,k, unique), f"Kid `{k}` should exist in {s}, but doesn't"
-
 
 def verifyisDataClass(cls):
     logger.debug("verifyisDataClass: %s ", cls)

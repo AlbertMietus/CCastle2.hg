@@ -22,8 +22,6 @@ class Become(_statement):
 
        Currently, only single assignment are supported -- so both tuples have len==1
     """
-    _kids = _statement._kids + ('targets', 'values')
-
     _ : KW_ONLY
     targets: tuple[AIGR]                   # LHS: (sequence of) Variables etc
     values:  tuple[AIGR]                   # RGS: (sequence of) Values
@@ -37,6 +35,5 @@ class VoidCall(_statement):
        * In CastleCode, this wrapper is not needed
        * Typical VoidCall is used without named parameters
        """
-    _kids = _statement._kids + ('call',)
 
     call : expressions.Call

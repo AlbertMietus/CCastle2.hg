@@ -16,8 +16,6 @@ class Body(_statement):
 
     A `Body` can also be used as an component-statement
     """
-    _kids = _statement._kids + ('statements',)
-
     _: KW_ONLY
     statements: list[_statement] = dc_field(default_factory=list)
 

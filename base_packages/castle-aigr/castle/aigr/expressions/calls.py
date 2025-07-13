@@ -12,14 +12,12 @@ from . import _expression
 
 
 
-class _call(_expression):pass # _kids = _expression._kids
+class _call(_expression): pass
 
 @dataclass
 class Call(_call):
     """ A `Call` is e.g. a method/function-call; but also a call by a 'function-pointer' is a `Call`
     """
-    _kids = _call._kids + ('callable', 'arguments')
-
     _: KW_ONLY
     callable  : AIGR # often a name but a "function-pointer" is an option too
     arguments : PTH.Optional[tuple[AIGR, ...]]=()
@@ -31,7 +29,6 @@ class Part(_call):
 
     It's a `_call` as the compiler will call a method (of 'base') to calculate the result-- so it (like an operator too
     """
-    _kids = _call._kids + ('base', 'attribute', 'index')
 
     base      : PTH.Optional[AIGR]          # Usually an ID, but can be a ref/pointer, return-value etc
     _: KW_ONLY

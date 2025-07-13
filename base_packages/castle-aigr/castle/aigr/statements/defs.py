@@ -23,7 +23,6 @@ class ComponentImplementation(_hasScope, _statement, NamedNode):
 
     .. note :: Although a Component( Implementation) uses '{' ... '}' that is not a ``Body``, but a `namespace` --see _hasScope
     """
-    _kids = _statement._kids + ('interface', 'parameters')
     _: KW_ONLY
 
     interface  : PTH.Optional[ComponentInterface] = None
@@ -35,7 +34,6 @@ class ComponentImplementation(_hasScope, _statement, NamedNode):
 class VariableDefintion(_statement, NamedNode):
     """Define/Declare a variable, usually in a component
     """
-    _kids = _statement._kids + ('name',) + ('type', 'value')
     _: KW_ONLY
 
     type   : types # An AIGR-type

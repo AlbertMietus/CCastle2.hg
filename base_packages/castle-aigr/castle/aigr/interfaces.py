@@ -39,7 +39,6 @@ class Port(NamedNode):
           * ``Port``s do *not* inherit
           * A `Port` has a type, like Event -- basically a protocol
           * The Port's ID is stored in the Component's (interface) namespace."""
-    _kids = AIGR._kids + ('direction', 'type')
 
     _: KW_ONLY
     direction: PortDirection
@@ -48,7 +47,6 @@ class Port(NamedNode):
 
 @dataclass
 class ComponentInterface(NamedNode):
-    _kids = NamedNode._kids + ('based_on', 'ports')
 
     _: KW_ONLY
     based_on: PTH.Optional[ComponentInterface]=dc_field(default_factory= lambda: baseComponent)  #type: ignore[has-type]

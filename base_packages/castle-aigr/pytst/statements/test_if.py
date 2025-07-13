@@ -1,7 +1,7 @@
 # (C) Albert Mietus, 2024. Part of Castle/CCastle project
 
 import pytest
-from .. import  Dummy, verifyMark, verifyKids
+from .. import  Dummy, verifyMark
 
 from castle.aigr import If
 
@@ -22,9 +22,4 @@ def test_2_if_missing():
     with pytest.raises(TypeError): If(test=Dummy('WRONG'))
     with pytest.raises(TypeError): If(body=Dummy('WRONG'))
     with pytest.raises(TypeError): If()
-
-
-def test_if_kids():
-    verifyKids(If(test=Dummy('1/3'), body=Dummy('2/3'), orelse=Dummy('3/3')))
-    verifyKids(If(test=Dummy('1/2'), body=Dummy('2/2')))
 

@@ -7,7 +7,6 @@ import typing as PTH                                       # Python TypeHints
 
 @dataclass
 class AIGR: # Abstract Intermediate Graph Representation
-    _kids : PTH.ClassVar[tuple[str,...]] = tuple() # All subclasses should set this to be able to walk the tree (as class variable)
     def __new__(cls, *args, **kwargs):
         if cls == AIGR:
             raise NotImplementedError(f"Instantiate a subclass of {cls}, not the `Abstract Intermediate Graph Representation`` itself")

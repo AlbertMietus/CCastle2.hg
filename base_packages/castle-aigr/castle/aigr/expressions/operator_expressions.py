@@ -15,8 +15,6 @@ from . import operators
 
 @dataclass
 class LRexpression(_expression):
-    _kids = _expression._kids + ('op', 'values')
-
     _: KW_ONLY
     op    : operators._LeftAssociative
     values : tuple[AIGR]
@@ -24,16 +22,12 @@ class LRexpression(_expression):
 
 @dataclass
 class RLexpression(_expression):
-    _kids = _expression._kids + ('op', 'values')
-
     _: KW_ONLY
     op    : operators._RightAssociative
     values : tuple[AIGR]
 
 @dataclass
 class Unaryexpression(_expression):
-    _kids = _expression._kids + ('op', 'value')
-
     _: KW_ONLY
     op    : operators._unart_op
     value : AIGR
@@ -69,8 +63,6 @@ class Compare(_expression):
        * When .ops is a tuple: len(.ops) == len(.values) -1
        * When len(values)==2, ops should not be an tuple.
     """
-    _kids = _expression._kids + ('ops', 'values')
-
     _: KW_ONLY
     ops    : operators._compare_op | tuple[operators._compare_op]
     values : tuple[AIGR, ...]

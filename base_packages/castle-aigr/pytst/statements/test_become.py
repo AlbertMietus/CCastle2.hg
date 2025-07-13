@@ -1,7 +1,7 @@
 # (C) Albert Mietus, 2024. Part of Castle/CCastle project
 
 import pytest
-from .. import  Dummy, verifyMark, verifyKids
+from .. import  Dummy, verifyMark
 
 from castle.aigr import Become
 
@@ -26,9 +26,4 @@ def test_2_MultipleAssignment():
         verifyMark(s.targets[n],c)
     for n, c in enumerate(reversed("ab")):
         verifyMark(s.values[n],c)
-
-
-def test_if_kids():
-    verifyKids(Become(targets=(),values=()))
-
 

@@ -22,7 +22,6 @@ class _callable(_hasScope, _statement):
 
     Most callable(s) have a name, but not all -- therefor it's not a NamedNode
     """
-    _kids = _statement._kids + ('parameters', 'body')
 
     _ : KW_ONLY
     parameters : tuple[TypedParameter, ...]       = dc_field(default_factory=tuple)
@@ -32,18 +31,14 @@ class _callable(_hasScope, _statement):
 
 @dataclass
 class _Named_callable(NamedNode, _callable):
-    _kids = NamedNode._kids + tuple(k for k in _callable._kids if not k in NamedNode._kids)
-
     def __post_init__(self):
         self._register_parameters(True)
 
 
 @dataclass
-class Method(_Named_callable):
-    #_kids = _Named_callable
-    pass
+class Method(_Named_callable): pass
 
-class _handlers(_Named_callable): pass #_kids = _Named_callable
+class _handlers(_Named_callable): pass
 
 @dataclass
 class EventHandler(_handlers):
@@ -58,7 +53,6 @@ class EventHandler(_handlers):
 
     .. warning:: The protocol/event/port are IDs with `Ref` context (empty or with path to real objects. Not those objects themself!
     """
-    _kids = _statement._kids + ('protocol', 'event', 'port')
 
     _ : KW_ONLY
     protocol  : ID

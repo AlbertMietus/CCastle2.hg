@@ -16,8 +16,6 @@ class If(_statement):
     The optional 'orelse' can be a simple body, acting as "else", or
     another if-statement, modeling the "elif" as known in e.g. python.
     """
-    _kids = _statement._kids + ('test', 'body', 'orelse')
-
     _ : KW_ONLY
     test:   AIGR                     # Boolean Expr
     body:   AIGR                     # Typical: `AIGR.Body`

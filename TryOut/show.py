@@ -12,13 +12,6 @@ def Try_printNameType(n: aigr.NamedNode):
     except:
         pass
 
-def showKids(n: aigr.NamedNode):
-    Try_printNameType(n)
-    try:
-        for k in n._kids:
-            print('\t', k, '\t', getattr(n,k))
-    except AttributeError:
-        pass
 
 def showNS(ns: aigr.NamedSpace):
     Try_printNameType(ns)

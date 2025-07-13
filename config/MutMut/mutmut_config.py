@@ -1,7 +1,6 @@
 skip_lines_starting_with=(
     "import logging",
     "raise NotImplementedError",
-    "_kids =",
     "logger.warning(",
     "logger.debug(",
     "logger.info(",

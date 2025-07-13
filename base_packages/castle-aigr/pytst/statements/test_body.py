@@ -1,12 +1,10 @@
 # (C) Albert Mietus, 2024. Part of Castle/CCastle project
 
 import pytest
-from .. import  Dummy, verifyMark, verifyKids
+from .. import  Dummy, verifyMark
 
 from castle.aigr import Body
 
-def test_0_Body_has_kids():
-    verifyKids(Body())
 
 def test_1_emptyBody():
     b = Body()

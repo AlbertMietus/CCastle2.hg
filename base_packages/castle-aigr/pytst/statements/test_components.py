@@ -1,7 +1,7 @@
  # (C) Albert Mietus, 2024. Part of Castle/CCastle project
 
 import pytest
-from .. import  Dummy, verifyMark, verifyKids
+from .. import  Dummy, verifyMark
 
 from castle.aigr import ComponentImplementation
 from castle.aigr import ComponentInterface, Port
@@ -25,10 +25,9 @@ def verifyKidsTypes(comp):
 def test_0a_Interface_kids():
     comp = ComponentInterface(ID('KW_component'))
     verifyKidsTypes(comp)
-    verifyKids(comp)
 
 def test_0b_Implementation_kids():
     comp = ComponentImplementation(ID('KW_implement'))
     verifyKidsTypes(comp)
-    verifyKids(comp)
+
 

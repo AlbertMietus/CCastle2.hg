@@ -2,7 +2,7 @@
 
 import logging; logger = logging.getLogger(__name__)
 import pytest
-from .. import  Dummy, verifyMark, verifyKids
+from .. import  Dummy, verifyMark
 
 from castle import aigr
 from castle.aigr import Method, ID, Body
@@ -14,7 +14,6 @@ def verify_NamedCallableTypes(c):
     assert isinstance(c.parameters, tuple)
     assert isinstance(c.body, Body), f"a callable should have a Body, but type={type(comp.body)}"
     #assert isinstance(c.returns,  ... )  # XXX ToDo: # See test_9_returnType (merge once)
-    verifyKids(c)
 
 
 def test_1_MethodWithName():

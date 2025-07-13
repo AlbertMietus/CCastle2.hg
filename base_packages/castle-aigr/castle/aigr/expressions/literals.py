@@ -13,8 +13,6 @@ from ..base import types
 
 @dataclass
 class _literal(_expression):
-    _kids = _expression._kids + ('value', 'type')
-
     _: KW_ONLY
     value : PTH.Any
     type  : PTH.Optional[types._types] = None
@@ -30,8 +28,6 @@ class Constant(_literal):
 class _TemplateLiteral(_literal):
     """A template literal is like a **f-string** in Python, or a **tagged template literal** in JavaScript;
        but more generic: not only for strings"""
-    _kids = _literal._kids + ('formater', 'args')
-
     _: KW_ONLY
     formater : PTH.Any = None  #Typical: aigr.statements.callables._callable
     args     : list[ID] = dc_field(default_factory=list)

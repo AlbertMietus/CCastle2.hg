@@ -14,8 +14,6 @@ from . import Argument
 
 @dataclass
 class NamedNode(AIGR):
-#    _kids = AIGR._kids + ('name',) # ID/name is not a kid
-
     name       : ID|str
 
     def __post_init__(self):
@@ -25,7 +23,6 @@ class NamedNode(AIGR):
 @dataclass
 class Specialise(NamedNode):
     """XXX: Doc, Move to ..."""
-    _kids = NamedNode._kids + ('based_on', 'arguments')
 
     _: KW_ONLY
     based_on:  NamedNode
