@@ -57,24 +57,6 @@ cc_C_Elemental_HelloWorld = buildin.CC_B_ComponentClass(
     interface = cc_CI_Elemental_HelloWorld,
     )
 
-# if MACHINERY == 'list' or MACHINERY == 'default':
-#     CC_P_Power_On = 1                        # XXX ToDo: move to ..
-#     cc_S_Elemental_HelloWorld_power = [
-#         None,
-#         CC_Elemental_HelloWorld.Power_powerOn__power,
-#         ]
-# elif MACHINERY == 'tuple':
-#     cc_S_Elemental_HelloWorld_power = (
-#         None,
-#         CC_Elemental_HelloWorld.Power_powerOn__power,
-#     )
-# elif MACHINERY == 'dict':
-#     cc_S_Elemental_HelloWorld_power = {
-#         'CC_P_Power_On' : CC_Elemental_HelloWorld.Power_powerOn__power,
-#         }
-# else:
-#     assert False, "Set 'MACHINERY'!"
-
 
 if MACHINERY == 'list' or MACHINERY == 'default':
     pass

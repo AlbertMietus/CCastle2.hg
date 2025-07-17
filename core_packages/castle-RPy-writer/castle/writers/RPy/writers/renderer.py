@@ -19,7 +19,7 @@ class Renderer(Visitor):
     def __init__(self, walker:PTH.Optional[Walker]=None, machinery:PTH.Optional[Machinery]=None, **kw):
         super().__init__(**kw)
         self.walker = walker if walker else Walker()
-        self.machinery = machinery if machinery else Machinery() # The baseclass will select one
+        self.machinery = machinery if machinery else Machinery() # type: ignore[abstract] # Machinery-baseclass selects a subclass ad instance that one.
         logger.debug("Using Machinery: %s,\t and Walker: %s", self.machinery,  self.walker)
 
 
@@ -30,11 +30,11 @@ class Renderer(Visitor):
         if ns :ns+="."
         return ns+prefix+n
 
-    def _CC_cls_prefix(self, name):			   return self._prefix('CC_',    name)                # generated cls for Component
-    def _cc_C_elm_prefix(self, name):		   return self._prefix('cc_C_',  name)                # element (instantiated Component)
-    def _cc_CI_elm_prefix(self, name):		   return self._prefix('cc_CI_', name)                # component-interface
-    def _cc_S_dispatchTable(self, comp,port):  return self._prefix('cc_S_',  f'{comp}_{port}')    # (event) dispatch-table
-    def _CompBase(self):      				   return 'buildin.CC_B_Component'
+    def _CC_cls_prefix(self, name):			    return self._prefix('CC_',    name)                # generated cls for Component
+    def _cc_C_elm_prefix(self, name):		    return self._prefix('cc_C_',  name)                # element (instantiated Component)
+    def _cc_CI_elm_prefix(self, name):		    return self._prefix('cc_CI_', name)                # component-interface
+    def _cc_S_dispatchTable(self, comp, port):  return self._prefix('cc_S_',  f'{comp}_{port}')    # (event) dispatch-table
+    def _CompBase(self):      				    return 'buildin.CC_B_Component'
 
 
     def render(self, node: aigr.AIGR) ->str:
@@ -158,7 +158,6 @@ class Renderer(Visitor):
         return str(node)
 
     def visit_EventDispatchTable(self, node)			->  TextBlock:
-        """XXX Rendering the EventDispatchTables depends on the selected MACHINERY. So, this code has to be slit off XXX"""
         return self.machinery.render_EventDispatchTable(self, node)
 
 

@@ -13,7 +13,7 @@ class ChainedDict:
        * A ChainedDict is a read-only map, when running. All key/value pairs are generated.
        * The set-method is only use to create the map (and for testing)"""
 
-    def __init__(self, map :dict=None, parent=None):
+    def __init__(self, map :PTH.Optional[dict]=None, parent=None):
         self._parent = parent
         self._dict = map if map else {}
 

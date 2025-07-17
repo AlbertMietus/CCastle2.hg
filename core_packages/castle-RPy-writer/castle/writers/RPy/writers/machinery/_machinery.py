@@ -9,7 +9,8 @@ from castle.writers.RPy.aid import Block
 
 
 class Machinery(ABC):
-    _register, _default_hint = {}, None # placeholders
+    _register      : dict    = {}
+    _default_hint  : PTH.Any = None
 
     @classmethod
     def register(cls, *hints, default: bool = False):
