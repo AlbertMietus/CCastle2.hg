@@ -1,35 +1,47 @@
 # (C) Albert Mietus, 2025. Part of Castle/CCastle project
 
+
+"""///CastleCode
+protocol stubProtocol : EventProtocol {
+   DummyEvent_1();
+   DummyEvent_2();
+}
+component simple {
+   port stubProtocol<in>: MockPort;
+}
+component child:simple {
+   port stubProtocol<in>: MockPort; ///GAM: is it needed/allowd to repeat?
+}
+implement simple {
+stubProtocol.DummyEvent_1 on .MockPort {....} // Does something
+}
+implement child {
+stubProtocol.DummyEvent_1 on .MockPort {....} // Does something else:-)
+}
+"""
+
+
 import logging; logger = logging.getLogger(__name__)
 import pytest
 
 from castle import aigr
-from castle.aigr.components import EventDispatchTable
-
 from castle.aigr import ID
 
 from .. import chainDict_renderer
 from ..verify import *
-from .mocks import *
-from castle.aigr_extra.blend import mangle_event_handler
 
-@pytest.fixture
-def demoTable(mockPort, mockProtocol) -> aigr.EventDispatchTable:
-    map = {event.name: ID(mangle_event_handler(event=event.name, port=mockPort.name, protocol=mockProtocol.name)) for event in mockProtocol.events}
+from .demoTables import * # fixtures and  <Expected>
 
-    table = EventDispatchTable(port=mockPort.name, map=map)
-    return table
 
-Expected_demo_Chain="""\
-cc_S_MockComp_MockPort = buildin.machinery.ChainedDict(map={
-    MockEvent_1 : an_other__name,
-    },
-    parent=None)
-"""
 
 @pytest.mark.xfail(reason="Design of 'EventDispatchTable' needs update: can't determine the parent")
-def test_demo(demoTable, chainDict_renderer):
-    result = chainDict_renderer.render(demoTable)
+def test_simpeTable(simpleTable, chainDict_renderer):
+    result = chainDict_renderer.render(simpleTable)
     print_out(result, label='demoTable - parent is wrong')
+    verify_line_by_line(Expected_4_simpleTable, result)
 
-    verify_line_by_line(Expected_demo_Chain, result)
+@pytest.mark.skip("see above: design ...")
+def test_childTable(childTable, chainDict_renderer):
+    result = chainDict_renderer.render(childTable)
+    print_out(result, label='demoTable - parent is wrong')
+    verify_line_by_line(Expected_4_childTable, result)

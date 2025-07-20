@@ -7,22 +7,25 @@ import pytest
 from castle import aigr
 from castle.aigr import ID
 
+
+
 @pytest.fixture
-def mockEvents() -> list[aigr.Event]:
-    return [
-        aigr.Event(ID("MockEvent_1")),
-        aigr.Event(ID("MockEvent_2")),
+def stubProtocol() ->aigr.EventProtocol:
+    dummyEvents = [
+        aigr.Event(ID("DummyEvent_1")),
+        aigr.Event(ID("DummyEvent_2")),
         ]
+    return aigr.EventProtocol(ID("StubProtocol"), events=dummyEvents)
 
 @pytest.fixture
-def mockProtocol(mockEvents) ->aigr.EventProtocol:
-    return aigr.EventProtocol(ID("MockProtocol"), events=mockEvents)
-
-@pytest.fixture
-def mockPort(mockProtocol) ->aigr.Port:
-    return aigr.Port(ID("MockPort"), direction=aigr.PortDirection.In, type=mockProtocol)
+def mockPort(stubProtocol) ->aigr.Port:
+    return aigr.Port(ID("MockPort"), direction=aigr.PortDirection.In, type=stubProtocol)
 
 @pytest.fixture
 def mockComp(mockPort) ->aigr.ComponentImplementation:
     return aigr.ComponentImplementation(name=ID("MockComp"), interface=aigr.ComponentInterface(name, ports=[mockPort]))
+
+
+
+
 

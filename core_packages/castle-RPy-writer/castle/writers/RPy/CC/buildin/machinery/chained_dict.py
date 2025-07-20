@@ -4,14 +4,23 @@ import typing as PTH                                                            
 # This is RPYthon code!
 
 class ChainedDict:
-    """This dict-alike structure is used in CC to store (event) DispatchTables (with :class:`M_DC_chained_dict` as 'the Machinery').
+    """This dict-alike structure is used in CC to store (event) DispatchTables (with :class:`M_DC_chained_dict` as 'the Machinery
 
-    Each ChainedDict contains (only) its "own part" of DispatchTable, and references to it parent for inherited mappings.
+    Each ``ChainedDict`` contains (only) its "own part" of DispatchTable; that is, events-handlers that are implemented within
+    (the scope of) this Component. It is "chained" to another :class:`ChainedDict` (instance) that contains the inherited
+    handlers.
+
+    This `._parent` ChainedDict is defined in/with a base-component (for the same port!), and used as (top) map for that component.
+    It will hold a `._parent` again.
+    |BR|
+    When an event-handler is redefined in the component, it is defined in the `ChainedDict` of that component. The one of the parent
+    is ignored (automatically).
 
     .. notes:
 
-       * A ChainedDict is a read-only map, when running. All key/value pairs are generated.
-       * The set-method is only use to create the map (and for testing)"""
+    * A ChainedDict is a read-only map, when running. All key/value pairs are generated.
+    * The set-method is only use to create the map (and for testing)
+    """
 
     def __init__(self, map :PTH.Optional[dict]=None, parent=None):
         self._parent = parent
