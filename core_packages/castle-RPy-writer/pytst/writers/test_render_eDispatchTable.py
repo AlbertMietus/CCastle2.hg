@@ -1,24 +1,5 @@
 # (C) Albert Mietus, 2025. Part of Castle/CCastle project
-
-
-"""///CastleCode
-protocol stubProtocol : EventProtocol {
-   DummyEvent_1();
-   DummyEvent_2();
-}
-component simple {
-   port stubProtocol<in>: MockPort;
-}
-component child:simple {
-   port stubProtocol<in>: MockPort; ///GAM: is it needed/allowd to repeat?
-}
-implement simple {
-stubProtocol.DummyEvent_1 on .MockPort {....} // Does something
-}
-implement child {
-stubProtocol.DummyEvent_1 on .MockPort {....} // Does something else:-)
-}
-"""
+"""See ../../doc/mocks/eTables.rst"""
 
 
 import logging; logger = logging.getLogger(__name__)
