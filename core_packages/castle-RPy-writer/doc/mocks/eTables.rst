@@ -4,22 +4,21 @@ Event Dispatch Tables
 
 Stub Protocols
 ---------------
-
 The following two (Stub)Protocols are used in the code below. Both hold a few *dummyEvents* - in total 3.
 
- .. tabs::
+.. tabs::
 
-   .. tab:: StubProtocol
+  .. tab:: StubProtocol
 
-      .. literalinclude:: ./demo.Castle
-         :language:  ReasonML
-         :lines: 1-4
+     .. literalinclude:: ./demo.Castle
+        :language:  ReasonML
+        :lines: 1-4
 
-   .. tab:: SubStubProtocol
+  .. tab:: SubStubProtocol
 
-      .. literalinclude:: ./demo.Castle
-         :language:  ReasonML
-         :lines: 6-9
+     .. literalinclude:: ./demo.Castle
+        :language:  ReasonML
+        :lines: 6-9
 
 
 Simple
@@ -27,26 +26,26 @@ Simple
 The ‘Simple’ `Component` has only 1 `Port` for an (event) protocol without inheritance. For both events in that
 `(Stub)Protocol` an event-handler implemented (which is not specified).
 
-The eTable is simple: 2 entries. And no “parent” (see below)
+The eTable is simple: 2 entries. And no “parent” (see below).
 
- .. tabs::
+.. tabs::
 
-   .. tab::  CastleCode
+  .. tab::  CastleCode
 
-      .. literalinclude:: ./demo.Castle
-         :language:  ReasonML
-         :lines: 12-20
+     .. literalinclude:: ./demo.Castle
+        :language:  ReasonML
+        :lines: 12-20
 
-   .. tab::  eTable (notes)
+  .. tab::  eTable (notes)
 
 
-      ==============================   =============================   =================================================
-      Simple::MockPort.eTable                                          Notes
-      ==============================   =============================   =================================================
-      `.parent:`                       ``None``
-      StubProtocol.dummyEvent_1        ...
-      StubProtocol.dummyEvent_2        ...
-      ==============================   =============================   =================================================
+     ==============================   =============================   =================================================
+     Simple::MockPort.eTable                                          Notes
+     ==============================   =============================   =================================================
+     `.parent:`                       ``None``
+     StubProtocol.dummyEvent_1        ...
+     StubProtocol.dummyEvent_2        ...
+     ==============================   =============================   =================================================
 
 Child
 -----
@@ -58,26 +57,25 @@ Its implementation had (another) event-handler for one of the events.
 That one is in the eTable -- overriding the one of Simple. But ‘Child’ will inherits the other one from ‘Simple’. That
 one is not in the eTable. But the eTable refers to the eTable of ‘Simple’. (we use .parent here)
 
- .. tabs::
+.. tabs::
 
-   .. tab::  CastleCode
+  .. tab::  CastleCode
 
-      .. literalinclude:: ./demo.Castle
-         :language:  ReasonML
-         :lines: 22-29
+     .. literalinclude:: ./demo.Castle
+        :language:  ReasonML
+        :lines: 22-29
 
-   .. tab::  eTable (notes)
+  .. tab::  eTable (notes)
 
-      ==============================   =============================   =================================================
-      Child::MockPort.eTable                                           Notes
-      ==============================   =============================   =================================================
-      `.parent:`                       ``Simple::MockPort.eTable``
-      StubProtocol.dummyEvent_1        ...                             **Overriding** Simple::StubProtocol.dummyEvent_1
-      ==============================   =============================   =================================================
+     ==============================   =============================   =================================================
+     Child::MockPort.eTable                                           Notes
+     ==============================   =============================   =================================================
+     `.parent:`                       ``Simple::MockPort.eTable``
+     StubProtocol.dummyEvent_1        ...                             **Overriding** Simple::StubProtocol.dummyEvent_1
+     ==============================   =============================   =================================================
 
 Sub
 ---
-
 The ‘SubStubProtocol’ --which inherits from `StubProtocol.`; see above-- is used by the (Mock)Port of the ‘Sub’
 `Component`. So, the `Component` can handle a few more events as Simple; but no implementations are inherited.
 
@@ -121,28 +119,26 @@ Unlike `Sub`, but alike `Child`, ‘SubChild’ inherits also events-handlers; t
 
 The eTable will hold only the locally defined event-handler for ‘Event_2`. But refers to the “parent” eTable of `Sub`.,
 
- .. tabs::
+.. tabs::
 
-   .. tab::  CastleCode
+  .. tab::  CastleCode
 
-      .. literalinclude:: ./demo.Castle
-         :language:  ReasonML
-         :lines: 40-47
+     .. literalinclude:: ./demo.Castle
+        :language:  ReasonML
+        :lines: 40-47
 
-   .. tab::  eTable (notes)
+  .. tab::  eTable (notes)
 
-      ==============================   =============================   =================================================
-      Sub::MockPort.eTable                                             Notes
-      ==============================   =============================   =================================================
-      `.parent:`                       ``Sub::MockPort.eTable``
-      StubSubProtocol.dummyEvent_2     ...
-      ==============================   =============================   =================================================
-
+     ==============================   =============================   =================================================
+     SubChild::MockPort.eTable                                        Notes
+     ==============================   =============================   =================================================
+     `.parent:`                       ``Sub::MockPort.eTable``
+     StubSubProtocol.dummyEvent_2     ...
+     ==============================   =============================   =================================================
 
 Full
 ----
-
-Here is all the code in one view
+The complete code, and the UML-diagrams for the dispatch-tables are shown below
 
 .. tabs::
 
@@ -151,6 +147,10 @@ Here is all the code in one view
       .. literalinclude:: ./demo.Castle
          :language:  ReasonML
          :lines: 1-48
+
+   .. tab:: UML
+
+      .. uml:: eTables.puml
 
 
 ..  LocalWords:  eTable TestDouble TestDoubles

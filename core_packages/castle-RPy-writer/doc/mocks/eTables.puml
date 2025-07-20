@@ -1,0 +1,46 @@
+@startuml
+hide empty members
+
+package "protocols" {
+protocol StubProtocol <EventProtocol> {
+   +dummyEvent_1()
+   +dummyEvent_2()
+}
+protocol SubStubProtocol {
+   +dummyEvent_3()
+}
+  StubProtocol <|-- SubStubProtocol
+}
+''end protocols
+
+package "eventTables" {
+map "**Simple**::MockPort::eTable" as Simple {
+   StubProtocol.dummyEvent_1  =>
+   StubProtocol.dummyEvent_2  =>
+}
+
+map "**Child**::MockPort::eTable" as Child {
+   StubProtocol.dummyEvent_1 =>
+}
+map "**Sub**::MockPort::eTable" as Sub {
+   StubProtocol.dummyEvent_2    =>
+   SubStubProtocol.dummyEvent_3 =>
+}
+
+map "**SubChild**::MockPort::eTable" As SubChild {
+   StubSubProtocol.dummyEvent_2 =>
+}
+
+Simple <|-- ".parent" Child::parent
+Sub    <|-- ".parent" SubChild::parent
+Simple <-right[hidden]- Sub
+Child  <-right[hidden]- SubChild
+
+StubProtocol::dummyEvent_2 <.. SubChild::StubSubProtocol.dummyEvent_2
+
+
+}
+
+
+@enduml
+
