@@ -17,7 +17,7 @@ class _DispatchTable(AIGR):
        * See the note about .port in EventDispatchTable
     """
     _: KW_ONLY
-    port : ID
+    port : ID # XXX One day, we fill find it by the AIRG-as-tree
 
 
 

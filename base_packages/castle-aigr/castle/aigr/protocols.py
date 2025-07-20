@@ -66,7 +66,12 @@ class StreamProtocol(Protocol): pass ### XXX ToDo (not exported)
 class EventProtocol(Protocol):
     """An event-based protocol is basically a set of events.
 
-    This recorded as an dyn-array of the new event; there is no need to copy the inherited."""
+    This recorded as an dyn-array of the new event; there is no need to copy the inherited.
+
+    .. todo:: XXX
+
+       The methods `_noEvents` and `eventIndex` shouldn't be here. Move them to aigr_extra (as an "un-builder pattern")
+    """
     _: KW_ONLY
     kind: ProtocolKind = ProtocolKind.Event
     events: PTH.Sequence[Event]
