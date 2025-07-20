@@ -1,0 +1,47 @@
+protocol StubProtocol : EventProtocol {
+   dummyEvent_1();
+   dummyEvent_2();
+}
+
+protocol SubStubProtocol : StubProtocol {
+   // inherites _1 & _2
+   dummyEvent_3();
+}
+
+
+component Simple {
+   port StubProtocol<in>: MockPort;
+}
+
+implement Simple {
+   StubProtocol.dummyEvent_1  on .MockPort {....}
+   StubProtocol.dummyEvent_2  on .MockPort {....}
+}
+
+
+component Child:Simple {
+   port StubProtocol<in>: MockPort; ///GAM: is it needed/allowed to repeat?
+}
+
+implement Child {
+   StubProtocol.dummyEvent_1 on .MockPort {....}
+}
+
+
+component Sub {
+   port SubStubProtocol<in>: MockPort;
+}
+
+implement Sub {
+   StubProtocol.dummyEvent_2 on .MockPort {....} // Same as `StubStubProtocol.dummyEvent_2`
+   SubStubProtocol.dummyEvent_3 on .MockPort {....}
+}
+
+component SubChild:Sub {
+  // The port is inherited
+}
+
+implement SubChild {
+   StubSubProtocol.dummyEvent_2 on .MockPort {....} //  Overriding  `StubProtocol.dummyEvent_2` !!
+}
+

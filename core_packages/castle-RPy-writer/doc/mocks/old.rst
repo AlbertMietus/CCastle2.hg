@@ -1,25 +1,8 @@
-writers-mocks.rst
-=================
+OLD: mocks doc
+==============
+stats: OLD
 
 .. tabs::
-
-   .. code-tab:: ReasonML CastleCode
-
-      protocol mockProtocol : EventProtocol {
-         MockEvent_1();
-         MockEvent_2();
-      }
-
-      component MockComp : Component {
-         port MockProtocol<in>: MockPort
-      }
-
-      implement MockComp
-         mockProtocol.MockEvent_1 on .MockPort {
-            ....
-         }
-
-      }
 
    .. tab:: UML
 
