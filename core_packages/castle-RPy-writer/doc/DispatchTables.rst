@@ -37,9 +37,8 @@ Analyse
              CC_Elemental_HelloWorld.Power_powerOn__power, # index: 1, CC_P_Power_On
              ]
 
-
       As a demo: The method :meth:`Power_powerOn__power` -- internally to class :class:`CC_Elemental_HelloWorld`-- is
-      called when that event (number ``CC_P_Power_On`) is send to that class.
+      called when that event (number ``CC_P_Power_On``) is send to that class.
 
       With the `DirectCall` machinery, that result in code as shown below. The event-index is used to select the
       event-handler from the *(class+port)** DispatchTable -- resulting in a method. Which is called with the object as

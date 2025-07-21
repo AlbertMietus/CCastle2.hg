@@ -146,8 +146,7 @@ The complete code, and the UML-diagrams for the dispatch-tables are shown below
 
       .. literalinclude:: ./demo.Castle
          :language:  ReasonML
-         :lines: 1-48
-
+   
    .. tab:: UML
 
       .. uml:: eTables.puml
