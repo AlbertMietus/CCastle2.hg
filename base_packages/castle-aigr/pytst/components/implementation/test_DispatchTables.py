@@ -10,10 +10,12 @@ from castle.aigr.components import dispatch_tables
 from castle.aigr import ID
 
 
-def test_1a_whenInit_PortIsSet():
-    table = dispatch_tables._DispatchTable(port=ID("MockPort"))
-    assert table.port == "MockPort",   "Any DispatchTable should be associated with a Port -Found {table.port}"
-    assert isinstance(table.port, ID), "The port should be an ID"
+def test_1a_whenInit_CompPortIsSet():
+    table = dispatch_tables._DispatchTable(comp=ID('DummyComp'), port=ID("MockPort"))
+    assert table.comp == "DummyComp",        f"Any DispatchTable should be associated with a Comp -Found {table.comp}"
+    assert table.port == "MockPort",         f"Any DispatchTable should be associated with a Port -Found {table.port}"
+    assert isinstance(table.comp, ID),  f"The comp should be an ID; now: type={type(table.comp)}"
+    assert isinstance(table.port, ID),       f"The port should be an ID; now: type={type(table.port)}"
 
 def test_1b_InitWithoutPort_willFail():
     try:

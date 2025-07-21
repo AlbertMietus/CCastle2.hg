@@ -11,13 +11,24 @@ class _DispatchTable(AIGR):
 
     The best known/documented trigger is the event, which mapping is stored in the ``EventDispatchTable``. See there for more info
 
-    .. error::
+    .. note::
 
-       * See .../castle-aigr/designNotes/warning.html (BUSY on that)
-       * See the note about .port in EventDispatchTable
+       A DispatchTable is allways related to (exactly) one port, within (one) Component (implementation).
+
+    .. important::
+
+       * For now, the name/ID of both the Port & Component(Implementation) are stored in `_DispatchTable`.
+
+       * Soon, when the AIGR-as-tree path-functions are designed, those values (both as name, and as ref) will be fetch from the AIGR.
+         E.g. by:
+
+         - ./../@name ==> Port-ID
+         - ./../../@name ==> ComponentImplementation-ID
     """
     _: KW_ONLY
+    comp : ID # XXX One day, we fill find it by the AIRG-as-tree
     port : ID # XXX One day, we fill find it by the AIRG-as-tree
+
 
 
 

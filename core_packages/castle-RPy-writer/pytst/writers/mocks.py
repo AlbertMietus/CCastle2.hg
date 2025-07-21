@@ -23,7 +23,8 @@ def mockPort(stubProtocol) ->aigr.Port:
 
 @pytest.fixture
 def mockComp(mockPort) ->aigr.ComponentImplementation:
-    return aigr.ComponentImplementation(name=ID("MockComp"), interface=aigr.ComponentInterface(name, ports=[mockPort]))
+    name=ID("MockComp")
+    return aigr.ComponentImplementation(name=name, interface=aigr.ComponentInterface(name=name, ports=[mockPort]))
 
 
 

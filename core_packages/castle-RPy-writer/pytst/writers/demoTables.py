@@ -4,7 +4,6 @@ import logging; logger = logging.getLogger(__name__)
 import pytest
 
 from castle import aigr
-from castle.aigr import ID
 from castle.aigr.components import EventDispatchTable
 
 from castle.aigr_extra.blend import mangle_event_handler
@@ -12,11 +11,11 @@ from castle.aigr_extra.blend import mangle_event_handler
 from .mocks import *
 
 @pytest.fixture
-def simpleTable(mockPort, stubProtocol) -> aigr.EventDispatchTable:
+def simpleTable(mockComp, mockPort, stubProtocol) -> aigr.EventDispatchTable:
     """A simple EventDispatchTable, with no inherited details."""
 
-    map = {event.name: ID(mangle_event_handler(event=event.name, port=mockPort.name, protocol=stubProtocol.name)) for event in stubProtocol.events}
-    table = EventDispatchTable(port=mockPort.name, map=map)
+    map = {event.name: mangle_event_handler(event=event.name, port=mockPort.name, protocol=stubProtocol.name) for event in stubProtocol.events}
+    table = EventDispatchTable(comp=mockComp.name, port=mockPort.name, map=map)
 
     return table
 
@@ -24,8 +23,8 @@ def simpleTable(mockPort, stubProtocol) -> aigr.EventDispatchTable:
 def childTable(mockPort, mockProtocol) -> aigr.EventDispatchTable:
     """An EventDispatchTable, with linked to `simpleTable`"""
 
-    map = {event.name: ID(mangle_event_handler(event=event.name, port=mockPort.name, protocol=mockProtocol.name)) for event in mockProtocol.events}
-    table = EventDispatchTable(port=mockPort.name, map=map,) # XXX ToDo Add "parent"
+    map = {event.name: mangle_event_handler(event=event.name, port=mockPort.name, protocol=mockProtocol.name) for event in mockProtocol.events}
+    table = EventDispatchTable(comp=mockComp.name, port=mockPort.name, map=map,) # XXX ToDo Add "parent"
 
     return table
 
