@@ -18,13 +18,16 @@ def stubProtocol() ->aigr.EventProtocol:
     return aigr.EventProtocol(ID("StubProtocol"), events=dummyEvents)
 
 @pytest.fixture
-def mockPort(stubProtocol) ->aigr.Port:
-    return aigr.Port(ID("MockPort"), direction=aigr.PortDirection.In, type=stubProtocol)
+def subStubProtocol() ->aigr.EventProtocol:
+    dummyEvents = [
+        aigr.Event(ID("DummyEvent_3")),
+        ]
+    return aigr.EventProtocol(ID("SubStubProtocol"), events=dummyEvents)
 
 @pytest.fixture
-def mockComp(mockPort) ->aigr.ComponentImplementation:
-    name=ID("MockComp")
-    return aigr.ComponentImplementation(name=name, interface=aigr.ComponentInterface(name=name, ports=[mockPort]))
+def mockPort() ->aigr.Port:
+    return aigr.Port(ID("MockPort"), direction=aigr.PortDirection.In, type='fake')
+
 
 
 

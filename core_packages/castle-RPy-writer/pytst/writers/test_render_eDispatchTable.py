@@ -14,14 +14,12 @@ from ..verify import *
 from .demoTables import * # fixtures and  <Expected>
 
 
-
-@pytest.mark.xfail(reason="Design of 'EventDispatchTable' needs update: can't determine the parent")
 def test_simpeTable(simpleTable, chainDict_renderer):
     result = chainDict_renderer.render(simpleTable)
-    print_out(result, label='demoTable - parent is wrong')
+    print_out(result, label="simpleTable ... HardCoded None Parent")
     verify_line_by_line(Expected_4_simpleTable, result)
 
-@pytest.mark.skip("see above: design ...")
+
 def test_childTable(childTable, chainDict_renderer):
     result = chainDict_renderer.render(childTable)
     print_out(result, label='demoTable - parent is wrong')

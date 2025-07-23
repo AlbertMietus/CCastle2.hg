@@ -26,9 +26,10 @@ class _DispatchTable(AIGR):
          - ./../../@name ==> ComponentImplementation-ID
     """
     _: KW_ONLY
-    comp : ID # XXX One day, we fill find it by the AIRG-as-tree
-    port : ID # XXX One day, we fill find it by the AIRG-as-tree
-
+    # XXX One day, we will find the following  by the AIRG-as-tree
+    comp : ID                             ### ./../../@name 	ComponentImplementation-ID
+    port : ID                             ### ./../@name 		Port-ID
+    _parentTable : PTH.Optional[ID]=None  ### ???  comp:= ./../../, base:=comp/parent/, parent-table:=base/port ...?
 
 
 

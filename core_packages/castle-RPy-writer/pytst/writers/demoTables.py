@@ -4,40 +4,48 @@ import logging; logger = logging.getLogger(__name__)
 import pytest
 
 from castle import aigr
+from castle.aigr import ID
+
 from castle.aigr.components import EventDispatchTable
 
-from castle.aigr_extra.blend import mangle_event_handler
 
 from .mocks import *
 
-@pytest.fixture
-def simpleTable(mockComp, mockPort, stubProtocol) -> aigr.EventDispatchTable:
-    """A simple EventDispatchTable, with no inherited details."""
+def fakeHandlerName(protocol, event, port):
+    return f'__Fake__{protocol}_{event}_on_{port}__HandlerName__'
 
-    map = {event.name: mangle_event_handler(event=event.name, port=mockPort.name, protocol=stubProtocol.name) for event in stubProtocol.events}
-    table = EventDispatchTable(comp=mockComp.name, port=mockPort.name, map=map)
+
+@pytest.fixture
+def simpleTable(mockPort, stubProtocol) -> aigr.EventDispatchTable:
+    """A simple EventDispatchTable, with no inherited details."""
+    proto=stubProtocol
+
+    map = {event.name: fakeHandlerName(event=event.name, port=mockPort.name, protocol=proto.name) for event in proto.events}
+    table = EventDispatchTable(comp=ID('Simple'), port=mockPort.name, map=map)
 
     return table
 
 @pytest.fixture
-def childTable(mockPort, mockProtocol) -> aigr.EventDispatchTable:
+def childTable(mockPort, subStubProtocol) -> aigr.EventDispatchTable:
     """An EventDispatchTable, with linked to `simpleTable`"""
+    proto=subStubProtocol
 
-    map = {event.name: mangle_event_handler(event=event.name, port=mockPort.name, protocol=mockProtocol.name) for event in mockProtocol.events}
-    table = EventDispatchTable(comp=mockComp.name, port=mockPort.name, map=map,) # XXX ToDo Add "parent"
+    map = {event.name: fakeHandlerName(event=event.name, port=mockPort.name, protocol=proto.name) for event in proto.events}
+    table = EventDispatchTable(comp=ID('Child'), port=mockPort.name, map=map, _parentTable=ID('Simple')) # XXX ToDo Add "parent"
 
     return table
 
 Expected_4_simpleTable="""\
-cc_S_MockComp_MockPort = buildin.machinery.ChainedDict(map={
-    MockEvent_1 : an_other__name,
+cc_S_Simple_MockPort = buildin.machinery.ChainedDict(map={
+    DummyEvent_1 : __Fake__StubProtocol_DummyEvent_1_on_MockPort__HandlerName__,
+    DummyEvent_2 : __Fake__StubProtocol_DummyEvent_2_on_MockPort__HandlerName__,
     },
-    parent=None)
+    parent=None)\n
 """
 
 Expected_4_childTable="""\
-cc_S_MockSuper_MockPort = buildin.machinery.ChainedDict(map={
-    MockEvent_1 : ...
+cc_S_Child_MockPort = buildin.machinery.ChainedDict(map={
+    DummyEvent_3 : __Fake__SubStubProtocol_DummyEvent_3_on_MockPort__HandlerName__,
     },
-    parent=cc_S_MockComp_MockPort)
+    parent=cc_S_Simple_MockPort)\n
 """

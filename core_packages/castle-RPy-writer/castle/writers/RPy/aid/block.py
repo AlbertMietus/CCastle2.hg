@@ -27,7 +27,7 @@ class Block:
         else:
             assert False, f"Unknown type ({type(text)}) text: >>{text}<< self: {str(self)}"
         self._txt.extend(lines)
-        logger.debug("_addText (%s) results in: >>%s<<", repr(text), repr(str(self)))
+        logger.debug("_addText (%s) results in: >>%s<<", str(text), repr(str(self)))
         return self
 
     def __iadd__(self, text): # 'extend semantics'
