@@ -14,26 +14,23 @@ from .mocks import *
 def fakeHandlerName(protocol, event, port):
     return f'__Fake__{protocol}_{event}_on_{port}__HandlerName__'
 
+def gen_Dummy_EventMap(proto, port):
+    logger.info('XXXX1a proto: %s; port: %s', proto, port)
+    map = {event.name: fakeHandlerName(event=event.name, port=port.name, protocol=proto.name) for event in proto.events}
+    logger.info('XXXX2 map: %s', map)
+    return map
 
 @pytest.fixture
 def simpleTable(mockPort, stubProtocol) -> aigr.EventDispatchTable:
     """A simple EventDispatchTable, with no inherited details."""
-    proto=stubProtocol
+    return EventDispatchTable(map=gen_Dummy_EventMap(stubProtocol, mockPort), _comp=ID('Simple'), _port=mockPort.name)
 
-    map = {event.name: fakeHandlerName(event=event.name, port=mockPort.name, protocol=proto.name) for event in proto.events}
-    table = EventDispatchTable(map=map, _comp=ID('Simple'), _port=mockPort.name)
-
-    return table
 
 @pytest.fixture
 def childTable(mockPort, subStubProtocol) -> aigr.EventDispatchTable:
     """An EventDispatchTable, with linked to `simpleTable`"""
-    proto=subStubProtocol
+    return EventDispatchTable(map=gen_Dummy_EventMap(subStubProtocol, mockPort), _comp=ID('Child'), _port=mockPort.name, _parentTable=ID('Simple'))
 
-    map = {event.name: fakeHandlerName(event=event.name, port=mockPort.name, protocol=proto.name) for event in proto.events}
-    table = EventDispatchTable(map=map, _comp=ID('Child'), _port=mockPort.name,  _parentTable=ID('Simple'))
-
-    return table
 
 Expected_4_simpleTable="""\
 cc_S_Simple_MockPort = buildin.machinery.ChainedDict(map={
