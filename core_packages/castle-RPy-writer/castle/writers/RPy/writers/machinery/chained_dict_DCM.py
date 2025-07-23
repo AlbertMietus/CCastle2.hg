@@ -12,8 +12,8 @@ from . import Machinery, _M_DC_dict
 class M_DC_chained_dict(_M_DC_dict):
 
     def render_EventDispatchTable(self, renderer, node :aigr.EventDispatchTable) ->  Block: #XXX node:EventDispatchTable
-        table_name = renderer._cc_S_dispatchTable(comp=node.comp, port=node.port)
-        parent_table = renderer._cc_S_dispatchTable(comp=node._parentTable, port=node.port) if node._parentTable else 'None'
+        table_name = renderer._cc_S_dispatchTable(comp=node._comp, port=node._port)
+        parent_table = renderer._cc_S_dispatchTable(comp=node._parentTable, port=node._port) if node._parentTable else 'None'
 
         txt = Block(f'{table_name} = buildin.machinery.ChainedDict(map={{')
         sub = Block();

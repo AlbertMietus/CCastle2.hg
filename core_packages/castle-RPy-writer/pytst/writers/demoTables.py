@@ -21,7 +21,7 @@ def simpleTable(mockPort, stubProtocol) -> aigr.EventDispatchTable:
     proto=stubProtocol
 
     map = {event.name: fakeHandlerName(event=event.name, port=mockPort.name, protocol=proto.name) for event in proto.events}
-    table = EventDispatchTable(comp=ID('Simple'), port=mockPort.name, map=map)
+    table = EventDispatchTable(map=map, _comp=ID('Simple'), _port=mockPort.name)
 
     return table
 
@@ -31,7 +31,7 @@ def childTable(mockPort, subStubProtocol) -> aigr.EventDispatchTable:
     proto=subStubProtocol
 
     map = {event.name: fakeHandlerName(event=event.name, port=mockPort.name, protocol=proto.name) for event in proto.events}
-    table = EventDispatchTable(comp=ID('Child'), port=mockPort.name, map=map, _parentTable=ID('Simple')) # XXX ToDo Add "parent"
+    table = EventDispatchTable(map=map, _comp=ID('Child'), _port=mockPort.name,  _parentTable=ID('Simple'))
 
     return table
 
