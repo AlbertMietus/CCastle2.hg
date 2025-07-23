@@ -31,5 +31,5 @@ def test_2_render_init(ComponentImplementation, my_renderer):
 def test_4_full(ComponentImplementation, my_renderer):
     txt = my_renderer.render(ComponentImplementation)
     #print_out(EXPECTED_RPY_CODE, label='expected')
-    #print_out(txt,      label='got/txt')
+    print_out(txt,      label='got/txt')
     verify_line_by_line(EXPECTED_CompImplementation + EXPECTED_DispatchTables, txt)

@@ -57,5 +57,5 @@ def show(hack):
 def test_99_noHack():
     hacks = list(re.finditer('HACK', EXPECTED_unit, flags=re.IGNORECASE))
     txt = show(hacks)
-    assert len(hacks) == 0, pytest.xfail(reason="Yep, there are (still) hacks %s" % txt) 
+    assert len(hacks) == 0, pytest.xfail(reason=" There are (%d) hacks::  %s" % (len(txt),txt))
 

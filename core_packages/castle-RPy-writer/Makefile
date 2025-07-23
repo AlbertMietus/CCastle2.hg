@@ -8,11 +8,12 @@ PYREVERSE_PKGS = \
 	castle/writers/RPy/writers			\
 #
 LAST = \
-	pytst/HelloWorlds/test_06_implicietComp.py 		\
+	pytst/HelloWorlds/test_06_implicietComp.py 			\
 	pytst/CC/machinery/test_chainedDict.py				\
+	pytst/writers/test_render_eDispatchTable.py 		\
 #
 CURRENT = \
-	pytst/writers/test_render_eDispatchTable.py 		\
+	pytst/HelloWorlds/test_07_eTable.py						\
 #
 TODO = \
 	pytst/HelloWorlds/test_12_file.py 		\
