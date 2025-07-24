@@ -1,8 +1,9 @@
 # (C) Albert Mietus, 2024. Part of Castle/CCastle project
 
 """The AIGR TestDouble for elemental HelloWorld.Castle
-
-    This file is manually crafted  from: :file:`../../../../../CastleCode/elemental/HelloWorld.Castle`"""
+    source: .../TestDoubles-HelloWorlds/CastleCode/elemental/HelloWorld.Castle
+    file:   .../TestDoubles-HelloWorlds/castle/TESTDOUBLES/aigr/HelloWorlds/elemental/HelloWorld.py
+"""
 
 import logging; logger = logging.getLogger(__name__)
 
