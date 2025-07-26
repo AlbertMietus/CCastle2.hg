@@ -62,6 +62,8 @@ package  p_comp {
    }
    Elemental_HelloWorld *-> ns2
    ns1 <.* ns2: outer_ns
+   note top of ns2 # lightblue: mangle_event_handler\n(proto::event:port)
+
 }
 
 
