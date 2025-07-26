@@ -13,6 +13,7 @@ from castle.aigr import ID
 from castle.aigr import ComponentImplementation, Method, EventHandler
 from castle.aigr_extra.blend import mangle_event_handler
 from castle.aigr import ComponentInterface
+from castle.aigr.components import EventDispatchTable
 
 ALL = ["Hello_World"]
 
@@ -49,12 +50,13 @@ HelloWorld = Method(ID('HelloWorld', context=aigr.Def()),
                                                   ID('label',context=aigr.Ref()),
                                                   )),)
                                           ))]))
-Elemental_HelloWorld.register(HelloWorld)
+Elemental_HelloWorld.register(HelloWorld)  # XXX
+""" .. todo::
+
+       1) `.register` on an AIGR is not allowed; use a builder-(alike) pattern
+"""
 
 
-
-
-#//OLD: powerOn(max) on self.power
 #invoke() on self.std {
 #   HelloWorld("Elemental")
 #}
@@ -67,7 +69,26 @@ invoke = EventHandler(ID(mangle_event_handler(protocol='std', event='invoke', po
                            aigr.VoidCall(
                                aigr.Call(callable=ID('HelloWorld', context=aigr.Ref(reference=HelloWorld)),
                                          arguments=(aigr.Constant(value="Elemental"),)))]))
-Elemental_HelloWorld.register(invoke)
+Elemental_HelloWorld.register(invoke) # XXX
+""" .. todo::
+
+       1) `.register` on an AIGR is not allowed; use a builder-(alike) pattern
+       2) EventHandlers shouldn't be in the name-space -- as:
+            *) their mangle_names are useless
+            *) they should be called (directly) anyhow
+       3) Put them in a (event) DispatchTable!
+"""
+
+etable_std = EventDispatchTable(
+    map={invoke.event: invoke.name},
+    _comp=Elemental_HelloWorld.name, _port=invoke.port, _parentTable=ID('Fake_Main'))   # XXX
+""" .. todo::
+
+       1) How to put this table/entry in the AIGR?
+          Probally:
+           *) As datafield of ComponentImplementation
+           * Use a builder-pattern
+"""
 
 
 #} /* Elemental_HelloWorld */
