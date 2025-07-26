@@ -36,5 +36,5 @@ class VariableDefintion(_statement, NamedNode):
     """
     _: KW_ONLY
 
-    type   : types # An AIGR-type
+    type   : types._types # An AIGR-type
     value  : PTH.Optional[AIGR]=None

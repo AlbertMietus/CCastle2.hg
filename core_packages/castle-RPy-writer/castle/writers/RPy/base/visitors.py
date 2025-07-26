@@ -1,6 +1,7 @@
 # (C) Albert Mietus, 2025. Part of Castle/CCastle project
 
 import logging; logger = logging.getLogger(__name__)
+import typing as PTH                                                                                  # Python TypeHints
 
 from castle import aigr
 
@@ -23,7 +24,7 @@ class Visitor():
         logger.debug("Going to call %s for %s in phase: %s", method,  node, prefix)
         return method(node)
 
-    def _find_method_by_mro(self, node, prefix):
+    def _find_method_by_mro(self, node, prefix) -> PTH.Optional[PTH.Callable]:
         supers = type(node).mro()
         for cls in supers:
             method = self._find_method_for_cls(prefix, cls)
@@ -31,13 +32,13 @@ class Visitor():
                 return method
         return None
 
-    def _find_method_for_cls(self, prefix, cls):
+    def _find_method_for_cls(self, prefix, cls)  -> PTH.Optional[PTH.Callable]:
         cls_name = cls.__qualname__
         method_name = f'{prefix}_{cls_name}'
         method = getattr(self, method_name, None)
         return method # or None
 
-    def _find_default_method(self, node, prefix):
+    def _find_default_method(self, node, prefix)  -> PTH.Optional[PTH.Callable]:
         method_name = f'_default_{prefix}'
         method = getattr(self, method_name, None)
         return method # or None

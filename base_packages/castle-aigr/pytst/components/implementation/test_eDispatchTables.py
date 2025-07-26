@@ -15,9 +15,9 @@ from mocks import *
 
 
 def test_1_givenPort_whenEventDispatchTableInit_thenPortIsSet():
-    table = EventDispatchTable(comp=ID('DummyCompName'), port=ID('MockPortName'))
-    assert table.port == "MockPortName",   "Any DispatchTable should be associated with a Port -Found {table.port}"
-    assert isinstance(table.port, ID), "The port should be an ID"
+    table = EventDispatchTable(_comp=ID('DummyCompName'), _port=ID('MockPortName'))
+    assert table._port == "MockPortName",   "Any DispatchTable should be associated with a Port -Found {table._port}"
+    assert isinstance(table._port, ID), "The port should be an ID"
 
 
 def test_2a_InitializedWithEventsAndHandlers_TableIsNotEmpty(etable):

@@ -25,4 +25,5 @@ def mock_events():
 @pytest.fixture
 def etable(mock_protocol, mock_events):
     map = {event: ID(f"{mock_protocol}_{event}") for event in mock_events}
-    return EventDispatchTable(comp=ID('DummyCompName'), port=ID("MockPortName"), map = map)
+    return EventDispatchTable(map=map,
+            _comp=ID('DummyCompName'), _port=ID("MockPortName"))            # XXX
