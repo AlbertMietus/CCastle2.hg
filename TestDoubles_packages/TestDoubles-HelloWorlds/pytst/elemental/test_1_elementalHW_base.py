@@ -18,7 +18,7 @@ def test_1_HW_in_file(elemental):
     assert isinstance(comp, aigr.ComponentImplementation)
 
 def test_2_HW_has_2_callables(HW):
-    for name in ('HelloWorld', mangle_event_handler(protocol='Power', event='powerOn', port='power')):
+    for name in ('HelloWorld', mangle_event_handler(protocol='std', event='invoke', port='std')):
         node = HW.findNode(name)
         assert node,  f"Can't find '{name}' in {HW}"
         assert node.name == name, f"Name of f is not '{name}'"
