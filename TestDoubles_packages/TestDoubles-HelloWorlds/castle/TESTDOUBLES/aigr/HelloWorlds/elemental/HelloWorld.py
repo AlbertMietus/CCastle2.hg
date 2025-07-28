@@ -61,11 +61,12 @@ Elemental_HelloWorld.register(HelloWorld)  # XXX
 #   HelloWorld("Elemental")
 #}
 invoke = EventHandler(ID(mangle_event_handler(protocol='std', event='invoke', port='std'),context=aigr.Def()),
-                       protocol=ID('std', context=aigr.Ref()),
-                       event=ID('invoke', context=aigr.Ref()),
-                       port=ID('std',     context=aigr.Ref()),
-                       outer_ns=Elemental_HelloWorld,
-                       body=aigr.Body(statements=[
+                      protocol=ID('std', context=aigr.Ref()),
+                      event=ID('invoke', context=aigr.Ref()),
+                      port=ID('std',     context=aigr.Ref()),
+                      parameters=(aigr.TypedParameter(name=ID('max'), type=int),),
+                      outer_ns=Elemental_HelloWorld,
+                      body=aigr.Body(statements=[
                            aigr.VoidCall(
                                aigr.Call(callable=ID('HelloWorld', context=aigr.Ref(reference=HelloWorld)),
                                          arguments=(aigr.Constant(value="Elemental"),)))]))
