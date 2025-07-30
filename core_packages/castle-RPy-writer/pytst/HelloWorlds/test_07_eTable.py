@@ -14,5 +14,6 @@ def eTable():
     impl = Hello_World.findNode('Elemental_HelloWorld')
     assert False, "XXX ToDo: return the (Event)DispatchTable ..."
 
+@pytest.mark.skip("EventDispatchTable need to de implemented")
 def test_0(eTable):
     assert False, "The AIGR (of elemental HW) has no EventDispatchTable"

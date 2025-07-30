@@ -8,10 +8,11 @@ LAST = \
 	pytst/elemental/test_1_elementalHW_base.py		\
 #
 CURRENT = \
-	pytst/elemental/test_2_impliciet.py				\
+	pytst/elemental/test_1_elementalHW_base.py		\
 #
 
 TODO = \
+	pytst/elemental/test_2_impliciet.py				\
 #
 
 

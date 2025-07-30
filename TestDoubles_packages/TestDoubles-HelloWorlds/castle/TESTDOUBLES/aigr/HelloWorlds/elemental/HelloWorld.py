@@ -8,12 +8,11 @@
 import logging; logger = logging.getLogger(__name__)
 
 from castle import aigr
-from castle.aigr import Source_NS
-from castle.aigr import ID
-from castle.aigr import ComponentImplementation, Method, EventHandler
-from castle.aigr_extra.blend import mangle_event_handler
-from castle.aigr import ComponentInterface
+from castle.aigr import Source_NS, ID
+from castle.aigr import ComponentInterface, ComponentImplementation
+from castle.aigr import  Method, EventHandler
 from castle.aigr.components import EventDispatchTable
+from castle.aigr_extra.blend import mangle_event_handler
 
 ALL = ["Hello_World"]
 
@@ -60,15 +59,15 @@ Elemental_HelloWorld.register(HelloWorld)  # XXX
 #invoke() on self.std {
 #   HelloWorld("Elemental")
 #}
-invoke = EventHandler(ID(mangle_event_handler(protocol='std', event='invoke', port='std'),context=aigr.Def()),
+invoke = EventHandler(mangle_event_handler(protocol='std', event='invoke', port='std'),
                       protocol=ID('std', context=aigr.Ref()),
                       event=ID('invoke', context=aigr.Ref()),
                       port=ID('std',     context=aigr.Ref()),
                       outer_ns=Elemental_HelloWorld,
                       body=aigr.Body(statements=[
-                           aigr.VoidCall(
-                               aigr.Call(callable=ID('HelloWorld', context=aigr.Ref(reference=HelloWorld)),
-                                         arguments=(aigr.Constant(value="Elemental"),)))]))
+                          aigr.VoidCall(
+                              aigr.Call(callable=ID('HelloWorld', context=aigr.Ref(reference=HelloWorld)),
+                                            arguments=(aigr.Constant(value="Elemental"),)))]))
 Elemental_HelloWorld.register(invoke) # XXX
 """ .. todo::
 
@@ -79,6 +78,10 @@ Elemental_HelloWorld.register(invoke) # XXX
        3) Put them in a (event) DispatchTable!
 """
 
+
+# XX # etable_std = EventDispatchTable(
+# XX #     map={invoke.event: invoke.name},
+# XX #     _comp=Elemental_HelloWorld.name, _port=invoke.port, _parentTable=ID('Fake_Main'))   # XXX
 etable_std = EventDispatchTable(
     map={invoke.event: invoke.name},
     _comp=Elemental_HelloWorld.name, _port=invoke.port, _parentTable=ID('Fake_Main'))   # XXX
@@ -97,5 +100,6 @@ Hello_World.register(Elemental_HelloWorld)
 if __name__ == '__main__':
     print("Debug: print elemental_helloworld")
     print("Hello_World (NS) =\n", Hello_World)
+    print("Elemental_HelloWorld (CompImp) =\n", Elemental_HelloWorld)
     print("HelloWorld (Method) =\n", HelloWorld)
     print("powerOn (Event) =\n", powerOn)
