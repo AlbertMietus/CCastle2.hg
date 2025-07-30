@@ -41,18 +41,15 @@ class _NameSpace(AIGR):
     _dict      :PTH.Dict[ID, NamedNode]=dc_field(init=None, default_factory=lambda: dict()) #type: ignore[call-overload]
 
 
-    def register(self, named_node :NamedNode, asName :PTH.Optional[ID|str]=None):
+    def register(self, named_node :NamedNode, asName :PTH.Optional[ID|str]=None):  #### Move to "builder"
         name = ID(asName) if asName else PTH.cast(ID, named_node.name)
-
-        logger.debug(f"register: <{type(named_node).__name__}:{named_node.name}> as {name} in <{type(self).__name__}:{getattr(self, 'name', '_UnNamed_')}>")
-
         if name in self._dict:
             old = self._dict[name]
             logger.warning(f"The '{name}'-node is already in this namespace; -- it will be lost." +
                            f"Removed: {old}. New: {named_node}")
         self._dict[name] = named_node
 
-    def __len__(self):
+    def __len__(self):                                            ##### Move to "builder"
         return len(self._dict)
 
 
@@ -69,7 +66,7 @@ class _NameSpace(AIGR):
 ###   So, only that needs to be overwritten
 ###   Possible rename it to _findNode()
 
-    def _findNode(self, name :ID) ->PTH.Optional[NamedNode]:
+    def _findNode(self, name :ID) ->PTH.Optional[NamedNode]:                       #### Move to "builder"
         """Return the NamedNode with the specified ID, or None.
            It looks in 'this' namespace, and in outer_ns's when they exist.
            All public interfaces will use this method."""
@@ -80,12 +77,12 @@ class _NameSpace(AIGR):
         return node
 
 
-    def findNode(self, name :ID|str) ->PTH.Optional[NamedNode]:
+    def findNode(self, name :ID|str) ->PTH.Optional[NamedNode]:   ##### Move to "builder"
         if not isinstance(name, ID): name=ID(name)
         return self._findNode(name)
 
 
-    def getID(self, name :ID) ->NamedNode: #Or raise NameError
+    def getID(self, name :ID) ->NamedNode: #Or raise NameError          #### Move to "builder"
         """Return the NamedNode with the specified name (aka ID), or raised an NameError:AttributeError.
            See :method:`findNode` for an alternative"""
         if not isinstance(name, ID): name=ID(name)
@@ -95,7 +92,7 @@ class _NameSpace(AIGR):
         return node
 
 
-    def search(self, dottedName :ID) ->PTH.Optional[NamedNode]:
+    def search(self, dottedName :ID) ->PTH.Optional[NamedNode]: #### Move to "builder"
         """Search the namespace for the 1st part of `dottedName`, then that NS for the next part, etc. And return the "deepest" node, or None"""
 
         parts = dottedName.split('.',maxsplit=1) # parts is [<name>, (<name>.)*] parts[1] can be absent, parts[0] always exist
@@ -108,11 +105,11 @@ class _NameSpace(AIGR):
             return None
 
 
-    def find_byType(self, cls:type) ->dict[ID, NamedNode]:
+    def find_byType(self, cls:type) ->dict[ID, NamedNode]: #### Move to "builder"
         return {name: node for name, node in self._dict.items() if isinstance(node, cls)}
 
 
-    def list_names(self) -> tuple[ID, ...]:
+    def list_names(self) -> tuple[ID, ...]: #### Move to "builder"
         return tuple(self._dict.keys())
 
 
@@ -164,7 +161,8 @@ class _hasScope(Scope):
         if post_init:
             logger.debug(f"Auto register parameters -- post_init: {post_init}")
         if getattr(self, 'parameters', False):
-            logger.debug(f"{type(self)} has parameters: self.parameters -- {self}")
+            logger.debug(f"{type(self)} has parameters: {self.parameters} -- {self}")
             for p in self.parameters:
                 self.register(p)
+
 

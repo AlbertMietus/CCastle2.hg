@@ -34,7 +34,6 @@ class _Named_callable(NamedNode, _callable):
     def __post_init__(self):
         self._register_parameters(True)
 
-
 @dataclass
 class Method(_Named_callable): pass
 

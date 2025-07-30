@@ -20,8 +20,8 @@ def test_1_HW_in_file(elemental):
 def test_2_HW_has_2_callables(HW):
     for name in ('HelloWorld', mangle_event_handler(protocol='std', event='invoke', port='std')):
         node = HW.findNode(name)
-        assert node,  f"Can't find '{name}' in {HW}"
-        assert node.name == name, f"Name of f is not '{name}'"
+        assert node is not None,  f"Can't find '{name}' in <{HW.__class__.__name__}.{HW.name}> -- The only name are:{HW._dict.keys()}"
+        assert name == node.name , f"Name {name} not in node"
 
 def test_3a_HelloWorld_parms(HW):
     name = 'HelloWorld'
