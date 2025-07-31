@@ -20,10 +20,11 @@ LAST = \
 	pytst/components/implementation/test_DispatchTables.py 		\
 #
 CURRENT = \
-	pytst/components/implementation/test_eDispatchTables.py 	\
+	pytst/extra/scaffolding/test_1_scaffolding.py	\
 #
 TODO = \
 	pytst/machinery/test_9_todo.py								\
+	pytst/components/implementation/test_eDispatchTables.py 	\
 #
 
 TOPd=../../

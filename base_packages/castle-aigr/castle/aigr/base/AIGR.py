@@ -12,3 +12,8 @@ class AIGR: # Abstract Intermediate Graph Representation
             raise NotImplementedError(f"Instantiate a subclass of {cls}, not the `Abstract Intermediate Graph Representation`` itself")
         return super().__new__(cls)
 
+class AIGRNode(AIGR):
+    """An AIGRNode is always part of a tree-alike graph, and so has one parent.
+
+    It also has (many) childeren, to be found via the data-field. Only the main-parent is generic."""
+    parent: PTH.Optional[AIGR] = None
