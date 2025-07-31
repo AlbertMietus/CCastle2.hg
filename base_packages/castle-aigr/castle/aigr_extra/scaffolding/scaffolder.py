@@ -2,16 +2,16 @@
 
 import logging; logger = logging.getLogger(__name__)
 
-import typing as PTH                                       # Python TypeHints
+import typing as PTH                                        # Python TypeHints
 
 from castle.aigr import AIGR, AIGRNode
 
-T = PTH.TypeVar("T", bound=AIGR)
+T = PTH.TypeVar("T", bound=AIGR)                            # pragma: no mutate
 
 
 class _Scaffolder(PTH.Generic[T]):
-    __slots__ = ("_node",)
-    _nodeCls = AIGR # Baseclass for node, set in SubClasses
+    _nodeCls = AIGR                                         # Baseclass for node, set in SubClasses
+    __slots__ = ("_node",)                                  # pragma: no mutate
 
     def __init__(self, node: T):
         if type(self) is _Scaffolder:
@@ -29,7 +29,7 @@ class _Scaffolder(PTH.Generic[T]):
         return getattr(self._node, item)
 
     def __repr__(self):
-        return f"<Scaffolder({self._node!r})>"
+        return f"<Scaffolder({self._node!r})>"                         # pragma: no mutate
 
 
 

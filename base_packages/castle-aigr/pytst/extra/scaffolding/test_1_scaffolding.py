@@ -20,6 +20,12 @@ def fake():
 def wrapped_fake(fake):
     return ScaffolderNode(FakeNode())
 
+
+def test_0__nodeCls():
+    assert _Scaffolder._nodeCls == aigr.AIGR
+    assert ScaffolderNode._nodeCls == aigr.AIGRNode
+
+
 def test_1a_CantMake_scaffolder():
     d = Dummy()
     try:

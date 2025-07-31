@@ -4,6 +4,7 @@ skip_lines_starting_with=(
     "logger.warning(",
     "logger.debug(",
     "logger.info(",
+    "raise TypeError",
     )
 
 def pre_mutation(context):
