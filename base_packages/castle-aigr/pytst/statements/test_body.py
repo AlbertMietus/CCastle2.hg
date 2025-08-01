@@ -4,28 +4,29 @@ import pytest
 from .. import  Dummy, verifyMark
 
 from castle.aigr import Body
+from castle.aigr_extra.scaffolding import ScaffolderBody
 
 
 def test_1_emptyBody():
-    b = Body()
+    b = ScaffolderBody(Body())
     assert len(b) == 0
 
 def test_2_Body_withIndex():
     s1,s2 = Dummy('s1'), Dummy('s2')
-    b = Body(statements=(s1,s2))
+    b = ScaffolderBody(Body(statements=(s1,s2)))
     assert len(b.statements) == 2
     verifyMark(b[0], 's1')
     verifyMark(b[1], 's2')
 
 def test_3a_Body_canGrowOne():
-    b = Body()
+    b = ScaffolderBody(Body())
     s0 = Dummy('s0')
     b.expand(s0)  # One statement
     assert len(b.statements) == 1
 
 
 def test_3a_Body_canGrowSome():
-    b = Body(statements=(Dummy('s0'),))
+    b = ScaffolderBody(Body(statements=(Dummy('s0'),)))
     s1,s2 = Dummy('s1'), Dummy('s2')
     b.expand(s1,s1) # Multiple statements
     assert len(b.statements) == 3

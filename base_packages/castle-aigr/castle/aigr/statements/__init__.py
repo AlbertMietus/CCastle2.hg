@@ -4,8 +4,9 @@
 from .. import AIGR
 
 #from dataclasses import dataclass
+
 #@dataclass
-class _statement(AIGR): pass #_kids = AIGR._kids
+class _statement(AIGR): pass
 
 from .simple import *
 from .flow import *

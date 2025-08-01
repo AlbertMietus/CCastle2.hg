@@ -1,13 +1,11 @@
 # (C) Albert Mietus 2025, Part of Castle/CCastle project
 
 import logging; logger = logging.getLogger(__name__)
-
 import typing as PTH                                        # Python TypeHints
 
-from castle.aigr import AIGR, AIGRNode
+from castle.aigr import AIGR
 
 T = PTH.TypeVar("T", bound=AIGR)                            # pragma: no mutate
-
 
 class _Scaffolder(PTH.Generic[T]):
     _nodeCls = AIGR                                         # Baseclass for node, set in SubClasses
@@ -33,11 +31,3 @@ class _Scaffolder(PTH.Generic[T]):
 
 
 
-class ScaffolderNode(_Scaffolder):
-    _nodeCls = AIGRNode
-
-    def set_parent(self, parent: PTH.Union[_Scaffolder, AIGRNode]) -> _Scaffolder[T]:
-        node = self.node
-        parent_node = parent.node if isinstance(parent, _Scaffolder) else parent
-        node.parent = parent_node
-        return self  # for chaining

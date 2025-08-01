@@ -18,9 +18,10 @@ PYREVERSE_PKGS = \
 LAST = \
 	pytst/machinery/	\
 	pytst/components/implementation/test_DispatchTables.py 		\
+	pytst/extra/scaffolding/test_1_scaffolding.py	\
 #
 CURRENT = \
-	pytst/extra/scaffolding/test_1_scaffolding.py	\
+	pytst/extra/scaffolding/test_ScaffolderBody.py	\
 #
 TODO = \
 	pytst/machinery/test_9_todo.py								\
