@@ -7,6 +7,7 @@ import pytest
 
 from castle import aigr
 from castle.aigr_extra.blend import mangle_event_handler
+from castle.aigr_extra.scaffolding import ScaffolderBody
 
 from castle.TESTDOUBLES.aigr.sieve.basic1 import sieveCastle
 from castle.TESTDOUBLES.aigr.sieve.basic1 import protocols, components
@@ -51,13 +52,14 @@ def test_0c_noParms(comp):
 def test_1a_init_has_2lines(comp):
     init = comp.findNode('init')
     assert isinstance(init, aigr.Method), f"Expected an init method, got {init}"
-    assert len(init.body)==2, f"Expected that 'init' has 2 statements, but found: {len(init.body.statements)}"
+    init_len = len(ScaffolderBody(init.body))
+    assert init_len == 2, f"Expected that 'init' has 2 statements, but found: {init_len}"
 
 
 def test_1b_init_1st_line_superinit(comp):
     """ CastleCode:  super.init(); """
     init = comp.findNode('init')
-    line = init.body[0]
+    line = ScaffolderBody(init.body)[0]
 
     assert isinstance(line, aigr.VoidCall) and isinstance(line.call, aigr.Call)
     callable, arguments = line.call.callable, line.call.arguments
@@ -73,7 +75,7 @@ def test_1b_init_1st_line_superinit(comp):
 def test_1c_init_2nd_line_become(comp):
     """ CastleCode: .myPrime := onPrime; """
     init = comp.findNode('init')
-    line = init.body[1]
+    line = ScaffolderBody(init.body)[1]
 
     assert isinstance(line, aigr.Become) and len(line.targets)==1 and len(line.values)==1
     myPrime, onPrime = line.targets[0], line.values[0]
@@ -95,11 +97,12 @@ def test_3a_EH_is_one_statement(event_handler):
     "This eventhandler has basically one (multiline) statement: an if an 1 statement inside"
     body = event_handler.body
     assert isinstance(body, aigr.Body), f"any EH Should have a Body (instance), but found {body} (type={type(body)})"
-    assert len(body)==1, f"Expected a single (long) statement, but found {len(body)} statement(s)"
+    no_statements = len(ScaffolderBody(body))
+    assert no_statements, f"Expected a single (long) statement, but found {no_statements} statement(s)"
 
 
 def test_3b_EH_is_one_if(event_handler):
-    if_statement=event_handler.body[0]
+    if_statement = ScaffolderBody(event_handler.body)[0]
     assert isinstance(if_statement, aigr.If) # Not a test, only to check.
 
     test = if_statement.test
@@ -108,13 +111,13 @@ def test_3b_EH_is_one_if(event_handler):
     logger.debug("if_statement: test=%s, then=%s, orelse=%s", test,then,orelse)
 
     assert isinstance(test, aigr.expressions._expression) # The expressions itself is below
-    assert isinstance(then, aigr.Body) and len(then)==1   # The statement is tested below
+    assert isinstance(then, aigr.Body) and len(ScaffolderBody(then))==1   # The statement is tested below
     assert orelse is None
 
 
 def test_3c_EH_test_exps(event_handler):
     """ CastleCode: try % .myPrime) !=0 """
-    if_statement = event_handler.body[0]
+    if_statement = ScaffolderBody(event_handler.body)[0]
     test_expr = if_statement.test
 
     assert isinstance(test_expr, aigr.Compare) and isinstance(test_expr.ops, aigr.operators.NotEqual) and len(test_expr.values) == 2
@@ -138,10 +141,10 @@ def test_3c_EH_test_exps(event_handler):
 
 def test_3d_EH_then_send(event_handler):
     """ CastleCode: .coprime.input(try); """
-    if_statement=event_handler.body[0]
+    if_statement = ScaffolderBody(event_handler.body)[0]
     then = if_statement.body
-    assert len(then) == 1 # Not a test, only to check.
-    send = then[0]
+    assert len(ScaffolderBody(then)) == 1 # Not a test, only to check.
+    send = ScaffolderBody(then)[0]
 
     assert isinstance(send, aigr.machinery.sendEvent)
 
