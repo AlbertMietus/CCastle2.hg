@@ -7,6 +7,7 @@ from castle import aigr
 from castle.writers.RPy.aid import Block
 from ..base.visitors import Visitor
 
+from castle.aigr_extra.scaffolding import ScaffolderBody
 
 class Walker(Visitor):
     _defaultType=tuple
@@ -18,7 +19,7 @@ class Walker(Visitor):
         return tuple(named_callables.values())
 
     def visit__Named_callable(self, node) -> PTH.Sequence[aigr.AIGR]: # Method, EventHandler, ...
-        body = node.body #single node
+        body = ScaffolderBody(node.body) #single node # GAM XXX ScaffolderBody or Body
         logger.debug("%s (%s) has %s body", node.name, type(node).__name__, "no" if body is None else "a")
         return tuple(body,)
 

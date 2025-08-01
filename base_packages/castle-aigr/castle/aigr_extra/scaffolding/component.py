@@ -10,15 +10,15 @@ from . import ScaffolderNode
 class ScaffolderBody(ScaffolderNode):
     _nodeCls = aigr.Body
 
-    def __getitem__(self, index):
-        """"Convenient function: return a statements in the body, based on an index (numbering like a list)"""
-        return self.node.statements[index]
-
     def __len__(self):
         return len(self.node.statements)
 
+    def __getitem__(self, index):
+        "get one statement of the (real) body)"
+        return self.node.statements[index]
+
     def expand(self, *s):
-        """Convenient function: add one of more statements to the Body"""
+        "Add one or more statement to the (real) Body"
         self.node.statements +=s
 
 

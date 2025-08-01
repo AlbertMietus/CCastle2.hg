@@ -5,15 +5,17 @@ import pytest
 
 from castle.TESTDOUBLES.aigr.HelloWorlds.elemental.HelloWorld import Hello_World
 from castle import aigr
+from castle.aigr_extra.scaffolding import ScaffolderBody
 
 from . import my_renderer, verify_line
 
 
 @pytest.fixture
 def fString():
-    call=Hello_World.search('Elemental_HelloWorld.HelloWorld').body[0].call
+    body = Hello_World.search('Elemental_HelloWorld.HelloWorld').body
+    call = ScaffolderBody(body)[0].call
     assert isinstance(call, aigr.Call) # Check only
-    arg0=call.arguments[0]
+    arg0 = call.arguments[0]
     assert isinstance(arg0, aigr.fString) # Check only
     return arg0
 

@@ -11,7 +11,7 @@ LEN = 13
 
 @pytest.fixture
 def wrapped_body() -> ScaffolderBody:
-    b = aigr.Body(statements=[f'fake_{n}' for n in range(LEN)])
+    b = aigr.Body(statements=[f'fake_{n}' for n in range(LEN)]) # type: ignore[misc] # fake statements
     return ScaffolderBody(b)
 
 def test_1_len(wrapped_body):
