@@ -1,7 +1,7 @@
 # (C) Albert Mietus, 2023. Part of Castle/CCastle project
 
 from castle.aigr import EventProtocol, Event, ID
-from castle.aigr import TypedParameter, Argument, Specialise
+from castle.aigr import TypedParameter
 from castle.aigr import types
 
 import typing as PTH                                                                                 # Python TypeHints
