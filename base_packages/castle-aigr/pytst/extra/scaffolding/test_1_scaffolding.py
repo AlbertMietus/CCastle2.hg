@@ -21,23 +21,27 @@ def wrapped_fake(fake):
     return ScaffolderNode(FakeNode())
 
 
-def test_0__nodeCls():
+def test_0a__nodeCls():
+    """These setting are also functionally testen below"""
     assert _Scaffolder._nodeCls == aigr.AIGR
     assert ScaffolderNode._nodeCls == aigr.AIGRNode
 
+def test_0b__repr(wrapped_fake):
+    assert "<Scaffolder" in repr(wrapped_fake)
+    assert 'FakeNode' in repr(wrapped_fake)
 
 def test_1a_CantMake_scaffolder():
     d = Dummy()
     try:
         _Scaffolder(d)
-        assert False, "shouldn't be here"
+        assert False, "shouldn't be here"                    # pragma: no cover
     except TypeError: pass
 
 def test_1b_Cant_Scaffold_nonNode():
     d = Dummy()
     try:
         ScaffolderNode(d)
-        assert False, "shouldn't be here"
+        assert False, "shouldn't be here"                   # pragma: no cover
     except TypeError: pass
 
 
