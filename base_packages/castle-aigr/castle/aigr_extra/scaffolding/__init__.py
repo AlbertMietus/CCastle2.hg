@@ -2,4 +2,5 @@
 
 from .node import *
 from .component import *
+from .protocols import *
 

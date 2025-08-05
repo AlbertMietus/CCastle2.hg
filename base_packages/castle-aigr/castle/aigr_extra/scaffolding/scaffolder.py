@@ -15,7 +15,7 @@ class _Scaffolder(PTH.Generic[T]):
         if type(self) is _Scaffolder:
             raise TypeError("Only use subclasses of Scaffolder - e.f ScaffolderNode")
         if not isinstance(node, self._nodeCls):
-            raise TypeError(f"Scaffolder can only wrap AIGR-subclasses of {self._nodeCls}, not {node}")
+            raise TypeError(f"{self.__class__.__name__} can only wrap AIGR-subclasses of {self._nodeCls}, not {node}")
         self._node: T = node
 
     @property

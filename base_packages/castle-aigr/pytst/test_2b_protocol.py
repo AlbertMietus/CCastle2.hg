@@ -9,6 +9,8 @@ from castle.aigr import TypedParameter
 from castle.aigr import types
 from castle.aigr import types
 
+from castle.aigr_extra.scaffolding import ScaffolderEventProtocol
+
 @pytest.fixture
 def emptyProtocol():
     return EventProtocol("EMPTY", events=[], based_on=None)
@@ -42,6 +44,7 @@ def test_2b_based_onRoot_notSet(emptyProtocol_baseNotSet):
 
 
 def test_3a_eventIndex_empty(emptyProtocol, anEvent):
+    emptyProtocol = ScaffolderEventProtocol(emptyProtocol)
     assert emptyProtocol._noEvents() == 0
     try:
         emptyProtocol.eventIndex(anEvent)
@@ -50,6 +53,7 @@ def test_3a_eventIndex_empty(emptyProtocol, anEvent):
 
 
 def test_3b_eventIndex_simple(simpleSieve, anEvent):
+    simpleSieve = ScaffolderEventProtocol(simpleSieve)
     assert simpleSieve._noEvents() == 1
     assert simpleSieve.eventIndex(anEvent) == 0, f"`anEvent` should be eventIndex==0, but isn;t...T\n {anEvent}\n{simpleSieve.events}"
 
@@ -60,6 +64,9 @@ def test_3c_eventIndex_inherited():
     e2 = Event("E2")
     p0 = EventProtocol("P0", events=[e0])
     p1 = EventProtocol("P1", events=[e1,e2], based_on=p0)
+
+    p0 = ScaffolderEventProtocol(p0)
+    p1 = ScaffolderEventProtocol(p1)
 
     assert p1._noEvents() == 3
     assert p1.eventIndex(e2) == 2

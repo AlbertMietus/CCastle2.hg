@@ -19,9 +19,11 @@ LAST = \
 	pytst/machinery/	\
 	pytst/components/implementation/test_DispatchTables.py 		\
 	pytst/extra/scaffolding/test_1_scaffolding.py	\
+	pytst/extra/scaffolding/test_ScaffolderBody.py	\
+ pytst/test_2b_protocol.py \
 #
 CURRENT = \
-	pytst/extra/scaffolding/test_ScaffolderBody.py	\
+    pytst/test_2c_GenericProtocols.py \
 #
 TODO = \
 	pytst/machinery/test_9_todo.py								\

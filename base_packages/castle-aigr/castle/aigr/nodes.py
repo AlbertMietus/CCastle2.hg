@@ -8,12 +8,13 @@ from dataclasses import dataclass, KW_ONLY
 from dataclasses import field as dc_field
 import typing as PTH                                                                                  # Python TypeHints
 
-from . import AIGR, ID
+from . import ID
+from . import AIGRNode
 from . import Argument
 
 
 @dataclass
-class NamedNode(AIGR):
+class NamedNode(AIGRNode):
     name       : ID|str
 
     def __post_init__(self):

@@ -52,6 +52,8 @@ from castle.aigr import Event, EventProtocol
 from castle.aigr import TypedParameter, Argument, Specialise
 from castle.aigr import types
 
+from castle.aigr_extra.scaffolding import ScaffolderEventProtocol
+
 """ There are a few cases
 ///CastleCode
    protocol Base(queue_max:int): EventProtocol
@@ -90,9 +92,10 @@ class EventProtocol_Spy(EventProtocol):
         self._trace=["init"]
 
     def _noEvents(self):
-        n = super()._noEvents()
+        n = ScaffolderEventProtocol(self)._noEvents()
         self._trace.append(f'noEvents={n}')
         return n
+
     def mole(self):
         TXT="I'm a mole, and do not exist in real classes"
         self._trace.append(TXT)
