@@ -13,7 +13,7 @@ from castle import aigr
 from castle.aigr import types
 from castle.TESTDOUBLES.aigr.base  import Protocol as base_Protocol
 
-
+from castle.aigr_extra.scaffolding import ScaffolderEventProtocol
 
 def test_0_all_sieveProtocols_exist():
     for p in (sieve_protocols.StartSieve, sieve_protocols.SimpleSieve):
@@ -53,6 +53,7 @@ def verify_Protocol(p, name, event_names,  base=None):
     assert isinstance(p, aigr.EventProtocol)
     assert str(p.name) == name,  f"{p.name} reported but expected: {name}"
     assert p.based_on is base
+    p = ScaffolderEventProtocol(p)
     for no, name in enumerate(event_names):
         assert str(p.events[no].name) == name, f"{p.name} (own/local) event no={no}: {p.events[no].name}, expected: {name}"
     assert p._noEvents() == len(event_names), f"{p.name} reports {p._noEvents()} events, but expected: {len(event_names)} event(s)"
