@@ -2,8 +2,8 @@
 
 import pytest
 
-from castle.aigr import AIGR, NamedNode, Specialise
-from castle.aigr import TypedParameter, Argument
+from castle.aigr import NamedNode, Specialise
+from castle.aigr import Argument
 
 
 @pytest.fixture
