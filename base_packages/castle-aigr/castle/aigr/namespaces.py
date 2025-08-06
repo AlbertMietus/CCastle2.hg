@@ -24,12 +24,12 @@ from dataclasses import field as dc_field
 from pathlib import Path
 
 from .nodes import NamedNode,  ID
-from .base import AIGR
+from .base import AIGRNode
 from .base import errors
 
 
 @dataclass
-class _NameSpace(AIGR):
+class _NameSpace(AIGRNode):
     """This models a namespace and/or scope (baseclass).
 
     It contained *"named nodes"* that should be :method:`register()`ed and can be found by :method:`getID()` and/or :method:`findNode()`.

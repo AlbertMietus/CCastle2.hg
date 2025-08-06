@@ -45,7 +45,7 @@ def test_2b_based_onRoot_notSet(emptyProtocol_baseNotSet):
 
 def test_3a_eventIndex_empty(emptyProtocol, anEvent):
     emptyProtocol = ScaffolderEventProtocol(emptyProtocol)
-    assert emptyProtocol._noEvents() == 0
+    assert emptyProtocol._noEvents() == 0, "check, not a test"
     try:
         emptyProtocol.eventIndex(anEvent)
         assert False, f"{anEvent} shouldn't be in the emptyProtocol"                    # pragma: no cover

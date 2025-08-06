@@ -38,16 +38,4 @@ def test_1c_Specialise_autoName_ArgNames(nameless_specialised_node):
     assert '42'          in nameless_specialised_node.name
     assert '2024'        in nameless_specialised_node.name
 
-class DummyNode(NamedNode):
-    def forwarded(self):
-        return True
-
-def test_GenericProtocol_delegated():
-    s = Specialise("", based_on=DummyNode('all methods should be delegated'), arguments=[])
-    assert s.forwarded()
-
-def test_GenericProtocol_NotDelegate():
-    s = Specialise("", based_on=NamedNode('A NamedNode has no .forwarded'), arguments=[])
-    with pytest.raises(AttributeError):
-        s.forwarded()
 

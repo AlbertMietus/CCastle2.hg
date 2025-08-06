@@ -8,46 +8,54 @@ from . import ScaffolderNode
 
 class ScaffolderProtocol(ScaffolderNode):
     _nodeCls = aigr.Protocol
-    # DataProtocol & StreamProtocol ...
+
+    def wrapped_base(self) -> PTH.Optional["ScaffolderProtocol"]:
+        wrapCls=type(self)
+        based_on = self.node.based_on
+        if isinstance(based_on, aigr.Specialise):
+            based_on = based_on.based_on
+
+
+        # Only wrap when base_on has same type as the wrapped type  -- HOW ABOUT SUBCLASESS (like spy-base) XXX
+        wrapped = wrapCls(based_on) if (type(based_on) is type(self.node)) else None
+        logger.debug("wrapCls=%s, wrapped*: %s -- base_on: %s; self: %s", wrapCls, wrapped, based_on, self)
+        return wrapped
+
 
 class ScaffolderEventProtocol(ScaffolderProtocol):
     _nodeCls = aigr.EventProtocol
-
-    """ XXX Moving methods from aigr.EventProtocol to Scaffolder... status: Just started (Copy/Past)"""
-
 
     #Note: ``.based_on`` can be an `EventProtocol`, or 'Specialise' (see Generics), which can have events.
     #    But it can also be another Protocol; typical ``_RootProtocol`` ...
     #    which has NO events, NOR the methods of EventProtocol!
 
-    def eventIndex(self, event: aigr.Event) -> int:   # Is this needed?
+    def eventIndex(self, event: aigr.Event) -> int:  # Or ValueError
         """Return the index-number (zero-bases) of the given `event`. (including inherited once)
            Scans the events in the 'based_on' protocol(s) also,"""
         # Note: the number can be higher as len(self.events)!
 
-        if isinstance(self.node.based_on, aigr.EventProtocol):
-            based_on = ScaffolderEventProtocol(self.node.based_on)
-            try:
-                return based_on.eventIndex(event)
-            except ValueError: # not inherited
-                pass 
-            inherited_events = based_on._noEvents()
-        else:
-            inherited_events = 0 # No base
-        return inherited_events + self.events.index(event)
+        wrapped_base = self.wrapped_base() # Can be None -> AttributeError below -> no inherited events
+        try:
+            return wrapped_base.eventIndex(event)
+        except AttributeError: # No .eventIndex
+            inherited_events = 0
+        except ValueError: # `event` is not inherited
+            inherited_events = wrapped_base._noEvents()
+
+        return inherited_events + self.node.events.index(event) # Or ValueError
 
 
     def _noEvents(self) ->int:
         """ (internal) find the total number of events (also inherit once)"""
 
-        if isinstance(self.node.based_on, aigr.EventProtocol):
-            based_on = ScaffolderEventProtocol(self.node.based_on)
-            inherited = based_on._noEvents()
-            logger.debug(f'{self.name} has inherited {inherited} events')
-        else:
-            inherited = 0
-
-        no_events = inherited + len(self.node.events)
+        wrapped_base = self.wrapped_base() # Can be None -> AttributeError below -> no inherited events
+        try:
+            inherited_events = wrapped_base._noEvents()
+        except AttributeError as e: #  No ._noEvents()
+            logger.info("AttributeError: %s -- wrapped_base: %s ", e, wrapped_base )
+            inherited_events = 0
+        logger.debug(f'{self.name} has inherited {inherited_events} events')
+        no_events = inherited_events + len(self.node.events)
         logger.debug(f'{self.name} has {no_events} events (in total)')
         return no_events
 

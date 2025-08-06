@@ -32,9 +32,3 @@ class Specialise(NamedNode):
     def __post_init__(self):
         if not self.name: # or self.name == "":
             self.name = f"Specialised version of {self.based_on.name}({self.arguments})"
-
-    def __getattr__(self, name):
-        """delegate "everything" to `.`based_on``!
-        Kind of inherit, but not to superclass (Protocol), but to the instance (a Protocol) that is wrapped"""
-
-        return getattr(self.based_on, name)

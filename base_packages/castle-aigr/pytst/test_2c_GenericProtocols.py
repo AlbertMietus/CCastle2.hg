@@ -64,51 +64,30 @@ from castle.aigr_extra.scaffolding import ScaffolderEventProtocol
 
 
 @pytest.fixture
-def base():
+def base(): #The Generic
     return EventProtocol("Base", events=[], typedParameters=[TypedParameter(name='queue_max', type=types.int)])
 
 @pytest.fixture
 def sub_a(base):
-    return EventProtocol("Sub_a", events=[], based_on=Specialise(name="", based_on=base, arguments=(Argument(name='queue_max', value=1),)))
+    inbetween = Specialise(name="", based_on=base, arguments=(Argument(name='queue_max', value=1),))
+    return EventProtocol("Sub_a", events=[], based_on=inbetween)
 
 @pytest.fixture
 def sub_b(base):
-    return EventProtocol("Sub_b", events=[], based_on=Specialise(None, based_on=base, arguments=(Argument(value=1),)))
+    inbetween = Specialise(None, based_on=base, arguments=(Argument(value=1),))
+    return EventProtocol("Sub_b", events=[], based_on=inbetween)
+
 
 def assert_GP_kind(base, sub):
     assert sub.kind == base.kind
-    assert sub.based_on.kind == base.kind
+    # The `inbetween` Specialise has no kind!
     assert sub.based_on.based_on is base
+
 
 def test_GenericProtocol_kind_a(base, sub_a):
     assert_GP_kind(base, sub_a)
 
 def test_GenericProtocol_kind_b(base, sub_b):
     assert_GP_kind(base, sub_b)
-
-class EventProtocol_Spy(EventProtocol):
-    def __init__(self, *t,**d):
-        super().__init__(*t, **d)
-        self._trace=["init"]
-
-    def _noEvents(self):
-        n = ScaffolderEventProtocol(self)._noEvents()
-        self._trace.append(f'noEvents={n}')
-        return n
-
-    def mole(self):
-        TXT="I'm a mole, and do not exist in real classes"
-        self._trace.append(TXT)
-        return TXT
-
-def test_GenericProtocol_Spydelegate():
-    spy = EventProtocol_Spy("SpyBase", events=[], typedParameters=[TypedParameter(name='queue_max', type=types.int)])
-    specialised = Specialise("", based_on=spy, arguments=(Argument(value=1),))
-
-    assert specialised._noEvents() == 0
-    assert spy._trace[-1] == "noEvents=0"
-    assert spy.mole() == spy._trace[-1]
-
-
 
 
