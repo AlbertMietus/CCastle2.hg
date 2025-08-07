@@ -9,16 +9,15 @@ from . import ScaffolderNode
 class ScaffolderProtocol(ScaffolderNode):
     _nodeCls = aigr.Protocol
 
-    def wrapped_base(self) -> PTH.Optional["ScaffolderProtocol"]: 
+    def wrapped_base(self) -> PTH.Optional["ScaffolderProtocol"]:
         wrapCls=type(self)
         based_on = self.node.based_on
-        if isinstance(based_on, aigr.Specialise):
+        if isinstance(based_on, aigr.Specialise):                            ### XXX I dont't like this
             based_on = based_on.based_on
 
-
-        # Only wrap when base_on has same type as the wrapped type  -- HOW ABOUT SUBCLASESS (like spy-base) XXX
+        # Only wrap when base_on has same type as the wrapped type
         wrapped = wrapCls(based_on) if (type(based_on) is type(self.node)) else None
-        logger.debug("wrapCls=%s, wrapped*: %s -- base_on: %s; self: %s", wrapCls, wrapped, based_on, self)
+        logger.debug("wrapCls=%s, wrapped: %s (return) -- base_on: %s; self: %s", wrapCls, wrapped, based_on, self)
         return wrapped
 
 
