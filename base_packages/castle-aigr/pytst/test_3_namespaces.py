@@ -11,10 +11,12 @@ from castle.aigr import NamedNode
 from castle.aigr import errors
 from . import DummyNode, a_node
 
+from castle.aigr_extra.scaffolding import ScaffolderNameSpace
+
 @pytest.fixture
 def aNS(a_node):
     ns = NamedSpace("aNS")
-    ns.register(a_node)
+    ScaffolderNameSpace(ns).register(a_node)
     return ns
 
 @pytest.fixture
@@ -25,19 +27,19 @@ def top():
 @pytest.fixture
 def sub(top):
     sub = NamedSpace('sub')
-    top.register(sub)
+    ScaffolderNameSpace(top).register(sub)
     return sub
 
 @pytest.fixture
 def sourceNS(a_node):
     ns = Source_NS("sourceNS", source="dummy")
-    ns.register(a_node)
+    ScaffolderNameSpace(ns).register(a_node)
     return ns
 
 @pytest.fixture
 def aScope(top, a_node):
     scope_ns = Scope(outer_ns=top)
-    scope_ns.register(a_node)
+    ScaffolderNameSpace(scope_ns).register(a_node)
     return scope_ns
 
 
@@ -73,16 +75,16 @@ def test_4_sameName_is_replaced(aNS):
     name='TriggerWarning'
     one = DummyNode(name, dummy='one')
     two = DummyNode(name, dummy='one')
-    aNS.register(one);    assert aNS.getID(name) is one         #No test, just verify
+    ScaffolderNameSpace(aNS).register(one);    assert aNS.getID(name) is one         #No test, just verify
 
-    aNS.register(two)
+    ScaffolderNameSpace(aNS).register(two)
     assert aNS.getID(name) is two         #The test
 
 
 def test_5a_ns_in_ns():
     "when we import a NS, we get a NS in a NS ..."
-    top = NamedSpace('top')
-    sub = NamedSpace('sub')
+    top = ScaffolderNameSpace(NamedSpace('top'))
+    sub = ScaffolderNameSpace(NamedSpace('sub'))
     elm = DummyNode('elm', dummy="with.dotted.Name")
     top.register(sub)
     sub.register(elm)
@@ -108,7 +110,7 @@ def test_5d_seachNotFound_sub(top, sub):
 def test_7_alias(aNS):
     node=DummyNode("aliased")
     alias="anOtherName"
-    aNS.register(node, asName=alias)
+    ScaffolderNameSpace(aNS).register(node, asName=alias)
     assert aNS.findNode(name=alias) is node,    f"it should be registered with the given alias: {alias}"
     assert aNS.findNode(name=node.name) is None, f"The realname should not be registered"
 
@@ -125,7 +127,7 @@ def test_byType_Dummy(aNS, a_node):
     assert d[a_node.name] is a_node # note: this assumed no aliasses are used ('asName')
 
 def test_byType_NS(top, sub, sourceNS):
-    top.register(sourceNS) # Note: sub is already 'in; top
+    ScaffolderNameSpace(top).register(sourceNS) # Note: sub is already 'in; top
 
     d = top.find_byType(NamedSpace)
     assert len(d) == 2 # sub, sourceNS
@@ -147,7 +149,7 @@ def test_subScope_has_an_outerNS(aScope):
 
 def test_Subscope_find_inOuter(aScope, a_node):
     outer = aScope.outer_ns
-    outer.register(a_node); assert outer.findNode('a_node') is a_node, "a_node is in the outer namespace"
+    ScaffolderNameSpace(outer).register(a_node); assert outer.findNode('a_node') is a_node, "a_node is in the outer namespace"
     assert aScope.findNode('a_node') is a_node, "Nodes can be found in outer namespace too"
 
 

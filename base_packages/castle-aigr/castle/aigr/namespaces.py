@@ -41,17 +41,6 @@ class _NameSpace(AIGRNode):
     _dict      :PTH.Dict[ID, NamedNode]=dc_field(init=None, default_factory=lambda: dict()) #type: ignore[call-overload]
 
 
-    def register(self, named_node :NamedNode, asName :PTH.Optional[ID|str]=None):  #### Move to "builder"
-        name = ID(asName) if asName else PTH.cast(ID, named_node.name)
-        if name in self._dict:
-            old = self._dict[name]
-            logger.warning(f"The '{name}'-node is already in this namespace; -- it will be lost." +
-                           f"Removed: {old}. New: {named_node}")
-        self._dict[name] = named_node
-
-    def __len__(self):                                            ##### Move to "builder"
-        return len(self._dict)
-
 
 ### The following 3 methods are overkill.
 ### + findNode/getID only looks locally returning None (findNode) or raise NameError on no match

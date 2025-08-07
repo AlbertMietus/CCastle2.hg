@@ -12,6 +12,7 @@ from castle.aigr import AIGR, ID
 from castle.aigr import If
 from castle.aigr import NamedNode, NamedSpace
 
+from castle.aigr_extra.scaffolding import ScaffolderNameSpace
 
 @dataclass
 class Dummy(AIGR):
@@ -33,7 +34,7 @@ def a_node():
 @pytest.fixture
 def outer_NS(a_node):
     ns = NamedSpace(ID('outer_namespace'))
-    ns.register(a_node)
+    ScaffolderNameSpace(ns).register(a_node)
     return ns
 
 

@@ -16,15 +16,14 @@ PYREVERSE_PKGS = \
 #
 
 LAST = \
-	pytst/machinery/	\
-	pytst/components/implementation/test_DispatchTables.py 		\
 	pytst/extra/scaffolding/test_1_scaffolding.py	\
 	pytst/extra/scaffolding/test_ScaffolderBody.py	\
 	pytst/test_2b_protocol.py \
     pytst/test_2c_GenericProtocols.py \
 #
 CURRENT = \
-	pytst/test_SpecialiseGenerics.py
+	pytst/test_3_namespaces.py	\
+#	pytst/test_scope.py			\
 #
 TODO = \
 	pytst/machinery/test_9_todo.py								\

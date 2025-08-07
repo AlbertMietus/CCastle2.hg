@@ -8,12 +8,14 @@ from castle import aigr
 from castle.aigr import ID
 from castle.aigr import ComponentImplementation
 
+from castle.aigr_extra.scaffolding import ScaffolderNameSpace
+
 from . import a_node, outer_NS
 
 
 def test_ComponentImplementation_hasScope(a_node):
     """An component(implementation) act as a namedspace: we can register nodes, and find them"""
-    aComp = ComponentImplementation(ID('aComp'))
+    aComp = ScaffolderNameSpace(ComponentImplementation(ID('aComp')))
     aComp.register(a_node)
     assert aComp.findNode('a_node') is a_node
 
