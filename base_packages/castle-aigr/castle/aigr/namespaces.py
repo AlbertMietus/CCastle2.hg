@@ -25,7 +25,7 @@ from pathlib import Path
 
 from .nodes import NamedNode,  ID
 from .base import AIGRNode
-from .base import errors
+
 
 
 @dataclass
@@ -39,69 +39,6 @@ class _NameSpace(AIGRNode):
     _: KW_ONLY
     outer_ns   :PTH.Optional[_NameSpace]=None
     _dict      :PTH.Dict[ID, NamedNode]=dc_field(init=None, default_factory=lambda: dict()) #type: ignore[call-overload]
-
-
-
-### The following 3 methods are overkill.
-### + findNode/getID only looks locally returning None (findNode) or raise NameError on no match
-### + search is like findNode, but looks also in subNS'ses
-###
-### So,
-### - ``NS.findNode(name)`` and ``NS.search(name)`` are equivalent
-###     (but search calls findNode, and can't be removed. find is also a better name)
-###- There is no getID() for dottedName's
-###
-### _findNode() is the basic function, all others call it
-###   So, only that needs to be overwritten
-###   Possible rename it to _findNode()
-
-    def _findNode(self, name :ID) ->PTH.Optional[NamedNode]:                       #### Move to "builder"
-        """Return the NamedNode with the specified ID, or None.
-           It looks in 'this' namespace, and in outer_ns's when they exist.
-           All public interfaces will use this method."""
-
-        node = self._dict.get(name, None)
-        logger.info("Can't find %s locally: %s -- try outer_ns: %s", name, tuple(self._dict.keys()), self.outer_ns)
-        if node is None and self.outer_ns:
-            node = self.outer_ns._findNode(name)
-        return node
-
-
-    def findNode(self, name :ID|str) ->PTH.Optional[NamedNode]:   ##### Move to "builder"
-        if not isinstance(name, ID): name=ID(name)
-        return self._findNode(name)
-
-
-    def getID(self, name :ID) ->NamedNode: #Or raise NameError          #### Move to "builder"
-        """Return the NamedNode with the specified name (aka ID), or raised an NameError:AttributeError.
-           See :method:`findNode` for an alternative"""
-        if not isinstance(name, ID): name=ID(name)
-        node = self._findNode(name)
-        if node is None:
-            raise errors.NameError(f"No node named {name} in NS:{getattr(self,'name','')}")
-        return node
-
-
-    def search(self, dottedName :ID) ->PTH.Optional[NamedNode]: #### Move to "builder"
-        """Search the namespace for the 1st part of `dottedName`, then that NS for the next part, etc. And return the "deepest" node, or None"""
-
-        parts = dottedName.split('.',maxsplit=1) # parts is [<name>, (<name>.)*] parts[1] can be absent, parts[0] always exist
-        node = self.findNode(parts[0])
-        if len(parts) == 1:
-            return node
-        try:
-            return node.search(parts[1])                              #type: ignore[union-attr] # Assume a NS, else raise
-        except AttributeError: #node isn't a search'able/namespace --> Not found --> return None
-            return None
-
-
-    def find_byType(self, cls:type) ->dict[ID, NamedNode]: #### Move to "builder"
-        return {name: node for name, node in self._dict.items() if isinstance(node, cls)}
-
-
-    def list_names(self) -> tuple[ID, ...]: #### Move to "builder"
-        return tuple(self._dict.keys())
-
 
 
 @dataclass

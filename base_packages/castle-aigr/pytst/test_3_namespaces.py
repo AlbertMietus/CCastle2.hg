@@ -14,9 +14,9 @@ from . import DummyNode, a_node
 from castle.aigr_extra.scaffolding import ScaffolderNameSpace
 
 @pytest.fixture
-def aNS(a_node):
-    ns = NamedSpace("aNS")
-    ScaffolderNameSpace(ns).register(a_node)
+def wrappedNS(a_node):
+    ns = ScaffolderNameSpace(NamedSpace("aNS"))
+    ns.register(a_node)
     return ns
 
 @pytest.fixture
@@ -43,22 +43,23 @@ def aScope(top, a_node):
     return scope_ns
 
 
-def test_1_NS_stored(a_node, aNS):
+def test_1_NS_stored(a_node, wrappedNS):
     name = a_node.name
-    assert aNS.getID(name) is a_node
-    assert aNS.findNode(name) is a_node
+    assert wrappedNS.getID(name) is a_node
+    assert wrappedNS.findNode(name) is a_node
 
 
-def test_2_NS_find_vs_get_when_not_registered(aNS):
-    assert aNS.findNode("Deze Bestaat Niet") is None
+def test_2_NS_find_vs_get_when_not_registered(wrappedNS):
+    assert wrappedNS.findNode("Deze Bestaat Niet") is None
     try:
-        aNS.getID("Deze Bestaat Niet")
-        assert False, """`aNS.getID("Deze Bestaat Niet")` should raise an error"""
+        wrappedNS.getID("Deze Bestaat Niet")
+        assert False, """`wrappedNS.getID("Deze Bestaat Niet")` should raise an error"""
     except errors.NameError: pass
 
 
 def test_3_sourceNS_combi(a_node, sourceNS):
     "The functionality as shown in _NS1 & _NS2 should also work with Source_NS"
+    sourceNS = ScaffolderNameSpace(sourceNS) # XXX For now `ScaffolderNameSpace` will do for a SourcNS
     name = a_node.name
     assert sourceNS.getID(name) is a_node
     assert sourceNS.findNode(name) is a_node
@@ -70,15 +71,15 @@ def test_3_sourceNS_combi(a_node, sourceNS):
     except errors.NameError: pass
 
 
-def test_4_sameName_is_replaced(aNS):
+def test_4_sameName_is_replaced(wrappedNS):
     logger.warning("""NOTICE: This test will issue the warning 'astle.aigr.namespaces:namespaces.py:42' You should ignore it""")
     name='TriggerWarning'
     one = DummyNode(name, dummy='one')
     two = DummyNode(name, dummy='one')
-    ScaffolderNameSpace(aNS).register(one);    assert aNS.getID(name) is one         #No test, just verify
+    wrappedNS.register(one);    assert wrappedNS.getID(name) is one         #No test, just verify
 
-    ScaffolderNameSpace(aNS).register(two)
-    assert aNS.getID(name) is two         #The test
+    wrappedNS.register(two)
+    assert wrappedNS.getID(name) is two         #The test
 
 
 def test_5a_ns_in_ns():
@@ -94,63 +95,66 @@ def test_5a_ns_in_ns():
     assert top.search(dottedName="sub.elm") is elm
 
 
-def test_5b_seach_1level(aNS,a_node):
+def test_5b_seach_1level(wrappedNS,a_node):
     name = a_node.name
-    assert (aNS.search(name) is a_node) and (aNS.getID(name) is a_node), "search should find that what getID returns"
+    assert (wrappedNS.search(name) is a_node) and (wrappedNS.getID(name) is a_node), "search should find that what getID returns"
 
 
 def test_5c_seachNotFound_1(top):
-    assert top.search("Deze bestaat niet") is None
+    assert ScaffolderNameSpace(top).search("Deze bestaat niet") is None
 
 def test_5d_seachNotFound_sub(top, sub):
-    assert top.search("top.Deze.bestaat.niet") is None
+    assert ScaffolderNameSpace(top).search("top.Deze.bestaat.niet") is None
 
 #def test_6_registered_is_2ways(): Not usefull
 
-def test_7_alias(aNS):
+def test_7_alias(wrappedNS):
     node=DummyNode("aliased")
     alias="anOtherName"
-    ScaffolderNameSpace(aNS).register(node, asName=alias)
-    assert aNS.findNode(name=alias) is node,    f"it should be registered with the given alias: {alias}"
-    assert aNS.findNode(name=node.name) is None, f"The realname should not be registered"
+    wrappedNS.register(node, asName=alias)
+    assert wrappedNS.findNode(name=alias) is node,    f"it should be registered with the given alias: {alias}"
+    assert wrappedNS.findNode(name=node.name) is None, f"The realname should not be registered"
 
 
-def test_byType_None(aNS):
-    d = aNS.find_byType(type(None)) # There should be  None's in aNS
+def test_byType_None(wrappedNS):
+    d = wrappedNS.find_byType(type(None)) # There should be  None's in wrappedNS
     assert isinstance(d, dict)
     assert len(d)==0
 
-def test_byType_Dummy(aNS, a_node):
-    d = aNS.find_byType(DummyNode)
+def test_byType_Dummy(wrappedNS, a_node):
+    d = wrappedNS.find_byType(DummyNode)
     assert len(d)==1
     assert a_node.name in d
     assert d[a_node.name] is a_node # note: this assumed no aliasses are used ('asName')
 
 def test_byType_NS(top, sub, sourceNS):
-    ScaffolderNameSpace(top).register(sourceNS) # Note: sub is already 'in; top
+    top = ScaffolderNameSpace(top)
+    top.register(sourceNS) # Note: sub is already 'in' top
 
     d = top.find_byType(NamedSpace)
     assert len(d) == 2 # sub, sourceNS
     assert d['sub'] is sub
     assert d['sourceNS'] is sourceNS
 
-def test_find_in_outer_NS(aNS):
-    a_node=aNS.findNode('a_node')
-    localNS = NamedSpace('local', outer_ns=aNS)
+def test_find_in_outer_NS(wrappedNS):
+    a_node=wrappedNS.findNode('a_node')
+    localNS = NamedSpace('local', outer_ns=wrappedNS)
     assert getattr(localNS._dict, 'a_node', 'NotLocal') == 'NotLocal', "a_node shouldn't be in localNS"
-    assert localNS.findNode('a_node') is a_node
+    assert ScaffolderNameSpace(localNS).findNode('a_node') is a_node
+    #Note: even this works:
+    assert getattr(ScaffolderNameSpace(localNS)._dict, 'a_node', 'NotLocal') == 'NotLocal', "a_node shouldn't be in localNS"
 
 
 def test_Scope_is_a_NS(aScope, a_node):
-    assert aScope.findNode('a_node') is a_node
+    assert ScaffolderNameSpace(aScope).findNode('a_node') is a_node
 
 def test_subScope_has_an_outerNS(aScope):
     assert aScope.outer_ns.name ==  'top'
 
 def test_Subscope_find_inOuter(aScope, a_node):
-    outer = aScope.outer_ns
-    ScaffolderNameSpace(outer).register(a_node); assert outer.findNode('a_node') is a_node, "a_node is in the outer namespace"
-    assert aScope.findNode('a_node') is a_node, "Nodes can be found in outer namespace too"
+    outer = ScaffolderNameSpace(aScope.outer_ns)
+    outer.register(a_node); assert outer.findNode('a_node') is a_node, "a_node is in the outer namespace"
+    assert ScaffolderNameSpace(aScope).findNode('a_node') is a_node, "Nodes can be found in outer namespace too"
 
 
 @pytest.mark.skip("Todo: Unite `.search()` and `.find()` [& `.getID()] -- see comment in `aigr/namespaces.py`")
