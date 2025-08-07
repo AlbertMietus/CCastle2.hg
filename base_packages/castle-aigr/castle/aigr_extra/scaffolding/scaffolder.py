@@ -8,7 +8,7 @@ from castle.aigr import AIGR
 T = PTH.TypeVar("T", bound=AIGR)                            # pragma: no mutate
 
 class _Scaffolder(PTH.Generic[T]):
-    _nodeCls = AIGR                                         # Baseclass for node, set in SubClasses
+    _nodeCls: PTH.Type  = AIGR                                         # Baseclass for node, set in SubClasses
     __slots__ = ("_node",)                                  # pragma: no mutate
 
     def __init__(self, node: T):
