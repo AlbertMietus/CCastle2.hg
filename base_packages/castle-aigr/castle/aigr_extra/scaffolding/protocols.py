@@ -9,7 +9,7 @@ from . import ScaffolderNode
 class ScaffolderProtocol(ScaffolderNode):
     _nodeCls = aigr.Protocol
 
-    def wrapped_base(self) -> PTH.Optional["ScaffolderProtocol"]:
+    def wrapped_base(self) -> PTH.Optional["ScaffolderProtocol"]: 
         wrapCls=type(self)
         based_on = self.node.based_on
         if isinstance(based_on, aigr.Specialise):
@@ -36,11 +36,11 @@ class ScaffolderEventProtocol(ScaffolderProtocol):
 
         wrapped_base = self.wrapped_base() # Can be None -> AttributeError below -> no inherited events
         try:
-            return wrapped_base.eventIndex(event)
+            return wrapped_base.eventIndex(event)                             # type: ignore [union-attr]
         except AttributeError: # No .eventIndex
             inherited_events = 0
         except ValueError: # `event` is not inherited
-            inherited_events = wrapped_base._noEvents()
+            inherited_events = wrapped_base._noEvents()                            # type: ignore [union-attr]
 
         return inherited_events + self.node.events.index(event) # Or ValueError
 
@@ -50,7 +50,7 @@ class ScaffolderEventProtocol(ScaffolderProtocol):
 
         wrapped_base = self.wrapped_base() # Can be None -> AttributeError below -> no inherited events
         try:
-            inherited_events = wrapped_base._noEvents()
+            inherited_events = wrapped_base._noEvents() # type: ignore [union-attr]
         except AttributeError as e: #  No ._noEvents()
             logger.info("AttributeError: %s -- wrapped_base: %s ", e, wrapped_base )
             inherited_events = 0
