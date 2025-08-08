@@ -7,7 +7,8 @@ from castle import aigr
 from . import ScaffolderNode
 
 class ScaffolderProtocol(ScaffolderNode):
-    _nodeCls: PTH.Type = aigr.Protocol
+    #_nodeCls: PTH.Type = aigr.Protocol
+    _nodeCls = aigr.Protocol
 
     def wrapped_base(self) -> PTH.Optional["ScaffolderProtocol"]:
         wrapCls=type(self)
@@ -22,7 +23,8 @@ class ScaffolderProtocol(ScaffolderNode):
 
 
 class ScaffolderEventProtocol(ScaffolderProtocol):
-    _nodeCls: PTH.Type = aigr.EventProtocol
+    #_nodeCls: PTH.Type = aigr.EventProtocol
+    _nodeCls = aigr.EventProtocol
 
     #Note: ``.based_on`` can be an `EventProtocol`, or 'Specialise' (see Generics), which can have events.
     #    But it can also be another Protocol; typical ``_RootProtocol`` ...

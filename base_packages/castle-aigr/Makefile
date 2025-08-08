@@ -12,6 +12,7 @@ PYREVERSE_PKGS = \
 	castle.aigr_extra \
 	castle.aigr_extra.blend \
 	castle.aigr_extra.builders \
+	castle.aigr_extra.scaffolding \
 	\
 #
 
@@ -23,7 +24,7 @@ LAST = \
 #
 CURRENT = \
 	pytst/test_3_namespaces.py	\
-#	pytst/test_scope.py			\
+	pytst/test_scope.py			\
 #
 TODO = \
 	pytst/machinery/test_9_todo.py								\

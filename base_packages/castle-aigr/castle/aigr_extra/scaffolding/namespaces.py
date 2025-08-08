@@ -45,7 +45,7 @@ class ScaffolderNameSpace(ScaffolderNode):
         node = self._dict.get(name, None)
         logger.info("Can't find %s locally: %s -- try outer_ns: %s", name, tuple(self._dict.keys()), self.outer_ns)
         if node is None and self.outer_ns:
-            node = self.outer_ns._findNode(name)
+            node = ScaffolderNameSpace(self.outer_ns)._findNode(name)
         return node
 
 
