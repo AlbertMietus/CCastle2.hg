@@ -1,6 +1,7 @@
 # (C) Albert Mietus, 2023,2024 Part of Castle/CCastle project
 
 from castle.aigr import NamedSpace, Source_NS, ID
+from castle.aigr_extra.scaffolding import ScaffolderNameSpace
 
 # Note: this file only creates the namespaces, not the components (etc in those file)
 ##
@@ -23,18 +24,19 @@ comps = { name : Source_NS(ID(name), source=name+'.Castle') for name in ('genera
 # `protocols.Moat` has no imports
 
 # `interfaces.Moat` needs to import <protocols>
-interfaces.register(protocols)
+ScaffolderNameSpace(interfaces).register(protocols)
 
 # Each comp need to import it own interface, and all protocols
 for comp in comps.values():
-    comp.register(interfaces)
-    comp.register(protocols)
+    ScaffolderNameSpace(comp).register(interfaces)
+    ScaffolderNameSpace(comp).register(protocols)
 
 
 # Main is the main namespace, which imports both <interfaces> and <protocols>
 main = Source_NS(ID('main'), source='main.Moat')
-main.register(interfaces)
-main.register(protocols)
+wrapped_main = ScaffolderNameSpace(main)
+wrapped_main.register(interfaces)
+wrapped_main.register(protocols)
 
 
 ##
@@ -43,6 +45,6 @@ main.register(protocols)
 ## It's and option: _OPT_MAIN_IMPORTS_COMPS
 def _main_imports_comps():
     for comp in (ns for name,ns in comps.items() if name != 'main'): # pragma: no mutate
-        main.register(comp)
+        wrapped_main.register(comp)
 _OPT_MAIN_IMPORTS_COMPS=True              # pragma: no mutate
 if _OPT_MAIN_IMPORTS_COMPS: _main_imports_comps()

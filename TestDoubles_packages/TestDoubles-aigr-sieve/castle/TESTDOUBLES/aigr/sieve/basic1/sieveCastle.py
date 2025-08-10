@@ -15,6 +15,7 @@ from castle.aigr import types
 
 from castle.aigr_extra.blend import mangle_event_handler
 from castle.aigr_extra  import builders
+from castle.aigr_extra.scaffolding import ScaffolderNameSpace
 
 from . import components, protocols
 
@@ -24,7 +25,8 @@ from . import components, protocols
 Sieve = ComponentImplementation(ID('Sieve'),
                                 interface=components.SieveMoat,
                                 parameters=())
-Sieve.register(aigr.VariableDefintion(ID('MyPrime', context=aigr.Def()), type=types.int))
+wrapped_Sieve= ScaffolderNameSpace(Sieve)
+wrapped_Sieve.register(aigr.VariableDefintion(ID('MyPrime', context=aigr.Def()), type=types.int))
 
 
 
@@ -46,7 +48,7 @@ init_method = Method(ID('init'),
                              aigr.Become(
                                         targets=(aigr.Part(base=ID('self'), attribute=ID('myPrime', context=aigr.Set())),),
                                         values=(ID('onPrime', context=aigr.Ref()),))]))
-Sieve.register(init_method)
+wrapped_Sieve.register(init_method)
 
 
 
@@ -79,4 +81,4 @@ event_handler_1 = EventHandler(ID(mangle_event_handler(protocol="SimpleSieve", e
                                                    event=ID('input',context=aigr.Ref()),
                                                    arguments=[aigr.Argument(ID('try', context=aigr.Ref()))])
                                                ]))]))
-Sieve.register(event_handler_1)
+wrapped_Sieve.register(event_handler_1)

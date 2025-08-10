@@ -10,6 +10,8 @@ import pytest
 
 from castle.aigr import NamedSpace
 from castle import aigr
+from castle.aigr_extra.scaffolding import ScaffolderNameSpace
+
 from castle.TESTDOUBLES.aigr.sieve.basic1 import namespaces as sieve_namespaces
 
 moat_files = ('protocols', 'interfaces')
@@ -41,14 +43,14 @@ def test_1_comps_imports_moats():
     for (comp_name, comp_ns) in ((name, sieve_namespaces.comps[name]) for name in comp_files):
         logger.debug(f"comp_name={comp_name}, comp_ns={comp_ns}")
         for moat_name in moat_files:
-            moat_node = comp_ns.findNode(moat_name)
+            moat_node = ScaffolderNameSpace(comp_ns).findNode(moat_name)
             logger.debug(f"moat_name={moat_name}, moat_node={moat_node}")
             verify_nodeIsNS_withName(moat_node, moat_name)
 
 def test_2a_main_imports_moats():
     """ main imports <interfaces>, <protocols> and (see test_2b...)"""
     for name in moat_files:
-        ns_node = sieve_namespaces.main.findNode(name)
+        ns_node = ScaffolderNameSpace(sieve_namespaces.main).findNode(name)
         verify_nodeIsNS_withName(ns_node, name)
 
 def test_2b_main_imports_implements_optionally():
@@ -57,7 +59,7 @@ def test_2b_main_imports_implements_optionally():
     if sieve_namespaces._OPT_MAIN_IMPORTS_COMPS:
         logger.info(log_prefix +f"check the comp_files ({comp_files})")
         for name in comp_files:
-            ns_node = sieve_namespaces.main.findNode(name)
+            ns_node = ScaffolderNameSpace(sieve_namespaces.main).findNode(name)
             verify_nodeIsNS_withName(ns_node, name)
     else:
         logger.info(log_prefix +f"skip check on comp_files")

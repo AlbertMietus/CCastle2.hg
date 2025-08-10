@@ -8,6 +8,7 @@ import pytest
 from castle import aigr
 from castle.aigr_extra.blend import mangle_event_handler
 from castle.aigr_extra.scaffolding import ScaffolderBody
+from castle.aigr_extra.scaffolding import ScaffolderNameSpace
 
 from castle.TESTDOUBLES.aigr.sieve.basic1 import sieveCastle
 from castle.TESTDOUBLES.aigr.sieve.basic1 import protocols, components
@@ -26,12 +27,16 @@ def comp():
     return sieveCastle.Sieve
 
 @pytest.fixture
-def event_handler(comp):
+def wrapped_comp(comp):
+    return ScaffolderNameSpace(comp)
+
+@pytest.fixture
+def event_handler(wrapped_comp):
       # Notes
       ##  - event(`input`) -- this protocol has only one event, so its simple
       ##  - port('try')    -- thats the 1ste one. But keep it in sync (CastleCode is leading)
     (protocol, event, port)  = protocols.SimpleSieve, protocols.SimpleSieve.events[0], components.SieveMoat.ports[0]
-    handler = comp.findNode(mangle_event_handler(protocol=protocol.name,  event=event.name,  port=port.name))
+    handler = wrapped_comp.findNode(mangle_event_handler(protocol=protocol.name,  event=event.name,  port=port.name))
     assert isinstance(handler, aigr.EventHandler), f"Expected EventHandler, got {handler} (type={type(handler)})" # Not a test, only to check.
     logger.debug("Found <%s> as event_handler", handler)
     return handler
@@ -49,16 +54,16 @@ def test_0b_nameIsName(comp):
 def test_0c_noParms(comp):
     assert comp.parameters == ()
 
-def test_1a_init_has_2lines(comp):
-    init = comp.findNode('init')
+def test_1a_init_has_2lines(wrapped_comp):
+    init = wrapped_comp.findNode('init')
     assert isinstance(init, aigr.Method), f"Expected an init method, got {init}"
     init_len = len(ScaffolderBody(init.body))
     assert init_len == 2, f"Expected that 'init' has 2 statements, but found: {init_len}"
 
 
-def test_1b_init_1st_line_superinit(comp):
+def test_1b_init_1st_line_superinit(wrapped_comp):
     """ CastleCode:  super.init(); """
-    init = comp.findNode('init')
+    init = wrapped_comp.findNode('init')
     line = ScaffolderBody(init.body)[0]
 
     assert isinstance(line, aigr.VoidCall) and isinstance(line.call, aigr.Call)
@@ -72,9 +77,9 @@ def test_1b_init_1st_line_superinit(comp):
     assert arguments == (), f"Expected no arguments, but found: {arguments}"
 
 
-def test_1c_init_2nd_line_become(comp):
+def test_1c_init_2nd_line_become(wrapped_comp):
     """ CastleCode: .myPrime := onPrime; """
-    init = comp.findNode('init')
+    init = wrapped_comp.findNode('init')
     line = ScaffolderBody(init.body)[1]
 
     assert isinstance(line, aigr.Become) and len(line.targets)==1 and len(line.values)==1
