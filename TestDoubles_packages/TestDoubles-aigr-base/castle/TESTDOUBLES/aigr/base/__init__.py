@@ -7,8 +7,10 @@
 from castle.aigr.protocols import baseProtocol, ID
 from castle.aigr import NamedSpace
 
+from castle.aigr_extra.scaffolding import ScaffolderNameSpace
+
 Protocol = baseProtocol
 
 base = NamedSpace(ID('base'))
-base.register(Protocol)
+ScaffolderNameSpace(base).register(Protocol)
 
