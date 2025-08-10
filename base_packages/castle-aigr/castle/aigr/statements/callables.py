@@ -30,9 +30,7 @@ class _callable(_hasScope, _statement):
 
 
 @dataclass
-class _Named_callable(NamedNode, _callable):
-    def __post_init__(self):
-        self._register_parameters(True)
+class _Named_callable(NamedNode, _callable): pass
 
 @dataclass
 class Method(_Named_callable): pass

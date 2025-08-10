@@ -6,15 +6,17 @@ from dataclasses import dataclass
 import pytest
 
 from castle import aigr
+from castle.aigr_extra.scaffolding import ScaffolderNameSpace
+
 from castle.TESTDOUBLES.aigr.HelloWorlds.elemental.HelloWorld import Hello_World
 
 @pytest.fixture
-def elemental():
+def elemental() -> aigr.Source_NS:
     return Hello_World
 
 @pytest.fixture
-def HW(elemental):
-    comp = elemental.findNode('Elemental_HelloWorld')
+def HW(elemental) ->aigr.ComponentImplementation:
+    comp = ScaffolderNameSpace(elemental).findNode('Elemental_HelloWorld')
     assert isinstance(comp, aigr.ComponentImplementation)
     return  comp
 

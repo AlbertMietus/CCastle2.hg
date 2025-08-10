@@ -4,8 +4,7 @@ import logging; logger = logging.getLogger(__name__)
 import pytest
 
 from castle import aigr
-from castle.aigr_extra.blend import mangle_event_handler
-
+from castle.aigr_extra.scaffolding import ScaffolderNameSpace
 from . import elemental, HW
 
 #TEST:
@@ -39,10 +38,11 @@ def test_4_implicietDef_is_basedOn(implicietComponent):
 def test_5a_implicietDef_not_with_typicalName_in_NS(implicietComponent, elemental):
     """An impliciet Component Interface is't in the (`elemental`) NS with it 'typically' name (as the ComponentImplementation is)"""
     typicalName = implicietComponent.name
-    node = elemental.findNode(typicalName)
+    node = ScaffolderNameSpace(elemental).findNode(typicalName)
     assert node is not implicietComponent
 
 def test_5_implicietDef_in_NS(implicietComponent, elemental):
+    elemental = ScaffolderNameSpace(elemental)
     typicalName = str(implicietComponent.name)
     d = elemental.find_byType(aigr.ComponentInterface)
     assert len(d) >= 1, f"Expect to have at leat one ComponentImplementation; found: {len(d)}/{len(elemental)}"

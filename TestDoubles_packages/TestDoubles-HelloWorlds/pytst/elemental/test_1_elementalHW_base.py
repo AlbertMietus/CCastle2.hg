@@ -5,6 +5,7 @@ import pytest
 
 from castle import aigr
 from castle.aigr_extra.blend import mangle_event_handler
+from castle.aigr_extra.scaffolding import ScaffolderNameSpace
 
 from . import elemental, HW
 from . import dummy
@@ -15,17 +16,17 @@ def test_0():
     logger.info("Reading `Hello_World` is a test in itself")
 
 def test_1_HW_in_file(elemental):
-    comp = elemental.findNode('Elemental_HelloWorld')
+    comp = ScaffolderNameSpace(elemental).findNode('Elemental_HelloWorld')
     assert comp, f"`Elemental_HelloWorld` should be in file/SOURCE_NS, but isn't -- comp={comp}, elemental={elemental}"
     assert isinstance(comp, aigr.ComponentImplementation)
 
 def test_2a_HW_has_1_callable(HW):
     for name in ('HelloWorld',):
-        node = HW.findNode(name)
+        node = ScaffolderNameSpace(HW).findNode(name)
         assert node is not None,  f"Can't find '{name}' in <{HW.__class__.__name__}.{HW.name}> -- The only name are:{HW._dict.keys()}"
         assert name == node.name , f"Name {name} not in node"
 
-@pytest.mark.skip("Can work, need to search EH, need use DispatchTable")
+@pytest.mark.skip("Can work; to search an EH ::use DispatchTable")
 def test_2b_HW_has_1_eventHandler(HW):
     for name in (EH_NAME,):
         #node = HW.findNode(name)  #Search DispatchTable
@@ -36,11 +37,11 @@ def test_2b_HW_has_1_eventHandler(HW):
 
 def test_3a_HelloWorld_parms(HW):
     name = 'HelloWorld'
-    method = HW.findNode(name)
+    method = ScaffolderNameSpace(HW).findNode(name)
     p = 'label'
-    assert method.findNode(p), f"parm: {p} not found in {name} method"
+    assert ScaffolderNameSpace(method).findNode(p), f"parm: {p} not found in {name} method"
 
-@pytest.mark.skip("Can work, need to search EH, need use DispatchTable")
+@pytest.mark.skip("Can work; to search an EH ::use DispatchTable")
 def test_3b__parms(HW):
     name = EH_NAME
     p = 'max'
@@ -52,13 +53,13 @@ def test_3b__parms(HW):
 
 def test_4a_HW_has_outer_ns(HW, elemental, dummy):
     "The HW ComponentImplementation, has an outer_ns: the file/SOURCE_NS: that is: elemental)"
-    elemental.register(dummy)
-    assert HW.findNode('dummy') is dummy, "This dummy node should be in the scope of HW"
+    ScaffolderNameSpace(elemental).register(dummy)
+    assert ScaffolderNameSpace(HW).findNode('dummy') is dummy, "This dummy node should be in the scope of HW"
 
 def test_4b_HW_outer_nss(HW,  dummy):
     "The callables in HW have HW as outer_ns"
-    HW.register(dummy)
+    ScaffolderNameSpace(HW).register(dummy)
     for name in ('HelloWorld',):
-        callable=HW.findNode(name); assert callable
-        assert callable.findNode('dummy') is dummy, f"This dummy node should be in the scope of {name}"
+        callable=ScaffolderNameSpace(HW).findNode(name); assert callable
+        assert ScaffolderNameSpace(callable).findNode('dummy') is dummy, f"This dummy node should be in the scope of {name}"
 

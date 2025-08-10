@@ -8,7 +8,7 @@ from castle import aigr
 from castle.aigr import ID
 from castle.aigr import ComponentImplementation
 
-from castle.aigr_extra.scaffolding import ScaffolderNamedCallable
+from castle.aigr_extra.scaffolding import ScaffolderCallable
 from castle.aigr_extra.scaffolding import ScaffolderComponentImplementation
 
 from . import a_node, outer_NS
@@ -33,22 +33,22 @@ def test_ComponentImplementation_has_outer_NS(outer_NS, a_node):
 
 
 def test_callable_hasScope_Method(a_node):
-    """Same as above: Method is a callable, and to has scope"""
-    aMethod = ScaffolderNamedCallable(aigr.Method(ID('aMethod')))
+    """Same as above: Method is a callable, and so it has scope"""
+    aMethod = ScaffolderCallable(aigr.Method(ID('aMethod')))
     aMethod.register(a_node)
     assert aMethod.findNode('a_node') is a_node
 
 def test_callable_has_outer_NS_Method(outer_NS, a_node):
     callable = aigr.Method(ID('aMethod'), outer_ns=outer_NS)
-    assert ScaffolderNamedCallable(callable).findNode('a_node') is a_node
+    assert ScaffolderCallable(callable).findNode('a_node') is a_node
 
 
 def test_callable_hasScope_EventHandler(a_node):
-    callable = ScaffolderNamedCallable(aigr.EventHandler('anEventHandler', protocol='a_protocol', event='an_event', port='a_port'))
+    callable = ScaffolderCallable(aigr.EventHandler('anEventHandler', protocol='a_protocol', event='an_event', port='a_port'))
     callable.register(a_node)
     assert callable.findNode('a_node') is a_node
 
 def test_callable_has_outer_NS_EventHandler(outer_NS, a_node):
-    callable = ScaffolderNamedCallable(aigr.EventHandler('anEventHandler', protocol='a_protocol', event='an_event', port='a_port', outer_ns=outer_NS))
+    callable = ScaffolderCallable(aigr.EventHandler('anEventHandler', protocol='a_protocol', event='an_event', port='a_port', outer_ns=outer_NS))
     assert callable.findNode('a_node') is a_node
 

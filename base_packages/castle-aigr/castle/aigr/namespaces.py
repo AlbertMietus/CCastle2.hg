@@ -81,15 +81,4 @@ class _hasScope(Scope):
     """This Mixin adds a (sub)scope to an Class, and 'forward' the namespace-API to that scope-namespace
     Typical, the class to which this Mixin is added has a 'aigr.Body' but that is not mandatory"""
 
-    def _register_parameters(self, post_init=False):
-        """CONVINIANT FUNCTION: when `self` has parameters, register them in the scope.
-           Usually called by __post_init__()"""
-
-        if post_init:
-            logger.debug(f"Auto register parameters -- post_init: {post_init}")
-        if getattr(self, 'parameters', False):
-            logger.debug(f"{type(self)} has parameters: {self.parameters} -- {self}")
-            for p in self.parameters:
-                self.register(p)
-
 

@@ -8,6 +8,14 @@ from castle.aigr import ID, NamedNode,  errors
 
 from . import ScaffolderNameSpace
 
-class ScaffolderNamedCallable(ScaffolderNameSpace):
-    #_nodeCls :PTH.Type = aigr.statements.callables._Named_callable
-    _nodeCls = aigr.statements.callables._Named_callable
+class ScaffolderCallable(ScaffolderNameSpace):
+    _nodeCls = aigr.statements.callables._callable
+
+    def auto_register_parameters(self):
+        if getattr(self, 'parameters', False):
+            my_ns = ScaffolderNameSpace(self.node)
+            logger.debug("auto_register_parameters: %s", self.node.parameters)
+            for p in self.node.parameters:
+                logger.info("\nXXX %s" ,p)
+                my_ns.register(p)
+

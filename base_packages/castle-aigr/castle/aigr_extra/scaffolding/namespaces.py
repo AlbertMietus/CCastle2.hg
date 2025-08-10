@@ -76,9 +76,9 @@ class ScaffolderNameSpace(ScaffolderNode):
         except AttributeError: #node isn't a search'able/namespace --> Not found --> return None
             return None
 
-    def find_byType(self, cls:type) ->dict[ID, NamedNode]: #### Move to "builder"
+    def find_byType(self, cls:type) ->dict[ID, NamedNode]:
         return {name: node for name, node in self.node._dict.items() if isinstance(node, cls)}
 
-    def list_names(self) -> tuple[ID, ...]: #### Move to "builder"
+    def list_names(self) -> tuple[ID, ...]:
         return tuple(self.node._dict.keys())
-    
+

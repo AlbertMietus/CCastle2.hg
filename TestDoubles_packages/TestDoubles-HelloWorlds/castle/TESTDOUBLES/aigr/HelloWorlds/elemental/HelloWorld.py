@@ -14,21 +14,24 @@ from castle.aigr import  Method, EventHandler
 from castle.aigr.components import EventDispatchTable
 from castle.aigr_extra.blend import mangle_event_handler
 
+from castle.aigr_extra.scaffolding import ScaffolderNameSpace, ScaffolderCallable
+
 ALL = ["Hello_World"]
 
 Hello_World = Source_NS(ID('HelloWorld'), source="HelloWorld.Castle")
-
+wrapped_HW = ScaffolderNameSpace(Hello_World)
 
 #@impliciet(Main) ..
 #implement Elemental_HelloWorld ...
 __impliciet_Main_Elemental_HelloWorld = ComponentInterface(ID('Elemental_HelloWorld'), ports=[]) #ToDo: 1based_on=lib/..
 
-Hello_World.register(__impliciet_Main_Elemental_HelloWorld, asName="__impliciet_Main_Elemental_HelloWorld")
+wrapped_HW.register(__impliciet_Main_Elemental_HelloWorld, asName="__impliciet_Main_Elemental_HelloWorld")
 
 
 #implement Elemental_HelloWorld
 #{
 Elemental_HelloWorld    = ComponentImplementation(ID('Elemental_HelloWorld'), outer_ns=Hello_World, interface=__impliciet_Main_Elemental_HelloWorld)
+wrapped_E_HW = ScaffolderNameSpace(Elemental_HelloWorld)
 
 #HelloWorld(str:label)
 #{
@@ -49,11 +52,9 @@ HelloWorld = Method(ID('HelloWorld', context=aigr.Def()),
                                                   ID('label',context=aigr.Ref()),
                                                   )),)
                                           ))]))
-Elemental_HelloWorld.register(HelloWorld)  # XXX
-""" .. todo::
 
-       1) `.register` on an AIGR is not allowed; use a builder-(alike) pattern
-"""
+ScaffolderCallable(HelloWorld).auto_register_parameters()
+wrapped_E_HW.register(HelloWorld)
 
 
 #invoke() on self.std {
@@ -68,10 +69,9 @@ invoke = EventHandler(mangle_event_handler(protocol='std', event='invoke', port=
                           aigr.VoidCall(
                               aigr.Call(callable=ID('HelloWorld', context=aigr.Ref(reference=HelloWorld)),
                                             arguments=(aigr.Constant(value="Elemental"),)))]))
-Elemental_HelloWorld.register(invoke) # XXX
+wrapped_E_HW.register(invoke) # XXX
 """ .. todo::
 
-       1) `.register` on an AIGR is not allowed; use a builder-(alike) pattern
        2) EventHandlers shouldn't be in the name-space -- as:
             *) their mangle_names are useless
             *) they should be called (directly) anyhow
@@ -95,11 +95,11 @@ etable_std = EventDispatchTable(
 
 
 #} /* Elemental_HelloWorld */
-Hello_World.register(Elemental_HelloWorld)
+wrapped_HW.register(Elemental_HelloWorld)
 
 if __name__ == '__main__':
     print("Debug: print elemental_helloworld")
     print("Hello_World (NS) =\n", Hello_World)
     print("Elemental_HelloWorld (CompImp) =\n", Elemental_HelloWorld)
     print("HelloWorld (Method) =\n", HelloWorld)
-    print("powerOn (Event) =\n", powerOn)
+    print("invoke (Event) =\n", invoke)
