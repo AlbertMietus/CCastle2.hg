@@ -4,8 +4,8 @@ import typing as PTH                                                            
 from types import ModuleType
 
 from castle import aigr
+from castle.aigr_extra.scaffolding import ScaffolderNameSpace
 
-#from ..writers.targets import RPy_unit
 from ..writers import RPy_unit
 
 EXTENTIONS=('.Moat', '.Castle')
@@ -13,7 +13,7 @@ RPY_EXT= 'py' # No need to use .rpy and rename later ...
 
 OptStr = PTH.Optional[str]
 
-def Source2RPy(src: aigr.Source_NS, filename:OptStr=None, ext:OptStr=None) -> RPy_unit:
+def Source2RPy(src :aigr.Source_NS, filename :OptStr=None, ext :OptStr=None) -> RPy_unit:
     assert isinstance(src, aigr.Source_NS)
     if not filename:
         filename = str(src.source if src.source else src.name)
@@ -21,8 +21,9 @@ def Source2RPy(src: aigr.Source_NS, filename:OptStr=None, ext:OptStr=None) -> RP
     target = RPy_unit(target_file=replace_extention(filename, ext),
                           name=filename,
                           outer_ns=src.outer_ns)
+    wrapped_target  = ScaffolderNameSpace(target)
     for name,node in src._dict.items():
-        target.register(node, asName=name)
+        wrapped_target.register(node, asName=name)
     return target
 
 
