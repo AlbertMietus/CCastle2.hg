@@ -8,3 +8,15 @@ XXX ToDo Really hack HACK :
 	-! grep -i $@ `find ${SUBS} -type f -iname \*.py` /dev/null # Reverse and ignore error-code
 
 show: XXX ToDo Really hack HACK
+
+_sync-bookmarks:
+	for b in $$(hg branches | awk '{print $$1}'); do \
+	    hg bookmark -r "$$b" "$$b"; \
+	done
+
+push-all: _sync-bookmarks
+	-hg push
+	-hg push github
+	-hg bookmark default
+	-hg push github
+	-hg push
