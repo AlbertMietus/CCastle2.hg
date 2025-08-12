@@ -96,7 +96,7 @@ def test_5a_ns_in_ns():
     assert wrapped_top.search(dottedName="sub.elm") is elm
 
 
-def test_5b_seach_1level(wrappedNS,a_node):
+def test_5b_seach_1level(wrappedNS, a_node):
     name = a_node.name
     assert (wrappedNS.search(name) is a_node) and (wrappedNS.getID(name) is a_node), "search should find that what getID returns"
 
@@ -107,7 +107,6 @@ def test_5c_seachNotFound_1(top):
 def test_5d_seachNotFound_sub(top, sub):
     assert ScaffolderNameSpace(top).search("top.Deze.bestaat.niet") is None
 
-#def test_6_registered_is_2ways(): Not usefull
 
 def test_7_alias(wrappedNS):
     node=DummyNode("aliased")

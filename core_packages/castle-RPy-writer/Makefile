@@ -17,7 +17,7 @@ LAST = \
 	pytst/writers/		\
 #
 CURRENT = \
-
+	pytst/HelloWorlds/ \
 #
 TODO = \
 	pytst/HelloWorlds/ \
