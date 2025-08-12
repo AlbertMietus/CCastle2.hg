@@ -37,8 +37,8 @@ class _NameSpace(AIGRNode):
     Most namespace have a ``outer_ns`` which is also used to lookup names. Howver, qua interface it is optional.
     """
     _: KW_ONLY
-    outer_ns   :PTH.Optional[_NameSpace]=None
-    _dict      :PTH.Dict[ID, NamedNode]=dc_field(init=None, default_factory=lambda: dict()) #type: ignore[call-overload]
+    outer_ns	:PTH.Optional[_NameSpace]=None
+    _ns 		:PTH.Dict[ID, NamedNode]=dc_field(init=None, default_factory=lambda: dict()) #type: ignore[call-overload]
 
 
 @dataclass

@@ -23,14 +23,14 @@ def test_1_HW_in_file(elemental):
 def test_2a_HW_has_1_callable(HW):
     for name in ('HelloWorld',):
         node = ScaffolderNameSpace(HW).findNode(name)
-        assert node is not None,  f"Can't find '{name}' in <{HW.__class__.__name__}.{HW.name}> -- The only name are:{HW._dict.keys()}"
+        assert node is not None,  f"Can't find '{name}' in <{HW.__class__.__name__}.{HW.name}> -- The only name are:{HW._ns.keys()}"
         assert name == node.name , f"Name {name} not in node"
 
 @pytest.mark.skip("Can work; to search an EH ::use DispatchTable")
 def test_2b_HW_has_1_eventHandler(HW):
     for name in (EH_NAME,):
         #node = HW.findNode(name)  #Search DispatchTable
-        #assert node,  f"Can't find '{name}':{type(name)} in {type(HW)}: [[{', '.join('%s:%s' % (k, type(k)) for k in HW._dict.keys())}]]"
+        #assert node,  f"Can't find '{name}':{type(name)} in {type(HW)}: [[{', '.join('%s:%s' % (k, type(k)) for k in HW._ns.keys())}]]"
         #assert node.name == name, f"Name of {node} is not '{name}'"
         #assert isinstance(node, aigr.EventHandler)
         assert False, "Can't work"

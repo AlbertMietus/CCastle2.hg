@@ -22,7 +22,7 @@ def Source2RPy(src :aigr.Source_NS, filename :OptStr=None, ext :OptStr=None) -> 
                           name=filename,
                           outer_ns=src.outer_ns)
     wrapped_target  = ScaffolderNameSpace(target)
-    for name,node in src._dict.items():
+    for name,node in src._ns.items():
         wrapped_target.register(node, asName=name)
     return target
 

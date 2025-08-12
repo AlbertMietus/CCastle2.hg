@@ -139,10 +139,10 @@ def test_byType_NS(top, sub, sourceNS):
 def test_find_in_outer_NS(wrappedNS):
     a_node = wrappedNS.findNode('a_node')
     localNS = NamedSpace('local', outer_ns=wrappedNS.node)
-    assert getattr(localNS._dict, 'a_node', 'NotLocal') == 'NotLocal', "a_node shouldn't be in localNS"
+    assert getattr(localNS._ns, 'a_node', 'NotLocal') == 'NotLocal', "a_node shouldn't be in localNS"
     assert ScaffolderNameSpace(localNS).findNode('a_node') is a_node
     #Note: even this works:
-    assert getattr(ScaffolderNameSpace(localNS)._dict, 'a_node', 'NotLocal') == 'NotLocal', "a_node shouldn't be in localNS"
+    assert getattr(ScaffolderNameSpace(localNS)._ns, 'a_node', 'NotLocal') == 'NotLocal', "a_node shouldn't be in localNS"
 
 
 def test_Scope_is_a_NS(aScope, a_node):

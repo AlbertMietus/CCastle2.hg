@@ -17,14 +17,14 @@ class ScaffolderNameSpace(ScaffolderNode):
             logger.error("It's wrong to register wrapped nodes, like %s - unwrapping it and continuing with fingers crosses", named_node)
             named_node = named_node.node # unwrap ...
         name = ID(asName) if asName else PTH.cast(ID, named_node.name)
-        if name in self.node._dict:
-            old = self.node._dict[name]
+        if name in self.node._ns:
+            old = self.node._ns[name]
             logger.warning(f"The '{name}'-node is already in this namespace; -- it will be lost." +
                            f"Removed: {old}. New: {named_node}")
-        self.node._dict[str(name)] = named_node
+        self.node._ns[str(name)] = named_node
 
     def __len__(self):
-        return len(self.node._dict)
+        return len(self.node._ns)
 
 
 
@@ -46,9 +46,9 @@ class ScaffolderNameSpace(ScaffolderNode):
         """Return the NamedNode with the specified ID, or None.
            It looks in 'this' namespace, and in outer_ns's when they exist.
            All public interfaces will use this method."""
-        node = self.node._dict.get(str(name), None)
+        node = self.node._ns.get(str(name), None)
         if node is None:
-            logger.debug("Can't find %s locally: %s -- try outer_ns: %s", name, tuple(f"{k}:{type(k).__name__}" for k in self.node._dict.keys()), self.node.outer_ns)
+            logger.debug("Can't find %s locally: %s -- try outer_ns: %s", name, tuple(f"{k}:{type(k).__name__}" for k in self.node._ns.keys()), self.node.outer_ns)
         if node is None and self.node.outer_ns:
             node = ScaffolderNameSpace(self.node.outer_ns)._findNode(name)
         logger.debug("Find %s in %s\n\t-> %s", name, self, node)
@@ -70,7 +70,7 @@ class ScaffolderNameSpace(ScaffolderNode):
         return node
 
 
-    def search(self, dottedName :ID) ->PTH.Optional[NamedNode]:
+    def search(self, dottedName :ID|str) ->PTH.Optional[NamedNode]:
         """Search the namespace for the 1st part of `dottedName`, then that NS for the next part, etc. And return the "deepest" node, or None"""
 
         parts = dottedName.split('.',maxsplit=1) # parts is [<name>, (<name>.)*] parts[1] can be absent, parts[0] always exist
@@ -86,8 +86,8 @@ class ScaffolderNameSpace(ScaffolderNode):
             return None
 
     def find_byType(self, cls:type) ->dict[ID, NamedNode]:
-        return {name: node for name, node in self.node._dict.items() if isinstance(node, cls)}
+        return {name: node for name, node in self.node._ns.items() if isinstance(node, cls)}
 
     def list_names(self) -> tuple[ID, ...]:
-        return tuple(self.node._dict.keys())
+        return tuple(self.node._ns.keys())
 
