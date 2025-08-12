@@ -72,7 +72,7 @@ def test_3_sourceNS_combi(a_node, sourceNS):
 
 
 def test_4_sameName_is_replaced(wrappedNS):
-    logger.warning("""NOTICE: This test will issue the warning 'astle.aigr.namespaces:namespaces.py:42' You should ignore it""")
+    logger.warning("""NOTICE: This test will issue the warning 'castle.aigr_extra.scaffolding.namespaces:namespaces.py:22' You should ignore it""")
     name='TriggerWarning'
     one = DummyNode(name, dummy='one')
     two = DummyNode(name, dummy='one')
@@ -84,15 +84,16 @@ def test_4_sameName_is_replaced(wrappedNS):
 
 def test_5a_ns_in_ns():
     "when we import a NS, we get a NS in a NS ..."
-    top = ScaffolderNameSpace(NamedSpace('top'))
-    sub = ScaffolderNameSpace(NamedSpace('sub'))
+    top, sub = NamedSpace('top'), NamedSpace('sub')
+    wrapped_top, wrapped_sub = ScaffolderNameSpace(top), ScaffolderNameSpace(sub)
     elm = DummyNode('elm', dummy="with.dotted.Name")
-    top.register(sub)
-    sub.register(elm)
 
-    assert top.getID('sub') is sub
-    assert sub.getID('elm') is elm
-    assert top.search(dottedName="sub.elm") is elm
+    wrapped_top.register(sub)
+    wrapped_sub.register(elm)
+
+    assert wrapped_top.getID('sub') is sub
+    assert wrapped_sub.getID('elm') is elm
+    assert wrapped_top.search(dottedName="sub.elm") is elm
 
 
 def test_5b_seach_1level(wrappedNS,a_node):

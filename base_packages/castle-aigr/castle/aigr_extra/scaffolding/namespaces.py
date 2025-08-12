@@ -7,11 +7,15 @@ from castle import aigr
 from castle.aigr import ID, NamedNode,  errors
 
 from . import ScaffolderNode
+from .scaffolder import _Scaffolder
 
 class ScaffolderNameSpace(ScaffolderNode):
     _nodeCls = aigr.namespaces._NameSpace
 
     def register(self, named_node :aigr.NamedNode, asName :PTH.Optional[ID|str]=None):
+        if isinstance(named_node, _Scaffolder):
+            logger.error("It's wrong to register wrapped nodes, like %s - unwrapping it and continuing with fingers crosses", named_node)
+            named_node = named_node.node # unwrap ...
         name = ID(asName) if asName else PTH.cast(ID, named_node.name)
         if name in self.node._dict:
             old = self.node._dict[name]
@@ -44,14 +48,14 @@ class ScaffolderNameSpace(ScaffolderNode):
            All public interfaces will use this method."""
         node = self.node._dict.get(str(name), None)
         if node is None:
-            logger.info("Can't find %s locally: %s -- try outer_ns: %s", name, tuple(f"{k}:{type(k).__name__}" for k in self.node._dict.keys()), self.node.outer_ns)
+            logger.debug("Can't find %s locally: %s -- try outer_ns: %s", name, tuple(f"{k}:{type(k).__name__}" for k in self.node._dict.keys()), self.node.outer_ns)
         if node is None and self.node.outer_ns:
             node = ScaffolderNameSpace(self.node.outer_ns)._findNode(name)
         logger.debug("Find %s in %s\n\t-> %s", name, self, node)
         return node
 
 
-    def findNode(self, name :ID|str) ->PTH.Optional[NamedNode]:   ##### Move to "builder"
+    def findNode(self, name :ID|str) ->PTH.Optional[NamedNode]:
         if not isinstance(name, ID): name=ID(name)
         return self._findNode(name) # self is a Scaffolder!
 
@@ -72,7 +76,9 @@ class ScaffolderNameSpace(ScaffolderNode):
         parts = dottedName.split('.',maxsplit=1) # parts is [<name>, (<name>.)*] parts[1] can be absent, parts[0] always exist
         logger.debug("Search %s of %s (len=%s) in %s", parts[0], dottedName, len(parts), self)
         node = self.findNode(parts[0]) # self is Scaffolder!
-        if len(parts) == 1:
+        if node is None: # Not found:
+            return None
+        if len(parts) == 1: # Found it
             return node
         try:
             return ScaffolderNameSpace(node).search(parts[1])                              #XXXXtype: ignore[union-attr] # Assume a NS, else raise
