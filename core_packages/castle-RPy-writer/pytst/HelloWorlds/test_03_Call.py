@@ -9,10 +9,13 @@ from castle.aigr_extra.scaffolding import ScaffolderBody
 
 from . import my_renderer, verify_line
 from . import print_out
+from . import wrapped_Hello_World
 
 @pytest.fixture
-def Call():
-    call = ScaffolderBody(Hello_World.search('Elemental_HelloWorld.HelloWorld').body)[0].call
+def Call(wrapped_Hello_World): ### Not a great way to navigate, but fine for Now....
+    method = wrapped_Hello_World.search('Elemental_HelloWorld.HelloWorld')
+    statements = method.body.statements
+    call = statements[0].call
     assert isinstance(call, aigr.Call) # Check only
     return call
 

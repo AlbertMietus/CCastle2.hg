@@ -3,15 +3,14 @@
 import logging; logger = logging.getLogger(__name__)
 import pytest
 
-from castle.TESTDOUBLES.aigr.HelloWorlds.elemental.HelloWorld import Hello_World
-
 from . import my_renderer, verify_line, verify_line_by_line
 from . import print_out
 
+from . import wrapped_Hello_World
 
 @pytest.fixture
-def implicietComp():
-    component_implementation = Hello_World.findNode('Elemental_HelloWorld')
+def implicietComp(wrapped_Hello_World):
+    component_implementation = wrapped_Hello_World.findNode('Elemental_HelloWorld')
     component_interface = component_implementation.interface
     assert component_interface # check only, no test
     return component_interface

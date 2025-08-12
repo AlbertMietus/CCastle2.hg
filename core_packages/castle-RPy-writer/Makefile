@@ -15,16 +15,19 @@ LAST = \
 	pytst/translators/	\
 	pytst/visitors/		\
 	pytst/writers/		\
+	pytst/HelloWorlds/test_02_Method.py \
+	pytst/HelloWorlds/test_03_Call.py	\
+	pytst/HelloWorlds/test_05_ComponentImplementation.py	\
+	pytst/HelloWorlds/test_06_implicietComp.py	\
 #
 CURRENT = \
-	pytst/HelloWorlds/test_05_ComponentImplementation.py	\
+	pytst/HelloWorlds/test_12_file.py 		\
+	pytst/HelloWorlds/test_13_translate.py	\
 #
 TODO = \
 	pytst/HelloWorlds/test_07_eTable.py		\
-	pytst/HelloWorlds/test_12_file.py 		\
-	pytst/HelloWorlds/test_13_translate.py	\
 	pytst/writers/test_render_eDispatchTable.py 		\
-	pytst/HelloWorlds/ \
+
 #
 
 HW_Ed = TestDoubles/HelloWorlds/elemental
