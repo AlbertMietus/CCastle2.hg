@@ -7,25 +7,32 @@ from castle import aigr
 from castle.writers.RPy.aid import Block
 from ..base.visitors import Visitor
 
-from castle.aigr_extra.scaffolding import ScaffolderBody
+from castle.aigr_extra.scaffolding import ScaffolderBody, ScaffolderNameSpace
 
 class Walker(Visitor):
     _defaultType=tuple
 
+    """Walk over aigr._<type>, or it corresponding Scaffolding instance.
+
+    note: data-fields of `node` --even when (already) "scaffolded"--are directly accessible!"""
+
     def visit__NameSpace(self, node) -> PTH.Sequence[aigr.AIGR]:
         """Many general nodes have a namespace, like ComponentImplementation; they use this walker as default"""
+        if isinstance(node, aigr.AIGR):
+                node = ScaffolderNameSpace(node)
         named_callables = node.find_byType(aigr.AIGR)
-        logger.debug("%s (%s) has subnodes: %s", node.name, type(node).__name__, ', '.join(f'{k}:<{type(v).__name__}>' for k,v in named_callables.items()))
+        logger.debug("%s (%s) has sub-nodes: %s", node.name, type(node).__name__, ', '.join(f'{k}:<{type(v).__name__}>' for k,v in named_callables.items()))
         return tuple(named_callables.values())
 
     def visit__Named_callable(self, node) -> PTH.Sequence[aigr.AIGR]: # Method, EventHandler, ...
-        body = ScaffolderBody(node.body) #single node # GAM XXX ScaffolderBody or Body
+        # `node` as callable, has a body (field) -- no need for scaffolding. Even when it already is, .body is readable
+        body = node.body
         logger.debug("%s (%s) has %s body", node.name, type(node).__name__, "no" if body is None else "a")
-        return tuple(body,)
+        return tuple((body,))
 
     def visit_Body(self, node) -> PTH.Sequence[aigr.AIGR]:
         statements = node.statements #List of nodes
-        logger.debug("%s (%s) has len=%s statements --  %s", node.name, type(node).__name__, len(statements), statements)
+        logger.debug("Body of <%s> has len=%s statements --  %s",  type(node).__name__, len(statements), statements)
         return tuple(statements)
 
     def visit_VoidCall(self, node) -> PTH.Sequence[aigr.AIGR]:

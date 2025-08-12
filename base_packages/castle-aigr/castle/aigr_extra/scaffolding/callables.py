@@ -16,6 +16,5 @@ class ScaffolderCallable(ScaffolderNameSpace):
             my_ns = ScaffolderNameSpace(self.node)
             logger.debug("auto_register_parameters: %s", self.node.parameters)
             for p in self.node.parameters:
-                logger.info("\nXXX %s" ,p)
                 my_ns.register(p)
 
