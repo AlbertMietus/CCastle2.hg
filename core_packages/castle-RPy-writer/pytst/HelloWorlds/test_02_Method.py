@@ -3,15 +3,16 @@
 import logging; logger = logging.getLogger(__name__)
 import pytest
 
-from castle.TESTDOUBLES.aigr.HelloWorlds.elemental.HelloWorld import Hello_World
+
 from castle import aigr
 
 from . import my_renderer, verify_line, verify_line_by_line
 from . import print_out
+from . import wrapped_Hello_World
 
 @pytest.fixture
-def Method():
-    m = Hello_World.search('Elemental_HelloWorld.HelloWorld')
+def Method(wrapped_Hello_World):
+    m = wrapped_Hello_World.search('Elemental_HelloWorld.HelloWorld')
     assert isinstance(m, aigr.Method) # check only, no test
     return m
 

@@ -6,6 +6,7 @@ import pytest
 from castle import aigr
 from castle.writers import RPy
 from castle.writers.RPy.writers import Renderer
+from castle.aigr_extra.scaffolding import  ScaffolderNameSpace
 
 from .. import my_renderer, verify_line_by_line
 from ..verify import *
@@ -17,6 +18,9 @@ from castle.TESTDOUBLES.aigr.HelloWorlds.elemental.HelloWorld import Hello_World
 
 from .ExpectedTxt import *
 
+@pytest.fixture
+def wrapped_Hello_World():
+    return ScaffolderNameSpace(Hello_World)
 
 @pytest.fixture
 def target_unit():

@@ -17,14 +17,14 @@ LAST = \
 	pytst/writers/		\
 #
 CURRENT = \
-	pytst/HelloWorlds/ \
+	pytst/HelloWorlds/test_05_ComponentImplementation.py	\
 #
 TODO = \
-	pytst/HelloWorlds/ \
 	pytst/HelloWorlds/test_07_eTable.py		\
 	pytst/HelloWorlds/test_12_file.py 		\
 	pytst/HelloWorlds/test_13_translate.py	\
 	pytst/writers/test_render_eDispatchTable.py 		\
+	pytst/HelloWorlds/ \
 #
 
 HW_Ed = TestDoubles/HelloWorlds/elemental

@@ -8,11 +8,11 @@ from castle import aigr
 from castle.aigr_extra.scaffolding import ScaffolderBody
 
 from . import my_renderer, verify_line
-
+from . import wrapped_Hello_World
 
 @pytest.fixture
-def fString():
-    body = Hello_World.search('Elemental_HelloWorld.HelloWorld').body
+def fString(wrapped_Hello_World):
+    body = wrapped_Hello_World.search('Elemental_HelloWorld.HelloWorld').body
     call = ScaffolderBody(body)[0].call
     assert isinstance(call, aigr.Call) # Check only
     arg0 = call.arguments[0]

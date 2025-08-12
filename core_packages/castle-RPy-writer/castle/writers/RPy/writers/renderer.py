@@ -45,7 +45,7 @@ class Renderer(Visitor):
         - render the node itself
         - call render_subNodes() to render those subnodes
           - which uses the `walker` to find all subnodes
-            (but not always, as some are "fixed"
+            (but not always, as some are "fixed")
         - call the depart_<node> visitor (when relevant -- default a no-op)
 
         `render()` will always return a str --whereas the visitors return a TextBlock -- by converting it to a str."""
@@ -59,10 +59,11 @@ class Renderer(Visitor):
     def render_subNodes(self, node)-> PTH.Optional[Block]:
         subnodes = self.walker.visit(node)
         if not subnodes:
+            logger.debug("%s.render_subNodes: No subnodes --- node:" , type(node).__name__, node)
             return None
 
         txt = Block()
-        logger.debug("render_subNodes: %s" , subnodes)
+        logger.debug("%s.render_subNodes (len=%s)-> %s ---node: %s" ,  type(node).__name__, len(subnodes), subnodes, node)
         for next_node in subnodes if subnodes else []:
             txt += self.visit(next_node)
         return txt
@@ -122,6 +123,9 @@ class Renderer(Visitor):
         txt.sub(self.render_subNodes(node))
         txt += self.depart(node)
         return txt
+
+    def visit_Body(self, node)							->  TextBlock:
+        return Block(self.render_subNodes(node))
 
     def visit_VoidCall(self, node)						->  TextBlock:
         return self.render_subNodes(node)
