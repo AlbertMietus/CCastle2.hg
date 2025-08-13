@@ -10,7 +10,7 @@ import typing as PTH                                                            
 
 from . import ID
 from . import AIGRNode
-from . import Argument
+#from . import Argument
 
 
 @dataclass
@@ -27,7 +27,7 @@ class Specialise(NamedNode):
 
     _: KW_ONLY
     based_on:  NamedNode
-    arguments: PTH.Sequence[Argument]
+    arguments: PTH.Sequence["Argument"]
 
     def __post_init__(self):
         if not self.name: # or self.name == "":

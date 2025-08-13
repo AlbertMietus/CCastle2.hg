@@ -16,6 +16,14 @@ class ScaffolderNameSpace(ScaffolderNode):
         if isinstance(named_node, _Scaffolder):
             logger.error("It's wrong to register wrapped nodes, like %s - unwrapping it and continuing with fingers crosses", named_node)
             named_node = named_node.node # unwrap ...
+
+        # For NOW: hardcoded, XXX/ToDo: use visitor with ` _find_method_by_mro`
+        if isinstance(named_node, aigr.NamedNode):             # A NameSpace (NS) can only register NamedNode(s) in it NS, so ....
+            self.register_NamedNode(named_node, asName)
+        else:
+            assert False, f"Can only register 'NamedNode', not {named_node}"
+
+    def register_NamedNode(self, named_node :aigr.NamedNode, asName :PTH.Optional[ID|str]=None):
         name = ID(asName) if asName else PTH.cast(ID, named_node.name)
         if name in self.node._ns:
             old = self.node._ns[name]

@@ -7,13 +7,14 @@ from dataclasses import field as dc_field
 from . import AIGR
 from castle.aigr import ID, types
 
+from .nodes import NamedNode
 """ XXX ToDo: refactor, rename & relocate ..."""
 
 
 @dataclass
-class TypedParameter(AIGR):
+class TypedParameter(NamedNode):
     """A parameter is a placeholder in a function/callable **definition**.
-       It acts as variable inside the body In Castle, it always has a Type."""
+       It acts as variable inside the body In Castle, it always has a name and a Type."""
     name: ID
     type   : types._types # An AIGR-type
 

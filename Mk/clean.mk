@@ -8,7 +8,7 @@ cleanest veryclean: cleaner clean_generated
 clean_build:
 	rm -rf dist/
 	rm -rf *.egg-info/
-	rm setup.py
+	rm -f setup.py
 
 clean_caches:
 	find . -type d -name __pycache__    -print0 | xargs -0  rm -r
