@@ -7,12 +7,26 @@ from castle import aigr
 from castle.aigr import ID
 
 from .namespaces import ScaffolderNameSpace
+from .scaffolder import _Scaffolder
 
+_TYPE=aigr.EventHandler
 class ScaffolderComponentImplementation(ScaffolderNameSpace):
     _nodeCls = aigr.ComponentImplementation
 
-    #def register(self, named_node :aigr.NamedNode, asName :PTH.Optional[ID|str]=None):pass # XXX disable ScaffolderNameSpace.register
+    def register(self, node :_TYPE, asName :PTH.Optional[ID|str]=None): ## XXX &C&P ScaffolderNameSpace
+        if isinstance(node, _Scaffolder):
+            logger.error("It's wrong to register wrapped nodes, like %s - unwrapping it and continuing with fingers crosses", node)
+            node = node.node # unwrap ...
 
-    def register_event(self, named_node :aigr.NamedNode, asName :PTH.Optional[ID|str]=None):
-        ...
+        # For NOW: hardcoded, XXX/ToDo: use visitor with ` _find_method_by_mro`
+        if isinstance(node, _TYPE):             # XXX
+            self.register_EventHandler(node, asName)
+        else:
+            super().register(node, asName)
+
+
+    def register_EventHandler(self, node :aigr.EventHandler, asName :PTH.Optional[ID|str]=None): # XXX Or register__handlers XXX
+        if asName is not None and not asName == node.name:
+            logger.error("It's wrong to register EventHandler (%s) with a diffent name (%s). Ignoring that ...", node.name, asName)
+        self.node.handlers.append(node)
 

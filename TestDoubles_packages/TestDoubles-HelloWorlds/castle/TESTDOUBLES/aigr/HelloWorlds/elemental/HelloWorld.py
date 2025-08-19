@@ -11,7 +11,6 @@ from castle import aigr
 from castle.aigr import Source_NS, ID
 from castle.aigr import ComponentInterface, ComponentImplementation
 from castle.aigr import  Method, EventHandler
-from castle.aigr.components import EventDispatchTable
 from castle.aigr_extra.blend import mangle_event_handler
 
 from castle.aigr_extra.scaffolding import ScaffolderNameSpace, ScaffolderCallable, ScaffolderComponentImplementation
@@ -30,7 +29,7 @@ wrapped_HW.register(__impliciet_Main_Elemental_HelloWorld, asName="__impliciet_M
 
 #implement Elemental_HelloWorld
 #{
-Elemental_HelloWorld    = ComponentImplementation(ID('Elemental_HelloWorld'), outer_ns=Hello_World, interface=__impliciet_Main_Elemental_HelloWorld)
+Elemental_HelloWorld = ComponentImplementation(ID('Elemental_HelloWorld'), outer_ns=Hello_World, interface=__impliciet_Main_Elemental_HelloWorld)
 wrapped_E_HW = ScaffolderComponentImplementation(Elemental_HelloWorld)
 
 #HelloWorld(str:label)
@@ -54,7 +53,6 @@ HelloWorld = Method(ID('HelloWorld', context=aigr.Def()),
                                           ))]))
 
 ScaffolderCallable(HelloWorld).auto_register_parameters()
-#wrapped_E_HW.register_NamedNode(HelloWorld) # XXX Register Method in NameSpace of ComponentImplementation
 wrapped_E_HW.register(HelloWorld) # Register a NamedNode
 
 
@@ -70,30 +68,7 @@ invoke = EventHandler(mangle_event_handler(protocol='std', event='invoke', port=
                           aigr.VoidCall(
                               aigr.Call(callable=ID('HelloWorld', context=aigr.Ref(reference=HelloWorld)),
                                             arguments=(aigr.Constant(value="Elemental"),)))]))
-#XXXX.register_XXX(invoke)  # XXX Register (Event)Handler in (an) >(Event)DispatchTable< of ComponentImplementation
 wrapped_E_HW.register(invoke) # XXX
-""" .. todo::
-
-       2) EventHandlers shouldn't be in the name-space -- as:
-            *) their mangle_names are useless
-            *) they should be called (directly) anyhow
-       3) Put them in a (event) DispatchTable!
-"""
-
-
-# XX # etable_std = EventDispatchTable(
-# XX #     map={invoke.event: invoke.name},
-# XX #     _comp=Elemental_HelloWorld.name, _port=invoke.port, _parentTable=ID('Fake_Main'))   # XXX
-etable_std = EventDispatchTable(
-    map={invoke.event: invoke.name},
-    _comp=Elemental_HelloWorld.name, _port=invoke.port, _parentTable=ID('Fake_Main'))   # XXX
-""" .. todo::
-
-       1) How to put this table/entry in the AIGR?
-          Probally:
-           *) As datafield of ComponentImplementation
-           * Use a builder-pattern
-"""
 
 
 #} /* Elemental_HelloWorld */

@@ -20,7 +20,7 @@ from . import target_unit, TestDoubles_out, HW_E_out
 
 def test_1_txt(target_unit, my_renderer):
     txt = my_renderer.render(target_unit)
-    #print_out(txt, label='got'); print_out(EXPECTED_unit, label='EXPECTED_unit')
+    print_out(txt, label='got'); print_out(EXPECTED_unit, label='EXPECTED_unit')
     verify_line_by_line(EXPECTED_unit, txt)
 
 

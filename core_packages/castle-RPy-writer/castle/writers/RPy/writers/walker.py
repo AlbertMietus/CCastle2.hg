@@ -17,7 +17,7 @@ class Walker(Visitor):
     note: data-fields of `node` --even when (already) "scaffolded"--are directly accessible!"""
 
     def visit__NameSpace(self, node) -> PTH.Sequence[aigr.AIGR]:
-        """Many general nodes have a namespace, like ComponentImplementation; they use this walker as default"""
+        """General walker for all Nodes that have a NS (See aigr._NameSpace) - walk over that NS"""
         if isinstance(node, aigr.AIGR):
                 node = ScaffolderNameSpace(node)
         named_callables = node.find_byType(aigr.AIGR)
@@ -29,6 +29,16 @@ class Walker(Visitor):
         body = node.body
         logger.debug("%s (%s) has %s body", node.name, type(node).__name__, "no" if body is None else "a")
         return tuple((body,))
+
+    def visit_ComponentImplementation(self, node) -> PTH.Sequence[aigr.AIGR]:
+        """Walk over the NS, and over the handlers"""
+        ns_tuple = self.visit__NameSpace(node)
+        handlers_tuple = tuple(node.handlers)
+        all = ns_tuple + handlers_tuple
+        logger.debug("Component %s has %s named-subnodes, & %s handlers: %s ",
+                         node.name, len(ns_tuple), len(handlers_tuple), ', '.join(f'{e}:<{type(e).__name__}>' for e in all))
+        return all
+
 
     def visit_Body(self, node) -> PTH.Sequence[aigr.AIGR]:
         statements = node.statements #List of nodes

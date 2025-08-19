@@ -6,7 +6,8 @@ import pytest
 from castle import aigr
 from castle.aigr import ID
 
-from castle.aigr.components import EventDispatchTable
+### DispatchTable(s): See remark on EventDispatchTable
+#from castle.aigr.components import EventDispatchTable
 
 
 from .mocks import *
@@ -20,16 +21,16 @@ def gen_Dummy_EventMap(proto, port):
     logger.info('XXXX2 map: %s', map)
     return map
 
-@pytest.fixture
-def simpleTable(mockPort, stubProtocol) -> aigr.EventDispatchTable:
-    """A simple EventDispatchTable, with no inherited details."""
-    return EventDispatchTable(map=gen_Dummy_EventMap(stubProtocol, mockPort), _comp=ID('Simple'), _port=mockPort.name)
+#@pytest.fixture
+#def simpleTable(mockPort, stubProtocol) -> aigr.EventDispatchTable:
+#    """A simple EventDispatchTable, with no inherited details."""
+#    return EventDispatchTable(map=gen_Dummy_EventMap(stubProtocol, mockPort), _comp=ID('Simple'), _port=mockPort.name)
 
 
-@pytest.fixture
-def childTable(mockPort, subStubProtocol) -> aigr.EventDispatchTable:
-    """An EventDispatchTable, with linked to `simpleTable`"""
-    return EventDispatchTable(map=gen_Dummy_EventMap(subStubProtocol, mockPort), _comp=ID('Child'), _port=mockPort.name, _parentTable=ID('Simple'))
+#@pytest.fixture
+#def childTable(mockPort, subStubProtocol) -> aigr.EventDispatchTable:
+#    """An EventDispatchTable, with linked to `simpleTable`"""
+#    return EventDispatchTable(map=gen_Dummy_EventMap(subStubProtocol, mockPort), _comp=ID('Child'), _port=mockPort.name, _parentTable=ID('Simple'))
 
 
 Expected_4_simpleTable="""\

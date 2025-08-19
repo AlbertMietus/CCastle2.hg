@@ -11,7 +11,7 @@ from . import Machinery, _M_DC_dict
 @Machinery.register('DirectCall.dict.chained', "chained.dict", "chained_dict", "chained-dict", default=True)
 class M_DC_chained_dict(_M_DC_dict):
 
-    def render_EventDispatchTable(self, renderer, node :aigr.EventDispatchTable) ->  Block: #XXX node:EventDispatchTable
+    def render_EventDispatchTable(self, renderer, node) ->  Block: #XXX node:EventDispatchTable, but  aigr. EventDispatchTable
         table_name = renderer._cc_S_dispatchTable(comp=node._comp, port=node._port)
         parent_table = renderer._cc_S_dispatchTable(comp=node._parentTable, port=node._port) if node._parentTable else 'None'
 
