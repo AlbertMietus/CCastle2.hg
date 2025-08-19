@@ -24,6 +24,7 @@ ARCHIVED/CC2Cpy/castle/CC2Cpy/_*
 .mypy_cache
 TestDoubles/_generated/
 .*_packages/.*/setup.py
+pytest-cache-files-*
 
 html
 Icon

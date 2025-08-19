@@ -7,8 +7,10 @@ name = "castle-RPy-writer"
 version = "0.0.1"
 dependencies = ["castle-aigr"]
 
-[tool.setuptools.packages.find]
-exclude = ["pytst*", "CastleCode", "ASIDE"]
+[tool.setuptools]
+packages = [ # manyally maintain this
+    "castle.writers.RPy",
+]
 
 [tool.setuptools.package-data]
 "*" = ["py.typed", "*.pyi"]
