@@ -18,3 +18,8 @@ exclude = ["pytst*", "CastleCode", "ASIDE"]
 markers = [
     "slow: marks tests as slow (use --fast to include)"
 ]
+
+[tool.mypy]
+namespace_packages = true
+explicit_package_bases = true
+ 

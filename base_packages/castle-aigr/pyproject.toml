@@ -11,9 +11,14 @@ dependencies = []
 exclude = ["pytst*", "CastleCode", "ASIDE"]
 
 [tool.setuptools.package-data]
-"*" = ["py.typed", "*.pyi"]
+"castle.aigr"       = ["py.typed", "*.pyi"]
+"castle.aigr_extra" = ["py.typed"]
 
 [tool.pytest.ini_options]
 markers = [
     "slow: marks tests as slow (use --fast to include)"
 ]
+
+[tool.mypy]
+namespace_packages = true
+explicit_package_bases = true

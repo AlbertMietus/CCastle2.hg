@@ -13,9 +13,18 @@ packages = [ # manyally maintain this
 ]
 
 [tool.setuptools.package-data]
-"*" = ["py.typed", "*.pyi"]
+"castle.aigr" = ["py.typed", "*.pyi"]
+"castle.aigr_extra" = ["py.typed"]
+"castle.writers.RPy" = ["py.typed"]
+"castle.TESTDOUBLES.aigr.sieve" = ["py.typed"]
+"castle.TESTDOUBLES.aigr.base" = ["py.typed"]
+"castle.TESTDOUBLES.aigr.HelloWorlds.elemental" = ["py.typed"]
 
 [tool.pytest.ini_options]
 markers = [
     "slow: marks tests as slow (use --fast to include)"
 ]
+
+[tool.mypy]
+namespace_packages = true
+explicit_package_bases = true
