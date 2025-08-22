@@ -15,8 +15,8 @@ from .nodes import NamedNode
 class TypedParameter(NamedNode):
     """A parameter is a placeholder in a function/callable **definition**.
        It acts as variable inside the body In Castle, it always has a name and a Type."""
-    name: ID
-    type   : types._types # An AIGR-type
+    name  : ID
+    type  : types._types # An AIGR-type
 
     def __post_init__(self):
         if not isinstance(self.name, ID):

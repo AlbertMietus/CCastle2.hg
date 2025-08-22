@@ -53,7 +53,7 @@ class Protocol(NamedNode):
 class _RootProtocol(Protocol):
     """This is the base protocol; it exist as we can't instantiate Protocol"""
 
-baseProtocol = _RootProtocol(ID("Protocol"), kind=ProtocolKind.Unknown, based_on=None)                  # pragma: no mutate
+baseProtocol = _RootProtocol(name=ID("Protocol"), kind=ProtocolKind.Unknown, based_on=None)                  # pragma: no mutate
 Protocol._BASE=baseProtocol
 
 @dataclass                                                                                          # pragma: no mutate

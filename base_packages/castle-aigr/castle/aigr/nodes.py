@@ -9,15 +9,21 @@ from dataclasses import field as dc_field
 import typing as PTH                                                                                  # Python TypeHints
 
 from . import ID
-from . import AIGRNode
-#from . import Argument
+from . import AIGR, AIGRNode
 
+from typing import TYPE_CHECKING
+if TYPE_CHECKING:
+    from .aid import Argument
 
 @dataclass
 class NamedNode(AIGRNode):
-    name       : ID|str
+    name    :PTH.Optional[ID|str]=dc_field(default_factory=lambda: None)
+    _: KW_ONLY
+    parent  :PTH.Optional[AIGR]=None
 
     def __post_init__(self):
+        if self.name is None:
+            logger.critical("NamedNode: name is None, this is not allowed")
         if not isinstance(self.name, ID):
             self.name = ID(self.name)
 
@@ -27,7 +33,7 @@ class Specialise(NamedNode):
 
     _: KW_ONLY
     based_on:  NamedNode
-    arguments: PTH.Sequence["Argument"]
+    arguments: PTH.Sequence[Argument]
 
     def __post_init__(self):
         if not self.name: # or self.name == "":

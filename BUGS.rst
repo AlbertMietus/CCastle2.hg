@@ -35,3 +35,5 @@ BUGS
 
    Same for vars: the should be findable and as such be .register()ed in a namespace.
    
+
+..  LocalWords:  namespace
