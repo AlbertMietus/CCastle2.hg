@@ -14,7 +14,7 @@ from ..namespaces import _hasScope
 
 if PTH.TYPE_CHECKING:                                                                                # pragma: no cover
     from .. import ComponentInterface, TypedParameter
-
+    from .callables import  _handlers
 
 
 @dataclass
@@ -27,7 +27,7 @@ class ComponentImplementation(_hasScope, _statement, NamedNode):
 
     interface  : PTH.Optional[ComponentInterface] = None
     parameters : tuple[TypedParameter, ...]       = dc_field(default_factory=tuple)
-    handlers   : tuple[_handlers, ...]            = dc_field(default_factory=list) # A list, as handlers will be "registered".
+    handlers   : list[_handlers]                  = dc_field(default_factory=list) # A list, as handlers will be "registered".
 
 ## Method, Eventhandler, etc  are defined in :file:`callables.py`
 
