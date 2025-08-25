@@ -7,11 +7,11 @@ from castle import aigr
 from castle.aigr import ID
 
 from .namespaces import ScaffolderNameSpace
-from .scaffolder import _Scaffolder
+from ._scaffolder import _Scaffolder
 
 _TYPE=aigr.EventHandler
 class ScaffolderComponentImplementation(ScaffolderNameSpace):
-    _nodeCls = aigr.ComponentImplementation
+    _nodeCls :type = aigr.ComponentImplementation
 
     def register(self, node :_TYPE, asName :PTH.Optional[ID|str]=None): ## XXX &C&P ScaffolderNameSpace
         if isinstance(node, _Scaffolder):

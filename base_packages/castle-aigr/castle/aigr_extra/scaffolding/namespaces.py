@@ -7,7 +7,7 @@ from castle import aigr
 from castle.aigr import ID, NamedNode,  errors
 
 from . import ScaffolderNode
-from .scaffolder import _Scaffolder
+from ._scaffolder import _Scaffolder
 
 class ScaffolderNameSpace(ScaffolderNode):
     _nodeCls = aigr.namespaces._NameSpace

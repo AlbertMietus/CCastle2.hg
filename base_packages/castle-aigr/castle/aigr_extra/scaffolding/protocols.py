@@ -8,7 +8,7 @@ from . import ScaffolderNode
 
 class ScaffolderProtocol(ScaffolderNode):
     #_nodeCls: PTH.Type = aigr.Protocol
-    _nodeCls = aigr.Protocol
+    _nodeCls:type = aigr.Protocol
 
     def wrapped_base(self) -> PTH.Optional["ScaffolderProtocol"]:
         wrapCls=type(self)
