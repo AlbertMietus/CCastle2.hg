@@ -10,7 +10,7 @@ from . import ScaffolderNode
 from ._scaffolder import _Scaffolder
 
 class ScaffolderNameSpace(ScaffolderNode):
-    _nodeCls = aigr.namespaces._NameSpace
+    _nodeCls:type = aigr.namespaces._NameSpace
 
     def register(self, named_node :aigr.NamedNode, asName :PTH.Optional[ID|str]=None):
         if isinstance(named_node, _Scaffolder):
@@ -94,7 +94,7 @@ class ScaffolderNameSpace(ScaffolderNode):
             return None
 
     def find_byType(self, cls:type) ->dict[ID, NamedNode]:
-        return {name: node for name, node in self.node._ns.items() if isinstance(node, cls)}
+        return {name: PTH.cast(NamedNode, value) for name, value in self.node._ns.items() if isinstance(value, cls)}
 
     def list_names(self) -> tuple[ID, ...]:
         return tuple(self.node._ns.keys())
