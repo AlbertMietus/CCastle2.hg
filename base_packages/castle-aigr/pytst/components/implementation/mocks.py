@@ -6,7 +6,7 @@ import pytest
 from castle import aigr
 from castle.aigr import ID
 
-from castle.aigr.components import EventDispatchTable
+### from castle.aigr.components import EventDispatchTable
 
 @pytest.fixture
 def mock_protocol():
@@ -22,8 +22,8 @@ def mock_events():
     ]
 
 
-@pytest.fixture
-def etable(mock_protocol, mock_events):
-    map = {event: ID(f"{mock_protocol}_{event}") for event in mock_events}
-    return EventDispatchTable(map=map,
-            _comp=ID('DummyCompName'), _port=ID("MockPortName"))            # XXX
+### @pytest.fixture
+### def etable(mock_protocol, mock_events):
+###    map = {event: ID(f"{mock_protocol}_{event}") for event in mock_events}
+###    return EventDispatchTable(map=map,
+###            _comp=ID('DummyCompName'), _port=ID("MockPortName"))            # XXX

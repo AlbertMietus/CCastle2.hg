@@ -13,7 +13,8 @@ _TYPE=aigr.EventHandler
 class ScaffolderComponentImplementation(ScaffolderNameSpace):
     _nodeCls :type = aigr.ComponentImplementation
 
-    def register(self, node :_TYPE, asName :PTH.Optional[ID|str]=None): ## XXX &C&P ScaffolderNameSpace
+    ## XXX &C&P ScaffolderNameSpace    
+    def register(self, node :aigr.NamedNode, asName :PTH.Optional[ID|str]=None): 
         if isinstance(node, _Scaffolder):
             logger.error("It's wrong to register wrapped nodes, like %s - unwrapping it and continuing with fingers crosses", node)
             node = node.node # unwrap ...
