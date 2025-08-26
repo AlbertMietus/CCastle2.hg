@@ -46,3 +46,5 @@ core_packages/castle-RPy-writer/TestDoubles/HelloWorlds/elemental/_timeIt
 .*/TestDoubles/.*/_ref
 .*/TestDoubles/.*/_exe
 .*/TestDoubles/.*/__out
+
+.vscode
