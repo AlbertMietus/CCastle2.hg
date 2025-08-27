@@ -21,9 +21,10 @@ LAST = \
 	pytst/HelloWorlds/test_06_implicietComp.py	\
 #
 CURRENT = \
-	pytst/visitors/test_walker.py::test_2_ComponentImplementation_has_2callables	\
-	pytst/visitors/test_walker.py	\
-	pytst/HelloWorlds/test_05_ComponentImplementation.py::test_4_full
+	pytst/visitors/test_mistakes.py \
+#	pytst/visitors/test_walker.py::test_2_ComponentImplementation_has_2callables	\
+#	pytst/visitors/test_walker.py	\
+#	pytst/HelloWorlds/test_05_ComponentImplementation.py::test_4_full
 #
 TODO = \
 	pytst/HelloWorlds/test_05_ComponentImplementation.py
