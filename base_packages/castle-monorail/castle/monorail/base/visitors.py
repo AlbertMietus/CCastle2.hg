@@ -8,7 +8,7 @@ from .dispatch import MRO_Dispatch_Mixin
 
 
 class Visitor(MRO_Dispatch_Mixin):
-    _phases = _prefixes = ('visit', 'depart',)
+    _prefixes = ('visit', 'depart',)
     _defaultType=type(None)
 
     def _visitor(self, node, prefix='visit'):
