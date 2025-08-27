@@ -4,10 +4,10 @@ import logging; logger = logging.getLogger(__name__)
 import typing as PTH                                                  # Python TypeHints
 
 from castle import aigr
-from castle.writers.RPy.aid import Block
-from ..base.visitors import Visitor
-
+from castle.monorail.base.visitors import Visitor
 from castle.aigr_extra.scaffolding import ScaffolderBody, ScaffolderNameSpace
+
+from castle.writers.RPy.aid import Block
 
 class Walker(Visitor):
     _defaultType=tuple

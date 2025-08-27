@@ -5,8 +5,8 @@ import typing as PTH                                                            
 
 from castle import aigr
 from castle.writers.RPy.aid import Block
+from castle.monorail.base.visitors import Visitor
 
-from ..base.visitors import Visitor
 from ..aid.convert import fString_2_modulo
 from . walker import Walker
 from . machinery import Machinery

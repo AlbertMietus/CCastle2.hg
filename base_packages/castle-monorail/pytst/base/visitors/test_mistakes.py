@@ -6,7 +6,7 @@ import logging; logger = logging.getLogger(__name__)
 import pytest
 
 from castle import aigr
-from castle.writers.RPy.base import visitors
+from castle.monorail.base import visitors
 
 class FakeNode(aigr.AIGR): pass
 MockFake_Maker = "MockFake_Maker"
@@ -37,7 +37,7 @@ def test_1_NoMethod(visitor):
     m = visitor._visitor(dummy, prefix='ReallyRealyNot')
     assert m is None
     assert visitor.spy == '', "No Spy Method should have been called."
-    
+
 
 
 
