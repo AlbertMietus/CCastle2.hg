@@ -25,7 +25,7 @@ ARCHIVED/CC2Cpy/castle/CC2Cpy/_*
 TestDoubles/_generated/
 .*_packages/.*/setup.py
 pytest-cache-files-*
-
+mutants
 html
 Icon
 DocParts/Design/*/*.png

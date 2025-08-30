@@ -23,3 +23,11 @@ markers = [
 namespace_packages = true
 explicit_package_bases = true
 python_version = "3.13"
+
+[tool.mutmut]
+paths_to_mutate = [ "castle/" ]
+tests_dir       = [ "pytst/" ]
+#debug = true
+
+
+

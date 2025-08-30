@@ -28,11 +28,11 @@ pytest-d pytest-ds pytest-sd:						# with debuging
 	${PYTEST} ${PYTEST_OPTIONS} --log-cli-level=DEBUG -s pytst/
 
 # Mutation testing (takes a long run) https://en.wikipedia.org/wiki/Mutation_testing -- not part of 'all'
-mutmut: ${ToCS_dir}
-	-PYTHONPATH=${MUTMUT_cfg_d}	mutmut run  --tests-dir pytst --paths-to-mutate castle  --runner "pytest -x   pytst/"
-	mutmut html && rm -rf ${MUTMUT_dir} && mv html ${MUTMUT_dir}
-mutmut-open: mutmut
-	open ${MUTMUT_dir}index.html
+mutmut: mutmut3
+mutmut3:
+	echo "Mutmut3 not working yet"
+	mutmut run
+	mutmut results
 
 
 last:
