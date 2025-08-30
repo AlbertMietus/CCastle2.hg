@@ -4,7 +4,7 @@ import logging; logger = logging.getLogger(__name__)
 import typing as PTH                                                                                  # Python TypeHints
 
 class MRO_Dispatch_Mixin():
-    _prefixes = () # Set this in the class -- f.e. to `('visit', 'depart',)` . It will be checked and logged. It will not fail
+    _prefixes: tuple[str, ...] = () # Set this in the class -- f.e. to `('visit', 'depart',)` . It will be checked and logged. It will not fail
 
     def dispatch_check_prefix(self, prefix):
         known = prefix in self._prefixes

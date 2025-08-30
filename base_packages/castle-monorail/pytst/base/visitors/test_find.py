@@ -5,7 +5,6 @@
 import logging; logger = logging.getLogger(__name__)
 import pytest
 
-from castle import aigr
 from castle.monorail.base.dispatch import MRO_Dispatch_Mixin
 
 

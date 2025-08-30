@@ -3,24 +3,24 @@
 """ Test the correct handling of mistakes, in using the Visitor class."""
 
 import logging; logger = logging.getLogger(__name__)
+import typing as PTH                                                                                  # Python TypeHints
 import pytest
 
-from castle import aigr
 from castle.monorail.base import visitors
 
-class FakeNode(aigr.AIGR): pass
-MockFake_Maker = "MockFake_Maker"
+class FakeNode(): pass
+MockFake_Marker:str = "MockFake_Maker"
 
 class SpyVisitor(visitors.Visitor):
     def __init__(self):
         logger.info("SpyVisitor.__init__() is called")
         super().__init__()
-        self.spy = ""
+        self.spy :str = ""
 
-    def Mock_FakeNode(self, node):
-        self.spy:str = f"visit_FakeNode"
+    def Mock_FakeNode(self, node:PTH.Any) ->str:
+        self.spy  = f"visit_FakeNode"
         logger.info("SpyVisitor.Mock_FakeNode is called for %s", node)
-        return MockFake_Maker
+        return MockFake_Marker
 
 @pytest.fixture
 def visitor():
@@ -29,7 +29,7 @@ def visitor():
 def test_1_UnknownPrefix_Mock(visitor):
     dummy = FakeNode()
     m = visitor._visitor(dummy, prefix='Mock')
-    assert m is MockFake_Maker
+    assert m is MockFake_Marker
     assert visitor.spy == "visit_FakeNode"
 
 def test_1_NoMethod(visitor):
