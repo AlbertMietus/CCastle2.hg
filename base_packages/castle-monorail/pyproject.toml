@@ -5,20 +5,29 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "castle-monorail"
 version = "0.0.1"
-dependencies = ["castle-aigr"]
+dependencies = []
 
 [tool.setuptools.packages.find]
 exclude = ["pytst*", "CastleCode", "ASIDE"]
 
 [tool.setuptools.package-data]
-"*" = ["py.typed", "*.pyi"]
-
-[tool.mypy]
-namespace_packages = true
-explicit_package_bases = true
+"castle.aigr"       = ["py.typed", "*.pyi"]
+"castle.aigr.base"  = ["py.typed", "*.pyi"]
 
 [tool.pytest.ini_options]
 markers = [
     "slow: marks tests as slow (use --fast to include)"
 ]
+
+[tool.mypy]
+namespace_packages 		= true
+explicit_package_bases 	= true
+python_version 			= "3.13"
+
+[tool.mutmut]
+paths_to_mutate = [ "castle/" ]
+tests_dir       = [ "pytst/" ]
+#debug = true
+
+
 

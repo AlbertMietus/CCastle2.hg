@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "castle-aigr"
 version = "0.0.1"
-dependencies = []
+dependencies = ["castle-monorail"]
 
 [tool.setuptools.packages.find]
 exclude = ["pytst*", "CastleCode", "ASIDE"]
@@ -20,9 +20,9 @@ markers = [
 ]
 
 [tool.mypy]
-namespace_packages = true
-explicit_package_bases = true
-python_version = "3.13"
+namespace_packages 		= true
+explicit_package_bases 	= true
+python_version 			= "3.13"
 
 [tool.mutmut]
 paths_to_mutate = [ "castle/" ]
