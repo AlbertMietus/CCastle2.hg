@@ -23,8 +23,7 @@ LAST = \
     pytst/test_2c_GenericProtocols.py \
 #
 CURRENT = \
-	pytst/test_3_namespaces.py	\
-	pytst/test_scope.py			\
+	pytst/test_3_namespaces.py \
 #
 TODO = \
 	pytst/machinery/test_9_todo.py								\

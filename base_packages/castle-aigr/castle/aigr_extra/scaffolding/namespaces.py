@@ -6,22 +6,25 @@ import typing as PTH                                        # Python TypeHints
 from castle import aigr
 from castle.aigr import ID, NamedNode,  errors
 
+from castle.monorail.base  import MRO_Dispatch_Mixin
 from . import ScaffolderNode
 from ._scaffolder import _Scaffolder
 
-class ScaffolderNameSpace(ScaffolderNode):
+class ScaffolderNameSpace(ScaffolderNode, MRO_Dispatch_Mixin):
     _nodeCls:type = aigr.namespaces._NameSpace
+    _prefixes = ('register',) # For MRO_Dispatch_Mixin
 
     def register(self, named_node :aigr.NamedNode, asName :PTH.Optional[ID|str]=None):
         if isinstance(named_node, _Scaffolder):
             logger.error("It's wrong to register wrapped nodes, like %s - unwrapping it and continuing with fingers crosses", named_node)
             named_node = named_node.node # unwrap ...
 
-        # For NOW: hardcoded, XXX/ToDo: use visitor with ` _find_method_by_mro`
-        if isinstance(named_node, aigr.NamedNode):             # A NameSpace (NS) can only register NamedNode(s) in it NS, so ....
-            self.register_NamedNode(named_node, asName)
-        else:
-            assert False, f"Can only register 'NamedNode', not {named_node}"
+        register_method = self.dispatch_find_method_by_mro(named_node, 'register')
+        register_method(named_node, asName)                                              # exist always, is there is a default: see below
+
+    def _default_register(self, named_node :aigr.NamedNode, asName :PTH.Optional[ID|str]=None):
+        logger.error("Default register for %s is called -- this is often a mistake", type(named_node).__name__)
+
 
     def register_NamedNode(self, named_node :aigr.NamedNode, asName :PTH.Optional[ID|str]=None):
         name = ID(asName) if asName else PTH.cast(ID, named_node.name)
