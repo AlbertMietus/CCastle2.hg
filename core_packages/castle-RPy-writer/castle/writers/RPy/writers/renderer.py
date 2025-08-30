@@ -46,7 +46,7 @@ class Renderer(Visitor):
         - call render_subNodes() to render those subnodes
           - which uses the `walker` to find all subnodes
             (but not always, as some are "fixed")
-        - call the depart_<node> visitor (when relevant -- default a no-op)
+        - call the self depart() -- another visitor, which default to no-op
 
         `render()` will always return a str --whereas the visitors return a TextBlock -- by converting it to a str."""
 
@@ -125,10 +125,14 @@ class Renderer(Visitor):
         return txt
 
     def visit_Body(self, node)							->  TextBlock:
-        return Block(self.render_subNodes(node))
+        txt = Block(self.render_subNodes(node))
+        txt += self.depart(node)
+        return txt
 
     def visit_VoidCall(self, node)						->  TextBlock:
-        return self.render_subNodes(node)
+        txt =  self.render_subNodes(node)
+        txt += self.depart(node)
+        return txt
 
     def visit_Call(self, node)							->  TextBlock:
         callable= node.callable

@@ -13,12 +13,7 @@ packages = [ # manyally maintain this
 ]
 
 [tool.setuptools.package-data]
-"castle.aigr" = ["py.typed", "*.pyi"]
-"castle.aigr_extra" = ["py.typed"]
 "castle.writers.RPy" = ["py.typed"]
-"castle.TESTDOUBLES.aigr.sieve" = ["py.typed"]
-"castle.TESTDOUBLES.aigr.base" = ["py.typed"]
-"castle.TESTDOUBLES.aigr.HelloWorlds.elemental" = ["py.typed"]
 
 [tool.pytest.ini_options]
 markers = [
@@ -26,5 +21,11 @@ markers = [
 ]
 
 [tool.mypy]
-namespace_packages = true
-explicit_package_bases = true
+namespace_packages      = true
+explicit_package_bases  = true
+python_version          = "3.13"
+
+[tool.mutmut]
+paths_to_mutate = [ "castle/" ]
+tests_dir       = [ "pytst/" ]
+debug = true

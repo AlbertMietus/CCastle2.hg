@@ -27,7 +27,7 @@ python_version 			= "3.13"
 [tool.mutmut]
 paths_to_mutate = [ "castle/" ]
 tests_dir       = [ "pytst/" ]
-#debug = true
+debug = true
 
 
 
