@@ -22,6 +22,7 @@ LAST = \
 #
 CURRENT = \
 	pytst/machinery/ \
+	pytst/HelloWorlds/test_12_file.py
 #
 TODO = \
 	pytst/HelloWorlds/test_05_ComponentImplementation.py

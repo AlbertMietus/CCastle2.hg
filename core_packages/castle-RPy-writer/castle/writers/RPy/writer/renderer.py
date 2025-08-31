@@ -184,9 +184,10 @@ from MACHINERY import MACHINERY
         txt += """\
 #hack (post)
 if MACHINERY == 'dict':
-    cc_S_Elemental_HelloWorld_std = {
+    cc_S_Elemental_HelloWorld_std = buildin.machinery.ChainedDict(map={
         'CC_P_std_invoke' : CC_Elemental_HelloWorld.std_invoke__std
-        }
+        },
+        parent=None)
 else:
     assert False, "Set 'MACHINERY'!"
 #end hack

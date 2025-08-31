@@ -1,6 +1,5 @@
 # (C) Albert Mietus, 2025. Part of Castle/CCastle project
 
-import typing as PTH                                                                                 # Python TypeHints  - not for RPython
 # This is RPYthon code!
 
 class ChainedDict:
@@ -22,7 +21,7 @@ class ChainedDict:
     * The set-method is only use to create the map (and for testing)
     """
 
-    def __init__(self, map :PTH.Optional[dict]=None, parent=None):
+    def __init__(self, map=None, parent=None):
         self._parent = parent
         self._dict = map if map else {}
 
