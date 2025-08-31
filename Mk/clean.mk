@@ -15,7 +15,7 @@ clean_caches:
 	find . -type f -name \*.pyc         -print0 | xargs -0  rm
 	find . -type d -name .pytest_cache  -print0 | xargs -0  rm -r
 	rm -rf ./.coverage
-	rm -rf ./.mutmut-cache
+	rm -rf ./.mutmut-cache ./mutants
 	rm -rf ./.mypy_cache
 
 clean_gendirs:

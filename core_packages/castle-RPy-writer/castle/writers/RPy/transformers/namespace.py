@@ -18,17 +18,16 @@ def Source2RPy(src :aigr.Source_NS, filename :OptStr=None, ext :OptStr=None) -> 
     if not filename:
         filename = str(src.source if src.source else src.name)
 
-    target = RPy_unit(target_file=replace_extention(filename, ext),
+    target = RPy_unit(target_file=_replace_extention(filename, ext),
                           name=filename,
                           outer_ns=src.outer_ns)
-    wrapped_target  = ScaffolderNameSpace(target)
-    for name,node in src._ns.items():
-        wrapped_target.register(node, asName=name)
+    _copy_sourceNS_to_Unit(src, target)
+
     return target
 
 
 
-def replace_extention(filename: str, new_ext=None) -> str:
+def _replace_extention(filename: str, new_ext=None) -> str:
     new_ext = new_ext if new_ext  else RPY_EXT
     new_ext = new_ext if new_ext[0] == '.' else '.'+ new_ext
 
@@ -36,3 +35,8 @@ def replace_extention(filename: str, new_ext=None) -> str:
         if filename.endswith(ext):
             return filename[:-1*len(ext)] + new_ext
     return filename + new_ext
+
+def _copy_sourceNS_to_Unit(src:aigr.Source_NS, target:RPy_unit) ->None:
+    target  = ScaffolderNameSpace(target)
+    for name, node in src._ns.items():
+        target.register(node, asName=name)
