@@ -11,8 +11,8 @@ dependencies = []
 exclude = ["pytst*", "CastleCode", "ASIDE"]
 
 [tool.setuptools.package-data]
-"castle.aigr"       = ["py.typed", "*.pyi"]
-"castle.aigr.base"  = ["py.typed", "*.pyi"]
+"castle.monorail"       = ["py.typed", "*.pyi"]
+"castle.monorail.base"  = ["py.typed", "*.pyi"]
 
 [tool.pytest.ini_options]
 markers = [

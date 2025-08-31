@@ -55,7 +55,7 @@ import re
 def show(hack):
     return [match.string.splitlines()[match.string[:match.start()].count('\n')] for match in hack]
 
-#pytest.mark.fail...
+#pytest.mark.fail... (inlined below)
 def test_99_noHack():
     hacks = list(re.finditer('HACK', EXPECTED_unit, flags=re.IGNORECASE))
     txt = show(hacks)

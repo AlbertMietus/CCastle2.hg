@@ -28,7 +28,7 @@ def verify_line_by_line(expect, result):
     logger.info("result\n%s", result)
     for e,g, no in zip(expect_lines, result_lines, range(999)):
         NL,context="\n\t",3
-        assert e == g, f'''Line: {no+1} not as expected
+        assert e == g, f'''Line: {no+1} not as expected :: >>{e}<< != <<{g}>>
 expect:\t>{e}<
 result:\t<{g}>
 After_E\n {NL.join(expect_lines[no+1:][:context])}

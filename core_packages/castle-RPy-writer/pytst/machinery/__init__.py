@@ -2,4 +2,6 @@
 
 """pytst/machine/ tests the machinery part of writer. -- not the library part.
 
-  See pytst/CC/machine/ for those tests
+  See pytst/CC/machine/ for those tests"""
+
+
