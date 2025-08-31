@@ -6,7 +6,7 @@ from types import ModuleType
 from castle import aigr
 from castle.aigr_extra.scaffolding import ScaffolderNameSpace
 
-from ..writer import RPy_unit
+from ..aigr.units import RPy_unit
 
 EXTENTIONS=('.Moat', '.Castle')
 RPY_EXT= 'py' # No need to use .rpy and rename later ...

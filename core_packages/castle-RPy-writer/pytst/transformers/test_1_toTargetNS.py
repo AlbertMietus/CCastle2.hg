@@ -25,11 +25,11 @@ def verify_same_nodes(src: aigr.namespaces._NameSpace, out: aigr.namespaces._Nam
 def test_0_dummy():
     assert isinstance(HelloWorld, ModuleType)
     assert isinstance(HelloWorld.Hello_World, aigr.Source_NS)
-    assert issubclass(RPy.writer.RPy_unit, aigr.AIGR) # RPy_unit isa aigr._Target_NS isa aigr.AIGR
+    assert issubclass(RPy.aigr.RPy_unit, aigr.AIGR) # RPy_unit isa aigr._Target_NS isa aigr.AIGR
 
 def test_transformSource_NS():
     src = HelloWorld.Hello_World # Source_NS
     out = RPy.transformers.namespace.Source2RPy(src)
-    assert isinstance(out, RPy.writer.RPy_unit), f'Expect a RPy_unit type, got {out}'
+    assert isinstance(out, RPy.aigr.RPy_unit), f'Expect a RPy_unit type, got {out}'
     verify_same_nodes(src, out)
     verify_same_nodes(out, src)

@@ -25,7 +25,7 @@ def wrapped_Hello_World():
 @pytest.fixture
 def target_unit():
     ns = RPy.transformers.Source2RPy(Hello_World)
-    assert isinstance(ns, RPy.writer.RPy_unit) # check only, no test
+    assert isinstance(ns, RPy.aigr.RPy_unit) # check only, no test
     return ns
 
 

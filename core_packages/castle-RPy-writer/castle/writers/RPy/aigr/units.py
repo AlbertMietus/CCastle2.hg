@@ -8,7 +8,7 @@ from pathlib import Path
 
 from castle.aigr import namespaces, NamedNode
 
-from . import Renderer
+from ..writer.renderer import Renderer
 
 @dataclass
 class RPy_unit(NamedNode, namespaces._Target_NS):
