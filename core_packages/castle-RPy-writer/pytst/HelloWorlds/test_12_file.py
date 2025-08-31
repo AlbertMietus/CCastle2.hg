@@ -17,8 +17,8 @@ from . import print_out
 from . import EXPECTED_unit
 
 from ..TestDoubles import TestDoubles_dir # Needed for TestDoubles_out
-from . import target_unit, TestDoubles_out, HW_E_out
-
+from . import TestDoubles_out, HW_E_out
+from . import target_unit, wrapped_target
 
 def test_1_renderToTxt(target_unit, my_renderer):
     txt = my_renderer.render(target_unit)
@@ -27,28 +27,28 @@ def test_1_renderToTxt(target_unit, my_renderer):
 
 
 @pytest.mark.parametrize('rel_path,', [HW_E_out])
-def test_2a_render_andSafeTo_file(target_unit, my_renderer, TestDoubles_out):
-    txt = my_renderer.render(target_unit)
-    target_unit.save(txt, inDir=TestDoubles_out)
-    verify_file(txt, target_unit.target_file)
-    verify_file(EXPECTED_unit, target_unit.target_file)
+def test_2a_render_andSafeTo_file(wrapped_target, my_renderer, TestDoubles_out):
+    txt = my_renderer.render(wrapped_target.node)
+    wrapped_target.save(txt, inDir=TestDoubles_out)
+    verify_file(txt, wrapped_target.target_file)
+    verify_file(EXPECTED_unit, wrapped_target.target_file)
 
 
 @pytest.mark.parametrize('rel_path,', [HW_E_out])
-def test_2b1_writeOut_with_instance_is_allowd(target_unit, my_renderer, TestDoubles_out): # (should be same as above, but now with write_out()
-    target_unit.write_out(inDir=TestDoubles_out, renderCls=Renderer)
-    verify_file(EXPECTED_unit, target_unit.target_file)
+def test_2b1_writeOut_with_instance_is_allowd(wrapped_target, my_renderer, TestDoubles_out): # (should be same as above, but now with write_out()
+    wrapped_target.write_out(inDir=TestDoubles_out, renderCls=Renderer)
+    verify_file(EXPECTED_unit, wrapped_target.target_file)
 
 @pytest.mark.parametrize('rel_path,', [HW_E_out])
-def test_2b2_writeOut_with_class(target_unit, my_renderer, TestDoubles_out):
-    target_unit.write_out(inDir=TestDoubles_out, renderCls=my_renderer) # should pass a class, but an instance is allowed
-    verify_file(EXPECTED_unit, target_unit.target_file)
+def test_2b2_writeOut_with_class(wrapped_target, my_renderer, TestDoubles_out):
+    wrapped_target.write_out(inDir=TestDoubles_out, renderCls=my_renderer) # should pass a class, but an instance is allowed
+    verify_file(EXPECTED_unit, wrapped_target.target_file)
 
 
 @pytest.mark.parametrize('rel_path,', [HW_E_out])
-def test_2c_writeOut_defaultCls(target_unit, TestDoubles_out):
-    target_unit.write_out(inDir=TestDoubles_out,)
-    verify_file(EXPECTED_unit, target_unit.target_file)
+def test_2c_writeOut_defaultCls(wrapped_target, TestDoubles_out):
+    wrapped_target.write_out(inDir=TestDoubles_out,)
+    verify_file(EXPECTED_unit, wrapped_target.target_file)
 
 
 import re

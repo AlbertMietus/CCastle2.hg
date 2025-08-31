@@ -10,14 +10,14 @@ from castle.writers import RPy
 
 from . import EXPECTED_unit
 from ..TestDoubles import TestDoubles_dir # Needed for TestDoubles_out
-from . import  TestDoubles_out, HW_E_out, target_unit
+from . import  TestDoubles_out, HW_E_out, target_unit, wrapped_target # target_unit is needef for wrapped_target
 
 #pytest.skip(reason="Hello_World now has @impliciet(Component), giving a ComponentImplementation -- with dottedID('base.cc_CI_Component'); see test_06", allow_module_level=True)
 
 @pytest.fixture
-def target_files(target_unit, TestDoubles_out):
-    target_unit.write_out(inDir=TestDoubles_out)
-    return [target_unit.target_file]
+def target_files(wrapped_target, TestDoubles_out):
+    wrapped_target.write_out(inDir=TestDoubles_out)
+    return [wrapped_target.node.target_file]
 
 
 #--------HACK--------

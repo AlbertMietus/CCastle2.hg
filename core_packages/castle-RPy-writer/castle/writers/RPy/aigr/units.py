@@ -7,6 +7,7 @@ from dataclasses import dataclass, KW_ONLY
 from pathlib import Path
 
 from castle.aigr import namespaces, NamedNode
+from castle.aigr_extra.scaffolding import ScaffolderNameSpace
 
 from ..writer.renderer import Renderer
 
@@ -16,23 +17,28 @@ class RPy_unit(NamedNode, namespaces._Target_NS):
 
     This namespace has a name --mainly for debug/log purposes-- by using the NamedNode-mixin"""
 
+class ScaffolderUnit(ScaffolderNameSpace):
+    _nodeCls :type = RPy_unit
+
     def save(self, txt: str, inDir :PTH.Optional[Path|str] =None) ->None:
-        logger.debug('%s.save(txt=%s..., inDir=%s) file:=%s', self.__class__.__name__, txt[:7], inDir, self.target_file)
+        logger.debug('%s[%s].save(txt=%s..., inDir=%s) file:=%s',
+                         self.__class__.__name__, self.node.__class__.__name__,
+                         repr(txt[:42])[1:-1], inDir, self.node.target_file)
 
         if inDir:
-            self.target_file :Path =  Path(inDir) / self.target_file # remember the (actual) location
-        elif not isinstance(self.target_file, Path):
-            self.target_file = Path(self.target_file)  # shouldn't be needed, but be forgiving
+            self.node.target_file :Path =  Path(inDir) / self.node.target_file # remember the (actual) location
+        elif not isinstance(self.node.target_file, Path):
+            self.node.target_file = Path(self.node.target_file)  # shouldn't be needed, but be forgiving
 
-        self.target_file.write_text(txt)
+        self.node.target_file.write_text(txt)
 
 
     def write_out(self, inDir :PTH.Optional[Path|str] =None, renderCls: PTH.Optional[type] =None) ->None:
-        logger.debug('%s.write_out(inDir=%s) file:=%s', self.__class__.__name__,  inDir, self.target_file)
+        logger.debug('%s.write_out(inDir=%s) file:=%s', self.__class__.__name__,  inDir, self.node.target_file)
 
         if renderCls and not isinstance(renderCls,type):
             logger.warning("renderCls (%s )should be a cls, not an instance, but use it anyhow", renderCls)
         renderer = Renderer() if renderCls is None else renderCls() if isinstance(renderCls,type) else renderCls
 
-        txt = renderer.render(self)
+        txt = renderer.render(self.node)
         self.save(txt, inDir)

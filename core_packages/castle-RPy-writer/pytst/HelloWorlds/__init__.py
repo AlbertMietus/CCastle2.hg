@@ -23,10 +23,14 @@ def wrapped_Hello_World():
     return ScaffolderNameSpace(Hello_World)
 
 @pytest.fixture
-def target_unit():
+def target_unit() -> RPy.aigr.RPy_unit:
     ns = RPy.transformers.Source2RPy(Hello_World)
     assert isinstance(ns, RPy.aigr.RPy_unit) # check only, no test
     return ns
+
+@pytest.fixture
+def wrapped_target(target_unit) -> RPy.aigr.ScaffolderUnit:
+    return RPy.aigr.ScaffolderUnit(target_unit)
 
 
 @pytest.fixture
