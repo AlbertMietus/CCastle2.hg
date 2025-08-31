@@ -5,7 +5,7 @@ import pytest
 
 from castle import aigr
 from castle.writers import RPy
-from castle.writers.RPy.writers import Renderer
+from castle.writers.RPy.writer import Renderer
 from castle.aigr_extra.scaffolding import  ScaffolderNameSpace
 
 from .. import my_renderer, verify_line_by_line
@@ -25,7 +25,7 @@ def wrapped_Hello_World():
 @pytest.fixture
 def target_unit():
     ns = RPy.transformers.Source2RPy(Hello_World)
-    assert isinstance(ns, RPy.writers.RPy_unit) # check only, no test
+    assert isinstance(ns, RPy.writer.RPy_unit) # check only, no test
     return ns
 
 

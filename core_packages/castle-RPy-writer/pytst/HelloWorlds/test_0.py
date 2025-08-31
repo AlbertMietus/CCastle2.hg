@@ -17,6 +17,6 @@ def test_0_dummy_HW():
 
 def test_0_RPy_unit():
     DUMMY='file.name'
-    f = RPy.writers.RPy_unit(target_file=DUMMY, name=DUMMY)
+    f = RPy.writer.RPy_unit(target_file=DUMMY, name=DUMMY)
     assert f.target_file == DUMMY
     assert f.name == DUMMY

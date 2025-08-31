@@ -6,7 +6,7 @@ import pytest
 
 from castle import aigr
 from castle.aigr import ID
-from castle.writers.RPy.writers import Renderer
+from castle.writers.RPy.writer import Renderer
 
 from .. import my_renderer
 

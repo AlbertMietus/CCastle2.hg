@@ -4,7 +4,7 @@ import logging; logger = logging.getLogger(__name__)
 import pytest
 
 from castle import aigr
-from castle.writers.RPy.writers.walker import Walker
+from castle.writers.RPy.writer.walker import Walker
 from castle.aigr_extra.scaffolding import ScaffolderNameSpace
 
 @pytest.fixture

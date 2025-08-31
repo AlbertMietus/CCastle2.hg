@@ -3,7 +3,7 @@
 import logging; logger = logging.getLogger(__name__)
 import pytest
 
-from castle.writers.RPy.writers import Renderer, Machinery
+from castle.writers.RPy.writer import Renderer, Machinery
 
 from .verify import *
 
