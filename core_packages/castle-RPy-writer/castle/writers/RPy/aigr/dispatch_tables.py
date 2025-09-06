@@ -12,13 +12,13 @@ from castle.aigr import AIGR, ID
 class _DispatchTable(AIGR):
     _: KW_ONLY
     # XXX One day, we will find the following  by the AIRG-as-tree
-    _comp : ID                             ### ./../../@name 	ComponentImplementation-ID
-    _port : ID                             ### ./../@name 		Port-ID
-    _parentTable : PTH.Optional[ID]=None   ### ???  <zie whiteboard>
+    _comp        :ID                                                       ### ./../../@name 	ComponentImplementation-ID
+    _port        :ID                                                       ### ./../@name 		Port-ID
+    _parentTable :PTH.Optional[ID]=None                                    ### ???  <zie whiteboard>
 
 
 @dataclass
 class EventDispatchTable(_DispatchTable):
 
     _: KW_ONLY
-    map: PTH.Optional[dict[ID, str]] = dc_field(default_factory= lambda: dict())
+    map  :PTH.Optional[dict[ID, str]] = dc_field(default_factory= lambda: dict())

@@ -21,8 +21,7 @@ LAST = \
 	pytst/HelloWorlds/test_06_implicietComp.py	\
 #
 CURRENT = \
-	pytst/machinery/ \
-	pytst/HelloWorlds/test_12_file.py \
+	pytst/machinery/test_chain_dict.py \
 #
 TODO = \
 	pytst/HelloWorlds/test_05_ComponentImplementation.py
