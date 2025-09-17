@@ -11,7 +11,3 @@ def test_sendStream():
 @pytest.mark.skip("\t sendData: Other protocol then Event are not planned yet")
 def test_sendData():
     assert False
-
-@pytest.mark.skip("\t Handlers in eDispatchTable: The Handler AIGR isn't defined")
-def test_DispatchTables_Handlers():
-    assert False

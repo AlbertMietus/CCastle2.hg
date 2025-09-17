@@ -27,7 +27,6 @@ CURRENT = \
 #
 TODO = \
 	pytst/machinery/test_9_todo.py								\
-	pytst/components/implementation/test_eDispatchTables.py 	\
 #
 
 TOPd=../../

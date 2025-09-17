@@ -20,7 +20,7 @@ def machinery() ->Machinery:
 @pytest.fixture
 def simpleTable() ->EventDispatchTable: # Note: does not use std names!
     """returns e-table ``cc_S_{comp}_{port}` with some simple IDs"""
-    table = EventDispatchTable(_comp=ID("C1"), _port=ID("P1"), map={ID("E1"):"H1", ID("E2"):"H2"})
+    table = EventDispatchTable(comp=ID("C1"), port=ID("P1"), map={ID("E1"):"H1", ID("E2"):"H2"})
     expected = """\
 cc_S_C1_P1 = buildin.machinery.ChainedDict(map={
     'E1' : H1,
