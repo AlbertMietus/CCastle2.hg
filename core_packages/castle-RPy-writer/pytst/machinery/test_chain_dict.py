@@ -19,16 +19,21 @@ def machinery() ->Machinery:
 
 @pytest.fixture
 def simpleTable() ->EventDispatchTable: # Note: does not use std names!
-    """returns e-table ``cc_S_{comp}_{port}` with some simple IDs"""
+    """Returns (fake) EventDispatchTable and expected text
+
+    Table name is std (``cc_S_{comp}_{port}`) but comp and port are arbitrary
+    """
+
     table = EventDispatchTable(comp=ID("C1"), port=ID("P1"), map={ID("E1"):"H1", ID("E2"):"H2"})
-    expected = """\
+
+    expectedTxt = """\
 cc_S_C1_P1 = buildin.machinery.ChainedDict(map={
     'E1' : H1,
     'E2' : H2,
     },
     parent=None)
 \n"""
-    return table, expected
+    return table, expectedTxt
 
 def test_1_hint_gives_chainned_dict_machinery(machinery):
     explicit = M_DC_chained_dict()
