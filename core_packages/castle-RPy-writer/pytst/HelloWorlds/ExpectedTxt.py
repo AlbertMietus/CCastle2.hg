@@ -27,11 +27,18 @@ class CC_Elemental_HelloWorld(buildin.CC_B_Component):
 \n\n"""
 
 
-EXPECTED_DispatchTables = """\
+EXPECTED_CompClass = """\
 cc_C_Elemental_HelloWorld = buildin.CC_B_ComponentClass(
     interface = cc_CI_Elemental_HelloWorld,
     )
 \n"""
+
+EXPECTED_DispatchTables="""\
+cc_S_Elemental_HelloWorld_std = buildin.machinery.ChainedDict(map={
+    'CC_P_std_invoke' : CC_Elemental_HelloWorld.std_invoke__std,
+    },
+    parent=None)
+"""
 
 
 HACK_PRE="""\
@@ -56,5 +63,5 @@ else:
 #end hack
 \n"""
 
-EXPECTED_unit = HACK_PRE + EXPECTED_ComponentInterface + EXPECTED_CompImplementation  + EXPECTED_DispatchTables + HACK_POST
+EXPECTED_unit = HACK_PRE + EXPECTED_ComponentInterface + EXPECTED_CompImplementation  + EXPECTED_CompClass +EXPECTED_DispatchTables #+ HACK_POST
 

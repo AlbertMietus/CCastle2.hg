@@ -5,9 +5,11 @@ import typing as PTH                                                            
 
 from castle import aigr
 from castle.writers.RPy.aid import Block
+
 from castle.monorail.base.visitors import Visitor
 
 from ..aid.convert import fString_2_modulo
+from ..aigr.dispatch_tables import Build_EventDispatchTable
 from . walker import Walker
 from . machinery import Machinery
 
@@ -30,12 +32,14 @@ class Renderer(Visitor):
         if ns :ns+="."
         return ns+prefix+n
 
+    # XXX Move to helper class
     def _CC_cls_prefix(self, name):			    return self._prefix('CC_',    name)                # generated cls for Component
     def _cc_C_elm_prefix(self, name):		    return self._prefix('cc_C_',  name)                # element (instantiated Component)
     def _cc_CI_elm_prefix(self, name):		    return self._prefix('cc_CI_', name)                # component-interface
     def _cc_S_dispatchTable(self, comp, port):  return self._prefix('cc_S_',  f'{comp}_{port}')    # (event) dispatch-table
     def _CompBase(self):      				    return 'buildin.CC_B_Component'
-
+    def _CC_P_eventTrigger(self, protocol,event):  return self._prefix('CC_P_', f'{str(protocol)}_{str(event)}') #key in dispatch-table
+    def _callable_name(self, node):             return str(node.name)
 
     def render(self, node: aigr.AIGR) ->str:
         """"`render` is the main entrypoint.
@@ -98,8 +102,13 @@ class Renderer(Visitor):
         txt += self.depart(node)
         return txt
 
-
     def depart_ComponentImplementation(self, node)		-> TextBlock:
+        txt = Block()
+        txt += self._render_ComponentClass(node)
+        txt += self._DispatchTables(node)
+        return txt
+
+    def _render_ComponentClass(self, node) ->TextBlock:
         isa_elm_name = self._cc_C_elm_prefix(node.name)
         elm = Block(f"{isa_elm_name} = buildin.CC_B_ComponentClass(")
         ind = Block(f"interface = {self._cc_CI_elm_prefix(node.name)},")
@@ -107,8 +116,32 @@ class Renderer(Visitor):
         elm.sub(ind)
         return elm
 
+    def _DispatchTables(self, node)             ->TextBlock:
+        txt = Block()
+        txt += self._EventDispatchTables(node)
+        if True: #partial implementation: check we have only event-handlers
+            for h in node.handlers:
+                assert isinstance(h, aigr.EventHandler), f"Only EventHandlers are supported for now in DispatchTables; got {h}"
+        return txt
+
+    def _EventDispatchTables(self, node)           ->TextBlock:
+        ports = [h.port for h in node.handlers]
+        logger.info("_EventDispatchTables: ports=%s -- node=%s", ports, node ) #XXX DEBUG
+
+        tables =[]
+        for port in ports: # How about (inheriterd ports that have no handlers here?)
+            e_table = Build_EventDispatchTable(comp=node, port=port)
+            tables.append(e_table)
+
+        txt = Block()
+        for table in tables:
+            logger.info("_EventDispatchTables: table=%s", table ) #XXX 
+            txt += self.machinery.render_EventDispatchTable(self, table)
+        return txt
+
+
     def _render_def(self, node) ->Block:
-        callable_name = str(node.name)
+        callable_name = self._callable_name(node)
         parms = ', '.join(str(p.name) for p in node.parameters)
         return Block(f"def {callable_name}(self, {parms}):")
 
@@ -165,9 +198,8 @@ class Renderer(Visitor):
     def visit_ID(self, node)							->  TextBlock: # GAM: Nog niet overal gebruikt (bijna niet)
         return str(node)
 
-    def visit_EventDispatchTable(self, node)			->  TextBlock:
-        return self.machinery.render_EventDispatchTable(self, node)
-
+#    def visit_EventDispatchTable(self, node)			->  TextBlock:
+#        return self.machinery.render_EventDispatchTable(self, node)
 
     def visit_RPy_unit(self, node)						->  TextBlock:
         txt = Block()
@@ -181,7 +213,12 @@ from MACHINERY import MACHINERY
 \n""" # XXX HACK of default?
         txt += self.render_subNodes(node)
 
-        txt += """\
+        if False:
+            txt += self.__hack_post(node)
+        return txt
+
+    def __hack_post(self, node) ->TextBlock:
+        return  """\
 #hack (post)
 if MACHINERY == 'dict':
     cc_S_Elemental_HelloWorld_std = buildin.machinery.ChainedDict(map={
@@ -192,4 +229,3 @@ else:
     assert False, "Set 'MACHINERY'!"
 #end hack
 """
-        return txt

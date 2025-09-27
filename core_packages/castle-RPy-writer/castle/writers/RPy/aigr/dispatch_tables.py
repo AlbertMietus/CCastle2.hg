@@ -17,21 +17,21 @@ class _DispatchTable(AIGR):
     """A DispatchTable is a mapping between *triggers*on a specific port (like an `Event`), and the (event)Handler that handle it.
 
     This information is available in the (general) AIGR, in  ComponentImplementation.handlers. But that isn't convenient for
-    code-generation. Therefore it is collectred in this (temporally/local) structure: the DispatchTable (and sub-classes).
+    code-generation. Therefore it is collectred in this (temporally/local) `_DispatchTable` structures (and sub-classes).
     """
 
     _ : KW_ONLY
     comp        :ID
     port        :ID
+    map         :PTH.Optional[dict[ID, str]] = dc_field(default_factory= lambda: dict())  # general map -- see subclasses for definitions
     parentTable :PTH.Optional[ID]=None
-
 
 @dataclass
 class EventDispatchTable(_DispatchTable):
+    """the DispatchTable with EventHandlers. Here the map is contain event and a callable
 
-    _: KW_ONLY
-    map  :PTH.Optional[dict[ID, str]] = dc_field(default_factory= lambda: dict())
-
+    map: PTH.Optional[dict[(protocol,event), method_name]] # comp & port are 'fixed'
+    """
 
 class DispatchTable_Scaffolder(_Scaffolder):
     _nodeCls:type = _DispatchTable
@@ -41,9 +41,11 @@ class EventDispatchTable_Scaffolder(DispatchTable_Scaffolder):
     ...
 
 def Build_EventDispatchTable(comp :aigr.ComponentImplementation, port :aigr.Port) ->EventDispatchTable_Scaffolder:
-    handlders = [ h for h in comp.handlers if isinstance(h, aigr.EventHandler) and h.port == port.name ]
+    handlders = [ h for h in comp.handlers if isinstance(h, aigr.EventHandler) and h.port == port]
 
-    table = EventDispatchTable(comp=comp.name, port=port.name,
-                                   map={h.name: h for h in handlders}) # XXX parentTable?)
+    table = EventDispatchTable(comp=comp.name, port=port,
+                                   map={(h.protocol, h.event): h.name for h in handlders},
+                                   parentTable='XXX ToDo')
+    logger.info('XXX %s', table)
     return EventDispatchTable_Scaffolder(node=table)
 

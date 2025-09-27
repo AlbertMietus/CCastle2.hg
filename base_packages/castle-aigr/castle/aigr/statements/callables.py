@@ -54,6 +54,6 @@ class EventHandler(_handlers):
     _ : KW_ONLY
     protocol  : ID
     event     : ID
-    port      : ID
+    port      : ID                        #XXX move to _handlers
 
 

@@ -22,7 +22,8 @@ from . import target_unit, wrapped_target
 
 def test_1_renderToTxt(target_unit, my_renderer):
     txt = my_renderer.render(target_unit)
-    #print_out(txt, label='got'); print_out(EXPECTED_unit, label='EXPECTED_unit')
+    print_out(txt, label='got');
+    print_out(EXPECTED_unit, label='EXPECTED_unit')
     verify_line_by_line(EXPECTED_unit, txt)
 
 

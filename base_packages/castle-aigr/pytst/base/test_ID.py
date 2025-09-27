@@ -39,8 +39,8 @@ def test_ID_repr_NoContext(anID):
 
 def test_ID_repr_ContextDef():
     id = ID('with_def', context=aigr.Def())
-    assert repr(id) == "ID(with_def/Def())"
+    assert repr(id) == "ID(`with_def`/Def())"
 
 def test_ID_repr_ContextRef():
     id = ID('with_ref', context=aigr.Ref())
-    assert repr(id) == "ID(with_ref/Ref(reference=None))"
+    assert repr(id) == "ID(`with_ref`/Ref(reference=None))"

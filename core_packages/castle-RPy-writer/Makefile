@@ -8,23 +8,15 @@ PYREVERSE_PKGS = \
 	castle/writers/RPy/writer			\
 #
 LAST = \
-	pytst/test_dummy.py	\
-	pytst/CC/  			\
-	pytst/aid/ 			\
-	pytst/transformers/	\
-	pytst/translators/	\
-	pytst/visitors/		\
-	pytst/writer/		\
-	pytst/HelloWorlds/test_02_Method.py \
-	pytst/HelloWorlds/test_03_Call.py	\
-	pytst/HelloWorlds/test_05_ComponentImplementation.py	\
-	pytst/HelloWorlds/test_06_implicietComp.py	\
+	pytst/machinery/test_chain_dict.py \
+	pytst/HelloWorlds/test_05_ComponentImplementation.py \
 #
 CURRENT = \
-	pytst/machinery/test_chain_dict.py \
+	pytst/HelloWorlds/test_12_file.py::test_1_renderToTxt \
 #
 TODO = \
-	pytst/HelloWorlds/test_05_ComponentImplementation.py
+	pytst/HelloWorlds/test_12_file.py \
+	pytst/test_dummy.py	\
 #
 
 HW_Ed = TestDoubles/HelloWorlds/elemental
