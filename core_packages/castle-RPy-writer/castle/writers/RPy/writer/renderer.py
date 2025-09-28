@@ -198,9 +198,6 @@ class Renderer(Visitor):
     def visit_ID(self, node)							->  TextBlock: # GAM: Nog niet overal gebruikt (bijna niet)
         return str(node)
 
-#    def visit_EventDispatchTable(self, node)			->  TextBlock:
-#        return self.machinery.render_EventDispatchTable(self, node)
-
     def visit_RPy_unit(self, node)						->  TextBlock:
         txt = Block()
         txt += """\
@@ -217,15 +214,3 @@ from MACHINERY import MACHINERY
             txt += self.__hack_post(node)
         return txt
 
-    def __hack_post(self, node) ->TextBlock:
-        return  """\
-#hack (post)
-if MACHINERY == 'dict':
-    cc_S_Elemental_HelloWorld_std = buildin.machinery.ChainedDict(map={
-        'CC_P_std_invoke' : CC_Elemental_HelloWorld.std_invoke__std
-        },
-        parent=None)
-else:
-    assert False, "Set 'MACHINERY'!"
-#end hack
-"""
