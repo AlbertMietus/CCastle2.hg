@@ -126,7 +126,7 @@ class Renderer(Visitor):
 
     def _EventDispatchTables(self, node)           ->TextBlock:
         ports = [h.port for h in node.handlers]
-        logger.info("_EventDispatchTables: ports=%s -- node=%s", ports, node ) #XXX DEBUG
+        logger.debug("_EventDispatchTables: ports=%s -- node=%s", ports, node)
 
         tables =[]
         for port in ports: # How about (inheriterd ports that have no handlers here?)
@@ -135,7 +135,7 @@ class Renderer(Visitor):
 
         txt = Block()
         for table in tables:
-            logger.info("_EventDispatchTables: table=%s", table ) #XXX 
+            logger.debug("_EventDispatchTables: table=%s", table)
             txt += self.machinery.render_EventDispatchTable(self, table)
         return txt
 

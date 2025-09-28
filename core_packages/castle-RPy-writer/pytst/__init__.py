@@ -14,6 +14,6 @@ def my_renderer() ->Renderer:
 @pytest.fixture
 def chainDict_renderer() ->Renderer:
     r =  Renderer(machinery=Machinery(hint="chained_dict"))
-    logger.info("Using 'chained_dict' Machinery for Renderer: %s", r)
+    logger.debug("Using 'chained_dict' Machinery for Renderer: %s", r)
     return r
 

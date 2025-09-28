@@ -46,6 +46,6 @@ def Build_EventDispatchTable(comp :aigr.ComponentImplementation, port :aigr.Port
     table = EventDispatchTable(comp=comp.name, port=port,
                                    map={(h.protocol, h.event): h.name for h in handlders},
                                    parentTable=None) #XXX 
-    logger.info('XXX %s', table)
+    logger.warning('HARD_CODED: Build_EventDispatchTable(... parentTable=None) for: %s', table)
     return EventDispatchTable_Scaffolder(node=table)
 
