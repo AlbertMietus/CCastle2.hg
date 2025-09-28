@@ -9,12 +9,12 @@ PYREVERSE_PKGS = \
 #
 LAST = \
 	pytst/machinery/test_chain_dict.py \
-#
-CURRENT = \
 	pytst/HelloWorlds/test_05_ComponentImplementation.py \
 #
-TODO = \
+CURRENT = \
 	pytst/HelloWorlds/test_12_file.py::test_1_renderToTxt \
+#
+TODO = \
 	pytst/HelloWorlds/test_12_file.py \
 	pytst/test_dummy.py	\
 #

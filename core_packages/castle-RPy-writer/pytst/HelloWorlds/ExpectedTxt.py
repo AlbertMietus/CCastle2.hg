@@ -56,5 +56,5 @@ from MACHINERY import MACHINERY
 EXPECTED_CompImplementation_depart   = EXPECTED_CompClass + EXPECTED_DispatchTables
 EXPECTED_CompImplementation          = EXPECTED_CompImplementation_only  + EXPECTED_CompImplementation_depart +"\n"
 
-EXPECTED_unit = HACK_PRE + EXPECTED_ComponentInterface
+EXPECTED_unit = HACK_PRE + EXPECTED_ComponentInterface + EXPECTED_CompImplementation
 
