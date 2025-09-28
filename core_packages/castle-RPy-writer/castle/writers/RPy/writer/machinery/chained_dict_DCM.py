@@ -20,7 +20,7 @@ class M_DC_chained_dict(_M_DC_dict):
         txt = Block(f'{table_name} = buildin.machinery.ChainedDict(map={{')
         sub = Block();
         for (protocol, event), callable in node.map.items():
-            sub+=f"'{renderer._CC_P_eventTrigger(str(protocol),event)}' : {renderer._CC_cls_prefix(node.comp)}.{callable},"
+            sub+=f"'{renderer._CC_P_eventTrigger(protocol ,event)}' : {renderer._CC_cls_prefix(node.comp)}.{callable},"
         sub+= '},' #end map
         sub+= f'parent={parent_table})',
         txt.sub(sub)

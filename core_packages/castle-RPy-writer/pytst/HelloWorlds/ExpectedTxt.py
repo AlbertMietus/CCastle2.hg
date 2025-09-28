@@ -11,7 +11,7 @@ cc_CI_Elemental_HelloWorld = buildin.CC_B_ComponentInterface(
 \n"""
 
 
-EXPECTED_CompImplementation = """\
+EXPECTED_CompImplementation_only = """\
 class CC_Elemental_HelloWorld(buildin.CC_B_Component):
 
     def __init__(self, *args):
@@ -27,7 +27,7 @@ class CC_Elemental_HelloWorld(buildin.CC_B_Component):
 \n\n"""
 
 
-EXPECTED_CompClass = """\
+EXPECTED_CompClass  = """\
 cc_C_Elemental_HelloWorld = buildin.CC_B_ComponentClass(
     interface = cc_CI_Elemental_HelloWorld,
     )
@@ -51,17 +51,10 @@ from MACHINERY import MACHINERY
 \n
 """
 
-HACK_POST="""\
-#hack (post)
-if MACHINERY == 'dict':
-    cc_S_Elemental_HelloWorld_std = buildin.machinery.ChainedDict(map={
-        'CC_P_std_invoke' : CC_Elemental_HelloWorld.std_invoke__std
-        },
-        parent=None)
-else:
-    assert False, "Set 'MACHINERY'!"
-#end hack
-\n"""
 
-EXPECTED_unit = HACK_PRE + EXPECTED_ComponentInterface + EXPECTED_CompImplementation  + EXPECTED_CompClass +EXPECTED_DispatchTables #+ HACK_POST
+
+EXPECTED_CompImplementation_depart   = EXPECTED_CompClass + EXPECTED_DispatchTables
+EXPECTED_CompImplementation          = EXPECTED_CompImplementation_only  + EXPECTED_CompImplementation_depart +"\n"
+
+EXPECTED_unit = HACK_PRE + EXPECTED_ComponentInterface
 

@@ -22,19 +22,17 @@ def print_out(txt,label='print'):
 def imprint(*parts):
     return "\n".join(f"\n=====[{label}:{len(txt)}/{len(txt.splitlines())}]=====\n{txt}\n=====[end]=====" for txt, label in parts)
 
-def verify_line_by_line(expect, result):
-    expect_lines, result_lines = expect.splitlines(), result.splitlines()
-    logger.info("expect\n%s", expect)
-    logger.info("result\n%s", result)
-    for e,g, no in zip(expect_lines, result_lines, range(999)):
-        NL,context="\n\t",3
-        assert e == g, f'''Line: {no+1} not as expected :: >>{e}<< != <<{g}>>
-expect:\t>{e}<
-result:\t<{g}>
-After_E\n {NL.join(expect_lines[no+1:][:context])}
-After_G\n {NL.join(result_lines[no+1:][:context])}
-Before\n{NL.join(result_lines[:no][-context:])}'''
-    assert len(expect) == len(result), f"Not the same number of lines: expect: {len(expect)}, result: {len(result)}"
+def verify_line_by_line(expect, got):
+    WIDTH  = 90
+    exp_lines, got_lines = expect.splitlines(), got.splitlines()
+    LINES = max(len(exp_lines), len(got_lines))
+    exp_lines += [''] * (LINES - len(exp_lines)); got_lines += [''] * (LINES - len(got_lines));
+
+    side_by_side = "\n".join(f"{e:{WIDTH}} {'=' if e==g else '!'}{g}" for e,g in zip(exp_lines, got_lines))
+
+    for e,g, no in zip(exp_lines, got_lines, range(999)):
+        assert e == g, f"At least line {no} is wrong\n{"EXPECT":{WIDTH}} |GOT\n{side_by_side}"
+    assert len(expect) == len(got), f"Length differs: expect: {len(expect)} != got:{len(got)}\n{side_by_side}"
 
 
 

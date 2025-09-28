@@ -21,15 +21,19 @@ def machinery() ->Machinery:
 def simpleTable() ->EventDispatchTable: # Note: does not use std names!
     """Returns (fake) EventDispatchTable and expected text
 
-    Table name is std (``cc_S_{comp}_{port}`) but comp and port are arbitrary
-    """
+    Table name is std (``cc_S_{comp}_{port}`) but comp and port are arbitrary.
+    Simlair for the triggers (proto+event) and handler (a callable-name)."""
 
-    table = EventDispatchTable(comp=ID("C1"), port=ID("P1"), map={ID("E1"):"H1", ID("E2"):"H2"})
+    map = {
+        (ID("PROTO"), ID("EVENTa")): ID("calllable_H1"),
+        (ID("PROTO"), ID("EVENTb")): ID("calllable_H2"),
+    }
+    table = EventDispatchTable(comp=ID("COMP"), port=ID("PORT"), map=map, parentTable=None)
 
     expectedTxt = """\
-cc_S_C1_P1 = buildin.machinery.ChainedDict(map={
-    'E1' : H1,
-    'E2' : H2,
+cc_S_COMP_PORT = buildin.machinery.ChainedDict(map={
+    'CC_P_PROTO_EVENTa' : CC_COMP.calllable_H1,
+    'CC_P_PROTO_EVENTb' : CC_COMP.calllable_H2,
     },
     parent=None)
 \n"""
