@@ -6,13 +6,15 @@ PYTEST_OPTIONS_NOxFAIL=-rXsfE
 
 PYFAST= ${PYTEST} ${PYFAST_OPTON}
 
+PACKAGE:= $(shell basename `pwd`)
+
 test: coverage local_test
 local_test:: # Add local module test to this one
 
 coverage:
 	coverage run  --source castle,pytst --branch -m pytest ${PYTEST_OPTIONS} pytst/
 	coverage report  --skip-covered
-	coverage html --directory=${COVERAGE_dir}
+	coverage html --directory=${COVERAGE_dir} --title="CCaste:: '${PACKAGE}' coverage report"
 coverage-open: coverage
 	open ${COVERAGE_dir}index.html
 
