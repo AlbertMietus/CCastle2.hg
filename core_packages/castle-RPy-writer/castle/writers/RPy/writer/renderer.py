@@ -200,17 +200,15 @@ class Renderer(Visitor):
 
     def visit_RPy_unit(self, node)						->  TextBlock:
         txt = Block()
-        txt += """\
-#hack (pre)
+        txt += self._file_header(node)
+        txt += self.render_subNodes(node)
+        return txt
+
+    def _file_header(self, node) -> TextBlock:
+        txt = """\
 from castle.writers.RPy.CC import buildin
 from castle.writers.RPy.CC import base
-
-from castle.writers.RPy.CC.HACK import std   #XXX
-from MACHINERY import MACHINERY
-\n""" # XXX HACK of default?
-        txt += self.render_subNodes(node)
-
-        if False:
-            txt += self.__hack_post(node)
+\n
+"""
         return txt
 

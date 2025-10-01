@@ -41,20 +41,15 @@ cc_S_Elemental_HelloWorld_std = buildin.machinery.ChainedDict(map={
 """
 
 
-HACK_PRE="""\
-#hack (pre)
+EXPECTED_FileHeader="""\
 from castle.writers.RPy.CC import buildin
 from castle.writers.RPy.CC import base
-
-from castle.writers.RPy.CC.HACK import std   #XXX
-from MACHINERY import MACHINERY
 \n
-"""
-
+\n"""
 
 
 EXPECTED_CompImplementation_depart   = EXPECTED_CompClass + EXPECTED_DispatchTables
 EXPECTED_CompImplementation          = EXPECTED_CompImplementation_only  + EXPECTED_CompImplementation_depart +"\n"
 
-EXPECTED_unit = HACK_PRE + EXPECTED_ComponentInterface + EXPECTED_CompImplementation
+EXPECTED_unit = EXPECTED_FileHeader + EXPECTED_ComponentInterface + EXPECTED_CompImplementation
 
