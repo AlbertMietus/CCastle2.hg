@@ -12,34 +12,20 @@ from ..aid.convert import fString_2_modulo
 from ..aigr.dispatch_tables import Build_EventDispatchTable
 from . walker import Walker
 from . machinery import Machinery
+from . portray import Portray
 
 TextBlock = PTH.Optional[str|Block]
 
 class Renderer(Visitor):
     _defaultType=str                      #used in Visitor, to return a default value of the right type
 
-    def __init__(self, walker:PTH.Optional[Walker]=None, machinery:PTH.Optional[Machinery]=None, **kw):
+    def __init__(self, walker:PTH.Optional[Walker]=None, machinery:PTH.Optional[Machinery]=None, portray=None, **kw):
         super().__init__(**kw)
         self.walker = walker if walker else Walker()
         self.machinery = machinery if machinery else Machinery() # type: ignore[abstract] # Machinery-baseclass selects a subclass ad instance that one.
+        self.portray = portray if portray else Portray(self)
         logger.debug("Using Machinery: %s,\t and Walker: %s", self.machinery,  self.walker)
 
-
-    @staticmethod
-    def _prefix(prefix:str, id) ->str:
-        parts=str(id).split('.')
-        ns, n = ".".join(parts[:-1]), parts[-1]
-        if ns :ns+="."
-        return ns+prefix+n
-
-    # XXX Move to helper class
-    def _CC_cls_prefix(self, name):			    return self._prefix('CC_',    name)                # generated cls for Component
-    def _cc_C_elm_prefix(self, name):		    return self._prefix('cc_C_',  name)                # element (instantiated Component)
-    def _cc_CI_elm_prefix(self, name):		    return self._prefix('cc_CI_', name)                # component-interface
-    def _cc_S_dispatchTable(self, comp, port):  return self._prefix('cc_S_',  f'{comp}_{port}')    # (event) dispatch-table
-    def _CompBase(self):      				    return 'buildin.CC_B_Component'
-    def _CC_P_eventTrigger(self, protocol,event):  return self._prefix('CC_P_', f'{str(protocol)}_{str(event)}') #key in dispatch-table
-    def _callable_name(self, node):             return str(node.name)
 
     def render(self, node: aigr.AIGR) ->str:
         """"`render` is the main entrypoint.
@@ -73,11 +59,11 @@ class Renderer(Visitor):
         return txt
 
     def visit_ComponentInterface(self, node)			-> TextBlock:
-        interface_name = self._cc_CI_elm_prefix(node.name)
+        interface_name = self.portray.cc_CI_elm_prefix(node.name)
         txt = Block(f'{interface_name} = buildin.CC_B_ComponentInterface(')
         txt.sub(Block((
             (f'name         = "{node.name}",'),
-            (f'inherit_from = {self._cc_CI_elm_prefix(node.based_on.name)},'), ## XXXX
+            (f'inherit_from = {self.portray.cc_CI_elm_prefix(node.based_on.name)},'), ## XXXX
             (f'ports        = {tuple(node.ports)},'),
             (f')'),
             )))
@@ -85,11 +71,11 @@ class Renderer(Visitor):
 
 
     def visit_ComponentImplementation(self, node)		-> TextBlock:
-        gen_cls_name = self._CC_cls_prefix(node.name)
-        isa_elm_name = self._cc_C_elm_prefix(node.name)
+        gen_cls_name = self.portray.CC_cls_prefix(node.name)
+        isa_elm_name = self.portray.cc_C_elm_prefix(node.name)
 
         txt = Block((
-            f"class {gen_cls_name}({self._CompBase()}):",
+            f"class {gen_cls_name}({self.portray.CompBase()}):",
             f"",))
 
         init = Block(f"def __init__(self, *args):")
@@ -109,9 +95,9 @@ class Renderer(Visitor):
         return txt
 
     def _render_ComponentClass(self, node) ->TextBlock:
-        isa_elm_name = self._cc_C_elm_prefix(node.name)
+        isa_elm_name = self.portray.cc_C_elm_prefix(node.name)
         elm = Block(f"{isa_elm_name} = buildin.CC_B_ComponentClass(")
-        ind = Block(f"interface = {self._cc_CI_elm_prefix(node.name)},")
+        ind = Block(f"interface = {self.portray.cc_CI_elm_prefix(node.name)},")
         ind += ")"
         elm.sub(ind)
         return elm
@@ -141,7 +127,7 @@ class Renderer(Visitor):
 
 
     def _render_def(self, node) ->Block:
-        callable_name = self._callable_name(node)
+        callable_name = self.portray.callable_name(node)
         parms = ', '.join(str(p.name) for p in node.parameters)
         return Block(f"def {callable_name}(self, {parms}):")
 

@@ -14,13 +14,13 @@ class M_DC_chained_dict(_M_DC_dict):
 
     def render_EventDispatchTable(self, renderer, node) ->  Block: # node : RPy.aigr.EventDispatchTable
 
-        table_name = renderer._cc_S_dispatchTable(comp=node.comp, port=node.port)
-        parent_table = renderer._cc_S_dispatchTable(comp=node.parentTable, port=node.port) if node.parentTable else 'None'
+        table_name = renderer.portray.cc_S_dispatchTable(comp=node.comp, port=node.port)
+        parent_table = renderer.portray.cc_S_dispatchTable(comp=node.parentTable, port=node.port) if node.parentTable else 'None'
 
         txt = Block(f'{table_name} = buildin.machinery.ChainedDict(map={{')
         sub = Block();
         for (protocol, event), callable in node.map.items():
-            sub+=f"'{renderer._CC_P_eventTrigger(protocol ,event)}' : {renderer._CC_cls_prefix(node.comp)}.{callable},"
+            sub+=f"'{renderer.portray.CC_P_eventTrigger(protocol ,event)}' : {renderer.portray.CC_cls_prefix(node.comp)}.{callable},"
         sub+= '},' #end map
         sub+= f'parent={parent_table})',
         txt.sub(sub)
