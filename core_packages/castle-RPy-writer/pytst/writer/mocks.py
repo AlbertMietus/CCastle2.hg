@@ -1,5 +1,7 @@
 # (C) Albert Mietus, 2025. Part of Castle/CCastle project
-""" ..seealso:: /../../doc/mocks/writers-mocks.rst"""
+
+assert False, "I think this code is dead --GAM; 5 Oct 2025"
+###########################################################
 
 import logging; logger = logging.getLogger(__name__)
 import pytest

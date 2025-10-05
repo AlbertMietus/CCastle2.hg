@@ -190,6 +190,7 @@ class Renderer(Visitor):
         txt += self.render_subNodes(node)
         return txt
 
+# XXX ToDo: move 'CC' out of 'RPy' (`castle/writers/RPy_buildin`?) and fix here
     def _file_header(self, node) -> TextBlock:
         txt = """\
 from castle.writers.RPy.CC import buildin

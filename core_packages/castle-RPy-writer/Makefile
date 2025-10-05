@@ -8,11 +8,11 @@ PYREVERSE_PKGS = \
 	castle/writers/RPy/writer			\
 #
 LAST = \
-	pytst/machinery/test_chain_dict.py \
 	pytst/HelloWorlds/test_05_ComponentImplementation.py \
+	pytst/HelloWorlds/test_12_file.py \
 #
 CURRENT = \
-	pytst/HelloWorlds/test_12_file.py
+	pytst/machinery/test_chain_dict.py \
 #
 TODO = \
 	pytst/HelloWorlds/test_13_translate.py\

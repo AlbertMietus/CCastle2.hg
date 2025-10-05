@@ -13,38 +13,22 @@ from castle.writers.RPy.aigr import EventDispatchTable
 from .. import my_renderer
 from .. import verify_line_by_line, print_out
 
-@pytest.fixture
-def machinery() ->Machinery:
-    return Machinery(hint="chained_dict")
+from .mocks import *
 
-@pytest.fixture
-def simpleTable() ->EventDispatchTable: # Note: does not use std names!
-    """Returns (fake) EventDispatchTable and expected text
-
-    Table name is std (``cc_S_{comp}_{port}`) but comp and port are arbitrary.
-    Simlair for the triggers (proto+event) and handler (a callable-name)."""
-
-    map = {
-        (ID("PROTO"), ID("EVENTa")): ID("calllable_H1"),
-        (ID("PROTO"), ID("EVENTb")): ID("calllable_H2"),
-    }
-    table = EventDispatchTable(comp=ID("COMP"), port=ID("PORT"), map=map, parentTable=None)
-
-    expectedTxt = """\
-cc_S_COMP_PORT = buildin.machinery.ChainedDict(map={
-    'CC_P_PROTO_EVENTa' : CC_COMP.calllable_H1,
-    'CC_P_PROTO_EVENTb' : CC_COMP.calllable_H2,
-    },
-    parent=None)
-\n"""
-    return table, expectedTxt
-
-def test_1_hint_gives_chainned_dict_machinery(machinery):
+def test_0_hint_gives_chainned_dict_machinery(machinery):
     explicit = M_DC_chained_dict()
     assert type(machinery) is type(explicit)
 
 
-def test_2_render(machinery, my_renderer, simpleTable):
-    table, expected = simpleTable
-    blck = machinery.render_EventDispatchTable(renderer=my_renderer, node=simpleTable[0])
+def test_1_render_a_single_table(machinery, my_renderer, singleTable):
+    """See CastleCode in mocks: a eTable without a parentTable"""
+    table, expected = singleTable
+    blck = machinery.render_EventDispatchTable(renderer=my_renderer, node=table)
     verify_line_by_line(expected, str(blck))
+
+def test_2_render_childTable_a_single_table(machinery, my_renderer, childTable):
+    """See CastleCode in mocks: a eTable with a parentTable"""
+    table, expected = childTable
+    blck = machinery.render_EventDispatchTable(renderer=my_renderer, node=table)
+    verify_line_by_line(expected, str(blck))
+    

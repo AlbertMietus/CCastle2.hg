@@ -1,13 +1,13 @@
 # (C) Albert Mietus, 2025. Part of Castle/CCastle project
 
+assert False, "I think this code is dead --GAM; 5 Oct 2025"
+###########################################################
+
 import logging; logger = logging.getLogger(__name__)
 import pytest
 
 from castle import aigr
 from castle.aigr import ID
-
-### DispatchTable(s): See remark on EventDispatchTable
-#from castle.aigr.components import EventDispatchTable
 
 
 from .mocks import *
