@@ -2,6 +2,7 @@
 
 """CastleCode
 
+----Simple/Single: a SingleDummy implements both events of mockProtocol and inherits nothing---
 protocol mockProtocol : EventProtocol {
    fakeEvent_a();
    fakeEvent_b();
@@ -16,6 +17,7 @@ implement SingleDummy {
    mockProtocol.fakeEvent_b on .MockPort {....} # ==> callable_H2
 }
 
+---Child: One own handler, and inherits one from it parent: SingleDummy---
 component Child:SingleDummy {
    port mockProtocol <in>: MockPort; ///GAM: is it needed/allowed to repeat?
 }
@@ -23,6 +25,7 @@ component Child:SingleDummy {
 implement Child {
    mockProtocol.fakeEvent_a on .MockPort {....} # ==> callable_H3
    # fakeEvent_b is inherited from SingleDummy
+
 """
 
 import logging; logger = logging.getLogger(__name__)
