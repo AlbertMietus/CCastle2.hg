@@ -10,6 +10,7 @@ dependencies = ["castle-aigr"]
 [tool.setuptools]
 packages = [ # manyally maintain this
     "castle.writers.RPy",
+    "castle.writers.RPy_buildin",
 ]
 
 [tool.setuptools.package-data]

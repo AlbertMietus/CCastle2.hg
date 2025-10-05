@@ -42,8 +42,8 @@ cc_S_Elemental_HelloWorld_std = buildin.machinery.ChainedDict(map={
 
 
 EXPECTED_FileHeader="""\
-from castle.writers.RPy.CC import buildin
-from castle.writers.RPy.CC import base
+from castle.writers.RPy_buildin import buildin
+from castle.writers.RPy_buildin import base
 \n
 \n"""
 

@@ -16,6 +16,7 @@ HW_E_out    = Path('HelloWorlds', 'elemental', '__out')
 
 from castle.TESTDOUBLES.aigr.HelloWorlds.elemental.HelloWorld import Hello_World # Source_NS
 
+from .. import my_renderer
 from .ExpectedTxt import *
 
 @pytest.fixture

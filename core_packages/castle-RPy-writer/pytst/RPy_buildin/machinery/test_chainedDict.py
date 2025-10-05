@@ -3,8 +3,8 @@
 import logging; logger = logging.getLogger(__name__)
 import pytest
 
-from castle.writers.RPy.CC import buildin
-from castle.writers.RPy.CC.buildin.machinery import ChainedDict
+from castle.writers.RPy_buildin import buildin
+from castle.writers.RPy_buildin.buildin.machinery import ChainedDict
 
 @pytest.fixture
 def cd():

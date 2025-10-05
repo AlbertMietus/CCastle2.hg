@@ -1,7 +1,7 @@
 # (C) Albert Mietus, 2025.  Part of Castle/CCastle project
 
-from castle.writers.RPy.CC import buildin
-from castle.writers.RPy.CC import base
+from castle.writers.RPy_buildin import buildin
+from castle.writers.RPy_buildin import base
 
 """///CastleCode
 protocol std : EventProtocol {

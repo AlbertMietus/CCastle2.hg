@@ -2,7 +2,7 @@
 
 import pytest
 
-from castle.writers.RPy.CC import buildin
+from castle.writers.RPy_buildin import buildin
 
 def verifyClassPrefix(cls, prefix):
     """Verify the prefix/name/existance of some buildin classes.
