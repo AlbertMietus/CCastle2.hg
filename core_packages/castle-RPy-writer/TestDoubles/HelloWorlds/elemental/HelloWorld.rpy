@@ -9,9 +9,10 @@
 
 # Hi-lock: (("///.*$" (0 (quote hi-pink) prepend)))
 
-from castle.writers.RPy.CC import buildin
-from castle.writers.RPy.CC import base
-from castle.writers.RPy.CC.HACK import std   #XXX
+from castle.writers.RPy_buildin import base
+from castle.writers.RPy_buildin import buildin
+
+from castle.writers.RPy_buildin.HACK import std   #XXX
 
 from MACHINERY import MACHINERY
 

@@ -63,7 +63,7 @@ clean_exe: # Do not remove the dirs, as the are include dirs
 
 clean_out:
 	rm -f ${OUTd}*.rpy
-	rm -f ${OUTd}*.py  ${OUTd}*.pyc 
+	rm -f ${OUTd}*.py  ${OUTd}*.pyc
 	rm -f ${OUTd}${TARGET}
 	rm -rf ${OUTd}/__pycache__
 
