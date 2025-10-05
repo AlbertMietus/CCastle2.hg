@@ -12,7 +12,7 @@ exclude = ["pytst*", "CastleCode", "ASIDE"]
 
 [tool.setuptools.package-data]
 "castle.aigr"       = ["py.typed", "*.pyi"]
-"castle.aigr_extra" = ["py.typed"]
+"castle.aigr_extra" = ["py.typed", "*.pyi"]
 
 [tool.pytest.ini_options]
 markers = [
@@ -23,6 +23,11 @@ markers = [
 namespace_packages 		= true
 explicit_package_bases 	= true
 python_version 			= "3.13"
+mypy_path = [
+   "./../../base_packages/castle-monorail",
+   "./../../base_packages/castle-aigr",
+   "./../../core_packages/castle-RPy-writer",
+]
 
 [tool.mutmut]
 paths_to_mutate = [ "castle/" ]

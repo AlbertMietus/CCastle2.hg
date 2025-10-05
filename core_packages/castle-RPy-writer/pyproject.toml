@@ -25,6 +25,11 @@ markers = [
 namespace_packages      = true
 explicit_package_bases  = true
 python_version          = "3.13"
+mypy_path = [
+   "./../../base_packages/castle-monorail",
+   "./../../base_packages/castle-aigr",
+   "./../../core_packages/castle-RPy-writer",
+]
 
 [tool.mutmut]
 paths_to_mutate = [ "castle/" ]

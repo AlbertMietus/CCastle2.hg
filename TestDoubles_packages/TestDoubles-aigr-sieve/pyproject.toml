@@ -18,8 +18,15 @@ exclude = ["pytst*", "CastleCode", "ASIDE"]
 markers = [
     "slow: marks tests as slow (use --fast to include)"
 ]
+
 [tool.mypy]
-namespace_packages = true
-explicit_package_bases = true
- 
+namespace_packages      = true
+explicit_package_bases  = true
+python_version 			= "3.13"
+mypy_path = [
+   "./../../base_packages/castle-monorail",
+   "./../../base_packages/castle-aigr",
+   "./../../core_packages/castle-RPy-writer",
+   "./../TestDoubles-aigr-base/",
+]
 
