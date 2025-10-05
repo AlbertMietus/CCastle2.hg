@@ -13,9 +13,10 @@ from . import Machinery, _M_DC_dict
 class M_DC_chained_dict(_M_DC_dict):
 
     def render_EventDispatchTable(self, renderer, node) ->  Block: # node : RPy.aigr.EventDispatchTable
-
         table_name = renderer.portray.cc_S_dispatchTable(comp=node.comp, port=node.port)
-        parent_table = renderer.portray.cc_S_dispatchTable(comp=node.parentTable, port=node.port) if node.parentTable else 'None'
+        parent_table = renderer.portray.cc_S_dispatchTable(comp=node.parentTable.comp, port=node.port) if node.parentTable else 'None'
+
+        logger.info("render_EventDispatchTable(node=%s), table_name=%s, parent_table=%s", node, table_name, parent_table) 
 
         txt = Block(f'{table_name} = buildin.machinery.ChainedDict(map={{')
         sub = Block();
