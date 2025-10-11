@@ -12,42 +12,34 @@ from . import EXPECTED_unit
 from ..TestDoubles import TestDoubles_dir # Needed for TestDoubles_out
 from . import  TestDoubles_out, HW_E_out, target_unit, wrapped_target # target_unit is needef for wrapped_target
 
+driver_stem = 'main_HW'                                    # the .py extension is added later DO NOT CHANGE
+
+gen_exe     = driver_stem                                  # used without  extension (Any name)
+
+
 @pytest.fixture
 def generated_files(wrapped_target, TestDoubles_out) -> [ Path ]:                    # Retuns a list of generated RPy files
     wrapped_target.write_out(inDir=TestDoubles_out)   # Here the file is generated and saved
     return [wrapped_target.node.target_file]
 
 
-
 from castle.writers.RPy import translators
-class Hack_cp(translators.base.RPY_Translator):
-    def __init__(self, **kwargs):
-        super().__init__(driver=None, **kwargs)
-
+class CopyFile(translators.base.RPY_Translator):
     def runner(self): #called via execute()
-        stem = self.files[0]
-        logging.warning(f"cp ../{stem}.rpy {stem}.py")
-        return self.process(cmd=["cp", f"../{stem}.rpy", f"{stem}.py"])
+        for stem in self.files:
+            logging.info(f"CopyFile: cp ../{stem}.rpy {stem}.py")
+            self.process(cmd=["cp", f"../{stem}.rpy", f"{stem}.py"])
 
 
 @pytest.fixture
-def Copy_Not_GeneratedFiles(TestDoubles_out, stems=["main_HW","MACHINERY"]) -> None: # Only side-effects
-    for stem in stems:
-        py_file =stem + ".py"
-        fpy    = TestDoubles_out / py_file
-        if not fpy.exists():
-            logging.warning(f"The file >{fpy}< isn't generated; we use a Copy-Hack ...")
-            Hack_cp(files=[stem], inDir=TestDoubles_out).execute()
-    assert fpy.exists()
-#--------/HACK--------
-
-driver='main_HW'
-exe='main_HW'
+def Copy_Not_GeneratedFiles(TestDoubles_out, stems=[driver_stem, "MACHINERY"]): # It is about the side effects!
+    CopyFile(files=stems, inDir=TestDoubles_out).execute()
+    return stems # for logging purposes only
 
 
 @pytest.mark.parametrize('rel_path,', [HW_E_out])
 def test_1_eval(generated_files, Copy_Not_GeneratedFiles, TestDoubles_out):
-    runner =  RPy.translators.Evaluate(files=generated_files, inDir=TestDoubles_out, driver=driver)
+    runner =  RPy.translators.Evaluate(files=generated_files, inDir=TestDoubles_out, driver=driver_stem)
     std_out = runner.execute()
     assert std_out.strip() == "Hello Elemental World"
 
@@ -55,20 +47,20 @@ def test_1_eval(generated_files, Copy_Not_GeneratedFiles, TestDoubles_out):
 @pytest.mark.slow
 @pytest.mark.parametrize('rel_path,', [HW_E_out])
 def test_2_compile(generated_files, Copy_Not_GeneratedFiles, TestDoubles_out):
-    runner =  RPy.translators.Compile(files=generated_files, inDir=TestDoubles_out, driver=driver, into=exe)
+    runner =  RPy.translators.Compile(files=generated_files, inDir=TestDoubles_out, driver=driver_stem, into=gen_exe)
     print("\tTranslating can take some time ....",end="", flush=True)
     runner.execute()
     print(".. done")
-    assert (TestDoubles_out / exe).exists(), f"Expecting {exe} in {TestDoubles_out}, but it isn't there"
+    assert (TestDoubles_out / gen_exe).exists(), f"Expecting {gen_exe} in {TestDoubles_out}, but it isn't there"
 
 
 # Note: it depends on `test_2_compile`, above
 @pytest.mark.slow
 @pytest.mark.parametrize('rel_path,', [HW_E_out])
 def test_3_execute(TestDoubles_out):
-    runner =  RPy.translators.Execute(inDir=TestDoubles_out, into=exe)
+    runner =  RPy.translators.Execute(inDir=TestDoubles_out, into=gen_exe)
 
-    print(f"\tAssuming >>{exe}<< is as translatored above " ,end="", flush=True)
+    assert (TestDoubles_out / gen_exe).exists(), f"Expecting {gen_exe} already in {TestDoubles_out}, but it isn't"
     std_out = runner.execute()
 
     assert std_out.strip() == "Hello Elemental World"
