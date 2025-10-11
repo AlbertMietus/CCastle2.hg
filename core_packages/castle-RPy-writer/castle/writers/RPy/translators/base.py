@@ -37,7 +37,8 @@ class RPY_Translator(TranslatorCommand):
     def __init__(self, *,
                      inDir   :PTH.Optional[Path|str]=None,
                      files   :PTH.List[Path|str]|str=[],
-                     driver  :str,                                # driver is a stem,  not a path
+                     driver  :PTH.Optional[str]=None,                                    # driver (file)name
+                     into    :PTH.Optional[str]=None,                                    # name of output-file (if any)
                      timeout :int= TIMEOUT):
         """Run a translator-command (to be set in subclass) in directory `inDir`, using `driver` as main-file (stem only).
 
@@ -46,9 +47,10 @@ class RPY_Translator(TranslatorCommand):
         """
         if isinstance(files, (str, Path)):
             files = [files]
-        self.files = [p if isinstance(p, Path) else Path(p) for p in files]
-        self.driver = driver
-        self.inDir  = Path(inDir if inDir else '.')
+        self.files    = [p if isinstance(p, Path) else Path(p) for p in files]
+        self.driver   = driver
+        self.inDir    = Path(inDir if inDir else '.')
+        self.into     = into
         self._timeout = timeout
 
     def process(self, cmd: list[str],*, PATH_prefix:PTH.Optional[str]=None) ->str:
