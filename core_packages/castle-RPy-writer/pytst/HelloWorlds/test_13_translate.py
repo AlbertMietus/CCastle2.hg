@@ -12,8 +12,8 @@ from . import EXPECTED_unit
 from ..TestDoubles import TestDoubles_dir # Needed for TestDoubles_out
 from . import  TestDoubles_out, HW_E_out, target_unit, wrapped_target # target_unit is needef for wrapped_target
 
+## Some seettings
 driver_stem = 'main_HW'                                    # the .py extension is added later DO NOT CHANGE
-
 gen_exe     = driver_stem                                  # used without  extension (Any name)
 
 
@@ -30,11 +30,11 @@ class CopyFile(translators.base.RPY_Translator):
             logging.info(f"CopyFile: cp ../{stem}.rpy {stem}.py")
             self.process(cmd=["cp", f"../{stem}.rpy", f"{stem}.py"])
 
-
 @pytest.fixture
 def Copy_Not_GeneratedFiles(TestDoubles_out, stems=[driver_stem, "MACHINERY"]): # It is about the side effects!
     CopyFile(files=stems, inDir=TestDoubles_out).execute()
     return stems # for logging purposes only
+
 
 
 @pytest.mark.parametrize('rel_path,', [HW_E_out])
@@ -58,11 +58,10 @@ def test_2_compile(generated_files, Copy_Not_GeneratedFiles, TestDoubles_out):
 @pytest.mark.slow
 @pytest.mark.parametrize('rel_path,', [HW_E_out])
 def test_3_execute(TestDoubles_out):
-    runner =  RPy.translators.Execute(inDir=TestDoubles_out, into=gen_exe)
-
     assert (TestDoubles_out / gen_exe).exists(), f"Expecting {gen_exe} already in {TestDoubles_out}, but it isn't"
-    std_out = runner.execute()
 
+    runner =  RPy.translators.Execute(inDir=TestDoubles_out, into=gen_exe)
+    std_out = runner.execute()
     assert std_out.strip() == "Hello Elemental World"
 
 
