@@ -26,30 +26,12 @@ def test_2a_HW_has_1_callable(HW):
         assert node is not None,  f"Can't find '{name}' in <{HW.__class__.__name__}.{HW.name}> -- The only name are:{HW._ns.keys()}"
         assert name == node.name , f"Name {name} not in node"
 
-@pytest.mark.skip("Can work; to search an EH ::use DispatchTable")
-def test_2b_HW_has_1_eventHandler(HW):
-    for name in (EH_NAME,):
-        #node = HW.findNode(name)  #Search DispatchTable
-        #assert node,  f"Can't find '{name}':{type(name)} in {type(HW)}: [[{', '.join('%s:%s' % (k, type(k)) for k in HW._ns.keys())}]]"
-        #assert node.name == name, f"Name of {node} is not '{name}'"
-        #assert isinstance(node, aigr.EventHandler)
-        assert False, "Can't work"
-
 def test_3a_HelloWorld_parms(HW):
     name = 'HelloWorld'
     method = ScaffolderNameSpace(HW).findNode(name)
     p = 'label'
     assert ScaffolderNameSpace(method).findNode(p), f"parm: {p} not found in {name} method"
 
-@pytest.mark.skip("Can work; to search an EH ::use DispatchTable")
-def test_3b__parms(HW):
-    name = EH_NAME
-    p = 'max'
-    #eventhandler = HW.findNode(EH_NAME) #Search DispatchTable
-    #assert eventhandler.findNode(p), f"parm: {p} not found in '{EH_NAME}'"
-    #eventhandler = HW.findNode(name)
-    #assert eventhandler.findNode(p), f"parm: {p} not found in '{name}'"
-    assert False
 
 def test_4a_HW_has_outer_ns(HW, elemental, dummy):
     "The HW ComponentImplementation, has an outer_ns: the file/SOURCE_NS: that is: elemental)"

@@ -2,6 +2,7 @@ default: all
 
 PYREVERSE_PKGS = \
 	castle.TESTDOUBLES.aigr.HelloWorlds.elemental	\
+	castle.TESTDOUBLES.aigr.HelloWorlds.credible	\
 #
 
 LAST = \
