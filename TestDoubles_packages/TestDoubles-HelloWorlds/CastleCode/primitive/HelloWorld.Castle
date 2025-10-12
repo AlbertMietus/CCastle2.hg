@@ -15,7 +15,7 @@
 protocol Execute : EventProtocol {
          execute();
 }
-
+@impliciet(Main)
 component HW_Command(str:label) : Component {
   port Execute<in>:trigger;
 }

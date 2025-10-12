@@ -3,6 +3,8 @@
 Credible
 ========
 
+.. uml:: ./credible-design.puml
+
 .. tabs::
 
    .. tab:: CastleCode

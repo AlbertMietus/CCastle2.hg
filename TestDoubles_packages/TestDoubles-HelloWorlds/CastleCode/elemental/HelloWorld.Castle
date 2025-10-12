@@ -16,7 +16,7 @@ HelloWorld(str:label) {
    print("Hello {label} World")
 }
 
-   invoke() on self.std {
+invoke() on self.std {
    HelloWorld("Elemental")
 }
 

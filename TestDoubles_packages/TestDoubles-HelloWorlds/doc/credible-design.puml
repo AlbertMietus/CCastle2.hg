@@ -1,0 +1,24 @@
+@startditaa
+
++------------------------------\
+|           Credible_HelloWorld|      +--------------------------+
+|                              |      |  SetLabel (EventProtocol)|
+|         +--------------\     |      | o set(label)             |
+|    set()|      Credible|     |      | {io}    cPNK             |
+|    ---->*hello         |     |      +--------------------------+
+|         |         cGRE |     |
+|         +--------------+     |
+|   std                   cBLU |
++--*---------------------------+
+   ^
+   | invoke()
+
+@endditaa
+
+
+
+
+
+
+
+

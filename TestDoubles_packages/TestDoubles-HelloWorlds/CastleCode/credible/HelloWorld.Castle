@@ -1,29 +1,43 @@
-// (C) Albert Mietus, 2024. Part of Castle/CCastle project
+// (C) Albert Mietus, 2024 Part of Castle/CCastle project
 
-"""A credible version of HelloWorld.
+"""A credible version of HelloWorld. -- a bit more realistic than 'elemental'
+   This variant has two connected components."""
 
-   This variant has two connected components.
-
-   See ``../*`` for other variants
-"""
-
-protocol Execute : EventProtocol {
-         execute();
+protocol SetLabel : EventProtocol {
+         set(label:str);
 }
+
+component Credible {
+  port SetLabel<in>: hello;
+}
+
+implement Credible {
+
+HelloWorld(str:label) {
+   print("Hello {label} World");
+}
+
+SetLabel.set(label) on .hello {
+  HelloWorld(label);
+}
+
+} //@end Credible_HelloWorld
+
+
+component Credible_HelloWorld: Main {
+   sub credible;
 
 
 implement Credible_HelloWorld
 {
-///ToBeDone
 
 init() {
-///ToBeDone
+  .credible :=  Credible();
 }
 
-powerOn(max) on self.power {
-///ToBeDone
+
+invoke() on self.std {
+   .credible.hello.set("credible")
 }
 
-} /* Credible_HelloWorld*/
-
-
+} //@end Credible_HelloWorld
