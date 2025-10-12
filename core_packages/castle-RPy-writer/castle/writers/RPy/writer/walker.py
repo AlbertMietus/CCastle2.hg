@@ -32,7 +32,7 @@ class Walker(Visitor):
 
     def visit_ComponentImplementation(self, node) -> PTH.Sequence[aigr.AIGR]:
         """Walk over the NS, and over the handlers"""
-        ns_tuple = self.visit__NameSpace(node)
+        ns_tuple = tuple(self.visit__NameSpace(node))
         handlers_tuple = tuple(node.handlers)
         all = ns_tuple + handlers_tuple
         logger.debug("Component %s has %s named-subnodes, & %s handlers: %s ",

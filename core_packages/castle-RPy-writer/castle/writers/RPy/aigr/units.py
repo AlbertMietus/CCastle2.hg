@@ -26,7 +26,7 @@ class ScaffolderUnit(ScaffolderNameSpace):
                          repr(txt[:42])[1:-1], inDir, self.node.target_file)
 
         if inDir:
-            self.node.target_file :Path =  Path(inDir) / self.node.target_file # remember the (actual) location
+            self.node.target_file = Path(inDir) / self.node.target_file # remember the (actual) location
         elif not isinstance(self.node.target_file, Path):
             self.node.target_file = Path(self.node.target_file)  # shouldn't be needed, but be forgiving
 

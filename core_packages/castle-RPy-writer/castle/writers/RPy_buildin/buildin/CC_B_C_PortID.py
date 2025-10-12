@@ -10,7 +10,7 @@ from .. import _debug
 
 
 class CC_B_C_PortID(_debug.DebugMixIn):
-    def __init__(self, name, portNo, protocol, direction, part_of):  # type: (Unspecified, Unspecified, Unspecified, CC_PortDirection, Unspecified) -> None
+    def __init__(self, name, portNo, protocol, direction, part_of):  # type: (Unspecified, Unspecified, Unspecified, CC_PortDirection|int, Unspecified) -> None
         self.name = name
         self.portNo = portNo
         self.protocol = protocol

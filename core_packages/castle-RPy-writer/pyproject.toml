@@ -29,6 +29,7 @@ mypy_path = [
    "./../../base_packages/castle-monorail",
    "./../../base_packages/castle-aigr",
    "./../../core_packages/castle-RPy-writer",
+   "./../../TestDoubles_packages/TestDoubles-HelloWorlds",
 ]
 
 [tool.mutmut]

@@ -18,7 +18,7 @@ gen_exe     = driver_stem                                  # used without  exten
 
 
 @pytest.fixture
-def generated_files(wrapped_target, TestDoubles_out) -> [ Path ]:                # Returns a list of generated RPy files
+def generated_files(wrapped_target, TestDoubles_out) -> list[Path]:              # Returns a list of generated RPy files
     wrapped_target.write_out(inDir=TestDoubles_out)                              # Here the file is generated and saved
     return [wrapped_target.node.target_file]
 

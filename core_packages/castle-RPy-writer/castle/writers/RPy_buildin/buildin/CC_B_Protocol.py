@@ -10,7 +10,7 @@ from .. import _debug
 
 
 class CC_B_Protocol(_debug.DebugMixIn):
-    def __init__(self, name, parameters=None, inherit_from=None, base_arguments=None, kind=None, events=[]):  # type: (Unspecified, Unspecified, Unspecified, Unspecified, PTH.Optional[CC_ProtocolKind], Unspecified) -> None
+    def __init__(self, name, parameters=None, inherit_from=None, base_arguments=None, kind=None, events=[]):  # type: (Unspecified, Unspecified, Unspecified, Unspecified, PTH.Optional[CC_ProtocolKind|int], Unspecified) -> None
         assert kind or inherit_from, "Either set kind, or use base-Protocol that has it"
         self.name = name
         self.parameters = parameters
