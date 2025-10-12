@@ -12,14 +12,14 @@ from . import EXPECTED_unit
 from ..TestDoubles import TestDoubles_dir # Needed for TestDoubles_out
 from . import  TestDoubles_out, HW_E_out, target_unit, wrapped_target # target_unit is needef for wrapped_target
 
-## Some seettings
+## Some settings
 driver_stem = 'main_HW'                                    # the .py extension is added later DO NOT CHANGE
 gen_exe     = driver_stem                                  # used without  extension (Any name)
 
 
 @pytest.fixture
-def generated_files(wrapped_target, TestDoubles_out) -> [ Path ]:                    # Retuns a list of generated RPy files
-    wrapped_target.write_out(inDir=TestDoubles_out)   # Here the file is generated and saved
+def generated_files(wrapped_target, TestDoubles_out) -> [ Path ]:                # Returns a list of generated RPy files
+    wrapped_target.write_out(inDir=TestDoubles_out)                              # Here the file is generated and saved
     return [wrapped_target.node.target_file]
 
 
