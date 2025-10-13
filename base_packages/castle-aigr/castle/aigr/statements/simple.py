@@ -24,7 +24,7 @@ class Become(_statement):
     """
     _ : KW_ONLY
     targets: tuple[AIGR]                   # LHS: (sequence of) Variables etc
-    values:  tuple[AIGR]                   # RGS: (sequence of) Values
+    values:  tuple[AIGR]                   # RHS: (sequence of) Values
 
 @dataclass
 class VoidCall(_statement):
