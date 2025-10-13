@@ -12,7 +12,7 @@ from . import dummy
 
 EH_NAME = mangle_event_handler(protocol='std', event='invoke', port='std')
 
-def test_0():
+def test_0(HW):
     logger.info("Reading `Hello_World` is a test in itself")
 
 def test_1_HW_in_file(elemental):

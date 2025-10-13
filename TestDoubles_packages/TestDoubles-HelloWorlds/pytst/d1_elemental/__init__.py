@@ -1,31 +1,15 @@
 # (C) Albert Mietus 2025, Part of Castle/CCastle project
 
-import logging; logger = logging.getLogger(__name__)
-from dataclasses import dataclass
-
-import pytest
-
-from castle import aigr
-from castle.aigr_extra.scaffolding import ScaffolderNameSpace
-
-from castle.TESTDOUBLES.aigr.HelloWorlds.elemental.HelloWorld import Hello_World
+from .. import *
 
 @pytest.fixture
 def elemental() -> aigr.Source_NS:
+    from castle.TESTDOUBLES.aigr.HelloWorlds.elemental.HelloWorld import Hello_World
     return Hello_World
 
 @pytest.fixture
 def HW(elemental) ->aigr.ComponentImplementation:
-    comp = ScaffolderNameSpace(elemental).findNode('Elemental_HelloWorld')
-    assert isinstance(comp, aigr.ComponentImplementation)
-    return  comp
+    return find_impl(elemental, 'Elemental_HelloWorld')
 
 
-@dataclass
-class DummyNode(aigr.NamedNode):
-    name       :aigr.ID
-
-@pytest.fixture
-def dummy():
-    return DummyNode('dummy')
 
