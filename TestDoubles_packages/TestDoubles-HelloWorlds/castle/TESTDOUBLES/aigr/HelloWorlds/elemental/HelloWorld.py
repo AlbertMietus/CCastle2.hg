@@ -17,6 +17,7 @@ from castle.aigr_extra.scaffolding import ScaffolderNameSpace, ScaffolderCallabl
 
 ALL = ["Hello_World"]
 
+#Hello_World = Source_NS(ID('HelloWorld'), source="elemental/HelloWorld.Castle") # XXX ToDo: use path -- change DIR STRUCT in Testdoubles_out() 
 Hello_World = Source_NS(ID('HelloWorld'), source="HelloWorld.Castle")
 wrapped_HW = ScaffolderNameSpace(Hello_World)
 
@@ -39,18 +40,16 @@ wrapped_E_HW = ScaffolderComponentImplementation(Elemental_HelloWorld)
 HelloWorld = Method(ID('HelloWorld', context=aigr.Def()),
                     returns=None,
                     outer_ns=Elemental_HelloWorld,
-                    parameters=(aigr.TypedParameter(name=ID('label'), type=str),),
+                    parameters=(aigr.TypedParameter(name=ID('label'), type=aigr.types.string),),
                     body=aigr.Body(statements=[
                         aigr.VoidCall(
-                            aigr.Call(callable=ID('print'), # GAM/BUG: was print (the build-in function); now with quotes
+                            aigr.Call(callable=ID('print'),
                                       arguments=(
                                           aigr.fString(
                                               value="Hello {label} World",
                                               type=aigr.types.string,
-                                              args=(
-                                                  ID('label',context=aigr.Ref()),
-                                                  )),)
-                                          ))]))
+                                              args=[ID('label',context=aigr.Ref())]),
+                                          )))]))
 
 ScaffolderCallable(HelloWorld).auto_register_parameters()
 wrapped_E_HW.register(HelloWorld) # Register a NamedNode
