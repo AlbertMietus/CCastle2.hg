@@ -21,23 +21,20 @@ SetLabel.set(label) on .hello {
   HelloWorld(label);
 }
 
-} //@end Credible_HelloWorld
+} //@end Credible
 
 
-component Credible_HelloWorld: Main {
-   sub credible;
-
-
+@impliciet(Main)
 implement Credible_HelloWorld
 {
+  sub credible;
 
 init() {
   .credible :=  Credible();
 }
 
-
 invoke() on self.std {
-   .credible.hello.set("credible")
+   .credible.hello.set("credible") // trigger internal port
 }
 
 } //@end Credible_HelloWorld
