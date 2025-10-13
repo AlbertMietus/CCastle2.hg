@@ -11,7 +11,7 @@ LAST = \
 	pytst/HelloWorlds/ \
 #
 CURRENT = \
-	pytst/machinery/ \
+	pytst/HelloWorlds/credible/	\
 #
 TODO = \
 	pytst/
