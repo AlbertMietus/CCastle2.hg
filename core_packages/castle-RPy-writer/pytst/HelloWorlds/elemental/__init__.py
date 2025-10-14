@@ -14,7 +14,6 @@ def elemental() -> aigr.Source_NS:
 def wrapped_Hello_World(elemental) -> ScaffolderNameSpace:
     return ScaffolderNameSpace(elemental)
 
-
 @pytest.fixture
 def target_unit(elemental) -> RPy.aigr.RPy_unit:
     ns = RPy.transformers.Source2RPy(elemental)
@@ -22,14 +21,9 @@ def target_unit(elemental) -> RPy.aigr.RPy_unit:
     return ns
 
 @pytest.fixture
-def wrapped_target(target_unit) -> RPy.aigr.ScaffolderUnit:
+def wrapped_target(target_unit) -> RPy.aigr.ScaffolderUnit: #depends on elemental
     return RPy.aigr.ScaffolderUnit(target_unit)
 
 
-@pytest.fixture
-def TestDoubles_out(TestDoubles_dir, rel_path) -> Path:
-    out_dir = TestDoubles_dir / rel_path
-    assert out_dir.exists() and out_dir.is_dir(), f" Not valid: {out_dir}"
-    return out_dir
 
 

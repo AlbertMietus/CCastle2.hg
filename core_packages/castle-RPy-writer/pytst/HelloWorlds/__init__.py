@@ -19,3 +19,10 @@ def verify_file(expect: str, file: Path|str):
     logger.info("read from: %s", file)
     assert file.is_file()
     verify_line_by_line(expect, file.read_text())
+
+@pytest.fixture
+def TestDoubles_out(TestDoubles_dir, rel_path) -> Path:
+    out_dir = TestDoubles_dir / rel_path
+    assert out_dir.exists() and out_dir.is_dir(), f" Not valid: {out_dir}"
+    return out_dir
+
