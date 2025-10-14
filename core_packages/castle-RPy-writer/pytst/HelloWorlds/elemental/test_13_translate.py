@@ -9,8 +9,8 @@ import pytest
 from castle.writers import RPy
 
 from . import EXPECTED_unit
-from ..TestDoubles import TestDoubles_dir # Needed for TestDoubles_out
-from . import  TestDoubles_out, HW_E_out, target_unit, wrapped_target # target_unit is needef for wrapped_target
+from ...TestDoubles import TestDoubles_dir # Needed for TestDoubles_out
+from . import  TestDoubles_out, HW_E_out, elemental, target_unit, wrapped_target # target_unit is needef for wrapped_target
 
 ## Some settings
 driver_stem = 'main_HW'                                    # the .py extension is added later DO NOT CHANGE

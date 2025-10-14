@@ -6,7 +6,7 @@ import pytest
 from . import my_renderer, verify_line, verify_line_by_line
 from . import print_out
 
-from . import wrapped_Hello_World
+from . import elemental, wrapped_Hello_World
 
 @pytest.fixture
 def implicietComp(wrapped_Hello_World):

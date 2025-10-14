@@ -3,12 +3,11 @@
 import logging; logger = logging.getLogger(__name__)
 import pytest
 
-from castle.TESTDOUBLES.aigr.HelloWorlds.elemental.HelloWorld import Hello_World
 from castle import aigr
 from castle.aigr_extra.scaffolding import ScaffolderBody
 
+from . import elemental, wrapped_Hello_World
 from . import my_renderer, verify_line
-from . import wrapped_Hello_World
 
 @pytest.fixture
 def fString(wrapped_Hello_World):

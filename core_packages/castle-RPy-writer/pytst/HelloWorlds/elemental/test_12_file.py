@@ -2,23 +2,20 @@
 
 """Render (the elemental verion of) HelloWorld to text, and save it into a RPy file"""
 
-
 import logging; logger = logging.getLogger(__name__)
 import typing as PTH                                                                                  # Python TypeHints
 
 from pathlib import Path
 import pytest
 
-from castle.TESTDOUBLES.aigr.HelloWorlds.elemental.HelloWorld import Hello_World # Source_NS
-
 from . import my_renderer, Renderer
 from . import verify_line, verify_line_by_line, verify_file
 from . import print_out
 from . import EXPECTED_unit
 
-from ..TestDoubles import TestDoubles_dir # Needed for TestDoubles_out
+from ...TestDoubles import TestDoubles_dir # Needed for TestDoubles_out
 from . import TestDoubles_out, HW_E_out
-from . import target_unit, wrapped_target
+from . import elemental, target_unit, wrapped_target
 
 def test_1_renderToTxt(target_unit, my_renderer):
     txt = my_renderer.render(target_unit)

@@ -8,7 +8,7 @@ PYREVERSE_PKGS = \
 
 #
 LAST = \
-	pytst/HelloWorlds/ \
+	pytst/HelloWorlds/elemental/ \
 #
 CURRENT = \
 	pytst/HelloWorlds/credible/	\
