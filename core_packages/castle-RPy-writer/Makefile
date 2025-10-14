@@ -3,9 +3,9 @@ default: all
 PYFAST_OPTON=--fast
 
 PYREVERSE_PKGS = \
-	castle/writers/RPy					\
-	castle/writers/RPy/CC				\
-	castle/writers/RPy/writer			\
+	castle/writers/RPy_buildin		\
+	castle/writers/RPy				\
+
 #
 LAST = \
 	pytst/HelloWorlds/ \
@@ -27,3 +27,17 @@ demo out clean_out clean:
 TOPd=../../
 include ${TOPd}Mk/comp.mk
 
+all: new
+new:
+	@@echo "The following elements are new (in credible but not in elemental):"
+	@echo EventProtocol, Event
+	@echo aigr.Def aigr.Ref
+	@echo aigr.TypedParameter
+	@echo aigr.types.string
+	@echo aigr.Port, aigr.PortDirection.In
+	@echo aigr.Constant
+	@echo aigr.VariableDefintion
+	@echo aigr.Become
+	@echo aigr.machinery.sendEvent
+	@echo aigr.Argument
+	@echo aigr.Constant

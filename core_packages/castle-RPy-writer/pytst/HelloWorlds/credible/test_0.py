@@ -30,3 +30,24 @@ def test_1_all_inTopNS(wrapped_Hello_World):
         assert node, f"Can't find node for for {name}"
         assert isinstance(node, T), f"Node name={name} isn't expected class - got {node.__class__.__name__}, expected {T.__name__}"
 
+def walk_node(name:str, node):
+    yield name, node
+    if isinstance(node, aigr.ComponentImplementation):
+        for method in node.handlers:
+            yield from walk_node(method.name, method)
+    if isinstance(node, aigr.namespaces._NameSpace):
+        yield from walk_NS(node)
+
+def walk_NS(ns: aigr.namespaces._NameSpace):
+    assert isinstance(ns,  aigr.namespaces._NameSpace), f"Expected _NameSpace, got {ns.__class__.__name__}"
+    ns = ScaffolderNameSpace(ns)
+    for name in ns.list_names():
+        node = ns.findNode(name)
+        yield from walk_node(name, node)
+
+def test_2_walk(wrapped_Hello_World):
+    print("Walk Hello_World")
+    for name, node in walk_node("CREDIBLE", wrapped_Hello_World.node):
+        print(f"{name:44}:{node.__class__.__name__}")
+
+    
