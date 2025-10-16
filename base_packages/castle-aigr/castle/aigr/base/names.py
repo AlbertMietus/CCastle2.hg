@@ -5,7 +5,7 @@ from dataclasses import dataclass, KW_ONLY
 
 from .AIGR import AIGR
 
-class _Context(AIGR)  : "The context of an ID (base class)"                     # pragma: no mutate
+class _Context(AIGR)  : "The context of an ID (base class) (Def/Ref/Set)"       # pragma: no mutate
 class Def(_Context)   : "Here, the name is defined"                             # pragma: no mutate
 
 @dataclass                                                                      # pragma: no mutate

@@ -4,7 +4,7 @@
 import typing as PTH                                       # Python TypeHints
 from dataclasses import dataclass, KW_ONLY
 from dataclasses import field as dc_field
-from . import AIGR
+from . import AIGR, AIGRNode
 from castle.aigr import ID, types
 
 from .nodes import NamedNode
@@ -24,7 +24,7 @@ class TypedParameter(NamedNode):
 
 
 @dataclass
-class Argument(AIGR):
+class Argument(AIGRNode):
     """An argument is a value passed during function/callable **invocation**.
        In Castle, we support both positional and named arguments. Hence, an argument can have a name."""
     value: PTH.Any
