@@ -20,7 +20,7 @@ class ScaffolderNameSpace(ScaffolderNode, MRO_Dispatch_Mixin):
             named_node = named_node.node # unwrap ...
 
         register_method = self.dispatch_find_method_by_mro(named_node, 'register')
-        register_method(named_node, asName)                                              # exist always, is there is a default: see below
+        register_method(named_node, asName)     # type: ignore[misc] # exist always, is there is a default: see below
 
     def _default_register(self, named_node :aigr.NamedNode, asName :PTH.Optional[ID|str]=None):
         logger.error("Default register for %s is called -- this is often a mistake", type(named_node).__name__)
