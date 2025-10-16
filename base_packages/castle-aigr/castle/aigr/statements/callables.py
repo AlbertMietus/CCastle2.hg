@@ -35,6 +35,9 @@ class _Named_callable(NamedNode, _callable): pass
 @dataclass
 class Method(_Named_callable): pass
 
+@dataclass
+class Initializer(Method): """A special Method to __init__ the class"""
+
 class _handlers(_Named_callable): pass
 
 @dataclass
