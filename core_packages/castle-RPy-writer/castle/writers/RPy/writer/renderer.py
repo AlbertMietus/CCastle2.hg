@@ -126,13 +126,20 @@ class Renderer(Visitor):
         return txt
 
 
-    def _render_def(self, node) ->Block:
-        callable_name = self.portray.callable_name(node)
+    def _render_def(self, node, callable_name=None) ->Block:
+        if callable_name is None:
+            callable_name = self.portray.callable_name(node)
         parms = ', '.join(str(p.name) for p in node.parameters)
         return Block(f"def {callable_name}(self, {parms}):")
 
     def visit_Method(self, node)						->  TextBlock:
         txt = self._render_def(node)
+        txt.sub(self.render_subNodes(node))
+        txt += self.depart(node)
+        return txt
+
+    def visit_Initializer(self, node)					->  TextBlock:   #BUSY
+        txt = self._render_def(node, callable_name="_init")
         txt.sub(self.render_subNodes(node))
         txt += self.depart(node)
         return txt
@@ -182,6 +189,7 @@ class Renderer(Visitor):
         return f'''"{string}" % ({", ".join(str(arg) for arg in args)},)'''
 
     def visit_ID(self, node)							->  TextBlock: # GAM: Nog niet overal gebruikt (bijna niet)
+        logger.info(f"XXX {node=} =>{str(node)}")
         return str(node)
 
     def visit_RPy_unit(self, node)						->  TextBlock:
@@ -197,5 +205,17 @@ from castle.writers.RPy_buildin import buildin
 from castle.writers.RPy_buildin import base
 \n
 """
+        return txt
+
+    def visit_Become(self, node)						->  TextBlock: # BUSY
+        if len(node.targets) != len(node.values):
+            raise NotImplementedError("Number of targets and values does not match. That isn't implementation yet")
+        assert len(node.targets) == 1, "Only single-assignment is supported"
+
+        txt = Block()
+        lhs, rhs = self.visit(node.targets[0]), self.visit(node.values[0])
+        logger.info(f"XXX BECOME\t {lhs=} {rhs=} -- {node=}")
+
+        txt += f"{lhs} = {rhs}"
         return txt
 

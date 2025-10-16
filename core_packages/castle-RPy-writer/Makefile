@@ -41,3 +41,4 @@ new:
 	@echo aigr.machinery.sendEvent
 	@echo aigr.Argument
 	@echo aigr.Constant
+	@echo aigr.Initializer

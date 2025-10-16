@@ -1,10 +1,10 @@
-Visitors
-=========
+Visitors (in RPy)
+===================
 
-Renderer
---------
+Renderer (castle.writers.RPy.writer.renderer)
+----------------------------------------------
+
 :returns: -> TextBlock:= PTH.Optional[str|Block]
-
 
 * visit_Body
 * visit_Call
@@ -19,8 +19,13 @@ Renderer
 * visit__literal
 * visit_fString
 
-Walker
-------
+Busy:
+*  visit_Initializer
+*  visit_Become
+
+  Walker (castle.writers.RPy.writer.walker)
+-----------------------------------------
+
 :returns: -> PTH.Sequence[aigr.AIGR]
 
 * visit_Body
