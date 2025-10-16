@@ -1,9 +1,47 @@
 @startuml
-
 skinparam packageBackgroundColor  AntiqueWhite-Gold
 skinparam mapBackgroundColor      Cornsilk
+skinparam classBackgroundColor<<EventProtocol>>   AntiqueWhite-Gold
 
 
+note as N1 #lightblue
+  Focus on **NameSpaces**
+  Other details are not shown
+end note
 
+protocol SetLabel <<EventProtocol>> {
+  + set(label:str)
+}
+
+package "Credible" as C  {
+   package "component" as C_comp <<Node>> {
+      map " " as C_NS <<component>> {
+         hello *-> SetLabel
+      }
+   }
+   package "implement" as C_impl <<Node>> {
+     map " " as Ci_NS <<implement>> {
+        HelloWord         => :Method
+        SetLabel:Set:helo => :EventHandler
+     }
+  }
+
+}
+
+package "Credible_HelloWorld" as CHW <<Node>> {
+  map " " as CHW_NS <<implement>>{
+     credible   => sub
+     init       => :Initializer
+     invoke:std => :EventHandler
+ }
+}
+
+map "Hello_World" as ns1 <<Source_NS>> {
+  source 		=> "credible/Hello_World.Castle"
+  __doc_ 		=>
+  SetLabel                *--> SetLabel
+  Credible                *--> C
+  Credible_HelloWorld     *--> CHW
+}
 
 @enduml

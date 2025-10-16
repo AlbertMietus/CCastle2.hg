@@ -11,7 +11,7 @@ from castle import aigr
 from castle.aigr import Source_NS, ID
 from castle.aigr import EventProtocol, Event
 from castle.aigr import ComponentInterface, ComponentImplementation
-from castle.aigr import Method, EventHandler
+from castle.aigr import Method, Initializer, EventHandler
 
 from castle.aigr_extra.blend import mangle_event_handler
 
@@ -117,15 +117,14 @@ wrapped_Credible_HW.register(sub_credible)
 #  .credible :=  Credible();
 #}
 #...
-init = Method(ID('init', context=aigr.Def()),
+init = Initializer(ID('init', context=aigr.Def()),
               #returns=None,
               outer_ns=Credible_HelloWorld,
               #parameters=(),
               body=aigr.Body(statements=[
                   aigr.Become(
                       targets=(ID('self.credible', context=aigr.Ref()),),
-                      values=(aigr.VoidCall(
-                          aigr.Call(callable=ID('Credible', context=aigr.Ref()), arguments=())),))]))
+                      values=(aigr.Call(callable=ID('Credible', context=aigr.Ref()), arguments=()),))]))
 wrapped_Credible_HW.register(init)
 
 #...
