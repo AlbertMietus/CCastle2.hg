@@ -35,3 +35,11 @@ def test_4_RefRefID_works_too(my_renderer):
     skipID = ID('HaasjeOver', context=aigr.Ref(reference=goalID))
     txt = my_renderer.render(ID('ID_withRef_toRef',context=aigr.Ref(reference=skipID)))
     verify_line_by_line("goal", txt)
+
+@pytest.mark.xfail(reason="TODO: render_asID_portray_visitor")
+def test_99_RefToOther_needs_Work(my_renderer):
+    regTo =aigr.ComponentInterface("ToDo")
+    txt = my_renderer.render(ID("Comp", context=aigr.Ref(reference=regTo)))
+    verify_line_by_line("""We need only the ID2txt, not the Comp itself.
+    cc_CI_ToDo""" , txt)
+
