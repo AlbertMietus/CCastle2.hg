@@ -49,9 +49,6 @@ class ScaffolderNameSpace(ScaffolderNode, MRO_Dispatch_Mixin):
 ###     (but search calls findNode, and can't be removed. find is also a better name)
 ###- There is no getID() for dottedName's
 ###
-### _findNode() is the basic function, all others call it
-###   So, only that needs to be overwritten
-###   Possible rename it to _findNode()
 
     def _findNode(self, name :ID) ->PTH.Optional[NamedNode]:
         """Return the NamedNode with the specified ID, or None.
