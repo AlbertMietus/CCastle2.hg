@@ -36,8 +36,8 @@ def verify_line_by_line(expect, got, ignore_trailing_newLine=True):
     side_by_side = "\n".join(f"{e:{WIDTH}} {'=' if e==g else '!'}{g}" for e,g in zip(exp_lines, got_lines))
 
     for e,g, no in zip(exp_lines, got_lines, range(999)):
-        assert e == g, f"At least line {no} is wrong\n{"EXPECT":{WIDTH}} |GOT\n{side_by_side}"
-    assert len(expect) == len(got), f"Length differs: expect: {len(expect)} != got:{len(got)}\n{side_by_side}"
+        assert e == g, f"""At least line {no} is wrong: '{exp_lines[no]}' != "{got_lines[no]}"\n{"EXPECT":{WIDTH}} |GOT\n{side_by_side}"
+    assert len(expect) == len(got), f"Length differs: expect: {len(expect)} != got:{len(got)}\n{side_by_side}"""
 
 
 
