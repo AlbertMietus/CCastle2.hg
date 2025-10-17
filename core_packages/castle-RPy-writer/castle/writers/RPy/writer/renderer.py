@@ -161,6 +161,7 @@ class Renderer(Visitor):
         return txt
 
     def visit_Call(self, node)							->  TextBlock:
+        logger.info("visit_Call: %s", node)   #XX info->debug
         callable= node.callable
         try:
             context  = callable.context
@@ -171,6 +172,7 @@ class Renderer(Visitor):
             reference= '[|absend]|'
         args=", ".join(str(self.visit(a)) for a in node.arguments) # XXX
         txt = f'{base}{callable}({args})'
+        logger.info("visit_Call: %s -> %s", node, txt)   #XX info->debug 
         return txt
 
     def visit__literal(self, node)						->  TextBlock:

@@ -11,9 +11,11 @@ LAST = \
 	pytst/HelloWorlds/elemental/ \
 #
 CURRENT = \
-	pytst/HelloWorlds/credible/	\
+	pytst/render/test_5_Call.py \
+	pytst/HelloWorlds/credible/test_01_Become.py \
 #
 TODO = \
+	pytst/HelloWorlds/credible/	\
 	pytst/
 #
 

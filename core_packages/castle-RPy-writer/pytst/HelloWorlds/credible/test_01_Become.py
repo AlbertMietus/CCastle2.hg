@@ -16,4 +16,5 @@ def test_0_isBecome(become):
 def test_1_renderBecome(become, my_renderer):
     expected ="self.credible = CC_B_Credible()"   #XXX
     txt=my_renderer.render(become)
+    print_out(txt)
     verify_line_by_line(expected, txt)

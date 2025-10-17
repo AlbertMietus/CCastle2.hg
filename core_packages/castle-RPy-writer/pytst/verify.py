@@ -22,8 +22,13 @@ def print_out(txt,label='print'):
 def imprint(*parts):
     return "\n".join(f"\n=====[{label}:{len(txt)}/{len(txt.splitlines())}]=====\n{txt}\n=====[end]=====" for txt, label in parts)
 
-def verify_line_by_line(expect, got):
+def verify_line_by_line(expect, got, ignore_trailing_newLine=True):
     WIDTH  = 90
+    if ignore_trailing_newLine:
+        if expect.endswith('\n'):
+            expect = expect[:-1]
+        if got.endswith('\n'):
+            got = got[:-1]
     exp_lines, got_lines = expect.splitlines(), got.splitlines()
     LINES = max(len(exp_lines), len(got_lines))
     exp_lines += [''] * (LINES - len(exp_lines)); got_lines += [''] * (LINES - len(got_lines));
