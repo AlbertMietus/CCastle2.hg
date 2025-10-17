@@ -49,7 +49,7 @@ class Renderer(Visitor):
     def render_subNodes(self, node)-> PTH.Optional[Block]:
         subnodes = self.walker.visit(node)
         if not subnodes:
-            logger.debug("%s.render_subNodes: No subnodes --- node:" , type(node).__name__, node)
+            logger.debug("%s.render_subNodes: No subnodes --- node: %s" , type(node).__name__, node)
             return None
 
         txt = Block()
@@ -126,11 +126,11 @@ class Renderer(Visitor):
         return txt
 
 
-    def _render_def(self, node, callable_name=None) ->Block:
-        if callable_name is None:
-            callable_name = self.portray.callable_name(node)
+    def _render_def(self, node, callDef_name=None) ->Block:
+        if callDef_name is None:
+            callDef_name = self.portray.callDef_name(node)
         parms = ', '.join(str(p.name) for p in node.parameters)
-        return Block(f"def {callable_name}(self, {parms}):")
+        return Block(f"def {callDef_name}(self, {parms}):")
 
     def visit_Method(self, node)						->  TextBlock:
         txt = self._render_def(node)
@@ -139,7 +139,7 @@ class Renderer(Visitor):
         return txt
 
     def visit_Initializer(self, node)					->  TextBlock:   #BUSY
-        txt = self._render_def(node, callable_name="_init")
+        txt = self._render_def(node, callDef_name="_init")
         txt.sub(self.render_subNodes(node))
         txt += self.depart(node)
         return txt
@@ -162,16 +162,16 @@ class Renderer(Visitor):
 
     def visit_Call(self, node)							->  TextBlock:
         logger.info("visit_Call: %s", node)   #XX info->debug
-        callable= node.callable
-        try:
-            context  = callable.context
-            reference = context.reference
-            base = 'self.' if isinstance(reference, aigr.Method) else ''
-        except AttributeError:
-            base = ''
-            reference= '[|absend]|'
+        if isinstance(node.callable, aigr.ID):
+            callable = self.visit(node.callable)
+            try: #HACK
+                if isinstance(node.callable.context.reference, aigr.Method):
+                    callable = "self."+callable
+            except AttributeError: pass
+        else:
+            raise NotImplementedError(node)
         args=", ".join(str(self.visit(a)) for a in node.arguments) # XXX
-        txt = f'{base}{callable}({args})'
+        txt = f'{callable}({args})'
         logger.info("visit_Call: %s -> %s", node, txt)   #XX info->debug 
         return txt
 
@@ -192,19 +192,27 @@ class Renderer(Visitor):
 
 
     def visit_ID(self, node)							->  TextBlock: # GAM: Nog niet overal gebruikt (bijna niet)
-        if isinstance(node.context, aigr.Ref):
-            return self._render_RefID(node)
+        if isinstance(node.context, aigr.Ref) and node.context.reference != None:
+            return self._render_IDRef(node)
         # Any other .context has no effect
         txt = str(node)
         logger.debug("visit_ID: %s, Simply render as str: >>%s<<", node, txt)
         return txt
 
-    def _render_RefID(self,node):
+    def _render_IDRef(self,node):
         "Special case for ID's with a Ref() as .context"
         reference = node.context.reference
-        if isinstance(reference, aigr.AIGR):
-            logger.debug("visit_ID: %s  ==> visit_Ref(%s)", node, reference)
+        if isinstance(reference, aigr.ID):
+            logger.debug("_render_IDRef/ID: %s  ==> visit_ID(%s)", node, reference)
             return self.visit(reference)
+        elif isinstance(reference, aigr.NamedNode):
+            txt = str(reference.name)
+            logger.error("_render_IDRef/NamedNode: Not implemented. HACK:(ref) >>%s<< for %sd", txt, node)
+            return txt
+        elif isinstance(reference, aigr.AIGR):
+            txt = str(node)
+            logger.error("_render_IDRef/AIGR: Not Implemented; use node, not ref. %s -> %s", node, txt)
+            return txt
         else:
             txt = str(reference)
             logger.warning("visit_ID: %s Ref isn't a aigr-node Render context as str: >>%s<< ; fingers crossed", node, txt)

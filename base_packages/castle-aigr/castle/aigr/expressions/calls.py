@@ -19,7 +19,7 @@ class Call(_call):
     """ A `Call` is e.g. a method/function-call; but also a call by a 'function-pointer' is a `Call`
     """
     _: KW_ONLY
-    callable  : AIGR # often a name but a "function-pointer" is an option too
+    callable  : ID|AIGR # Often a ID(ref), "function-pointer" is an option too
     arguments : PTH.Optional[tuple[AIGR, ...]]=()
 
 
