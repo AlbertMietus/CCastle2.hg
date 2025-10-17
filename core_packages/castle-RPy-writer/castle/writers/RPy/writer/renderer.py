@@ -190,9 +190,25 @@ class Renderer(Visitor):
             return f'''"{string}"'''
         return f'''"{string}" % ({", ".join(str(arg) for arg in args)},)'''
 
+
     def visit_ID(self, node)							->  TextBlock: # GAM: Nog niet overal gebruikt (bijna niet)
-        logger.info(f"XXX {node=} =>{str(node)}")
-        return str(node)
+        if isinstance(node.context, aigr.Ref):
+            return self._render_RefID(node)
+        # Any other .context has no effect
+        txt = str(node)
+        logger.debug("visit_ID: %s, Simply render as str: >>%s<<", node, txt)
+        return txt
+
+    def _render_RefID(self,node):
+        "Special case for ID's with a Ref() as .context"
+        reference = node.context.reference
+        if isinstance(reference, aigr.AIGR):
+            logger.debug("visit_ID: %s  ==> visit_Ref(%s)", node, reference)
+            return self.visit(reference)
+        else:
+            txt = str(reference)
+            logger.warning("visit_ID: %s Ref isn't a aigr-node Render context as str: >>%s<< ; fingers crossed", node, txt)
+            return txt
 
     def visit_RPy_unit(self, node)						->  TextBlock:
         txt = Block()
