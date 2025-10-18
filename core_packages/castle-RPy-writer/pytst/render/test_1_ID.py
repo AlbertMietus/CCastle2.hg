@@ -17,7 +17,8 @@ def test_1b_name_withoutRef_givesName(my_renderer):
         verify_line_by_line(name, ID(name, context=aigr.Def()))
         verify_line_by_line(name, ID(name, context=aigr.Set()))
 
-def test_2_RefContext_shouldHaveEfect(my_renderer):
+
+def test_2_RefContext_shouldHaveEfect(my_renderer):   # XXX GAM ToDo: is this correct?
     """Typically, a ID-Ref points to another aigr-node.
         But any Ref should result that the name of the ID isn't used, but that of Ref.
         Even for text"""
@@ -26,11 +27,13 @@ def test_2_RefContext_shouldHaveEfect(my_renderer):
     verify_line_by_line(some_txt, txt)
 
 def test_3_RefID_renders_anotherID(my_renderer):
+    logger.warning("I'm not sure this *SHOULD* work What is the usecase? -- GAM ToDo XXX")
     otherID = ID("another", context=aigr.Def())
     txt = my_renderer.render(ID('ID_withRef',context=aigr.Ref(reference=otherID)))
     verify_line_by_line("another", txt)
 
 def test_4_RefRefID_works_too(my_renderer):
+    logger.warning("I'm not sure this *SHOULD* work What is the usecase? -- GAM ToDo XXX")
     goalID = ID("goal")
     skipID = ID('HaasjeOver', context=aigr.Ref(reference=goalID))
     txt = my_renderer.render(ID('ID_withRef_toRef',context=aigr.Ref(reference=skipID)))
