@@ -9,7 +9,8 @@ class IDRef(Visitor):
     """An ID with an aigr.Ref() as should be rendered depending on the AIGR it reffers.
        IDRef is an auxility class of Renderer, for those case.
 
-       It main entry-point is ``portray()`` which returns (a typical short) string."""
+       It main entry-point is ``portray()`` which returns (a typical short) string. The single
+       argument is `node:aigr.ID` -- which is the ID itself. **NOT** the ref! """
 
     _defaultType=str                      #used in Visitor, to return a default value of the right type
 
@@ -17,7 +18,21 @@ class IDRef(Visitor):
         self._renderer = renderer
 
     def portray(self, node: aigr.ID) ->str: # MAYBE: add 'hint', then also in Visitor
-        return self.visit(node)
+        """
+        Parameters
+        ----------
+        node : aigr.ID
+            The ID (with a ref) that will be converted to a string.
+
+        Returns
+        -------
+        str
+            The text, to be used when rendering this ID -- it depend on the (class of the context
+        """
+        logger.info("IDRef.portray: %s", str(node))
+
+        assert node.context.reference, f"IDRef needs a set reference as context {node=}"
+        return self.visit(node, dispatch_on=node.context.reference)
 
     def _default_visit(self, node:aigr.ID): # XXX TMP
         raise NotImplementedError("No IDRef::visit_%s, Can't portray: %s", type(node).__name__, node )
@@ -26,4 +41,15 @@ class IDRef(Visitor):
         """This node (an ID) refers anotherID: easy - render it"""
         return self._renderer.visit(node.context.reference)
 
-        
+    #def visit_NamedNode(self, node):  # HACK
+    #    txt = str(node.context.reference.name)
+    #    logger.error("IDRef/NamedNode: Not implemented. HACK:(ref) >>%s<< for %sd", txt, node)
+    #    return txt
+
+    def visit_AIGR(self, node):  # HACK
+        txt = str(node)
+        logger.error("IDRef/AIGR: Not Implemented; use node, not ref. %s -> %s", node, txt)
+        return txt
+
+    def visit_str(self, node):  # Unusual_but_Fine
+        return node.context.reference

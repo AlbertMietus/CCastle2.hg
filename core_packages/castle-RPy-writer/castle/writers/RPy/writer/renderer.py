@@ -173,7 +173,7 @@ class Renderer(Visitor):
             callable = self.visit(node.callable)
             try: #HACK
                 if isinstance(node.callable.context.reference, aigr.Method):
-                    callable = "self."+callable
+                    callable = "self."+str(callable)
             except AttributeError: pass
         else:
             raise NotImplementedError(node)
@@ -200,31 +200,11 @@ class Renderer(Visitor):
 
     def visit_ID(self, node)							->  TextBlock: # GAM: Nog niet overal gebruikt (bijna niet)
         if isinstance(node.context, aigr.Ref) and node.context.reference != None:
-            return self._render_IDRef(node)
+            return self.idref.portray(node)
         # Any other .context has no effect
         txt = str(node)
         logger.debug("visit_ID: %s, Simply render as str: >>%s<<", node, txt)
         return txt
-
-    def _render_IDRef(self, node):
-        "Special case for ID's with a Ref() as .context"
-        reference = node.context.reference
-        if isinstance(reference, aigr.ID):
-            return self.idref.portray(node)
-            #logger.debug("_render_IDRef/ID: %s  ==> visit_ID(%s)", node, reference)
-            #return self.visit(reference)
-        elif isinstance(reference, aigr.NamedNode):
-            txt = str(reference.name)
-            logger.error("_render_IDRef/NamedNode: Not implemented. HACK:(ref) >>%s<< for %sd", txt, node)
-            return txt
-        elif isinstance(reference, aigr.AIGR):
-            txt = str(node)
-            logger.error("_render_IDRef/AIGR: Not Implemented; use node, not ref. %s -> %s", node, txt)
-            return txt
-        else:
-            txt = str(reference)
-            logger.warning("visit_ID: %s Ref isn't a aigr-node Render context as str: >>%s<< ; fingers crossed", node, txt)
-            return txt
 
     def visit_RPy_unit(self, node)						->  TextBlock:
         txt = Block()
