@@ -39,14 +39,13 @@ def test_4_RefRefID_works_too(my_renderer):
     txt = my_renderer.render(ID('ID_withRef_toRef',context=aigr.Ref(reference=skipID)))
     verify_line_by_line("goal", txt)
 
-@pytest.mark.xfail(reason="TODO: render_asID_portray_visitor")
-def test_99_RefToOther_returnsOtherasID(my_renderer):
-    """When an ID Reference another AIGR, f.e. an Component,
-       the (portray) name should be return, not the definitions"""
-    refTo =aigr.ComponentInterface("Comp_OrAnyNonID")
-    txt = my_renderer.render(ID("Comp", context=aigr.Ref(reference=refTo)))
-    verify_line_by_line("cc_CI_Comp_OrAnyNonID" , txt)
+def test_11_RefTo_ComponentImplementation(my_renderer):
+    refTo =aigr.ComponentImplementation("aComp")
+    txt = my_renderer.render(ID("aComp", context=aigr.Ref(reference=refTo)))
+    verify_line_by_line("CC_aComp", txt)
 
-def test_5_RefTo_ComponentImplementation(my_renderer):
-    regTo =aigr.ComponentInterface("Comp_OrAnyNonID")
-    
+#def test_99_RefToOther_returnsOtherasID(my_renderer):
+#    refTo = aigr.ComponentImplementation("impl")
+#    txt = my_renderer.render(ID("impl", context=aigr.Ref(reference=refTo)))
+#    verify_line_by_line("cc_CI_Comp_OrAnyNonID" , txt)
+

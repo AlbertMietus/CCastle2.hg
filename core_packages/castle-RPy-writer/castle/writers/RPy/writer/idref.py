@@ -39,12 +39,24 @@ class IDRef(Visitor):
 
     def visit_ID(self, node):
         """This node (an ID) refers anotherID: easy - render it"""
-        return self._renderer.visit(node.context.reference)
+        return self._renderer.visit(node.context.reference) # XXX See test_1...
 
-    #def visit_NamedNode(self, node):  # HACK
-    #    txt = str(node.context.reference.name)
-    #    logger.error("IDRef/NamedNode: Not implemented. HACK:(ref) >>%s<< for %sd", txt, node)
-    #    return txt
+    def visit_ComponentInterface(self, node):
+        return self._renderer.portray.cc_CI_elm_prefix(str(node))
+
+    def visit_ComponentImplementation(self, node):
+        # refer to `class CC_$Name` --subclass of buildin.CC_B_Component`
+        return self._renderer.portray.CC_cls_prefix(str(node))
+
+
+    def visit_ComponentClass(self, node):
+        """ Which one GAM XXX ToDo"""
+        #return self._renderer.portray.cc_C_elm_prefix(str(node))
+        return self._renderer.portray.cc_CI_elm_prefix(str(node))
+
+    def visit__Named_callable(self, node):
+        return self._renderer.portray.callDef_name(node)
+
 
     def visit_AIGR(self, node):  # HACK
         txt = str(node)

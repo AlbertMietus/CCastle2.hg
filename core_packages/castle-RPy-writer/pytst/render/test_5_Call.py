@@ -46,16 +46,9 @@ def test_3b_RefContext_shouldHaveEfect(my_renderer):
     txt = my_renderer.render(foo)
     verify_line_by_line(expected,txt)
 
-@pytest.mark.xfail(reason="Depends on ID/Ref")
 def test_4a_Method_asRef(my_renderer):
     m = aigr.Method("aMethod", parameters=())
-    txt = my_renderer.render(aigr.Call(callable=ID("a_method", context=aigr.Ref(reference=m))))
-    verify_line_by_line("aMethod()", txt)
-    assert False, "Set expected"
+    txt = my_renderer.render(aigr.Call(callable=ID("aMethod", context=aigr.Ref(reference=m))))
+    verify_line_by_line("self.aMethod()", txt)
 
-#def test_4b_Method_direct(my_renderer):
-#    m = aigr.Method("aMethod", parameters=()) -- GAM: is this allowed ? I don't think so
-#    txt = my_renderer.render(aigr.Call(callable=m))
-#    verify_line_by_line("aMethod()", txt)
-#    assert False, "Set expected"
-    
+
