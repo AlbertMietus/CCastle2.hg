@@ -135,7 +135,7 @@ class Renderer(Visitor):
 
     def _render_def(self, node, callDef_name=None) ->Block:
         if callDef_name is None:
-            callDef_name = self.portray.callDef_name(node)
+            callDef_name = self.portray.callDef_name(node.name)
         parms = ', '.join(str(p.name) for p in node.parameters)
         return Block(f"def {callDef_name}(self, {parms}):")
 

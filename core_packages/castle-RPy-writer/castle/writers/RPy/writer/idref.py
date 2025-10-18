@@ -55,7 +55,7 @@ class IDRef(Visitor):
         return self._renderer.portray.cc_CI_elm_prefix(str(node))
 
     def visit__Named_callable(self, node):
-        return self._renderer.portray.callDef_name(node)
+        return self._renderer.portray.callDef_name(str(node)) 
 
 
     def visit_AIGR(self, node):  # HACK
