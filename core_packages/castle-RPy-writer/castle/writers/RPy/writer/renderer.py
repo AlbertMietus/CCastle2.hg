@@ -13,19 +13,26 @@ from ..aigr.dispatch_tables import Build_EventDispatchTable
 from . walker import Walker
 from . machinery import Machinery
 from . portray import Portray
+from . idref import IDRef
 
 TextBlock = PTH.Optional[str|Block]
 
 class Renderer(Visitor):
     _defaultType=str                      #used in Visitor, to return a default value of the right type
 
-    def __init__(self, walker:PTH.Optional[Walker]=None, machinery:PTH.Optional[Machinery]=None, portray=None, **kw):
+    def __init__(self,
+                     walker:PTH.Optional[Walker]=None,
+                     machinery:PTH.Optional[Machinery]=None,
+                     portray:PTH.Optional[Portray]=None,
+                     idref:PTH.Optional[IDRef]=None,
+                     **kw):
         super().__init__(**kw)
         self.walker = walker if walker else Walker()
         self.machinery = machinery if machinery else Machinery() # type: ignore[abstract] # Machinery-baseclass selects a subclass ad instance that one.
         self.portray = portray if portray else Portray(self)
-        logger.debug("Using Machinery: %s,\t and Walker: %s", self.machinery,  self.walker)
-
+        self.idref   = idref if idref else IDRef(self)
+        logger.info( "Renderer: Using Machinery=%s", type(self.machinery).__name__)
+        logger.debug("Renderer: walker=%s, machinery=%s, portray=%s, idref=%s", self.walker, self.machinery, self.portray, self.idref,)
 
     def render(self, node: aigr.AIGR) ->str:
         """"`render` is the main entrypoint.
@@ -199,12 +206,13 @@ class Renderer(Visitor):
         logger.debug("visit_ID: %s, Simply render as str: >>%s<<", node, txt)
         return txt
 
-    def _render_IDRef(self,node):
+    def _render_IDRef(self, node):
         "Special case for ID's with a Ref() as .context"
         reference = node.context.reference
         if isinstance(reference, aigr.ID):
-            logger.debug("_render_IDRef/ID: %s  ==> visit_ID(%s)", node, reference)
-            return self.visit(reference)
+            return self.idref.portray(node)
+            #logger.debug("_render_IDRef/ID: %s  ==> visit_ID(%s)", node, reference)
+            #return self.visit(reference)
         elif isinstance(reference, aigr.NamedNode):
             txt = str(reference.name)
             logger.error("_render_IDRef/NamedNode: Not implemented. HACK:(ref) >>%s<< for %sd", txt, node)

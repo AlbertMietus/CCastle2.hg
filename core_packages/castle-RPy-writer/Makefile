@@ -11,12 +11,13 @@ LAST = \
 	pytst/HelloWorlds/elemental/ \
 #
 CURRENT = \
-	pytst/render/
+	pytst/render/test_1_ID.py \
 #
 TODO = \
+	pytst/render/ \
 	pytst/HelloWorlds/credible/test_01_Become.py \
 	pytst/HelloWorlds/credible/	\
-	pytst/
+	pytst/\
 #
 
 HW_Ed = TestDoubles/HelloWorlds/elemental
