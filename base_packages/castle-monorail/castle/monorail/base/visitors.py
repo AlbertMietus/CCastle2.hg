@@ -36,8 +36,7 @@ class Visitor(MRO_Dispatch_Mixin):
             logger.warning("No dispatch found for dispatch_on=%s (prefix=%s), returning empty (%s) -- node=%s",
                                dispatch_on, prefix, empty, node)
             return empty
-        logger.info("Going to call %s for dispatch_on=%s in phase: %s, with node=%s",
-                         method,  dispatch_on, prefix, node) # INFO->DEBUG
+        logger.debug("Going to call %s for dispatch_on=%s in phase: %s, with node=%s", method,  dispatch_on, prefix, node)
         return method(node)
 
     def visit(self, node, dispatch_on=None):
