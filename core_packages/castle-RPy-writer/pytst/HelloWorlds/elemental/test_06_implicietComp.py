@@ -26,6 +26,6 @@ def test_1_full(implicietComp, my_renderer):
     verify_line('cc_CI_Elemental_HelloWorld = buildin.CC_B_ComponentInterface(',	txt, 0)
     verify_line('    name         = "Elemental_HelloWorld",',						txt, 1)
     verify_line('    inherit_from = base.cc_CI_Component,',							txt, 2)
-    verify_line('    ports        = (),',											txt, 3)
+    verify_line('    ports        = [],',											txt, 3)
     verify_line('    )',															txt, 4)
 

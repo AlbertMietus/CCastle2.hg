@@ -7,7 +7,7 @@ EXPECTED_ComponentInterface = """\
 cc_CI_Elemental_HelloWorld = buildin.CC_B_ComponentInterface(
     name         = "Elemental_HelloWorld",
     inherit_from = base.cc_CI_Component,
-    ports        = (),
+    ports        = [],
     )
 \n"""
 
