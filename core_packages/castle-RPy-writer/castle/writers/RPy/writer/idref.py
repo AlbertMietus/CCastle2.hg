@@ -29,7 +29,7 @@ class IDRef(Visitor):
         str
             The text, to be used when rendering this ID -- it depend on the (class of the context
         """
-        logger.info("IDRef.portray: %s", str(node))
+        logger.debug("IDRef.portray: %s", str(node))
 
         assert node.context.reference, f"IDRef needs a set reference as context {node=}"
         return self.visit(node, dispatch_on=node.context.reference)

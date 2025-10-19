@@ -168,7 +168,7 @@ class Renderer(Visitor):
         return txt
 
     def visit_Call(self, node)							->  TextBlock:
-        logger.info("visit_Call: %s", node)   #XX info->debug
+        logger.debug("visit_Call: %s", node)
         if isinstance(node.callable, aigr.ID):
             callable = self.visit(node.callable)
             try: #HACK
@@ -179,7 +179,7 @@ class Renderer(Visitor):
             raise NotImplementedError(node)
         args=", ".join(str(self.visit(a)) for a in node.arguments) # XXX
         txt = f'{callable}({args})'
-        logger.info("visit_Call: %s -> %s", node, txt)   #XX info->debug 
+        logger.debug("visit_Call: %s -> %s", node, txt)
         return txt
 
     def visit__literal(self, node)						->  TextBlock:
@@ -228,7 +228,7 @@ from castle.writers.RPy_buildin import base
 
         txt = Block()
         lhs, rhs = self.visit(node.targets[0]), self.visit(node.values[0])
-        logger.info(f"XXX BECOME\t {lhs=} {rhs=} -- {node=}")
+        logger.debug(f"visit_Become\t {lhs=} {rhs=} -- {node=}")
 
         txt += f"{lhs} = {rhs}"
         return txt
