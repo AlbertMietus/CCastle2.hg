@@ -67,11 +67,11 @@ class Renderer(Visitor):
 
     def visit_ComponentInterface(self, node)			-> TextBlock:
         interface_name = self.portray.cc_CI_elm_prefix(node.name)
-        txt = Block(f'{interface_name} = buildin.CC_B_ComponentInterface(')
+        txt = Block(f'{interface_name} = buildin.CC_B_ComponentInterface(') # XXX `CC_B_ComponentInterface`,  via portray
         txt.sub(Block((
             (f'name         = "{node.name}",'),
-            (f'inherit_from = {self.portray.cc_CI_elm_prefix(node.based_on.name)},'), ## XXXX
-            (f'ports        = {tuple(node.ports)},'),
+            (f'inherit_from = {self.portray.cc_CI_elm_prefix(node.based_on.name)},'),
+            (f'ports        = {tuple(node.ports)},'),   #XXX GAM wrong
             (f')'),
             )))
         return txt

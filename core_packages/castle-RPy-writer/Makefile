@@ -14,12 +14,10 @@ LAST = \
 	pytst/HelloWorlds/credible/test_02_Method.py \
 #
 CURRENT = \
-	pytst/HelloWorlds/credible/test_12_file.py \
+	pytst/render/test_6_Comp.py \
 #
 TODO = \
-	pytst/HelloWorlds/elemental/ \
-	pytst/HelloWorlds/credible/	\
-	pytst/\
+	pytst/HelloWorlds/credible/test_12_file.py \
 #
 
 HW_Ed = TestDoubles/HelloWorlds/elemental

@@ -1,7 +1,7 @@
 # (C) Albert Mietus, 2025. Part of Castle/CCastle project
 
 from .. import *
-from .ExpectedTxt import * # expected txts for HelloWorlds.elemental
+from .ExpectedTxt import *
 
 @pytest.fixture
 def credible() -> aigr.Source_NS:
@@ -12,7 +12,6 @@ def credible() -> aigr.Source_NS:
 def wrapped_Hello_World(credible) -> ScaffolderNameSpace:
     return ScaffolderNameSpace(credible)
 
-
 @pytest.fixture
 def target_unit(credible) -> RPy.aigr.RPy_unit:
     ns = RPy.transformers.Source2RPy(credible)
@@ -20,5 +19,5 @@ def target_unit(credible) -> RPy.aigr.RPy_unit:
     return ns
 
 @pytest.fixture
-def wrapped_target(target_unit) -> RPy.aigr.ScaffolderUnit: #depends on elemental
+def wrapped_target(target_unit) -> RPy.aigr.ScaffolderUnit:
     return RPy.aigr.ScaffolderUnit(target_unit)

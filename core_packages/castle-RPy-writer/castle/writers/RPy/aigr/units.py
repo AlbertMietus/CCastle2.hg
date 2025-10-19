@@ -21,7 +21,7 @@ class ScaffolderUnit(ScaffolderNameSpace):
     _nodeCls :type = RPy_unit
 
     def save(self, txt: str, inDir :PTH.Optional[Path|str] =None) ->None:
-        logger.debug('%s[%s].save(txt=%s..., inDir=%s) file:=%s',
+        logger.info('%s[%s].save(txt=%s..., inDir=%s) file:=%s',
                          self.__class__.__name__, self.node.__class__.__name__,
                          repr(txt[:42])[1:-1], inDir, self.node.target_file)
 
@@ -33,7 +33,13 @@ class ScaffolderUnit(ScaffolderNameSpace):
         self.node.target_file.write_text(txt)
 
 
-    def write_out(self, inDir :PTH.Optional[Path|str] =None, renderCls: PTH.Optional[type] =None) ->None:
+    def write_out(self, *,
+                      inDir      :PTH.Optional[Path|str]=None,
+                      renderCls :PTH.Optional[type]=None,
+                      inFile     :PTH.Optional[Path|str]=None,
+                      ) ->None:
+        if inFile:
+            self.node.target_file = inFile
         logger.debug('%s.write_out(inDir=%s) file:=%s', self.__class__.__name__,  inDir, self.node.target_file)
 
         if renderCls and not isinstance(renderCls,type):
