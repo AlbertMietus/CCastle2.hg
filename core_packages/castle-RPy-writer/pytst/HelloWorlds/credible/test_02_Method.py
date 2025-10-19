@@ -13,17 +13,16 @@ def HelloWorld(self, label):
     txt=my_renderer.render(m1)
     verify_line_by_line(expected, txt)
 
-@pytest.mark.xfail(reason="body of initializer has Become needs work")
+#@pytest.mark.xfail(reason="body of initializer has Become needs work")
 def test_2_method_init(wrapped_Hello_World, my_renderer):
-    """
+    """//CastleCode
     init() {
-       .credible :=  Credible();
-    }
-    """
+       .credible := Credible();
+    }"""
     expected ="""\
-def _castle_init(self):
-    self.credible = Credible_HelloWorld() XXXXX
-\n""" #Same as for elemental
+def _castle_init(self, ):
+    self.credible = CC_Credible()
+\n"""
     m1 = wrapped_Hello_World.search('Credible_HelloWorld.init')
     txt=my_renderer.render(m1)
     verify_line_by_line(expected, txt)

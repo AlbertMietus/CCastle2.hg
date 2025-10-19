@@ -48,15 +48,12 @@ class IDRef(Visitor):
         # refer to `class CC_$Name` --subclass of buildin.CC_B_Component`
         return self._renderer.portray.CC_cls_prefix(str(node))
 
-
-    def visit_ComponentClass(self, node):
-        """ Which one GAM XXX ToDo"""
-        #return self._renderer.portray.cc_C_elm_prefix(str(node))
-        return self._renderer.portray.cc_CI_elm_prefix(str(node))
+    ### `ComponentClass` does not exist in (extended) aigr
+    #def visit_ComponentClass(self, node):
+    #    return self._renderer.portray.cc_CI_elm_prefix(str(node))
 
     def visit__Named_callable(self, node):
-        return self._renderer.portray.callDef_name(str(node)) 
-
+        return self._renderer.portray.callDef_name(str(node))
 
     def visit_AIGR(self, node):  # HACK
         txt = str(node)

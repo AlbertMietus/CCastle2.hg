@@ -12,9 +12,7 @@ def become(wrapped_Hello_World):
 def test_0_isBecome(become):
     assert isinstance(become, aigr.Become), f"the fixture should return 'Become', but returns {become}"
 
-@pytest.mark.xfail(reason="Become (':=') need resolved IDs")
 def test_1_renderBecome(become, my_renderer):
-    expected ="self.credible = CC_B_Credible()"   #XXX
+    expected ="self.credible = CC_Credible()"   #XXX
     txt=my_renderer.render(become)
-    print_out(txt)
     verify_line_by_line(expected, txt)

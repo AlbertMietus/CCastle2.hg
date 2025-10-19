@@ -66,7 +66,7 @@ HelloWorld = Method(ID('HelloWorld', context=aigr.Def()),
                                           aigr.fString(
                                               value="Hello {label} World",
                                               type=aigr.types.string,
-                                              args=[ID('label',context=aigr.Ref())]
+                                              args=[ID('label',context=aigr.Ref(reference=Credible))]
                                                   ),)
                                           ))]))
 ScaffolderCallable(HelloWorld).auto_register_parameters()
@@ -78,9 +78,9 @@ wrapped_Credible.register(HelloWorld)
 #}
 #...
 set_label = EventHandler(mangle_event_handler(protocol='SetLabel', event='set', port='hello'),
-                         protocol=ID('SetLabel', context=aigr.Ref()),
-                         event=ID('set', context=aigr.Ref()),
-                         port=ID('hello', context=aigr.Ref()),
+                         protocol=ID('SetLabel', context=aigr.Ref(reference=SetLabel)),
+                         event=ID('set', context=aigr.Ref(reference=SetLabel.events[0])),
+                         port=ID('hello', context=aigr.Ref(reference=component_Credible.ports[0])),
                          outer_ns=Credible,
                          body=aigr.Body(statements=[
                              aigr.VoidCall(
@@ -114,7 +114,7 @@ wrapped_Credible_HW.register(sub_credible)
 
 #...
 #init() {
-#  .credible :=  Credible();
+#  .credible := Credible();
 #}
 #...
 init = Initializer(ID('init', context=aigr.Def()),
@@ -123,8 +123,8 @@ init = Initializer(ID('init', context=aigr.Def()),
               #parameters=(),
               body=aigr.Body(statements=[
                   aigr.Become(
-                      targets=(ID('self.credible', context=aigr.Ref()),),
-                      values=(aigr.Call(callable=ID('Credible', context=aigr.Ref()), arguments=()),))]))
+                      targets=(ID('self.credible', context=aigr.Set()),),
+                      values=(aigr.Call(callable=ID('Credible', context=aigr.Ref(reference=Credible)), arguments=()),))]))
 wrapped_Credible_HW.register(init)
 
 #...

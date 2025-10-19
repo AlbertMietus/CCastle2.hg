@@ -146,7 +146,7 @@ class Renderer(Visitor):
         return txt
 
     def visit_Initializer(self, node)					->  TextBlock:   #BUSY
-        txt = self._render_def(node, callDef_name="_init")
+        txt = self._render_def(node, callDef_name="_castle_init")
         txt.sub(self.render_subNodes(node))
         txt += self.depart(node)
         return txt
