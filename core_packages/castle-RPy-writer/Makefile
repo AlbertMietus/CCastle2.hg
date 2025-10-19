@@ -11,9 +11,10 @@ LAST = \
 	pytst/render/test_1_ID.py \
 	pytst/render/test_5_Call.py \
 	pytst/HelloWorlds/credible/test_01_Become.py \
+	pytst/HelloWorlds/credible/test_02_Method.py \
 #
 CURRENT = \
-	pytst/HelloWorlds/credible/test_02_Method.py::test_2_method_init \
+	pytst/HelloWorlds/credible/test_12_file.py \
 #
 TODO = \
 	pytst/HelloWorlds/elemental/ \
