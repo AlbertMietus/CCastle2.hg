@@ -24,3 +24,5 @@ class Portray:
     def CC_P_eventTrigger(self, protocol:str, event:str):  return self.prefix('CC_P_', f'{str(protocol)}_{str(event)}') #key in dispatch-table
     def callDef_name(self, name:str):                      return self.prefix('', name)                      # A callable/function
     def CompBase(self):                                    return 'buildin.CC_B_Component'
+
+    def Protocol_Description(self, name:str):              return self.prefix('cc_P_', name)

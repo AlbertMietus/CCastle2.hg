@@ -66,16 +66,44 @@ class Renderer(Visitor):
         return txt
 
     def visit_ComponentInterface(self, node)			-> TextBlock:
-        interface_name = self.portray.cc_CI_elm_prefix(node.name)
-        txt = Block(f'{interface_name} = buildin.CC_B_ComponentInterface(') # XXX `CC_B_ComponentInterface`,  via portray
+        interface_txt = self.portray.cc_CI_elm_prefix(node.name)
+
+        txt = Block(f'{interface_txt} = buildin.CC_B_ComponentInterface(') # XXX `CC_B_ComponentInterface`,  via portray
         txt.sub(Block((
             (f'name         = "{node.name}",'),
             (f'inherit_from = {self.portray.cc_CI_elm_prefix(node.based_on.name)},'),
-            (f'ports        = {tuple(node.ports)},'),   #XXX GAM wrong
-            (f')'),
-            )))
+            (f'ports        = [],'),
+            (f')'))))
+
+        # Append the ports -- Inline isn't possible, as a port reffers to the interface
+        for port in node.ports:
+            if isinstance(port.type, aigr.Protocol):
+                proto_txt = self.portray.Protocol_Description(port.type.name)
+            else:
+                proto_txt = port.type  # XXX ToDo: render/portray
+            direction_txt = self.visit(port.direction)
+
+            port_txt = Block(f"{interface_txt}.ports.append(")
+            l1 = Block(f'''buildin.CC_B_C_PortID(name="{port.name}",''')
+            l1.sub(Block((
+                f'''portNo=-1, # Not used?''',
+                f'''protocol={proto_txt},''',
+                f'''direction={direction_txt},''',
+                f'''part_of={interface_txt}))''')))
+            port_txt.sub(l1)
+            txt += port_txt
         return txt
 
+    def visit_PortDirection(self, direction)		-> TextBlock:
+        aigr2buildin ={
+            aigr.PortDirection.Unknown : 'Unknown',   # Should not happen:-)
+            aigr.PortDirection.In      : 'In',
+            aigr.PortDirection.Out     : 'Out',
+            aigr.PortDirection.Bidir   : 'BiDir',     # Not supported yet
+            aigr.PortDirection.Master  : 'Master',    # Not supported yet
+            aigr.PortDirection.Slave   : 'Slave',     # Not supported yet
+            }
+        return 'buildin.CC_PortDirection' +'.' + aigr2buildin[direction]
 
     def visit_ComponentImplementation(self, node)		-> TextBlock:
         gen_cls_name = self.portray.CC_cls_prefix(node.name)
