@@ -9,7 +9,7 @@ def test_1_renderToTxt(target_unit, my_renderer):
     txt = my_renderer.render(target_unit)
     verify_line_by_line(EXPECTED_unit, txt)
 
-@pytest.mark.skip
+#@pytest.mark.skip
 def test_2_render_andSafe(wrapped_target, my_renderer):
     wrapped_target.write_out(inFile="./_test_12-OUT.rpy.py")
     verify_file(EXPECTED_unit, wrapped_target.target_file)
