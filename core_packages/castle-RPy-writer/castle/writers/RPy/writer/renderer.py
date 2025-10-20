@@ -81,7 +81,8 @@ class Renderer(Visitor):
                 proto_txt = self.portray.Protocol_Description(port.type.name)
             else:
                 proto_txt = port.type  # XXX ToDo: render/portray
-            direction_txt = self.visit(port.direction)
+
+            direction_txt = self.portray.PortDirection(port.direction)
 
             port_txt = Block(f"{interface_txt}.ports.append(")
             l1 = Block(f'''buildin.CC_B_C_PortID(name="{port.name}",''')
@@ -94,16 +95,6 @@ class Renderer(Visitor):
             txt += port_txt
         return txt
 
-    def visit_PortDirection(self, direction)		-> TextBlock:
-        aigr2buildin ={
-            aigr.PortDirection.Unknown : 'Unknown',   # Should not happen:-)
-            aigr.PortDirection.In      : 'In',
-            aigr.PortDirection.Out     : 'Out',
-            aigr.PortDirection.Bidir   : 'BiDir',     # Not supported yet
-            aigr.PortDirection.Master  : 'Master',    # Not supported yet
-            aigr.PortDirection.Slave   : 'Slave',     # Not supported yet
-            }
-        return 'buildin.CC_PortDirection' +'.' + aigr2buildin[direction]
 
     def visit_ComponentImplementation(self, node)		-> TextBlock:
         gen_cls_name = self.portray.CC_cls_prefix(node.name)

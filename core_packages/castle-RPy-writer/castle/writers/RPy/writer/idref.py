@@ -37,6 +37,7 @@ class IDRef(Visitor):
     def _default_visit(self, node:aigr.ID): # XXX TMP
         raise NotImplementedError("No IDRef::visit_%s, Can't portray: %s", type(node).__name__, node )
 
+
     def visit_ID(self, node):
         """This node (an ID) refers anotherID: easy - render it"""
         return self._renderer.visit(node.context.reference) # XXX See test_1...
@@ -47,10 +48,6 @@ class IDRef(Visitor):
     def visit_ComponentImplementation(self, node):
         # refer to `class CC_$Name` --subclass of buildin.CC_B_Component`
         return self._renderer.portray.CC_cls_prefix(str(node))
-
-    ### `ComponentClass` does not exist in (extended) aigr
-    #def visit_ComponentClass(self, node):
-    #    return self._renderer.portray.cc_CI_elm_prefix(str(node))
 
     def visit__Named_callable(self, node):
         return self._renderer.portray.callDef_name(str(node))

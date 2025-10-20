@@ -1,6 +1,7 @@
 # (C) Albert Mietus, 2025. Part of Castle/CCastle project
 
 import logging; logger = logging.getLogger(__name__)
+from castle import aigr
 
 class Portray:
     """Portray is an auxility class of Renderer to convert AIGR "names" into the RPY names.
@@ -26,3 +27,14 @@ class Portray:
     def CompBase(self):                                    return 'buildin.CC_B_Component'
 
     def Protocol_Description(self, name:str):              return self.prefix('cc_P_', name)
+
+    def PortDirection(self, direction: aigr.PortDirection) ->str:
+        aigr2buildin = {
+            aigr.PortDirection.Unknown : 'Unknown',   # Should not happen:-)
+            aigr.PortDirection.In      : 'In',
+            aigr.PortDirection.Out     : 'Out',
+            aigr.PortDirection.Bidir   : 'BiDir',     # Not supported yet
+            aigr.PortDirection.Master  : 'Master',    # Not supported yet
+            aigr.PortDirection.Slave   : 'Slave',     # Not supported yet
+            }
+        return 'buildin.CC_PortDirection' +'.' + aigr2buildin[direction]
