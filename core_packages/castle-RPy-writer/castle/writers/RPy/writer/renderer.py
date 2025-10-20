@@ -77,19 +77,12 @@ class Renderer(Visitor):
 
         # Append the ports -- Inline isn't possible, as a port reffers to the interface
         for port in node.ports:
-            if isinstance(port.type, aigr.Protocol):
-                proto_txt = self.portray.Protocol_Description(port.type.name)
-            else:
-                proto_txt = port.type  # XXX ToDo: render/portray
-
-            direction_txt = self.portray.PortDirection(port.direction)
-
             port_txt = Block(f"{interface_txt}.ports.append(")
             l1 = Block(f'''buildin.CC_B_C_PortID(name="{port.name}",''')
             l1.sub(Block((
                 f'''portNo=-1, # Not used?''',
-                f'''protocol={proto_txt},''',
-                f'''direction={direction_txt},''',
+                f'''protocol={self.portray.PortProtocol(port)},''',            # XXX Only type Protocol is supported now
+                f'''direction={self.portray.PortDirection(port)},''',
                 f'''part_of={interface_txt}))''')))
             port_txt.sub(l1)
             txt += port_txt

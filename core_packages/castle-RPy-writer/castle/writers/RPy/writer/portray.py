@@ -26,9 +26,13 @@ class Portray:
     def callDef_name(self, name:str):                      return self.prefix('', name)                      # A callable/function
     def CompBase(self):                                    return 'buildin.CC_B_Component'
 
-    def Protocol_Description(self, name:str):              return self.prefix('cc_P_', name)
+    def PortProtocol(self, port: aigr.Port) ->str:
+        if not isinstance(port.type, aigr.Protocol):
+            raise NotImplementedError("Only Protocol-Ports are supported. Not: %s %s", port)
+        return self.prefix('cc_P_', port.name)
 
-    def PortDirection(self, direction: aigr.PortDirection) ->str:
+
+    def PortDirection(self, port: aigr.Port) ->str:
         aigr2buildin = {
             aigr.PortDirection.Unknown : 'Unknown',   # Should not happen:-)
             aigr.PortDirection.In      : 'In',
@@ -37,4 +41,4 @@ class Portray:
             aigr.PortDirection.Master  : 'Master',    # Not supported yet
             aigr.PortDirection.Slave   : 'Slave',     # Not supported yet
             }
-        return 'buildin.CC_PortDirection' +'.' + aigr2buildin[direction]
+        return 'buildin.CC_PortDirection' +'.' + aigr2buildin[port.direction]
