@@ -68,20 +68,20 @@ class Renderer(Visitor):
     def visit_ComponentInterface(self, node)			-> TextBlock:
         interface_txt = self.portray.cc_CI_elm_prefix(node.name)
 
-        txt = Block(f'{interface_txt} = buildin.CC_B_ComponentInterface(') # XXX `CC_B_ComponentInterface`,  via portray
+        txt = Block(f'{interface_txt} = buildin.CC_B_ComponentInterface(') # XXX Portray:`CC_B_ComponentInterface`
         txt.sub(Block((
-            (f'name         = "{node.name}",'),
-            (f'inherit_from = {self.portray.cc_CI_elm_prefix(node.based_on.name)},'),
-            (f'ports        = [],'),
-            (f')'))))
+            f'name         = "{node.name}",',
+            f'inherit_from = {self.portray.cc_CI_elm_prefix(node.based_on.name)},',
+            f'ports        = [],',
+            f')')))
 
-        # Append the ports -- Inline isn't possible, as a port reffers to the interface
+        # Append the ports; after defining the port structure; as each port-def refers to the port.
         for port in node.ports:
             port_txt = Block(f"{interface_txt}.ports.append(")
-            l1 = Block(f'''buildin.CC_B_C_PortID(name="{port.name}",''')
+            l1 = Block(f'''buildin.CC_B_C_PortID(name="{port.name}",''') # XXX Portray:`CC_B_C_PortID`
             l1.sub(Block((
                 f'''portNo=-1, # Not used?''',
-                f'''protocol={self.portray.PortProtocol(port)},''',            # XXX Only type Protocol is supported now
+                f'''protocol={self.portray.Port2Protocol(port)},''',            # XXX Only type Protocol is supported now
                 f'''direction={self.portray.PortDirection(port)},''',
                 f'''part_of={interface_txt}))''')))
             port_txt.sub(l1)
@@ -94,12 +94,12 @@ class Renderer(Visitor):
         isa_elm_name = self.portray.cc_C_elm_prefix(node.name)
 
         txt = Block((
-            f"class {gen_cls_name}({self.portray.CompBase()}):",
+            f"class {gen_cls_name}({self.portray.BuildInComponent()}):",
             f"",))
 
         init = Block(f"def __init__(self, *args):")
         init.sub(Block((
-            f"buildin.CC_B_Component.__init__(self, isa={isa_elm_name})", # XXX isa
+            f"{self.portray.BuildInComponent()}.__init__(self, isa={isa_elm_name})",
             f"self._castle_init(*args)",)))
         txt.sub(init)
 
@@ -115,7 +115,7 @@ class Renderer(Visitor):
 
     def _render_ComponentClass(self, node) ->TextBlock:
         isa_elm_name = self.portray.cc_C_elm_prefix(node.name)
-        elm = Block(f"{isa_elm_name} = buildin.CC_B_ComponentClass(")
+        elm = Block(f"{isa_elm_name} = buildin.CC_B_ComponentClass(")# XXX isa # XXX Portray:`CC_B_ComponentClass`
         ind = Block(f"interface = {self.portray.cc_CI_elm_prefix(node.name)},")
         ind += ")"
         elm.sub(ind)
@@ -226,12 +226,10 @@ class Renderer(Visitor):
 
 # XXX ToDo: move 'CC' out of 'RPy' (`castle/writers/RPy_buildin`?) and fix here
     def _file_header(self, node) -> TextBlock:
-        txt = """\
+        return  """\
 from castle.writers.RPy_buildin import buildin
 from castle.writers.RPy_buildin import base
-\n
-"""
-        return txt
+\n\n"""
 
     def visit_Become(self, node)						->  TextBlock: # BUSY
         if len(node.targets) != len(node.values):
@@ -245,3 +243,16 @@ from castle.writers.RPy_buildin import base
         txt += f"{lhs} = {rhs}"
         return txt
 
+
+    def visit_EventProtocol(self, node)					->  TextBlock:
+        protocol_name = self.portray.CC_ProtocolName_prefix(node.name)
+
+        assert node.based_on is None, f"Not expected inheritence: {node.based_on} in {node}"
+        inherit_from = "None"
+
+        txt = Block(f"""{protocol_name} = {self.portray.BuildInProtocol()}(name="{node.name}",""")
+        txt.sub(Block((
+            f"kind = buildin.CC_B_ProtocolKindIs_Event,",
+            f"inherit_from = {inherit_from},",
+            f"events = [])")))
+        return txt

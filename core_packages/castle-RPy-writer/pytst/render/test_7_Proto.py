@@ -2,12 +2,15 @@
 
 from . import *
 
-@pytest.mark.skip
-def xtest_1_Protocol(my_renderer):
+
+def test_1_DummyProtocol(my_renderer):
     expected = """\
-    TODO: EventProtocol rendering not yet implemented
+cc_P_DummyProto = buildin.CC_B_Protocol(name="DummyProto",
+    kind = buildin.CC_B_ProtocolKindIs_Event,
+    inherit_from = None,
+    events = [])
 \n"""
-    proto = aigr.EventProtocol(ID('DummyProto', context=aigr.Def()), events=[])
+    proto = aigr.EventProtocol(ID('DummyProto', context=aigr.Def()), events=[], based_on=None) #based_on=None differes from no inheritance!
     txt = my_renderer.render(proto)
     verify_line_by_line(expected, txt)
 

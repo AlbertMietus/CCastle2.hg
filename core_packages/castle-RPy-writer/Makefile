@@ -8,10 +8,11 @@ PYREVERSE_PKGS = \
 
 #
 LAST = \
-	pytst/HelloWorlds/elemental/ \
+	pytst/HelloWorlds/elemental/ 	\
+	pytst/render/test_6_Comp.py		\
 #
 CURRENT = \
-	pytst/render/test_7_Proto.py		\
+	pytst/render/test_7_Proto.py	\
 #
 TODO = \
 	pytst/HelloWorlds/credible/
