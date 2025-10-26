@@ -17,7 +17,7 @@ class IDRef(Visitor):
     def __init__(self, renderer):
         self._renderer = renderer
 
-    def portray(self, node: aigr.ID) ->str: # MAYBE: add 'hint', then also in Visitor
+    def portray(self, node: aigr.ID) ->str:
         """
         Parameters
         ----------
@@ -30,8 +30,7 @@ class IDRef(Visitor):
             The text, to be used when rendering this ID -- it depend on the (class of the context
         """
         logger.debug("IDRef.portray: %s", str(node))
-
-        assert node.context.reference, f"IDRef needs a set reference as context {node=}"
+        assert isinstance(node.context , aigr.Ref), f"IDRef needs a Ref() as context {node=}"
         return self.visit(node, dispatch_on=node.context.reference)
 
     def _default_visit(self, node:aigr.ID): # XXX TMP

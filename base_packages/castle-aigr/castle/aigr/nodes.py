@@ -17,7 +17,8 @@ if TYPE_CHECKING:
 
 @dataclass
 class NamedNode(AIGRNode):
-    name    :PTH.Optional[ID|str]=dc_field(default_factory=lambda: None)
+    #name   :PTH.Optional[ID|str]=dc_field(default_factory=lambda: None)
+    name    :ID|str
     _: KW_ONLY
     parent  :PTH.Optional[AIGR]=None
 

@@ -37,6 +37,6 @@ def _replace_extention(filename: str, new_ext=None) -> str:
     return filename + new_ext
 
 def _copy_sourceNS_to_Unit(src:aigr.Source_NS, target:RPy_unit) ->None:
-    target  = ScaffolderNameSpace(target)
+    wrapped  = ScaffolderNameSpace(target)
     for name, node in src._ns.items():
-        target.register(node, asName=name)
+        wrapped.register(node, asName=name)

@@ -130,12 +130,12 @@ class Renderer(Visitor):
         return txt
 
     def _EventDispatchTables(self, node)           ->TextBlock:
-        ports = [h.port for h in node.handlers]
+        ports :list[aigr.ID] = [h.port for h in node.handlers]
         logger.debug("_EventDispatchTables: ports=%s -- node=%s", ports, node)
 
         tables =[]
         for port in ports: # How about (inheriterd ports that have no handlers here?)
-            e_table = Build_EventDispatchTable(comp=node, port=port)
+            e_table = Build_EventDispatchTable(comp=node, port_name=port)
             tables.append(e_table)
 
         txt = Block()
@@ -184,7 +184,7 @@ class Renderer(Visitor):
         if isinstance(node.callable, aigr.ID):
             callable = self.visit(node.callable)
             try: #HACK
-                if isinstance(node.callable.context.reference, aigr.Method):
+                if isinstance(node.callable.context, aigr.Ref) and isinstance(node.callable.context.reference, aigr.Method):
                     callable = "self."+str(callable)
             except AttributeError: pass
         else:

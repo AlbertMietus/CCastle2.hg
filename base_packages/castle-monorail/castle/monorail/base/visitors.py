@@ -9,7 +9,7 @@ from .dispatch import MRO_Dispatch_Mixin
 # The type of `node` is typically aigr.AIGR -- but we can't use that as monorail should not depend on aigr
 class Visitor(MRO_Dispatch_Mixin):
     _prefixes = ('visit', 'depart',)
-    _defaultType = lambda self: None  # Override this in subclasses if needed
+    _defaultType : PTH.Callable = lambda self: None  # The default return type of visitor methods, when no method is found.
 
     def _visitor(self, node, dispatch_on=None, prefix='visit'):
         """Call a a visitor, that depend on dispatch (or node).

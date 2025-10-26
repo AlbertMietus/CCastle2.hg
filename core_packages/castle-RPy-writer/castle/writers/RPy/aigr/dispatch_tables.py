@@ -23,15 +23,20 @@ class _DispatchTable(AIGR):
     _ : KW_ONLY
     comp        :ID
     port        :ID
-    map         :PTH.Optional[dict[ID, str]] = dc_field(default_factory= lambda: dict())  # general map -- see subclasses for definitions
+    map         :PTH.Optional[dict] = dc_field(default_factory= lambda: dict())  # general map -- see subclasses for definitions
     parentTable :PTH.Optional[ID]=None
+
+ProtocolName = str                                # Alias for aigr.Protocol.name
+EventName    = str                                # Alias for aigr.Event.name
+HandlerName  = str                                # Alias for aigr.(Event)Handler.name
 
 @dataclass
 class EventDispatchTable(_DispatchTable):
-    """the DispatchTable with EventHandlers. Here the map is contain event and a callable
+    """The DispatchTable with EventHandler; maps from (name of) Protocol.Event to (name of) EventHandler"""
 
-    map: PTH.Optional[dict[(protocol,event), method_name]] # comp & port are 'fixed'
-    """
+    _ : KW_ONLY
+    map: dict[PTH.Tuple[ProtocolName, EventName], HandlerName] # port is the samen for all.
+
 
 class DispatchTable_Scaffolder(_Scaffolder):
     _nodeCls:type = _DispatchTable
@@ -40,12 +45,12 @@ class EventDispatchTable_Scaffolder(DispatchTable_Scaffolder):
     _nodeCls:type = EventDispatchTable
     ...
 
-def Build_EventDispatchTable(comp :aigr.ComponentImplementation, port :aigr.Port) ->EventDispatchTable_Scaffolder:
-    handlders = [ h for h in comp.handlers if isinstance(h, aigr.EventHandler) and h.port == port]
+def Build_EventDispatchTable(comp :aigr.ComponentImplementation, port_name :ID) ->EventDispatchTable_Scaffolder:
+    handlders = [ h for h in comp.handlers if isinstance(h, aigr.EventHandler) and h.port == port_name]
 
-    table = EventDispatchTable(comp=comp.name, port=port,
+    table = EventDispatchTable(comp=PTH.cast(ID, comp.name), port=port_name,
                                    map={(h.protocol, h.event): h.name for h in handlders},
-                                   parentTable=None) #XXX 
+                                   parentTable=None) #XXX
     logger.warning('HARD_CODED: Build_EventDispatchTable(... parentTable=None) for: %s', table)
     return EventDispatchTable_Scaffolder(node=table)
 
