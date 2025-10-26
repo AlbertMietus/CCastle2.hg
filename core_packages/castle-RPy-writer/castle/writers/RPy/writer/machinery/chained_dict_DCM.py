@@ -17,8 +17,6 @@ class M_DC_chained_dict(_M_DC_dict):
     def render_EventDispatchTable(self, renderer, node) ->  Block: # node : RPy.aigr.EventDispatchTable
         table= PTH.cast(EventDispatchTable, node)
         table_name = renderer.portray.cc_S_dispatchTable(comp=table.comp, port=table.port)
-
-        
         parent_table = renderer.portray.cc_S_dispatchTable(comp=table.parentTable.comp, port=table.port) if table.parentTable else 'None' # XXXX
 
         logger.info("render_EventDispatchTable(node/table=%s), table_name=%s, parent_table=%s", node, table_name, parent_table) 
