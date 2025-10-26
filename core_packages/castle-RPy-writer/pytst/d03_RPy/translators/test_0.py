@@ -40,5 +40,5 @@ def test_2a_ls():
     assert 'pytst' in r.execute()
 
 def test_2b_ls():
-    r = Dummy_ls(inDir='pytst/RPy/translators/') # this dir
+    r = Dummy_ls(inDir='pytst/d03_RPy/translators/') # this dir
     assert 'test_0' in r.execute()
