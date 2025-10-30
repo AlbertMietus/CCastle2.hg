@@ -21,9 +21,10 @@ LAST = \
 	pytst/extra/scaffolding/test_ScaffolderBody.py	\
 	pytst/test_2b_protocol.py \
     pytst/test_2c_GenericProtocols.py \
+	pytst/test_3_namespaces.py \
 #
 CURRENT = \
-	pytst/test_3_namespaces.py \
+	pytst/base/test_RefID.py	\
 #
 TODO = \
 	pytst/machinery/test_9_todo.py								\

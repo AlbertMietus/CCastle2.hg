@@ -43,6 +43,20 @@ class ID(str,AIGR):
         else:
           return f'ID(`{str(self)}`/{repr(self.context)})'
 
+RefType = PTH.TypeVar("RefType", bound=AIGR)
+
+class RefID(ID, PTH.Generic[RefType]):
+    """A RefID is an ID, where `_Context` is a `Ref`,  referencing an instance of the specified type).
+
+    For example: ``port_name :RedID[aigr.Port]``
+    Here `port_name` is a name/ID, which is *pointing* to a (name of a) Port-instance
+    """
+
+    def __init__(self, name:str, context:Ref|RefType):
+        if not isinstance(context, Ref):
+            context = Ref(reference=context)
+        super().__init__(name, context)
+
 
 class Label(str):
     """A `Label` is a string, but unlike an ID it's NOT USED in CastleCode. This is an "internal" name, in the AIGR."""

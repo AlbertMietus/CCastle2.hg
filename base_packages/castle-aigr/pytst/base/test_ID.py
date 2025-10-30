@@ -2,8 +2,6 @@
 
 import logging; logger = logging.getLogger(__name__)
 import pytest
-import typing as PTH                                                                                  # Python TypeHints
-from dataclasses import dataclass, KW_ONLY
 
 from castle.aigr import ID
 from castle import aigr
