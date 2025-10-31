@@ -11,7 +11,7 @@ LAST = \
 	pytst/d11_HelloWorlds/d1_elemental/ 	\
 #
 CURRENT = \
-	pytst/d04_render/	\
+	pytst/d04_render/test_7_Proto.py::test_1b_DummyProtocol_withBase \
 #
 TODO = \
 	pytst/d11_HelloWorlds/d2_credible/	\
