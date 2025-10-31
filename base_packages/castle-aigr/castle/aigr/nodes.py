@@ -8,7 +8,7 @@ from dataclasses import dataclass, KW_ONLY
 from dataclasses import field as dc_field
 import typing as PTH                                                                                  # Python TypeHints
 
-from . import ID
+from . import ID, Def
 from . import AIGR, AIGRNode
 
 from typing import TYPE_CHECKING
@@ -26,7 +26,7 @@ class NamedNode(AIGRNode):
         if self.name is None:
             logger.critical("NamedNode: name is None, this is not allowed")
         if not isinstance(self.name, ID):
-            self.name = ID(self.name)
+            self.name = ID(self.name, context=Def())
 
 @dataclass
 class Specialise(NamedNode):

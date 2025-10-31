@@ -6,6 +6,7 @@ from dataclasses import dataclass, KW_ONLY
 from dataclasses import field as dc_field
 from . import AIGR, AIGRNode
 from castle.aigr import ID, types
+from castle import aigr
 
 from .nodes import NamedNode
 """ XXX ToDo: refactor, rename & relocate ..."""
@@ -20,7 +21,7 @@ class TypedParameter(NamedNode):
 
     def __post_init__(self):
         if not isinstance(self.name, ID):
-            self.name = ID(self.name)
+            self.name = ID(self.name, context=aigr.Def())
 
 
 @dataclass
@@ -33,7 +34,7 @@ class Argument(AIGRNode):
 
     def __post_init__(self):
         if self.name and not isinstance(self.name, ID):
-            self.name = ID(self.name)
+            self.name = ID(self.name, context=aigr.Def())
 
 
 

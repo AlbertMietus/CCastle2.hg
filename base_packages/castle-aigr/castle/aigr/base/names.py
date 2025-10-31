@@ -21,7 +21,7 @@ class Set(_Context):
     reference: PTH.Optional[PTH.Any] = None  ##not used for now                 # pragma: no mutate
 
 
-class ID(str,AIGR):
+class ID(str, AIGR):
     """An `ID` is a name as used in a CastleCode, for component, functions, variables etc.
 
     An `ID` is a string, although not all string are allowed (ony those, as typical in code. The AIGR does not, however,
