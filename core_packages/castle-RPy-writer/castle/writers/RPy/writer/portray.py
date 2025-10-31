@@ -17,6 +17,7 @@ class Portray:
 
     def BuildInComponent(self):                             return 'buildin.CC_B_Component'
     def BuildInProtocol(self):                              return 'buildin.CC_B_Protocol'
+    def BuildInComponentInterface(self):					return 'buildin.CC_B_ComponentInterface'
 
     ###
     ### Convert (node)names:str to RPY-names with prefixes
@@ -37,11 +38,13 @@ class Portray:
             ns+="."
         return ns+prefix+n
 
+    def default_component(self):                            return 'base.cc_CI_Component'         # XXX
+
     ###
     ### Convert AIGR-nodes to txt:str
     ###
 
-    def Port2Protocol(self, port: aigr.Port) ->str:
+    def Port2Protocol(self, port: aigr.Port) ->str:                       # XXXX Move to render
         if not isinstance(port.type, aigr.Protocol):
             raise NotImplementedError("Only Protocol-Ports are supported. Not: %s %s", port)
         protocol :aigr.Protocol = port.type
