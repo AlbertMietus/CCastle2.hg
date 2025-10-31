@@ -153,8 +153,8 @@ wrapped_Credible_HW.register(invoke)
 wrapped_HW.register(Credible_HelloWorld)
 
 
-if __name__ == '__main__':
-    print("Debug: print credible_helloworld")
-    print("Hello_World (NS) =\n", Hello_World)
-    print("SetLabel (EventProtocol) =\n", SetLabel)
+if __name__ == '__main__':                                       # pragma: no cover
+    print("Debug: print credible_helloworld")                    # pragma: no cover
+    print("Hello_World (NS) =\n", Hello_World)                   # pragma: no cover
+    print("SetLabel (EventProtocol) =\n", SetLabel)              # pragma: no cover
 

@@ -73,9 +73,9 @@ wrapped_E_HW.register(invoke) # XXX
 #} /* Elemental_HelloWorld */
 wrapped_HW.register(Elemental_HelloWorld) # Register a NamedNode
 
-if __name__ == '__main__':
-    print("Debug: print elemental_helloworld")
-    print("Hello_World (NS) =\n", Hello_World)
-    print("Elemental_HelloWorld (CompImp) =\n", Elemental_HelloWorld)
-    print("HelloWorld (Method) =\n", HelloWorld)
-    print("invoke (Event) =\n", invoke)
+if __name__ == '__main__':                                                 # pragma: no cover
+    print("Debug: print elemental_helloworld")                             # pragma: no cover
+    print("Hello_World (NS) =\n", Hello_World)                             # pragma: no cover
+    print("Elemental_HelloWorld (CompImp) =\n", Elemental_HelloWorld)      # pragma: no cover
+    print("HelloWorld (Method) =\n", HelloWorld)                           # pragma: no cover
+    print("invoke (Event) =\n", invoke)                                    # pragma: no cover
