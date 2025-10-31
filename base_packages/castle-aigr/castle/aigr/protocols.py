@@ -13,7 +13,7 @@ from dataclasses import field as dc_field
 
 from . import AIGR
 from .events import Event
-from .base.names import ID
+from .base.names import ID, RefID
 from .aid import TypedParameter, Argument # XXXX                                                            # Castle/AIGR types
 from .nodes import NamedNode, Specialise
 
@@ -41,20 +41,21 @@ class Protocol(NamedNode):
         .. todo:: Design: What is the `kind` self and the inherited ones are not the same?
                   overriding ProtocolKind.Unknown is always allowed
     """
-    _BASE: PTH.ClassVar=None                                                                        # pragma: no mutate
+    #_BASE: PTH.ClassVar=None                                                                        # pragma: no mutate
 
     _: KW_ONLY
     kind             :ProtocolKind
-    based_on         :PTH.Optional[Protocol|Specialise]=dc_field(default_factory= lambda :Protocol._BASE)      # pragma: no mutate
+    #based_on         :PTH.Optional[Protocol|Specialise]=dc_field(default_factory= lambda :Protocol._BASE)      # pragma: no mutate
+    based_on         :PTH.Optional[RefID[Protocol|Specialise]]=None
     typedParameters  :PTH.Optional[PTH.Sequence[TypedParameter]]=()
 
 
-@dataclass                                                                                          # pragma: no mutate
-class _RootProtocol(Protocol):
-    """This is the base protocol; it exist as we can't instantiate Protocol"""
-
-baseProtocol = _RootProtocol(name=ID("Protocol"), kind=ProtocolKind.Unknown, based_on=None)                  # pragma: no mutate
-Protocol._BASE=baseProtocol
+#@dataclass                                                                                          # pragma: no mutate
+#class _RootProtocol(Protocol):
+#    """This is the base protocol; it exist as we can't instantiate Protocol"""
+#
+#baseProtocol = _RootProtocol(name=ID("Protocol"), kind=ProtocolKind.Unknown, based_on=None)                  # pragma: no mutate
+#Protocol._BASE=baseProtocol
 
 @dataclass                                                                                          # pragma: no mutate
 class DataProtocol(Protocol): pass ### XXX ToDo (not exported)
