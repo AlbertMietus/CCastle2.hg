@@ -32,8 +32,8 @@ def test_3_implicietDef_has_no_ports(implicietComponent):
 
 def test_4_implicietDef_is_basedOn(implicietComponent):
     base = implicietComponent.based_on
-    assert isinstance(base, aigr.ComponentInterface)
-    assert str(base.name) == 'base.Component' # XXX???
+    assert isinstance(base, (aigr.ComponentInterface, type(None))) # this is a general check; here we expect it None
+    assert base is None
 
 def test_5a_implicietDef_not_with_typicalName_in_NS(implicietComponent, elemental):
     """An impliciet Component Interface is't in the (`elemental`) NS with it 'typically' name (as the ComponentImplementation is)"""

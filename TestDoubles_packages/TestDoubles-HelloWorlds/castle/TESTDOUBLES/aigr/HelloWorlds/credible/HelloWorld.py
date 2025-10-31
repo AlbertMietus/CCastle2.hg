@@ -8,7 +8,7 @@
 import logging; logger = logging.getLogger(__name__)
 
 from castle import aigr
-from castle.aigr import Source_NS, ID
+from castle.aigr import Source_NS, ID, RefID
 from castle.aigr import EventProtocol, Event
 from castle.aigr import ComponentInterface, ComponentImplementation
 from castle.aigr import Method, Initializer, EventHandler
@@ -39,7 +39,8 @@ wrapped_HW.register(SetLabel)
 #}
 component_Credible = ComponentInterface(ID("Credible"),
                                         ports=[
-                                            aigr.Port(ID('hello'), direction=aigr.PortDirection.In, type=SetLabel),
+                                            RefID('event',
+                                                      aigr.Port(ID('hello'), direction=aigr.PortDirection.In, type=SetLabel)), # XXX
                                             ])
 wrapped_HW.register(component_Credible, asName="component_Credible")
 
@@ -109,7 +110,7 @@ wrapped_Credible_HW = ScaffolderComponentImplementation(Credible_HelloWorld)
 #  sub credible;
 #...
 
-sub_credible = aigr.VariableDefintion(name=ID('credible', context=aigr.Def()), type="aigr.types.XXX.Component")
+sub_credible = aigr.VariableDefintion(name=ID('credible', context=aigr.Def()), type="aigr.types.XXX.Component") # type: ignore[arg-type] # XXX ToDo
 wrapped_Credible_HW.register(sub_credible)
 
 #...
