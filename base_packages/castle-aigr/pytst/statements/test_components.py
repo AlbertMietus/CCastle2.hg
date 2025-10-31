@@ -10,7 +10,7 @@ from castle.aigr import Body, ID
 
 def verifyKidsTypes(comp):
     if isinstance (comp, ComponentInterface):
-        assert isinstance(comp.based_on, ComponentInterface)
+        assert isinstance(comp.based_on, (ComponentInterface, type(None)))
         assert isinstance(comp.ports, (list, tuple))
         for p in comp.ports:
             assert isinstance(p, Port)
