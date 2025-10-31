@@ -11,8 +11,6 @@ from castle.TESTDOUBLES.aigr.sieve.basic1 import protocols as sieve_protocols
 
 from castle import aigr
 from castle.aigr import types
-from castle.TESTDOUBLES.aigr.base  import Protocol as base_Protocol
-
 from castle.aigr_extra.scaffolding import ScaffolderEventProtocol
 
 def test_0_all_sieveProtocols_exist():
@@ -48,8 +46,6 @@ def test_2c_input_Event():
 
 
 def verify_Protocol(p, name, event_names,  base=None):
-    if base is None: base=base_Protocol
-
     assert isinstance(p, aigr.EventProtocol)
     assert str(p.name) == name,  f"{p.name} reported but expected: {name}"
     assert p.based_on is base

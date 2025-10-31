@@ -4,13 +4,14 @@
       No such 'top-namespaces' exist, so we have to initiate it here.
 """
 
-from castle.aigr.protocols import baseProtocol, ID
+from castle.aigr.protocols import ID
+#from castle.aigr.protocols import baseProtocol
 from castle.aigr import NamedSpace
 
 from castle.aigr_extra.scaffolding import ScaffolderNameSpace
 
-Protocol = baseProtocol
+#Protocol = baseProtocol
 
-base = NamedSpace(ID('base'))
-ScaffolderNameSpace(base).register(Protocol)
+#base = NamedSpace(ID('base'))
+#ScaffolderNameSpace(base).register(Protocol)
 
