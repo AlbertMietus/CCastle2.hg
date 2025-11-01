@@ -13,6 +13,7 @@ class Ref(_Context):
     "Points to a Def() of an name"                                              # pragma: no mutate
     _ : KW_ONLY
     reference: PTH.Optional[AIGR] = None
+_Ref_cls= Ref # Alias, as ID.Ref also uses Ref ...
 
 @dataclass                                                                      # pragma: no mutate
 class Set(_Context):
@@ -51,10 +52,11 @@ class ID(str, AIGR):
 
     class Ref(PTH.Generic[RefType]):
         """ID.Ref()` creates an ID with Ref() context. && ID.Ref[type] can be used as type-hint"""
-        def __new__(cls, name:str, context:RefType|Ref):
-            if not isinstance(context, Ref):
-                context = Ref(reference=context)
+        def __new__(cls, name:str, context:RefType|_Ref_cls):
+            if not isinstance(context, _Ref_cls):
+                context = _Ref_cls(reference=context)
             return ID(name, context)
+
 
 class Label(str):
     """A `Label` is a string, but unlike an ID it's NOT USED in CastleCode. This is an "internal" name, in the AIGR."""
