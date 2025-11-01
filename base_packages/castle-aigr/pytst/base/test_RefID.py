@@ -5,7 +5,7 @@ import pytest
 import typing as PTH                                                                                  # Python TypeHints
 from dataclasses import dataclass, KW_ONLY
 
-from castle.aigr import ID, RefID
+from castle.aigr import ID
 from castle import aigr
 
 @pytest.fixture
@@ -15,10 +15,10 @@ def name():
     return name
 
 def test_1_RefID_points_to_alias(name):
-    alias1 = RefID('alias1', context=aigr.Ref(reference=name))
+    alias1 = ID.Ref('alias1', context=aigr.Ref(reference=name))
     logging.info(f"alias1\t: {alias1}, repr: {repr(alias1)}")
 
-    alias2 = RefID('alias2', context=name)
+    alias2 = ID.Ref('alias2', context=name)
     logging.info(f"aliass\t: {alias2}, repr: {repr(alias2)}")
 
     assert alias1.context.reference is alias2.context.reference
@@ -36,16 +36,15 @@ def test_1b_note_alias_os_also_possible_with_plain_ID(name):
 @dataclass
 class FakeAIGR(aigr.AIGR):
     _ : KW_ONLY
-    proto : RefID[aigr.Protocol]
+    proto : ID.Ref[aigr.Protocol]
 
 @pytest.fixture
 def fakeProtocol():
     return aigr.EventProtocol(name=ID("FakeProtocol"), events=[])
 
 def test_2_(fakeProtocol):
-    fake = FakeAIGR(proto=RefID('p1', context=fakeProtocol))
+    fake = FakeAIGR(proto=ID.Ref('p1', context=fakeProtocol))
     assert isinstance(fake.proto, ID)
-    assert isinstance(fake.proto, RefID)
     assert fake.proto.context.reference is fakeProtocol
     assert isinstance(fake.proto.context.reference, aigr.Protocol)
 

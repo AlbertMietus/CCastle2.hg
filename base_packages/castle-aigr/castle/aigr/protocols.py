@@ -13,7 +13,7 @@ from dataclasses import field as dc_field
 
 from . import AIGR
 from .events import Event
-from .base.names import ID, RefID
+from .base.names import ID
 from .aid import TypedParameter, Argument # XXXX                                                            # Castle/AIGR types
 from .nodes import NamedNode, Specialise
 
@@ -46,7 +46,7 @@ class Protocol(NamedNode):
     _: KW_ONLY
     kind             :ProtocolKind
     #based_on         :PTH.Optional[Protocol|Specialise]=dc_field(default_factory= lambda :Protocol._BASE)      # pragma: no mutate
-    based_on         :PTH.Optional[RefID[Protocol|Specialise]]=None
+    based_on         :PTH.Optional[ID.Ref[Protocol|Specialise]]=None
     typedParameters  :PTH.Optional[PTH.Sequence[TypedParameter]]=()
 
 

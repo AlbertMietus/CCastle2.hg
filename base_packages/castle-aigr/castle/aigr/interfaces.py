@@ -9,7 +9,7 @@ from dataclasses import dataclass, KW_ONLY
 from dataclasses import field as dc_field
 from . import AIGR
 from .protocols import Protocol
-from .base.names import ID, RefID
+from .base.names import ID
 from .nodes import NamedNode, Specialise
 
 __all__ = ['PortDirection', 'Port', 'ComponentInterface']
@@ -51,8 +51,8 @@ class ComponentInterface(NamedNode):
     _: KW_ONLY
     #based_on 	:PTH.Optional[ComponentInterface]=dc_field(default_factory= lambda: baseComponent)  #type: ignore[has-type]
     #ports 		:PTH.Sequence[Port]=()
-    based_on	:PTH.Optional[RefID[Protocol|Specialise]]=None
-    ports 		:PTH.Sequence[RefID[Port]]=()
+    based_on	:PTH.Optional[ID.Ref[Protocol|Specialise]]=None
+    ports 		:PTH.Sequence[ID.Ref[Port]]=()
 
 
 

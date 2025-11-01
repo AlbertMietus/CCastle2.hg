@@ -12,7 +12,7 @@ class Def(_Context)   : "Here, the name is defined"                             
 class Ref(_Context):
     "Points to a Def() of an name"                                              # pragma: no mutate
     _ : KW_ONLY
-    reference: PTH.Optional[PTH.Any] = None  ##not used for now                 # pragma: no mutate
+    reference: PTH.Optional[AIGR] = None
 
 @dataclass                                                                      # pragma: no mutate
 class Set(_Context):
@@ -20,6 +20,7 @@ class Set(_Context):
     _ : KW_ONLY
     reference: PTH.Optional[PTH.Any] = None  ##not used for now                 # pragma: no mutate
 
+RefType = PTH.TypeVar("RefType", bound=AIGR)
 
 class ID(str, AIGR):
     """An `ID` is a name as used in a CastleCode, for component, functions, variables etc.
@@ -43,27 +44,17 @@ class ID(str, AIGR):
         else:
           return f'ID(`{str(self)}`/{repr(self.context)})'
 
-RefType = PTH.TypeVar("RefType", bound=AIGR)
+    @staticmethod
+    def Def(name:str):
+        """`ID.Def()` creates an ID with Def() context."""
+        return ID(name, context=Def())
 
-class RefID(ID, PTH.Generic[RefType]):
-    """A RefID is an ID, where `_Context` is a `Ref`,  referencing an instance of the specified type).
-
-    For example: ``port_name :RedID[aigr.Port]``
-    Here `port_name` is a name/ID, which is *pointing* to a (name of a) Port-instance
-    """
-
-    def __init__(self, name:str, context:Ref|RefType):
-        if not isinstance(context, Ref):
-            context = Ref(reference=context)
-        super().__init__(name, context)
-
+    class Ref(PTH.Generic[RefType]):
+        """ID.Ref()` creates an ID with Ref() context. && ID.Ref[type] can be used as type-hint"""
+        def __new__(cls, name:str, context:RefType|Ref):
+            if not isinstance(context, Ref):
+                context = Ref(reference=context)
+            return ID(name, context)
 
 class Label(str):
     """A `Label` is a string, but unlike an ID it's NOT USED in CastleCode. This is an "internal" name, in the AIGR."""
-
-
-
-
-
-
-
