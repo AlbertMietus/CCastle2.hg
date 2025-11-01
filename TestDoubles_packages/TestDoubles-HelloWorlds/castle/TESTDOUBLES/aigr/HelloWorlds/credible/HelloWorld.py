@@ -8,7 +8,7 @@
 import logging; logger = logging.getLogger(__name__)
 
 from castle import aigr
-from castle.aigr import Source_NS, ID, RefID
+from castle.aigr import Source_NS, ID
 from castle.aigr import EventProtocol, Event
 from castle.aigr import ComponentInterface, ComponentImplementation
 from castle.aigr import Method, Initializer, EventHandler
@@ -39,8 +39,7 @@ wrapped_HW.register(SetLabel)
 #}
 component_Credible = ComponentInterface(ID("Credible"),
                                         ports=[
-                                            RefID('event',
-                                                      aigr.Port(ID('hello'), direction=aigr.PortDirection.In, type=SetLabel)), # XXX
+                                            ID.Ref('event', aigr.Port(ID('hello'), direction=aigr.PortDirection.In, type=SetLabel)), # XXX
                                             ])
 wrapped_HW.register(component_Credible, asName="component_Credible")
 

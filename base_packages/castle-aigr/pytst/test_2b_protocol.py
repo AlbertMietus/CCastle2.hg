@@ -33,14 +33,6 @@ def test_1_isEvent(emptyProtocol, simpleSieve):
     assert emptyProtocol.kind == ProtocolKind.Event
     assert simpleSieve.kind == ProtocolKind.Event
 
-#base/rootProtocol is gone -- protocol.based_on is a ID/RefID now
-#def test_2a_based_onRoot(emptyProtocol):
-#    from castle.aigr.protocols import _RootProtocol # Only available when imported
-#    emptyProtocol.based_on is _RootProtocol
-#def test_2b_based_onRoot_notSet(emptyProtocol_baseNotSet):
-#    from castle.aigr.protocols import _RootProtocol # Only available when imported
-#    emptyProtocol_baseNotSet.based_on is _RootProtocol
-
 def test_2c_NoBase_isNone(emptyProtocol, emptyProtocol_baseNotSet):
     assert emptyProtocol.based_on is None
     assert emptyProtocol_baseNotSet.based_on is None
