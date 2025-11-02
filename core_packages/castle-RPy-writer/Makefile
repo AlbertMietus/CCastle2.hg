@@ -9,9 +9,10 @@ PYREVERSE_PKGS = \
 #
 LAST = \
 	pytst/d11_HelloWorlds/d1_elemental/ 	\
+	pytst/d04_render/test_7_Proto.py	\
 #
 CURRENT = \
-	pytst/d04_render/test_7_Proto.py::test_1b_DummyProtocol_withBase \
+	pytst/d11_HelloWorlds/d2_credible/test_12_file.py \
 #
 TODO = \
 	pytst/d11_HelloWorlds/d2_credible/	\

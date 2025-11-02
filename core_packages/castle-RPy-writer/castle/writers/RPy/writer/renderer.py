@@ -68,7 +68,7 @@ class Renderer(Visitor):
     def visit_ComponentInterface(self, node)			-> TextBlock:
         interface_txt = self.portray.cc_CI_elm_prefix(node.name)
         inherit_from  = f"{self.portray.cc_CI_elm_prefix(node.based_on.name)}" if node.based_on else self.portray.default_component()
-    
+
         txt = Block(f'{interface_txt} = {self.portray.BuildInComponentInterface()}(')
         txt.sub(Block((
             f'name         = "{node.name}",',
@@ -77,13 +77,18 @@ class Renderer(Visitor):
             f')')))
 
         # Append the ports; after defining the port structure; as each port-def refers to the port.
-        for port in node.ports:
+        for portID in node.ports:
+            assert (isinstance(portID, aigr.ID) and
+                    isinstance(portID.context, aigr.Ref)), f"Expected port to be ID with Port-context; got: {portID} -- {portID.context}"
+            port_ref :aigr.Port = portID.context.reference
+            logger.info("visit_ComponentInterface: Adding a port; portID=%s port_ref=%s", portID, port_ref)
+
             port_txt = Block(f"{interface_txt}.ports.append(")
-            l1 = Block(f'''buildin.CC_B_C_PortID(name="{port.name}",''') # XXX Portray:`CC_B_C_PortID`
+            l1 = Block(f'''buildin.CC_B_C_PortID(name="{portID}",''') # XXX Portray:`CC_B_C_PortID`
             l1.sub(Block((
                 f'''portNo=-1, # Not used?''',
-                f'''protocol={self.portray.Port2Protocol(port)},''',            # XXX Only type Protocol is supported now
-                f'''direction={self.portray.PortDirection(port)},''',
+                f'''protocol={self.portray.Port2Protocol(port_ref)},''',            # XXX Only type Protocol is supported now
+                f'''direction={self.portray.PortDirection(port_ref)},''',
                 f'''part_of={interface_txt}))''')))
             port_txt.sub(l1)
             txt += port_txt
@@ -253,7 +258,7 @@ from castle.writers.RPy_buildin import base
 
         txt = Block(f"""{protocol_name} = {self.portray.BuildInProtocol()}(name="{node.name}",""")
         txt.sub(Block((
-            f"kind = buildin.CC_B_ProtocolKindIs_Event,",
+            f"kind = buildin.CC_ProtocolKind.Event,", # ToDo: Portray
             f"inherit_from = {inherit_from},",
             f"events = [])")))
         return txt

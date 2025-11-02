@@ -4,10 +4,12 @@
 
 from . import *
 
-@pytest.mark.xfail(reason="ExpectedTxt.EXPECTED_unit needs to be filled in")
+#@pytest.mark.xfail(reason="ExpectedTxt.EXPECTED_unit needs to be filled in")
 def test_1_renderToTxt(target_unit, my_renderer):
     txt = my_renderer.render(target_unit)
-    verify_line_by_line(EXPECTED_unit, txt)
+    print_out(txt)
+    #verify_line_by_line(EXPECTED_unit, txt)
+    assert False
 
 @pytest.mark.skip
 def test_2_render_andSafe(wrapped_target, my_renderer):
