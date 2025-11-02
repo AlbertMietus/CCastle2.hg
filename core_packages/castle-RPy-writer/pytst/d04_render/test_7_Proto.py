@@ -6,7 +6,7 @@ from . import *
 def test_1a_DummyProtocol_noBase(my_renderer):
     expected = """\
 cc_P_DummyProto = buildin.CC_B_Protocol(name="DummyProto",
-    kind = buildin.CC_B_ProtocolKindIs_Event,
+    kind = buildin.CC_ProtocolKind.Event,
     inherit_from = None,
     events = [])
 \n"""
@@ -18,7 +18,7 @@ cc_P_DummyProto = buildin.CC_B_Protocol(name="DummyProto",
 def test_1b_DummyProtocol_withBase(my_renderer):
     expected = """\
 cc_P_DummyProto = buildin.CC_B_Protocol(name="DummyProto",
-    kind = buildin.CC_B_ProtocolKindIs_Event,
+    kind = buildin.CC_ProtocolKind.Event,
     inherit_from = None,
     events = [])
 \n"""
