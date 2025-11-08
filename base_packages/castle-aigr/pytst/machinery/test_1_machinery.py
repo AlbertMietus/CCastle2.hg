@@ -11,31 +11,34 @@ def test_Abstact_machinery():
     assert m is not None
     assert isinstance(m, machinery._machinery)
 
-def test_send_proto_OutPort_Dummy():
-    o = machinery._send_proto(outport='Dummy')
-    assert o.outport=='Dummy'
-
-def test_send_proto_needsOutPort():
-    with pytest.raises(TypeError, match="""'outport'"""):
-        o = machinery._send_proto()
-
-def test_ToDo__sendStreamd():
+def test_ToDo__sendStream():
     with pytest.raises(NotImplementedError, match='ToDo'):
-        machinery.sendStream(outport='*')
+        machinery._sendStream()
 
 def test_ToDo__sendData():
     with pytest.raises(NotImplementedError, match='ToDo'):
-        machinery.sendData(outport='*')
+        machinery._sendData()
 
-def test_sendEvent_CastleCode():
+def test_EventOverPort_CastleCode():
     """ CastleCode (sieve/basic) Generator:: `StartSieve.runTo(max) on .controll`
         ``.outlet.input(i);``
      """
-    o = machinery.sendEvent(outport='self.outlet', event='input', arguments=('i',))
+    o = machinery.EventOverPort(comp='self', outport='self.outlet', event='input', arguments=('i',))
+    assert o.comp == 'self'
     assert o.outport == 'self.outlet'
     assert o.event == 'input'
     assert len(o.arguments)==1
     assert o.arguments[0]=='i'
+
+def test_EventToSub_CastleCode():
+    """///CastleCode: Main (sieve/basic) -- main has a sub: .generator
+        ```self.generator.runTo(max);``` """
+    o = machinery.EventToSub(comp='self', receiver='self.generator', event='runTo', arguments=('max',))
+    assert o.comp == 'self'
+    assert o.receiver == 'self.generator'
+    assert o.event == 'runTo'
+    assert len(o.arguments)==1
+    assert o.arguments[0]=='max'
 
 def test_connection_CastleCode():
     """CastleCode (sieve/basic) Main:: `init()`

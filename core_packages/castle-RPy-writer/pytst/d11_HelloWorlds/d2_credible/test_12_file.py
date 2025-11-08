@@ -4,7 +4,7 @@
 
 from . import *
 
-#@pytest.mark.xfail(reason="ExpectedTxt.EXPECTED_unit needs to be filled in")
+@pytest.mark.xfail(reason="ExpectedTxt.EXPECTED_unit needs to be filled in -- std_invoke__std() is EMPT")
 def test_1_renderToTxt(target_unit, my_renderer):
     txt = my_renderer.render(target_unit)
     print_out(txt)

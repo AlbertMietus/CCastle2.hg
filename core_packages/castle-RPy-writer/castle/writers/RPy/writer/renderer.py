@@ -78,8 +78,8 @@ class Renderer(Visitor):
 
         # Append the ports; after defining the port structure; as each port-def refers to the port.
         for portID in node.ports:
-            assert (isinstance(portID, aigr.ID) and
-                    isinstance(portID.context, aigr.Ref)), f"Expected port to be ID with Port-context; got: {portID} -- {portID.context}"
+            assert isinstance(portID, aigr.ID), f"Expected portID={portID} is an ID, but it is {type(portID)}"
+            assert isinstance(portID.context, aigr.Ref), f"Expected ID.Ref, but it isn't. {portID} -- {repr(portID)}"
             port_ref :aigr.Port = portID.context.reference
             logger.info("visit_ComponentInterface: Adding a port; portID=%s port_ref=%s", portID, port_ref)
 
@@ -140,7 +140,7 @@ class Renderer(Visitor):
         logger.debug("_EventDispatchTables: ports=%s -- node=%s", ports, node)
 
         tables =[]
-        for port in ports: # How about (inheriterd ports that have no handlers here?)
+        for port in ports: # How about (inheriterd) ports that have no handlers here?
             e_table = Build_EventDispatchTable(comp=node, port_name=port)
             tables.append(e_table)
 
@@ -262,3 +262,6 @@ from castle.writers.RPy_buildin import base
             f"inherit_from = {inherit_from},",
             f"events = [])")))
         return txt
+
+    def visit_sendEvent(self, node)				->  TextBlock: # localSendEvent?
+        return self.machinery.render_sendEvent(self, node)

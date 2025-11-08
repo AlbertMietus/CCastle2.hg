@@ -12,9 +12,10 @@ def test_dataclass_all():
     for cls in (
             machinery._machinery,
             machinery._send_proto,
-            machinery.sendStream,
-            machinery.sendData,
-            machinery.sendEvent,
+            #machinery.sendStream,
+            #machinery.sendData,
+            machinery.EventToSub,
+            machinery.EventOverPort,
             machinery.connection,
             ):
         verifyisDataClass(cls)

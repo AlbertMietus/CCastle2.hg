@@ -37,9 +37,10 @@ wrapped_HW.register(SetLabel)
 #component Credible {
 #  port SetLabel<in>: hello;
 #}
+p_hello = aigr.Port(ID.Def('hello'), direction=aigr.PortDirection.In, type=SetLabel)
 component_Credible = ComponentInterface(ID("Credible"),
                                         ports=[
-                                            ID.Ref('event', aigr.Port(ID('hello'), direction=aigr.PortDirection.In, type=SetLabel)), # XXX
+                                            ID.Ref('event', p_hello)
                                             ])
 wrapped_HW.register(component_Credible, asName="component_Credible")
 
@@ -80,7 +81,8 @@ wrapped_Credible.register(HelloWorld)
 set_label = EventHandler(mangle_event_handler(protocol='SetLabel', event='set', port='hello'),
                          protocol=ID('SetLabel', context=aigr.Ref(reference=SetLabel)),
                          event=ID('set', context=aigr.Ref(reference=SetLabel.events[0])),
-                         port=ID('hello', context=aigr.Ref(reference=component_Credible.ports[0])),
+                         #port=ID('hello', context=aigr.Ref(reference=component_Credible.ports[0])),
+                         port=ID.Ref('hello', component_Credible.ports[0]), # OR port=ID.Ref('hello', p_hello)
                          outer_ns=Credible,
                          body=aigr.Body(statements=[
                              aigr.VoidCall(
@@ -138,9 +140,10 @@ invoke = EventHandler(mangle_event_handler(protocol='std', event='invoke', port=
                       port=ID('std',     context=aigr.Ref()),
                       outer_ns=Credible_HelloWorld,
                       body=aigr.Body(statements=[
-                          aigr.machinery.sendEvent( # Or localSendEvent() XXX
-                              outport=ID('self.credible.hello', context=aigr.Ref()), # It's the inport of a sub-component!
-                              event=ID('set', context=aigr.Ref()),
+                          aigr.machinery.EventToSub(
+                              comp=ID.Ref('self', Credible_HelloWorld),
+                              receiver=ID.Ref('self.hello',component_Credible),
+                              event= ID('set', context=aigr.Ref(reference=SetLabel.events[0])),
                               arguments=(aigr.Argument(aigr.Constant(value="credible", type=aigr.types.string)),)
 
                               )

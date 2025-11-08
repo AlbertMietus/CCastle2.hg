@@ -10,12 +10,13 @@ PYREVERSE_PKGS = \
 LAST = \
 	pytst/d11_HelloWorlds/d1_elemental/ 	\
 	pytst/d04_render/test_7_Proto.py	\
+	pytst/d04_render/test_6_Comp.py \
 #
 CURRENT = \
-	pytst/d11_HelloWorlds/d2_credible/test_12_file.py \
+	pytst/d11_HelloWorlds/d2_credible/test_12_file.py::test_1_renderToTxt
 #
 TODO = \
-	pytst/d11_HelloWorlds/d2_credible/	\
+	pytst/d11_HelloWorlds/d2_credible/test_12_file.py \
 #
 
 HW_Ed = TestDoubles/HelloWorlds/elemental

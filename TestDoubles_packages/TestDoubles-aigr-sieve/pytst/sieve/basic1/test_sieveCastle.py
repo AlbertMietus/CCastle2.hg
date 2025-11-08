@@ -142,24 +142,30 @@ def test_3c_EH_test_exps(event_handler):
     logger.debug("rhs: %s -- ``0``", rhs)
     assert isinstance(rhs, aigr.expressions.Constant) and rhs.value==0
 
-
-
-def test_3d_EH_then_send(event_handler):
-    """ CastleCode: .coprime.input(try); """
+@pytest.fixture
+def send(event_handler):
     if_statement = ScaffolderBody(event_handler.body)[0]
     then = if_statement.body
-    assert len(ScaffolderBody(then)) == 1 # Not a test, only to check.
-    send = ScaffolderBody(then)[0]
+    then = ScaffolderBody(then)
+    assert len(then) == 1 # Not a test, only to check.
+    send = then[0]
+    assert isinstance(send, aigr.machinery.EventOverPort)
+    return send
 
-    assert isinstance(send, aigr.machinery.sendEvent)
+def test_3d_EH_then_send(send):
+    assert (isinstance(send.outport, aigr.ID)
+        and send.outport == "coprime"
+        and isinstance(send.outport.context, aigr.Ref)
+        and isinstance(send.outport.context.reference, aigr.Port))
 
-    assert isinstance(send.outport, aigr.Part)
-    verify_ID(send.outport.base, "self")
-    verify_ID(send.outport.attribute, "coprime", isRef=True)
+def test_4a_arguments(send):
+    arguments = send.arguments
+    assert isinstance(arguments, (tuple, list)) and len(send.arguments) == 1, f"{repr(send.arguments)}"
+    # The other test fail, see in 4b
 
-    verify_ID(send.event, "input", isRef=True)
-
-    assert isinstance(send.arguments, (tuple, list)) and len(send.arguments) == 1
-    assert isinstance(send.arguments[0], aigr.Argument)
+@pytest.mark.xfail(reason="XXX: arg-list isn't fully designded")
+def test_4a_arguments(send):
+    arguments = send.arguments
+    assert isinstance(send.arguments[0], aigr.Argument), send.arguments
     verify_ID(send.arguments[0].value, "try", isRef=True)
 

@@ -38,4 +38,7 @@ class Machinery(ABC):
 
 
     @abstractmethod
-    def render_EventDispatchTable(self, renderer, node) 						->  Block: pass
+    def render_EventDispatchTable(self, renderer, node) ->  Block: pass
+
+    @abstractmethod
+    def render_sendEvent(self, render, node) ->  Block: pass

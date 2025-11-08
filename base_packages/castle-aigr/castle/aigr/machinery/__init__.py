@@ -13,6 +13,7 @@ from dataclasses import dataclass, KW_ONLY
 
 import typing as PTH                                                                                  # Python TypeHints
 
+from .. import ID
 from .. import AIGR, Port, Event, Argument, Protocol
 from ..statements import _statement
 from .. import todo
@@ -24,21 +25,40 @@ class _machinery(AIGR):
 @dataclass
 class _send_proto(_machinery, _statement):
     _: KW_ONLY
-    outport : AIGR # ID | Parts | ...
+    comp    :ID.Ref[componentInterface] # the sending component
 
 @dataclass
-class sendStream(_send_proto, todo.mark_Dataclass): ...
-@dataclass
-class sendData(_send_proto, todo.mark_Dataclass): ...
-
-@dataclass
-class sendEvent(_send_proto):
+class _send_ToSub(_send_proto):
     _: KW_ONLY
-    event: AIGR # ID | Parts | ...
-    arguments: PTH.Sequence[Argument]
+    receiver :ID.Ref[componentInterface] # a sub-component; (no connection)
+
+@dataclass
+class _send_OverPort(_send_proto):
+    _: KW_ONLY
+    outport :ID.Ref[Port]
+
+@dataclass
+class _sendEvent(_machinery):
+    _: KW_ONLY
+    event      :ID.Ref[Event]
+    arguments  :PTH.Sequence[Argument]
+@dataclass
+class _sendStream(todo.mark_Dataclass): ...
+@dataclass
+class _sendData(todo.mark_Dataclass): ...
+
+
+@dataclass
+class EventToSub(_send_ToSub, _sendEvent):
+    "Send an event to a sub-component"
+
+@dataclass
+class EventOverPort(_send_OverPort, _sendEvent):
+    "Send an event over an outport (to another component)"
 
 @dataclass
 class connection(_machinery):
     _: KW_ONLY
-    outport: Port
-    inport: Port
+    outport: Port # ToDo: ID.Ref[Port]?
+    inport: Port  # ToDo: ID.Ref[Port]?
+

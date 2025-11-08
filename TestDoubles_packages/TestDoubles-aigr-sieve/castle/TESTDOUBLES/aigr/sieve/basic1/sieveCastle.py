@@ -26,7 +26,8 @@ Sieve = ComponentImplementation(ID('Sieve'),
                                 interface=components.SieveMoat,
                                 parameters=())
 wrapped_Sieve= ScaffolderNameSpace(Sieve)
-wrapped_Sieve.register(aigr.VariableDefintion(ID('MyPrime', context=aigr.Def()), type=types.int))
+myPrime=aigr.VariableDefintion(ID('myPrime', context=aigr.Def()), type=types.int)
+wrapped_Sieve.register(myPrime)
 
 
 
@@ -65,20 +66,23 @@ event_handler_1 = EventHandler(ID(mangle_event_handler(protocol="SimpleSieve", e
                                protocol=ID('SimpleSieve', context=aigr.Ref()),
                                event=ID('input', context=aigr.Ref()),
                                port=ID('try', context=aigr.Ref()),
+                               parameters=(aigr.TypedParameter(name=ID('try'), type=types.int),),
                                body=aigr.Body(statements=[
                                    aigr.If(
                                        test=aigr.Compare(
                                            ops=aigr.operators.NotEqual(),
                                            values=(
                                                builders.Modulo(
-                                                   ID("try", context=aigr.Ref()),
-                                                   ID("myPrime",context=aigr.Ref())),
+                                                   ID.Ref("try", context=aigr.Ref()), #XXX
+                                                   ID.Ref("myPrime",myPrime)),
                                                aigr.Constant(value=0),)),
                                        body=aigr.Body(
                                            statements=[
-                                               aigr.machinery.sendEvent(
-                                                   outport=aigr.Part(base=ID('self'), attribute=ID('coprime', context=aigr.Ref())),
-                                                   event=ID('input',context=aigr.Ref()),
-                                                   arguments=[aigr.Argument(ID('try', context=aigr.Ref()))])
-                                               ]))]))
+                                               aigr.machinery.EventOverPort(
+                                                   comp=ID.Ref('Sieve', Sieve),
+                                                   outport=ID.Ref('coprime', components.SieveMoat.ports[1]),
+                                                   event=ID.Ref('input', protocols.SimpleSieve.events[0]),
+                                                   arguments=(
+                                                       ID.Ref('try', "XXXX"),)
+                                                   )]))]))
 wrapped_Sieve.register(event_handler_1)
