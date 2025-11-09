@@ -2,6 +2,10 @@ from castle.writers.RPy_buildin import buildin
 from castle.writers.RPy_buildin import base
 
 
+#def Machinery_trigger_direct(receiver, event_key, handlers, arglist):
+#    handler = handlers[event_key]
+#    return handler(receiver, arglist)
+
 
 cc_P_SetLabel = buildin.CC_B_Protocol(name="SetLabel",
     kind =  buildin.CC_ProtocolKind.Event,
@@ -24,16 +28,21 @@ cc_CI_Credible.ports.append(
 
 class CC_Credible(buildin.CC_B_Component):
 
-    def __init__(self, *args):
-        print('XXX 2')
+    def __init__(self, arglist):
         buildin.CC_B_Component.__init__(self, isa=cc_C_Credible)
-        self._castle_init(*args)
+        self._castle_init(arglist=[])
 
-    def HelloWorld(self, label):
+    def _castle_init(self, arglist):
+        pass
+
+        
+    def HelloWorld(self, arglist):
+        label=arglist[0]
         print("Hello %s World" % (label,))
 
-    def SetLabel_set__hello(self, label ):
-        self.HelloWorld(label)
+    def SetLabel_set__hello(self, arglist):
+        label=arglist[0]
+        self.HelloWorld(arglist=[label])
 
 
 cc_C_Credible = buildin.CC_B_ComponentClass(
@@ -53,28 +62,18 @@ cc_CI_Credible_HelloWorld = buildin.CC_B_ComponentInterface(
 
 class CC_Credible_HelloWorld(buildin.CC_B_Component):
 
-    def __init__(self, *args):
-        print('XXX 1a')
+    def __init__(self, arglist):
         buildin.CC_B_Component.__init__(self, isa=cc_C_Credible_HelloWorld)
-        self._castle_init(*args)
+        self._castle_init(arglist=[])
 
-    def _castle_init(self, ):
-        print('XXX 1b')
-        self.credible = CC_Credible()
+    def _castle_init(self, arglist):
+        self.credible = CC_Credible(arglist=arglist)
 
-
-    def std_invoke__std(self, ):
+    def std_invoke__std(self, arglist):
         """///CastleCode         # XXX TODO (in RPy)
               .credible.hello.set("credible") // trigger internal port
         """
-        print('XXX 3')
-        handler = cc_S_Credible_hello['CC_P_SetLabel_set']
-        elm = self.credible
-        handler(elm, 'credible')
-        #WRONG# handler(elm, 'credible', )
-        #OKE#	self.credible.SetLabel_set__hello('XXX-1 credible')
-        #WORKS	elm.SetLabel_set__hello('XXX-2 credible')
-
+        return cc_S_Credible_hello['CC_P_SetLabel_set'](self.credible,['credible',]) # USING arglist:list is KEY
 
 
 cc_C_Credible_HelloWorld = buildin.CC_B_ComponentClass(
@@ -88,8 +87,8 @@ cc_S_Credible_HelloWorld_std = buildin.machinery.ChainedDict(map={
 
 
 def demo(argv):
-    main_elm = CC_Credible_HelloWorld()
-    cc_S_Credible_HelloWorld_std['CC_P_std_invoke'](main_elm)
+    main_elm = CC_Credible_HelloWorld(arglist=[])
+    cc_S_Credible_HelloWorld_std['CC_P_std_invoke'](main_elm,[])
     return 0
 
 def target(*args):
