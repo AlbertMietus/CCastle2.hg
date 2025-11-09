@@ -12,19 +12,17 @@ OUTd= __out/
 
 ${RUNd} ${EXEd}:; mkdir $@
 
-## Which translor: select dir with `PyPy_Vd`
-PYPY_HGd	= /Users/albert/NoTimeMachine/PyPy,hgs/
-#PyPy_Vd	= PyPy.release-pypy2.7-v7.x/
-PyPy_Vd		= PyPy.dev/
-PYPY_SRCd	= ${PYPY_HGd}${PyPy_Vd}
-RPYTHON		= ${PYPY_SRCd}./rpython/bin/rpython
-PYPY_APPSd	= /Users/albert/Apps/PyPy/
-PYPY2_BINd	= ${PYPY_APPSd}./pypy2.7-v7.3.12-macos_arm64/bin/
-TRANSLOR	= PATH=${PYPY2_BINd}:$$PATH ${RPYTHON} --no-pdb
 
 RPY_files := $(wildcard *.rpy)
 PY_files_RUN := $(patsubst %.rpy,${RUNd}%.py,${RPY_files})
 PY_files_EXE := $(patsubst %.rpy,${EXEd}%.py,${RPY_files})
+
+
+PYPY2_BINd	= /Users/albert/Apps/PyPy/pypy2.7-v7.3.20-macos_arm64/bin/
+RPYTHON_exe = ${PYPY2_BINd}./rpython
+
+## Albert's version of rpython (driver) contains the path
+TRANSLOR	= ${RPYTHON_exe} --batch
 
 
 ${PY_files_RUN}: ${RUNd}%.py  : %.rpy
