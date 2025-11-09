@@ -1,4 +1,7 @@
-default: hand_crafted
+default: try
+all: hand_crafted
+try:  HC_cpython HC_pypy2
+translate: translate_HC
 
 ## Which translor: select dir with `PyPy_Vd`
 PYPY_HGd	= /Users/albert/NoTimeMachine/PyPy,hgs/

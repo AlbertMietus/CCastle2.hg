@@ -32,8 +32,8 @@ class CC_Credible(buildin.CC_B_Component):
     def HelloWorld(self, label):
         print("Hello %s World" % (label,))
 
-    def SetLabel_set__hello(self, ):
-        self.HelloWorld('''Elemental''')
+    def SetLabel_set__hello(self, label ):
+        self.HelloWorld(label)
 
 
 cc_C_Credible = buildin.CC_B_ComponentClass(
@@ -64,9 +64,13 @@ class CC_Credible_HelloWorld(buildin.CC_B_Component):
 
 
     def std_invoke__std(self, ):
+        """///CastleCode         # XXX TODO (in RPy)
+              .credible.hello.set("credible") // trigger internal port
+        """
         print('XXX 3')
-        #...
-
+        handler = cc_S_Credible_hello['CC_P_SetLabel_set']
+        elm = self.credible
+        handler(elm, 'credible', )
 
 cc_C_Credible_HelloWorld = buildin.CC_B_ComponentClass(
     interface = cc_CI_Credible_HelloWorld,
@@ -81,7 +85,7 @@ cc_S_Credible_HelloWorld_std = buildin.machinery.ChainedDict(map={
 def demo(argv):
     main_elm = CC_Credible_HelloWorld()
     cc_S_Credible_HelloWorld_std['CC_P_std_invoke'](main_elm)
-    return 0 
+    return 0
 
 def target(*args):
   return demo, None
