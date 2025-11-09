@@ -70,7 +70,7 @@ class CC_Credible_HelloWorld(buildin.CC_B_Component):
         print('XXX 3')
         handler = cc_S_Credible_hello['CC_P_SetLabel_set']
         elm = self.credible
-        handler(elm, 'credible', 'xxx')
+        handler(elm, 'credible')
         #WRONG# handler(elm, 'credible', )
         #OKE#	self.credible.SetLabel_set__hello('XXX-1 credible')
         #WORKS	elm.SetLabel_set__hello('XXX-2 credible')
