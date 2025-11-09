@@ -23,15 +23,13 @@ class TranslatorCommand(ABC):
     def setup(self):    pass
     def teardown(self): pass
 
-
-_PyPy_SRCd   = Path('/Users/albert/NoTimeMachine/PyPy,hgs/') / 'PyPy.dev'
-_PyPy_APPSd	 = Path('/Users/albert/Apps/PyPy/')
-TIMEOUT      = 60 #second
+PYPY2_BINd	= "/Users/albert/Apps/PyPy/pypy2.7-v7.3.20-macos_arm64/bin/"
+TIMEOUT     = 60 #second
 
 class RPY_Translator(TranslatorCommand):
     # XXX hardcoded paths & (partial) filenames XXXX
-    PyPy_BINd	 = _PyPy_APPSd / 'pypy2.7-v7.3.12-macos_arm64/bin'
-    RPYTHON	     = _PyPy_SRCd  / 'rpython/bin/rpython'
+
+    RPYTHON = PYPY2_BINd +"rpython"
 
     #@abstractmethod
     def __init__(self, *,
