@@ -32,7 +32,42 @@ class M_DC_chained_dict(_M_DC_dict):
         logger.debug("M_DC_chained_dict.render_EventDispatchTable %s ==> %s", table, txt)
         return txt
 
-    def render_sendEvent(self, renderer, node) ->  Block: #Node : castle.aigr.sendEvent
+    def render_EventOverPort(self, renderer, node) ->  Block:
+        raise NotImplementedError
+
+    def render_EventToSub(self, renderer, node) ->  Block:
+        #raise NotImplementedError
+        node = PTH.cast(aigr.machinery.EventToSub, node)
+        logger.info(f"XXX render_EventToSub:: node={node}")
+
+        """\
+aigr.machinery.EventToSub(
+    *,
+    parent: 'PTH.Optional[AIGR]' = None,
+    event: 'ID.Ref[Event]',
+    arguments: 'PTH.Sequence[Argument]',
+    comp: 'ID.Ref[componentInterface]',
+    receiver: 'ID.Ref[componentInterface]',
+) -> None        
+
+    handlers=...                            #GeneratorClass.cc_S_Generator_controll -- {cls}.{render_EventDispatchTable}
+    event_key=...                           #protocolsMoat.CC_P_StartSieve_runTo
+    receiver=...                            #comp.sub
+    args=....
+    
+    handler = handlers[event_key]
+    return handler(receiver, *args)
+"""
+
+
+
+
+
+
+
+
+
+    def OLD_AND_GONE_render_sendEvent(self, renderer, node) ->  Block: #Node : castle.aigr.sendEvent
         # For now, it is only the "local send" with a 'pin' -- also c alled 'Machinery_trigger_direct'
         #
         ### Notes
@@ -54,3 +89,5 @@ class M_DC_chained_dict(_M_DC_dict):
         dispatch_table = renderer.portray.cc_S_dispatchTable(comp=node.comp.name, port=node.outPort)
         
         txt = Block()
+
+        

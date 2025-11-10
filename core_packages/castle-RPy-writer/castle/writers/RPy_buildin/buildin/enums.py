@@ -2,7 +2,7 @@
 
 """This file contains a few enums, that are compatible with the same in castle.aigr. But rewriten (by codeAI) to become RPYTHON"""
 
-import typing as PTH                                                                                 # Python TypeHints  - not for RPython
+#import typing as PTH                                                                                 # Python TypeHints  - not for RPython
 
 class _RPython_Enum(object):
     _NAMES = {}  # type: dict[int, str]

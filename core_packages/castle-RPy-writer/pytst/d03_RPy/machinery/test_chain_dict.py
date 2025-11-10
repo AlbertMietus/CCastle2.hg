@@ -31,4 +31,4 @@ def test_2_render_childTable_a_single_table(machinery, my_renderer, childTable):
     table, expected = childTable
     blck = machinery.render_EventDispatchTable(renderer=my_renderer, node=table)
     verify_line_by_line(expected, str(blck))
-    
+

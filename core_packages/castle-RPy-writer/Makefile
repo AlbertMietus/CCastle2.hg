@@ -13,9 +13,10 @@ LAST = \
 	pytst/d04_render/test_6_Comp.py \
 #
 CURRENT = \
-	pytst/d11_HelloWorlds/d2_credible/test_12_file.py::test_1_renderToTxt
+	pytst/d03_RPy/machinery/test_event.py
 #
 TODO = \
+	pytst/d11_HelloWorlds/d2_credible/test_12_file.py::test_1_renderToTxt \
 	pytst/d11_HelloWorlds/d2_credible/test_12_file.py \
 #
 

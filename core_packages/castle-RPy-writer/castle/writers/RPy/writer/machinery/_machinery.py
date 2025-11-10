@@ -41,4 +41,9 @@ class Machinery(ABC):
     def render_EventDispatchTable(self, renderer, node) ->  Block: pass
 
     @abstractmethod
-    def render_sendEvent(self, render, node) ->  Block: pass
+    def render_EventOverPort(self, renderer, node) ->  Block:
+        assert False
+
+    @abstractmethod
+    def render_EventToSub(self, renderer, node) ->  Block:
+        assert False

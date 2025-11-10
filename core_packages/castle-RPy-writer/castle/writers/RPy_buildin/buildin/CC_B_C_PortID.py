@@ -2,8 +2,8 @@
 
 import logging; logger = logging.getLogger(__name__)
 
-import typing as PTH                                                                                 # Python TypeHints
-Unspecified = PTH.Any  # Alias for parameters whose type is intentionally left vague
+#import typing as PTH                                                                                 # Python TypeHints
+#Unspecified = PTH.Any  # Alias for parameters whose type is intentionally left vague
 
 from .enums import CC_PortDirection
 from .. import _debug

@@ -35,7 +35,7 @@ class EventDispatchTable(_DispatchTable):
     """The DispatchTable with EventHandler; maps from (name of) Protocol.Event to (name of) EventHandler"""
 
     _ : KW_ONLY
-    map: dict[PTH.Tuple[ProtocolName, EventName], HandlerName] # port is the samen for all.
+    map: dict[PTH.Tuple[ProtocolName, EventName], HandlerName] # port is the same for all.
 
 
 class DispatchTable_Scaffolder(_Scaffolder):

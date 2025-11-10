@@ -130,7 +130,7 @@ class Renderer(Visitor):
     def _DispatchTables(self, node)             ->TextBlock:
         txt = Block()
         txt += self._EventDispatchTables(node)
-        if True: #partial implementation: check we have only event-handlers
+        if True: #partial implementation: check that we have ONLY event-handlers
             for h in node.handlers:
                 assert isinstance(h, aigr.EventHandler), f"Only EventHandlers are supported for now in DispatchTables; got {h}"
         return txt
@@ -263,5 +263,9 @@ from castle.writers.RPy_buildin import base
             f"events = [])")))
         return txt
 
-    def visit_sendEvent(self, node)				->  TextBlock: # localSendEvent?
-        return self.machinery.render_sendEvent(self, node)
+    def visit_EventOverPort(self, node)				->  TextBlock:
+        return self.machinery.render_EventOverPort(self, node)
+
+    def visit_EventToSub(self, node)				->  TextBlock:
+        return self.machinery.render_EventToSub(self, node)
+
