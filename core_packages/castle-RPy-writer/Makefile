@@ -20,12 +20,20 @@ TODO = \
 	pytst/d11_HelloWorlds/d2_credible/test_12_file.py \
 #
 
-HW_Ed = TestDoubles/HelloWorlds/elemental
 
+HW_elemental = TestDoubles/HelloWorlds/elemental
+HW_credible  = TestDoubles/HelloWorlds/credible/
 all: demo
 
 demo out clean_out clean:
-	make -C  ${HW_Ed} $@
+	make -C  ${HW_elemental} $@
+	make -C  ${HW_credible} $@
+
+elemental:
+	make -C  ${HW_elemental} all
+credible:
+	make -C  ${HW_credible} all
+
 
 TOPd=../../
 include ${TOPd}Mk/comp.mk
