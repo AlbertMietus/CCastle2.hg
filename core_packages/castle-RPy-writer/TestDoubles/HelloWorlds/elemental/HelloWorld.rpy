@@ -7,14 +7,12 @@
 # - CastleCode/elemental/HelloWorld.Castle 							(CastleCode)
 # - castle/TESTDOUBLES/aigr/HelloWorlds/elemental/HelloWorld.py 	(AIGR)
 
-# Hi-lock: (("///.*$" (0 (quote hi-pink) prepend)))
 
 from castle.writers.RPy_buildin import base
 from castle.writers.RPy_buildin import buildin
 
 from castle.writers.RPy_buildin.HACK import std   #XXX
 
-from MACHINERY import MACHINERY
 
 """///CastleCode ToDo
 @impliciet(Main) ...    port std<bidir>:std
@@ -31,24 +29,30 @@ class CC_Elemental_HelloWorld(buildin.CC_B_Component): # Generated class;
     implement Elemental_HelloWorld
     {///"""
 
-    def __init__(self, *args):
+    def __init__(self, arglist):
         buildin.CC_B_Component.__init__(self, isa=cc_C_Elemental_HelloWorld)
-        self._castle_init(*args)
+        self._castle_init(arglist=arglist)
 
-    def HelloWorld(self, label):
+    def _castle_init(self, arglist):
+        pass
+        # XXX ToDO: update CC_B_Component._castle_init() to handle arglist
+
+    def HelloWorld(self, arglist):
         """///Castlecode
         HelloWorld(str:label) {
            print("Hello {label} World")
         }"""
-        print("Hello %s World -- machinery:%s, base:%s" % (label, MACHINERY, cc_CI_Elemental_HelloWorld.inherit_from.name))
 
-    def std_invoke__std(self):            #GAM `std::invoke` is an great candidate for the Main component's port `std`
+        label=arglist[0]
+        print("Hello %s World" % (label))
+
+    def std_invoke__std(self, arglist):
         """///Castlecode
          invoke() on self.std {
            HelloWorld("Elemental")
         }"""
 
-        self.HelloWorld('''Elemental''')
+        self.HelloWorld(['Elemental'])
 #///Castlecode:
 # } /* Elemental_HelloWorld */
 
@@ -59,15 +63,7 @@ cc_C_Elemental_HelloWorld = buildin.CC_B_ComponentClass(
     )
 
 
-if MACHINERY == 'list' or MACHINERY == 'default':
-    pass
-elif MACHINERY == 'tuple':
-    pass
-elif MACHINERY == 'dict':
-    cc_S_Elemental_HelloWorld_std = {
-        'CC_P_std_invoke' : CC_Elemental_HelloWorld.std_invoke__std
-        }
-else:
-    assert False, "Set 'MACHINERY'!"
-
+cc_S_Elemental_HelloWorld_std = {
+    'CC_P_std_invoke' : CC_Elemental_HelloWorld.std_invoke__std
+    }
 
