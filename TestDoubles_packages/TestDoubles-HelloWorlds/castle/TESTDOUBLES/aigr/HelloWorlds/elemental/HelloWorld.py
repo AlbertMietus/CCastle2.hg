@@ -17,7 +17,7 @@ from castle.aigr_extra.scaffolding import ScaffolderNameSpace, ScaffolderCallabl
 
 ALL = ["Hello_World"]
 
-#Hello_World = Source_NS(ID('HelloWorld'), source="elemental/HelloWorld.Castle") # XXX ToDo: use path -- change DIR STRUCT in Testdoubles_out() 
+#Hello_World = Source_NS(ID('HelloWorld'), source="elemental/HelloWorld.Castle") # XXX ToDo: use path -- change DIR STRUCT in Testdoubles_out()
 Hello_World = Source_NS(ID('HelloWorld'), source="HelloWorld.Castle")
 wrapped_HW = ScaffolderNameSpace(Hello_World)
 
