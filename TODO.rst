@@ -30,3 +30,16 @@ TODO
 
    For now, it is seen as a (possible future) variant “Machinery”
 
+typedParameters
+================
+
+De “juiste volgorde is ``naam  type``.
+
+.. seealso::  https://share.google/aimode/2yzYg4Kn95rLljly9
+
+   * Kort: https://share.google/aimode/EFYkQPeyv9riTn81q
+   * Met voorbeelden:  https://share.google/aimode/2yzYg4Kn95rLljly9
+
+
+Let op, dat is de volgorde; niet de syntax. Zo gebruik python dat voor de functie `def NAAM(...) -> TYPE :`.
+
