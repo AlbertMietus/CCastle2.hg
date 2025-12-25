@@ -6,7 +6,7 @@ PYREVERSE_PKGS = \
 LAST = \
 #
 CURRENT = \
-	pytst/test_0_bootstrap-tatsu.py
+	pytst//bootstrap/test_0_bootstrap-tatsu.py
 #
 TODO = \
 #
