@@ -3,7 +3,6 @@
 import pytest
 
 import tatsu
-from pprint import pprint
 
 @pytest.fixture
 def demo_actions():
@@ -25,7 +24,7 @@ implement Elemental_HelloWorld
 }
 """
     ast = demo_grammar.parse(txt)
-    pprint(ast)
+    print(ast)
     assert ast[0][0] == '@'
     assert ast[0][1] == 'impliciet'
     assert ast[0][2][1] == ['Main']
@@ -35,7 +34,6 @@ implement Elemental_HelloWorld
     assert ast[1][2] == '{'
     assert ast[1][3] == '}'
 
-        
 
 
 
