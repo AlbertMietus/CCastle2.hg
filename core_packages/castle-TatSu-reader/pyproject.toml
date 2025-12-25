@@ -1,0 +1,36 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "castle-TatSu-reader"
+version = "0.0.0"
+dependencies = ["castle-aigr"]
+
+[tool.setuptools]
+packages = [ # manually maintain this
+    "castle.readers.parse",
+]
+
+[tool.setuptools.package-data]
+"castle.readers.parse" = ["py.typed"]
+
+[tool.pytest.ini_options]
+markers = [
+    "slow: marks tests as slow (use --fast to include)"
+]
+
+[tool.mypy]
+namespace_packages      = true
+explicit_package_bases  = true
+python_version          = "3.13"
+mypy_path = [
+   "./../../base_packages/castle-monorail",
+   "./../../base_packages/castle-aigr",
+   "./../../TestDoubles_packages/TestDoubles-HelloWorlds",
+]
+
+[tool.mutmut]
+paths_to_mutate = [ "castle/" ]
+tests_dir       = [ "pytst/" ]
+debug = true

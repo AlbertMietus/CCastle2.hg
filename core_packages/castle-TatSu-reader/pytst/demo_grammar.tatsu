@@ -1,0 +1,36 @@
+# -*- ebnf -*-
+# (C) Albert Mietus, 2025- Part of Castle/CCastle project
+
+@@grammar       	::  Castle_Demo
+@@comments      	::  /(?m)\/\\*.*\\*\\/
+
+start 				=  implementation ;
+implementation 		=  [ rewriter ] implement_comp ;
+rewriter 			=  REWRITER nameID [ parameterTuple ] ; # eg ``@impliciet(Main)``
+
+implement_comp =
+   IMPLEMENT nameID   "{"
+      # TODO
+   "}"
+   ;
+
+###################
+
+## Move to file: incl/names.tatsu
+nameID      =  ID ;
+parmType    =  ID ;
+returnType  =  ID ;
+qualID      =  [ "." ]  ".".{ nameID }*  ;
+ID   		=  /[A-Za-z_][A-Za-z0-9_]*/ ;
+
+
+
+## Move to file: incl/keywords.tatsu
+REWRITER            =  "@" ;
+IMPLEMENT           = "implement" ;
+OPTIONAL            = "optional" ;
+
+## Move to file: incl/parm_and_args.tatsu
+parameterTuple      =  "("  ",".{parameter}* ")"   ;
+parameter 	        =   [ OPTIONAL ]  nameID [":" parmType ] ;
+
