@@ -4,7 +4,7 @@
 @@grammar		::  Castle_Demo
 @@comments		::  /(?m)\/\\*.*\\*\\/
 
-start			=  @:implementation ;
+start			=  implementation ;
 implementation	=  [ rewriter:rewriter ] implement_comp:implement_comp ;
 rewriter		=  REWRITER name:nameID [ parms:parameterTuple ] ; # eg ``@impliciet(Main)``
 
@@ -20,7 +20,7 @@ implement_comp =
 nameID			=  ID ;
 parmType		=  ID ;
 returnType		=  ID ;
-qualID			=  [ "." ]	".".{ nameID }*	 ;
+qualID			=  [ "." ] ".".{ nameID }* ;
 ID				=  /[A-Za-z_][A-Za-z0-9_]*/ ;
 
 

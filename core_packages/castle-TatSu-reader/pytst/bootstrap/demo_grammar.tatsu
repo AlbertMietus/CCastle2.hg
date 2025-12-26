@@ -1,8 +1,8 @@
 # -*- ebnf -*-
 # (C) Albert Mietus, 2025- Part of Castle/CCastle project
 
-@@grammar		::	Castle_Demo
-@@comments		::	/(?m)\/\\*.*\\*\\/
+@@grammar		::  Castle_Demo
+@@comments		::  /(?m)\/\\*.*\\*\\/
 
 start 			=  implementation ;
 implementation 	=  [ rewriter ] implement_comp ;
