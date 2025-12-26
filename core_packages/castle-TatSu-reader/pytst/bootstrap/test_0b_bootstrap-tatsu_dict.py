@@ -5,6 +5,7 @@ import pytest
 from castle import aigr
 
 from . import *
+del eHW_frame_NoRewriter # Not needed here
 
 @pytest.fixture
 def grammmar_file():
@@ -29,7 +30,8 @@ def test_0_raw(demo_parser):
 
 class Demo_Actions:
     def rewriter(self, ast):
-        assert False, f"ToDo: implement rewriter action -- {ast=}"
+        logger.error(f"No aigr for REWRITER return ast -- {ast=} XXX ToDo: update aigr")
+        return ast
     def implement_comp(self, ast):
         print(f"Demo_Actions/implement_comp: {ast=}")
         return aigr.ComponentImplementation(name=ast.name)
@@ -42,12 +44,13 @@ class Demo_Actions:
 
 def test_1_actions(demo_parser):
     print("\n---- test_1_actions ----")
-    ast = demo_parser.parse(eHW_frame_NoRewriter, semantics=Demo_Actions())
+    ast = demo_parser.parse(eHW_frame, semantics=Demo_Actions())
     print("---- test_1_actions (END) ----")
     print(f"test_1_actions:: {ast=}")
 
-    rewriter = ast.rewriter
-    assert rewriter is None # No rewriter in this test
+    rewriter = ast.rewriter # No AIGR.rewriter, but w can use the dict
+    assert rewriter.name  == 'impliciet'
+    assert rewriter.parms[0].name == 'Main'
 
     comp = ast.implement_comp
     assert isinstance(comp, aigr.ComponentImplementation)

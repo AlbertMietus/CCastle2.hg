@@ -11,7 +11,6 @@ CURRENT = \
 	pytst/bootstrap/test_0b_bootstrap-tatsu_dict.py::test_1_actions\
 #
 TODO = \
-	pytst/bootstrap \
 #
 
 
