@@ -2,29 +2,13 @@
 import logging; logger = logging.getLogger(__name__)
 
 import pytest
-from pathlib import Path
-import tatsu
-
 from castle import aigr
 
-eHW_frame_NoRewriter = """\
-   implement Elemental_HelloWorld
-   {
-   }
-"""
-
-eHW_frame = """@impliciet(Main)\n"""+ eHW_frame_NoRewriter
+from . import *
 
 @pytest.fixture
-def myPath():
-    return Path(__file__).parent
-
-@pytest.fixture
-def demo_parser(myPath):
-    with open(myPath  / 'demo_grammar.tatsu') as f:
-        grammar = f.read()
-        parser = tatsu.compile(grammar)
-        return parser
+def grammmar_file():
+    return 'demo_grammar.tatsu'
 
 
 def test_0_raw(demo_parser):
@@ -42,9 +26,7 @@ def test_0_raw(demo_parser):
 
 class Demo_Actions:
     def rewriter(self, ast):
-        logger.warning("`@rewriter` has no AIGR node yet. ToDo XXX")
-        print(f"Demo_Actions/rewriter: {ast=}")
-        assert False, "ToDo: implement rewriter action"
+        assert False, f"ToDo: implement rewriter action -- {ast=}"
     def implement_comp(self, ast):
         print(f"Demo_Actions/implement_comp: {ast=}")
         comp = aigr.ComponentImplementation(name=ast[1])
