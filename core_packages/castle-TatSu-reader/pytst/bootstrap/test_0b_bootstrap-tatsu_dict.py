@@ -26,7 +26,6 @@ def test_0_raw(demo_parser):
     assert comp.name == 'Elemental_HelloWorld'
 
 
-
 def test_1a_actions_NoRewriter(demo_parser):
     print("\n---- test_1a_actions ----")
     ast = demo_parser.parse(eHW_frame_NoRewriter, semantics=Demo_Actions())
@@ -35,6 +34,7 @@ def test_1a_actions_NoRewriter(demo_parser):
 
     verify_rewriter(ast, absent=True)
     verify_comp(ast)
+
 
 def test_1b_actions_WithRewriter(demo_parser):
     print("\n---- test_1b_actions ----")
