@@ -3,7 +3,6 @@ import logging; logger = logging.getLogger(__name__)
 
 import pytest
 from castle import aigr
-from pprint import pformat
 
 from . import *
 
@@ -18,7 +17,7 @@ def test_0_raw(demo_parser):
 
     rewriter = ast.rewriter
     assert rewriter.name  == 'impliciet'
-    assert len(rewriter.parms) == 1 # XXX
+    assert len(rewriter.parms) == 1
     assert rewriter.parms[0].name == 'Main'
     assert rewriter.parms[0].type is None
     assert rewriter.parms[0].modifiers == []
@@ -33,15 +32,13 @@ class Demo_Actions:
         assert False, f"ToDo: implement rewriter action -- {ast=}"
     def implement_comp(self, ast):
         print(f"Demo_Actions/implement_comp: {ast=}")
-        comp = aigr.ComponentImplementation(name=ast.name)
-        return comp
+        return aigr.ComponentImplementation(name=ast.name)
     def ID(self, ast):
         print(f"Demo_Actions/ID: {ast=}")
         return aigr.ID(name=ast)
     def _default(self,ast):
         print(f"Demo_Actions/_default: {ast=}")
         return ast
-
 
 def test_1_actions(demo_parser):
     print("\n---- test_1_actions ----")

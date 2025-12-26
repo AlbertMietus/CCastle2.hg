@@ -13,14 +13,18 @@ def grammmar_file():
 
 def test_0_raw(demo_parser):
     ast = demo_parser.parse(eHW_frame)
-    print(f"test_0_raw:: {ast=}")
-    assert ast[0][0] == '@'
-    assert ast[0][1] == 'impliciet'
-    assert ast[0][2][1] == ['Main']
-    assert ast[1][0] == 'implement'
-    assert ast[1][1] == 'Elemental_HelloWorld'
-    assert ast[1][2] == '{'
-    assert ast[1][3] == '}'
+    logger.info(f"test_0_raw::\n{ast=}")
+
+    rewriter = ast[0]
+    assert rewriter[0] == '@'
+    assert rewriter[1] == 'impliciet'
+    assert rewriter[2][1] == ['Main']
+
+    comp = ast[1]
+    assert comp[0] == 'implement'
+    assert comp[1] == 'Elemental_HelloWorld'
+    assert comp[2] == '{'
+    assert comp[3] == '}'
 
 
 
@@ -29,8 +33,7 @@ class Demo_Actions:
         assert False, f"ToDo: implement rewriter action -- {ast=}"
     def implement_comp(self, ast):
         print(f"Demo_Actions/implement_comp: {ast=}")
-        comp = aigr.ComponentImplementation(name=ast[1])
-        return comp
+        return aigr.ComponentImplementation(name=ast[1])
     def ID(self, ast):
         print(f"Demo_Actions/ID: {ast=}")
         return aigr.ID(name=ast)
@@ -44,8 +47,11 @@ def test_1_actions(demo_parser):
     print("---- test_1_actions (END) ----")
     print(f"test_1_actions:: {ast=}")
 
-    assert isinstance(ast, aigr.ComponentImplementation)
-    assert ast.name == 'Elemental_HelloWorld'
+    #The rewriter is not in the AST
+
+    comp = ast
+    assert isinstance(comp, aigr.ComponentImplementation)
+    assert comp.name == 'Elemental_HelloWorld'
 
 
 
