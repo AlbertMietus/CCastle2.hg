@@ -5,7 +5,6 @@ import pytest
 from castle import aigr
 
 from . import *
-del eHW_frame_NoRewriter # Not needed here
 
 @pytest.fixture
 def grammmar_file():
@@ -28,6 +27,28 @@ def test_0_raw(demo_parser):
 
 
 
+def test_1a_actions_NoRewriter(demo_parser):
+    print("\n---- test_1a_actions ----")
+    ast = demo_parser.parse(eHW_frame_NoRewriter, semantics=Demo_Actions())
+    print("---- test_1a_actions (END) ----")
+    print(f"test_1a_actions:: {ast=}")
+
+    verify_rewriter(ast, absent=True)
+    verify_comp(ast)
+
+def test_1b_actions_WithRewriter(demo_parser):
+    print("\n---- test_1b_actions ----")
+    ast = demo_parser.parse(eHW_frame, semantics=Demo_Actions())
+    print("---- test_1b_actions (END) ----")
+    print(f"test_1b_actions:: {ast=}")
+
+    verify_rewriter(ast, absent=False)
+    verify_comp(ast)
+
+###
+###    end of tests
+###
+
 class Demo_Actions:
     def rewriter(self, ast):
         logger.error(f"No aigr for REWRITER return ast -- {ast=} XXX ToDo: update aigr")
@@ -42,20 +63,15 @@ class Demo_Actions:
         print(f"Demo_Actions/_default: {ast=}")
         return ast
 
-def test_1_actions(demo_parser):
-    print("\n---- test_1_actions ----")
-    ast = demo_parser.parse(eHW_frame, semantics=Demo_Actions())
-    print("---- test_1_actions (END) ----")
-    print(f"test_1_actions:: {ast=}")
+def verify_rewriter(ast, absent):
+    rewriter = ast.rewriter # No AIGR.rewriter, but we can use the dict
+    if absent:
+        assert rewriter is None
+    else:
+        assert rewriter.name  == 'impliciet'
+        assert rewriter.parms[0].name == 'Main'
 
-    rewriter = ast.rewriter # No AIGR.rewriter, but w can use the dict
-    assert rewriter.name  == 'impliciet'
-    assert rewriter.parms[0].name == 'Main'
-
+def verify_comp(ast):
     comp = ast.implement_comp
     assert isinstance(comp, aigr.ComponentImplementation)
     assert comp.name == 'Elemental_HelloWorld'
-
-
-
-

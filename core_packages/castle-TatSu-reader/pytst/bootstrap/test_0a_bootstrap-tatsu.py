@@ -27,10 +27,42 @@ def test_0_raw(demo_parser):
     assert comp[3] == '}'
 
 
+def test_1a_actions_NoRewriter(demo_parser):
+    print("\n---- test_1a_actions ----")
+    ast = demo_parser.parse(eHW_frame_NoRewriter, semantics=Demo_Actions())
+    print("---- test_1a_actions (END) ----")
+    print(f"test_1a_actions:: {ast=}")
+
+    verify_rewriter(ast, absent=True)
+    verify_comp(ast)
+
+
+def test_1b_actions_WithRewriter(demo_parser):
+    print("\n---- test_1b_actions ----")
+    ast = demo_parser.parse(eHW_frame, semantics=Demo_Actions())
+    print("---- test_1b_actions (END) ----")
+    print(f"test_1b_actions:: {ast=}")
+
+    verify_rewriter(ast, absent=False)
+    verify_comp(ast)
+
+###
+###    end of tests
+###
 
 class Demo_Actions:
+    def implementation(self, ast):
+        print(f"Demo_Actions/implementation: {ast=}")
+        d={}
+        if isinstance(ast, aigr.ComponentImplementation):
+            d['implementation']= ast
+        else:
+            d['rewriter']= ast[0]
+            d['implementation']= ast[1]
+        return d
     def rewriter(self, ast):
-        assert False, f"ToDo: implement rewriter action -- {ast=}"
+        logger.error(f"No aigr for REWRITER return ast -- {ast=} XXX ToDo: update aigr")
+        return ast
     def implement_comp(self, ast):
         print(f"Demo_Actions/implement_comp: {ast=}")
         return aigr.ComponentImplementation(name=ast[1])
@@ -41,18 +73,15 @@ class Demo_Actions:
         print(f"Demo_Actions/_default: {ast=}")
         return ast
 
-def test_1_actions(demo_parser):
-    print("\n---- test_1_actions ----")
-    ast = demo_parser.parse(eHW_frame_NoRewriter, semantics=Demo_Actions())
-    print("---- test_1_actions (END) ----")
-    print(f"test_1_actions:: {ast=}")
+def verify_rewriter(ast, absent):
+    if absent:
+        assert 'rewriter' not in ast
+    else:
+        rewriter = ast['rewriter']
+        assert rewriter[1]  == 'impliciet'
+        assert rewriter[2][1][0] == 'Main'
 
-    #The rewriter is not in the AST
-
-    comp = ast
+def verify_comp(ast):
+    comp = ast['implementation']
     assert isinstance(comp, aigr.ComponentImplementation)
     assert comp.name == 'Elemental_HelloWorld'
-
-
-
-
