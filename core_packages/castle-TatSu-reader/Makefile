@@ -2,6 +2,10 @@ default: all
 
 
 PYREVERSE_PKGS = \
+	castle.readers \
+	\
+	castle.readers.parser \
+
 #
 LAST = \
 	pytst/bootstrap/test_0a_bootstrap-tatsu.py \
