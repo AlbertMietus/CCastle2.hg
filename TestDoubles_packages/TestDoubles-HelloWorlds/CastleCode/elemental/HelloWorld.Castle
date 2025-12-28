@@ -8,11 +8,11 @@
    See the alternatives (like 'primitive') for more realistic examples of HelloWorld in Castle.
 """
 
-@impliciet(Main)                   ///GAM: This `rewriter` auto-generates ``component Elemental_HelloWorld`` based on Main
+@impliciet(Main)                   	///GAM: This `rewriter` auto-generates ``component Elemental_HelloWorld`` based on Main
 implement Elemental_HelloWorld
 {
 
-HelloWorld(str:label) {
+HelloWorld(label :string) { 			///GAM: fixed `name :type` order
    print("Hello {label} World")
 }
 

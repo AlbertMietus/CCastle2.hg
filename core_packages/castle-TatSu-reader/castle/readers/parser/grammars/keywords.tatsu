@@ -1,0 +1,23 @@
+# -*- ebnf -*-
+# (C) Albert Mietus, 2025- Part of Castle/CCastle project
+
+
+# List of keywords
+ALIAS               = "alias" 		;
+COMPONENT           = "component"	;
+DATA                = "data"		;
+DEFAULT             = "default"		;
+EVENT               = "event"		;
+FUNCTION            = "function"	;
+GLOBAL              = "global"		;
+IMPLEMENT           = "implement"	;
+IMPORT              = "import"		;
+KIND                = "kind"		;
+ON                  = "on"			;
+OPTIONAL            = "optional"	;
+PORT                = "port"		;
+PROTOCOL            = "protocol"	;
+STREAM              = "stream"		;
+SUB                 = "sub"			;
+_VOID               = "void"		;
+
