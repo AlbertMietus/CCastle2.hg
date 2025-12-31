@@ -13,7 +13,7 @@ def castle_parser():
 
 def test_1_parameterTuple_simple(castle_parser):
     parms = castle_parser("(label :string)", start='parameterTuple')
-    logger.debug(f"test_1_parameterTuple_simple:: {parms=}")
+    logger.debug(f"\n  test_1_parameterTuple_simple:: {parms=}")
 
     assert isinstance(parms, (tuple,list)) and len(parms) == 1
 
@@ -25,7 +25,7 @@ def test_1_parameterTuple_simple(castle_parser):
 def test_2_parameterTuples(castle_parser):
     txt="""(a :t1, b: t2, c : t3)""" # No real types; jyst names
     parms = castle_parser(txt, start='parameterTuple')
-    logger.debug(f"test_2_parameterTuples: {parms=}")
+    logger.debug(f"\n  test_2_parameterTuples: {parms=}")
 
     assert isinstance(parms, (tuple,list)) and len(parms) == 3
 

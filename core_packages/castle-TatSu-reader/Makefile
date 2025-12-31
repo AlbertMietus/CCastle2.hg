@@ -12,7 +12,7 @@ LAST = \
 	pytst/bootstrap/test_0b_bootstrap-tatsu_dict.py\
 #
 CURRENT = \
-	pytst/bootstrap/test_1_partialParse.py 	\
+	pytst/parse/test_1_parms.py \
 #
 TODO = \
 #
