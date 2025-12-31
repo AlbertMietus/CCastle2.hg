@@ -4,33 +4,40 @@ import pytest
 
 from castle import aigr
 
+from . import *
 
-from . import castle_parser
 
+###
+### .. note: in "name: type" the "type" is just a name (aigr.ID), not a real type (aigt.type.*)
+###
 def test_1_parameterTuple_simple(castle_parser):
-    parms = castle_parser("(label :string)", start='parameterTuple')
-    logger.debug(f"\n  test_1_parameterTuple_simple:: {parms=}")
+    txt="(label :string)"
+    parms = castle_parser(txt, start='parameterTuple')
+    logger.debug(f"{txt=} ==> {parms=}")
 
-    assert isinstance(parms, (tuple,list)) and len(parms) == 1
+    verify_parms_tuple(parms, 1)
+    verify_parm(parms[0], 'label', 'string')
 
-    parm = parms[0]
-    assert isinstance(parm, aigr.TypedParameter)
-    assert parm.name == 'label'
-    assert parm.type == 'string' # Note: a *name*; not: aigt.type.string
 
 def test_2_parameterTuples(castle_parser):
-    txt="""(a :t1, b: t2, c : t3)""" # No real types; jyst names
+    txt="""(a :t1, b: t2, c : t3)"""
     parms = castle_parser(txt, start='parameterTuple')
-    logger.debug(f"\n  test_2_parameterTuples: {parms=}")
+    logger.debug(f"{txt=} ==> {parms=}")
 
-    assert isinstance(parms, (tuple,list)) and len(parms) == 3
-
+    verify_parms_tuple(parms, 3)
     for parm, name, type_ in zip(
             parms,
             ('a',  'b',  'c'),
             ('t1', 't2', 't3')):
-        assert isinstance(parm.name, aigr.ID) and parm.name == name, f"Expecting {aigr.ID(name)=}, got {parm.name!r}"
-        assert parm.type == type_
-        assert isinstance(parm.type, aigr.ID)
-        assert isinstance(parm.type.context, aigr.base.names.Ref) # Note aigr.base.names.Ref) != aigr.ID.Ref
-    #end
+            verify_parm(parm, name, type_)
+
+
+@pytest.mark.skip(reason="optional parameters not yet supported in AIGR")
+def test_3_optionalParameterTuple_empty(castle_parser):
+    txt="(optional bar :foo)"
+    parms = castle_parser(txt, start='parameterTuple')
+    logger.debug(f"{txt=} ==> {parms=}")
+
+    verify_parms_tuple(parms, 1)
+    verify_parm(parms[0], 'bar', 'foo', check_optional=True) # Will fail ...
+    assert False
