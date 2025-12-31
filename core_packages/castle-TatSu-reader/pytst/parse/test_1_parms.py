@@ -3,13 +3,9 @@ import logging; logger = logging.getLogger(__name__)
 import pytest
 
 from castle import aigr
-from castle.readers.parser import CastleParser
 
-@pytest.fixture
-def castle_parser():
-    parser = CastleParser()
-    return parser.parse
 
+from . import castle_parser
 
 def test_1_parameterTuple_simple(castle_parser):
     parms = castle_parser("(label :string)", start='parameterTuple')
