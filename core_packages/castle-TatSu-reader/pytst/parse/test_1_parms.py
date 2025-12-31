@@ -33,7 +33,7 @@ def test_2_parameterTuples(castle_parser):
 
 
 @pytest.mark.skip(reason="optional parameters not yet supported in AIGR")
-def test_3_optionalParameterTuple_empty(castle_parser):
+def test_3_optionalParameter(castle_parser):
     txt="(optional bar :foo)"
     parms = castle_parser(txt, start='parameterTuple')
     logger.debug(f"{txt=} ==> {parms=}")
