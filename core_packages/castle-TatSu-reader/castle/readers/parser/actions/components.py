@@ -5,8 +5,9 @@ from castle import aigr
 
 class Components():
     def implement_component(self, ast):
-        logger.debug(f"implement_component: {ast=}")
         parameters = () if ast.parameters is None else ast.parameters
-        return aigr.ComponentImplementation(ast.name, parameters=parameters)
+        retval= aigr.ComponentImplementation(ast.name, parameters=parameters)
+        logger.debug(f"implement_component: {ast=} ==> {retval}")
+        return retval
 
 
