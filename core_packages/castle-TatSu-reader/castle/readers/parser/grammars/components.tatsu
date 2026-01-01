@@ -4,7 +4,7 @@
 component_interface = 'TODO' ; # """component name: base { <ports> }"""
 
 implement_component =
-	IMPLEMENT name:nameID [parms:parameterTuple] '{'
+	IMPLEMENT name:nameID [parameters:parameterTuple] '{'
 
    '}'
     ;

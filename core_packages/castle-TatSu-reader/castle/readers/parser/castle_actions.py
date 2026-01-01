@@ -13,7 +13,9 @@ from .actions import *
 
 class DebugActions():
     """"This is a MixIn for temporally actions, often as calling `super().<MyMethod>` adding extra logging"""
-    pass
+    def _default(self, ast):
+        logger.info(f"DebugActions/_default: {ast=}")
+        return ast
 
 class CastleActions(
         DebugActions,
