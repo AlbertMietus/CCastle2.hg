@@ -8,7 +8,7 @@ class ParmsArgs():
         return aigr.TypedParameter(name=ast.name, type=ast.type) #XXX type: str OR aigr.type.string?
     def parameterTuple(self, ast):
         "a parameterTuple is a **TUPLE** (not a list)"
-        logger.info(f"parameterTuple: {ast=}")
+        logger.debug(f"parameterTuple: {ast=}")
         return tuple(ast)
 
     def modifiers(self, ast):
