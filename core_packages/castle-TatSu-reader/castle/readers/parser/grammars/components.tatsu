@@ -1,0 +1,10 @@
+# -*- ebnf -*-
+# (C) Albert Mietus, 2025, 2026- Part of Castle/CCastle project
+
+component_interface = 'TODO' ; # """component name: base { <ports> }"""
+
+implement_component =
+	IMPLEMENT name:nameID [parms:parameterTuple] '{'
+
+   '}'
+    ;

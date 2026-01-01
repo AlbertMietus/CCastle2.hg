@@ -19,5 +19,6 @@ class CastleActions(
         DebugActions,
         ParmsArgs,
         Names,
+        Components,
         ):
     pass
