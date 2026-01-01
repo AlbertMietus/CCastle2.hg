@@ -5,6 +5,26 @@ component_interface = 'TODO' ; # """component name: base { <ports> }"""
 
 implement_component =
 	IMPLEMENT name:nameID [parameters:parameterTuple] '{'
-
+	{
+    | members
+    | handler
+    }
    '}'
     ;
+
+
+handler =
+    | event_handler
+    | data_handler
+    | local_function
+    ;
+
+event_handler	=  _ToDo_;
+#event_handler	=  name:handlerID parameters:parameterTuple ON port:portID body ;
+
+handlerID       = qualID ;
+
+members 		= _ToDo_ ;
+data_handler	= _ToDo_ ;
+local_function	= _ToDo_ ; # or method/comp_function/
+_ToDo_ 			= 'ToDo' ; # XXX
