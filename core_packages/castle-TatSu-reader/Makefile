@@ -14,7 +14,7 @@ LAST = \
 	pytst/parse/test_1a_names.py \
 #
 CURRENT = \
-	pytst/parse/test_2_comp_implement.py \
+	pytst/parse/test_2a_comp_implement.py \
 #
 TODO = \
 #
