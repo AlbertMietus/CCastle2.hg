@@ -33,6 +33,7 @@ implement CompWithParms(p1 :t1, p2 :type2)
         verify_parm(parm, name, type_)
 
 
+#def test_3_Comp_
 
 
 def verify_ComponentImplementation(comp, name, parameters=0, handlers=0):

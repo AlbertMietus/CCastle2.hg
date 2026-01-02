@@ -19,12 +19,13 @@ handler =
     | local_function
     ;
 
-event_handler	=  _ToDo_;
-#event_handler	=  name:handlerID parameters:parameterTuple ON port:portID body ;
-
+event_handler	= name:handlerID parameters:parameterTuple ON port:portID body ;
 handlerID       = qualID ;
+portID          = qualID ;
+
+body = _ToDo_ ;
+local_function	= _ToDo_ ; # or method/comp_function/
 
 members 		= _ToDo_ ;
 data_handler	= _ToDo_ ;
-local_function	= _ToDo_ ; # or method/comp_function/
 _ToDo_ 			= 'ToDo' ; # XXX
