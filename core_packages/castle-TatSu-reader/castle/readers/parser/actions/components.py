@@ -2,12 +2,12 @@
 import logging; logger = logging.getLogger(__name__)
 
 from castle import aigr
+from ._debug import add_debug_logging
 
+@add_debug_logging
 class Components():
     def implement_component(self, ast):
         parameters = () if ast.parameters is None else ast.parameters
-        retval= aigr.ComponentImplementation(ast.name, parameters=parameters)
-        logger.debug(f"implement_component: {ast=} ==> {retval}")
-        return retval
+        return aigr.ComponentImplementation(ast.name, parameters=parameters)
 
 

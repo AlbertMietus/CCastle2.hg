@@ -2,6 +2,9 @@
 import logging; logger = logging.getLogger(__name__)
 
 from .actions import *
+from .actions._debug import add_debug_logging
+
+
 
 #DOC
 ## Almost all (semantics) Actions are defines in helper-classes -- which are defined in ./actions/*.py
@@ -11,14 +14,13 @@ from .actions import *
 ## Instead of one big class with many unrelated methods, those method are distributed over many small classes
 ## Each of those classes are (roughly) aligned with the PEG-rule-sets; see ./grammar/*.tatsu
 
-class DebugActions():
-    """"This is a MixIn for temporally actions, often as calling `super().<MyMethod>` adding extra logging"""
+@add_debug_logging
+class DefaultActions():
     def _default(self, ast):
-        logger.info(f"DebugActions/_default: {ast=}")
         return ast
 
 class CastleActions(
-        DebugActions,
+        DefaultActions,
         ParmsArgs,
         Names,
         Components,
