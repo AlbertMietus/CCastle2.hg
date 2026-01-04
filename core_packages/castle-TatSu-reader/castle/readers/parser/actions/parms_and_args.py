@@ -8,9 +8,9 @@ from ._debug import add_debug_logging
 
 @add_debug_logging
 class ParmsArgs():
-    def parameter(self, ast):
+    def typedParameter(self, ast):
         return aigr.TypedParameter(name=ast.name, type=ast.type) #XXX type: str OR aigr.type.string?
-    def parameterTuple(self, ast):
+    def typedParameterTuple(self, ast):
         "a parameterTuple is a **TUPLE** (not a list)"
         return flat_tuple(ast)
     def modifiers(self, ast):

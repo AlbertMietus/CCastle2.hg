@@ -12,7 +12,7 @@ from . import *
 ###
 def test_1_parameterTuple_simple(castle_parser):
     txt="(label :string)"
-    parms = castle_parser(txt, start='parameterTuple')
+    parms = castle_parser(txt, start='typedParameterTuple')
     logger.debug(f"{txt=} ==> {parms=}")
 
     verify_parms_tuple(parms, 1)
@@ -21,7 +21,7 @@ def test_1_parameterTuple_simple(castle_parser):
 
 def test_2_parameterTuples(castle_parser):
     txt="""(a :t1, b: t2, c : t3)"""
-    parms = castle_parser(txt, start='parameterTuple')
+    parms = castle_parser(txt, start='typedParameterTuple')
     logger.debug(f"{txt=} ==> {parms=}")
 
     verify_parms_tuple(parms, 3)
@@ -35,7 +35,7 @@ def test_2_parameterTuples(castle_parser):
 @pytest.mark.skip(reason="optional parameters not yet supported in AIGR")
 def test_3_optionalParameter(castle_parser):
     txt="(optional bar :foo)"
-    parms = castle_parser(txt, start='parameterTuple')
+    parms = castle_parser(txt, start='typedParameterTuple')
     logger.debug(f"{txt=} ==> {parms=}")
 
     verify_parms_tuple(parms, 1)

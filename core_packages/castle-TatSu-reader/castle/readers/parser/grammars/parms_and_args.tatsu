@@ -1,8 +1,21 @@
 # -*- ebnf -*-
-# (C) Albert Mietus, 2025- Part of Castle/CCastle project
+# (C) Albert Mietus, 2025,2026, - Part of Castle/CCastle project
 
 
-parameterTuple	=  "("  @:",".{parameter}* ")"   ;
-parameter		=  modifiers:{modifiers}*   name:nameID [":" type:typeID ] ;
+## .. note::  Parm vs Args
+##
+##    - a `Parameter` is 'placholder' definitions,
+##    - an `Argument` is a value that is passed to ...
+##
 
-modifiers		=  OPTIONAL ;
+typedParameterTuple	=  "("  @:",".{typedParameter}*  ")"   ;
+typedParameter		=  modifiers:{modifiers}*   name:nameID [":" type:typeID ] ;
+
+argumentTuple       =  "("   @:",".{argument}*  ")"   ;
+argument            =   [ name:nameID "=" ]  value:expression ;
+
+
+modifiers		   =  OPTIONAL ;
+
+expression = _ToDo_ ;
+

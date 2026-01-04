@@ -1,10 +1,16 @@
 # -*- ebnf -*-
 # (C) Albert Mietus, 2025, 2026- Part of Castle/CCastle project
 
-component_interface = 'TODO' ; # """component name: base { <ports> }"""
+component_interface =
+    COMPONENT name:nameID [parameters:typedParameterTuple] base: nameID '{'
+    {
+    _ToDo_
+    }*
+   '}'
+    ;
 
 implement_component =
-	IMPLEMENT name:nameID [parameters:parameterTuple] '{'
+	IMPLEMENT name:nameID [parameters:typedParameterTuple] '{' # XXX parameters or arguments -- I think the last ...
 	{
     | members
     | handler
@@ -20,7 +26,7 @@ handler =
     | local_function
     ;
 
-event_handler	= event:handlerID parameters:parameterTuple ON port:portID body:body ;
+event_handler	= event:handlerID parameters:typedParameterTuple ON port:portID body:body ;
 handlerID       = qualID ;
 portID          = qualID ;
 
@@ -29,6 +35,7 @@ body =
         [_ToDo_]
    '}'
     ;
+
 
 
 
