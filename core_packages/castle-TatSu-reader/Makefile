@@ -14,9 +14,11 @@ LAST = \
 	pytst/parse/test_1a_names.py \
 #
 CURRENT = \
-	pytst/parse/test_2a_comp_implement.py \
+
 #
 TODO = \
+	pytst/parse/test_2a_comp_implement.py::test_3a_Comp_with_empty_EH\
+	pytst/parse/test_2a_comp_implement.py\
 #
 
 

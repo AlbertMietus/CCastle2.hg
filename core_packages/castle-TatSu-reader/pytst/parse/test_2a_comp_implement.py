@@ -33,7 +33,21 @@ implement CompWithParms(p1 :t1, p2 :type2)
         verify_parm(parm, name, type_)
 
 
-#def test_3_Comp_
+@pytest.mark.skip(" ComponentImplementation() need ComponentInterface")
+def test_3a_Comp_with_empty_EH(castle_parser):
+    txt = """\
+implement Comp_emptyEH
+{
+invoke() on self.std {
+}
+}
+"""
+    comp = castle_parser(txt, start='implement_component')
+    logger.debug(f"{txt=} ==> {comp=}")
+    verify_ComponentImplementation(comp, name="Comp_emptyEH", handlers=1)
+    assert False, "ToDo: check EV"
+
+
 
 
 def verify_ComponentImplementation(comp, name, parameters=0, handlers=0):

@@ -8,7 +8,8 @@ implement_component =
 	{
     | members
     | handler
-    }
+    | local_function
+    }*
    '}'
     ;
 
@@ -19,11 +20,23 @@ handler =
     | local_function
     ;
 
-event_handler	= name:handlerID parameters:parameterTuple ON port:portID body ;
+event_handler	= event:handlerID parameters:parameterTuple ON port:portID body:body ;
 handlerID       = qualID ;
 portID          = qualID ;
 
-body = _ToDo_ ;
+body =
+   '{'
+        [_ToDo_]
+   '}'
+    ;
+
+
+
+
+
+
+
+
 local_function	= _ToDo_ ; # or method/comp_function/
 
 members 		= _ToDo_ ;
