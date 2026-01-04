@@ -6,13 +6,13 @@ from castle.aigr_extra.blend import mangle_event_handler
 
 from ._debug import add_debug_logging
 
-def rm_self_to_str(qid):
+def portID_2_str(quid):
     """Given a qualID, remove 'self', and return as str"""
-    if not isinstance(qid, (list, tuple)):
-        logging.warning("Not a quilID (list of IDs): %s use as it (fingers crossed)", qid)
-        return str(qid)
+    if not isinstance(quid, (list, tuple)):
+        logging.warning("Not a quilID (list of IDs): %s use as it (fingers crossed)", quid)
+        return str(quid)
     #else
-    short = qid[1:] if qid[0] == 'self' else qid
+    short = quid[1:] if quid[0] == 'self' else quid
     return "_".join(str(n) for n in short)
 
 
@@ -26,7 +26,7 @@ class Components():
 
         assert False, "Need ComponentInterface to find proto via port"
 
-        #return aigr.EventHandler(mangle_event_handler(str(protocol), str(event), str(port)), ...
+        #return aigr.EventHandler(mangle_event_handler(str(protocol), str(event), portID_2_str(port)), ...)
 
 
 
