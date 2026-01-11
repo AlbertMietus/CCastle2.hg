@@ -1,0 +1,18 @@
+# -*- ebnf -*-
+# (C) Albert Mietus, 2026- Part of Castle/CCastle project
+
+protocol_definition =
+    | event_protocol
+    | _ToDo_
+    ;
+
+event_protocol =
+	PROTOCOL name:nameID
+    '{'
+		events:{ event_definition }*
+    '}'
+	;
+
+event_definition =
+	[ EVENT ] name:nameID parameters:typedParameterTuple [ RETURNS type:typeID ] ';'
+    ;

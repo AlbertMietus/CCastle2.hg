@@ -3,9 +3,9 @@
 
 component_interface =
     COMPONENT name:nameID [parameters:typedParameterTuple] [':' base:nameID] '{'
-    {
-    [_ToDo_]
-    }*
+ 	    {
+    	[_ToDo_]
+        }*
    '}'
     ;
 
@@ -45,7 +45,6 @@ body =
 
 
 local_function	= _ToDo_ ; # or method/comp_function/
-
 members 		= _ToDo_ ;
 data_handler	= _ToDo_ ;
-_ToDo_ 			= 'ToDo' ; # XXX
+

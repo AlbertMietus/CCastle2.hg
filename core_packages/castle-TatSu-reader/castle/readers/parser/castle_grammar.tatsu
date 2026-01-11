@@ -11,7 +11,8 @@ castle_file = _todo_ ;
 _todo_ = 'TODO' ;
 
 
-#include :: "grammars/parms_and_args.tatsu"
 #include :: "grammars/names.tatsu"
 #include :: "grammars/keywords.tatsu"
+#include :: "grammars/parms_and_args.tatsu"
+#include :: "grammars/protocols.tatsu"
 #include :: "grammars/components.tatsu"

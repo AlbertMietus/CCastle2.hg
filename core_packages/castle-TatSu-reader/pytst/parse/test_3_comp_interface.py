@@ -27,6 +27,8 @@ component ComponentWithBase: aBase
     logger.debug(f"{txt=} ==> {comp=}")
     verify_ComponentInterface(comp, name="ComponentWithBase", base='aBase')
 
+
+
 def verify_ComponentInterface(comp, name, base:PTH.Optional[aigr.ID]=None, ports=0):
     assert isinstance(comp, aigr.ComponentInterface), f"Expecting an ComponentInterface, got: {comp}"
     # direct attributes

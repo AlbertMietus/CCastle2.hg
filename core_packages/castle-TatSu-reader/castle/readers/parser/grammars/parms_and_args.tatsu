@@ -9,7 +9,8 @@
 ##
 
 typedParameterTuple	=  "("  @:",".{typedParameter}*  ")"   ;
-typedParameter		=  modifiers:{modifiers}*   name:nameID [":" type:typeID ] ;
+#typedParameter		=  modifiers:{modifiers}*   name:nameID [":" type:typeID ] ;
+typedParameter		=  name:nameID [":" type:typeID ] ;
 
 argumentTuple       =  "("   @:",".{argument}*  ")"   ;
 argument            =   [ name:nameID "=" ]  value:expression ;

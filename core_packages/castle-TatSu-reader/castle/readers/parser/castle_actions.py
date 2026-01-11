@@ -21,8 +21,9 @@ class DefaultActions():
 
 class CastleActions(
         DefaultActions,
-        ParmsArgs,
         Names,
+        ParmsArgs,
+        Protocols,
         Components,
         ):
     pass
