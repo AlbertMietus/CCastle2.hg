@@ -20,4 +20,3 @@ PROTOCOL            = "protocol"	;
 STREAM              = "stream"		;
 SUB                 = "sub"			;
 _VOID               = "void"		;
-
