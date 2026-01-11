@@ -2,9 +2,9 @@
 # (C) Albert Mietus, 2025, 2026- Part of Castle/CCastle project
 
 component_interface =
-    COMPONENT name:nameID [parameters:typedParameterTuple] base: nameID '{'
+    COMPONENT name:nameID [parameters:typedParameterTuple] [':' base:nameID] '{'
     {
-    _ToDo_
+    [_ToDo_]
     }*
    '}'
     ;

@@ -18,14 +18,18 @@ def portID_2_str(quid):
 
 @add_debug_logging
 class Components():
+    def component_interface(self, ast):
+        if ast.parameters:
+            assert False, "ComponentInterface does not yett support parameters: {ast.parameters}"
+        return aigr.ComponentInterface(ast.name, based_on=ast.base) # XXX ToDo: ports etc
+    
     def implement_component(self, ast):
         parameters = () if ast.parameters is None else ast.parameters
         return aigr.ComponentImplementation(ast.name, parameters=parameters)
-    def event_handler(self, ast):
+
+    def event_handler(self, ast): # XXX Todo
         event, port, protocol = ast.event, ast.port, 'XXX_PROTO_VIA_PORT'
-
-        assert False, "Need ComponentInterface to find proto via port"
-
+        assert False, "Need ComponentInterface to find proto via port"   #XXX
         #return aigr.EventHandler(mangle_event_handler(str(protocol), str(event), portID_2_str(port)), ...)
 
 
