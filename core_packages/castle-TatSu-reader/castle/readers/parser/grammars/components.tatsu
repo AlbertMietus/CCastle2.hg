@@ -3,18 +3,27 @@
 
 component_interface =
     COMPONENT name:nameID [parameters:typedParameterTuple] [':' base:nameID] '{'
- 	    {
-    	[_ToDo_]
-        }*
+ 	    { ports:port_line ';' }*
    '}'
+    ;
+
+port_line = PORT name:nameID ':' type:proto_or_typeID      direction:port_direction  ;
+
+port_direction = '<' direction:direction '>' ;
+direction  =
+    | 'in'
+    | 'out'
+    | 'bidirect'
+    | 'master'
+    | 'slave'
     ;
 
 implement_component =
 	IMPLEMENT name:nameID [parameters:typedParameterTuple] '{' # XXX parameters or arguments -- I think the last ...
 	{
-    | members
-    | handler
-    | local_function
+        | members
+        | handler
+        | local_function
     }*
    '}'
     ;
@@ -27,6 +36,8 @@ handler =
     ;
 
 event_handler	= event:handlerID parameters:typedParameterTuple ON port:portID body:body ;
+
+proto_or_typeID = typeID ;
 handlerID       = qualID ;
 portID          = qualID ;
 

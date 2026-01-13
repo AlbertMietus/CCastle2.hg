@@ -50,6 +50,7 @@ def verify_EventProtocol(proto, name, base=None, events_spec=None):
             return_spec = spec[2] if len(spec)==3 else None
             verify_Event(event=proto.events[i], name=name_spec, parms=parm_spec, return_type=return_spec)
 
+
 def verify_Event(event, name, parms, return_type=None):
     assert event.name == name
     assert event.return_type == return_type, f"Got {event.return_type=}, exported: {return_type=}"

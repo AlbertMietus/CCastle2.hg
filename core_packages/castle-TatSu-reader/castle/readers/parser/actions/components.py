@@ -21,12 +21,27 @@ class Components():
     def component_interface(self, ast):
         if ast.parameters:
             assert False, "ComponentInterface does not yett support parameters: {ast.parameters}"
-        return aigr.ComponentInterface(ast.name, based_on=ast.base) # XXX ToDo: ports etc
-    
+        ports = ast.ports if ast.ports else []
+        return aigr.ComponentInterface(ast.name, based_on=ast.base, ports=ports)
+
     def implement_component(self, ast):
         parameters = () if ast.parameters is None else ast.parameters
         return aigr.ComponentImplementation(ast.name, parameters=parameters)
 
+    def port_line(self, ast):
+        return aigr.Port(ast.name, direction=ast.direction, type=ast.type)
+
+    def port_direction(self, ast):
+        try:
+            dir = aigr.PortDirection[str.capitalize(ast.direction)]
+        except KeyError as e:
+            logger.error("Unknown port_direction: %s, will use 'PortDirection.Unknown' -- error: %s", ast.direction, e)
+            dir = aigr.PortDirection.Unknown
+        return dir
+
+
+
+    #---- TODO----
     def event_handler(self, ast): # XXX Todo
         event, port, protocol = ast.event, ast.port, 'XXX_PROTO_VIA_PORT'
         assert False, "Need ComponentInterface to find proto via port"   #XXX
