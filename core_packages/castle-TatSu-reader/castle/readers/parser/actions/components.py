@@ -18,7 +18,7 @@ def portID_2_str(quid):
 
 @add_debug_logging
 class Components():
-    def component_interface(self, ast):
+    def component_definition(self, ast):
         if ast.parameters:
             assert False, "ComponentInterface does not yett support parameters: {ast.parameters}"
         ports = ast.ports if ast.ports else []
