@@ -1,0 +1,9 @@
+# -*- ebnf -*-
+# (C) Albert Mietus, 2026- Part of Castle/CCastle project
+
+interface_definitions =
+    {
+    | protocol_definition
+    | component_definition
+    }*
+    ;
