@@ -2,7 +2,6 @@
 import logging; logger = logging.getLogger(__name__)
 import pytest
 
-import typing as PTH                                                                                  # Python TypeHints
 from castle import aigr
 
 from . import *
@@ -48,17 +47,4 @@ component ComponentWithPorts {
 
 
 
-
-def verify_ComponentInterface(comp, name, base:PTH.Optional[aigr.ID]=None, ports=0):
-    assert isinstance(comp, aigr.ComponentInterface), f"Expecting an ComponentInterface, got: {comp}"
-    # direct attributes
-    assert comp.name == name
-    assert comp.based_on is None or str(comp.based_on) == base
-    assert len(comp.ports) == ports
-
-def verify_Port(port, name:str, type:str, direction:aigr.PortDirection.In):
-    assert isinstance(port, aigr.Port), f"{port=}"
-    assert isinstance(port.name, aigr.ID) and port.name == name, f"Got: {port.name=} -- expecting {name=}"
-    assert isinstance(port.type, aigr.ID) and port.type == type, f"Got: {port.type=} -- expecting {type=}"
-    assert isinstance(port.direction, aigr.PortDirection) and port.direction is direction, f"Got: {port.direction=} -- expecting {direction}"
 

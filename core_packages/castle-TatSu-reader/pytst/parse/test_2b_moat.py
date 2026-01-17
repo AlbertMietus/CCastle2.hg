@@ -3,7 +3,6 @@ import logging; logger = logging.getLogger(__name__)
 import pytest
 
 from . import *
-from .test_2a_proto import  verify_EventProtocol
 
 def test_AGiven_ProtoDef_canAlsoBeParsedWith_interface_definitions(castle_parser):
     """ This the same test as 'test_2a_proto.py::test_1a_SimpleEventProto, but for the start.

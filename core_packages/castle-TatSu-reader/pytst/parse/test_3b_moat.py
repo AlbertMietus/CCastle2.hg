@@ -3,7 +3,7 @@ import logging; logger = logging.getLogger(__name__)
 import pytest
 
 from . import *
-from .test_3a_comp_interface import verify_ComponentInterface
+
 
 def test_AGiven_CompDef_canAlsoBeParsedWith_interface_definitions(castle_parser):
     """ This the same test as 'test_3a_comp_interface.py::test_1a_EmptyComponent' but for the start.
