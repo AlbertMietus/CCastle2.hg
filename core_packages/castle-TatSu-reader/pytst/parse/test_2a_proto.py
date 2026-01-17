@@ -45,6 +45,10 @@ protocol StartSieve :EventProtocol {
         ('runTo',  [('max', 'int'),]),
         ('newMax', [('max', 'int'),])])
 
+
+
+
+
 @pytest.mark.skip("GENERIC Protocols (parm & args) ... todo; design it into the language")
 def test_99_typedParameters_for_Protocol(castle_parser):
     idea = """\
