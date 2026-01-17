@@ -12,4 +12,4 @@ class Protocols():
         return aigr.Event(ast.name, typedParameters=ast.parameters, return_type=ast.type)
 
     def event_protocol(self, ast):
-        return aigr.EventProtocol(ast.name, events=ast.events) #XXX based_on, typedParameters
+        return aigr.EventProtocol(ast.name, based_on=ast.base, events=ast.events) #XXX , typedParameters

@@ -15,7 +15,8 @@ protocol SimpleProto {
 }
 """
     interfaces = castle_parser(txt, start='interface_definitions')
-    assert isinstance(interfaces, list) and len(interfaces) == 1, f"Expecting a list of 1 EventProtocol, {got=}"
+    logger.debug(f"{txt=} ==> {interfaces=}")
+    assert isinstance(interfaces, list) and len(interfaces) == 1, f"Expecting a list of 1 EventProtocol, got: {interfaces=}"
     verify_EventProtocol(interfaces[0], name="SimpleProto", events_spec =[
         ('anEvent',      [('parm', 'type')]),
         ('anotherEvent', [('p1', 't1'), ('p2', 't2')])])

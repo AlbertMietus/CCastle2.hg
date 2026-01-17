@@ -7,7 +7,7 @@ protocol_definition =
     ;
 
 event_protocol =
-	PROTOCOL name:nameID
+	PROTOCOL name:nameID [ ':' base:nameID ]
     '{'
 		events:{ event_definition }*
     '}'

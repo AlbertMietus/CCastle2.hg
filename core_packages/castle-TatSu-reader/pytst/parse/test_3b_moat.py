@@ -13,7 +13,8 @@ component EmptyComponent {
 }
 """
     interfaces = castle_parser(txt, start='interface_definitions')
-    assert isinstance(interfaces, list) and len(interfaces) == 1, f"Expecting a list of 1, {got=}"
+    logger.debug(f"{txt=} ==> {interfaces=}")
+    assert isinstance(interfaces, list) and len(interfaces) == 1, f"Expecting a list of 1, got: {interfaces=}"
     verify_ComponentInterface(interfaces[0], name="EmptyComponent")
 
 

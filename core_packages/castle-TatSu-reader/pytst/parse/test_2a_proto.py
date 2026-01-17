@@ -33,6 +33,21 @@ protocol EventWithReturnType {
         ('anEvent', [('parm', 'type1'),], 'type2')])
 
 
+def test_2_StartSieve(castle_parser):
+    txt = """\
+protocol StartSieve :EventProtocol {
+     runTo(max :int);
+     newMax(max :int);
+}
+"""
+    proto = castle_parser(txt, start='protocol_definition')
+    logger.debug(f"{txt=} ==> {proto=}")
+    verify_EventProtocol(proto, name="StartSieve", base='EventProtocol', events_spec=[
+        ('runTo',  [('max', 'int'),]),
+        ('newMax', [('max', 'int'),])])
+
+
+
 
 
 def verify_EventProtocol(proto, name, base=None, events_spec=None):
