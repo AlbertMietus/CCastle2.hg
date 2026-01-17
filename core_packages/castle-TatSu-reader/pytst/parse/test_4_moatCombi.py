@@ -35,9 +35,10 @@ component Generator : Component {
 
     logger.debug(f"{interfaces[2]=}")
     gen=interfaces[2]
-    verify_ComponentInterface(gen, name="Generator", base="Component", ports=2)
+    verify_ComponentInterface(gen, name="Generator", base="Component", ports_spec=[
+        # name        type            #direction
+        ("controll",  "StartSieve",   aigr.PortDirection.In),
+        ("outlet",    "SimpleSieve",  aigr.PortDirection.Out),
+        ])
 
-    controll, outlet = gen.ports[0], gen.ports[1]
-    verify_Port(controll, name="controll", type="StartSieve",  direction=aigr.PortDirection.In)
-    verify_Port(outlet,   name="outlet",   type="SimpleSieve", direction=aigr.PortDirection.Out)
 

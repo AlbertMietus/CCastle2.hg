@@ -41,10 +41,10 @@ def verify_EventProtocol(proto, name, base=None, events_spec=None):
             name_spec   = spec[0]
             parm_spec   = spec[1]
             return_spec = spec[2] if len(spec)==3 else None
-            verify_Event(event=proto.events[i], name=name_spec, parms=parm_spec, return_type=return_spec)
+            _verify_Event(event=proto.events[i], name=name_spec, parms=parm_spec, return_type=return_spec)
 
 
-def verify_Event(event, name, parms, return_type=None):
+def _verify_Event(event, name, parms, return_type=None):
     assert event.name == name
     assert event.return_type == return_type, f"Got {event.return_type=}, exported: {return_type=}"
     assert len(event.typedParameters) == len(parms)
@@ -55,16 +55,19 @@ def verify_Event(event, name, parms, return_type=None):
         assert isinstance(got_parm.name, aigr.ID) and got_parm.name == name_spec, f"Wrong parm[{i}] -- {got_parm.name=} not {name_spec=} for {event.name}"
         assert isinstance(got_parm.type, aigr.ID) and got_parm.type == type_spec, f"Wrong parm[{i}] -- {got_parm.type=} not {type_spec=} for {event.name}"
 
-
-
-def verify_ComponentInterface(comp, name, base:PTH.Optional[aigr.ID]=None, ports=0):
+def verify_ComponentInterface(comp, name, base:PTH.Optional[aigr.ID]=None, ports_spec=None):
+    """ ports_spec ::= SEQUENCE[ ( name, type, direction) ] """
     assert isinstance(comp, aigr.ComponentInterface), f"Expecting an ComponentInterface, got: {comp}"
     # direct attributes
     assert comp.name == name
     assert comp.based_on is None or str(comp.based_on) == base
-    assert len(comp.ports) == ports
+    if ports_spec:
+        # ports
+        assert len(comp.ports) == len(ports_spec)
+        for i, p_spec in enumerate(ports_spec):
+            _verify_Port(comp.ports[i], *p_spec)
 
-def verify_Port(port, name:str, type:str, direction:aigr.PortDirection.In):
+def _verify_Port(port, name:str, type:str, direction:aigr.PortDirection.In):
     assert isinstance(port, aigr.Port), f"{port=}"
     assert isinstance(port.name, aigr.ID) and port.name == name, f"Got: {port.name=} -- expecting {name=}"
     assert isinstance(port.type, aigr.ID) and port.type == type, f"Got: {port.type=} -- expecting {type=}"

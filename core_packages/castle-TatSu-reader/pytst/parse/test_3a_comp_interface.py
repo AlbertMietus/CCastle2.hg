@@ -40,10 +40,12 @@ component ComponentWithPorts {
 """
     comp = castle_parser(txt, start='component_definition')
     logger.debug(f"{txt=} ==> {comp=}")
-    verify_ComponentInterface(comp, name="ComponentWithPorts", ports=3)
-    verify_Port(comp.ports[0], "someData", "a_type",     aigr.PortDirection.In)
-    verify_Port(comp.ports[1], "anEvent",  "StartSieve", aigr.PortDirection.In)
-    verify_Port(comp.ports[2], "sender",   "Out",        aigr.PortDirection.Out)
+    verify_ComponentInterface(comp, name="ComponentWithPorts", ports_spec=[
+         # name        type            #direction
+        ("someData",   "a_type",       aigr.PortDirection.In),
+        ("anEvent",    "StartSieve",   aigr.PortDirection.In),
+        ("sender",     "Out",          aigr.PortDirection.Out),
+    ])
 
 
 
