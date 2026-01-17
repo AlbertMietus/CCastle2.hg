@@ -4,8 +4,6 @@ import pytest
 
 from . import *
 from castle import aigr
-from .test_2a_proto import  verify_EventProtocol
-from .test_3a_comp_interface import verify_ComponentInterface, verify_Port
 
 def test_0(castle_parser):
     txt = """\

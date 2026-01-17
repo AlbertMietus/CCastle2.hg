@@ -2,7 +2,6 @@
 import logging; logger = logging.getLogger(__name__)
 import pytest
 
-import typing as PTH                                                                                  # Python TypeHints
 from castle import aigr
 
 from . import *
