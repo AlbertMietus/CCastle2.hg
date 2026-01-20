@@ -3,7 +3,7 @@
 
 component_definition =
     COMPONENT name:nameID [parameters:typedParameterTuple] [':' base:nameID] '{'
- 	    { ports:port_line ';' }*
+ 	    { ports+:port_line ';' }*
    '}'
     ;
 

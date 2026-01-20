@@ -48,5 +48,14 @@ component ComponentWithPorts {
     ])
 
 
-
-
+def test_3_ComponentWith1Ports(castle_parser):
+    txt = """\
+component ComponentWith1Port {
+    port p1 :a_type<in>;
+}"""
+    comp = castle_parser(txt, start='component_definition')
+    logger.debug(f"{txt=} ==> {comp=}")
+    verify_ComponentInterface(comp, name="ComponentWith1Port", ports_spec=[
+         # name        type            #direction
+        ("p1",         "a_type",       aigr.PortDirection.In),
+        ])
