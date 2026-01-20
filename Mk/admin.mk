@@ -7,7 +7,10 @@ SUBS ?=.
 XXX ToDo Really hack HACK :
 	-! grep -i $@ `find ${SUBS} -type f -iname \*.py` /dev/null # Reverse and ignore error-code
 
-show: XXX ToDo Really hack HACK
+AssertFalse assertFalse assertfalse:
+	-@ grep -i -E 'assert +False' `find . -type f -iname \*.py \! -iname test_\* ` /dev/null
+
+show: XXX ToDo Really hack HACK AssertFalse
 
 _sync-bookmarks:
 	for b in $$(hg branches | awk '{print $$1}'); do \
