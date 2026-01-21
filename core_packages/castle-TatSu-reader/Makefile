@@ -12,12 +12,13 @@ LAST = \
 	pytst/parse/test_2b_moat.py          \
 	pytst/parse/test_3a_comp_interface.py \
 	pytst/parse/test_3b_moat.py            \
+	pytst/parse/test_4_moatCombi.py 		\
+	pytst/parse/test_9a_comp_implement.py    \
 #
 CURRENT = \
-	pytst/parse/test_4_moatCombi.py \
+	pytst/parse/test_9b_comp_mix.py\
 #
 TODO = \
-	pytst/parse/test_9a_comp_implement.py::test_3a_Comp_with_empty_EH\
 	pytst/parse/test_9a_comp_implement.py\
 #
 
