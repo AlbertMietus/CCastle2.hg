@@ -19,7 +19,8 @@ def test_1_empty_EH(castle_parser):
     assert len(handler.port) == 2
     assert isinstance(handler.port[0], ID)  and handler.port[0]  == 'self'
     assert isinstance(handler.port[1], ID)  and handler.port[1]  == 'std'
-    assert isinstance(handler.body, aigr.Body and len(handler.body.statements) == 0), "{handler.body=}"
+    assert isinstance(handler.body, aigr.Body),  f"{handler.body=}"
+    assert len(handler.body.statements) == 0, f"{handler.body.statements=}"
 
 
 

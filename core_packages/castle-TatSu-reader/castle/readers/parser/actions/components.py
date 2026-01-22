@@ -5,7 +5,7 @@ from castle import aigr
 from castle.aigr_extra.blend import mangle_event_handler
 
 from ._debug import add_debug_logging
-
+from .support_functions import flat_list
 
 @add_debug_logging
 class Components():
@@ -31,9 +31,9 @@ class Components():
         return dir
 
     def event_handler(self, ast):     #---- TODO: event-handler via port + protocol
-        if len(ast.event) ==2:
+        if len(ast.event)==2:
             protocol, event = ast.event[0], ast.event[1]
-        elif len(ast.event) ==1:
+        elif len(ast.event)==1:
             assert False, "Need ComponentInterface to find proto via port"
             protocol, event = 'XXX_PROTO_VIA_PORT', ast.event[0]
         else:
@@ -43,6 +43,11 @@ class Components():
                                  protocol=protocol, event=event, port=port,
                                  # outer_ns= self.current_ns,
                                  body=ast.body)
+
+    def body(self, ast):
+        statements = ast.statements if ast.statements else []
+        logger.info(f"{ast=} ==> {statements=}")
+        return aigr.Body(statements=statements)
 
 
 

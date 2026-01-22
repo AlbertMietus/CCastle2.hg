@@ -28,6 +28,8 @@ pytest-s:								# -s : No capure (so, show stdout/stderr)
 	${PYTEST} ${PYTEST_OPTIONS} -s pytst
 pytest-d pytest-ds pytest-sd:						# with debuging
 	${PYTEST} ${PYTEST_OPTIONS} --log-cli-level=DEBUG -s pytst/
+pytest-info:						# with debuging at INFO level
+	${PYTEST} ${PYTEST_OPTIONS} --log-cli-level=info  -s pytst/
 
 # Mutation testing (takes a long run) https://en.wikipedia.org/wiki/Mutation_testing -- not part of 'all'
 mutmut: mutmut3

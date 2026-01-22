@@ -18,6 +18,7 @@ direction  =
     | 'slave'
     ;
 
+##Note: the '{' ...'}' in a component implementation is NOT a aigr.Body
 implement_component =
 	IMPLEMENT name:nameID [parameters:typedParameterTuple] '{' # XXX parameters or arguments -- I think the last ...
 	{
@@ -42,9 +43,11 @@ handlerID       = qualID ;
 portID          = qualID ;
 
 body =
-   '{'
-        [_ToDo_]
-   '}'
+    '{'
+        statements:{
+            _ToDo_
+        }*
+    '}'
     ;
 
 

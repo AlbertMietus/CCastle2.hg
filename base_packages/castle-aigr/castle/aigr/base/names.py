@@ -60,3 +60,5 @@ class ID(str, AIGR):
 
 class Label(str):
     """A `Label` is a string, but unlike an ID it's NOT USED in CastleCode. This is an "internal" name, in the AIGR."""
+
+QualID = list[ID]  # To be used a PTH
