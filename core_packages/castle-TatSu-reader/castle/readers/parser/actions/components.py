@@ -6,15 +6,6 @@ from castle.aigr_extra.blend import mangle_event_handler
 
 from ._debug import add_debug_logging
 
-def portID_2_str(quid):
-    """Given a qualID, remove 'self', and return as str"""
-    if not isinstance(quid, (list, tuple)):
-        logging.warning("Not a quilID (list of IDs): %s use as it (fingers crossed)", quid)
-        return str(quid)
-    #else
-    short = quid[1:] if quid[0] == 'self' else quid
-    return "_".join(str(n) for n in short)
-
 
 @add_debug_logging
 class Components():
@@ -39,13 +30,19 @@ class Components():
             dir = aigr.PortDirection.Unknown
         return dir
 
-
-
-    #---- TODO----
-    def event_handler(self, ast): # XXX Todo
-        event, port, protocol = ast.event, ast.port, 'XXX_PROTO_VIA_PORT'
-        assert False, "Need ComponentInterface to find proto via port"   #XXX
-        #return aigr.EventHandler(mangle_event_handler(str(protocol), str(event), portID_2_str(port)), ...)
+    def event_handler(self, ast):     #---- TODO: event-handler via port + protocol
+        if len(ast.event) ==2:
+            protocol, event = ast.event[0], ast.event[1]
+        elif len(ast.event) ==1:
+            assert False, "Need ComponentInterface to find proto via port"
+            protocol, event = 'XXX_PROTO_VIA_PORT', ast.event[0]
+        else:
+            assert False, "event-qualID of more as 2 parst not yet supported: {ast.event}"
+        port = ast.port
+        return aigr.EventHandler(mangle_event_handler(protocol=protocol, event=event, port=port), # mangle now handle QualID/ID/str
+                                 protocol=protocol, event=event, port=port,
+                                 # outer_ns= self.current_ns,
+                                 body=ast.body)
 
 
 
