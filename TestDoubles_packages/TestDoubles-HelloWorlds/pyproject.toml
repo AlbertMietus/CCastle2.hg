@@ -9,7 +9,8 @@ version = "0.0.1"
 dependencies = ["castle-aigr",]
 
 [tool.setuptools.packages.find]
-exclude = ["pytst*", "CastleCode", "ASIDE"]
+# exclude = ["pytst*", "CastleCode", "ASIDE"]
+exclude = ["pytst*", "ASIDE"]
 
 [tool.setuptools.package-data]
 "*" = ["py.typed", "*.pyi"]
