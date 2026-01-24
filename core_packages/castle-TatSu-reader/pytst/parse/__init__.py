@@ -73,3 +73,16 @@ def _verify_Port(port, name:str, type:str, direction:aigr.PortDirection.In):
     assert isinstance(port.type, aigr.ID) and port.type == type, f"Got: {port.type=} -- expecting {type=}"
     assert isinstance(port.direction, aigr.PortDirection) and port.direction is direction, f"Got: {port.direction=} -- expecting {direction}"
 
+
+
+def verify_ComponentImplementation(comp, name, parameters=0, handlers=0):
+    assert isinstance(comp, aigr.ComponentImplementation)
+    # direct attributes
+    assert comp.name == name
+    assert comp.interface is None               #XXXX
+    assert len(comp.parameters) == parameters
+    assert len(comp.handlers)   == handlers
+    # inherited via _hasScope --|> Scope --|> _NameSpace
+    assert isinstance(comp._ns,      dict)
+    assert isinstance(comp.outer_ns, (dict, type(None))) #.outer_ns is a ref that can be empty ...
+    assert comp.outer_ns is None                         # .. Here it is/should be

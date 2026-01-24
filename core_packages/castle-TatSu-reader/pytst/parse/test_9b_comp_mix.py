@@ -6,61 +6,46 @@ from castle import aigr
 
 from . import *
 
-@pytest.mark.skip
-def test_0_Comp_with_empty_EH(castle_parser):
-    """
-    The event-handlers in a ComponentImplementation need to know the protocol of the port,
-    and so (may) need the ComponentInterface.
-    F.e. aigr.EventHandler() need (the names of) protocol, event & port. -- the same is needed for
-    `mangle_event_handler()` to set the name of the EventHandler.
+@pytest.mark.skip(reason="`[proto.]event ...` without proto is to complicated for now")
+def test_99_Comp_ProtoViaPort(castle_parser):
+    """An event-handler may omit the protocol-part of the event, as is can be found via the port.
+    This is more complicated to parse (then with the proto: see test_9a::test_3_Comp_EH_with_proto)
 
-    The quistion is how to provide that info.
-    We need to parse both the "moat" and "castle" side (kind of in 2 files. And pass that info.
+    The protocol is needed for the (mangled) name, and for the 'protocol' field. So we need o read that
+    via the ComponentInterface.
+    The quistion is how to provide that info (to the parser) as is typically defined in another file.
 
-    BUSY: For now we parse te moat first, get the ComponentInterface, and check the protocol.
-    Them we will use a hack to parse it into the ComponentImplementation-parsing.
+    .. note::
+
+       * One option, is via the NS and import parts.
+       * Another apprach is: "fix it later" -- set temporary values when parsing, and fix it later in the pipe
+       * Or, delay that "feature" to later, and require the `proto.event` syntax for now
     """
     txt_moat = """\
 protocol DemoP :EventProtocol {
     foo();
 }
-component Demo {
+component Comp_ProtoViaPort {
   port p: DemoP<in>;
 }"""
     txt_imp = """\
-implement Demo {
-
-foo() on self.p {
-}
+implement Comp_ProtoViaPort {
+foo() on self.p {}
 }"""
-    moat = castle_parser(txt_moat, start='interface_definitions')
-    logger.info(f"{txt_moat=} ==> {moat=}")                               # XXX info->debug
-    demo_interface=moat[1]
-    verify_ComponentInterface(demo_interface, name="Demo", ports_spec=[  # Only to check
-        # name        type            #direction
-        ("p",         "DemoP",        aigr.PortDirection.In),
-        ])
-    # this is the part we need:
-    p_proto = demo_interface.ports[0].type
-    assert p_proto == "DemoP"
-
-    comp = castle_parser(txt_imp, start='implement_component')
-    logger.info(f"{txt_imp=} ==> {comp=}")                                # XXX info->debug
-
-
     assert False, "BUSY"
+    moat = castle_parser(txt_moat, start='interface_definitions')
+    comp = castle_parser(txt_imp,  start='implement_component') # HOW TO PASS moat part?
+    logger.debug(f"{txt_imp=} ==> {comp=}")
+    verify_ComponentImplementation(comp, name="Comp_ProtoViaPort", handlers=1)
+    # Now check the EH: proto & name
+    handler = comp.handlers[0]
+    assert isinstance(handler, aigr.EventHandler)
+    assert handler.name == 'DemoP_foo__p'
+    assert isinstance(handler.protocol, ID) and handler.protocol == 'DemoP'
+    assert isinstance(handler.event, ID)    and handler.event    == 'foo'
+    assert len(handler.port) == 2
+    assert isinstance(handler.port[0], ID)  and handler.port[0]  == 'self'
+    assert isinstance(handler.port[1], ID)  and handler.port[1]  == 'p'
 
 
 
-
-def verify_ComponentImplementation(comp, name, parameters=0, handlers=0):
-    assert isinstance(comp, aigr.ComponentImplementation)
-    # direct attributes
-    assert comp.name == name
-    assert comp.interface is None               #XXXX
-    assert len(comp.parameters) == parameters
-    assert len(comp.handlers)   == handlers
-    # inherited via _hasScope --|> Scope --|> _NameSpace
-    assert isinstance(comp._ns,      dict)
-    assert isinstance(comp.outer_ns, (dict, type(None))) #.outer_ns is a ref that can be empty ...
-    assert comp.outer_ns is None                         # .. Here it is/should be

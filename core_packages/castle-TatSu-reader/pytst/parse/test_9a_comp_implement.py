@@ -41,8 +41,7 @@ def test_3_Comp_EH_with_proto(castle_parser):
 implement Comp_EH_with_proto
 {
     std.invoke() on self.std {}
-}
-"""
+}"""
     comp = castle_parser(txt, start='implement_component')
     logger.debug(f"{txt=} ==> {comp=}")
     verify_ComponentImplementation(comp, name="Comp_EH_with_proto", handlers=1)
@@ -53,20 +52,9 @@ implement Comp_EH2
 {
     std.invoke() on self.std {}
     foo.bar() on self.foo {}
-}
-"""
+}"""
     comp = castle_parser(txt, start='implement_component')
     logger.debug(f"{txt=} ==> {comp=}")
     verify_ComponentImplementation(comp, name="Comp_EH2", handlers=2)
 
-def verify_ComponentImplementation(comp, name, parameters=0, handlers=0):
-    assert isinstance(comp, aigr.ComponentImplementation)
-    # direct attributes
-    assert comp.name == name
-    assert comp.interface is None               #XXXX
-    assert len(comp.parameters) == parameters
-    assert len(comp.handlers)   == handlers
-    # inherited via _hasScope --|> Scope --|> _NameSpace
-    assert isinstance(comp._ns,      dict)
-    assert isinstance(comp.outer_ns, (dict, type(None))) #.outer_ns is a ref that can be empty ...
-    assert comp.outer_ns is None                         # .. Here it is/should be
+
