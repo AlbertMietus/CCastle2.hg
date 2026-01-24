@@ -17,7 +17,8 @@ class Components():
 
     def implement_component(self, ast):
         parameters = () if ast.parameters is None else ast.parameters
-        return aigr.ComponentImplementation(ast.name, parameters=parameters)
+        handlers   = [] if ast.handlers is None else ast.handlers
+        return aigr.ComponentImplementation(ast.name, parameters=parameters, handlers=handlers,) #XXX
 
     def port_line(self, ast):
         return aigr.Port(ast.name, direction=ast.direction, type=ast.type)

@@ -22,9 +22,9 @@ direction  =
 implement_component =
 	IMPLEMENT name:nameID [parameters:typedParameterTuple] '{' # XXX parameters or arguments -- I think the last ...
 	{
-        | members
-        | handler
-        | local_function
+        | members+:member
+        | handlers+:handler
+        | local_functions+:local_function
     }*
    '}'
     ;
@@ -59,6 +59,6 @@ body =
 
 
 local_function	= _ToDo_ ; # or method/comp_function/
-members 		= _ToDo_ ;
+member			= _ToDo_ ;
 data_handler	= _ToDo_ ;
 

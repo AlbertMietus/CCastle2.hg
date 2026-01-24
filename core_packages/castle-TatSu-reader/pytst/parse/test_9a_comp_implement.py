@@ -32,10 +32,8 @@ implement CompWithParms(p1 :t1, p2 :type2)
             ('t1', 'type2')):
         verify_parm(parm, name, type_)
 
-@pytest.mark.skip(reason="EVs not added -- body needs to be parsed -- after test_4_EH::test_1_empty_EH")
 def test_3_Comp_EH_with_proto(castle_parser):
-    """An event-handler can be bound to proto.event and a port.
-       That's easy to parse (and tested here).
+    """An event-handler can be bound to proto.event and a port. That's easy to parse (and tested here).
 
        The is also an option to omit the protocol-part; which can be looked up via the port.
        More complex; and tested in `test_9b_comp_mix`"""
@@ -47,10 +45,19 @@ implement Comp_EH_with_proto
 """
     comp = castle_parser(txt, start='implement_component')
     logger.debug(f"{txt=} ==> {comp=}")
-    verify_ComponentImplementation(comp, name="Comp_EH_with_proto", handlers=1) # FAILS
-    
+    verify_ComponentImplementation(comp, name="Comp_EH_with_proto", handlers=1)
 
-    
+def test_4_Comp_2EH(castle_parser):
+    txt = """\
+implement Comp_EH2
+{
+    std.invoke() on self.std {}
+    foo.bar() on self.foo {}
+}
+"""
+    comp = castle_parser(txt, start='implement_component')
+    logger.debug(f"{txt=} ==> {comp=}")
+    verify_ComponentImplementation(comp, name="Comp_EH2", handlers=2)
 
 def verify_ComponentImplementation(comp, name, parameters=0, handlers=0):
     assert isinstance(comp, aigr.ComponentImplementation)
