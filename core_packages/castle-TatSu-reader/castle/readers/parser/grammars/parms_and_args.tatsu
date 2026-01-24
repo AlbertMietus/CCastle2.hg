@@ -8,15 +8,18 @@
 ##    - an `Argument` is a value that is passed to ...
 ##
 
-typedParameterTuple	=  "("  @:",".{typedParameter}*  ")"   ;
-#typedParameter		=  modifiers:{modifiers}*   name:nameID [":" type:typeID ] ;
-typedParameter		=  name:nameID [":" type:typeID ] ;
+typedParameterTuple	=  "("  @:",".{typedParameter}*  ")" ;                       # GAM @ or @+
+#typedParameter		=  modifiers:{modifiers}*   name:nameID [":" type:typeID ] ; # XXXX
+typedParameter		=  name:nameID [":" type:typeID ] ;                          # XXXX
 
-argumentTuple       =  "("   @:",".{argument}*  ")"   ;
+argumentTuple       =  "("   @+:",".{argument}*  ")"   ;
 argument            =   [ name:nameID "=" ]  value:expression ;
 
 
-modifiers		   =  OPTIONAL ;
+modifiers		    =  OPTIONAL ;
 
-expression = _ToDo_ ;
-
+expression =
+    | literal_ID
+    | _ToDo_
+    ;
+literal_ID = ID ;

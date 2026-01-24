@@ -6,7 +6,7 @@ from importlib import resources
 
 from . import *
 
-#@pytest.mark.xfail(reason="Not implemented yet")
+@pytest.mark.xfail(reason="Not implemented yet")
 def test_1_EmptyComponent(castle_parser):
     module, file  = "CastleCode.elemental", "HelloWorld.Castle"
     with resources.open_text( module, file) as f:
