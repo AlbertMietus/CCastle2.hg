@@ -1,0 +1,4 @@
+# -*- ebnf -*-
+# (C) Albert Mietus, 2026,  Part of Castle/CCastle project
+
+rewriter =  REWRITER nameID [ argumentTuple ] ; # eg ``@impliciet(Main)``

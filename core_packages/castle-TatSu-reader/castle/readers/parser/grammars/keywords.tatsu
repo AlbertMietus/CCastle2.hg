@@ -1,8 +1,6 @@
 # -*- ebnf -*-
 # (C) Albert Mietus, 2025- Part of Castle/CCastle project
 
-_ToDo_ 			= 'ToDo' ; # XXX
-
 # List of keywords
 ALIAS               = "alias" 		;
 COMPONENT           = "component"	;
@@ -24,3 +22,4 @@ _VOID               = "void"		;
 
 # List of keywords that are more like operators
 RETURNS             = "->"		    ;
+REWRITER		    = "@"           ;

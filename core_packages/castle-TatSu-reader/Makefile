@@ -16,10 +16,12 @@ LAST = \
 	pytst/parse/test_4_EH.py                 \
 #
 CURRENT = \
-	pytst/parse/test_9a_comp_implement.py \
+	pytst/HW/test_1_elemental.py \
 #
 TODO = \
+	pytst/parse/test_9a_comp_implement.py \
 	pytst/parse/test_9b_comp_mix.py\
+
 #
 
 

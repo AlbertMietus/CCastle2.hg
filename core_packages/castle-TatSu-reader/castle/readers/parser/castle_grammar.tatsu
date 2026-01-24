@@ -6,9 +6,11 @@
 
 start = castle_file $ ;
 
-castle_file = _todo_ ;
+castle_file = _ToDo_ ;
 
-_todo_ = 'TODO' ;
+
+
+
 
 
 #include :: "grammars/names.tatsu"
@@ -17,3 +19,7 @@ _todo_ = 'TODO' ;
 #include :: "grammars/protocols.tatsu"
 #include :: "grammars/components.tatsu"
 #include :: "grammars/moat.tatsu"
+#include :: "grammars/meta.tatsu"
+
+
+_ToDo_ = 'ToDo' ; # XXX

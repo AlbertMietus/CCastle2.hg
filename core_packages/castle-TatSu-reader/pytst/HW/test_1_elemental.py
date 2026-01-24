@@ -1,0 +1,19 @@
+# (C) Albert Mietus, 2025,2026- Part of Castle/CCastle project
+import logging; logger = logging.getLogger(__name__)
+import pytest
+
+from importlib import resources
+
+from . import *
+
+#@pytest.mark.xfail(reason="Not implemented yet")
+def test_1_EmptyComponent(castle_parser):
+    module, file  = "CastleCode.elemental", "HelloWorld.Castle"
+    with resources.open_text( module, file) as f:
+        txt = f.read()
+    #print(txt)
+    
+    #comp = castle_parser(txt)
+    #logger.debug(f"{txt=} ==> {comp=}")
+    assert False
+

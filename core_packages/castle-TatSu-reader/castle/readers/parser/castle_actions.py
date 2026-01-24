@@ -25,5 +25,6 @@ class CastleActions(
         ParmsArgs,
         Protocols,
         Components,
+        Meta,
         ):
     pass
