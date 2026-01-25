@@ -22,6 +22,6 @@ castle_file = _ToDo_ ;
 #include :: "grammars/components.tatsu"
 #include :: "grammars/moat.tatsu"
 #include :: "grammars/meta.tatsu"
-
+#include :: "grammars/literals.tatsu"
 
 _ToDo_ = 'ToDo' ; # XXX

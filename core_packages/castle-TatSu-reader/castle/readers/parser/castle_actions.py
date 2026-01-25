@@ -26,5 +26,6 @@ class CastleActions(
         Protocols,
         Components,
         Meta,
+        Literals,
         ):
     pass

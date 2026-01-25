@@ -23,3 +23,7 @@ _VOID               = "void"		;
 # List of keywords that are more like operators
 RETURNS             = "->"		    ;
 REWRITER		    = "@"           ;
+TRIPLE_D_STRING_T   =  '"""'        ;
+TRIPLE_S_STRING_T   =  "'''"        ;
+SINGLE_D_STRING_T   =  '"'          ;
+SINGLE_S_STRING_T   =  "'"          ;

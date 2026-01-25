@@ -1,0 +1,11 @@
+# -*- txt -*- (EBNF-mode does not work properly)
+# (C) Albert Mietus, 2025- Part of Castle/CCastle project
+
+docstring = [ fstring ] ; # A docstring is always optional, ans can use f-strings alike forrmatting
+
+fstring =
+    | TRIPLE_D_STRING_T 	@:(/(?:(?!""").)*/ )      TRIPLE_D_STRING_T
+    | TRIPLE_S_STRING_T 	@:(/(?:(?!''').)*/ )      TRIPLE_S_STRING_T
+    | TRIPLE_D_STRING_T 	@:(/(?:(?!""").)*/ )      TRIPLE_D_STRING_T
+    | TRIPLE_S_STRING_T 	@:(/(?:(?!''').)*/ )      TRIPLE_S_STRING_T
+    ;
