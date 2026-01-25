@@ -2,10 +2,11 @@
 # (C) Albert Mietus, 2025- Part of Castle/CCastle project
 
 
-nameID      = ID                          ;
-typeID      = ID                          ;
-qualID      = [ auto_self ]  '.'.{nameID}+  ;
+nameID      = ID                           ;
+nameRef     = ID                           ;
+typeID      = ID                           ;
+qualRef     = [ auto_self ] '.'.{nameRef}+ ;
 
-auto_self   =  @:`self` '.'               ;
-ID          = /[a-zA-Z_][a-zA-Z0-9_]*/    ;
+auto_self   =  @:`self` '.'                ;
+ID          = /[a-zA-Z_][a-zA-Z0-9_]*/     ;
 

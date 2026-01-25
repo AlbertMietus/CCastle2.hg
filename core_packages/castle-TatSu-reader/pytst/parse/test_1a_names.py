@@ -16,29 +16,29 @@ def test_1_aName_as_ID_is_aName(castle_parser):
     assert name == txt
 
 
-def test_2_shortName_as_qualID_is_IDlist(castle_parser):
+def test_2_shortName_as_qualRef_is_IDlist(castle_parser):
     txt="shortName"
-    IDlist = castle_parser(txt, start='qualID')
+    IDlist = castle_parser(txt, start='qualRef')
     logger.debug(f"{txt=} ==> {IDlist=}")
 
     verify_ID_list(IDlist, txt.split('.'))
 
 
-def test_3a_dottedName_as_qualID_is_IDlist(castle_parser):
+def test_3a_dottedName_as_qualRef_is_IDlist(castle_parser):
     txt="dotted.name"
-    IDlist = castle_parser(txt, start='qualID')
+    IDlist = castle_parser(txt, start='qualRef')
     logger.debug(f"{txt=} ==> {IDlist=}")
     verify_ID_list(IDlist, txt.split('.'))
 
-def test_3b_dottedName_as_qualID_is_IDlist(castle_parser):
+def test_3b_dottedName_as_qualRef_is_IDlist(castle_parser):
     txt="self.name"
-    IDlist = castle_parser(txt, start='qualID')
+    IDlist = castle_parser(txt, start='qualRef')
     logger.debug(f"{txt=} ==> {IDlist=}")
     verify_ID_list(IDlist, txt.split('.'))
 
-def test_3c_selfDotted_as_qualID_is_IDlist(castle_parser):
+def test_3c_selfDotted_as_qualRef_is_IDlist(castle_parser):
     txt=".name"
-    IDlist = castle_parser(txt, start='qualID')
+    IDlist = castle_parser(txt, start='qualRef')
     logger.debug(f"{txt=} ==> {IDlist=} -- {type(IDlist)=}")
     verify_ID_list(IDlist, "self.name".split('.'))
 

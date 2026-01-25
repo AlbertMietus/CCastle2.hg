@@ -60,9 +60,9 @@ method =
 
 
 
-proto_or_typeID = typeID ;
-handlerID       = qualID ;
-portID          = qualID ;
+proto_or_typeID = typeID  ;
+handlerID       = qualRef ;
+portID          = qualRef ;
 
 
 

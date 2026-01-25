@@ -10,9 +10,11 @@ from ._debug import add_debug_logging
 class Names():
     def nameID(self, ast):
         return aigr.ID.Def(ast)
+    def nameRef(self, ast):
+        return aigr.ID.Ref(ast, context=None)
     def typeID(self, ast):
         return aigr.ID.Ref(name=ast, context='type')             # XXX HACK
     def auto_self(self, ast):
         return aigr.ID.Ref(name=ast, context='self')           # XXX HACK
-    def qualID(self, ast):
+    def qualRef(self, ast):
         return flat_list(ast)

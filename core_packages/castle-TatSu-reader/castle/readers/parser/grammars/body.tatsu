@@ -33,4 +33,4 @@ stat__callable = _ToDo_ ;
 stat__send_proto = _ToDo_ ;
 
 
-stat_voidcall = longname:qualID args:argumentTuple ;
+stat_voidcall = longname:qualRef args:argumentTuple ;

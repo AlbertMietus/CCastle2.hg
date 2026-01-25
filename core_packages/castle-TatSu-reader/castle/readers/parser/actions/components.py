@@ -38,7 +38,7 @@ class Components():
             assert False, "Need ComponentInterface to find proto via port"
             protocol, event = 'XXX_PROTO_VIA_PORT', ast.event[0]
         else:
-            assert False, "event-qualID of more as 2 parst not yet supported: {ast.event}"
+            assert False, "event-qualRef of more as 2 parst not yet supported: {ast.event}"
         port = ast.port
         return aigr.EventHandler(mangle_event_handler(protocol=protocol, event=event, port=port), # mangle now handled QualID/ID/str
                                  returns=ast.returns, # XXX convert to type?
