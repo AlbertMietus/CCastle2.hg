@@ -44,7 +44,7 @@ just_a_test /* this becomes a nameID */
 /*
   A long
   comment
-*/  
+*/
 """
     got = castle_parser(txt, start='nameID')
     logger.info(f"{txt=} ==> {got=}")   #XXX debug
