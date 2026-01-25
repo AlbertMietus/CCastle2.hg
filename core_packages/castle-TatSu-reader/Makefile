@@ -11,9 +11,10 @@ LAST = \
 	pytst/parse/test_5_meta.py  \
 	pytst/parse/test_1d_comment.py \
 	pytst/parse/test_1e_docstrings.py \
+	pytst/parse/test_4b_method.py \
 #
 CURRENT = \
-	pytst/parse/test_4b_method.py \
+	pytst/parse/d05_statements/test_1_voidCall.py
 #
 TODO = \
 	pytst/HW/test_1_elemental.py    \
