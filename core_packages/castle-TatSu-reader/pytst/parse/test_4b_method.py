@@ -37,7 +37,8 @@ def test_2a_method_1Statements(castle_parser):
     assert isinstance(body, aigr.Body),  f"{method.body=}"
     verify_VC_statements(body.statements, ["call"])
 
-def test_2a_method_2Statements(castle_parser):
+
+def test_2b_method_2Statements(castle_parser):
     txt = """method() { call_1() ; call_2(); }"""
     method = castle_parser(txt, start='method')
     logger.info(f"{txt=} ==> {method=}")
@@ -46,6 +47,17 @@ def test_2a_method_2Statements(castle_parser):
     assert isinstance(body, aigr.Body),  f"{method.body=}"
     verify_VC_statements(body.statements, ['call_1', 'call_2'])
 
+@pytest.mark.xfail(reason="`dotted.call()`should be tested somewhere else- although it XPASSes there")
+def test_2c_method_DottedCall(castle_parser):
+    txt = """method() { dotted.call() ; }"""
+    method = castle_parser(txt, start='method')
+    logger.info(f"{txt=} ==> {method=}")
+
+    dcall = method.body.statements[0]
+    assert isinstance(dcall, aigr.VoidCall) and isinstance(dcall.call, aigr.Call)
+    callable = dcall.call.callable
+    assert isinstance(callable, (tuple, list)) and len(callable) == 2
+    assert callable[0] == 'dotted' and callable[1] == 'call'
 
 
 def verify_VC_statements(statements, names):
