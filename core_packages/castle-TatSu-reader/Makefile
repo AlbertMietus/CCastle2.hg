@@ -6,13 +6,14 @@ PYREVERSE_PKGS = \
 	castle.readers.parser \
 #
 LAST = \
-	pytst/parse/test_4_EH.py    \
+	pytst/parse/test_4a_EH.py    \
 	pytst/parse/test_1c_args.py \
 	pytst/parse/test_5_meta.py  \
 	pytst/parse/test_1d_comment.py \
+	pytst/parse/test_1e_docstrings.py \
 #
 CURRENT = \
-	pytst/parse/test_1e_docstrings.py \
+#
 #
 TODO = \
 	pytst/HW/test_1_elemental.py    \
