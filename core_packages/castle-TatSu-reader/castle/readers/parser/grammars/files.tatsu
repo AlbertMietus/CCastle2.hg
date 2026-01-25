@@ -1,0 +1,30 @@
+# -*- ebnf -*-
+# (C) Albert Mietus, 2026,  Part of Castle/CCastle project
+
+
+moat_file = # XXX
+    file_header
+    {
+    | import_line
+    | interface_def
+    }*
+    ;
+castle_file =
+    file_header
+    {
+    | import_line
+    | interface_def
+    | implementation
+    }*
+    ;
+
+import_line    = _ToDo_ ;
+interface_def  = _ToDo_ ;
+
+implementation =
+    | implement_component 
+    | _ToDo_ #?protocol_implementation
+    ;
+
+
+file_header = docstring:docstring ;

@@ -6,5 +6,4 @@ from castle import aigr
 from ._debug import add_debug_logging
 
 @add_debug_logging
-class Meta(): pass
-    #def rewriter(self,ast): pass
+class Files(): pass

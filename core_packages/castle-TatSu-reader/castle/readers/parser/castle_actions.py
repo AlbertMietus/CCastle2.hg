@@ -27,5 +27,6 @@ class CastleActions(
         Components,
         Meta,
         Literals,
+        Files,
         ):
     pass

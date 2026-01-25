@@ -8,12 +8,7 @@
 
 start = castle_file $ ;
 
-castle_file = _ToDo_ ;
-
-
-
-
-
+_ToDo_ = 'ToDo' ; # XXX
 
 #include :: "grammars/names.tatsu"
 #include :: "grammars/keywords.tatsu"
@@ -23,5 +18,6 @@ castle_file = _ToDo_ ;
 #include :: "grammars/moat.tatsu"
 #include :: "grammars/meta.tatsu"
 #include :: "grammars/literals.tatsu"
+#include :: "grammars/files.tatsu"
 
-_ToDo_ = 'ToDo' ; # XXX
+

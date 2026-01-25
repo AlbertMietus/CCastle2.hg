@@ -11,7 +11,6 @@ from . import *
 def test_1_file(castle_parser):
     """.. todo::
 
-          * doc-string are not yet supported
           * ```HelloWorld(label :string) { 			///GAM: fixed `name :type` order
                    print("Hello {label} World")
                }```

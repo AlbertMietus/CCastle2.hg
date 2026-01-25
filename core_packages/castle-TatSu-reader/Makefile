@@ -20,6 +20,11 @@ TODO = \
 	pytst/parse/test_9b_comp_mix.py\
 #
 
+DoH DOH Dot-On-Horizon:
+	pytest --runxfail  pytst/HW/test_1_elemental.py
+DoH-ds HOH-ds:
+	pytest --runxfail  -rxXsfE  --log-cli-level=DEBUG -s pytst/HW/test_1_elemental.py
+
 
 TOPd=../../
 include ${TOPd}Mk/comp.mk
