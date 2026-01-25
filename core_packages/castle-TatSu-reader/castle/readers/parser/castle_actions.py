@@ -28,5 +28,6 @@ class CastleActions(
         Meta,
         Literals,
         Files,
+        Body,
         ):
     pass

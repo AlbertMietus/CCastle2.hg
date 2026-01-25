@@ -1,0 +1,10 @@
+# -*- ebnf -*-
+# (C) Albert Mietus, 2026. Part of Castle/CCastle project
+
+body =
+    '{'
+        statements:{
+            _ToDo_
+        }*
+    '}'
+    ;

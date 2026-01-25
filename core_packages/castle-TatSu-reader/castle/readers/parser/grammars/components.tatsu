@@ -44,17 +44,20 @@ event_handler	= event:handlerID parameters:typedParameterTuple ON port:portID
                   docstring:docstring
                   body:body ;
 
+
+local_function	= _ToDo_ ; # or method/comp_function/
+
+
+
+
+
+
+
+
 proto_or_typeID = typeID ;
 handlerID       = qualID ;
 portID          = qualID ;
 
-body =
-    '{'
-        statements:{
-            _ToDo_
-        }*
-    '}'
-    ;
 
 
 
@@ -64,7 +67,7 @@ body =
 
 
 
-local_function	= _ToDo_ ; # or method/comp_function/
+
 member			= _ToDo_ ;
 data_handler	= _ToDo_ ;
 

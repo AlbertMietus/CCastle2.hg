@@ -13,11 +13,17 @@ _ToDo_ = 'ToDo' ; # XXX
 #include :: "grammars/names.tatsu"
 #include :: "grammars/keywords.tatsu"
 #include :: "grammars/parms_and_args.tatsu"
-#include :: "grammars/protocols.tatsu"
-#include :: "grammars/components.tatsu"
-#include :: "grammars/moat.tatsu"
-#include :: "grammars/meta.tatsu"
 #include :: "grammars/literals.tatsu"
+
+#include :: "grammars/moat.tatsu"
+#include :: "grammars/protocols.tatsu"
+
+#include :: "grammars/components.tatsu"
+#include :: "grammars/body.tatsu"
+
+
+#include :: "grammars/meta.tatsu"
+
 #include :: "grammars/files.tatsu"
 
 

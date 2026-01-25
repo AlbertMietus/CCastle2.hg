@@ -45,10 +45,5 @@ class Components():
                                  # outer_ns= self.current_ns,
                                  body=ast.body)
 
-    def body(self, ast):
-        statements = ast.statements if ast.statements else []
-        logger.info(f"{ast=} ==> {statements=}")
-        return aigr.Body(statements=statements)
-
 
 
