@@ -25,7 +25,7 @@ stat_XXX =
     ;
 stat_variabledefintion = _ToDo_ ;
 stat_become = _ToDo_ ;
-stat_voidcall = _ToDo_ ;
+
 stat_if = _ToDo_ ;
 stat_body = _ToDo_ ;
 stat_componentimplementation = _ToDo_ ;
@@ -33,3 +33,4 @@ stat__callable = _ToDo_ ;
 stat__send_proto = _ToDo_ ;
 
 
+stat_voidcall = longname:qualID args:argumentTuple ;

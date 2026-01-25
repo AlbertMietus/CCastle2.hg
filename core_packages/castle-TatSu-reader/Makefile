@@ -13,7 +13,7 @@ LAST = \
 	pytst/parse/test_1e_docstrings.py \
 #
 CURRENT = \
-	pytst/parse/test_4b_method.py
+	pytst/parse/test_4b_method.py \
 #
 TODO = \
 	pytst/HW/test_1_elemental.py    \

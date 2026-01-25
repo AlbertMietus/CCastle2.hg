@@ -29,19 +29,29 @@ def test_1b_method_returns(castle_parser):
     assert len(method.body.statements) == 0,    f"{method.body.statements=}"
 
 def test_2a_method_1Statements(castle_parser):
-    txt = """method() { ToDo; }"""
+    txt = """method() { call(); }"""
     method = castle_parser(txt, start='method')
     logger.info(f"{txt=} ==> {method=}")
 
     body = method.body
     assert isinstance(body, aigr.Body),  f"{method.body=}"
-    assert len(body.statements) == 1,    f"{body.statements=}"
+    verify_statements(body.statements, ["call"])
+
+def verify_statements(statements, names):
+    assert len(statements) == len(names),           f"{statements=} vs {names=}"
+    for stmt, name in zip(statements, names):
+        assert isinstance(stmt, aigr.VoidCall),     f"{stmt=}"
+        assert isinstance(stmt.call, aigr.Call),    f"Expecting a Call; got:  {stmt.call=}"
+        assert isinstance(stmt.call.callable, ID),  f"Expecting a (func) name/ID; got:  {stmt.call.callable=}"
+        assert isinstance(stmt.call.callable, ID) and (stmt.call.callable == name), f"stmt.call.callable"
+        assert len(stmt.call.arguments) == 0, f"{stmt.call.arguments=}"
+
 
 def test_2a_method_2Statements(castle_parser):
-    txt = """method() { XXX; ToDo; }"""
+    txt = """method() { call_1() ; call_2(); }"""
     method = castle_parser(txt, start='method')
     logger.info(f"{txt=} ==> {method=}")
 
     body = method.body
     assert isinstance(body, aigr.Body),  f"{method.body=}"
-    assert len(body.statements) == 2,    f"{body.statements=}"
+    verify_statements(body.statements, ['call_1', 'call_2'])

@@ -10,5 +10,9 @@ from ._debug import add_debug_logging
 class Body():
     def body(self, ast):
         statements = [] if not isinstance(ast, list) else ast # Hack, for when there are no statements
-        logging.info(f"BODY: {ast=}, {statements=}")
         return aigr.Body(statements=statements)
+    def stat_voidcall(self, ast):
+        name = ast.longname[0] if len(ast.longname) == 1 else ast.longname
+        arguments = ast.arguments if ast.arguments is not None else []
+        callable = aigr.Call(callable=name, arguments=arguments)
+        return aigr.VoidCall(callable)

@@ -18,7 +18,7 @@ def _wrap_with_logging(class_name, method_name, method):
     @wraps(method)
     def wrapper(self, ast, *args, **kwargs):
         retval = method(self, ast, *args, **kwargs)
-        logger.debug(f"{class_name}.{method_name}::\t{ast=} ==> retval={retval} ---- {args=}, {kwargs=}")
+        logger.debug(f"{class_name}.{method_name}::\t{ast=} ==> retval={retval}")
         return retval
     return wrapper
 
