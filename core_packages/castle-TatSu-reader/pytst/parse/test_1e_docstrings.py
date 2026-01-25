@@ -9,7 +9,7 @@ from . import *
 def test_1a_DocString_1line(castle_parser):
     txt='"""DocMe :-)"""'
     got = castle_parser(txt, start='docstring')
-    logger.debug(f"{txt=} ==> {got=}")  
+    logger.debug(f"{txt=} ==> {got=}")
     assert isinstance(got, aigr.fString) and got.value == txt[3:-3]
 
 def test_1b_DocString_1line_variants(castle_parser):
@@ -40,4 +40,10 @@ def test_2b_DocString_MultiLine_variants(castle_parser):
         got = castle_parser(txt, start='docstring')
         logger.debug(f"{txt=} ==> {got=}")   #XXX debug
         assert isinstance(got, aigr.fString) and got.value == doc
-    
+
+
+#Note: Testing docstrings 'in' the language is tested in those feature -- when the AIGR can handle them
+
+#def test_XXX_DocComponent(castle_parser): pass
+#def test_XXX_DocImplement(castle_parser): pass
+#def test_XXX_DocProtocol(castle_parser): pass

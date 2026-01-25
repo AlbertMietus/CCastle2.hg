@@ -3,7 +3,7 @@
 
 component_definition =
     COMPONENT name:nameID [parameters:typedParameterTuple] [':' base:nameID]
-    docstring
+    docstring:docstring
     '{'
  	    { ports+:port_line ';' }*
    '}'
@@ -24,7 +24,7 @@ direction  =
 implement_component =
     [rewriter:rewriter]
 	IMPLEMENT name:nameID [parameters:typedParameterTuple] '{' # XXX parameters or arguments -- I think the last ...
-    docstring
+    docstring:docstring
 	{
         | members+:member
         | handlers+:handler
@@ -40,7 +40,9 @@ handler =
     | local_function
     ;
 
-event_handler	= event:handlerID parameters:typedParameterTuple ON port:portID body:body ;
+event_handler	= event:handlerID parameters:typedParameterTuple ON port:portID
+                  docstring:docstring
+                  body:body ;
 
 proto_or_typeID = typeID ;
 handlerID       = qualID ;

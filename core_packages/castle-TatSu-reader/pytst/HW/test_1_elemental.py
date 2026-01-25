@@ -7,7 +7,7 @@ from importlib import resources
 from . import *
 
 
-@pytest.mark.xfail(reason="Not implemented yet")
+@pytest.mark.xfail(reason="Dot-on-Horizon: elemental HelloWorld")
 def test_1_file(castle_parser):
     """.. todo::
 

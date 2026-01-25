@@ -59,3 +59,16 @@ component ComponentWith1Port {
          # name        type            #direction
         ("p1",         "a_type",       aigr.PortDirection.In),
         ])
+
+
+
+def test_4_DocComponent(castle_parser):
+    txt="""\
+component Demo
+'''Doc the component (interface)'''
+{}
+"""
+    got = castle_parser(txt, start='component_definition')
+    assert isinstance(got, aigr.ComponentInterface)
+    assert False, "XXX: docstring"
+

@@ -47,6 +47,15 @@ protocol StartSieve :EventProtocol {
 
 
 
+@pytest.mark.xfail(reason="The AIGR can't handle docstrings yet")
+def test_3_DocProtocol(castle_parser):
+    txt="""\
+protocol SimpleProto
+'''Doc for SimpleProto'''
+{}"""
+    got = castle_parser(txt, start='protocol_definition')
+    assert isinstance(got, aigr.EventProtocol)
+    assert False, "XXX: docstring"
 
 
 @pytest.mark.skip("GENERIC Protocols (parm & args) ... todo; design it into the language")

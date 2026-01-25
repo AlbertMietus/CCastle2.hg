@@ -8,7 +8,7 @@ protocol_definition =
 
 event_protocol =
 	PROTOCOL name:nameID [ ':' base:nameID ]
-    docstring
+    docstring:docstring
     '{'
 		events:{ event_definition }*
     '}'

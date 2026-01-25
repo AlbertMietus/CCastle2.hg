@@ -24,4 +24,15 @@ def test_1_empty_EH(castle_parser):
 
 
 
+@pytest.mark.xfail(reason="The AIGR can't handle docstrings yet")
+def test_4_DocComponent(castle_parser):
+    txt="""\
+std.invoke() on self.std
+'''Doc the event-handler'''
+{}"""
+    got = castle_parser(txt, start='event_handler')
+    assert isinstance(got, aigr.EventHandler)
+    assert False, "XXX: docstring"
+
+
 
