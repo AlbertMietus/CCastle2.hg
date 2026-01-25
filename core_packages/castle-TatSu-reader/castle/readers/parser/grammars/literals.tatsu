@@ -4,8 +4,8 @@
 docstring = [ fstring ] ; # A docstring is always optional, ans can use f-strings alike forrmatting
 
 fstring =
-    | TRIPLE_D_STRING_T 	@:( /(?:(?!""").)*/ )      TRIPLE_D_STRING_T 		# """ ... (multi-line) """
-    | TRIPLE_S_STRING_T 	@:( /(?:(?!''').)*/ )      TRIPLE_S_STRING_T 		# ''' ... (multi-line) '''
-    | SINGLE_D_STRING_T    	@:(     /[^"]*/     )      SINGLE_D_STRING_T        # " ... "
-    | SINGLE_S_STRING_T    	@:(     /[^']*/     )      SINGLE_S_STRING_T        # ' ... '
+    | TRIPLE_D_STRING_T    @:(  /(?s)(?:(?!""").)*/  )    TRIPLE_D_STRING_T     # """ ... (multi-line: (?s)) """
+    | TRIPLE_S_STRING_T    @:(  /(?s)(?:(?!''').)*/  )    TRIPLE_S_STRING_T     # ''' ... (multi-line: (?s)) '''
+    | SINGLE_D_STRING_T    @:(  /[^"]*/              )    SINGLE_D_STRING_T     # " ... "
+    | SINGLE_S_STRING_T    @:(  /[^']*/              )    SINGLE_S_STRING_T     # ' ... '
     ;
