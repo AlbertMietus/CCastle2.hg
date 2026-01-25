@@ -6,14 +6,25 @@ from importlib import resources
 
 from . import *
 
+
 @pytest.mark.xfail(reason="Not implemented yet")
-def test_1_EmptyComponent(castle_parser):
+def test_1_file(castle_parser):
+    """.. todo::
+
+          * doc-string are not yet supported
+          * ```HelloWorld(label :string) { 			///GAM: fixed `name :type` order
+                   print("Hello {label} World")
+               }```
+
+    """
     module, file  = "CastleCode.elemental", "HelloWorld.Castle"
     with resources.open_text( module, file) as f:
         txt = f.read()
-    #print(txt)
-    
-    #comp = castle_parser(txt)
-    #logger.debug(f"{txt=} ==> {comp=}")
-    assert False
+    if False:
+        print(f"\n\n====={module}::{file}=====")
+        print(txt)
+        print("=====")
 
+    comp = castle_parser(txt)
+    logger.debug(f"{txt=} ==> {comp=}")
+    assert False

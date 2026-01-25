@@ -9,9 +9,9 @@ LAST = \
 	pytst/parse/test_4_EH.py    \
 	pytst/parse/test_1c_args.py \
 	pytst/parse/test_5_meta.py  \
+	pytst/parse/test_1d_comment.py \
 #
 CURRENT = \
-	pytst/parse/test_1d_comment.py \
 	pytst/HW/test_1_elemental.py    \
 #
 TODO = \

@@ -3,7 +3,7 @@
 
 component_definition =
     COMPONENT name:nameID [parameters:typedParameterTuple] [':' base:nameID] '{'
- 	    { ports+:port_line ';' }*
+        { ports+:port_line ';' }*
    '}'
     ;
 
@@ -20,8 +20,9 @@ direction  =
 
 ##Note: the '{' ...'}' in a component implementation is NOT a aigr.Body
 implement_component =
-	IMPLEMENT name:nameID [parameters:typedParameterTuple] '{' # XXX parameters or arguments -- I think the last ...
-	{
+    [rewriter:rewriter]
+    IMPLEMENT name:nameID [parameters:typedParameterTuple] '{' # XXX parameters or arguments -- I think the last ...
+    {
         | members+:member
         | handlers+:handler
         | local_functions+:local_function
@@ -36,7 +37,7 @@ handler =
     | local_function
     ;
 
-event_handler	= event:handlerID parameters:typedParameterTuple ON port:portID body:body ;
+event_handler   = event:handlerID parameters:typedParameterTuple ON port:portID body:body ;
 
 proto_or_typeID = typeID ;
 handlerID       = qualID ;
@@ -58,7 +59,7 @@ body =
 
 
 
-local_function	= _ToDo_ ; # or method/comp_function/
-member			= _ToDo_ ;
-data_handler	= _ToDo_ ;
+local_function  = _ToDo_ ; # or method/comp_function/
+member          = _ToDo_ ;
+data_handler    = _ToDo_ ;
 
