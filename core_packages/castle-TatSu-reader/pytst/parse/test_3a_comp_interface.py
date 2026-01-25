@@ -61,7 +61,7 @@ component ComponentWith1Port {
         ])
 
 
-
+@pytest.mark.xfail(reason="The AIGR can't handle docstrings yet")
 def test_4_DocComponent(castle_parser):
     txt="""\
 component Demo

@@ -22,8 +22,8 @@ import_line    = _ToDo_ ;
 interface_def  = _ToDo_ ;
 
 implementation =
-    | implement_component 
-    | _ToDo_ #?protocol_implementation
+    | implement_component
+    | _ToDo_                  #?protocol_implementation
     ;
 
 

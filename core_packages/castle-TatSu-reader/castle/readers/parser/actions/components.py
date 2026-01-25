@@ -40,10 +40,16 @@ class Components():
         else:
             assert False, "event-qualID of more as 2 parst not yet supported: {ast.event}"
         port = ast.port
-        return aigr.EventHandler(mangle_event_handler(protocol=protocol, event=event, port=port), # mangle now handle QualID/ID/str
+        return aigr.EventHandler(mangle_event_handler(protocol=protocol, event=event, port=port), # mangle now handled QualID/ID/str
+                                 returns=ast.returns, # XXX convert to type?
                                  protocol=protocol, event=event, port=port,
                                  # outer_ns= self.current_ns,
                                  body=ast.body)
 
 
-
+    def method(self, ast):
+        return aigr.Method(ast.name,
+                           returns=ast.returns, # XXX convert to type?
+                           parameters=() if ast.parameters is None else ast.parameters,
+                           body=ast.body,
+                           )

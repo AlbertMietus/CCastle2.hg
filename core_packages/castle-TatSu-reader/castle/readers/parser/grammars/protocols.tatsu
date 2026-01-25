@@ -15,5 +15,5 @@ event_protocol =
 	;
 
 event_definition =
-	[ EVENT ] name:nameID parameters:typedParameterTuple [ RETURNS type:typeID ] ';'
+	[ EVENT ] name:nameID parameters:typedParameterTuple [ RETURNS returns:typeID ] ';'
     ;

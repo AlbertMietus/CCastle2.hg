@@ -40,15 +40,21 @@ handler =
     | local_function
     ;
 
-event_handler	= event:handlerID parameters:typedParameterTuple ON port:portID
-                  docstring:docstring
-                  body:body ;
+event_handler =
+    event:handlerID parameters:typedParameterTuple ON port:portID [ RETURNS returns:typeID ]
+    docstring:docstring
+    body:body
+    ;
 
+local_function	=
+    | method
+    |  _ToDo_ ; # or method/comp_function/
 
-local_function	= _ToDo_ ; # or method/comp_function/
-
-
-
+method =
+    name:ID parameters:typedParameterTuple [ RETURNS returns:typeID ]
+    docstring:docstring
+    body:body
+    ;
 
 
 
