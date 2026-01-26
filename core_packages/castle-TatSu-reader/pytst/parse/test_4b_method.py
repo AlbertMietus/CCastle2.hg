@@ -26,7 +26,7 @@ def test_1b_method_returns(castle_parser):
     assert method.returns == 'int',              f"{method.returns=}"
     assert len(method.body.statements) == 0,     f"{method.body.statements=}"
     verify_Body(method.body, statements=0)
-    
+
 def test_2a_method_1Statements(castle_parser):
     txt = """method() { call(); }"""
     method = castle_parser(txt, start='method')

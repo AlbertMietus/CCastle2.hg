@@ -1,9 +1,12 @@
 # -*- txt -*- (EBNF-mode does not work properly)
 # (C) Albert Mietus, 2025- Part of Castle/CCastle project
 
-docstring = [ fstring ] ; # A docstring is always optional, ans can use f-strings alike forrmatting
+docstring = [ lit_fstring ] ; # A docstring is always optional, and can use f-strings alike forrmatting
 
-fstring =
+lit_fstring = lit_string ;
+lit_tstring = lit_string ;
+
+lit_string =
     | TRIPLE_D_STRING_T    @:(  /(?s)(?:(?!""").)*/  )    TRIPLE_D_STRING_T     # """ ... (multi-line: (?s)) """
     | TRIPLE_S_STRING_T    @:(  /(?s)(?:(?!''').)*/  )    TRIPLE_S_STRING_T     # ''' ... (multi-line: (?s)) '''
     | SINGLE_D_STRING_T    @:(  /[^"]*/              )    SINGLE_D_STRING_T     # " ... "

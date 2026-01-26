@@ -7,5 +7,5 @@ from ._debug import add_debug_logging
 
 @add_debug_logging
 class Literals:
-    def fstring(self, ast):
+    def lit_string(self, ast):
         return aigr.fString(ast)

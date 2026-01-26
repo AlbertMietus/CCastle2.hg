@@ -20,6 +20,7 @@ modifiers		    =  OPTIONAL ;
 
 expression =
     | literal_ID
+    | lit_string
     | _ToDo_
     ;
 literal_ID = ID ;
