@@ -37,6 +37,16 @@ def test_3_VoidCall_StrStr(castle_parser):
         ])
 
 
+def test_4(castle_parser):
+    txt = """print("Hello {label} World")"""
+    got = castle_parser(txt, start='statement')
+    logger.info(f"{txt=} ==> {got=}")     # XXX info->debug
+
+    verify_VoidCall(got, 'print', args=[
+        #Name type
+        (None, aigr.fString, 'Hello {label} World')        ])
+    
+
 
 
 
