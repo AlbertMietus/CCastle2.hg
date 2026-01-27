@@ -2,6 +2,8 @@
 import logging; logger = logging.getLogger(__name__)
 import pytest
 
+from pprint import pprint
+
 from importlib import resources
 
 from . import *
@@ -18,12 +20,14 @@ def test_1_file(castle_parser):
     """
     module, file  = "CastleCode.elemental", "HelloWorld.Castle"
     with resources.open_text( module, file) as f:
+        logger.debug("Going to read %s", f.name)
         txt = f.read()
     if False:
         print(f"\n\n====={module}::{file}=====")
         print(txt)
         print("=====")
 
-    comp = castle_parser(txt)
-    logger.debug(f"{txt=} ==> {comp=}")
-    assert False
+    eHW = castle_parser(txt)
+    pprint(eHW)
+
+    assert False, "Work to do -- but it parses!!"
