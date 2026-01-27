@@ -8,16 +8,16 @@
    See the alternatives (like 'primitive') for more realistic examples of HelloWorld in Castle.
 """
 
-@impliciet(Main)                   	///GAM: This `rewriter` auto-generates ``component Elemental_HelloWorld`` based on Main
+@impliciet(Main)                   	    ///GAM: This `rewriter` auto-generates ``component Elemental_HelloWorld`` based on Main
 implement Elemental_HelloWorld
 {
 
 HelloWorld(label :string) { 			///GAM: fixed `name :type` order
-   print("Hello {label} World")
+   print("Hello {label} World");
 }
 
-invoke() on self.std {
-   HelloWorld("Elemental")
+std.invoke() on self.std {              ///GAM: need proto (std) in name - lookup via port not yett supported
+   HelloWorld("Elemental");
 }
 
 } /* Elemental_HelloWorld */
