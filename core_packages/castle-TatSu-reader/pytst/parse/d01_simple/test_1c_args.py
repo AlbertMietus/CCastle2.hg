@@ -9,7 +9,7 @@ from . import *
 def test_1_argumentTuple_1Name(castle_parser):
     txt="(Main)"
     args= castle_parser(txt, start='argumentTuple')
-    logger.info(f"{txt=} ==> {args=}")   #XXX debug
+    logger.debug(f"{txt=} ==> {args=}")
 
     assert isinstance(args, list)
     assert len(args) == 1

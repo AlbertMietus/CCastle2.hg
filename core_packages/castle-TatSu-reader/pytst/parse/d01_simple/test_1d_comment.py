@@ -9,13 +9,13 @@ from . import *
 def test_0_NoComment(castle_parser):
     txt="just_a_test"
     got = castle_parser(txt, start='nameID')
-    logger.info(f"{txt=} ==> {got=}")   #XXX debug
+    logger.debug(f"{txt=} ==> {got=}")
     assert isinstance(got, aigr.ID) and got == 'just_a_test'
 
 def test_1a_endlineComment(castle_parser):
     txt="just_a_test // this is a comment"
     got = castle_parser(txt, start='nameID')
-    logger.info(f"{txt=} ==> {got=}")   #XXX debug
+    logger.debug(f"{txt=} ==> {got=}")
     assert isinstance(got, aigr.ID) and got == 'just_a_test'
 
 def test_1b_someLineComments(castle_parser):
@@ -25,7 +25,7 @@ def test_1b_someLineComments(castle_parser):
 // ANOTHER COMMENT
 """
     got = castle_parser(txt, start='nameID')
-    logger.info(f"{txt=} ==> {got=}")   #XXX debug
+    logger.debug(f"{txt=} ==> {got=}")
     assert isinstance(got, aigr.ID) and got == 'just_a_test'
 
 def test_2_pythonStyleComment(castle_parser):
@@ -34,7 +34,7 @@ def test_2_pythonStyleComment(castle_parser):
     just_a_test # this becomes a nameID
 #ANOTHER COMMENT"""
     got = castle_parser(txt, start='nameID')
-    logger.info(f"{txt=} ==> {got=}")   #XXX debug
+    logger.debug(f"{txt=} ==> {got=}")
     assert isinstance(got, aigr.ID) and got == 'just_a_test'
 
 def test_3_multiLineComment(castle_parser):
@@ -47,5 +47,5 @@ just_a_test /* this becomes a nameID */
 */
 """
     got = castle_parser(txt, start='nameID')
-    logger.info(f"{txt=} ==> {got=}")   #XXX debug
+    logger.debug(f"{txt=} ==> {got=}")   #XXX debug
     assert isinstance(got, aigr.ID) and got == 'just_a_test'

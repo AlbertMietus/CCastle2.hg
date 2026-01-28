@@ -10,14 +10,14 @@ from . import *
 def test_1_VoidCall_NoArgs(castle_parser):
     txt = """GoForIt();"""
     got = castle_parser(txt, start='statement')
-    logger.info(f"{txt=} ==> {got=}")     # XXX info->debug
+    logger.debug(f"{txt=} ==> {got=}")
 
     verify_VoidCall(got, 'GoForIt')
 
 def test_2_VoidCall_StrArgs(castle_parser):
     txt = """QAZ('foo');"""
     got = castle_parser(txt, start='statement')
-    logger.info(f"{txt=} ==> {got=}")     # XXX info->debug
+    logger.debug(f"{txt=} ==> {got=}")
 
     verify_VoidCall(got, 'QAZ', args=[
         #Name type
@@ -28,7 +28,7 @@ def test_2_VoidCall_StrArgs(castle_parser):
 def test_3_VoidCall_StrStr(castle_parser):
     txt = """QAZ(p1='foo', p2='bar');"""
     got = castle_parser(txt, start='statement')
-    logger.info(f"{txt=} ==> {got=}")     # XXX info->debug
+    logger.debug(f"{txt=} ==> {got=}")
 
     verify_VoidCall(got, 'QAZ', args=[
         #Name type
@@ -40,16 +40,12 @@ def test_3_VoidCall_StrStr(castle_parser):
 def test_4(castle_parser):
     txt = """print("Hello {label} World");"""
     got = castle_parser(txt, start='statement')
-    logger.info(f"{txt=} ==> {got=}")     # XXX info->debug
+    logger.debug(f"{txt=} ==> {got=}")
 
     verify_VoidCall(got, 'print', args=[
         #Name type
-        (None, aigr.fString, 'Hello {label} World')        ])
-    
-
-
-
-
+        (None, aigr.fString, 'Hello {label} World')
+        ])
 
 
 def verify_VoidCall(stmt, name, args=None):
@@ -70,7 +66,7 @@ def verify_VoidCall(stmt, name, args=None):
 def test_99_DottedCall(castle_parser):
     txt = """dotted.call();"""
     got = castle_parser(txt, start='statement')
-    logger.info(f"{txt=} ==> {got=}")
+    logger.debug(f"{txt=} ==> {got=}")
 
     assert isinstance(got, aigr.VoidCall) and isinstance(got.call, aigr.Call)
     callable = got.call.callable
