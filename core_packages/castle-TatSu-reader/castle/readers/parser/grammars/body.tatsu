@@ -8,7 +8,7 @@ body =
     ;
 
 statement =
-    | simple_statement ';'
+    | @:simple_statement ';'
     | complex_statement
     | compound_statement
     ;
