@@ -3,31 +3,50 @@
 
 body =
     '{'
-       {  @+:statement ";" }*
+       {  @+:statement }*
     '}'
     ;
 
 statement =
-    | stat_XXX
-    | stat_variabledefintion
-    | stat_become
-    | stat_voidcall
-    | stat_if
-    | stat_body
-    | stat_componentimplementation
-    | stat__callable
-    | stat__send_proto
+    | simple_statement ';'
+    | complex_statement
+    | compound_statement
     ;
 
-stat_XXX =
-    | 'XXX'
-    | 'ToDo'
+simple_statement = # alway ends with ';' -- set above
+    | stat_voidcall
+    | _stat_ToDo
+    # More todo
+    | stat_variabledefintion
+    | stat_become
     ;
+
+
+complex_statement =
+    # even more ...
+    | stat_if
+    | stat_componentimplementation
+    ;
+
+compound_statement = body ;
+
+
+
+
+_stat_ToDo =
+    | 'ToDo'
+    | 'XXX'
+    ;
+
+
+
+
+
 stat_variabledefintion = _ToDo_ ;
 stat_become = _ToDo_ ;
 
 stat_if = _ToDo_ ;
-stat_body = _ToDo_ ;
+
 stat_componentimplementation = _ToDo_ ;
 stat__callable = _ToDo_ ;
 stat__send_proto = _ToDo_ ;
