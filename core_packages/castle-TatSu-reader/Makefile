@@ -6,26 +6,23 @@ PYREVERSE_PKGS = \
 	castle.readers.parser \
 #
 LAST = \
-	pytst/parse/d01_simple/ \
-	pytst/parse/test_4a_EH.py    \
-	pytst/parse/test_5_meta.py  \
-	pytst/parse/test_4b_method.py \
+	pytst/d01_parse/
 #
 CURRENT = \
-	pytst/parse/d05_statements/test_1_voidCall.py
+	pytst/d01_parse/d05_statements/test_1_voidCall.py
 #
 TODO = \
-	pytst/HW/test_1_elemental.py    \
-	pytst/parse/test_9a_comp_implement.py \
-	pytst/parse/test_9b_comp_mix.py\
+	pytst/d02_HW/test_1_elemental.py    \
+	pytst/d01_parse/test_9a_comp_implement.py \
+	pytst/d01_parse/test_9b_comp_mix.py\
 #
 
 DoH DOH Dot-On-Horizon:
-	pytest --runxfail --capture=no  pytst/HW/test_1_elemental.py
+	pytest --runxfail --capture=no  pytst/d02_HW/test_1_elemental.py
 DoH-info DOH-info:
-	pytest --runxfail --log-cli-level=INFO pytst/HW/test_1_elemental.py
+	pytest --runxfail --log-cli-level=INFO pytst/d02_HW/test_1_elemental.py
 DoH-ds DOH-ds:
-	pytest --runxfail  -rxXsfE  --log-cli-level=DEBUG -s pytst/HW/test_1_elemental.py
+	pytest --runxfail  -rxXsfE  --log-cli-level=DEBUG -s pytst/d02_HW/test_1_elemental.py
 
 TOPd=../../
 include ${TOPd}Mk/comp.mk
