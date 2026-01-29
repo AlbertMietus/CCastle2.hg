@@ -9,12 +9,12 @@ LAST = \
 	pytst/d01_parse/
 #
 CURRENT = \
-	pytst/d01_parse/d05_statements/test_1_voidCall.py
+	pytst/d01_parse/d02_statements/test_1_voidCall.py
 #
 TODO = \
 	pytst/d02_HW/test_1_elemental.py    \
-	pytst/d01_parse/test_9a_comp_implement.py \
-	pytst/d01_parse/test_9b_comp_mix.py\
+	pytst/d01_parse/d05_comp/test_9a_comp_implement.py \
+	pytst/d01_parse/d05_comp/test_9b_comp_mix.py\
 #
 
 DoH DOH Dot-On-Horizon:
