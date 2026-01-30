@@ -2,7 +2,7 @@
 import logging; logger = logging.getLogger(__name__)
 import pytest
 
-from castle.readers.parser import CastleParser
+from castle.readers.ladon.parser import CastleParser
 
 @pytest.fixture
 def castle_parser():
