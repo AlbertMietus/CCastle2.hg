@@ -25,11 +25,6 @@ def test_2_Load_OneStatement(myDir):
     ast = loader.parse()
     validate_topAst(ast, filename="file1", names=['One'])
 
-
-    comp = list(ast._ns.values())[0]
-    assert comp.name == "One"
-    logger.debug(pformat(ast))
-
 def validate_topAst(ast, filename, names:list[str]=[] ):
     assert isinstance(ast, aigr.Source_NS)
     logger.debug(pformat(ast))
