@@ -1,0 +1,7 @@
+# (C) Albert Mietus, 2026. Part of Castle/CCastle project
+
+"""This file has 1 (one) --trival-- component implementation"""
+
+implement One {
+    """This component is empty"""
+}

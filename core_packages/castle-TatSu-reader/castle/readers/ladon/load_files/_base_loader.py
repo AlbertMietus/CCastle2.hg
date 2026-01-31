@@ -8,23 +8,21 @@ from enum import Enum
 from castle.aigr import ID, Source_NS
 from castle.aigr_extra.scaffolding import ScaffolderNameSpace
 
-
 from ..parser import CastleParser
 
 
-class FileKind(Enum):
+class CastleKind(Enum):
     auto    = None
     Moat    = ".Moat"
     Castle  = ".Castle"
     unknown = NameError
 
-class _FileLoader():
-    def __init__(self, parser=None, kind:FileKind=FileKind.auto):
+class _BaseLoader():
+    def __init__(self, parser=None, kind:CastleKind=CastleKind.auto):
         self.parser = parser if parser else CastleParser()
-        self._file:PTH.Optional[Path]=None
-        self._fileKind = kind
+        self._castleKind = kind
 
-    def _StartSymbol(self, start:PTH.Optional[str])->str:
+    def _StartSymbol(self, start:PTH.Optional[str]) ->str:
         """Determnine the parster start symbol, which can be, pasted (with start), or calculated on rhe file extention.
            - 'castle_file'
            - 'moat_file'
@@ -32,21 +30,21 @@ class _FileLoader():
         """
         if start:
             return start
-        #else
-        ## Determnine the FileKind
-        if (self._fileKind is None) or (self._fileKind is FileKind.auto):
+        #else ..
+        ## Determnine the CastleKind
+        if (self._castleKind is None) or (self._castleKind is CastleKind.auto):
             try:
-                kind = FileKind(self._file.suffix)
+                kind = CastleKind(self._file.suffix)
             except NameError:
                 logger.warning("Unexpected file extention: %s -- %s", self._file.suffix, self._file)
                 return None
         else:
-            kind = self._fileKind
+            kind = self._castleKind
 
-        ## translate FileKind to startSymbol (a str, or None)
-        if kind == FileKind.Castle:
+        ## translate CastleKind to startSymbol (a str, or None)
+        if kind == CastleKind.Castle:
             return 'castle_file'
-        elif kind == FileKind.Moat:
+        elif kind == CastleKind.Moat:
             return 'moat_file'
         #else:
         return None
@@ -62,7 +60,6 @@ class _FileLoader():
         return self._make_Source_NS(ast)
 
     def _make_Source_NS(self, ast, asName=None):
-        logger.debug(f"{ast=} {asName=}")
         name = ID(asName) if asName else ID(self._file.stem)
         src = Source_NS(name, source=self._file)
         wrapped = ScaffolderNameSpace(src)
@@ -71,3 +68,7 @@ class _FileLoader():
         return src
 
 
+class _FileLoader(_BaseLoader):
+    def __init__(self, **kw):
+        super().__init__(**kw)
+        self._file:PTH.Optional[Path]=None # Will be set in sub-class
