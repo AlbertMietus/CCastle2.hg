@@ -62,7 +62,7 @@ class _FileLoader():
         return self._make_Source_NS(ast)
 
     def _make_Source_NS(self, ast, asName=None):
-        logger.info(f"{ast=} {asName=}")   #XXXX 
+        logger.debug(f"{ast=} {asName=}")
         name = ID(asName) if asName else ID(self._file.stem)
         src = Source_NS(name, source=self._file)
         wrapped = ScaffolderNameSpace(src)
