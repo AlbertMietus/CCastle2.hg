@@ -18,8 +18,7 @@ class FileKind(Enum):
     Castle  = ".Castle"
     unknown = NameError
 
-
-class FileReader():
+class _FileLoader():
     def __init__(self, parser=None, kind:FileKind=FileKind.auto):
         self.parser = parser if parser else CastleParser()
         self._file:PTH.Optional[Path]=None
@@ -71,10 +70,4 @@ class FileReader():
             wrapped.register(e)
         return src
 
-
-
-class SimpleFileReader(FileReader):
-    def __init__(self, file:PTH.Optional[Path], **kw):
-        super().__init__(**kw)
-        self._file     = Path(file)
 

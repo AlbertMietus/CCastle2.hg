@@ -2,7 +2,7 @@
 import logging; logger = logging.getLogger(__name__)
 import pytest
 
-from pprint import pprint
+from pprint import pprint, pformat
 
 from importlib import resources
 
@@ -19,4 +19,5 @@ def test_1_file_as_txt(castle_parser):
     eHW = castle_parser(txt)
     pprint(eHW)
 
-    assert False, "More tests are needed -- but it parses!!"
+    assert False, f"{pformat(eHW)=}"
+
