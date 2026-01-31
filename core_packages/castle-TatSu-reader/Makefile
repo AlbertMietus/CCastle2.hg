@@ -9,7 +9,7 @@ LAST = \
 	pytst/d01_parse/
 #
 CURRENT = \
-	pytst/d01_parse/d02_statements/test_1_voidCall.py
+	pytst/d01_parse/d07_file/test_1_loadFile.py\
 #
 TODO = \
 	pytst/d02_HW/test_1_elemental.py    \
