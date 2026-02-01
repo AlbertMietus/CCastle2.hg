@@ -10,6 +10,7 @@ dependencies = ["castle-aigr"]
 [tool.setuptools]
 packages = [ # manually maintain this
     "castle.readers.ladon",
+    "castle.readers.support",
 ]
 
 [tool.setuptools.package-data]

@@ -1,4 +1,4 @@
-# (C) Albert Mietus, 2025. Part of Castle/CCastle project
+# (C) Albert Mietus, 2026. Part of Castle/CCastle project
 
 """ The Ladon'' module contains a Castle-reader: to read, parse, and emit the AIGR of some CastleCode.
 
