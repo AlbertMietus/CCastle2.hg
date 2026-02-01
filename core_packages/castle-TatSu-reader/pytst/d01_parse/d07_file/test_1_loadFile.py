@@ -2,13 +2,12 @@
 import logging; logger = logging.getLogger(__name__)
 import pytest
 
-import typing as PTH                                       # Python TypeHints
 
 from pathlib import Path
-from pprint import pprint,pformat
+from pprint import pprint, pformat
 
 from castle import aigr
-from castle.readers.ladon.load_files import SimpleFileLoader
+from castle.readers.ladon.loaders import SimpleFileLoader
 
 @pytest.fixture
 def myDir() ->Path:
@@ -34,5 +33,5 @@ def validate_topAst(ast, filename, names:list[str]=[] ):
     assert len(ast._ns) == len(names)
     for n in names:
         assert n in ast._ns
-    
+
 
