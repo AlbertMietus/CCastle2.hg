@@ -10,7 +10,7 @@ from castle.monorail.base  import MRO_Dispatch_Mixin
 from . import ScaffolderNode
 from ._scaffolder import _Scaffolder
 
-class ScaffolderNameSpace(ScaffolderNode, MRO_Dispatch_Mixin):
+class ScaffolderNameSpace(ScaffolderNode, MRO_Dispatch_Mixin): # XXX or Scaffolder_NameSpace
     _nodeCls:type = aigr.namespaces._NameSpace
     _prefixes = ('register',) # For MRO_Dispatch_Mixin
 
