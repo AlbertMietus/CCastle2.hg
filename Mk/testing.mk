@@ -41,6 +41,8 @@ mutmut3:
 
 last:
 	${PYFAST}  ${PYTEST_OPTIONS_NOxFAIL}  ${LAST}
+last-info:
+	${PYFAST}  ${PYTEST_OPTIONS_NOxFAIL}  --log-cli-level=INFO -s ${LAST}
 current:
 	${PYFAST}  ${PYTEST_OPTIONS}  -s ${CURRENT}
 current-ds current-sd:
