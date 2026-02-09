@@ -15,6 +15,7 @@ class ScaffolderNameSpace(ScaffolderNode, MRO_Dispatch_Mixin): # XXX or Scaffold
     _prefixes = ('register',) # For MRO_Dispatch_Mixin
 
     def register(self, named_node :aigr.NamedNode, asName :PTH.Optional[ID|str]=None):
+        logger.info(f".register: {named_node=} {asName=} {self=} XXX")
         if isinstance(named_node, _Scaffolder):
             logger.error("It's wrong to register wrapped nodes, like %s - unwrapping it and continuing with fingers crosses", named_node)
             named_node = named_node.node # unwrap ...
@@ -28,6 +29,7 @@ class ScaffolderNameSpace(ScaffolderNode, MRO_Dispatch_Mixin): # XXX or Scaffold
         logger.error(f"XTRA: \n\t{self=} \n\t{named_node=} \n\t{asName=}")
 
     def register_NamedNode(self, named_node :aigr.NamedNode, asName :PTH.Optional[ID|str]=None):
+        logger.info(f".register_NamedNode: {named_node=} {asName=} {self=} XXX")
         name = ID(asName) if asName else PTH.cast(ID, named_node.name)
         if name in self.node._ns:
             old = self.node._ns[name]

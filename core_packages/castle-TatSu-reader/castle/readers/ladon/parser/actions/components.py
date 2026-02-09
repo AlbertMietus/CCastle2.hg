@@ -3,6 +3,7 @@ import logging; logger = logging.getLogger(__name__)
 
 from castle import aigr
 from castle.aigr_extra.blend import mangle_event_handler
+from castle.aigr_extra import scaffolding
 
 from ._debug import add_debug_logging
 from .support_functions import flat_list
@@ -16,9 +17,15 @@ class Components():
         return aigr.ComponentInterface(ast.name, based_on=ast.base, ports=ports)
 
     def implement_component(self, ast):
-        parameters = () if ast.parameters is None else ast.parameters
-        handlers   = [] if ast.handlers is None else ast.handlers
-        return aigr.ComponentImplementation(ast.name, parameters=parameters, handlers=handlers,) #XXX
+        parameters = () if ast.parameters  is None else ast.parameters
+        handlers   = [] if ast.handlers    is None else ast.handlers
+
+        logging.warning("XXX `%s.docstring` isn't supported yet --  %s", ast.name, ast.docstring)
+        logging.warning("XXX `%s.interface` has to be added (later?)", ast.name)
+        comp = aigr.ComponentImplementation(ast.name, parameters=parameters, handlers=handlers,) # XXXX
+
+        scaffolding.ScaffolderComponentImplementation(comp).auto_register()   # set namespace
+        return comp
 
     def port_line(self, ast):
         return aigr.Port(ast.name, direction=ast.direction, type=ast.type)

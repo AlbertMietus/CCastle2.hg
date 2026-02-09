@@ -11,6 +11,9 @@ from . import ScaffolderNameSpace
 class ScaffolderCallable(ScaffolderNameSpace):
     _nodeCls = aigr.statements.callables._callable
 
+    def auto_register(self):
+        self.auto_register_parameters()
+
     def auto_register_parameters(self):
         if getattr(self, 'parameters', False):
             my_ns = ScaffolderNameSpace(self.node)

@@ -51,8 +51,8 @@ HelloWorld = Method(ID('HelloWorld', context=aigr.Def()),
                                               args=[ID('label',context=aigr.Ref())]),
                                           )))]))
 
-ScaffolderCallable(HelloWorld).auto_register_parameters()
-wrapped_E_HW.register(HelloWorld) # Register a NamedNode
+ScaffolderCallable(HelloWorld).auto_register()              # parameters
+wrapped_E_HW.register(HelloWorld)                           # NamedNode
 
 
 #invoke() on self.std {

@@ -14,7 +14,10 @@ class ScaffolderComponentImplementation(ScaffolderNameSpace):
     _nodeCls :type = aigr.ComponentImplementation
 
     def register_EventHandler(self, node :aigr.EventHandler, asName :PTH.Optional[ID|str]=None): # XXX Or register__handlers XXX
+        logger.info(f".register_EventHandler: {node=} {asName=} {self=} XXX")
         if asName is not None and not asName == node.name:
             logger.error("It's wrong to register EventHandler (%s) with a diffent name (%s). Ignoring that ...", node.name, asName)
         self.node.handlers.append(node)
 
+    def auto_register(self):
+        logger.info(f"XXX --- {self=}")
