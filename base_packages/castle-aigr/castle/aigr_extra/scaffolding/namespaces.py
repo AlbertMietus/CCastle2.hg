@@ -37,6 +37,7 @@ class ScaffolderNameSpace(ScaffolderNode, MRO_Dispatch_Mixin): # XXX or Scaffold
                            f"Removed: {old}. New: {named_node}")
         self.node._ns[str(name)] = named_node
 
+
     def __len__(self):
         return len(self.node._ns)
 

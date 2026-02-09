@@ -75,7 +75,7 @@ class Scope(_NameSpace):
     """An body (```{ ....}```) has it own namespace, as it defines a scope. But many names (``ID``s) in that namespace
     are defines (registered) in an outer namespace . Therefore we have this special namespace *Scope* dataclass"""
     _: KW_ONLY
-    outer_ns : _NameSpace
+    #    outer_ns : _NameSpace
 
 class _hasScope(Scope):
     """This Mixin adds a (sub)scope to an Class, and 'forward' the namespace-API to that scope-namespace
