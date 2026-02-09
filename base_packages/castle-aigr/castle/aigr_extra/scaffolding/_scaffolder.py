@@ -27,5 +27,7 @@ class _Scaffolder:
     def __repr__(self):
         return f"<Scaffolder({self._node!r})>"                         # pragma: no mutate
 
-
+    def auto_register(self):
+        """Call this method, to auto-register all details -- typically names"""
+        # The default version is empty
 

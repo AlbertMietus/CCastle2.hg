@@ -7,6 +7,7 @@ from enum import Enum
 
 from castle.aigr import ID, Source_NS
 from castle.aigr_extra.scaffolding import ScaffolderNameSpace
+from ..aigr import FileNS, ScaffolderFileNS
 
 from ..parser import CastleParser
 
@@ -59,13 +60,16 @@ class _BaseLoader():
         ast = self.parser.parse(txt, start_symbol)
         return self._make_Source_NS(ast)
 
-    def _make_Source_NS(self, ast, asName=None):
+    def _make_Source_NS(self, ast:FileNS, asName=None):
         name = ID(asName) if asName else ID(self._file.stem)
         src = Source_NS(name, source=self._file)
-        wrapped = ScaffolderNameSpace(src)
-        for e in ast:
-            wrapped.register(e)
+
+        wrapped_src = ScaffolderNameSpace(src)
+        for e in ScaffolderFileNS(ast):
+            wrapped_src.register(e)
+
         return src
+
 
 
 class _FileLoader(_BaseLoader):

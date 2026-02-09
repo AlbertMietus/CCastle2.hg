@@ -20,7 +20,7 @@ direction  =
     | 'slave'
     ;
 
-##Note: the '{' ...'}' in a component implementation is NOT a aigr.Body
+##Note: the '{' ...'}' in a component implementation is NOT an `aigr.Body`
 implement_component =
     [rewriter:rewriter]
 	IMPLEMENT name:nameID [parameters:typedParameterTuple] '{' # XXX parameters or arguments -- I think the last ...

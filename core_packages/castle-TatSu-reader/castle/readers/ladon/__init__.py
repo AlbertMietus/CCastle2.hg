@@ -10,5 +10,6 @@
 _version="VERY_DRAFT"
 
 
+from . import aigr
 
 
