@@ -67,7 +67,6 @@ class _BaseLoader():
         wrapped_src = ScaffolderNameSpace(src)
         for e in ScaffolderFileNS(ast):
             wrapped_src.register(e)
-
         return src
 
 
