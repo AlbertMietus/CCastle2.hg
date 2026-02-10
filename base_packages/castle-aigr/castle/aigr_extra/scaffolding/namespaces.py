@@ -37,6 +37,15 @@ class ScaffolderNameSpace(ScaffolderNode, MRO_Dispatch_Mixin): # XXX or Scaffold
                            f"Removed: {old}. New: {named_node}")
         self.node._ns[str(name)] = named_node
 
+    def register__NameSpace(self, named_node :aigr.namespaces._NameSpace, asName :PTH.Optional[ID|str]=None):
+        logger.info(f".register__NameSpace -- like register_NamedNode, but also set `outer_ns` in node")
+        self.register_NamedNode(named_node, asName) # as for any NamedNode
+
+        #Now also set outer_ns for named_node (to self.node)
+        if named_node.outer_ns:
+            log_at_level = logger.warning if not ( named_node.outer_ns is self.node) else logger.debug
+            log_at_level("outer_ns is already set (to: %s), it will be lost (set to: %s)", named_node.outer_ns, self.node)
+        named_node.outer_ns = self.node
 
     def __len__(self):
         return len(self.node._ns)
