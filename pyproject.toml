@@ -1,0 +1,12 @@
+[tool.pyright]
+typeCheckingMode = "standard"
+pythonVersion = "3.13"
+venvPath = ".."
+venv = "VENV"
+
+extraPaths = [
+   "./base_packages/castle-monorail",
+   "./base_packages/castle-aigr",
+   "./core_packages/castle-TatSu-reader",
+   "./TestDoubles_packages/TestDoubles-HelloWorlds"
+]
