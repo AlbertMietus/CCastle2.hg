@@ -1,4 +1,6 @@
 # (C) Albert Mietus, 2025. Part of Castle/CCastle project
+import logging; logger = logging.getLogger(__name__)
+
 
 import typing as PTH                                       # Python TypeHints
 
@@ -17,6 +19,7 @@ class CastleParser():
     def __init__(self, grammar_file :PTH.Optional[Path]=None, actions=None):
         if grammar_file is None:
             grammar_file = Path(__file__).parent / self._GRAMMAR_FILE
+        logger.debug("using %s as grammar(file) -- %s", grammar_file, grammar_file.resolve())
         with open(grammar_file) as f:
             grammar = f.read()
         if actions is None:
