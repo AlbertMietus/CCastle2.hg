@@ -48,4 +48,8 @@ def verify_Body(body, statements=0):
     assert len(body.statements) == statements,   f"check length=={statements}: {body.statements=}"
 
 
+    from pprint import pformat
+    logger.info("XXX: %s", pformat(body))
+
+
 

@@ -82,3 +82,6 @@ def verify_ComponentImplementation(comp, name, parameters=0, handlers=0):
     assert isinstance(comp._ns,      dict)
     assert isinstance(comp.outer_ns, (dict, type(None))) #.outer_ns is a ref that can be empty ...
     assert comp.outer_ns is None                         # .. Here it is/should be
+    #handlers's outer_ns should be comp
+    for h in comp.handlers:
+        assert h.outer_ns == comp, f"{h.outer_ns=} of {h.name=} does not point to Comp ({comp.name}): -- {h.outer_ns=}"

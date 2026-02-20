@@ -20,4 +20,13 @@ class ScaffolderComponentImplementation(ScaffolderNameSpace):
         self.node.handlers.append(node)
 
     def auto_register(self):
-        logger.info(f"XXX --- {self=}")
+        self.auto_register_handlers()
+
+    def auto_register_handlers(self):
+        for h in self.node.handlers:
+            if h.outer_ns:
+                log_at_level = logger.warning if not ( h.outer_ns is self.node) else logger.debug
+                log_at_level("outer_ns is already set (to: %s), it will be lost (set to: %s)", named_node.outer_ns, self.node)
+            h.outer_ns = self.node
+
+        
