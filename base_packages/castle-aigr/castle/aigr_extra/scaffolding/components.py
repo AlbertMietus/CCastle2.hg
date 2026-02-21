@@ -23,6 +23,10 @@ class ScaffolderComponentImplementation(ScaffolderNameSpace):
         self.auto_register_handlers()
 
     def auto_register_handlers(self):
+        """Do not call directly!
+          Even dou the name of (Event/Data/...) handlers aren't registered on the namespaces of a comp,
+          their 'outer_ns' should point to comp"""
+        
         for h in self.node.handlers:
             if h.outer_ns:
                 log_at_level = logger.warning if not ( h.outer_ns is self.node) else logger.debug

@@ -57,4 +57,13 @@ implement Comp_EH2
     logger.debug(f"{txt=} ==> {comp=}")
     verify_ComponentImplementation(comp, name="Comp_EH2", handlers=2)
 
+def test_5_Comp_method(castle_parser):
+    txt = """\
+implement Comp_with_local_Method
+{
+    local_M() {}
+}"""
+    comp = castle_parser(txt, start='implement_component')
+    logger.debug(f"{txt=} ==> {comp=}")
+    verify_ComponentImplementation(comp, name="Comp_with_local_Method")
 

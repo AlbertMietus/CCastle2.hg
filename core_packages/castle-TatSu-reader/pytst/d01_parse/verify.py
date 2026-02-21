@@ -71,17 +71,18 @@ def _verify_Port(port, name:str, type:str, direction:aigr.PortDirection.In):
 
 
 
-def verify_ComponentImplementation(comp, name, parameters=0, handlers=0):
+def verify_ComponentImplementation(comp, name, parameters=0, handlers=0, ns_names=0):
     assert isinstance(comp, aigr.ComponentImplementation)
     # direct attributes
     assert comp.name == name
     assert comp.interface is None               #XXXX
-    assert len(comp.parameters) == parameters
-    assert len(comp.handlers)   == handlers
+    assert len(comp.parameters) == parameters, f"Expected {parameters=}, got {comp.parameters=}"
+    assert len(comp.handlers)   == handlers,   f"Expected {handlers=}, got {comp.handlers=}"
+    # check number of names
+    assert len(comp._ns)        == ns_names,   f"Expected {ns_names=}, got {comp._ns=}"
     # inherited via _hasScope --|> Scope --|> _NameSpace
     assert isinstance(comp._ns,      dict)
     assert isinstance(comp.outer_ns, (dict, type(None))) #.outer_ns is a ref that can be empty ...
-    assert comp.outer_ns is None                         # .. Here it is/should be
     #handlers's outer_ns should be comp
     for h in comp.handlers:
         assert h.outer_ns == comp, f"{h.outer_ns=} of {h.name=} does not point to Comp ({comp.name}): -- {h.outer_ns=}"

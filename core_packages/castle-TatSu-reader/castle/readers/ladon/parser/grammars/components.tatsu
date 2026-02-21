@@ -29,7 +29,7 @@ implement_component =
         | members+:member
         | handlers+:handler
         | local_functions+:local_function
-    }*
+        }*
    '}'
     ;
 
@@ -37,7 +37,6 @@ implement_component =
 handler =
     | event_handler
     | data_handler
-    | local_function
     ;
 
 event_handler =
@@ -56,7 +55,10 @@ method =
     body:body
     ;
 
-
+_debug_callable = # Only for development work
+    | handler
+    | local_function
+    ;
 
 
 

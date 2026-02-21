@@ -22,8 +22,8 @@ class Components():
 
         logging.warning("XXX `%s.docstring` isn't supported yet --  %s", ast.name, ast.docstring)
         logging.warning("XXX `%s.interface` has to be added (later?)", ast.name)
-        comp = aigr.ComponentImplementation(ast.name, parameters=parameters, handlers=handlers,) # XXXX
 
+        comp = aigr.ComponentImplementation(ast.name, parameters=parameters, handlers=handlers,) # XXXX
         scaffolding.ScaffolderComponentImplementation(comp).auto_register()   # set namespace
         return comp
 

@@ -6,15 +6,13 @@ PYREVERSE_PKGS = \
 	castle.readers.parser \
 #
 LAST = \
-	pytst/d01_parse/d07_file/test_1_loadFile.py \
+	pytst/d01_parse/d03_callable/test_4b_method.py \
 #
 CURRENT = \
-	pytst/d01_parse/d07_file/test_2_ns.py\
+	pytst/d01_parse/d05_comp/test_9a_comp_implement.py -k test_5 \
 #
 TODO = \
-	pytst/d02_HW/test_1_elemental.py    \
-	pytst/d01_parse/d05_comp/test_9a_comp_implement.py \
-	pytst/d01_parse/d05_comp/test_9b_comp_mix.py\
+	pytst/d01_parse/d05_comp/test_9a_comp_implement.py 
 #
 
 DoH DOH Dot-On-Horizon:
