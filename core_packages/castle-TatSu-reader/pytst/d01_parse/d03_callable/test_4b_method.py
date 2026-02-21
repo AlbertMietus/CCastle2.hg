@@ -53,7 +53,7 @@ def verify_Body(body, statements=0):
 
 
 
-def test_XX_method_is_localFunc(castle_parser):
+def test_5a_method_is_localFunc(castle_parser):
     txt = """HelloWorld(label :string) {}"""
     method = castle_parser(txt, start='local_function')
     logger.debug(f"{txt=} ==> {method=}")
@@ -63,7 +63,7 @@ def test_XX_method_is_localFunc(castle_parser):
     assert method.parameters[0].name == 'label' and method.parameters[0].type == 'string', f"{method.parameters[0]=}"
     verify_Body(method.body, statements=0)
 
-def test_XXX_method_is__debug_callable(castle_parser):
+def test_5b_method_is__debug_callable(castle_parser):
     txt = """HelloWorld(label :string) {}"""
     method = castle_parser(txt, start='_debug_callable')
     logger.debug(f"{txt=} ==> {method=}")
