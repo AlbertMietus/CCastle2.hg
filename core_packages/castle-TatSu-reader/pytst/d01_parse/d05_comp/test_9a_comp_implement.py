@@ -65,5 +65,5 @@ implement Comp_with_local_Method
 }"""
     comp = castle_parser(txt, start='implement_component')
     logger.debug(f"{txt=} ==> {comp=}")
-    verify_ComponentImplementation(comp, name="Comp_with_local_Method")
+    verify_ComponentImplementation(comp, name="Comp_with_local_Method", local_names=['local_M'])
 

@@ -5,7 +5,7 @@ component_definition =
     COMPONENT name:nameID [parameters:typedParameterTuple] [':' base:nameID]
     docstring:docstring
     '{'
- 	    { ports+:port_line ';' }*
+            { ports+:port_line ';' }*
    '}'
     ;
 
@@ -23,9 +23,9 @@ direction  =
 ##Note: the '{' ...'}' in a component implementation is NOT an `aigr.Body`
 implement_component =
     [rewriter:rewriter]
-	IMPLEMENT name:nameID [parameters:typedParameterTuple] '{' # XXX parameters or arguments -- I think the last ...
+    IMPLEMENT name:nameID [parameters:typedParameterTuple] '{' # XXX parameters or arguments -- I think the last ...
     docstring:docstring
-	{
+        {
         | members+:member
         | handlers+:handler
         | local_functions+:local_function
@@ -45,7 +45,7 @@ event_handler =
     body:body
     ;
 
-local_function	=
+local_function  =
     | method
     |  _ToDo_ ; # or method/comp_function/
 
@@ -76,6 +76,6 @@ portID          = qualRef ;
 
 
 
-member			= _ToDo_ ;
-data_handler	= _ToDo_ ;
+member                  = _ToDo_ ;
+data_handler    = _ToDo_ ;
 

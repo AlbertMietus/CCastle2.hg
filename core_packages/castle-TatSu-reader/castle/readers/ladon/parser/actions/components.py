@@ -17,15 +17,29 @@ class Components():
         return aigr.ComponentInterface(ast.name, based_on=ast.base, ports=ports)
 
     def implement_component(self, ast):
-        parameters = () if ast.parameters  is None else ast.parameters
-        handlers   = [] if ast.handlers    is None else ast.handlers
+        parameters =  () if ast.parameters  is None else ast.parameters
+        handlers   =  [] if ast.handlers    is None else ast.handlers
 
         logging.warning("XXX `%s.docstring` isn't supported yet --  %s", ast.name, ast.docstring)
         logging.warning("XXX `%s.interface` has to be added (later?)", ast.name)
 
         comp = aigr.ComponentImplementation(ast.name, parameters=parameters, handlers=handlers,) # XXXX
-        scaffolding.ScaffolderComponentImplementation(comp).auto_register()   # set namespace
+        wrapped = scaffolding.ScaffolderComponentImplementation(comp)
+        self._implement_component_addLocals(wrapped, ast)
+        wrapped.auto_register()
         return comp
+
+    def _implement_component_addLocals(self, wrapped, ast):
+        local_names = []
+        if ast.local_functions:
+            local_names.extend(ast.local_functions)
+        if ast.members:         # XXX members: ToDo
+            local_names.extend(ast.members) 
+
+        for l_name in local_names:
+            wrapped.register(l_name)
+
+
 
     def port_line(self, ast):
         return aigr.Port(ast.name, direction=ast.direction, type=ast.type)
