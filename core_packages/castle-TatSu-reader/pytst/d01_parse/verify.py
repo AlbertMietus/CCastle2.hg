@@ -13,6 +13,7 @@ def verify_parms_tuple(parms, length):
     assert isinstance(parms, tuple), f"Expecting a tuple, got: {type(parms)} :: {parms}"
     assert len(parms) == length,     f"Expecting {length} parameter(s), got {len(parms)}"
 
+
 def verify_parm(parm, name, type_, check_optional=False):
     assert isinstance(parm, aigr.TypedParameter), f"Expecting a TypedParameter, got: {type(parm)} :: {parm}"
     assert isinstance(parm.name, aigr.ID) and parm.name == name, f"Expecting {aigr.ID(name)=}, got {parm.name!r}"
@@ -63,6 +64,7 @@ def verify_ComponentInterface(comp, name, base:PTH.Optional[aigr.ID]=None, ports
         for i, p_spec in enumerate(ports_spec):
             _verify_Port(comp.ports[i], *p_spec)
 
+
 def _verify_Port(port, name:str, type:str, direction:aigr.PortDirection.In):
     assert isinstance(port, aigr.Port), f"{port=}"
     assert isinstance(port.name, aigr.ID) and port.name == name, f"Got: {port.name=} -- expecting {name=}"
@@ -71,20 +73,30 @@ def _verify_Port(port, name:str, type:str, direction:aigr.PortDirection.In):
 
 
 
-def verify_ComponentImplementation(comp, name, parameters=0, handlers=0, local_names=[]):
+def verify_ComponentImplementation(comp, name, parameters=[], handlers=0, local_names=[]):
+    # parameters: [(name,type), ....]
     assert isinstance(comp, aigr.ComponentImplementation)
     # direct attributes
     assert comp.name == name
     assert comp.interface is None               #XXXX
-    assert len(comp.parameters) == parameters, f"Expected {parameters=}, got {comp.parameters=}"
-    assert len(comp.handlers)   == handlers,   f"Expected {handlers=}, got {comp.handlers=}"
+    assert len(comp.parameters) == len(parameters), f"Expected {len(parameters)=}, got {comp.parameters=}"
+    
     # check (number of) local names
-    assert len(comp._ns)        == len(local_names),   f"Expected {len(local_names)=}, got {comp._ns=} -- Spec:{local_names=}"
+    assert len(comp.handlers)   == handlers,   f"Expected {handlers=}, got {comp.handlers=}"
     for l_name in local_names:
-        assert l_name in comp._ns, f" Expected {l_name=} not in {comp._ns.keys()=}"
+        assert l_name in comp._ns, f"Expected {l_name=} not in {comp._ns.keys()=}"
+
+    # check the parameters
+    assert len(comp._ns)        == len(local_names),   f"Expected {len(local_names)=}, got {comp._ns=} -- Spec:{local_names=}"
+    for (got,spec) in zip(comp.parameters, parameters, strict=True):
+        name, type_ = spec[0], spec[1]
+        verify_parm(got, name, type_)        
+    
     # inherited via _hasScope --|> Scope --|> _NameSpace
     assert isinstance(comp._ns,      dict)
     assert isinstance(comp.outer_ns, (dict, type(None))) #.outer_ns is a ref that can be empty ...
     #handlers's outer_ns should be comp
     for h in comp.handlers:
         assert h.outer_ns == comp, f"{h.outer_ns=} of {h.name=} does not point to Comp ({comp.name}): -- {h.outer_ns=}"
+
+
