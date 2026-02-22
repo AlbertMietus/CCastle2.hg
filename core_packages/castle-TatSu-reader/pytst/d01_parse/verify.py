@@ -74,7 +74,10 @@ def _verify_Port(port, name:str, type:str, direction:aigr.PortDirection.In):
 
 
 def verify_ComponentImplementation(comp, name, parameters=[], handlers=0, local_names=[]):
-    # parameters: [(name,type), ....]
+    ###
+    ### parameters: [(name,type), ....]
+    ###
+
     assert isinstance(comp, aigr.ComponentImplementation)
     # direct attributes
     assert comp.name == name
