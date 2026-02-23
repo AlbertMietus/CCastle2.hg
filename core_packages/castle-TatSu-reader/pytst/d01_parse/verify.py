@@ -5,6 +5,7 @@ import pytest
 import typing as PTH                                                                                  # Python TypeHints
 
 from castle import aigr
+from castle.aigr_extra.scaffolding import ScaffolderComponentImplementation
 
 
 
@@ -98,8 +99,15 @@ def verify_ComponentImplementation(comp, name, parameters=[], handlers=0, local_
     # inherited via _hasScope --|> Scope --|> _NameSpace
     assert isinstance(comp._ns,      dict)
     assert isinstance(comp.outer_ns, (dict, type(None))) #.outer_ns is a ref that can be empty ...
-    #handlers's outer_ns should be comp
+
+    #handlers:  outer_ns should be comp (name not in NS)
     for h in comp.handlers:
         assert h.outer_ns == comp, f"{h.outer_ns=} of {h.name=} does not point to Comp ({comp.name}): -- {h.outer_ns=}"
+
+    #Methods: name not NS, outer_ns should be comp 
+    wrapped = ScaffolderComponentImplementation(comp)
+    for name, meth in wrapped.find_byType(aigr.Method).items():
+        assert name in comp._ns,      f"Namespace/Mistake (Strange), Found {name=} not in {comp._ns=}"
+        assert meth.outer_ns == comp, f"Namespace error (outer_ns) {meth.name=} does not point to Comp ({comp.name}), but is {meth.outer_ns=} --  {meth=}"
 
 
