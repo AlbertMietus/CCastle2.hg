@@ -29,15 +29,15 @@ class Components():
         wrapped.auto_register()
         return comp
 
-    def _implement_component_addLocals(self, wrapped, ast):
+    def _implement_component_addLocals(self, wrapped_comp, ast):
         local_names = []
         if ast.local_functions:
             local_names.extend(ast.local_functions)
         if ast.members:         # XXX members: ToDo
-            local_names.extend(ast.members) 
-
+            local_names.extend(ast.members)
         for l_name in local_names:
-            wrapped.register(l_name)
+            logger.info(f"addLocals: register:: {l_name=}) -- {wrapped_comp=}")
+            wrapped_comp.register(l_name)
 
 
 

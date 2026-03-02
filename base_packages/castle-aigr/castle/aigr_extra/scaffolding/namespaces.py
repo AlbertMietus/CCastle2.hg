@@ -4,7 +4,8 @@ import logging; logger = logging.getLogger(__name__)
 import typing as PTH                                        # Python TypeHints
 
 from castle import aigr
-from castle.aigr import ID, NamedNode,  errors
+from castle.aigr import NamedNode,  errors
+from castle.aigr.base.names import ID
 
 from castle.monorail.base  import MRO_Dispatch_Mixin
 from . import ScaffolderNode
@@ -23,44 +24,11 @@ class ScaffolderNameSpace(ScaffolderNode, MRO_Dispatch_Mixin): # XXX or Scaffold
         register_method = self.dispatch_find_method_by_mro(named_node, 'register')
         register_method(named_node, asName)     # type: ignore[misc] # exist always, is there is a default: see below
 
-
-    def _default_register(self, named_node :aigr.NamedNode, asName :PTH.Optional[ID|str]=None):
-        logger.error("Default register for %s is called -- this is often a mistake", type(named_node).__name__, stack_info=True)
-        logger.error(f"XTRA: \n\t{self=} \n\t{named_node=} \n\t{asName=}")
-
-    def register_NamedNode(self, named_node :aigr.NamedNode, asName :PTH.Optional[ID|str]=None):
-        logger.info(f".register_NamedNode: {named_node=} {asName=} {self=} XXX")
-        name = ID(asName) if asName else PTH.cast(ID, named_node.name)
-        if name in self.node._ns:
-            old = self.node._ns[name]
-            logger.warning(f"The '{name}'-node is already in this namespace; -- it will be lost." +
-                           f"Removed: {old}. New: {named_node}")
-        self.node._ns[str(name)] = named_node
-
-    def register__NameSpace(self, named_node :aigr.namespaces._NameSpace, asName :PTH.Optional[ID|str]=None):
-        logger.info(f".register__NameSpace -- like register_NamedNode, but also set `outer_ns` in node")
-        self.register_NamedNode(named_node, asName) # as for any NamedNode
-
-        #Now also set outer_ns for named_node (to self.node)
-        if named_node.outer_ns:
-            log_at_level = logger.warning if not ( named_node.outer_ns is self.node) else logger.debug
-            log_at_level("outer_ns is already set (to: %s), it will be lost (set to: %s)", named_node.outer_ns, self.node)
-        named_node.outer_ns = self.node
-
     def __len__(self):
         return len(self.node._ns)
 
-
-
-
-### The following 3 methods are overkill.
-### + findNode/getID only looks locally returning None (findNode) or raise NameError on no match
-### + search is like findNode, but looks also in subNS'ses
 ###
-### So,
-### - ``NS.findNode(name)`` and ``NS.search(name)`` are equivalent
-###     (but search calls findNode, and can't be removed. find is also a better name)
-###- There is no getID() for dottedName's
+###  `find*()`, ` get*() & `search()` -- all via _findNode()
 ###
 
     def _findNode(self, name :ID) ->PTH.Optional[NamedNode]:
@@ -111,4 +79,41 @@ class ScaffolderNameSpace(ScaffolderNode, MRO_Dispatch_Mixin): # XXX or Scaffold
 
     def list_names(self) -> tuple[ID, ...]:
         return tuple(self.node._ns.keys())
+
+
+###
+### Some register_* function
+### (more are in subclasses)
+###
+    def _default_register(self, named_node :aigr.NamedNode, asName :PTH.Optional[ID|str]=None):
+        logger.error("Default register for %s is called -- this is often a mistake", type(named_node).__name__, stack_info=True)
+        logger.error(f"XTRA: \n\t{self=} \n\t{named_node=} \n\t{asName=}")
+
+
+    def register_NamedNode(self, named_node :aigr.NamedNode, asName :PTH.Optional[ID|str]=None):
+        logger.info(f".register_NamedNode: {named_node=} {asName=} {self=} XXX")
+        name = ID(asName) if asName else PTH.cast(ID, named_node.name)
+        if name in self.node._ns:
+            old = self.node._ns[name]
+            logger.warning(f"The '{name}'-node is already in this namespace; -- it will be lost." +
+                           f"Removed: {old}. New: {named_node}")
+        self.node._ns[str(name)] = named_node
+
+
+    def _register_NN_and_outer_ns(self, named_node, asName):
+        self.register_NamedNode(named_node, asName) # As all named_node's
+        # And set .outer_ns - after checking it unset
+        if named_node.outer_ns:
+            log_at_level = logger.warning if not ( named_node.outer_ns is self.node) else logger.debug
+            log_at_level("outer_ns is already set (to: %s), it will be lost (set to: %s)", named_node.outer_ns, self.node)
+        named_node.outer_ns = self.node
+
+
+    def register__NameSpace(self, named_node :aigr.namespaces._NameSpace, asName :PTH.Optional[ID|str]=None):
+        logger.info(f".register__NameSpace -- like register_NamedNode, but also set `outer_ns` in node")
+        self._register_NN_and_outer_ns(named_node, asName)
+
+    def register_Method(self, named_node :aigr.Method, asName :PTH.Optional[ID|str]=None):
+        logger.debug(f".register_Method: {named_node=} {asName=} {self=}")
+        self._register_NN_and_outer_ns(named_node, asName)
 

@@ -116,4 +116,4 @@ def _CI_check_NS_methods(comp):
     for name, meth in wrapped.find_byType(aigr.Method).items():
         meth = PTH.cast(aigr.NamedSpace, meth)
         assert name in comp._ns,      f"Namespace/Mistake (Strange), Found {name=} not in {comp._ns=}"
-        assert meth.outer_ns == comp, f"Namespace error (outer_ns) {meth.name=} does not point to Comp ({comp.name}), but is {meth.outer_ns=} --  {meth=}"
+        assert meth.outer_ns == comp, f"Namespace error (outer_ns) {meth.name=} should point to Comp ({comp.name}), but is {meth.outer_ns=} --  {meth=}"
