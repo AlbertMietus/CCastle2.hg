@@ -75,39 +75,45 @@ def _verify_Port(port, name:str, type:str, direction:aigr.PortDirection.In):
 
 
 def verify_ComponentImplementation(comp, name, parameters=[], handlers=0, local_names=[]):
-    ###
     ### parameters: [(name,type), ....]
-    ###
-
     assert isinstance(comp, aigr.ComponentImplementation)
-    # direct attributes
+    _CI_check_direct_attributes(comp, name, parameters)
+    _CI_check_local_names(comp, handlers, local_names)
+    _CI_check_parameters(comp, name, parameters, local_names)
+    _CI_check_NS(comp)
+
+def _CI_check_direct_attributes(comp, name, parameters):
     assert comp.name == name
     assert comp.interface is None               #XXXX
     assert len(comp.parameters) == len(parameters), f"Expected {len(parameters)=}, got {comp.parameters=}"
-    
-    # check (number of) local names
+
+def _CI_check_local_names(comp, handlers, local_names):
     assert len(comp.handlers)   == handlers,   f"Expected {handlers=}, got {comp.handlers=}"
     for l_name in local_names:
         assert l_name in comp._ns, f"Expected {l_name=} not in {comp._ns.keys()=}"
 
-    # check the parameters
+def _CI_check_parameters(comp, name, parameters, local_names):
     assert len(comp._ns)        == len(local_names),   f"Expected {len(local_names)=}, got {comp._ns=} -- Spec:{local_names=}"
     for (got,spec) in zip(comp.parameters, parameters, strict=True):
         name, type_ = spec[0], spec[1]
-        verify_parm(got, name, type_)        
-    
-    # inherited via _hasScope --|> Scope --|> _NameSpace
-    assert isinstance(comp._ns,      dict)
-    assert isinstance(comp.outer_ns, (dict, type(None))) #.outer_ns is a ref that can be empty ...
+        verify_parm(got, name, type_)
 
+def _CI_check_NS(comp):
+    # inherited via _hasScope --|> Scope --|> _NameSpace
+    assert isinstance(comp._ns, dict)
+    assert isinstance(comp.outer_ns, (dict, type(None))) #.outer_ns is a ref that can be empty ...
+    _CI_check_NS_handlers(comp)
+    _CI_check_NS_methods(comp)
+
+def _CI_check_NS_handlers(comp):
     #handlers:  outer_ns should be comp (name not in NS)
     for h in comp.handlers:
         assert h.outer_ns == comp, f"{h.outer_ns=} of {h.name=} does not point to Comp ({comp.name}): -- {h.outer_ns=}"
 
-    #Methods: name not NS, outer_ns should be comp 
+def _CI_check_NS_methods(comp):
+    #Methods: name should be NS, outer_ns should be comp
     wrapped = ScaffolderComponentImplementation(comp)
     for name, meth in wrapped.find_byType(aigr.Method).items():
+        meth = PTH.cast(aigr.NamedSpace, meth)
         assert name in comp._ns,      f"Namespace/Mistake (Strange), Found {name=} not in {comp._ns=}"
         assert meth.outer_ns == comp, f"Namespace error (outer_ns) {meth.name=} does not point to Comp ({comp.name}), but is {meth.outer_ns=} --  {meth=}"
-
-
