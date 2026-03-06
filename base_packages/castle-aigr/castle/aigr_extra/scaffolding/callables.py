@@ -4,7 +4,7 @@ import logging; logger = logging.getLogger(__name__)
 import typing as PTH                                        # Python TypeHints
 
 from castle import aigr
-from castle.aigr.base.names import ID
+from castle.aigr import ID
 
 from . import ScaffolderNameSpace
 

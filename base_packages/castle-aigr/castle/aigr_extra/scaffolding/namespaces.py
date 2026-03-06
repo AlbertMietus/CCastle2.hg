@@ -5,7 +5,7 @@ import typing as PTH                                        # Python TypeHints
 
 from castle import aigr
 from castle.aigr import NamedNode,  errors
-from castle.aigr.base.names import ID
+from castle.aigr import ID
 
 from castle.monorail.base  import MRO_Dispatch_Mixin
 from . import ScaffolderNode

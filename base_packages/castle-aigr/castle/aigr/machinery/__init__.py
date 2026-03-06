@@ -14,7 +14,7 @@ from dataclasses import dataclass, KW_ONLY
 import typing as PTH                                                                                  # Python TypeHints
 
 from .. import ID
-from .. import AIGR, Port, Event, Argument, Protocol
+from .. import AIGR, Port, Event, Argument, ComponentInterface
 from ..statements import _statement
 from .. import todo
 
@@ -25,12 +25,12 @@ class _machinery(AIGR):
 @dataclass
 class _send_proto(_machinery, _statement):
     _: KW_ONLY
-    comp    :ID.Ref[componentInterface] # the sending component
+    comp    :ID.Ref[ComponentInterface] # the sending component
 
 @dataclass
 class _send_ToSub(_send_proto):
     _: KW_ONLY
-    receiver :ID.Ref[componentInterface] # a sub-component; (no connection)
+    receiver :ID.Ref[ComponentInterface] # a sub-component; (no connection)
 
 @dataclass
 class _send_OverPort(_send_proto):

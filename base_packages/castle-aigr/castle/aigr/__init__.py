@@ -19,3 +19,8 @@ from .expressions import *
 from .components import *
 
 from . import machinery
+
+from typing import TYPE_CHECKING
+if TYPE_CHECKING:
+    from .base.names import ID # import ID  explicit, so that basedpyright knows ID
+

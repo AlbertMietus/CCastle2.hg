@@ -21,7 +21,7 @@ class TypedParameter(NamedNode):
 
     def __post_init__(self):
         if not isinstance(self.name, ID):
-            self.name = ID(self.name, context=aigr.Def())
+            self.name = ID.Def(self.name)
 
 
 @dataclass
@@ -34,7 +34,7 @@ class Argument(AIGRNode):
 
     def __post_init__(self):
         if self.name and not isinstance(self.name, ID):
-            self.name = ID(self.name, context=aigr.Def())
+            self.name = ID.Def(self.name)
 
 
 
