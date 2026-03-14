@@ -5,7 +5,7 @@ import typing as PTH                                        # Python TypeHints
 
 from castle import aigr
 from castle.aigr import NamedNode,  errors
-from castle.aigr import ID
+from castle.aigr import ID, QualID
 
 from castle.monorail.base  import MRO_Dispatch_Mixin
 from . import ScaffolderNode
@@ -79,6 +79,27 @@ class ScaffolderNameSpace(ScaffolderNode, MRO_Dispatch_Mixin): # XXX or Scaffold
 
     def list_names(self) -> tuple[ID, ...]:
         return tuple(self.node._ns.keys())
+
+    def search_qualNames(self ) -> tuple[QualID, ...]:
+        """Return all names in this namespace recursively, as QualIDs -- also see: search_dottedNames"""
+        return self._search_recursively(_prefix=None)
+
+    def search_dottedNames(self, *, _prefix: PTH.Optional[QualID]=None, ) -> tuple[str, ...]:
+        """Return all names in this namespace recursively, as dottedNames -- also see: search_qualNames"""
+        quals = self._search_recursively(_prefix=None)
+        return tuple(['.'.join(name) for name in quals])
+         
+    def _search_recursively(self, *, _prefix: PTH.Optional[QualID]=None, ) ->tuple[QualID, ...]:
+        prefix = _prefix or []
+        result: list[QualID] = []
+        for name, node in self.node._ns.items():
+            qualID = prefix + [ID(name)]
+            result.append(qualID)
+            if isinstance(node, aigr.namespaces._NameSpace):
+                result.extend(ScaffolderNameSpace(node)._search_recursively(_prefix=qualID))
+        return tuple(result)
+
+        
 
 
 ###

@@ -46,10 +46,16 @@ class ID(str, AIGR):
         else:
           return f'ID(`{str(self)}`/{repr(self.context)})'
 
-    class Def:
-        def __new__(cls, name:str) -> ID.Def:
-            """`ID.Def()` creates an ID with Def() context; and ID.Def is a type-hint"""
-            return PTH.cast(ID.Def, ID(name, context=_Def_cls()))
+    #      class Def:
+    #        def __new__(cls, name:str) -> ID.Def:
+    #            """`ID.Def()` creates an ID with Def() context; and ID.Def is a type-hint"""
+    #            return PTH.cast(ID.Def, (ID(name, context=_Def_cls())))
+
+    @staticmethod
+    def Def(name:str):
+        """`ID.Def()` creates an ID with Def() context"""
+        return ID(name, context=_Def_cls())
+
 
     class Ref(PTH.Generic[RefType]):
         """`ID.Ref()` creates an ID with Ref() context. && ID.Ref[type] can be used as type-hint"""

@@ -7,9 +7,10 @@ PYREVERSE_PKGS = \
 #
 LAST = \
 	pytst/d01_parse/d03_callable/test_4b_method.py \
+	pytst/d01_parse/d05_comp/test_9a_comp_implement.py \
 #
 CURRENT = \
-	pytst/d01_parse/d05_comp/test_9a_comp_implement.py -k test_5_Comp_method\
+	pytst/d02_HW/test_1_elemental.py
 #
 TODO = \
 	pytst/\
