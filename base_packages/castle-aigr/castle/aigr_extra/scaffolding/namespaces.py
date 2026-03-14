@@ -25,7 +25,8 @@ class ScaffolderNameSpace(ScaffolderNode, MRO_Dispatch_Mixin): # XXX or Scaffold
         register_method(named_node, asName)     # type: ignore[misc] # exist always, is there is a default: see below
 
     def __len__(self):
-        return len(self.node._ns)
+        return len(PTH.cast(aigr.namespaces._NameSpace, self.node)._ns)
+
 
 ###
 ###  `find*()`, ` get*() & `search()` -- all via _findNode()
@@ -75,10 +76,10 @@ class ScaffolderNameSpace(ScaffolderNode, MRO_Dispatch_Mixin): # XXX or Scaffold
             return None
 
     def find_byType(self, cls:type) ->dict[ID, NamedNode]:
-        return {name: PTH.cast(NamedNode, value) for name, value in self.node._ns.items() if isinstance(value, cls)}
+        return {name: PTH.cast(NamedNode, value) for name, value in  PTH.cast(aigr.namespaces._NameSpace, self.node)._ns.items() if isinstance(value, cls)}
 
     def list_names(self) -> tuple[ID, ...]:
-        return tuple(self.node._ns.keys())
+        return tuple( PTH.cast(aigr.namespaces._NameSpace, self.node)._ns.keys())
 
     def search_qualNames(self ) -> tuple[QualID, ...]:
         """Return all names in this namespace recursively, as QualIDs -- also see: search_dottedNames"""
@@ -88,18 +89,16 @@ class ScaffolderNameSpace(ScaffolderNode, MRO_Dispatch_Mixin): # XXX or Scaffold
         """Return all names in this namespace recursively, as dottedNames -- also see: search_qualNames"""
         quals = self._search_recursively(_prefix=None)
         return tuple(['.'.join(name) for name in quals])
-         
+
     def _search_recursively(self, *, _prefix: PTH.Optional[QualID]=None, ) ->tuple[QualID, ...]:
         prefix = _prefix or []
         result: list[QualID] = []
-        for name, node in self.node._ns.items():
+        for name, node in PTH.cast(aigr.namespaces._NameSpace, self.node)._ns.items():
             qualID = prefix + [ID(name)]
             result.append(qualID)
             if isinstance(node, aigr.namespaces._NameSpace):
                 result.extend(ScaffolderNameSpace(node)._search_recursively(_prefix=qualID))
         return tuple(result)
-
-        
 
 
 ###

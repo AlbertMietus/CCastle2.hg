@@ -61,16 +61,23 @@ class Components():
         else:
             assert False, "event-qualRef of more as 2 parst not yet supported: {ast.event}"
         port = ast.port
-        return aigr.EventHandler(mangle_event_handler(protocol=protocol, event=event, port=port), # mangle now handled QualID/ID/str
-                                 returns=ast.returns, # XXX convert to type?
-                                 protocol=protocol, event=event, port=port,
-                                 # outer_ns= self.current_ns,
-                                 body=ast.body)
+
+        handler = aigr.EventHandler(mangle_event_handler(protocol=protocol, event=event, port=port), # mangle now handled QualID/ID/str
+                                    returns=ast.returns, # XXX convert to type?
+                                    protocol=protocol, event=event, port=port,
+                                    # outer_ns= self.current_ns,
+                                    body=ast.body)
+        return self._callable(handler, ast)
 
 
     def method(self, ast):
-        return aigr.Method(ast.name,
+        meth = aigr.Method(ast.name,
                            returns=ast.returns, # XXX convert to type?
                            parameters=() if ast.parameters is None else ast.parameters,
-                           body=ast.body,
-                           )
+                           body=ast.body)
+        return self._callable(meth, ast)
+
+    def _callable(self, callable, ast ):
+        scaffolding.ScaffolderCallable(callable).auto_register()
+        return callable
+        
