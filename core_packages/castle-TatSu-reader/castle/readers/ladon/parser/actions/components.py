@@ -69,7 +69,6 @@ class Components():
                                     body=ast.body)
         return self._callable(handler, ast)
 
-
     def method(self, ast):
         meth = aigr.Method(ast.name,
                            returns=ast.returns, # XXX convert to type?
