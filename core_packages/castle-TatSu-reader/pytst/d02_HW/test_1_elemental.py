@@ -15,16 +15,14 @@ from castle.aigr_extra.scaffolding import ScaffolderNameSpace
 
 @pytest.mark.xfail(reason="Dot-on-Horizon: elemental HelloWorld")
 def test_1_file_as_txt(castle_parser):
-    
+
     module, file = "CastleCode.elemental", "HelloWorld.Castle"
-   
     mod = importlib.import_module(module)
     with open(Path(mod.__path__[0]) / file) as f:
         logger.debug("Going to read %s", f.name)
         eHW = castle_parser(f.read())
-
-
     assert isinstance(eHW, FileNS), "Oke for now -- will become Source_NS"
+
     wrapped: ScaffolderNameSpace = ScaffolderFileNS(eHW)
     dottedNames: tuple = wrapped.search_dottedNames()
     logger.info("XXX found dottedNames: %s", dottedNames)
