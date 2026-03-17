@@ -4,7 +4,7 @@ import typing as PTH                                                           #
 import pytest
 
 from pprint import pprint, pformat
-from importlib import resources
+import importlib, pathlib 
 
 from . import *
 from castle.readers.ladon.aigr import FileNS, ScaffolderFileNS
@@ -14,10 +14,14 @@ from castle.aigr_extra.scaffolding import ScaffolderNameSpace
 
 @pytest.mark.xfail(reason="Dot-on-Horizon: elemental HelloWorld")
 def test_1_file_as_txt(castle_parser):
-    module, file  = "CastleCode.elemental", "HelloWorld.Castle"
-    with resources.open_text( module, file) as f:
+    module, file = "CastleCode.elemental", "HelloWorld.Castle"
+   
+    mod = importlib.import_module(module)
+    real_path = next(p for p in mod.__path__ if not p.startswith("__editable__"))
+    with open(pathlib.Path(real_path) / file, "r", encoding="utf-8") as f:
         logger.debug("Going to read %s", f.name)
         eHW = castle_parser(f.read())
+
 
     assert isinstance(eHW, FileNS), "Oke for now -- will become Source_NS"
     wrapped: ScaffolderNameSpace = ScaffolderFileNS(eHW)

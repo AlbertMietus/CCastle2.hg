@@ -13,11 +13,11 @@ implement Elemental_HelloWorld
 {
 
 HelloWorld(label :string) { 			///GAM: fixed `name :type` order
-   print("Hello {label} World")
+   print("Hello {label} World");
 }
 
-invoke() on self.std {
-   HelloWorld("Elemental")
+std.invoke() on self.std {
+   HelloWorld("Elemental");
 }
 
 } /* Elemental_HelloWorld */

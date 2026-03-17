@@ -13,6 +13,7 @@ exclude = ["pytst*", "CastleCode", "ASIDE"]
 
 [tool.setuptools.package-data]
 "*" = ["py.typed", "*.pyi"]
+"CastleCode.elemental" = ["*.Castle"]
 
 [tool.pytest.ini_options]
 markers = [
