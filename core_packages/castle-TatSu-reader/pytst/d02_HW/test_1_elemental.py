@@ -3,27 +3,23 @@ import logging; logger = logging.getLogger(__name__)
 import typing as PTH                                                           # Python TypeHints
 import pytest
 
-from pprint import pprint, pformat
-import importlib
-from pathlib  import Path
+
 
 from . import *
-from castle.readers.ladon.aigr import FileNS, ScaffolderFileNS
 from castle import aigr
 from castle.aigr.namespaces import _NameSpace
 from castle.aigr_extra.scaffolding import ScaffolderNameSpace
+from castle.readers.ladon.loaders.simple_loader import PyModuleLoader
+
 
 @pytest.mark.xfail(reason="Dot-on-Horizon: elemental HelloWorld")
-def test_1_file_as_txt(castle_parser):
+def test_1_file_as_txt():
 
-    module, file = "CastleCode.elemental", "HelloWorld.Castle"
-    mod = importlib.import_module(module)
-    with open(Path(mod.__path__[0]) / file) as f:
-        logger.debug("Going to read %s", f.name)
-        eHW = castle_parser(f.read())
-    assert isinstance(eHW, FileNS), "Oke for now -- will become Source_NS"
+    loader=PyModuleLoader(module="CastleCode.elemental", file="HelloWorld.Castle")
+    eHW = loader.parse()
+    assert isinstance(eHW, aigr.Source_NS)
 
-    wrapped: ScaffolderNameSpace = ScaffolderFileNS(eHW)
+    wrapped: ScaffolderNameSpace = ScaffolderNameSpace(eHW)
     dottedNames: tuple = wrapped.search_dottedNames()
     logger.info("XXX found dottedNames: %s", dottedNames)
 
@@ -37,7 +33,8 @@ def test_1_file_as_txt(castle_parser):
     assert isinstance(parm, aigr.TypedParameter), f"Parameter `label` should be in the namespace, but is {parm=}"
 
     # Manually check the AIGR
-    pprint(eHW, compact=True)
+    from pprint import pformat
+    logger.info(pformat(eHW))
 
 
 def verify_namespace_have_outer_ns(dottedNames: tuple[str, ...], wrapped_top: ScaffolderNameSpace)->None:
