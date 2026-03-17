@@ -20,7 +20,7 @@ class Files():
 
         for e in seq:
             if isinstance(e, dict) and 'docstring' in e:
-                logger.warning:("Can't handle docstring YET ignore for now) %s", e.docstring)
+                logger.warning("Can't handle docstring YET ignore for now) %s", e.docstring)
             elif isinstance(e, (tuple, list)):
                 for ee in e:
                     wrapped.register(ee)

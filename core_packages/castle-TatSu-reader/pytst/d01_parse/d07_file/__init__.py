@@ -28,7 +28,7 @@ def load_and_wrap(myDir) -> aigr.Source_NS:
 def validate_topAst(ast, filename, names:list[str]=[] ):
     assert isinstance(ast, aigr.Source_NS)
     logger.debug(pformat(ast))
-    assert ast.name == filename
+    assert ast.name == filename, f"{ast.name=} should be  {filename=}, but isn't"
     assert ast.outer_ns is None
 
     assert len(ast._ns) == len(names)
