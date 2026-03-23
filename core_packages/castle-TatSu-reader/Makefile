@@ -10,10 +10,10 @@ LAST = \
 	pytst/d2_HW/test_1_elemental.py
 #
 CURRENT = \
-	pytst/d1_parse/d06_meta/test_99_todo.py\
+	pytst/d1_parse/d05_comp/test_6_InterfaceImplementMix.py\
 #
 TODO = \
-	pytst/\
+	pytst/d1_parse/d06_meta/test_99_todo.py\
 #
 
 DoH DOH Dot-On-Horizon:
