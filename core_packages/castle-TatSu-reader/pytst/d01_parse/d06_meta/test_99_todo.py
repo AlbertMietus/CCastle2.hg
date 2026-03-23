@@ -6,8 +6,8 @@ from castle import aigr
 
 from . import *
 
-@pytest.mark.skip(reason="'@impliciet()' not in the AIGR yet")
-def test_99_rewriter():
+#@pytest.mark.skip(reason="'@impliciet()' not in the AIGR yet")
+def test_99_rewriter(castle_parser):
     txt = "@impliciet(Main)"
     parms = castle_parser(txt, start='rewriter')
     logger.debug(f"{txt=} ==> {parms=}")
