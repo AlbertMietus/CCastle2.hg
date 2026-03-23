@@ -27,8 +27,5 @@ def test_1_impliciet(castle_parser): # XXX no meta-actions (nor :class:`airg.Rew
     assert isinstance(arg.value, aigr.Constant)
     assert arg.value.value == 'Main'
 
-
-
-
     logger.warning("REWRITERs are not supported yet")
 

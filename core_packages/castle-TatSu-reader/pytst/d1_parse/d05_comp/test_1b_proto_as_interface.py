@@ -5,7 +5,7 @@ import pytest
 from . import *
 
 def test_AGiven_ProtoDef_canAlsoBeParsedWith_interface_definitions(castle_parser):
-    """ This the same test as 'test_2a_proto.py::test_1a_SimpleEventProto, but for the start.
+    """ This the same test as 'test_1a_proto_as_protocols::test_1a_SimpleEventProto, but for the start(symbol).
     When `start='interface_definitions'` a list (of 1) is returned."""
     txt = """\
 protocol SimpleProto {

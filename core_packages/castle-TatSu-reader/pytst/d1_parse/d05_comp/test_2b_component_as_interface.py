@@ -6,7 +6,7 @@ from . import *
 
 
 def test_AGiven_CompDef_canAlsoBeParsedWith_interface_definitions(castle_parser):
-    """ This the same test as 'test_3a_comp_interface.py::test_1a_EmptyComponent' but for the start.
+    """ This the same test as 'test_2a_component_definition::test_1a_EmptyComponent' but for the start.
     When `start='interface_definitions'` a list (of 1) is returned."""
     txt = """\
 component EmptyComponent {
