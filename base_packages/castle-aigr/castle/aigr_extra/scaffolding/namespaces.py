@@ -1,5 +1,4 @@
 # (C) Albert Mietus 2025, Part of Castle/CCastle project
-
 import logging; logger = logging.getLogger(__name__)
 import typing as PTH                                        # Python TypeHints
 
@@ -16,7 +15,7 @@ class ScaffolderNameSpace(ScaffolderNode, MRO_Dispatch_Mixin): # XXX or Scaffold
     _prefixes = ('register',) # For MRO_Dispatch_Mixin
 
     def register(self, named_node :aigr.NamedNode, asName :PTH.Optional[ID|str]=None):
-        logger.info(f".register: {named_node=} {asName=} {self=} XXX")
+        logger.debug("register: named_node=%s asName=%s", named_node, asName)
         if isinstance(named_node, _Scaffolder):
             logger.error("It's wrong to register wrapped nodes, like %s - unwrapping it and continuing with fingers crosses", named_node)
             named_node = named_node.node # unwrap ...
@@ -110,33 +109,75 @@ class ScaffolderNameSpace(ScaffolderNode, MRO_Dispatch_Mixin): # XXX or Scaffold
 ###
     def _default_register(self, named_node :aigr.NamedNode, asName :PTH.Optional[ID|str]=None):
         logger.error("Default register for %s is called -- this is often a mistake", type(named_node).__name__, stack_info=True)
-        logger.error(f"XTRA: \n\t{self=} \n\t{named_node=} \n\t{asName=}")
+        logger.error("XTRA: \n\t self=%s \n\t named_node=%s \n\t asName=%s", self, named_node, asName)
 
 
     def register_NamedNode(self, named_node :aigr.NamedNode, asName :PTH.Optional[ID|str]=None):
-        logger.info(f".register_NamedNode: {named_node=} {asName=} {self=} XXX")
+        logger.debug("register_NamedNode: named_node=%s asName=%s}", named_node, asName)
         name = ID(asName) if asName else PTH.cast(ID, named_node.name)
-        if name in self.node._ns:
-            old = self.node._ns[name]
-            logger.warning(f"The '{name}'-node is already in this namespace; -- it will be lost." +
-                           f"Removed: {old}. New: {named_node}")
-        self.node._ns[str(name)] = named_node
+        my_ns = PTH.cast(aigr.namespaces._NameSpace, self.node)._ns
+        if name in my_ns:
+            old =my_ns[name]
+            logger.warning("The '%s'-node is already in this namespace -- it will be lost. Old=%s. New=%s", name, old, named_node)
+        my_ns[name] = named_node
 
 
     def _register_NN_and_outer_ns(self, named_node, asName):
         self.register_NamedNode(named_node, asName) # As all named_node's
         # And set .outer_ns - after checking it unset
         if named_node.outer_ns:
-            log_at_level = logger.warning if not ( named_node.outer_ns is self.node) else logger.debug
+            log_at_level = logger.warning if not (named_node.outer_ns is self.node) else logger.debug
             log_at_level("outer_ns is already set (to: %s), it will be lost (set to: %s)", named_node.outer_ns, self.node)
         named_node.outer_ns = self.node
 
 
     def register__NameSpace(self, named_node :aigr.namespaces._NameSpace, asName :PTH.Optional[ID|str]=None):
-        logger.info(f".register__NameSpace -- like register_NamedNode, but also set `outer_ns` in node")
+        logger.debug("register__NameSpace -- like register_NamedNode, but also set `outer_ns` in node")
         self._register_NN_and_outer_ns(named_node, asName)
 
+
     def register_Method(self, named_node :aigr.Method, asName :PTH.Optional[ID|str]=None):
-        logger.debug(f".register_Method: {named_node=} {asName=} {self=}")
+        logger.debug(".register_Method: named_node=%s asName=%s", named_node, asName)
         self._register_NN_and_outer_ns(named_node, asName)
+
+
+    def register_ComponentInterface(self, comp: aigr.ComponentInterface, asName :PTH.Optional[ID|str]=None):
+        logger.debug("register_ComponentInterface: comp=%s asName=%s", comp, asName)
+        name = ID(asName) if asName else PTH.cast(ID, comp.name)
+        my_ns = PTH.cast(aigr.namespaces._NameSpace, self.node)._ns
+
+        if name in my_ns:                                           # assume the implementation is registered
+            registered = my_ns[name]
+            if isinstance(registered, aigr.ComponentImplementation):
+                if registered.interface is not None:
+                    logger.warning("The interface of ComponentImplementation '%s' is already registered --it will be lost. Old=%s, new=%s",
+                                       name, registered.interface.name, comp.name)
+                registered.interface = comp
+            else:
+                logger.warning("Old entry: %s -- will be lost", registered)
+                my_ns[name] = comp
+        else:
+            logger.debug("save comp=%s in NS[%s]", comp, name)
+            my_ns[name] = comp                                                                   #Register the interface
+
+
+    def register_ComponentImplementation(self, comp: aigr.ComponentImplementation, asName :PTH.Optional[ID|str]=None):
+        logger.debug("register_ComponentImplementation: comp=%s asName=%s", comp, asName)   #XXX .info->.debug
+        name = ID(asName) if asName else PTH.cast(ID, comp.name)
+        my_ns = PTH.cast(aigr.namespaces._NameSpace, self.node)._ns
+
+        if name in my_ns: # assume the interface is registered
+            registered = my_ns[name]
+            if isinstance(registered, aigr.ComponentInterface):
+                if comp.interface is not None:
+                    logger.warning("The interface of '%s' was set to %s; it will be lost", name, comp.interface)
+                logger.info("set interface of %s to %s", comp, registered)
+                comp.interface = registered
+            else:
+                logger.warning(f"The '%s'-node is already in this namespace; -- %s will be lost", name, registered)
+                my_ns[name] = comp
+
+        logger.info("save comp=%s in NS([%s]", comp, name)
+        my_ns[name] = comp                                                                 # Register the implementation
+
 
