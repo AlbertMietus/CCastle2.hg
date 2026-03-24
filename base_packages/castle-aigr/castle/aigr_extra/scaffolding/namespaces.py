@@ -36,11 +36,14 @@ class ScaffolderNameSpace(ScaffolderNode, MRO_Dispatch_Mixin): # XXX or Scaffold
         """Return the NamedNode with the specified ID, or None.
            It looks in 'this' namespace, and in outer_ns's when they exist.
            All public interfaces will use this method."""
-        node = self.node._ns.get(str(name), None)
+        my_ns = PTH.cast(aigr.namespaces._NameSpace, self.node)._ns
+        outer_ns = PTH.cast(aigr.namespaces._NameSpace, self.node).outer_ns
+
+        node  = my_ns.get(name,None)
         if node is None:
-            logger.debug("Can't find %s locally: %s -- try outer_ns: %s", name, tuple(f"{k}:{type(k).__name__}" for k in self.node._ns.keys()), self.node.outer_ns)
-        if node is None and self.node.outer_ns:
-            node = ScaffolderNameSpace(self.node.outer_ns)._findNode(name)
+            logger.debug("Can't find %s locally: %s -- try outer_ns: %s", name, tuple(f"{k}:{type(k).__name__}" for k in my_ns.keys()), outer_ns)
+        if node is None and outer_ns:
+            node = ScaffolderNameSpace(outer_ns)._findNode(name)
         logger.debug("Find %s in %s\n\t-> %s", name, self, node)
         return node
 
