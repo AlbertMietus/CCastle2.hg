@@ -37,9 +37,9 @@ implement InterfaceAndImplementation {}"""
     wrapped = ScaffolderNameSpace(ns)
     comp = wrapped.findNode('InterfaceAndImplementation')
     assert isinstance(comp, ComponentImplementation), f"When implement & component are in one file, the ComponentImplementation should be in the ns"
-    assert isinstance(comp.interface, ComponentInterface), f".interface gives interface, but doesn't: {comp.interface=}"
+    assert isinstance(comp.interface, ComponentInterface), f".interface should give interface, but doesn't: {comp.interface=}"
 
-def test_2_ReverseOrder_theImplementation__still_inNS(castle_parser):
+def test_2_ReverseOrder_theImplementation_is_still_inNS(castle_parser):
     txt = """\
 implement ReverseOrder {}
 component ReverseOrder {}"""
@@ -48,4 +48,4 @@ component ReverseOrder {}"""
     wrapped = ScaffolderNameSpace(ns)
     comp = wrapped.findNode('ReverseOrder')
     assert isinstance(comp, ComponentImplementation), f"Wrong type {type(comp).__name__}:: When implement & component are in one file, the ComponentImplementation should be in the ns"
-    assert isinstance(comp.interface, ComponentInterface), f".interface gives interface, but doesn't: {comp.interface=}"
+    assert isinstance(comp.interface, ComponentInterface), f".interface should give interface, but doesn't: {comp.interface=}"
