@@ -38,7 +38,7 @@ class _NameSpace(AIGRNode):
     """
     _: KW_ONLY
     outer_ns	:PTH.Optional[_NameSpace]=None
-    _ns 		:PTH.Dict[ID, NamedNode]=dc_field(init=None, default_factory=lambda: dict()) #type: ignore[call-overload]
+    _ns 		:PTH.Dict[ID, NamedNode]=dc_field(init=False, default_factory=lambda: dict())
 
 
 @dataclass
