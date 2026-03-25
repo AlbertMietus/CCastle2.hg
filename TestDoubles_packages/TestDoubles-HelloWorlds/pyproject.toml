@@ -9,11 +9,10 @@ version = "0.0.1"
 dependencies = ["castle-aigr",]
 
 [tool.setuptools.packages.find]
-exclude = ["pytst*", "CastleCode", "ASIDE"]
+exclude = ["pytst*", "ASIDE"]
 
 [tool.setuptools.package-data]
-"*" = ["py.typed", "*.pyi"]
-"CastleCode.elemental" = ["*.Castle"]
+"*" = ["py.typed", "*.pyi", "CastleCode/**/*.Castle"]
 
 [tool.pytest.ini_options]
 markers = [
@@ -28,4 +27,5 @@ mypy_path = [
    "./../../base_packages/castle-aigr",
    "./../../core_packages/castle-RPy-writer",
 ]
+
 
