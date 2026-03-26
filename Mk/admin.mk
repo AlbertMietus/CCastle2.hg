@@ -19,7 +19,5 @@ _sync-bookmarks:
 
 push-all: _sync-bookmarks
 	-hg push
-	-hg push github
-	-hg bookmark default
-	-hg push github
-	-hg push
+	-hg push --all SF
+	-hg push --all github
