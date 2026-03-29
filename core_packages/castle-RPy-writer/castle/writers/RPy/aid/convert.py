@@ -9,9 +9,10 @@ START,END = '{','}'
 TXT       = "STATE_TEXT"
 VAL       = "STATE_VALUE"
 
-def fString_2_modulo(s:str) -> PTH.Tuple[str, tuple]:
+def fString_2_modulo(s:str) -> tuple[str, tuple[str]]:
     state=TXT
     result, args = "", []
+    currentVal="" # Just to make sure, it's type is know
     for c in s:
         if state==TXT and c!=START:
             result+=c
