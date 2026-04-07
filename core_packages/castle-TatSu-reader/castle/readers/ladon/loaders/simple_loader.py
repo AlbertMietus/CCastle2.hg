@@ -9,8 +9,9 @@ from ._base_loader import _FileLoader
 
 class SimpleFileLoader(_FileLoader):
     def __init__(self, file:PTH.Optional[Path], **kw):
+        if not isinstance(file, Path): file= Path(str(file))
         super().__init__(**kw)
-        self._source     = Path(file)
+        self._source = file
 
 class PyModuleLoader(_FileLoader):
     """Load a Castlefile, which is distributed in a pythonPackae"""
