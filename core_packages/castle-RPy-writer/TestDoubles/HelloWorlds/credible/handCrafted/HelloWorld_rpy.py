@@ -35,7 +35,7 @@ class CC_Credible(buildin.CC_B_Component):
     def _castle_init(self, arglist):
         pass
 
-        
+
     def HelloWorld(self, arglist):
         label=arglist[0]
         print("Hello %s World" % (label,))
