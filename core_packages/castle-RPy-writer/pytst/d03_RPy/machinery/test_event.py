@@ -25,7 +25,7 @@ aigr.machinery.EventToSub(
         cc_S_Elemental_HelloWorld_std['CC_P_std_invoke'](main_elm)
 """
 
-
+@pytest.mark.skip(reason="Design & implement '(Native)Bundler' fist")
 def test_1_EventToSub_noArgs(machinery, my_renderer):
     """///CastleCode::: .subElm.aPort.anEvent() """
     e = aigr.machinery.EventToSub(comp='XXX_self', receiver='self.subElm', event='anEvent', arguments=()) # XXX ToDo: Use ID.Ref (of ID?)

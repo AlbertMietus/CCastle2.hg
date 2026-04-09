@@ -39,10 +39,10 @@ from castle.writers.RPy.aigr import EventDispatchTable
 
 @pytest.fixture
 def machinery() ->Machinery:
-    return Machinery(hint="chained_dict")
+    return Machinery(hint="chained_dict")                                    # type: ignore[reportAbstractUsage, abstract]
 
 @pytest.fixture
-def singleTable() ->(EventDispatchTable, str):
+def singleTable() ->tuple[EventDispatchTable, str]:
     """Returns the EventDispatchTable & expected text for 'SingleDummy: one without a parentTable"""
 
     map = {
