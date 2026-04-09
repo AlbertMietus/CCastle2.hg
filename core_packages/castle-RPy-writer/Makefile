@@ -3,21 +3,32 @@ default: all
 PYFAST_OPTON=--fast
 
 PYREVERSE_PKGS = \
-	castle/writers/RPy_buildin		\
 	castle/writers/RPy				\
+	castle/writers/RPy/transformers	\
+	castle/writers/RPy/translators	\
+	castle/writers/RPy/writer/machinery\
+	castle/writers/RPy/writer		\
+	castle/writers/RPy_buildin		\
+	castle/writers					\
 
 #
 LAST = \
-	pytst/d11_HelloWorlds/d1_elemental/ 	\
-	pytst/d04_render/test_7_Proto.py	\
+	pytst/d01_aid/\
+	pytst/d03_RPy/\
+	pytst/d06_RPy_buildin/\
+	pytst/d04_render/test_1_ID.py 	\
 	pytst/d04_render/test_6_Comp.py \
+	pytst/d04_render/test_7_Proto.py\
+
 #
 CURRENT = \
-	pytst/d03_RPy/machinery/test_event.py
+	pytst/d03_RPy/machinery/test_0_Bundle.py\
 #
 TODO = \
-	pytst/d11_HelloWorlds/d2_credible/test_12_file.py::test_1_renderToTxt \
-	pytst/d11_HelloWorlds/d2_credible/test_12_file.py \
+	pytst/d04_render/test_5_ArgList.py\
+	pytst/d03_RPy/machinery/test_event.py \
+	pytst/d11_HelloWorlds/ \
+
 #
 
 
@@ -38,18 +49,3 @@ credible:
 TOPd=../../
 include ${TOPd}Mk/comp.mk
 
-all: new
-new:
-	@@echo "The following elements are new (in credible but not in elemental):"
-	@echo EventProtocol, Event
-	@echo aigr.Def aigr.Ref
-	@echo aigr.TypedParameter
-	@echo aigr.types.string
-	@echo aigr.Port, aigr.PortDirection.In
-	@echo aigr.Constant
-	@echo aigr.VariableDefintion
-	@echo aigr.Become
-	@echo aigr.machinery.sendEvent
-	@echo aigr.Argument
-	@echo aigr.Constant
-	@echo aigr.Initializer

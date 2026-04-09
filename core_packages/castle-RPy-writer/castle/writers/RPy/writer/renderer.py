@@ -4,7 +4,7 @@ import logging; logger = logging.getLogger(__name__)
 import typing as PTH                                                                                  # Python TypeHints
 
 from castle import aigr
-from castle.writers.RPy.aid import Block
+from castle.writers.RPy.aid import Block, TextBlock
 
 from castle.monorail.base.visitors import Visitor
 
@@ -15,7 +15,6 @@ from . machinery import Machinery
 from . portray import Portray
 from . idref import IDRef
 
-TextBlock = PTH.Optional[str|Block]
 
 class Renderer(Visitor):
     _defaultType=str                      #used in Visitor, to return a default value of the right type
@@ -185,8 +184,11 @@ class Renderer(Visitor):
         txt += self.depart(node)
         return txt
 
+
     def visit_Call(self, node)							->  TextBlock:
+        node = PTH.cast(aigr.Call, node)
         logger.debug("visit_Call: %s", node)
+
         if isinstance(node.callable, aigr.ID):
             callable = self.visit(node.callable)
             try: #HACK
@@ -195,10 +197,21 @@ class Renderer(Visitor):
             except AttributeError: pass
         else:
             raise NotImplementedError(node)
-        args=", ".join(str(self.visit(a)) for a in node.arguments) # XXX
-        txt = f'{callable}({args})'
+
+        arglist = self._pack_argList(node.arguments)
+        txt = f'{callable}({arglist})'
         logger.debug("visit_Call: %s -> %s", node, txt)
         return txt
+
+    def _pack_argList(self, arguments : tuple|None) -> TextBlock:
+        arguments = PTH.cast(PTH.Optional[tuple[aigr.Argument]], arguments)
+        logger.debug("_pack_argList: %s", arguments)
+
+        #assert False
+        txt = 'XXX' + ", ".join(str(a.value) for a in arguments) if arguments else "NOPE" 
+        logger.debug("_pack_argList: %s ->%s", arguments, txt)
+        return txt
+
 
     def visit__literal(self, node)						->  TextBlock:
         if node.type == aigr.types.string or node.type is None:
