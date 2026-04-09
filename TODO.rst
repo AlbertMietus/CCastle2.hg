@@ -10,12 +10,13 @@ TODO
    * There are still some Makefiles (and *.mk) that contain usefull stuff -- BUT OLD
    * They are now moved/saves into the .../Mk/-dir
 
+.. _todo_argList:
 
 .. todo:: RPy `arglist:List`
 
    rpython can’t handle calling a method via the dispatch_tables when the number of parameters is not always the same. It complains that the
    length of a tuple(s) isn’t fixed.
-   Several option are tries, in HW-credible. The only option that I have found is called `arglist:List` ...
+   Several options are tried, in HW-credible. The only option that I have found is called `arglist:List` ...
 
    Basically, all arguments (when calling) should be packed in an “argList”, --which is passed as single arg-- and unpacked inside the callable.
    Then the length of the tuple is constant ... But we need to generate a bit code extra.

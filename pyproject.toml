@@ -10,3 +10,7 @@ extraPaths = [
    "./core_packages/castle-TatSu-reader",
    "./TestDoubles_packages/TestDoubles-HelloWorlds"
 ]
+
+executionEnvironments = [
+  { root = "core_packages/castle-RPy-writer/castle/writers/RPy_buildin", pythonVersion = "2.7", reportUndefinedVariable = "none" }
+]
