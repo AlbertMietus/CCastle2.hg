@@ -32,14 +32,7 @@ import logging; logger = logging.getLogger(__name__)
 import pytest
 
 from castle.aigr import ID
-from castle.writers.RPy.writer.machinery import Machinery
 from castle.writers.RPy.aigr import EventDispatchTable
-
-
-
-@pytest.fixture
-def machinery() ->Machinery:
-    return Machinery(hint="chained_dict")                                    # type: ignore[reportAbstractUsage, abstract]
 
 @pytest.fixture
 def singleTable() ->tuple[EventDispatchTable, str]:
@@ -63,7 +56,7 @@ cc_S_SingleDummy_MockPort = buildin.machinery.ChainedDict(map={
 
 
 @pytest.fixture
-def childTable(singleTable) ->(EventDispatchTable, str):
+def childTable(singleTable) ->tuple[EventDispatchTable, str]:
     """EventDispatchTable & expected text for 'Child' with parentTable 'SingleDummy'"""
 
     map = {

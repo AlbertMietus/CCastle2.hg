@@ -6,9 +6,7 @@ import pytest
 from castle.writers.RPy.writer.machinery import Bundler, NativeBundler
 from castle.writers.RPy.aid import Block
 
-@pytest.fixture
-def bundler():
-    return Bundler()  # type: ignore[reportAbstractUsage, abstract]
+from .fixtures import bundler
 
 
 def test_0a_Bundler_is_NativeBundler(bundler):

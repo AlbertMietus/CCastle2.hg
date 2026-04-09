@@ -6,6 +6,9 @@ import typing as PTH
 from castle import aigr
 from castle.writers.RPy.aid import Block, TextBlock
 
+###
+### XXX/ToDo: Move ArgumentList/Signature to aigr als dataclasses -- and renam
+###
 ArgumentList = PTH.Optional[tuple[aigr.Argument, ...]]
 Signature    = PTH.Optional[tuple[aigr.TypedParameter, ...]]
 
