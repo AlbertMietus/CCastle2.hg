@@ -25,22 +25,22 @@ def test_0a_Bundler_is_NativeBundler(bundler):
 
 
 def test_0b_pack_and_unpack_return_TextBlock(bundler):
-    txt = bundler.pack(arguments=(), signature=())
+    txt = bundler.pack(arguments=(), formal_parameters=())
     assert isinstance(txt, (str, Block))
     verify_ValidPython(txt)
 
-    txt = bundler.unpack(signature=())
+    txt = bundler.unpack(formal_parameters=())
     assert isinstance(txt, (str, Block))
     verify_ValidPython(txt)
 
 def test_0c_abstractmethods_raises():
     b = NonBundlerStub()
     try:
-        b.pack(arguments=(), signature=())
+        b.pack(arguments=(), formal_parameters=())
         assert False, "shoud raise NotImplementedError"
     except  NotImplementedError: pass
     try:
-        b.unpack(signature=())
+        b.unpack(formal_parameters=())
         assert False, "shoud raise NotImplementedError"
     except  NotImplementedError: pass
 
