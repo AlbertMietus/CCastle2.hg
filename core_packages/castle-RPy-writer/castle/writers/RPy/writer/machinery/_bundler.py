@@ -4,7 +4,7 @@ from abc import ABC, abstractmethod
 import typing as PTH
 
 from castle import aigr
-from castle.writers.RPy.aid import Block, TextBlock
+from castle.writers.RPy.aid import TextBlock
 
 ###
 ### XXX/ToDo: Move ArgumentList/Signature to aigr als dataclasses -- and renam
@@ -20,8 +20,8 @@ class Bundler(ABC):
 
     @abstractmethod
     def pack(self, arguments:ArgumentList, signature:Signature) -> TextBlock:
-        raise NotImplementedError("Must be implemented by aall subclass of Bundler")
+        raise NotImplementedError("Must be implemented by all subclass of Bundler")
 
     @abstractmethod
     def unpack(self, signature:Signature) -> TextBlock:
-        raise NotImplementedError("Must be implemented by aall subclass of Bundler")
+        raise NotImplementedError("Must be implemented by all subclass of Bundler")
