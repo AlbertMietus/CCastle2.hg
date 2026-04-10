@@ -1,4 +1,5 @@
 # (C) Albert Mietus, 2023. Part of Castle/CCastle project
+import logging; logger = logging.getLogger(__name__)
 
 """ XXX ToDo: Test, Refactor, Split & Doc"""
 
@@ -39,3 +40,4 @@ class Specialise(NamedNode):
     def __post_init__(self):
         if not self.name: # or self.name == "":
             self.name = f"Specialised version of {self.based_on.name}({self.arguments})"
+        super().__post_init__()

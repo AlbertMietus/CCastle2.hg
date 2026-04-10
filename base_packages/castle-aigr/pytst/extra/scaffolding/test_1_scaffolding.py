@@ -19,11 +19,11 @@ def fake():
 
 @pytest.fixture
 def wrapped_fake(fake):
-    return ScaffolderNode(FakeNode())
+    return ScaffolderNode(fake)
 
 
 def test_0a__nodeCls():
-    """These setting are also functionally testen below"""
+    """These setting are also functionally tested below"""
     assert _Scaffolder._nodeCls == aigr.AIGR
     assert ScaffolderNode._nodeCls == aigr.AIGRNode
 
