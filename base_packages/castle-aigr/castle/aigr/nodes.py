@@ -1,9 +1,9 @@
 # (C) Albert Mietus, 2023. Part of Castle/CCastle project
-import logging; logger = logging.getLogger(__name__)
 
 """ XXX ToDo: Test, Refactor, Split & Doc"""
 
 from __future__ import annotations
+import logging; logger = logging.getLogger(__name__)
 
 from dataclasses import dataclass, KW_ONLY
 from dataclasses import field as dc_field
