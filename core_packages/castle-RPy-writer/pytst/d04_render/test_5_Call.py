@@ -39,13 +39,6 @@ def test_3b_RefContext_shouldHaveEfect(my_renderer):
     txt = my_renderer.render(foo)
     verify_line_by_line(expected,txt)
 
-def test_3b_RefContext_shouldHaveEfect(my_renderer):
-    otherID = ID("another", context=aigr.Def())
-    expected = "another()"
-    foo = aigr.Call(callable=ID('withRef', context=aigr.Ref(reference=otherID)))
-    txt = my_renderer.render(foo)
-    verify_line_by_line(expected,txt)
-
 def test_4a_Method_asRef(my_renderer):
     m = aigr.Method("aMethod", parameters=())
     txt = my_renderer.render(aigr.Call(callable=ID("aMethod", context=aigr.Ref(reference=m))))
