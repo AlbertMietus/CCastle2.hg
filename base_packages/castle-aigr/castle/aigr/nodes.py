@@ -3,6 +3,7 @@
 """ XXX ToDo: Test, Refactor, Split & Doc"""
 
 from __future__ import annotations
+import logging; logger = logging.getLogger(__name__)
 
 from dataclasses import dataclass, KW_ONLY
 from dataclasses import field as dc_field
@@ -39,3 +40,4 @@ class Specialise(NamedNode):
     def __post_init__(self):
         if not self.name: # or self.name == "":
             self.name = f"Specialised version of {self.based_on.name}({self.arguments})"
+        super().__post_init__()
