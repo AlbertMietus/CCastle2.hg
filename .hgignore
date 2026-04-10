@@ -5,6 +5,7 @@ __pycache__
 .pytest_cache
 .*\.dot
 _pyreversed/
+_pyanalyse/
 
 .*~
 demos/ThinOnion/OUT_*
