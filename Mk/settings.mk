@@ -7,7 +7,7 @@ MUTMUT_dir   = ${ToCS_dir}MutMut/
 CONFIG_dir   = ${TOPd}config/
 MUTMUT_cfg_d = ${CONFIG_dir}MutMut/
 
-PYREVERSE_dir 	 = _pyreversed/
+PYANALYSE_dir 	 = _pyanalyse/
 PYREVERSE_FORMAT = plantuml
 
 
