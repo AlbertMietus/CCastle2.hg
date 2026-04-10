@@ -16,5 +16,4 @@ class CC_B_OutPort(_debug.DebugMixIn):
                 _str += "]"
             else:
                 _str = "[]"
-            return ("connection=" + self.connection._debug_() if self.connection else "NIL" +
-                    ", handlers=" + _str)
+            return "connection=" + (self.connection._debug_() if self.connection else "NIL") + ", handlers=" + _str

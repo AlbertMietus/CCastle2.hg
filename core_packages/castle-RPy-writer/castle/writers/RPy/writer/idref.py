@@ -34,7 +34,7 @@ class IDRef(Visitor):
         return self.visit(node, dispatch_on=node.context.reference)
 
     def _default_visit(self, node:aigr.ID): # XXX TMP
-        raise NotImplementedError("No IDRef::visit_%s, Can't portray: %s", type(node).__name__, node )
+        raise NotImplementedError(f"No IDRef::visit_{type(node).__name__}, Can't portray: {node}")
 
 
     def visit_ID(self, node):
