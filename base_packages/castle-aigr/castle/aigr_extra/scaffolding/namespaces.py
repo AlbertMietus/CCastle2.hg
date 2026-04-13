@@ -87,7 +87,7 @@ class ScaffolderNameSpace(ScaffolderNode, MRO_Dispatch_Mixin): # XXX or Scaffold
         """Return all names in this namespace recursively, as QualIDs -- also see: search_dottedNames"""
         return self._search_recursively(_prefix=None)
 
-    def search_dottedNames(self, *, _prefix: PTH.Optional[QualID]=None, ) -> tuple[str, ...]:
+    def search_dottedNames(self) -> tuple[str, ...]:
         """Return all names in this namespace recursively, as dottedNames -- also see: search_qualNames"""
         quals = self._search_recursively(_prefix=None)
         return tuple(['.'.join(name) for name in quals])

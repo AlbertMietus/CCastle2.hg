@@ -3,8 +3,8 @@ default: all
 PYFAST_OPTON=--fast
 
 PYREVERSE_PKGS = \
-	castle/writers/RPy_buildin		\
-	castle/writers/RPy				\
+	castle.writers.RPy_buildin		\
+	castle.writers.RPy				\
 
 #
 LAST = \
