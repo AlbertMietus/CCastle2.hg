@@ -19,17 +19,18 @@ LAST = \
 	pytst/d04_render/test_1_ID.py 	\
 	pytst/d04_render/test_6_Comp.py \
 	pytst/d04_render/test_7_Proto.py\
+	pytst/d03_RPy/machinery/test_1_portray.py \
+	pytst/d03_RPy/machinery/test_0_Bundle.py  \
+	pytst/d03_RPy/machinery/test_sync_Portray2buildin_names.py \
 #
 CURRENT = \
-	pytst/d03_RPy/machinery/test_1_portray.py\
-	pytst/d03_RPy/machinery/test_0_Bundle.py\
-	pytst/d03_RPy/machinery/test_1_bundler-simple.py\
+	pytst/d06_RPy_buildin/test_packValues.py \
+	pytst/d03_RPy/machinery/test_1_bundler-simple.py \
 #
 TODO = \
 	pytst/d04_render/test_5_ArgList.py\
 	pytst/d03_RPy/machinery/test_event.py \
 	pytst/d11_HelloWorlds/ \
-
 #
 
 

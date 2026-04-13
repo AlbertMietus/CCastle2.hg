@@ -10,7 +10,7 @@ from castle import aigr
 
 def test_1a_pack_single_positional_string(bundler):
     arguments = (aigr.Argument(value=aigr.fString(value="Just a demo")),)
-    formal_parameters = (aigr.TypedParameter(name='a', type=aigr.types.string),)
+    formal_parameters = (aigr.TypedParameter(name='_dummy_', type=aigr.types.string),)
     expected = '[CC_B_string("Just a demo")], {}'
 
     txt = bundler.pack(arguments=arguments, formal_parameters=formal_parameters)

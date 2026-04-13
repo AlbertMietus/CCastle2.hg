@@ -1,5 +1,4 @@
 # (C) Albert Mietus, 2025. Part of Castle/CCastle project
-
 # This is RPYthon code!
 
 """This file contains a few enums, that are compatible with the same in castle.aigr.

@@ -23,17 +23,7 @@ class NonBundlerStub(Bundler):
 def test_0a_Bundler_is_NativeBundler(bundler):
     assert isinstance(bundler, NativeBundler)
 
-
-def test_0b_pack_and_unpack_return_TextBlock(bundler):
-    txt = bundler.pack(arguments=(), formal_parameters=())
-    assert isinstance(txt, (str, Block))
-    verify_ValidPython(txt)
-
-    txt = bundler.unpack(formal_parameters=())
-    assert isinstance(txt, (str, Block))
-    verify_ValidPython(txt)
-
-def test_0c_abstractmethods_raises():
+def test_b_abstractmethods_raises():
     b = NonBundlerStub()
     try:
         b.pack(arguments=(), formal_parameters=())
@@ -45,9 +35,15 @@ def test_0c_abstractmethods_raises():
     except  NotImplementedError: pass
 
 
-def test_XXX_1():
-    for txt in (
-            '''logger.warning("text is not parsable: >>%s<<", txt)''',
-            '''               "text is not parsable: >>%s<<", txt'''
-            ):
-        verify_ValidPython(txt)
+def test_1a_pack_returns_TextBlock(bundler):
+    txt = bundler.pack(arguments=(), formal_parameters=())
+    assert isinstance(txt, (str, Block))
+    verify_ValidPython(txt)
+
+
+def test_1b_unpack_returns_TextBlock(bundler):
+    txt = bundler.unpack(formal_parameters=())
+    assert isinstance(txt, (str, Block))
+    verify_ValidPython(txt)
+
+

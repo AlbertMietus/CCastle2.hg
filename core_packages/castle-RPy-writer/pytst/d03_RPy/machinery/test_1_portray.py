@@ -17,10 +17,12 @@ def prefixer():
 def test_1_TypePrefix_forString(prefixer):
     assert prefixer(CCTypes.string) == CC_B_ + 'string'
 
-def test_2_TypePrefix_forNumbers(prefixer):
+def test_2_TypePrefix_forMost(prefixer):
     for t, txt in [
             (CCTypes.int,     CC_B_ + 'int'),
             (CCTypes.float,   CC_B_ + 'float'),
+            (CCTypes.boolean, CC_B_ + 'boolean'),
+            (CCTypes.string,  CC_B_ + 'string'), # same as above
             ]:
         assert prefixer(t) == txt
 
