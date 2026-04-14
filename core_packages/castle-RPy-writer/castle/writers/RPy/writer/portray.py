@@ -75,7 +75,7 @@ class PortrayType(Visitor):
         try:
             represents= CC_type.represents
         except AttributeError as e:
-            assert False, f"{CC_type=} has no `.represents` Maybe forget to make `prefix_{type(CC_type).__qualname__}()`?"
+            assert False, f"{CC_type=} has no `.represents` Maybe forget to make `prefix_{type(CC_type).__qualname__}()`? --{e}"
         return f'{self._CC_buildinType_prefix}{represents}'
 
     def prefix_ComponentImplementation(self, CC_type):

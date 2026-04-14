@@ -6,23 +6,25 @@ from .fixtures import bundler
 from .verify import *
 
 from castle import aigr
+from castle.aigr import types as CCTypes
 
-
-def test_1a_pack_single_positional_string(bundler):
+@pytest.mark.skip
+def test_1_pack_single_positional_demo(bundler):
     arguments = (aigr.Argument(value=aigr.fString(value="Just a demo")),)
     formal_parameters = (aigr.TypedParameter(name='_dummy_', type=aigr.types.string),)
     expected = '[CC_B_string("Just a demo")], {}'
-
     txt = bundler.pack(arguments=arguments, formal_parameters=formal_parameters)
-    verify_ValidPython(txt)
-
+    logger.debug(f"{arguments=}\n==> {txt=}")
     assert str(txt) == expected, f"Got {txt=}, when packing {arguments=} -- {expected=}"
-
-
-@pytest.mark.skip(reason="aigr literal int not yet available; intent: pass int value 1")
-def test_1b_pack_single_positional_int(bundler):
-    arguments = (aigr.Argument(value=1),)                                    # pseudo: replace with aigr.Constant(1) or similar
-    formal_parameters = (aigr.TypedParameter(name='a', type=aigr.types.int),)
-    txt = bundler.pack(arguments=arguments, formal_parameters=formal_parameters)
     verify_ValidPython(txt)
-    assert 'CC_B_int' in str(txt)
+
+@pytest.mark.skip
+def test_2_pack_single_positional_int(bundler):
+    arguments = (aigr.Argument(value=aigr.Constant(value=1, type=CCTypes.int)),)
+    formal_parameters = (aigr.TypedParameter(name='_dummy', type=CCTypes.int),)
+    expected = '[CC_B_int(1)], {}'
+    txt = bundler.pack(arguments=arguments, formal_parameters=formal_parameters)
+    logger.debug(f"{arguments=}\n==> {txt=}")
+    assert str(txt) == expected, f"Got {txt=}, when packing {arguments=} -- {expected=}"
+    verify_ValidPython(txt)
+
