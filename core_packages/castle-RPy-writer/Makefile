@@ -23,6 +23,7 @@ LAST = \
 	pytst/d03_RPy/machinery/test_02_Bundler.py  \
 	pytst/d03_RPy/machinery/test_07_sync_Portray2buildin_names.py \
 	pytst/d06_RPy_buildin/test_packValues.py \
+	pytst/d03_RPy/machinery/test_02_Bundler.py  \
 #
 CURRENT = \
 	pytst/d03_RPy/machinery/test_11_bundler-simple.py \

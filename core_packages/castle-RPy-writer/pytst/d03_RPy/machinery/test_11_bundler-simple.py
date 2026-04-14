@@ -8,23 +8,20 @@ from .verify import *
 from castle import aigr
 from castle.aigr import types as CCTypes
 
-@pytest.mark.skip
-def test_1_pack_single_positional_demo(bundler):
-    arguments = (aigr.Argument(value=aigr.fString(value="Just a demo")),)
-    formal_parameters = (aigr.TypedParameter(name='_dummy_', type=aigr.types.string),)
-    expected = '[CC_B_string("Just a demo")], {}'
-    txt = bundler.pack(arguments=arguments, formal_parameters=formal_parameters)
-    logger.debug(f"{arguments=}\n==> {txt=}")
-    assert str(txt) == expected, f"Got {txt=}, when packing {arguments=} -- {expected=}"
-    verify_ValidPython(txt)
-
-@pytest.mark.skip
-def test_2_pack_single_positional_int(bundler):
-    arguments = (aigr.Argument(value=aigr.Constant(value=1, type=CCTypes.int)),)
-    formal_parameters = (aigr.TypedParameter(name='_dummy', type=CCTypes.int),)
+def test_1_pack_single_positional_int(bundler):
+    arguments = ["1"]
+    formal_parameters: aigr.OptionalTypedParameterList =(aigr.TypedParameter(name='_dummy', type=CCTypes.int),)
     expected = '[CC_B_int(1)], {}'
-    txt = bundler.pack(arguments=arguments, formal_parameters=formal_parameters)
-    logger.debug(f"{arguments=}\n==> {txt=}")
+
+    boxed: list[str] = []
+    for arg, parm in zip(arguments, formal_parameters):
+        typ = parm.type
+        type_tag: str = bundler.box(arg, typ)
+        logger.info(f"bundler.box :: {arg=} + {typ=} ==> {type_tag=}")
+        boxed.append(type_tag)
+    logger.info(f"{boxed=}")
+
+    txt: str = bundler.pack(boxed, formal_parameters)
     assert str(txt) == expected, f"Got {txt=}, when packing {arguments=} -- {expected=}"
     verify_ValidPython(txt)
 

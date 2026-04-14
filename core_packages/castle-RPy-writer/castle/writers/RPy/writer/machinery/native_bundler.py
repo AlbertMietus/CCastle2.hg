@@ -21,10 +21,16 @@ class NativeBundler(Bundler):
         return f"{cast}({argument})"
 
     def pack(self, arguments:PTH.Sequence[TypeTag], formal_parameters:aigr.OptionalTypedParameterList) -> TextBlock:
-        assert False
+        t:str = '[' + (", ".join(arg for arg in arguments)) + ']'
+        kw={}
+        txt= f"{t}, {kw}"
+        logger.info(f"PACK: {arguments=} ==> {t=}, {kw=}")
+        return txt
+
+
 
     def unpack(self, parameters:GeneratedCode, formal_parameters:aigr.OptionalTypedParameterList) -> TextBlock:
-        assert False
+        assert False, f"{parameters=}; {formal_parameters=}"
 
     def unbox(self, parm:str) -> GeneratedCode:
         return f"{parm}.value"
