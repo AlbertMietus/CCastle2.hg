@@ -10,6 +10,7 @@ from castle.aigr import types as CCTypes
 
 
 def box_and_pack(bundler, arguments, formal_parameters) ->str:
+    "This functionality will move do bundler, .. now here to make some simple tests"
     boxed: list[str] = []
     for arg, parm in zip(arguments, formal_parameters):
         typ = parm.type
@@ -46,3 +47,21 @@ def test_2_pack_some_positional_ints(bundler):
 
     assert str(txt) == expected, f"Got {txt=}, when packing {arguments=} -- {expected=}"
     verify_ValidPython(txt)
+
+def test_3_pack_mix_positional_args(bundler):
+    arguments = ["3/2", "3/2", "'foo'"]
+    formal_parameters: aigr.OptionalTypedParameterList = (
+        aigr.TypedParameter(name='_dummy', type=CCTypes.float),
+        aigr.TypedParameter(name='_dummy', type=CCTypes.int),
+        aigr.TypedParameter(name='_dummy', type=CCTypes.string), )
+    expected = '[' + (
+        'CC_B_float(3/2), ' +
+        'CC_B_int(3/2), ' +
+        'CC_B_string(\'foo\')' ) + '], {}'
+
+    txt=box_and_pack(bundler, arguments, formal_parameters)
+
+    assert str(txt) == expected, f"Got {txt=}, when packing {arguments=} -- {expected=}"
+    verify_ValidPython(txt)
+
+
