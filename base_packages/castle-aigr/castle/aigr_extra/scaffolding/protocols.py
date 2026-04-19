@@ -1,4 +1,4 @@
-# (C) Albert Mietus 2025, Part of Castle/CCastle project
+# (C) Albert Mietus 2025,2026 Part of Castle/CCastle project
 
 import logging; logger = logging.getLogger(__name__)
 import typing as PTH                                        # Python TypeHints
@@ -7,8 +7,9 @@ from castle import aigr
 from . import ScaffolderNode
 
 class ScaffolderProtocol(ScaffolderNode):
-    #_nodeCls: PTH.Type = aigr.Protocol
     _nodeCls:type = aigr.Protocol
+    _link_fields: frozenset[str] = frozenset({'based_on'})
+    _attr_fields: frozenset[str] = frozenset({'typedParameters'})
 
     def wrapped_base(self) -> PTH.Optional["ScaffolderProtocol"]:
         wrapCls=type(self)
@@ -25,6 +26,7 @@ class ScaffolderProtocol(ScaffolderNode):
 class ScaffolderEventProtocol(ScaffolderProtocol):
     #_nodeCls: PTH.Type = aigr.EventProtocol
     _nodeCls = aigr.EventProtocol
+    _kid_fields: frozenset[str] = frozenset({'events'})
 
     #Note: ``.based_on`` can be an `EventProtocol`, or 'Specialise' (see Generics), which can have events.
     #    But it can also be another Protocol; typical ``_RootProtocol`` ...
