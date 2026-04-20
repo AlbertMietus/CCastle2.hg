@@ -54,7 +54,7 @@ class RPY_Translator(TranslatorCommand):
     def process(self, cmd: list[str],*, PATH_prefix:PTH.Optional[str]=None) ->str:
         if PATH_prefix:
             env=os.environ
-            env['PATH']=f"PATH_prefix:{env['PATH']}"
+            env['PATH']=f"{PATH_prefix}:{env['PATH']}"
             logger.debug("PATH: %s", env['PATH'])
         else:
             env=None # default for `subprocess.run`
