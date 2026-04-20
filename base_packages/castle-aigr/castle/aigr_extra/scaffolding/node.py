@@ -54,10 +54,6 @@ class ScaffolderNode(_Scaffolder):
     _kid_fields:  frozenset[str] = frozenset({'_ns'})
     _attr_fields: frozenset[str] = frozenset()
 
-    # ------------------------------------------------------------------ #
-    #  MRO-aware bucket collection                                        #
-    # ------------------------------------------------------------------ #
-
     @classmethod
     def _collect_field_bucket(cls, bucket: str) -> frozenset[str]:
         """Walk the MRO from *most-base* to *most-derived* and union the named
@@ -83,8 +79,7 @@ class ScaffolderNode(_Scaffolder):
         kids  = cls._collect_field_bucket('_kid_fields')  - links
         attrs = cls._collect_field_bucket('_attr_fields') - links
 
-        # Names in both kids AND attrs (within the same class) is a mistake.
-        conflict = kids & attrs
+        conflict = kids & attrs # Names in both kids AND attrs (within the same class) is a mistake.
         if conflict:
             logger.error(
                 "%s: field(s) %s appear in both _kid_fields and _attr_fields — "
@@ -95,9 +90,6 @@ class ScaffolderNode(_Scaffolder):
 
         return kids, attrs, links
 
-    # ------------------------------------------------------------------ #
-    #  _kids() and _attrs()                                               #
-    # ------------------------------------------------------------------ #
 
     def _kids(self) -> PTH.Generator[AIGRNode, None, None]:
         """Yield all *direct structural children* of the wrapped node.
@@ -166,16 +158,9 @@ class ScaffolderNode(_Scaffolder):
             except TypeError:
                 pass  # not iterable — scalar like int/str/enum
 
-    # ------------------------------------------------------------------ #
-    #  walk_down() and apply_down() — public API                          #
-    # ------------------------------------------------------------------ #
 
-    def walk_down(
-        self,
-        *,
-        order: WalkOrder = WalkOrder.PRE_ORDER,
-        include_self: bool = False,
-    ) -> PTH.Generator[AIGRNode, None, None]:
+    def walk_down(self, *,
+                  order: WalkOrder = WalkOrder.PRE_ORDER, include_self: bool = False,) -> PTH.Generator[AIGRNode, None, None]:
         """Yield every AIGRNode in the subtree rooted at ``self.node``.
 
         Parameters
@@ -214,17 +199,9 @@ class ScaffolderNode(_Scaffolder):
         for node in self._walk_gen(self.node, order=order, include_self=include_self):
             func(node)
 
-    # ------------------------------------------------------------------ #
-    #  Private traversal engine                                           #
-    # ------------------------------------------------------------------ #
 
-    def _walk_gen(
-        self,
-        start: AIGRNode,
-        *,
-        order: WalkOrder,
-        include_self: bool,
-    ) -> PTH.Generator[AIGRNode, None, None]:
+    def _walk_gen(self, start: AIGRNode, *,
+                  order: WalkOrder, include_self: bool,) -> PTH.Generator[AIGRNode, None, None]:
         """Shared generator that powers both ``walk_down`` and ``apply_down``."""
         if order is WalkOrder.PRE_ORDER:
             yield from self._walk_pre(start, include_self=include_self)
@@ -241,9 +218,8 @@ class ScaffolderNode(_Scaffolder):
         wrapper._node = node                                    # type: ignore[attr-defined]
         yield from wrapper._kids()
 
-    def _walk_pre(
-        self, node: AIGRNode, *, include_self: bool
-    ) -> PTH.Generator[AIGRNode, None, None]:
+
+    def _walk_pre(self, node: AIGRNode, *, include_self: bool) -> PTH.Generator[AIGRNode, None, None]:
         """Pre-order DFS: parent → children."""
         if include_self:
             yield node
@@ -252,9 +228,7 @@ class ScaffolderNode(_Scaffolder):
             for grandchild in self._walk_pre(child, include_self=False):
                 yield grandchild
 
-    def _walk_post(
-        self, node: AIGRNode, *, include_self: bool
-    ) -> PTH.Generator[AIGRNode, None, None]:
+    def _walk_post(self, node: AIGRNode, *, include_self: bool) -> PTH.Generator[AIGRNode, None, None]:
         """Post-order DFS: children → parent."""
         for child in self._kids_of(node):
             for grandchild in self._walk_post(child, include_self=False):
@@ -263,9 +237,7 @@ class ScaffolderNode(_Scaffolder):
         if include_self:
             yield node
 
-    def _walk_level(
-        self, node: AIGRNode, *, include_self: bool
-    ) -> PTH.Generator[AIGRNode, None, None]:
+    def _walk_level(self, node: AIGRNode, *, include_self: bool) -> PTH.Generator[AIGRNode, None, None]:
         """Breadth-first (level-order) using a deque."""
         from collections import deque
         queue: deque[AIGRNode] = deque()
@@ -280,9 +252,6 @@ class ScaffolderNode(_Scaffolder):
             yield current
             queue.extend(self._kids_of(current))
 
-    # ------------------------------------------------------------------ #
-    #  Existing API                                                       #
-    # ------------------------------------------------------------------ #
 
     def set_parent(self, parent: PTH.Union[_Scaffolder, AIGRNode]) -> PTH.Self:
         node = self.node
