@@ -46,7 +46,7 @@ class Portray:
 
     def Port2Protocol(self, port: aigr.Port) ->str:                       # XXXX Move to render
         if not isinstance(port.type, aigr.Protocol):
-            raise NotImplementedError("Only Protocol-Ports are supported. Not: %s %s", port)
+            raise NotImplementedError(f"Only Protocol-Ports are supported. Not: {port}")
         protocol :aigr.Protocol = port.type
         assert protocol.name is not None
         return self.CC_ProtocolName_prefix(protocol.name)
