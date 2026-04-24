@@ -12,7 +12,7 @@ test: coverage local_test
 local_test:: # Add local module test to this one
 
 pytest-html:
-	pytest --html=_ToCS-reports/PyTest/index.html ${PYTEST_OPTIONS} pytst/
+	pytest --html=_ToCS-reports/PyTest.html ${PYTEST_OPTIONS} pytst/
 
 coverage:
 	coverage run  --source castle,pytst --branch -m pytest ${PYTEST_OPTIONS} pytst/
