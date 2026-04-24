@@ -23,7 +23,7 @@ TYPICAL = all clean cleaner cleanest veryclean doc test pytest pytest-only
 ALL	= current last todo pyanalyse todo mypy
 BUILD	= ${ALL} build install installed
 TEST 	= test pytest coverage mutmut fast pytest-html
-OPENit	= coverage-open mutmut-open pyanalyse-open
+OPENit	= coverage-open mutmut-open pyanalyse-open pytest-html-open
 FULL	= ${SETS} ${TYPICAL} ${ALL} ${TEST} ${BUILD} ${OPENit}
 
 full:	${FULL}

@@ -11,8 +11,11 @@ PACKAGE:= $(shell basename `pwd`)
 test: coverage local_test
 local_test:: # Add local module test to this one
 
+PY_TEST_REPORT = _ToCS-reports/${PACKAGE}-PyTest.html 
 pytest-html:
-	pytest --html=_ToCS-reports/PyTest.html ${PYTEST_OPTIONS} pytst/
+	pytest --html=${PY_TEST_REPORT} ${PYTEST_OPTIONS} pytst/
+pytest-html-open: pytest-html
+	open ${PY_TEST_REPORT}
 
 coverage:
 	coverage run  --source castle,pytst --branch -m pytest ${PYTEST_OPTIONS} pytst/
