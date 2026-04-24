@@ -4,6 +4,9 @@ import logging; logger = logging.getLogger(__name__)
 import typing as PTH                                                                                  # Python TypeHints
 
 import pytest
+pytestmark = pytest.mark.xfail(reason="Need the new 'Bundler' (in AIGR) firrst", allow_module_level=True) #type: ignore
+
+
 
 from castle import aigr
 from castle.aigr import ID
