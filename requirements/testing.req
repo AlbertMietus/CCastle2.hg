@@ -4,3 +4,4 @@ coverage
 mypy
 pylint
 tomli_w
+pytest-html
