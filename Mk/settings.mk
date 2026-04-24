@@ -7,6 +7,13 @@ MUTMUT_dir   = ${ToCS_dir}MutMut/
 CONFIG_dir   = ${TOPd}config/
 MUTMUT_cfg_d = ${CONFIG_dir}MutMut/
 
+TOOLS_dir    = ${TOPd}tools/
+
+CLASSTREE_tool  = ${TOOLS_dir}classtree.py
+PYPROJ-TST_tool = ${TOOLS_dir}make_pyproject_tst.py
+
+
+
 PYANALYSE_dir 	 = _pyanalyse/
 PYREVERSE_FORMAT = plantuml
 

@@ -23,12 +23,10 @@ pyreverse: ${PYANALYSE_dir}
 	@echo ".. done. Result; see: ./${PYANALYSE_dir}"
 
 
-CLASSTREE_tool = ${TOPd}../tools/classtree
-
-py_classtree classtree: ${PYANALYSE_dir}
+py_classtree classtree: ${PYANALYSE_dir} ${CLASSTREE_tool}
 	for P in ${PYREVERSE_PKGS}; do \
 		D=`echo $$P | sed 's@\.@/@g'`;\
-		${CLASSTREE_tool}  --html -Mm $${D}  >${PYANALYSE_dir}classtree-$${P}.html ;\
+		python ${CLASSTREE_tool}  --html -Mm $${D}  >${PYANALYSE_dir}classtree-$${P}.html ;\
 	done
 
 

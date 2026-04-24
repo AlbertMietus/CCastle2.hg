@@ -33,7 +33,12 @@ DocParts/Design/*/*.png
 
 
 .*_packages/.*/castle.*\.egg-info/
+
 .*_packages/.*/dist/
+.*_packages/.*/dist-tst
+.*_packages/.*/dist_tst/pyproject.toml
+
+
 build/
 
 .*/doc/.*\.png
