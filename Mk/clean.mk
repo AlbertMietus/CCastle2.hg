@@ -21,7 +21,7 @@ clean_caches:
 clean_gendirs:
 	rm -rf ${COVERAGE_dir}
 	rm -rf ${MUTMUT_dir}
-	#rm -rf ${PYANALYSE_dir}*
+	rm -rf ${PYANALYSE_dir}*
 
 clean_generated: local_clean_generated
 # None, for now
