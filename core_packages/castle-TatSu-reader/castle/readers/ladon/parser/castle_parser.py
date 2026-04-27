@@ -17,6 +17,9 @@ class CastleParser():
     _GRAMMAR_FILE = 'castle_grammar.tatsu'
 
     def __init__(self, grammar_file :PTH.Optional[Path]=None, actions=None):
+
+        logging.warning("Need TatSu==5.13.2; newer versions (like 5.17.0) do not work -- XXX Need to finetune this and grammar_file")
+
         if grammar_file is None:
             grammar_file = Path(__file__).parent / self._GRAMMAR_FILE
         logger.debug("using %s as grammar(file) -- %s", grammar_file, grammar_file.resolve())
