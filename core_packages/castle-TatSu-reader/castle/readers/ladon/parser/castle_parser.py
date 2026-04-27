@@ -14,6 +14,12 @@ class CastleParser():
     _GRAMMAR_FILE = 'castle_grammar.tatsu'
 
     def __init__(self, grammar_file: PTH.Optional[Path]=None, actions=None):
+
+        if tatsu.version_info.minor != 17:
+            logging.error("""Expecting TatSu==5.17, got %s -- 5.18 is broken
+            (See: https://github.com/neogeny/TatSu/issues/423)""" % tatsu.version)
+            # continuing with crossed fingers
+
         if grammar_file is None:
             grammar_file = Path(__file__).parent / self._GRAMMAR_FILE
         if actions is None:
