@@ -5,8 +5,8 @@ import pytest
 
 from castle import aigr
 
-from castle.aigr_extra.scaffolding._scaffolder import _Scaffolder
-from castle.aigr_extra.scaffolding import ScaffolderNode
+from castle.aigr.tools.scaffolding._scaffolder import _Scaffolder
+from castle.aigr.tools.scaffolding import ScaffolderNode
 
 class Dummy(aigr.AIGR):    pass
 class FakeNode(aigr.AIGRNode):

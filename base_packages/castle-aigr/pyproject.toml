@@ -13,6 +13,7 @@ exclude = ["pytst*", "CastleCode", "ASIDE"]
 [tool.setuptools.package-data]
 "castle.aigr"       = ["py.typed", "*.pyi"]
 "castle.aigr_extra" = ["py.typed", "*.pyi"]
+"castle.aigr.tools.scaffolding" = ["py.typed", "*.pyi"]
 
 [tool.pytest.ini_options]
 markers = [

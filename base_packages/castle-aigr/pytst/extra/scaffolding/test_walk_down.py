@@ -15,9 +15,9 @@ import pytest
 from castle import aigr
 from castle.aigr import ID
 from castle.aigr.namespaces import Scope
-from castle.aigr_extra.scaffolding.node import ScaffolderNode, WalkOrder
-from castle.aigr_extra.scaffolding.namespaces import ScaffolderNameSpace
-from castle.aigr_extra.scaffolding.callables import ScaffolderCallable
+from castle.aigr.tools.scaffolding.node import ScaffolderNode, WalkOrder
+from castle.aigr.tools.scaffolding.namespaces import ScaffolderNameSpace
+from castle.aigr.tools.scaffolding.callables import ScaffolderCallable
 
 
 # ======================================================================
@@ -71,7 +71,7 @@ def method_node():
 
     body = Body(statements=[Become(targets=(ID.Def('x'),), values=(aigr.Constant(value=1),))])
     m = Method(name=ID.Def('my_method'), body=body)
-    from castle.aigr_extra.scaffolding.callables import ScaffolderCallable
+    from castle.aigr.tools.scaffolding.callables import ScaffolderCallable
     return ScaffolderCallable(m)
 
 
@@ -352,7 +352,7 @@ def test_9c_attrs_yields_parameters(method_node):
     from castle.aigr.statements.compounds import Body
     p = TypedParameter(name=ID.Def('x'), type=aigr_types.int)
     m = Method(name=ID.Def('f'), parameters=(p,), body=Body())
-    from castle.aigr_extra.scaffolding.callables import ScaffolderCallable
+    from castle.aigr.tools.scaffolding.callables import ScaffolderCallable
     sc = ScaffolderCallable(m)
     attrs = list(sc._attrs())
     assert p in attrs

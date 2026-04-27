@@ -52,7 +52,7 @@ from castle.aigr import Event, EventProtocol
 from castle.aigr import TypedParameter, Argument, Specialise
 from castle.aigr import types
 
-from castle.aigr_extra.scaffolding import ScaffolderEventProtocol
+from castle.aigr.tools.scaffolding import ScaffolderEventProtocol
 
 """ There are a few cases
 ///CastleCode

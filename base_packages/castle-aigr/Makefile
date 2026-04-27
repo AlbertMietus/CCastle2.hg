@@ -12,7 +12,7 @@ PYREVERSE_PKGS = \
 	castle.aigr_extra \
 	castle.aigr_extra.blend \
 	castle.aigr_extra.builders \
-	castle.aigr_extra.scaffolding \
+	castle.aigr.tools.scaffolding \
 	\
 #
 LAST = \
