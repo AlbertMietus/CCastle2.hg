@@ -5,7 +5,7 @@ import pytest
 
 import castle.aigr as aigr
 #from castle.aigr.protocols import baseProtocol #baseProtocol is GONE
-from castle.aigr_extra.scaffolding import ScaffolderNameSpace
+from castle.aigr.tools.scaffolding import ScaffolderNameSpace
 #from castle.TESTDOUBLES.aigr.base import base as base_NS
 
 

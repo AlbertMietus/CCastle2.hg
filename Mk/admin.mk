@@ -21,3 +21,6 @@ push-all: _sync-bookmarks
 	-hg push
 	-hg push --all SF
 	-hg push --all github
+
+installed:
+	pip list | grep -i castle | sort

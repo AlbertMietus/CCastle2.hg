@@ -5,7 +5,7 @@ import pytest
 
 from castle import aigr
 #from castle.aigr_extra.blend import mangle_event_handler
-#from castle.aigr_extra.scaffolding import ScaffolderNameSpace
+#from castle.aigr.tools.scaffolding import ScaffolderNameSpace
 
 from . import credible, HW
 from . import dummy

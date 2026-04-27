@@ -3,7 +3,7 @@ import logging; logger = logging.getLogger(__name__)
 
 from castle import aigr
 from castle.aigr_extra.blend import mangle_event_handler
-from castle.aigr_extra import scaffolding
+from castle.aigr.tools import scaffolding
 
 from ._debug import add_debug_logging
 from .support_functions import flat_list

@@ -6,7 +6,7 @@ from pathlib import Path
 from pprint import pprint, pformat
 
 from castle import aigr
-from castle.aigr_extra.scaffolding import ScaffolderNameSpace
+from castle.aigr.tools.scaffolding import ScaffolderNameSpace
 from castle.readers.ladon.loaders import SimpleFileLoader
 
 @pytest.fixture

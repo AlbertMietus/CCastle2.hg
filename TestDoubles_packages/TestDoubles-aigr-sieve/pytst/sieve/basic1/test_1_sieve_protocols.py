@@ -11,7 +11,7 @@ from castle.TESTDOUBLES.aigr.sieve.basic1 import protocols as sieve_protocols
 
 from castle import aigr
 from castle.aigr import types
-from castle.aigr_extra.scaffolding import ScaffolderEventProtocol
+from castle.aigr.tools.scaffolding import ScaffolderEventProtocol
 
 def test_0_all_sieveProtocols_exist():
     for p in (sieve_protocols.StartSieve, sieve_protocols.SimpleSieve):

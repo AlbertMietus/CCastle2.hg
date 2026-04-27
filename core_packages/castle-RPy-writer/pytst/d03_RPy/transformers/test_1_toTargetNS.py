@@ -8,7 +8,7 @@ import typing as PTH                                                            
 
 from castle import aigr
 from castle.writers import RPy
-from castle.aigr_extra.scaffolding import ScaffolderNameSpace
+from castle.aigr.tools.scaffolding import ScaffolderNameSpace
 
 from castle.TESTDOUBLES.aigr.HelloWorlds.elemental import HelloWorld
 ## HelloWorld is Module

@@ -6,7 +6,7 @@ from dataclasses import dataclass
 import pytest
 
 from castle import aigr
-from castle.aigr_extra.scaffolding import ScaffolderNameSpace
+from castle.aigr.tools.scaffolding import ScaffolderNameSpace
 
 @dataclass
 class DummyNode(aigr.NamedNode):

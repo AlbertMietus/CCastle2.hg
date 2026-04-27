@@ -6,7 +6,7 @@ from dataclasses import dataclass, KW_ONLY
 from pathlib import Path
 
 from castle.aigr.namespaces import _NameSpace
-from castle.aigr_extra.scaffolding import ScaffolderNameSpace
+from castle.aigr.tools.scaffolding import ScaffolderNameSpace
 
 @dataclass
 class FileNS(_NameSpace):
