@@ -1,6 +1,6 @@
 default: all
 
-PYREVERSE_PKGS = castle/monorail
+PYREVERSE_PKGS = castle.monorail
 
 LAST = \
 	pytst/base/visitors/test_mistakes.py\

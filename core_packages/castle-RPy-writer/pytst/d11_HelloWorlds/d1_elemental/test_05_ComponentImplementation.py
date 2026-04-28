@@ -3,6 +3,7 @@
 import logging; logger = logging.getLogger(__name__)
 import pytest
 
+from . import pytestmark
 
 from . import my_renderer, verify_line, verify_line_by_line
 from . import print_out

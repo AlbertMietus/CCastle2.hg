@@ -1,7 +1,7 @@
 [tool.pyright]
 typeCheckingMode = "standard"
 pythonVersion = "3.13"
-venvPath = ".."
+venvPath = "."
 venv = "VENV"
 
 extraPaths = [

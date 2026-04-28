@@ -184,6 +184,8 @@ class Renderer(Visitor):
         txt += self.depart(node)
         return txt
 
+
+
 ##############################################################################
     def XXX_OLD_visit_Call(self, node)							->  TextBlock:
         logger.info("visit_Call: %s", node)   #XX info->debug
@@ -222,7 +224,11 @@ class Renderer(Visitor):
         return callable
 
     def _render_args(self, node)                         -> TextBlock:
-        return 'XXX'
+        rendered_args = list((self.visit(a) for a in node.arguments))
+        assert False, "Need the new Bundler"
+
+
+
 ##############################################################################
 
 

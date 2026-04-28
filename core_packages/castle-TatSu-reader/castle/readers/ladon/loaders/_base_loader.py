@@ -23,9 +23,9 @@ class _BaseLoader():
     def __init__(self, parser=None, kind:CastleKind=CastleKind.auto):
         self.parser = parser if parser else CastleParser()
         self._castleKind = kind
-        self._source=None
+        self._source:PTH.Optional[Path]
 
-    def parse(self, _startsymbol=None, **kw) -> Source_NS:
+    def parse(self, *, _startsymbol=None, **kw) -> Source_NS:
         raise NotImplementedError("Implement in a subclass, using `self._parseStream()`""")
 
     def _parseStream(self, in_stream:PTH.TextIO, _startsymbol, name=None) -> Source_NS:
@@ -45,9 +45,9 @@ class _BaseLoader():
 class _FileLoader(_BaseLoader):
     def __init__(self, **kw):
         super().__init__(**kw)
-        self._source:PTH.Optional[Path]=None # Will be set in sub-class
+        self._source = None # Will be set in sub-class
 
-    def parse(self, name=None, _startsymbol=None, **kw) -> Source_NS:
+    def parse(self, *, name=None, _startsymbol=None, **kw) -> Source_NS:
         assert self._source, f"Can't parse a file that isn't given"
         start_symbol = self._StartSymbol(_startsymbol)
 

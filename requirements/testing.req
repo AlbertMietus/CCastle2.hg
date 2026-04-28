@@ -1,5 +1,7 @@
 pytest
 coverage
-mutmut
+#mutmut
 mypy
 pylint
+tomli_w
+pytest-html

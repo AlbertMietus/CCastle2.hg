@@ -6,6 +6,10 @@ import typing as PTH                                                            
 from pathlib import Path
 import pytest
 
+pytestmark = pytest.mark.xfail(reason="Need the new 'Bundler' (in AIGR) first", allow_module_level=True) #type: ignore
+
+
+
 from castle.writers import RPy
 
 from . import EXPECTED_unit

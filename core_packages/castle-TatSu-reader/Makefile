@@ -3,7 +3,8 @@ default: all
 
 PYREVERSE_PKGS = \
 	castle.readers \
-	castle.readers.parser \
+	castle.readers.ladon \
+	castle.readers.support \
 #
 LAST = \
 	pytst/d1_parse/d03_callable/test_4b_method.py \

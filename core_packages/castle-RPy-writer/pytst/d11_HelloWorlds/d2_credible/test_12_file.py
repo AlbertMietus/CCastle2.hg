@@ -4,6 +4,12 @@
 
 from . import *
 
+pytestmark = pytest.mark.xfail(reason="Need the new 'Bundler' (in AIGR) firrst", allow_module_level=True) #type: ignore
+
+
+
+
+
 #@pytest.mark.xfail(reason="ExpectedTxt.EXPECTED_unit needs to be filled in -- std_invoke__std() is EMPT")
 def test_1_renderToTxt(target_unit, my_renderer):
     txt = my_renderer.render(target_unit)
