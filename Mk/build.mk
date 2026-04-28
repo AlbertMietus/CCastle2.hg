@@ -8,8 +8,6 @@ build: fast
 install: build
 	pip install -e .
 
-installed:
-	pip list | grep -i castle | sort
 
 ###
 ### <*>-tst packages contain the (py)test file -- generate the pyproject file automatically.
