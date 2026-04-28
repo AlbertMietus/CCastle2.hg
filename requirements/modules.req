@@ -1,2 +1,2 @@
-tatsu
+TatSu >=5.17.1, <5.18 # V5.18 is broken: https://github.com/neogeny/TatSu/issues/423
 
