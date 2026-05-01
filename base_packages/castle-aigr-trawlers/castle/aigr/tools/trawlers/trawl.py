@@ -1,33 +1,32 @@
-from __future__ import annotations
-from typing import Optional
+# (C) Albert Mietus, 2026. Part of Castle/CCastle project
 
-from castle.aigr import AIGR, AIGRNode  # verify: AIGRNode may be in castle.aigr.base
+from __future__ import annotations
+import typing as PTH                                                                                  # Python TypeHints
+
+from castle.aigr import AIGR, AIGRNode
 
 
 class Trawl:
-    """Fluent navigation wrapper for AIGR trees."""
+    """Fluent navigation for AIGR(Node) trees."""
 
     def __init__(self, node: AIGR) -> None:
         self._nodes: tuple[AIGR, ...] = (node,)
 
     @classmethod
     def _of(cls, nodes: tuple[AIGR, ...]) -> Trawl:
+        "private factory"
         instance = cls.__new__(cls)
         instance._nodes = nodes
         return instance
 
-    # --- terminators ---
-
     def exists(self) -> bool:
         return bool(self._nodes)
 
-    def one(self) -> Optional[AIGR]:
+    def one(self) -> PTH.Optional[AIGR]:
         return self._nodes[0] if self._nodes else None
 
     def all(self) -> tuple[AIGR, ...]:
         return self._nodes
-
-    # --- structural axes ---
 
     def up(self, steps: int = 1) -> Trawl:
         nodes = self._nodes

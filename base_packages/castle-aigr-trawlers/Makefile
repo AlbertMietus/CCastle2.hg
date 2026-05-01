@@ -5,13 +5,14 @@ PYREVERSE_PKGS = \
 	\
 #
 LAST =   \
-	pytst \
+	pytst/trawlers/test_1_trawl_basics.py	\
+	pytst/trawlers/test_2_trawl_up.py	\
 #
 CURRENT = \
-	pytst/trawlers/test_1_trawl_basics.py\
+	pytst/trawlers/test_0_scaffolder_contract.py
 #
 TODO =   \
-	pytst/trawlers/test_2_trawl_up.py\
+	pytst \
 #
 
 TOPd=../../
