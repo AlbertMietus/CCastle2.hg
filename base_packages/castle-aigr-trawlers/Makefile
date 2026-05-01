@@ -8,10 +8,10 @@ LAST =   \
 	pytst \
 #
 CURRENT = \
-	pytst  \
+	pytst/trawlers/test_1_trawl_basics.py\
 #
 TODO =   \
-	pytst \
+	pytst/trawlers/test_2_trawl_up.py\
 #
 
 TOPd=../../
