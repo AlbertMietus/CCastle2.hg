@@ -1,33 +1,38 @@
-# (C) Albert Mietus, 2025. Part of Castle/CCastle project
+# (C) Albert Mietus, 2025, 2026. Part of Castle/CCastle project
 import logging; logger = logging.getLogger(__name__)
 
-
 import typing as PTH                                       # Python TypeHints
-
 from pathlib import Path
-
-import tatsu
-
+import tatsu,  tatsu.parser
 
 from .castle_actions import CastleActions
 
 class CastleParser():
-    """ Castle Parser using Tatsu """
+    """Castle Parser using TatSu 5.17 -- 5.18 does not work
+       See: https://github.com/neogeny/TatSu/issues/423    """
 
     _GRAMMAR_FILE = 'castle_grammar.tatsu'
 
-    def __init__(self, grammar_file :PTH.Optional[Path]=None, actions=None):
+    def __init__(self, grammar_file: PTH.Optional[Path]=None, actions=None):
+
+        if tatsu.version_info.minor != 17:
+            logging.error("""Expecting TatSu==5.17, got %s -- 5.18 is broken
+            (See: https://github.com/neogeny/TatSu/issues/423)""" % tatsu.version)
+            # continuing with crossed fingers
+
         if grammar_file is None:
             grammar_file = Path(__file__).parent / self._GRAMMAR_FILE
-        logger.debug("using %s as grammar(file) -- %s", grammar_file, grammar_file.resolve())
-        with open(grammar_file) as f:
-            grammar = f.read()
         if actions is None:
-            actions = CastleActions
+            actions = CastleActions()
 
-        # HACK for TatSu: pasing the absolute file-name is needed for `#include`
-        self.parser = tatsu.compile(grammar, semantics=CastleActions(), filename=grammar_file.resolve())
+        grammar_file = grammar_file.resolve()           # make absolute
+        grammar_text = grammar_file.read_text(encoding='utf-8')
+
+        gen = tatsu.parser.TatSuParserGenerator('Castle')
+        self.parser = gen.parse(grammar_text, filename=str(grammar_file))
+        self.parser.semantics = actions
 
     def parse(self, text: str, start=None):
         return self.parser.parse(text, start=start)
+
 
