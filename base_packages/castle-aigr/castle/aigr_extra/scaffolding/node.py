@@ -74,28 +74,35 @@ class ScaffolderNode(_Scaffolder):
     def _get_nodes_by_metadata(self, meta_field:str) -> PTH.Iterator[AIGRNode]:
         """Yield the nodes with a `meta_field` relation to self"""
 
-        node = self.node
-        assert dataclasses.is_dataclass(node), f"{node=} should be a dataclass"
         assert meta_field in ('_kids_fields', '_attr_fields', '_link_fields'), "Only this meta data"
 
-        names = self._metadata_collect_fieldnames(meta_field)
-        relevant_fields = list(f for f in dataclasses.fields(node) if f.name in names)
+        node = self.node
+        assert dataclasses.is_dataclass(node), f"{node=} should be a dataclass"
+
+        ## Design/Hint
+        # * `meta_field` is the name of the class-vars that should be read to collect fieldnames
+        # * `fieldnames` is a collection  of (inst) variables that contain relation -- of type $meta_field
+        fieldnames = self._metadata_collect_fieldnames(meta_field)
+        relevant_fields = list(f for f in dataclasses.fields(node) if f.name in fieldnames) # only the field/vars that exist
 
         logging.debug(f"{meta_field=}:: {[f.name for f in relevant_fields]} -- wrapped/type: {type(self).__qualname__}/{type(self._node).__qualname__}")
+
         for field in relevant_fields:
             if (related_nodes := getattr(node, field.name, None)) is not None:
                 yield from self._flatten(related_nodes)   #Yield node by mode
 
 
     def _metadata_collect_fieldnames(self, meta_field: str) -> frozenset[str]:
-        """Collect the fieldnames, including inherited ones for one meta_field. """
+        """Collect the fieldnames, by walking over the inheritance-tree,  reading meta_field.
+           `meta_field` is one of the 3 class-vars that list the fieldnames that contain tree-info
+           This is (the only) method know how/where to readout those meta_fields -- now in the scaffolders"""
 
-        accumulated: set[str] = set()
+        fieldnames: set[str] = set()
         for cls in reversed(self.__class__.__mro__): # Reverse MRO: base first so subclass additions overlay base ones.
-            names = cls.__dict__.get(meta_field)    # Only *own* declaration
-            if names is not None:
-                accumulated.update(names)
-        return frozenset(accumulated)
+            fnames = cls.__dict__.get(meta_field)    # field-name as set in 1 class
+            if fnames is not None:
+                fieldnames.update(fnames)
+        return frozenset(fieldnames)
 
 
     @staticmethod
