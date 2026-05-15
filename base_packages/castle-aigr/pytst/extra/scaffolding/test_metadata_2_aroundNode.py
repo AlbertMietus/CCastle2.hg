@@ -30,9 +30,12 @@ def demo_tree():
     return dict(locals())
 
 @pytest.fixture
-def theNode(demo_tree):  return ScaffolderCallable(demo_tree['theNode'])  # wrapped theNode
+def theNode(demo_tree) ->ScaffolderCallable:
+    return ScaffolderCallable(demo_tree[ID('theNode')])
+
 @pytest.fixture
-def body(theNode):       return ScaffolderBody(theNode.body)          # The wrapped body -- note: theNode.body === theNode._node.body
+def body(theNode) -> ScaffolderBody:
+    return ScaffolderBody(theNode.body)                                     #  note: theNode.body === theNode._node.body
 
 
 def test_1_theNode_has_parent_as_links(theNode, demo_tree):
