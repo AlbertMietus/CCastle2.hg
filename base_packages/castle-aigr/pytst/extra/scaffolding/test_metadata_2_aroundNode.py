@@ -16,15 +16,16 @@ def demo_tree():
             └──theNode :Method (_callable)
                  ├── :Body
                  |    └──> statements [ :Become, :Become ]    -- Use Stub Become's
-                 └─── returns "foo":Any                       -- foo is a dummy
-    Note: we use `theNode` as `node` also as an interna meaing in Scaffolders
-     """
+                 └─── returns :ReturnType                     -- a dummy value
+
+    Note: we use `theNode` as `node` also has an internal meaning in Scaffolders """
+
     top  = aigr.NamedSpace('top')
-    dad  = aigr.ComponentImplementation('dad', parent=top)               ; top._ns['dad']= dad
-    theNode = aigr.Method('theNode', parent=dad, returns=aigr.ReturnType(type=aigr.types.int)); dad.handlers.append(theNode)
-    body = theNode.body
-    body.statements.append(aigr.Become(targets=None, values=None, parent=body))
-    body.statements.append(aigr.Become(targets=None, values=None, parent=body))
+    dad  = aigr.ComponentImplementation('dad', parent=top) ; top._ns[ID('dad')]= dad
+    theNode = aigr.Method('theNode', parent=dad, returns=aigr.ReturnType(type=aigr.types.int)); dad.handlers.append(theNode) #type: ignore
+    body = PTH.cast(aigr.Body, theNode.body)
+    body.statements.append(aigr.Become(targets=None, values=None, parent=body)) #type: ignore
+    body.statements.append(aigr.Become(targets=None, values=None, parent=body)) #type: ignore
 
     return dict(locals())
 
