@@ -1,18 +1,36 @@
 # (C) Albert Mietus 2026, Part of Castle/CCastle project
+# Partialy made by CodeAI: github-copilot: Claude Haiku 4.5
 
 """Tests for ScaffolderNode field bucket metadata and kids()/attrs() functionality.
 
-This test file ensures that:
-1. Field bucket metadata is correctly declared for all Scaffolder subclasses
-2. The kids() method correctly yields structural children
-3. The _attrs() method correctly yields attribute-like metadata
-4. Future AIGR node types don't forget to declare their metadata
+   This test file ensures that:
+   1. Field bucket metadata is correctly declared for all Scaffolder subclasses
+   2. The kids() method correctly yields structural children
+   3. The _attrs() method correctly yields attribute-like metadata
 
-Naming convention:  test_<N><suffix>_<intention>
-  N       : natural test order — test_<X> builds on previous tests
-  suffix  : a/b/c/… — tests that belong together at the same level
-  _0*     : bootstrap — basic structural assertions about metadata
-"""
+.. seealso:: `test_4z_meta_futurecheck.py` -- did future nodes set the metadata"""
+
+if False: # ScaffolderNode._effective_buckets() is gone. Copy from castle/aigr_extra/scaffolding/node.py
+        @classmethod
+        def _effective_buckets(cls) -> tuple[frozenset[str], frozenset[str], frozenset[str]]:
+            """Return (kid_fields, attr_fields, link_fields) after MRO-merging and
+            conflict resolution: link always wins over kid/attr for the same name."""
+            links = cls._collect_field_bucket('_link_fields')
+            kids  = cls._collect_field_bucket('_kid_fields')  - links
+            attrs = cls._collect_field_bucket('_attr_fields') - links
+
+            conflict = kids & attrs # Names in both kids AND attrs (within the same class) is a mistake.
+            if conflict:
+                logger.error(
+                    "%s: field(s) %s appear in both _kid_fields and _attr_fields — "
+                    "treating as _kid_fields. Fix the bucket declarations.",
+                    cls.__name__, conflict,
+                )
+                attrs = attrs - conflict
+
+            return kids, attrs, links
+
+
 
 import logging; logger = logging.getLogger(__name__)
 import pytest
@@ -25,10 +43,9 @@ from castle.aigr_extra.scaffolding.namespaces import ScaffolderNameSpace
 from castle.aigr_extra.scaffolding.callables import ScaffolderCallable
 from castle.aigr_extra.scaffolding.protocols import ScaffolderProtocol, ScaffolderEventProtocol
 
+from . import *
 
-# ======================================================================
-#  Fixtures
-# ======================================================================
+
 
 @pytest.fixture
 def leaf_node():
@@ -80,9 +97,7 @@ def method_node():
     return ScaffolderCallable(m)
 
 
-# ======================================================================
-#  0 — Bootstrap: bucket collection and inheritance
-# ======================================================================
+
 
 def test_0a_ScaffolderNode_has_link_fields():
     """Base class defines link_fields."""
@@ -140,7 +155,7 @@ def test_0i_ScaffolderCallable_inherits_parent_as_link():
 
 def test_0j_link_never_in_kids_or_attrs():
     """Critical invariant: links are always disjoint from kids and attrs."""
-    for cls in (ScaffolderNode, ScaffolderNameSpace, ScaffolderCallable, 
+    for cls in (ScaffolderNode, ScaffolderNameSpace, ScaffolderCallable,
                 ScaffolderProtocol, ScaffolderEventProtocol):
         k, a, l = cls._effective_buckets()
         assert k.isdisjoint(l), f"{cls.__name__}: overlap between kids and links: {k & l}"
@@ -228,7 +243,7 @@ def test_9c_attrs_yields_parameters():
     from castle.aigr import types as aigr_types
     from castle.aigr.statements.callables import Method
     from castle.aigr.statements.compounds import Body
-    
+
     p = TypedParameter(name=ID.Def('x'), type=aigr_types.int)
     m = Method(name=ID.Def('f'), parameters=(p,), body=Body())
     sc = ScaffolderCallable(m)
@@ -243,78 +258,4 @@ def test_9d_attrs_not_in_kids(method_node):
     assert kids.isdisjoint(attrs)
 
 
-# ======================================================================
-#  NEW TESTS — Metadata Declaration Validation (Forward-Looking)
-# ======================================================================
 
-def test_all_scaffolder_subclasses_declare_buckets():
-    """CRITICAL: All Scaffolder subclasses must explicitly declare field buckets.
-    
-    This test ensures that new/future AIGRNode types don't forget to declare
-    _kid_fields, _attr_fields, or _link_fields. Without explicit declarations,
-    the system silently falls back to inherited defaults, which is a common bug
-    and defeats the purpose of the metadata system.
-    
-    When adding a new Scaffolder subclass, you MUST declare at least one bucket:
-    
-        class ScaffolderMyNode(ScaffolderNode):
-            _kid_fields: frozenset[str] = frozenset({'some_field'})
-            # and/or:
-            _attr_fields: frozenset[str] = frozenset({'other_field'})
-            # and/or:
-            _link_fields: frozenset[str] = frozenset({'link_field'})
-    
-    If you only inherit without declaring, this test will FAIL.
-    """
-    scaffolder_classes = [
-        ScaffolderNode,
-        ScaffolderNameSpace,
-        ScaffolderCallable,
-        ScaffolderProtocol,
-        ScaffolderEventProtocol,
-    ]
-    
-    for cls in scaffolder_classes:
-        # Each subclass (except base ScaffolderNode) must declare at least one bucket
-        if cls is ScaffolderNode:
-            continue  # Base class defines defaults
-        
-        has_own_kid_fields = '_kid_fields' in cls.__dict__
-        has_own_attr_fields = '_attr_fields' in cls.__dict__
-        has_own_link_fields = '_link_fields' in cls.__dict__
-        
-        has_own_declaration = has_own_kid_fields or has_own_attr_fields or has_own_link_fields
-        
-        assert has_own_declaration, (
-            f"FAIL: {cls.__name__} must explicitly declare at least one of: "
-            f"_kid_fields, _attr_fields, _link_fields. "
-            f"Do not rely only on inherited defaults — this defeats the metadata system! "
-            f"Add explicit declarations to {cls.__name__}, even if empty."
-        )
-
-
-def test_scaffolder_buckets_are_disjoint():
-    """Verify that kids, attrs, and links never overlap within any Scaffolder class."""
-    scaffolder_classes = [
-        ScaffolderNode,
-        ScaffolderNameSpace,
-        ScaffolderCallable,
-        ScaffolderProtocol,
-        ScaffolderEventProtocol,
-    ]
-    
-    for cls in scaffolder_classes:
-        k, a, l = cls._effective_buckets()
-        
-        assert k.isdisjoint(a), (
-            f"{cls.__name__}: Field(s) appear in both _kid_fields and _attr_fields: {k & a}. "
-            f"This is a configuration error — fix {cls.__name__}._*_fields declarations."
-        )
-        assert k.isdisjoint(l), (
-            f"{cls.__name__}: Field(s) appear in both _kid_fields and _link_fields: {k & l}. "
-            f"This is a configuration error — fix {cls.__name__}._*_fields declarations."
-        )
-        assert a.isdisjoint(l), (
-            f"{cls.__name__}: Field(s) appear in both _attr_fields and _link_fields: {a & l}. "
-            f"This is a configuration error — fix {cls.__name__}._*_fields declarations."
-        )

@@ -16,18 +16,14 @@ PYREVERSE_PKGS = \
 	\
 #
 LAST = \
-	pytst/extra/scaffolding/test_1_scaffolding.py  \
-	pytst/extra/scaffolding/test_ScaffolderBody.py \
-	pytst/test_2b_protocol.py \
-	pytst/test_2c_GenericProtocols.py \
-	pytst/test_3_namespaces.py \
-	pytst/base/test_RefID.py   \
+	pytst/extra/scaffolding/test_[123]*.py \
+	pytst/extra/scaffolding/test_metadata_9_futurecheck.py\
 #
 CURRENT = \
-	pytst/extra/scaffolding/test_search_qualNames.py
+    pytst/extra/scaffolding/test_metadata_2_aroundNode.py
 #
 TODO = \
-	pytst/machinery/test_9_todo.py \
+	pytst/extra/scaffolding/
 #
 
 TOPd=../../

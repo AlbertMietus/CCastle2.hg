@@ -11,146 +11,123 @@ from ._scaffolder import _Scaffolder
 class ScaffolderNode(_Scaffolder):
     """Wraps an AIGRNode and adds field bucket metadata and node traversal.
 
-    Field-bucket class variables (REQUIRED for all subclasses)
-    -----------------------------------------------------------
-    Every Scaffolder subclass MUST explicitly declare (even if empty):
-    
-    _kid_fields  : field names whose AIGRNode values are structural children.
-                   kids() yields these via a generator (lazy evaluation).
-    _attr_fields : field names whose AIGRNode values are "parameter-like" metadata.
-                   _attrs() yields them separately; not part of kids().
-    _link_fields : cross-link field names — excluded from both kids() and _attrs().
-    
-    IMPORTANT: If your subclass does not declare these explicitly,
-    tests will fail. This prevents silently falling back to inherited defaults,
-    which is a common source of bugs.
-    
-    MRO-aware bucket union:
-        When multiple classes in the MRO declare buckets, they are union'd together
-        (subclass additions are additive). Link fields always win over kids/attrs
-        for the same name. Conflicts are detected and logged as errors.
+    class-variables REQUIRED for all sub-classes
+    ============================================
 
-    Base-class defaults (inherited by every subclass unless overridden):
-        _link_fields = {'parent', 'outer_ns'}
-        _kid_fields  = {'_ns'}          # dict[ID, NamedNode] on namespace nodes
-        _attr_fields = frozenset()
-    """
+    What is wrapped
+    ---------------
+    _nodeCls     : type of the node (instances) that can be wrapped (defined in `_Scaffolder`)
 
+    Metadata, that build the tree
+    -----------------------------
+    _????_fields : frozenset[str] :  Name of fields (in the wrapped node), that define the tree
+                  Each AIGRNode (& sub-classes) has (data) fields that refer to other nodes, like its
+                  `.parent`. Other are "kids", "links", or "attr(ibutes)".
+                  For scaffolding, that meta info is stored in each ScaffolderNode, in the following class-vars:
+    _kids_fields : ... (sequence of) AIGRNode(s) that are direct children
+    _attr_fields : ... "property-like" Nodes -- like a parameter of a function
+    _link_fields : ... "ref" to node -- like .parent
+
+    .. note::
+       * All field-names (of an AIGRNode) must be mentioned in one of the 3 `_*_fields`
+       * Empty `_*_fields` can be skipped
+       * When all `_*_fields` should be empty, set at least one (hint _kids_fields).
+         This is to show it is not forgotten -- there is a test that verifies this
+       * Only "new" names need to be set, inherited onces are automatically collected
+       * Once set, the "kind" of relation (kids/attr/link) can't change! """
+
+    #The type of AIGRNode that can be wrapped
     _nodeCls: type = AIGRNode
-
-    # ------------------------------------------------------------------ #
-    #  Field-bucket declarations  (frozenset[str])                        #
-    # ------------------------------------------------------------------ #
-    _link_fields: frozenset[str] = frozenset({'parent', 'outer_ns'})
-    _kid_fields:  frozenset[str] = frozenset({'_ns'})
+    # Metadata: define the tree. -- At this is base, set all 3
+    _kids_fields: frozenset[str] = frozenset()
     _attr_fields: frozenset[str] = frozenset()
-
-    @classmethod
-    def _collect_field_bucket(cls, bucket: str) -> frozenset[str]:
-        """Walk the MRO from *most-base* to *most-derived* and union the named
-        bucket frozensets, so that subclass declarations are additive.
-
-        Within a single class, if a name appears in both ``_link_fields`` and
-        ``_kid_fields`` / ``_attr_fields``, ``_link_fields`` wins (and an error
-        is logged — it is a configuration mistake).
-        """
-        accumulated: set[str] = set()
-        # Reverse MRO: base first so subclass additions overlay base ones.
-        for klass in reversed(cls.__mro__):
-            names = klass.__dict__.get(bucket)          # only *own* declaration
-            if names is not None:
-                accumulated.update(names)
-        return frozenset(accumulated)
-
-    @classmethod
-    def _effective_buckets(cls) -> tuple[frozenset[str], frozenset[str], frozenset[str]]:
-        """Return (kid_fields, attr_fields, link_fields) after MRO-merging and
-        conflict resolution: link always wins over kid/attr for the same name."""
-        links = cls._collect_field_bucket('_link_fields')
-        kids  = cls._collect_field_bucket('_kid_fields')  - links
-        attrs = cls._collect_field_bucket('_attr_fields') - links
-
-        conflict = kids & attrs # Names in both kids AND attrs (within the same class) is a mistake.
-        if conflict:
-            logger.error(
-                "%s: field(s) %s appear in both _kid_fields and _attr_fields — "
-                "treating as _kid_fields. Fix the bucket declarations.",
-                cls.__name__, conflict,
-            )
-            attrs = attrs - conflict
-
-        return kids, attrs, links
+    _link_fields: frozenset[str] = frozenset({'parent'})
 
 
-    def kids(self) -> PTH.Generator[AIGRNode, None, None]:
+    def kids(self) -> PTH.Iterator[AIGRNode]:
         """Yield all *direct structural children* of the wrapped node.
 
         Rules
         -----
-        * Only fields listed in the effective ``_kid_fields`` are considered.
+        * Only fields listed in the effective ``_kids_fields`` are considered.
         * The field value may be a single object, a sequence, or a dict.
           For dicts, the *values* are used (keys are IDs, not structural children).
-        * Only values that are ``AIGRNode`` instances are yielded (Q3 / Q5 guard).
-        * ``None`` values are silently skipped.
-        """
-        kid_fields, _attrs, _links = self.__class__._effective_buckets()
-        node = self.node
+        * Only values that are ``AIGRNode`` instances are yielded
+        * `None`s  are silently skipped. """
 
-        if not dataclasses.is_dataclass(node):
-            return
+        yield from self._get_nodes_by_metadata('_kids_fields')
 
-        for field in dataclasses.fields(node):
-            if field.name not in kid_fields:
-                continue
-            value = getattr(node, field.name, None)
-            if value is None:
-                continue
-            yield from self._extract_aigr_nodes(value)
-
-    def _attrs(self) -> PTH.Generator[AIGRNode, None, None]:
-        """Yield all *attribute-like child nodes* of the wrapped node.
+    def attrs(self) -> PTH.Iterator[AIGRNode]:
+        """Yield all *attribute-like* nodes of the wrapped node.
 
         These are structural AIGR nodes (e.g. TypedParameter list on a callable)
-        that are meaningful metadata on this node but are NOT yielded by kids().
-        """
-        _kids, attr_fields, _links = self.__class__._effective_buckets()
+        that are meaningful metadata on this node but are NOT yielded by kids()."""
+
+        yield from self._get_nodes_by_metadata('_attr_fields')
+
+
+    def links(self) -> PTH.Iterator[AIGRNode]:
+        """Yield the `link/ref nodes of the wrapped node (e.f the parent)"""
+
+        yield from self._get_nodes_by_metadata('_link_fields')
+
+    def _get_nodes_by_metadata(self, meta_field:str) -> PTH.Iterator[AIGRNode]:
+        """Yield the nodes with a `meta_field` relation to self"""
+
         node = self.node
+        assert dataclasses.is_dataclass(node), f"{node=} should be a dataclass"
+        assert meta_field in ('_kids_fields', '_attr_fields', '_link_fields'), "Only this meta data"
 
-        if not dataclasses.is_dataclass(node):
-            return
+        names = self._metadata_collect_fieldnames(meta_field)
+        relevant_fields = list(f for f in dataclasses.fields(node) if f.name in names)
 
-        for field in dataclasses.fields(node):
-            if field.name not in attr_fields:
-                continue
-            value = getattr(node, field.name, None)
-            if value is None:
-                continue
-            yield from self._extract_aigr_nodes(value)
+        logging.debug(f"{meta_field=}:: {[f.name for f in relevant_fields]} -- wrapped/type: {type(self).__qualname__}/{type(self._node).__qualname__}")
+        for field in relevant_fields:
+            if (related_nodes := getattr(node, field.name, None)) is not None:
+                yield from self._flatten(related_nodes)   #Yield node by mode
+
+
+    def _metadata_collect_fieldnames(self, meta_field: str) -> frozenset[str]:
+        """Collect the fieldnames, including inherited ones for one meta_field. """
+
+        accumulated: set[str] = set()
+        for cls in reversed(self.__class__.__mro__): # Reverse MRO: base first so subclass additions overlay base ones.
+            names = cls.__dict__.get(meta_field)    # Only *own* declaration
+            if names is not None:
+                accumulated.update(names)
+        return frozenset(accumulated)
+
 
     @staticmethod
-    def _extract_aigr_nodes(value: PTH.Any) -> PTH.Generator[AIGRNode, None, None]:
-        """Unpack a field value into zero-or-more AIGRNode instances.
+    def _flatten(related_nodes: PTH.Any) -> PTH.Iterator[AIGRNode]:
+        """Unpack a `related_nodes` into zero-or-more AIGRNode instances.
 
-        Handles: single AIGRNode, dict (yields .values()), any other iterable.
-        Non-AIGRNode items are silently skipped (covers IDs, scalars, enums …).
-        """
-        if isinstance(value, AIGRNode):
-            yield value
-        elif isinstance(value, dict):
-            for v in value.values():
-                if isinstance(v, AIGRNode):
-                    yield v
-        else:
+           Handles: single AIGRNode,  dict (yields .related_nodess()), any other iterable.
+           Non-AIGRNode items are silently skipped, as is None"""
+
+        logging.debug(f"flatten:: {related_nodes=}, {type(related_nodes)=} ")
+
+        if related_nodes is None:
+            return # This 'node' is skipped in by the calling Iterator
+        elif isinstance(related_nodes, AIGRNode):
+            logging.debug(f"XXX AIGRNode {related_nodes=}")
+            yield related_nodes
+        elif isinstance(related_nodes, dict):
+            for node in related_nodes.values():
+                if isinstance(node, AIGRNode):
+                    logging.debug(f"XXX dict {node=}")
+                    yield node
+        else: # sequence ...
             try:
-                for item in value:
-                    if isinstance(item, AIGRNode):
-                        yield item
+                for node in related_nodes:
+                    if isinstance(node, AIGRNode):
+                        yield node
             except TypeError:
                 pass  # not iterable — scalar like int/str/enum
 
 
     def set_parent(self, parent: PTH.Union[_Scaffolder, AIGRNode]) -> PTH.Self:
-        node = self.node
+        node = PTH.cast(AIGRNode, self.node)
         parent_node = parent.node if isinstance(parent, _Scaffolder) else parent
         node.parent = parent_node
         return self  # for chaining

@@ -26,7 +26,7 @@ class ScaffolderProtocol(ScaffolderNode):
 class ScaffolderEventProtocol(ScaffolderProtocol):
     #_nodeCls: PTH.Type = aigr.EventProtocol
     _nodeCls = aigr.EventProtocol
-    _kid_fields: frozenset[str] = frozenset({'events'})
+    _kids_fields: frozenset[str] = frozenset({'events'})
 
     #Note: ``.based_on`` can be an `EventProtocol`, or 'Specialise' (see Generics), which can have events.
     #    But it can also be another Protocol; typical ``_RootProtocol`` ...
