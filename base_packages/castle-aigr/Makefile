@@ -18,9 +18,10 @@ PYREVERSE_PKGS = \
 LAST = \
 	pytst/extra/scaffolding/test_[123]*.py \
 	pytst/extra/scaffolding/test_metadata_9_futurecheck.py\
+    pytst/extra/scaffolding/test_metadata_2_aroundNode.py \
 #
 CURRENT = \
-    pytst/extra/scaffolding/test_metadata_2_aroundNode.py
+	pytst/extra/scaffolding\
 #
 TODO = \
 	pytst/extra/scaffolding/

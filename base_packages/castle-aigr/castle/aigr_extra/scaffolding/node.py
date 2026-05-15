@@ -85,7 +85,7 @@ class ScaffolderNode(_Scaffolder):
         fieldnames = self._metadata_collect_fieldnames(meta_field)
         relevant_fields = list(f for f in dataclasses.fields(node) if f.name in fieldnames) # only the field/vars that exist
 
-        logging.debug(f"{meta_field=}:: {[f.name for f in relevant_fields]} -- wrapped/type: {type(self).__qualname__}/{type(self._node).__qualname__}")
+        logger.debug(f"{meta_field=}:: {[f.name for f in relevant_fields]} -- wrapped/type: {type(self).__qualname__}/{type(self._node).__qualname__}")
 
         for field in relevant_fields:
             if (related_nodes := getattr(node, field.name, None)) is not None:
@@ -95,13 +95,14 @@ class ScaffolderNode(_Scaffolder):
     def _metadata_collect_fieldnames(self, meta_field: str) -> frozenset[str]:
         """Collect the fieldnames, by walking over the inheritance-tree,  reading meta_field.
            `meta_field` is one of the 3 class-vars that list the fieldnames that contain tree-info
-           This is (the only) method know how/where to readout those meta_fields -- now in the scaffolders"""
+           This is (the ONLY) method know how/where to readout those meta_fields -- now in the scaffolders"""
 
         fieldnames: set[str] = set()
         for cls in reversed(self.__class__.__mro__): # Reverse MRO: base first so subclass additions overlay base ones.
             fnames = cls.__dict__.get(meta_field)    # field-name as set in 1 class
             if fnames is not None:
                 fieldnames.update(fnames)
+        logger.debug(f"_metadata_collect_fieldnames: {meta_field=} ==> {fieldnames} -- {type(self)=}")
         return frozenset(fieldnames)
 
 
@@ -112,17 +113,17 @@ class ScaffolderNode(_Scaffolder):
            Handles: single AIGRNode,  dict (yields .related_nodess()), any other iterable.
            Non-AIGRNode items are silently skipped, as is None"""
 
-        logging.debug(f"flatten:: {related_nodes=}, {type(related_nodes)=} ")
+        logger.debug(f"flatten:: {related_nodes=}, {type(related_nodes)=} ")
 
         if related_nodes is None:
             return # This 'node' is skipped in by the calling Iterator
         elif isinstance(related_nodes, AIGRNode):
-            logging.debug(f"XXX AIGRNode {related_nodes=}")
+            logger.debug(f"XXX AIGRNode {related_nodes=}")
             yield related_nodes
         elif isinstance(related_nodes, dict):
             for node in related_nodes.values():
                 if isinstance(node, AIGRNode):
-                    logging.debug(f"XXX dict {node=}")
+                    logger.debug(f"XXX dict {node=}")
                     yield node
         else: # sequence ...
             try:
