@@ -3,10 +3,8 @@
 
 import typing as PTH                                       # Python TypeHints
 from dataclasses import dataclass, KW_ONLY
-from dataclasses import field as dc_field
-from . import AIGR, AIGRNode
+from . import  AIGRNode
 from castle.aigr import ID, types
-from castle import aigr
 
 from .nodes import NamedNode
 """ XXX ToDo: refactor, rename & relocate ..."""
@@ -37,5 +35,9 @@ class Argument(AIGRNode):
             self.name = ID.Def(self.name)
 
 
-
+@dataclass
+class ReturnType(AIGRNode):
+    """The returntype of a callable -- basically a type, but wrapped in an AIGRNode (so its an attr)"""
+    _: KW_ONLY
+    type  : types._types # An AIGR-type
 

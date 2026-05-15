@@ -8,11 +8,11 @@ from dataclasses import dataclass, KW_ONLY
 from dataclasses import field as dc_field
 from ..namespaces import _hasScope
 
-from . import _statement, AIGR, NamedNode
+from . import _statement, NamedNode
 
 from .compounds import Body
 if PTH.TYPE_CHECKING:                                                                                # pragma: no cover
-    from .. import ComponentInterface, TypedParameter
+    from .. import TypedParameter, ReturnType
     from .. import ID
 
 
@@ -26,7 +26,7 @@ class _callable(_hasScope, _statement):
     _ : KW_ONLY
     parameters : tuple[TypedParameter, ...]       = dc_field(default_factory=tuple)
     body       : PTH.Optional[Body]               = dc_field(default_factory=Body)
-    returns    : PTH.Optional[PTH.Any]            = None # XXX ToDo
+    returns    : PTH.Optional[ReturnType]         = None
 
 
 @dataclass
