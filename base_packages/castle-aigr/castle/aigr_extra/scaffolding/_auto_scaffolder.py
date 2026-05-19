@@ -20,6 +20,8 @@ class AutoScaffolder(_Scaffolder):
     Raises TypeError when no matching Scaffolder exists.
     """
 
+    _cache: dict[type, type[_Scaffolder]] = {}
+
     def __new__(cls, node: AIGR) -> _Scaffolder:
         if not isinstance(node, AIGR):
             raise TypeError(f"AutoScaffolder requires an AIGR node, got {type(node).__name__!r}")
@@ -34,9 +36,14 @@ class AutoScaffolder(_Scaffolder):
         Walks node_cls.mro() in order -- most specific first -- and returns
         the first Scaffolder that declares that exact type as its _nodeCls.
         """
+
+        #if node_cls in cls._cache:
+        #    return cls._cache[node_cls]
+
         for candidate_cls in node_cls.mro():
             for scaffolder in cls._collect_scaffolders():
                 if scaffolder._nodeCls is candidate_cls:
+                    #cls._cache[node_cls] = scaffolder
                     return scaffolder
 
         raise TypeError(f"No Scaffolder found for node type: {node_cls.__name__!r}")
