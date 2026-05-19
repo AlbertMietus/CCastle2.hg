@@ -37,7 +37,7 @@ class SpyAutoScaffolder(AutoScaffolder):
     def reset(spy):
         """Reset spy state and clear the dispatch cache -- call before each test to ensure isolation."""
         spy._scan_log.clear()
-        AutoScaffolder._cache.clear()
+        AutoScaffolder._direct_map.clear()
 
     @classmethod
     def scan_count(spy) -> int:
