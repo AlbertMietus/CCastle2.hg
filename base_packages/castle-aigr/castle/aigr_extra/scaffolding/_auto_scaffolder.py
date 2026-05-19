@@ -52,10 +52,8 @@ class AutoScaffolder(_Scaffolder):
     @classmethod
     def _collect_scaffolders(cls) -> list[type[_Scaffolder]]:
         """Return all concrete _Scaffolder subclasses, excluding AutoScaffolder."""
-
-        #return [s for s in cls._all_subclasses(_Scaffolder) if s is not cls]
         return [s for s in cls._all_subclasses(_Scaffolder) if not issubclass(s, AutoScaffolder)]
-    
+
     @classmethod
     def _all_subclasses(cls, root: type) -> set[type]:
         """Recursively collect all subclasses of root."""
