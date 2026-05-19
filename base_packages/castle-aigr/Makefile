@@ -21,7 +21,7 @@ LAST = \
     pytst/extra/scaffolding/test_metadata_2_aroundNode.py \
 #
 CURRENT = \
-	pytst/extra/scaffolding\
+	pytst/extra/scaffolding/test_auto_1_base.py
 #
 TODO = \
 	pytst/extra/scaffolding/
