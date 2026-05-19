@@ -20,7 +20,7 @@ class AutoScaffolder(_Scaffolder):
     Raises TypeError when no matching Scaffolder exists.
     """
 
-    _cache: dict[type, type[_Scaffolder]] = {}
+    _cache: dict[type, type[_Scaffolder]] = {}  # node_cls -> scaffolder_cls; 1:1 direct matches only
 
     def __new__(cls, node: AIGR) -> _Scaffolder:
         if not isinstance(node, AIGR):
@@ -33,17 +33,17 @@ class AutoScaffolder(_Scaffolder):
     def _find_for(cls, node_cls: type) -> type[_Scaffolder]:
         """Return the most specific _Scaffolder subclass for node_cls.
 
-        Walks node_cls.mro() in order -- most specific first -- and returns
-        the first Scaffolder that declares that exact type as its _nodeCls.
+        Checks the 1:1 cache first. On a miss, walks node_cls.mro() and caches
+        the result when a direct match is found (scaffolder._nodeCls is node_cls).
         """
-
-        #if node_cls in cls._cache:
-        #    return cls._cache[node_cls]
+        if node_cls in cls._cache:
+            return cls._cache[node_cls]
 
         for candidate_cls in node_cls.mro():
             for scaffolder in cls._collect_scaffolders():
                 if scaffolder._nodeCls is candidate_cls:
-                    #cls._cache[node_cls] = scaffolder
+                    if candidate_cls is node_cls:        # 1:1 direct match -- safe to cache permanently
+                        cls._cache[node_cls] = scaffolder
                     return scaffolder
 
         raise TypeError(f"No Scaffolder found for node type: {node_cls.__name__!r}")
