@@ -24,38 +24,32 @@ class AutoScaffolder(_Scaffolder):
         if not isinstance(node, AIGR):
             raise TypeError(f"AutoScaffolder requires an AIGR node, got {type(node).__name__!r}")
 
-        scaffolder_cls = _find_for(type(node))
+        scaffolder_cls = cls._find_for(type(node))
         return scaffolder_cls(node)
 
+    @classmethod
+    def _find_for(cls, node_cls: type) -> type[_Scaffolder]:
+        """Return the most specific _Scaffolder subclass for node_cls.
 
-def _find_for(node_cls: type) -> type[_Scaffolder]:
-    """Return the most specific _Scaffolder subclass for node_cls.
+        Walks node_cls.mro() in order -- most specific first -- and returns
+        the first Scaffolder that declares that exact type as its _nodeCls.
+        """
+        for candidate_cls in node_cls.mro():
+            for scaffolder in cls._collect_scaffolders():
+                if scaffolder._nodeCls is candidate_cls:
+                    return scaffolder
 
-    Walks node_cls.mro() in order -- most specific first -- and returns
-    the first Scaffolder that declares that exact type as its _nodeCls.
-    Skips AutoScaffolder itself.
-    """
-    all_scaffolders = _collect_scaffolders()
+        raise TypeError(f"No Scaffolder found for node type: {node_cls.__name__!r}")
 
-    for candidate_cls in node_cls.mro():
-        for scaffolder in all_scaffolders:
-            if scaffolder._nodeCls is candidate_cls:
-                return scaffolder
+    @classmethod
+    def _collect_scaffolders(cls) -> list[type[_Scaffolder]]:
+        """Return all concrete _Scaffolder subclasses, excluding AutoScaffolder."""
+        return [s for s in cls._all_subclasses(_Scaffolder) if s is not cls]
 
-    raise TypeError(f"No Scaffolder found for node type: {node_cls.__name__!r}")
-
-
-def _collect_scaffolders() -> list[type[_Scaffolder]]:
-    """Return all concrete _Scaffolder subclasses, excluding AutoScaffolder."""
-    return [
-        cls for cls in _all_subclasses(_Scaffolder)
-        if cls is not AutoScaffolder
-    ]
-
-
-def _all_subclasses(cls: type) -> set[type]:
-    """Recursively collect all subclasses of cls."""
-    result = set(cls.__subclasses__())
-    for sub in list(result):
-        result |= _all_subclasses(sub)
-    return result
+    @classmethod
+    def _all_subclasses(cls, root: type) -> set[type]:
+        """Recursively collect all subclasses of root."""
+        result = set(root.__subclasses__())
+        for sub in list(result):
+            result |= cls._all_subclasses(sub)
+        return result
