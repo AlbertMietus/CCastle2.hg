@@ -17,16 +17,16 @@ class DirectScaffolder(_Scaffolder):  _nodeCls = DirectNode
 
 
 class SpyAutoScaffolder(AutoScaffolder):
-    """Spy subclass recording calls to `_search`, to be able how often it is called.
+    """Spy subclass recording calls to `_resolve`, to observe how often it is called.
 
-       Use it like AutoScaffolder(), with 2 extra spy interfaces `reset()` and `count()`"""
+       Use it like AutoScaffolder(), with 2 extra spy interfaces `reset()` and `scan_count()`"""
 
     _scan_log: list = []
 
     @classmethod
-    def _search(cls, node_cls):                    # Override original one
+    def _resolve(cls, node_cls):                   # Override to spy on resolution
         cls._record_scan()
-        return super()._search(node_cls)
+        return super()._resolve(node_cls)
 
     @classmethod
     def _record_scan(spy):
@@ -50,10 +50,10 @@ def AutoScaffolderSpy():
     return SpyAutoScaffolder
 
 
-def test_1b_repeated_calls_scan_only_once(AutoScaffolderSpy):
-    AutoScaffolderSpy(DirectNode()) # will trigger the scan
-    inital_count =  AutoScaffolderSpy.scan_count()
-    assert inital_count == 1 # verify the scan in triggered
+def test_1_repeated_DirectScaffolder_scans_only_once(AutoScaffolderSpy):
+    AutoScaffolderSpy(DirectNode())                # will trigger the scan
+    inital_count = AutoScaffolderSpy.scan_count()
+    assert inital_count == 1                       # verify the scan is triggered
 
     for n in range(1, MAX):
         SpyAutoScaffolder(DirectNode())
@@ -61,8 +61,7 @@ def test_1b_repeated_calls_scan_only_once(AutoScaffolderSpy):
         assert count == inital_count, f"Expected no extra scans, but {count=} for {n=} extra lookup"
 
 
-
 @pytest.mark.skip(reason="ToDo: after we support O(1) dispatch for inherited (non 1:1) matches")
 def test_999_inherited_match_scans_once_regardless_of_call_count():
-    """Same guarantee as test_1a/1b, but for a node with no direct 1:1 Scaffolder."""
+    """Same guarantee as test_1b, but for a node with no direct 1:1 Scaffolder."""
     assert False

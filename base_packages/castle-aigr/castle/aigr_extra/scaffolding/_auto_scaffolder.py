@@ -23,41 +23,40 @@ class AutoScaffolder(_Scaffolder):
     _nodeCls: type = type(None)                                         # AutoScaffolder does not match any AIGR node
     _direct_map: PTH.ClassVar[dict[type[AIGR], type[_Scaffolder]]] = {} # node_cls -> scaffolder_cls; 1:1 permanent mapping
 
-    def __new__(cls, node: AIGR) -> _Scaffolder:
-        if not isinstance(node, AIGR): # defensive programming
+    def __new__(cls, node: AIGR) -> _Scaffolder:  # type: ignore[misc]
+        if not isinstance(node, AIGR):                                  # defensive programming
             raise TypeError(f"AutoScaffolder requires an AIGR node, got {type(node).__name__!r}")
-
-        scaffolder_cls = cls._find_for(type(node))
-        return scaffolder_cls(node)
+        return cls._scaffolder_for(node)(node)
 
     @classmethod
-    def _find_for(cls, node_cls: type[AIGR]) -> type[_Scaffolder]:
-        """Return the most specific _Scaffolder subclass for node_cls.
+    def _scaffolder_for(cls, node: AIGR) -> type[_Scaffolder]:
+        """Return the scaffolder class for node, using the direct map as a cache.
 
-           When we found a direct (1:1) earlier, we use it (it can never change).
-           otherwise we search for it"""
-
-        if node_cls in cls._direct_map:
+           A KeyError means node_cls was never resolved -- resolve it and cache when 1:1."""
+        node_cls = type(node)
+        try:
             return cls._direct_map[node_cls]
-        else:
-            return cls._search(node_cls)
+        except KeyError:
+            scaffolder = cls._resolve(node_cls)
+            if scaffolder._nodeCls is node_cls:                         # 1:1 direct match -- cache permanently
+                cls._direct_map[node_cls] = scaffolder
+            return scaffolder
 
     @classmethod
-    def _search(cls, node_cls: type[AIGR]) -> type[_Scaffolder]:
+    def _resolve(cls, node_cls: type[AIGR]) -> type[_Scaffolder]:
         """Walk node_cls.mro() to find the most specific matching Scaffolder."""
-        scaffolders = cls.descendants_from(_Scaffolder, exclude=lambda s: issubclass(s, AutoScaffolder))
+
+        scaffolders: dict[type, type[_Scaffolder]]
+        scaffolders = {s._nodeCls: s for s in cls.descendants_from(_Scaffolder, exclude=lambda s: issubclass(s, AutoScaffolder))}
 
         for candidate_cls in node_cls.mro():
-            for scaffolder in scaffolders:
-                if scaffolder._nodeCls is candidate_cls:
-                    if candidate_cls is node_cls:                            # 1:1 direct match -- safe to cache permanently
-                        cls._direct_map[node_cls] = scaffolder
-                    return scaffolder
+            if candidate_cls in scaffolders:
+                return scaffolders[candidate_cls]
 
         raise TypeError(f"No Scaffolder found for node type: {node_cls.__name__!r}")
 
     @classmethod
-    def descendants_from(cls, base: type, *, exclude: None|PTH.Callable[[type], bool] = None) -> set[type]:
+    def descendants_from(cls, base: type[_Scaffolder], *, exclude: None|PTH.Callable[[type], bool] = None) -> set[type[_Scaffolder]]:
         """Return all descendants of base, optionally filtered by exclude predicate."""
         result = set()
         for sub in base.__subclasses__():
