@@ -15,6 +15,8 @@ MAX= 10 # an arbitrary number; any MAX>1 will do.
 class DirectNode(AIGR):               """Node with a direct 1:1 Scaffolder."""
 class DirectScaffolder(_Scaffolder):  _nodeCls = DirectNode
 
+class InheritedNode(DirectNode):      """Node with no own Scaffolder -- falls back to DirectScaffolder."""
+
 
 class SpyAutoScaffolder(AutoScaffolder):
     """Spy subclass recording calls to `_resolve`, to observe how often it is called.
@@ -30,13 +32,15 @@ class SpyAutoScaffolder(AutoScaffolder):
 
     @classmethod
     def _record_scan(spy):
-        spy._scan_log.append(1) # arbitrary value - only len() is relevant (now)
+        spy._scan_log.append(None)                 # None -- only len() is relevant
 
     @classmethod
     def reset(spy):
         """Reset spy state and clear the dispatch cache -- call before each test to ensure isolation."""
         spy._scan_log.clear()
         AutoScaffolder._direct_map.clear()
+        AutoScaffolder._inherited_map.clear()
+
 
     @classmethod
     def scan_count(spy) -> int:
@@ -61,7 +65,22 @@ def test_1_repeated_DirectScaffolder_scans_only_once(AutoScaffolderSpy):
         assert count == inital_count, f"Expected no extra scans, but {count=} for {n=} extra lookup"
 
 
+def test_2_repeated_InheritedScaffolder_scans_only_once(AutoScaffolderSpy):
+    AutoScaffolderSpy(InheritedNode())             # will trigger the scan
+    inital_count = AutoScaffolderSpy.scan_count()
+    assert inital_count == 1                       # verify the scan is triggered
+
+    for n in range(1, MAX):
+        SpyAutoScaffolder(InheritedNode())
+        count = AutoScaffolderSpy.scan_count()
+        assert count == inital_count, f"Expected no extra scans, but {count=} for {n=} extra lookup"
+
+@pytest.mark.skip
+def test_99_Fast_and_Correct():
+    """When testing the cache is working, we should also show the result is correct -- implement/improve soon"""
+    assert False
+
 @pytest.mark.skip(reason="ToDo: after we support O(1) dispatch for inherited (non 1:1) matches")
 def test_999_inherited_match_scans_once_regardless_of_call_count():
-    """Same guarantee as test_1b, but for a node with no direct 1:1 Scaffolder."""
+    """Same guarantee as test_2, but for a node with no direct 1:1 Scaffolder."""
     assert False

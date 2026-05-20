@@ -21,27 +21,44 @@ class AutoScaffolder(_Scaffolder):
        Raises TypeError when no matching Scaffolder exists."""
 
     _nodeCls: type = type(None)                                         # AutoScaffolder does not match any AIGR node
-    _direct_map: PTH.ClassVar[dict[type[AIGR], type[_Scaffolder]]] = {} # node_cls -> scaffolder_cls; 1:1 permanent mapping
+
+    _direct_map:    PTH.ClassVar[dict[type[AIGR], type[_Scaffolder]]] = {} # node_cls -> scaffolder_cls; 1:1 permanent mapping
+    _inherited_map: PTH.ClassVar[dict[type[AIGR], type[_Scaffolder]]] = {} 
+
 
     def __new__(cls, node: AIGR) -> _Scaffolder:  # type: ignore[misc]
         if not isinstance(node, AIGR):                                  # defensive programming
             raise TypeError(f"AutoScaffolder requires an AIGR node, got {type(node).__name__!r}")
         return cls._scaffolder_for(node)(node)
 
+
+
     @classmethod
     def _scaffolder_for(cls, node: AIGR) -> type[_Scaffolder]:
-        """Return the scaffolder class for node, using the direct map as a cache.
+        """Return the scaffolder class for node.
 
-           A KeyError means node_cls was never resolved -- resolve it and cache when 1:1."""
+           Use the maps, as a cache, or resolve() -- and update the cache"""
         node_cls = type(node)
+
         try:
             return cls._direct_map[node_cls]
         except KeyError:
+            pass
+        try:
+            return cls._inherited_map[node_cls]
+        except KeyError:
             scaffolder = cls._resolve(node_cls)
-            if scaffolder._nodeCls is node_cls:                         # 1:1 direct match -- cache permanently
+            if scaffolder._nodeCls is node_cls:
                 cls._direct_map[node_cls] = scaffolder
-            return scaffolder
+            else:
+                cls._inherited_map[node_cls] = scaffolder
+        return scaffolder
 
+
+
+
+
+        
     @classmethod
     def _resolve(cls, node_cls: type[AIGR]) -> type[_Scaffolder]:
         """Walk node_cls.mro() to find the most specific matching Scaffolder."""
