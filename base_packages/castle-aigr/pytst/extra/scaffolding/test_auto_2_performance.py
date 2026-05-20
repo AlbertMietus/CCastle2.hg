@@ -27,12 +27,12 @@ class SpyAutoScaffolder(AutoScaffolder):
 
     @classmethod
     def _resolve(cls, node_cls):                   # Override to spy on resolution
-        cls._record_scan()
+        cls._record_scan(cls)
         return super()._resolve(node_cls)
 
     @classmethod
-    def _record_scan(spy):                       # pyright: ignore[reportSelfClsParameterName] -- spy is better then cls
-        spy._scan_log.append(None)               # None -- only len() is relevant
+    def _record_scan(spy, node_cls):                       # pyright: ignore[reportSelfClsParameterName] -- spy is better then cls
+        spy._scan_log.append(node_cls)               # None -- only len() is relevant
 
     @classmethod
     def reset(spy):                              # pyright: ignore[reportSelfClsParameterName] -- spy is better then cls
@@ -42,9 +42,9 @@ class SpyAutoScaffolder(AutoScaffolder):
         AutoScaffolder._inherited_map.clear()
 
     @classmethod
-    def scan_count(spy) -> int:                  # pyright: ignore[reportSelfClsParameterName] -- spy is better then cls
+    def scan_count(spy, node_cls=_Scaffolder) -> int:                  # pyright: ignore[reportSelfClsParameterName] -- spy is better then cls
         """Number of times the scaffolder tree was scanned."""
-        return len(spy._scan_log)
+        return len([n for n in spy._scan_log if issubclass(n, node_cls)])
 
 
 @pytest.fixture()

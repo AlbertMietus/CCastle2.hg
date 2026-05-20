@@ -20,7 +20,7 @@ class AutoScaffolder(_Scaffolder):
 
        Raises TypeError when no matching Scaffolder exists."""
 
-    _nodeCls: type = type(None)                                         # AutoScaffolder does not match any AIGR node
+    _nodeCls: type = type(None) # AutoScaffolder does not match any AIGR node -- make it explicit
 
     _direct_map:    PTH.ClassVar[dict[type[AIGR], type[_Scaffolder]]] = {} # node_cls -> scaffolder_cls; 1:1 permanent mapping
     _inherited_map: PTH.ClassVar[dict[type[AIGR], type[_Scaffolder]]] = {} # node_cls -> scaffolder_cls; inherited (non 1:1) mapping
