@@ -17,17 +17,16 @@ class DirectScaffolder(_Scaffolder):  _nodeCls = DirectNode
 
 
 class SpyAutoScaffolder(AutoScaffolder):
-    """AutoScaffolder subclass that records calls to _collect_scaffolders.
+    """Spy subclass recording calls to `_search`, to be able how often it is called.
 
-       Provides a clean public interface for tests, hiding implementation details
-       of both AutoScaffolder and the spy mechanism. """
+       Use it like AutoScaffolder(), with 2 extra spy interfaces `reset()` and `count()`"""
 
     _scan_log: list = []
 
     @classmethod
-    def _collect_scaffolders(cls):                         # Override original one
+    def _search(cls, node_cls):                    # Override original one
         cls._record_scan()
-        return super()._collect_scaffolders()
+        return super()._search(node_cls)
 
     @classmethod
     def _record_scan(spy):
