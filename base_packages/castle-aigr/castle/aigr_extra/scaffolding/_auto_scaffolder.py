@@ -31,34 +31,25 @@ class AutoScaffolder(_Scaffolder):
             raise TypeError(f"AutoScaffolder requires an AIGR node, got {type(node).__name__!r}")
         return cls._scaffolder_for(node)(node)
 
-
-
     @classmethod
     def _scaffolder_for(cls, node: AIGR) -> type[_Scaffolder]:
-        """Return the scaffolder class for node.
+        """Return the scaffolder class for node -- from cache if known, resolved and cached otherwise."""
 
-           Use the maps, as a cache, or resolve() -- and update the cache"""
         node_cls = type(node)
 
         try:
-            return cls._direct_map[node_cls]
+            ret_val = cls._direct_map[node_cls]
         except KeyError:
-            pass
-        try:
-            return cls._inherited_map[node_cls]
-        except KeyError:
-            scaffolder = cls._resolve(node_cls)
-            if scaffolder._nodeCls is node_cls:
-                cls._direct_map[node_cls] = scaffolder
-            else:
-                cls._inherited_map[node_cls] = scaffolder
-        return scaffolder
+            try:
+                ret_val = cls._inherited_map[node_cls]
+            except KeyError:
+                ret_val = cls._resolve(node_cls)
+                cache = cls._direct_map if ret_val._nodeCls is node_cls else cls._inherited_map
+                cache[node_cls] = ret_val
+
+        return ret_val
 
 
-
-
-
-        
     @classmethod
     def _resolve(cls, node_cls: type[AIGR]) -> type[_Scaffolder]:
         """Walk node_cls.mro() to find the most specific matching Scaffolder."""
