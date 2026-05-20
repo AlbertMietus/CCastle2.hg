@@ -26,8 +26,8 @@ class AutoScaffolder(_Scaffolder):
     _inherited_map: PTH.ClassVar[dict[type[AIGR], type[_Scaffolder]]] = {} # node_cls -> scaffolder_cls; inherited (non 1:1) mapping
 
 
-    def __new__(cls, node: AIGR) -> _Scaffolder:  # type: ignore[misc]
-        if not isinstance(node, AIGR):                                  # defensive programming
+    def __new__(cls, node: AIGR) -> _Scaffolder:                       # type: ignore[misc]
+        if not isinstance(node, AIGR):                                 # defensive programming
             raise TypeError(f"AutoScaffolder requires an AIGR node, got {type(node).__name__!r}")
         return cls._scaffolder_for(node)(node)
 
@@ -36,19 +36,17 @@ class AutoScaffolder(_Scaffolder):
         """Return the scaffolder class for node -- from cache if known, resolved and cached otherwise."""
 
         node_cls = type(node)
-
         try:
             ret_val = cls._direct_map[node_cls]
-        except KeyError:
+        except KeyError: # node_cls not in direct_map ..
             try:
                 ret_val = cls._inherited_map[node_cls]
-            except KeyError:
+            except KeyError: # not in ..., so resolve it ... and cache
                 ret_val = cls._resolve(node_cls)
                 cache = cls._direct_map if ret_val._nodeCls is node_cls else cls._inherited_map
                 cache[node_cls] = ret_val
 
         return ret_val
- 
 
     @classmethod
     def _resolve(cls, node_cls: type[AIGR]) -> type[_Scaffolder]:

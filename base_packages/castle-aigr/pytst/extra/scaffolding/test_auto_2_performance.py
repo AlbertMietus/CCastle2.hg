@@ -31,19 +31,18 @@ class SpyAutoScaffolder(AutoScaffolder):
         return super()._resolve(node_cls)
 
     @classmethod
-    def _record_scan(spy):
-        spy._scan_log.append(None)                 # None -- only len() is relevant
+    def _record_scan(spy):                       # pyright: ignore[reportSelfClsParameterName] -- spy is better then cls
+        spy._scan_log.append(None)               # None -- only len() is relevant
 
     @classmethod
-    def reset(spy):
+    def reset(spy):                              # pyright: ignore[reportSelfClsParameterName] -- spy is better then cls
         """Reset spy state and clear the dispatch cache -- call before each test to ensure isolation."""
         spy._scan_log.clear()
         AutoScaffolder._direct_map.clear()
         AutoScaffolder._inherited_map.clear()
 
-
     @classmethod
-    def scan_count(spy) -> int:
+    def scan_count(spy) -> int:                  # pyright: ignore[reportSelfClsParameterName] -- spy is better then cls
         """Number of times the scaffolder tree was scanned."""
         return len(spy._scan_log)
 
