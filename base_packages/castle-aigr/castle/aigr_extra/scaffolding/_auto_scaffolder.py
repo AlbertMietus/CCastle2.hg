@@ -23,7 +23,7 @@ class AutoScaffolder(_Scaffolder):
     _nodeCls: type = type(None)                                         # AutoScaffolder does not match any AIGR node
 
     _direct_map:    PTH.ClassVar[dict[type[AIGR], type[_Scaffolder]]] = {} # node_cls -> scaffolder_cls; 1:1 permanent mapping
-    _inherited_map: PTH.ClassVar[dict[type[AIGR], type[_Scaffolder]]] = {} 
+    _inherited_map: PTH.ClassVar[dict[type[AIGR], type[_Scaffolder]]] = {} # node_cls -> scaffolder_cls; inherited (non 1:1) mapping
 
 
     def __new__(cls, node: AIGR) -> _Scaffolder:  # type: ignore[misc]
@@ -48,7 +48,7 @@ class AutoScaffolder(_Scaffolder):
                 cache[node_cls] = ret_val
 
         return ret_val
-
+ 
 
     @classmethod
     def _resolve(cls, node_cls: type[AIGR]) -> type[_Scaffolder]:
