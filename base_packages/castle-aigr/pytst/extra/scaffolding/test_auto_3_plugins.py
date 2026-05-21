@@ -38,13 +38,13 @@ def test_1_plugin_node_is_found_and_base_is_unaffected(plugin_loader):
     plugin_loader.load()
 
     wrapped = AutoScaffolder(plugin_loader.nodeCls())
-    assert isinstance(wrapped, plugin_loader.scaffolderCls), f"{wrapped=}, but expected {type(plugin_loader.scaffolder).__qualname__}"
+    assert isinstance(wrapped, plugin_loader.scaffolderCls), f"{wrapped=}, but expected {type(plugin_loader.scaffolderCls).__qualname__}"
     assert plugin_loader.verify_fromPlugin(wrapped)
 
 def test_2_check_independ_plugins(plugin_loader):
     plugin_loader.load()
     wrapped = AutoScaffolder(plugin_loader.nodeCls())
 
-    other = PluginMock(); other.load()
+    other_plugin = PluginMock(); other_plugin.load()
     with pytest.raises(AssertionError):
-        other.verify_fromPlugin(wrapped)
+        other_plugin.verify_fromPlugin(wrapped)
