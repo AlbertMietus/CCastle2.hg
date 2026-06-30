@@ -1,0 +1,49 @@
+'' (C) Albert Mietus, 2026. CodeAI=GH.Claude.?
+@startuml CCastle Complete Architecture - All Packages
+
+skinparam backgroundColor #FAFAFA
+skinparam ArrowColor #424242
+skinparam ArrowThickness 2
+skinparam componentStyle rectangle
+skinparam defaultFontSize 12
+
+package "BASE PACKAGES" #E3F2FD {
+    component "castle-monorail\n[v0.0.2]\nVisitor Pattern" as mono
+    component "castle-aigr\n[v0.0.5]\nAbstract IR" as aigr
+    component "castle-aigr-trawlers\n[v0.0.1]\nTree Tools" as trawlers
+}
+
+package "CORE PACKAGES" #FFF3E0 {
+    component "castle-TatSu-reader\n[v0.0.1]\nParser" as reader
+    component "castle-RPy-writer\n[v0.0.1]\nCode Generator" as writer
+}
+
+package "TEST DOUBLES" #F3E5F5 {
+    component "TestDoubles-aigr-base\n[fixture]" as td_base
+    component "TestDoubles-aigr-sieve\n[fixture]" as td_sieve
+    component "TestDoubles-HelloWorlds\n[fixture]" as td_hello
+}
+
+' Base layer dependencies
+aigr --> mono : depends on
+trawlers --> aigr : depends on
+
+' Core layer dependencies
+reader --> aigr : depends on
+writer --> aigr : depends on
+writer --> mono : uses Visitor
+
+' Test doubles dependencies
+td_base --> aigr : uses
+td_sieve --> aigr : uses
+td_sieve --> td_base : uses
+td_hello --> aigr : uses
+
+note bottom
+    Layer Stack (bottom to top):
+    BASE (monorail -> aigr -> trawlers)
+    CORE (reader, writer)
+    TEST DOUBLES (fixtures only, not production deps)
+end note
+
+@enduml

@@ -1,0 +1,36 @@
+'' (C) Albert Mietus, 2026. CodeAI=GH.Claude.?
+
+@startuml CCastle Architecture - Main Packages
+
+skinparam backgroundColor #FAFAFA
+skinparam ArrowColor #424242
+skinparam ArrowThickness 2
+skinparam NoteBackgroundColor #FFFDE7
+skinparam NoteBorderColor #F57F17
+skinparam componentStyle rectangle
+skinparam defaultFontSize 12
+
+package "BASE PACKAGES" #E3F2FD {
+    component "castle-monorail\n[v0.0.2]\nVisitor Pattern" as mono
+    component "castle-aigr\n[v0.0.5]\nAbstract IR" as aigr
+    component "castle-aigr-trawlers\n[v0.0.1]\nTree Tools" as trawlers
+}
+
+package "CORE PACKAGES" #FFF3E0 {
+    component "castle-TatSu-reader\n[v0.0.1]\nParser" as reader
+    component "castle-RPy-writer\n[v0.0.1]\nCode Generator" as writer
+}
+
+' Dependencies
+aigr --> mono : depends on
+trawlers --> aigr : depends on
+reader --> aigr : depends on
+writer --> aigr : depends on
+writer --> mono : uses Visitor
+
+note bottom
+    Hierarchy: Foundation -> Abstract IR -> Tools/Processors
+    v0.0.x versions indicate alpha/experimental state
+end note
+
+@enduml
