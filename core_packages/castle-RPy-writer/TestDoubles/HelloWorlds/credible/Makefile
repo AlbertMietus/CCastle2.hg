@@ -1,5 +1,5 @@
 default: all
-all: hand_crafted
+demo all: hand_crafted
 try:  HC_cpython HC_pypy2
 translate: translate_HC
 

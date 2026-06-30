@@ -6,7 +6,7 @@ import typing as PTH                                                            
 from pathlib import Path
 import pytest
 
-pytestmark = pytest.mark.xfail(reason="Need the new 'Bundler' (in AIGR) firrst", allow_module_level=True) #type: ignore
+pytestmark = pytest.mark.xfail(reason="Need the new 'Bundler' (in AIGR) first", allow_module_level=True) #type: ignore
 
 
 

@@ -6,6 +6,7 @@ import typing as PTH                                                            
 from castle import aigr
 
 from ._machinery import Machinery
+from ._bundler import *
 
 # A few abstract sub-types
 class _M_DirectCall(Machinery): pass            # Abstract
@@ -17,6 +18,8 @@ from .chained_dict_DCM import M_DC_chained_dict
 from .flat_dict_DCM    import M_DC_flat_dict
 from .tuple_DCM        import M_DC_tuple
 from .list_DCM         import M_DC_list
+
+from .native_bundler import NativeBundler
 
 
 

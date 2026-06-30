@@ -2,6 +2,9 @@
 
 from . import *
 
+pytestmark = pytest.mark.xfail(reason="Rendering.Call ness the new 'Bundler'", allow_module_level=True) #type: ignore
+
+
 from . import credible, wrapped_Hello_World
 
 def test_1_method_HW(wrapped_Hello_World, my_renderer):

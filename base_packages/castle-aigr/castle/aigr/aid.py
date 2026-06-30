@@ -34,6 +34,11 @@ class Argument(AIGRNode):
         if self.name and not isinstance(self.name, ID):
             self.name = ID.Def(self.name)
 
+ArgumentList               = list[Argument]
+TypedParameterList         = tuple[TypedParameter, ...]
+
+OptionalArgumentList       = PTH.Optional[ArgumentList]
+OptionalTypedParameterList = PTH.Optional[TypedParameterList]
 
 @dataclass
 class ReturnType(AIGRNode):

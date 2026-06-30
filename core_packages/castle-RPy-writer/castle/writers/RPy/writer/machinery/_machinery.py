@@ -6,11 +6,12 @@ import typing as PTH                                                            
 from abc import ABC, abstractmethod
 
 from castle.writers.RPy.aid import Block
-
+from ._bundler import Bundler
 
 class Machinery(ABC):
     _register      : dict    = {}
     _default_hint  : PTH.Any = None
+
 
     @classmethod
     def register(cls, *hints, default: bool = False):
@@ -35,6 +36,10 @@ class Machinery(ABC):
         assert m, "No Machinery, not even a default"
         logger.debug("Machinery %s selected", m)
         return super().__new__(m, **kwargs)
+
+    def __init__(self, **kwargs):
+         self.arg_bundler = Bundler()  # Now: always: `NativeBundler'
+         logger.debug("arg_bundler=%s", self.arg_bundler)
 
 
     @abstractmethod

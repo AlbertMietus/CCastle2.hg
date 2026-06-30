@@ -17,7 +17,7 @@ class _types(AIGR):
     So, the build-in-type 'foo' is a instance of `_buildin` with "foo" as value (stored in ``.represents``).
     A user defined-type in never a `_buildin`, (but a `_user` instance) and will never conflict"""
 
-    represents : str # the 'name of the AIGR-type
+    represents : str # the name of the AIGR-type
 
 
 class _buildin(_types): pass
@@ -25,8 +25,10 @@ class _Number(AIGR): pass
 class _buildinNumber(_buildin, _Number): """For Now, we use python types as reference, as they are uniq"""
 class _user(_types): pass
 
-int		= _buildinNumber('int')                                                 # pragma: no mutate
+int 	= _buildinNumber('int')                                                 # pragma: no mutate
 float	= _buildinNumber('float')                                               # pragma: no mutate
+
 string 	= _buildin('string')                                                    # pragma: no mutate
+boolean 	= _buildin('boolean')
 
 

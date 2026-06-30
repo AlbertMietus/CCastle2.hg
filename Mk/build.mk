@@ -8,12 +8,10 @@ build: fast
 install: build
 	pip install -e .
 
+
 install-asis:
 	python -m build
 	pip install -e .
-
-# installed is in admin, als it isn't recursive
-
 
 ###
 ### <*>-tst packages contain the (py)test file -- generate the pyproject file automatically.

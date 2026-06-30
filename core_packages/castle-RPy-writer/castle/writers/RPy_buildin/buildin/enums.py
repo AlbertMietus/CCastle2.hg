@@ -1,8 +1,14 @@
 # (C) Albert Mietus, 2025. Part of Castle/CCastle project
+# This is RPYthon code!
 
-"""This file contains a few enums, that are compatible with the same in castle.aigr. But rewriten (by codeAI) to become RPYTHON"""
+"""This file contains a few enums, that are compatible with the same in castle.aigr.
+    But rewriten (by codeAI) to become RPYTHON"""
 
-#import typing as PTH                                                                                 # Python TypeHints  - not for RPython
+
+TYPE_CHECKING = False   # A dummy flag that is False at runtime
+if TYPE_CHECKING:            # Not for RPYTHON
+    import typing as PTH     # type: ignore
+
 
 class _RPython_Enum(object):
     _NAMES = {}  # type: dict[int, str]

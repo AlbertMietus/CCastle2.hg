@@ -23,19 +23,20 @@ class _DispatchTable(AIGR):
     _ : KW_ONLY
     comp        :ID
     port        :ID
-    map         :PTH.Optional[dict] = dc_field(default_factory= lambda: dict())  # general map -- see subclasses for definitions
+    map         :PTH.Mapping = dc_field(default_factory= lambda: dict())  # general map -- see subclasses for definitions
     parentTable :PTH.Optional[ID]=None
 
-ProtocolName = str                                # Alias for aigr.Protocol.name
-EventName    = str                                # Alias for aigr.Event.name
-HandlerName  = str                                # Alias for aigr.(Event)Handler.name
+ProtocolName: PTH.TypeAlias = ID
+EventName:    PTH.TypeAlias = ID
+HandlerName:  PTH.TypeAlias = ID
 
 @dataclass
 class EventDispatchTable(_DispatchTable):
-    """The DispatchTable with EventHandler; maps from (name of) Protocol.Event to (name of) EventHandler"""
+    """The DispatchTable for EventHandlers; maps from (name of) Protocol & Event to (name of) EventHandler.
+       Note: the Port is not relebant here its kind od constant """
 
     _ : KW_ONLY
-    map: dict[PTH.Tuple[ProtocolName, EventName], HandlerName] # port is the same for all.
+    map: PTH.Mapping[PTH.Tuple[ProtocolName, EventName], HandlerName] = dc_field(default_factory= lambda: dict())
 
 
 class DispatchTable_Scaffolder(_Scaffolder):

@@ -2,10 +2,12 @@
 pyanalyse: pyreverse py_classtree
 
 # Local setting (see Mk/settings.mk for global settings
-PYREVERSE_OPTIONS =  -k -A
-PYREVERSE_OPTIONS =  -A
-PYREVERSE_OPTIONS =  -A --filter-mode ALL  --colorized    --max-color-depth 99
 PYREVERSE_FORMAT  = svg
+OPT_OUT           = -d ${PYANALYSE_dir} -o ${PYREVERSE_FORMAT}
+OPT_COLOR         = --colorized    --max-color-depth 99
+PYREVERSE_OPTIONS =  -A  --filter-mode ALL       ${OPT_COLOR}
+PYREVERSE_COMPACT =  -A  --filter-mode PUB_ONLY  ${OPT_COLOR}
+
 
 ${PYANALYSE_dir}:; mkdir $@
 
@@ -13,8 +15,9 @@ pyreverse: ${PYANALYSE_dir}
 	for P in ${PYREVERSE_PKGS}; do \
 		P=`echo $$P | sed 's@\.@/@g'`;\
 		echo "PYANALYSE::" $$P "...";\
-		pyreverse -d ${PYANALYSE_dir} -o ${PYREVERSE_FORMAT} ${PYREVERSE_OPTIONS} -p $$P-noModules -mn --max-color-depth=42  $$P & \
-		pyreverse -d ${PYANALYSE_dir} -o ${PYREVERSE_FORMAT} ${PYREVERSE_OPTIONS} -p $$P-Modules   -my --max-color-depth=42  $$P & \
+		pyreverse  ${OPT_OUT} ${PYREVERSE_OPTIONS}    -p $$P-noModules -mn    $$P & \
+		pyreverse  ${OPT_OUT} ${PYREVERSE_OPTIONS}    -p $$P-Modules   -my    $$P & \
+		pyreverse  ${OPT_OUT} ${PYREVERSE_COMPACT}    -p $$P-compact-y   -my    $$P & \
 	done
 	wait
 	if [ "plantuml" = ${PYREVERSE_FORMAT} ] ;then (\

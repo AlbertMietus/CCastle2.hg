@@ -49,3 +49,4 @@ class Block:
         self._indent=str(indent) if indent is not None else ' '*4                                  #prefix when converting to str
 
 
+TextBlock = PTH.Optional[str|Block]

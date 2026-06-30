@@ -7,4 +7,7 @@ from .CC_B_C_PortID import *
 from .CC_B_OutPort import *
 from .CC_B_Protocol import *
 from .CC_B_P_EventID import *
+
+from .CC_B_Values import *
+
 from . import machinery

@@ -13,7 +13,8 @@ from castle.writers.RPy.aigr import EventDispatchTable
 from .. import my_renderer
 from .. import verify_line_by_line, print_out
 
-from .mocks import *
+from .fixtures import machinery
+from .mocks.tables import *
 
 def test_0_hint_gives_chainned_dict_machinery(machinery):
     explicit = M_DC_chained_dict()

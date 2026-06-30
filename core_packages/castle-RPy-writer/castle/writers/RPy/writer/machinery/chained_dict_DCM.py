@@ -19,7 +19,7 @@ class M_DC_chained_dict(_M_DC_dict):
         table_name = renderer.portray.cc_S_dispatchTable(comp=table.comp, port=table.port)
         parent_table = renderer.portray.cc_S_dispatchTable(comp=table.parentTable.comp, port=table.port) if table.parentTable else 'None' # XXXX
 
-        logger.info("render_EventDispatchTable(node/table=%s), table_name=%s, parent_table=%s", node, table_name, parent_table) 
+        logger.info("render_EventDispatchTable(node/table=%s), table_name=%s, parent_table=%s", node, table_name, parent_table)
 
         txt = Block(f'{table_name} = buildin.machinery.ChainedDict(map={{')
         sub = Block();
@@ -36,7 +36,7 @@ class M_DC_chained_dict(_M_DC_dict):
         raise NotImplementedError
 
     def render_EventToSub(self, renderer, node) ->  Block:
-        #raise NotImplementedError
+        raise NotImplementedError
         node = PTH.cast(aigr.machinery.EventToSub, node)
         logger.info(f"XXX render_EventToSub:: node={node}")
 

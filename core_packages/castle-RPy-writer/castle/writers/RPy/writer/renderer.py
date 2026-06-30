@@ -4,7 +4,7 @@ import logging; logger = logging.getLogger(__name__)
 import typing as PTH                                                                                  # Python TypeHints
 
 from castle import aigr
-from castle.writers.RPy.aid import Block
+from castle.writers.RPy.aid import Block, TextBlock
 
 from castle.monorail.base.visitors import Visitor
 
@@ -15,7 +15,6 @@ from . machinery import Machinery
 from . portray import Portray
 from . idref import IDRef
 
-TextBlock = PTH.Optional[str|Block]
 
 class Renderer(Visitor):
     _defaultType=str                      #used in Visitor, to return a default value of the right type
@@ -119,7 +118,7 @@ class Renderer(Visitor):
         txt += self._DispatchTables(node)
         return txt
 
-    def _render_ComponentClass(self, node) ->TextBlock:
+    def _render_ComponentClass(self, node)               -> TextBlock:
         isa_elm_name = self.portray.cc_C_elm_prefix(node.name)
         elm = Block(f"{isa_elm_name} = buildin.CC_B_ComponentClass(")# XXX isa # XXX Portray:`CC_B_ComponentClass`
         ind = Block(f"interface = {self.portray.cc_CI_elm_prefix(node.name)},")
@@ -127,7 +126,7 @@ class Renderer(Visitor):
         elm.sub(ind)
         return elm
 
-    def _DispatchTables(self, node)             ->TextBlock:
+    def _DispatchTables(self, node)                      -> TextBlock:
         txt = Block()
         txt += self._EventDispatchTables(node)
         if True: #partial implementation: check that we have ONLY event-handlers
@@ -135,7 +134,7 @@ class Renderer(Visitor):
                 assert isinstance(h, aigr.EventHandler), f"Only EventHandlers are supported for now in DispatchTables; got {h}"
         return txt
 
-    def _EventDispatchTables(self, node)           ->TextBlock:
+    def _EventDispatchTables(self, node)                 -> TextBlock:
         ports :list[aigr.ID] = [h.port for h in node.handlers]
         logger.debug("_EventDispatchTables: ports=%s -- node=%s", ports, node)
 
@@ -151,56 +150,90 @@ class Renderer(Visitor):
         return txt
 
 
-    def _render_def(self, node, callDef_name=None) ->Block:
+    def _render_def(self, node, callDef_name=None)       -> Block:
         if callDef_name is None:
             callDef_name = self.portray.callDef_name(node.name)
         parms = ', '.join(str(p.name) for p in node.parameters)
         return Block(f"def {callDef_name}(self, {parms}):")
 
-    def visit_Method(self, node)						->  TextBlock:
+    def visit_Method(self, node)						 ->  TextBlock:
         txt = self._render_def(node)
         txt.sub(self.render_subNodes(node))
         txt += self.depart(node)
         return txt
 
-    def visit_Initializer(self, node)					->  TextBlock:   #BUSY
+    def visit_Initializer(self, node)					 ->  TextBlock:   #BUSY
         txt = self._render_def(node, callDef_name="_castle_init")
         txt.sub(self.render_subNodes(node))
         txt += self.depart(node)
         return txt
 
-    def visit_EventHandler(self, node)					->  TextBlock:
+    def visit_EventHandler(self, node)					 ->  TextBlock:
         txt = self._render_def(node)
         txt.sub(self.render_subNodes(node))
         txt += self.depart(node)
         return txt
 
-    def visit_Body(self, node)							->  TextBlock:
+    def visit_Body(self, node)							 ->  TextBlock:
         txt = Block(self.render_subNodes(node))
         txt += self.depart(node)
         return txt
 
-    def visit_VoidCall(self, node)						->  TextBlock:
+    def visit_VoidCall(self, node)						 ->  TextBlock:
         txt =  self.render_subNodes(node)
         txt += self.depart(node)
         return txt
 
-    def visit_Call(self, node)							->  TextBlock:
-        logger.debug("visit_Call: %s", node)
+
+
+##############################################################################
+    def XXX_OLD_visit_Call(self, node)							->  TextBlock:
+        logger.info("visit_Call: %s", node)   #XX info->debug
         if isinstance(node.callable, aigr.ID):
             callable = self.visit(node.callable)
             try: #HACK
-                if isinstance(node.callable.context, aigr.Ref) and isinstance(node.callable.context.reference, aigr.Method):
+                if isinstance(node.callable.context.reference, aigr.Method):
                     callable = "self."+str(callable)
             except AttributeError: pass
         else:
             raise NotImplementedError(node)
         args=", ".join(str(self.visit(a)) for a in node.arguments) # XXX
         txt = f'{callable}({args})'
-        logger.debug("visit_Call: %s -> %s", node, txt)
+        logger.info("visit_Call: %s -> %s", node, txt)   #XX info->debug 
         return txt
+##############################################################################
 
-    def visit__literal(self, node)						->  TextBlock:
+    def visit_Call(self, node)							 ->  TextBlock:
+        node = PTH.cast(aigr.Call, node)
+        logger.debug("visit_Call: %s", node)
+        call = self._render_callable(node)
+        args = self._render_args(node)
+        return f"{call}({args})"
+
+    def _render_callable(self, node)                     -> TextBlock:
+        if not isinstance(node.callable, aigr.ID):
+            raise NotImplementedError(f"""Currenly a call to {node.callable=} is not supported
+                                           Only `<ID>(...)` is implemented to to {type(node.callable)=}""")
+        #else
+        callable = self.visit(node.callable)
+        try: #HACK XXX
+            if    isinstance(node.callable.context, aigr.Ref) \
+              and isinstance(node.callable.context.reference, aigr.Method):
+                callable = "self."+str(callable)
+        except AttributeError: pass
+        return callable
+
+    def _render_args(self, node)                         -> TextBlock:
+        rendered_args = list((self.visit(a) for a in node.arguments))
+        assert False, "Need the new Bundler"
+
+
+
+##############################################################################
+
+
+
+    def visit__literal(self, node)						 ->  TextBlock:
         if node.type == aigr.types.string or node.type is None:
             return f"'''{node.value}'''"
         elif isinstance(node.type, aigr.types._buildinNumber):
@@ -208,7 +241,7 @@ class Renderer(Visitor):
         else:
             assert False, f"visit_Constant is not done  ... type={node.type}"
 
-    def visit_fString(self, node)						->  TextBlock:
+    def visit_fString(self, node)						 ->  TextBlock:
         formater = node.formater; assert formater, "the fString.formater should be set in aigr"
         string, args = fString_2_modulo(node.value)
         if len(args) == 0:
@@ -216,7 +249,7 @@ class Renderer(Visitor):
         return f'''"{string}" % ({", ".join(str(arg) for arg in args)},)'''
 
 
-    def visit_ID(self, node)							->  TextBlock: # GAM: Nog niet overal gebruikt (bijna niet)
+    def visit_ID(self, node)							 ->  TextBlock: # GAM: Nog niet overal gebruikt (bijna niet)
         if isinstance(node.context, aigr.Ref) and node.context.reference != None:
             return self.idref.portray(node)
         # Any other .context has no effect
@@ -224,7 +257,7 @@ class Renderer(Visitor):
         logger.debug("visit_ID: %s, Simply render as str: >>%s<<", node, txt)
         return txt
 
-    def visit_RPy_unit(self, node)						->  TextBlock:
+    def visit_RPy_unit(self, node)						 ->  TextBlock:
         txt = Block()
         txt += self._file_header(node)
         txt += self.render_subNodes(node)
@@ -237,7 +270,7 @@ from castle.writers.RPy_buildin import buildin
 from castle.writers.RPy_buildin import base
 \n\n"""
 
-    def visit_Become(self, node)						->  TextBlock: # BUSY
+    def visit_Become(self, node)						 ->  TextBlock: # BUSY
         if len(node.targets) != len(node.values):
             raise NotImplementedError("Number of targets and values does not match. That isn't implementation yet")
         assert len(node.targets) == 1, "Only single-assignment is supported"
@@ -250,7 +283,7 @@ from castle.writers.RPy_buildin import base
         return txt
 
 
-    def visit_EventProtocol(self, node)					->  TextBlock:
+    def visit_EventProtocol(self, node)					 ->  TextBlock:
         protocol_name = self.portray.CC_ProtocolName_prefix(node.name)
 
         assert node.based_on is None, f"Not expected inheritence: {node.based_on} in {node}"
@@ -263,9 +296,9 @@ from castle.writers.RPy_buildin import base
             f"events = [])")))
         return txt
 
-    def visit_EventOverPort(self, node)				->  TextBlock:
+    def visit_EventOverPort(self, node)				     ->  TextBlock:
         return self.machinery.render_EventOverPort(self, node)
 
-    def visit_EventToSub(self, node)				->  TextBlock:
+    def visit_EventToSub(self, node)				     ->  TextBlock:
         return self.machinery.render_EventToSub(self, node)
 

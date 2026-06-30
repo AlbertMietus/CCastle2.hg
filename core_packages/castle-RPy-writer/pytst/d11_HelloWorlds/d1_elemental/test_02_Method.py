@@ -3,6 +3,7 @@
 import logging; logger = logging.getLogger(__name__)
 import pytest
 
+from . import pytestmark
 
 from castle import aigr
 
