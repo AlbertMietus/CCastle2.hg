@@ -5,7 +5,7 @@ import typing as PTH                                                  # Python T
 
 from castle import aigr
 from castle.monorail.base.visitors import Visitor
-from castle.aigr.tools.scaffolding import ScaffolderBody, ScaffolderNameSpace
+from castle.aigr.tools.scaffolding import ScaffolderNameSpace
 
 from castle.writers.RPy.aid import Block
 
