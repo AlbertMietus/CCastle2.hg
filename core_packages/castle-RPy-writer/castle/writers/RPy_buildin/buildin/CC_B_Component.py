@@ -14,7 +14,7 @@ class CC_B_Component(_debug.DebugMixIn):
         """This function is called by __init__, and holds the code of CastleCode's init"""
         pass
 
-def _debug_name(self):
+    def _debug_name(self):
         return 'isa.interface->' + self.isa.interface._debug_name()
 
 
