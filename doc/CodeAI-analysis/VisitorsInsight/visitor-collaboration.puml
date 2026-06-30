@@ -1,0 +1,111 @@
+@startuml CCastle RPy-writer Visitor collaboration
+
+skinparam backgroundColor #FAFAFA
+skinparam defaultFontSize 12
+skinparam ArrowColor #424242
+skinparam classAttributeIconSize 0
+
+' ===== monorail: the generic machinery =====
+package "castle-monorail (base)" #E3F2FD {
+
+  abstract class MRO_Dispatch_Mixin {
+    dispatch_find_method_by_mro(node, prefix)
+    .. finds  $prefix_$ClassName  via MRO ..
+  }
+
+  abstract class Visitor {
+    _prefixes = (visit, depart)
+    +visit(node, dispatch_on)
+    +depart(node, dispatch_on)
+    -_visitor(node, dispatch_on, prefix)
+  }
+  MRO_Dispatch_Mixin <|-- Visitor
+}
+
+' ===== RPy-writer: the concrete visitors =====
+package "castle-RPy-writer (core)" #FFF3E0 {
+
+  class Renderer {
+    ORCHESTRATOR  (~304 lines)
+    +render(node) : str
+    +render_subNodes(node)
+    --
+    visit_ComponentInterface()
+    visit_ComponentImplementation()
+    visit_Method() / visit_EventHandler()
+    visit_Body() / visit_VoidCall()
+    visit_Call() / visit_fString()
+    visit_Become() / visit_ID() ...
+  }
+
+  class Walker {
+    ROLE: tree traversal
+    "what are the child nodes?"
+    --
+    visit__NameSpace()
+    visit_ComponentImplementation()
+    visit_Body() / visit_VoidCall()
+    visit_Call() / visit_fString()
+  }
+
+  class IDRef {
+    ROLE: reference resolution
+    dispatch_on = the referenced node
+    --
+    +portray(id) : str
+    visit_ComponentInterface()
+    visit_ComponentImplementation()
+    visit__Named_callable()
+  }
+
+  class Portray {
+    ROLE: name mangling (plain class)
+    AIGR name --> RPy name
+    --
+    CC_cls_prefix() / cc_CI_elm_prefix()
+    Port2Protocol() / PortDirection()
+  }
+
+  class PortrayType {
+    reuses Visitor with
+    custom phase  prefix_*
+  }
+
+  abstract class Machinery {
+    ROLE: pluggable strategy
+    __new__ selects a subclass by hint
+    --
+    {abstract} render_EventDispatchTable()
+    {abstract} render_EventOverPort()
+    {abstract} render_EventToSub()
+  }
+
+  class M_DC_chained_dict
+  class M_DC_flat_dict
+  class M_DC_tuple
+  class M_DC_list
+}
+
+Visitor <|-- Renderer
+Visitor <|-- Walker
+Visitor <|-- IDRef
+Visitor <|-- PortrayType
+
+Machinery <|-- M_DC_chained_dict
+Machinery <|-- M_DC_flat_dict
+Machinery <|-- M_DC_tuple
+Machinery <|-- M_DC_list
+
+Renderer o--> Walker     : walker
+Renderer o--> Portray    : portray
+Renderer o--> IDRef      : idref
+Renderer o--> Machinery  : machinery
+Portray ..> PortrayType  : uses
+
+note bottom of Renderer
+  The Renderer is the ONLY large file.
+  Each helper has a single, nameable job
+  and stays small (59-82 lines).
+end note
+
+@enduml

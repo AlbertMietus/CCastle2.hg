@@ -1,0 +1,76 @@
+@startuml CCastle render() sequence
+
+skinparam backgroundColor #FAFAFA
+skinparam defaultFontSize 12
+skinparam ArrowColor #424242
+skinparam ParticipantPadding 18
+skinparam BoxPadding 12
+
+actor Caller
+participant "Renderer" as R
+participant "Walker" as W
+participant "Portray" as P
+participant "IDRef" as I
+participant "Machinery" as M
+
+Caller -> R : render(node)
+activate R
+
+R -> R : visit(node)
+note right of R
+  base Visitor picks
+  visit_<ClassName> via MRO
+end note
+
+R -> R : visit_ComponentImplementation(node)
+activate R #FFE0B2
+
+R -> P : portray names\n(CC_cls_prefix, ...)
+P --> R : "CC_Name" etc.
+
+R -> R : render_subNodes(node)
+activate R #FFD8A0
+R -> W : visit(node)
+activate W
+W --> R : (child nodes)
+deactivate W
+loop for each child
+  R -> R : visit(child)
+  note right of R
+    child may be a Call/ID/Body...
+    each has its own visit_*
+  end note
+end
+deactivate R
+
+R -> R : depart(node)
+note right of R
+  depart_ComponentImplementation
+  does the "after children" work
+end note
+R -> M : render_EventDispatchTable(self, table)
+activate M
+M --> R : Block (machinery code)
+deactivate M
+
+deactivate R
+
+R --> Caller : str(TextBlock)
+deactivate R
+
+== rendering an ID that refers to something ==
+
+R -> R : visit_ID(id)
+R -> I : portray(id)
+activate I
+note right of I
+  IDRef dispatches on the
+  REFERENCED node's class,
+  not on the ID itself
+end note
+I -> P : prefix the resolved name
+P --> I : "cc_CI_Name" etc.
+I --> R : text for this ID
+deactivate I
+
+@enduml

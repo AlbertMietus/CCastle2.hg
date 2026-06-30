@@ -1,0 +1,50 @@
+@startuml CCastle Renderer - current vs proposed split
+
+skinparam backgroundColor #FAFAFA
+skinparam defaultFontSize 12
+skinparam componentStyle rectangle
+skinparam ArrowColor #424242
+
+title Where sub-visitors could further reduce the 304-line Renderer
+
+rectangle "NOW: one big Renderer" #FFCDD2 {
+  component "Renderer\n(all visit_* together)" as now
+  note bottom of now
+    Declarations, statements, calls,
+    literals, IDs, events -- all mixed
+    in a single 304-line class.
+  end note
+}
+
+rectangle "PROPOSED: split along AIGR sub-packages" #C8E6C9 {
+  component "Renderer\n(orchestrator only)" as core
+  component "StructureRenderer\ninterfaces / protocols /\ncomponents / dispatch-tables" as struct
+  component "StatementRenderer\nBody / VoidCall / If / Become" as stmt
+  component "ExprRenderer\noperators (Add, Sub, And, ...)\ncalls" as expr
+  component "LiteralRenderer\n_literal / fString / Constant" as lit
+
+  core --> struct
+  core --> stmt
+  core --> expr
+  core --> lit
+}
+
+now ==> core : refactor
+
+note as N1
+  The AIGR package is ALREADY organised as
+  base / interfaces / protocols / statements /
+  expressions / components.
+  Mirroring that split in the writer keeps the
+  "where does visit_X live?" question trivial.
+end note
+
+N1 .. struct
+
+legend bottom
+  Existing helpers (Walker, Portray, IDRef, Machinery) handle
+  traversal, naming, reference-resolution and strategy.
+  The proposed split addresses the *rendering* concern itself.
+endlegend
+
+@enduml
