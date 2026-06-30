@@ -2,9 +2,10 @@ default: sub-build
 
 
 SUBS =\
-	castle-aigr			\
 	castle-monorail		\
+	castle-aigr			\
 #
+
 
 TOPd=../
 include ${TOPd}Mk/dirs.mk
