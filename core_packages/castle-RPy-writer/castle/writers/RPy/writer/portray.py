@@ -1,7 +1,8 @@
-# (C) Albert Mietus, 2025. Part of Castle/CCastle project
-
+# (C) Albert Mietus, 2026. Part of Castle/CCastle project
 import logging; logger = logging.getLogger(__name__)
+
 from castle import aigr
+from castle.monorail.base.visitors import Visitor
 
 class Portray:
     """Portray is an auxility class of Renderer to convert AIGR "names" into the RPY names.
@@ -63,3 +64,19 @@ class Portray:
         return 'buildin.CC_PortDirection' +'.' + aigr2buildin[port.direction]
 
 
+class PortrayType(Visitor):
+    _prefixes =('prefix',)                #This is for the visitor
+    _CC_buildinType_prefix = 'CC_B_'
+
+    def prefix(self, CC_type) ->str:
+        return self._visitor(CC_type, prefix= 'prefix')
+
+    def _default_prefix(self, CC_type) ->str:
+        try:
+            represents= CC_type.represents
+        except AttributeError as e:
+            assert False, f"{CC_type=} has no `.represents` Maybe forget to make `prefix_{type(CC_type).__qualname__}()`? --{e}"
+        return f'{self._CC_buildinType_prefix}{represents}'
+
+    def prefix_ComponentImplementation(self, CC_type):
+        return 'CC_B_Component'

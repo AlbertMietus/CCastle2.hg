@@ -1,6 +1,9 @@
 # (C) Albert Mietus, 2025. Part of Castle/CCastle project
+import logging; logger = logging.getLogger(__name__)
+import pytest
 
 from . import *
+from castle.aigr import ID
 
 def test_1b_simple_ID_givesID(my_renderer):
     expected = "foo()"
@@ -44,4 +47,4 @@ def test_4a_Method_asRef(my_renderer):
     txt = my_renderer.render(aigr.Call(callable=ID("aMethod", context=aigr.Ref(reference=m))))
     verify_line_by_line("self.aMethod()", txt)
 
-
+# For call with arguments: see `test_5_ArgList.py`

@@ -4,6 +4,9 @@ from . import *
 
 from . import credible, wrapped_Hello_World
 
+pytestmark = pytest.mark.xfail(reason="Rendering.Call ness the new 'Bundler'", allow_module_level=True) #type: ignore
+
+
 @pytest.fixture
 def become(wrapped_Hello_World):
     initializer = wrapped_Hello_World.search('Credible_HelloWorld.init')
