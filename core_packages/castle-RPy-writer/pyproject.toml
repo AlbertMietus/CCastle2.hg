@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "castle-RPy-writer"
 version = "0.0.1"
-dependencies = ["castle-aigr"]
+dependencies = ["castle-aigr", "castle-monorail"]
 
 [tool.setuptools]
 packages = [ # manyally maintain this
