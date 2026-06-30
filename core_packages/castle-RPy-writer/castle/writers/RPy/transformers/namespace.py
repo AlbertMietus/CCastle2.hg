@@ -1,7 +1,6 @@
 # (C) Albert Mietus, 2025. Part of Castle/CCastle project
 
 import typing as PTH                                                                                  # Python TypeHints
-from types import ModuleType
 
 from castle import aigr
 from castle.aigr.tools.scaffolding import ScaffolderNameSpace
