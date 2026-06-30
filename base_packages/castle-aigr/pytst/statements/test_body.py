@@ -4,7 +4,7 @@ import pytest
 from .. import  Dummy, verifyMark
 
 from castle.aigr import Body
-from castle.aigr_extra.scaffolding import ScaffolderBody
+from castle.aigr.tools.scaffolding import ScaffolderBody
 
 
 def test_1_emptyBody():

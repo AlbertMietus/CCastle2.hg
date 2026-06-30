@@ -5,7 +5,7 @@ import pytest
 
 from castle import aigr
 from castle.writers.RPy.writer.walker import Walker
-from castle.aigr_extra.scaffolding import ScaffolderNameSpace
+from castle.aigr.tools.scaffolding import ScaffolderNameSpace
 
 @pytest.fixture
 def tree():

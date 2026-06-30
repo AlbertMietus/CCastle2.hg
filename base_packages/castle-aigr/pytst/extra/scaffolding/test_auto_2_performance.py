@@ -5,8 +5,8 @@ import pytest
 
 from dataclasses import dataclass
 from castle.aigr import AIGR
-from castle.aigr_extra.scaffolding import AutoScaffolder
-from castle.aigr_extra.scaffolding._scaffolder import _Scaffolder
+from castle.aigr.tools.scaffolding import AutoScaffolder
+from castle.aigr.tools.scaffolding._scaffolder import _Scaffolder
 
 
 MAX= 10 # an arbitrary number; any MAX>1 will do.

@@ -2,8 +2,9 @@ default: sub-build
 
 
 SUBS =\
-	castle-aigr			\
 	castle-monorail		\
+	castle-aigr			\
+	castle-aigr-trawlers\
 #
 
 TOPd=../

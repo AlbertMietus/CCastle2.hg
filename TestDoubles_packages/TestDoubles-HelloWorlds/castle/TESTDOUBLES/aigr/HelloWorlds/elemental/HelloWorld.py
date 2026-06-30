@@ -13,7 +13,7 @@ from castle.aigr import ComponentInterface, ComponentImplementation
 from castle.aigr import  Method, EventHandler
 from castle.aigr_extra.blend import mangle_event_handler
 
-from castle.aigr_extra.scaffolding import ScaffolderNameSpace, ScaffolderCallable, ScaffolderComponentImplementation
+from castle.aigr.tools.scaffolding import ScaffolderNameSpace, ScaffolderCallable, ScaffolderComponentImplementation
 
 ALL = ["Hello_World"]
 

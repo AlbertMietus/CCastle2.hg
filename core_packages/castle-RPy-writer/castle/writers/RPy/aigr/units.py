@@ -7,7 +7,7 @@ from dataclasses import dataclass, KW_ONLY
 from pathlib import Path
 
 from castle.aigr import namespaces, NamedNode
-from castle.aigr_extra.scaffolding import ScaffolderNameSpace
+from castle.aigr.tools.scaffolding import ScaffolderNameSpace
 
 from ..writer.renderer import Renderer
 

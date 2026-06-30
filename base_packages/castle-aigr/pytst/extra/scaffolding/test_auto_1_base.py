@@ -4,8 +4,8 @@ import logging; logger = logging.getLogger(__name__)
 import pytest
 
 from castle.aigr import AIGR
-from castle.aigr_extra.scaffolding import AutoScaffolder
-from castle.aigr_extra.scaffolding._scaffolder import _Scaffolder
+from castle.aigr.tools.scaffolding import AutoScaffolder
+from castle.aigr.tools.scaffolding._scaffolder import _Scaffolder
 
 
 class StubBase(AIGR):             """Just an AIGR subclass, for testing -- with (test) Scaffolder"""

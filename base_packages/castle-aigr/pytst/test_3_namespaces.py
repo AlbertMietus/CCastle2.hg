@@ -11,7 +11,7 @@ from castle.aigr import NamedNode
 from castle.aigr import errors
 from . import DummyNode, a_node
 
-from castle.aigr_extra.scaffolding import ScaffolderNameSpace
+from castle.aigr.tools.scaffolding import ScaffolderNameSpace
 
 @pytest.fixture
 def wrappedNS(a_node):
@@ -72,7 +72,7 @@ def test_3_sourceNS_combi(a_node, sourceNS):
 
 
 def test_4_sameName_is_replaced(wrappedNS):
-    logger.warning("""NOTICE: This test will issue the warning 'castle.aigr_extra.scaffolding.namespaces:namespaces.py:22' You should ignore it""")
+    logger.warning("""NOTICE: This test will issue the warning 'castle.aigr.tools.scaffolding.namespaces:namespaces.py:22' You should ignore it""")
     name='TriggerWarning'
     one = DummyNode(name, dummy='one')
     two = DummyNode(name, dummy='one')

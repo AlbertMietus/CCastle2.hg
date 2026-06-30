@@ -12,16 +12,25 @@ PYREVERSE_PKGS = \
 	castle.aigr_extra \
 	castle.aigr_extra.blend \
 	castle.aigr_extra.builders \
-	castle.aigr_extra.scaffolding \
+	castle.aigr.tools.scaffolding \
 	\
 #
 LAST = \
-	pytst/extra/scaffolding/test_auto_1_base.py\
-	pytst/extra/scaffolding/test_auto_2_performance.py\
+	pytst/test_*		\
+	pytst/base/			\
+	pytst/expressions	\
+	pytst/statements/	\
+	pytst/machinery/	\
+	pytst/extra/test_*	\
 #
+
 CURRENT = \
-	pytst/extra/scaffolding/test_auto_3_plugins.py\
+	pytst/extra/scaffolding/test_auto_1_base.py			\
+	pytst/extra/scaffolding/test_auto_2_performance.py 	\
+	pytst/extra/scaffolding/test_auto_3_plugins.py		\
+#	pytst/extra/scaffolding/test_metadata_2_aroundNode.py \
 #
+
 TODO = \
 	pytst/extra/scaffolding/
 #

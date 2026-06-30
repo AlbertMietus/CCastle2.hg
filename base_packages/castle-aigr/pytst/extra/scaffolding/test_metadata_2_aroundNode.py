@@ -4,7 +4,7 @@ import pytest
 
 from castle import aigr
 from castle.aigr import ID
-from castle.aigr_extra.scaffolding import ScaffolderBody, ScaffolderCallable ## XXX ScaffolderCallable >> **Auto***
+from castle.aigr.tools.scaffolding import ScaffolderBody, ScaffolderCallable ## XXX ScaffolderCallable >> **Auto***
 from . import *
 
 

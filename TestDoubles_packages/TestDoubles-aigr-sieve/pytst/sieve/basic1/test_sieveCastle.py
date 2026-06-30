@@ -7,8 +7,8 @@ import pytest
 
 from castle import aigr
 from castle.aigr_extra.blend import mangle_event_handler
-from castle.aigr_extra.scaffolding import ScaffolderBody
-from castle.aigr_extra.scaffolding import ScaffolderNameSpace
+from castle.aigr.tools.scaffolding import ScaffolderBody
+from castle.aigr.tools.scaffolding import ScaffolderNameSpace
 
 from castle.TESTDOUBLES.aigr.sieve.basic1 import sieveCastle
 from castle.TESTDOUBLES.aigr.sieve.basic1 import protocols, components

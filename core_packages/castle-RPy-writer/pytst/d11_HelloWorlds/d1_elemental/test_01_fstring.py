@@ -3,7 +3,7 @@
 import pytest
 
 from castle import aigr
-from castle.aigr_extra.scaffolding import ScaffolderBody
+from castle.aigr.tools.scaffolding import ScaffolderBody
 
 from . import elemental, wrapped_Hello_World
 from . import my_renderer, verify_line

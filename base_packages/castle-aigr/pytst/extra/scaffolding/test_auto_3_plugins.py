@@ -5,8 +5,8 @@ import pytest
 from itertools import count
 
 from castle.aigr import AIGR
-from castle.aigr_extra.scaffolding import AutoScaffolder
-from castle.aigr_extra.scaffolding._scaffolder import _Scaffolder
+from castle.aigr.tools.scaffolding import AutoScaffolder
+from castle.aigr.tools.scaffolding._scaffolder import _Scaffolder
 
 class BaseNode(AIGR):               """Stable base node -- always present, like a built-in."""
 class BaseScaffolder(_Scaffolder):  _nodeCls = BaseNode

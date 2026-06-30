@@ -6,7 +6,7 @@ from pathlib import Path
 from enum import Enum
 
 from castle.aigr import ID, Source_NS
-from castle.aigr_extra.scaffolding import ScaffolderNameSpace
+from castle.aigr.tools.scaffolding import ScaffolderNameSpace
 from ..aigr import FileNS, ScaffolderFileNS
 
 from ..parser import CastleParser

@@ -12,7 +12,7 @@ from castle.aigr import AIGR, ID
 from castle.aigr import If
 from castle.aigr import NamedNode, NamedSpace
 
-from castle.aigr_extra.scaffolding import ScaffolderNameSpace
+from castle.aigr.tools.scaffolding import ScaffolderNameSpace
 
 @dataclass
 class Dummy(AIGR):

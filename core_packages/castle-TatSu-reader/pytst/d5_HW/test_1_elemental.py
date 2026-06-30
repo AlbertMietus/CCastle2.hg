@@ -8,7 +8,7 @@ import pytest
 from . import *
 from castle import aigr
 from castle.aigr.namespaces import _NameSpace
-from castle.aigr_extra.scaffolding import ScaffolderNameSpace
+from castle.aigr.tools.scaffolding import ScaffolderNameSpace
 from castle.readers.ladon.loaders.simple_loader import PyModuleLoader
 
 

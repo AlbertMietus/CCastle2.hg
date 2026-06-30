@@ -6,7 +6,7 @@ import pytest
 import typing as PTH                                        # Python TypeHints
 
 
-from castle.aigr_extra.scaffolding.node import ScaffolderNode
+from castle.aigr.tools.scaffolding.node import ScaffolderNode
 
 
 @pytest.fixture

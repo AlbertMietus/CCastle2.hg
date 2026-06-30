@@ -10,7 +10,7 @@ import pytest
 
 from castle.aigr import NamedSpace
 from castle import aigr
-from castle.aigr_extra.scaffolding import ScaffolderNameSpace
+from castle.aigr.tools.scaffolding import ScaffolderNameSpace
 
 from castle.TESTDOUBLES.aigr.sieve.basic1 import namespaces as sieve_namespaces
 
