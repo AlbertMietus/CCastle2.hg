@@ -8,6 +8,8 @@ from . import ScaffolderNode
 
 class ScaffolderBody(ScaffolderNode):
     _nodeCls = aigr.Body
+    _kids_fields: frozenset[str] = frozenset({'statements'})
+
 
     def __len__(self):
         return len(self.node.statements)

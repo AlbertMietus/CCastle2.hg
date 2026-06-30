@@ -8,7 +8,7 @@ from pathlib import Path
 from castle import aigr
 from castle.writers import RPy
 from castle.writers.RPy.writer import Renderer
-from castle.aigr_extra.scaffolding import  ScaffolderNameSpace
+from castle.aigr.tools.scaffolding import  ScaffolderNameSpace
 
 from ..verify import *
 from .. import my_renderer, verify_line_by_line

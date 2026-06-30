@@ -55,3 +55,5 @@ core_packages/castle-RPy-writer/TestDoubles/HelloWorlds/elemental/_timeIt
 
 .vscode
 .*/TestDoubles/.*/*.exe
+
+.*/__WRONG__.*

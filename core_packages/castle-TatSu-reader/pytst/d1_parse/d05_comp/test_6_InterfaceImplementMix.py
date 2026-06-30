@@ -3,7 +3,7 @@ import logging; logger = logging.getLogger(__name__)
 import pytest
 
 from castle.aigr import ComponentInterface, ComponentImplementation
-from castle.aigr_extra.scaffolding import ScaffolderNameSpace
+from castle.aigr.tools.scaffolding import ScaffolderNameSpace
 
 from . import castle_parser
 

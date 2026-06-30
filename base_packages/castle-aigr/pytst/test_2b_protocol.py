@@ -9,7 +9,7 @@ from castle.aigr import TypedParameter
 from castle.aigr import types
 from castle.aigr import types
 
-from castle.aigr_extra.scaffolding import ScaffolderEventProtocol
+from castle.aigr.tools.scaffolding import ScaffolderEventProtocol
 
 @pytest.fixture
 def emptyProtocol():

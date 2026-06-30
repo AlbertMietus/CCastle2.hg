@@ -12,22 +12,27 @@ PYREVERSE_PKGS = \
 	castle.aigr_extra \
 	castle.aigr_extra.blend \
 	castle.aigr_extra.builders \
-	castle.aigr_extra.scaffolding \
+	castle.aigr.tools.scaffolding \
 	\
 #
 LAST = \
-	pytst/extra/scaffolding/test_1_scaffolding.py  \
-	pytst/extra/scaffolding/test_ScaffolderBody.py \
-	pytst/test_2b_protocol.py \
-	pytst/test_2c_GenericProtocols.py \
-	pytst/test_3_namespaces.py \
-	pytst/base/test_RefID.py   \
+	pytst/test_*		\
+	pytst/base/			\
+	pytst/expressions	\
+	pytst/statements/	\
+	pytst/machinery/	\
+	pytst/extra/test_*	\
 #
+
 CURRENT = \
-	pytst/extra/scaffolding/test_search_qualNames.py
+	pytst/extra/scaffolding/test_auto_1_base.py			\
+	pytst/extra/scaffolding/test_auto_2_performance.py 	\
+	pytst/extra/scaffolding/test_auto_3_plugins.py		\
+#	pytst/extra/scaffolding/test_metadata_2_aroundNode.py \
 #
+
 TODO = \
-	pytst/machinery/test_9_todo.py \
+	pytst/extra/scaffolding/
 #
 
 TOPd=../../

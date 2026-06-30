@@ -8,7 +8,7 @@ from castle.aigr.protocols import ID
 #from castle.aigr.protocols import baseProtocol
 from castle.aigr import NamedSpace
 
-from castle.aigr_extra.scaffolding import ScaffolderNameSpace
+from castle.aigr.tools.scaffolding import ScaffolderNameSpace
 
 #Protocol = baseProtocol
 

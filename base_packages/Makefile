@@ -4,6 +4,7 @@ default: sub-build
 SUBS =\
 	castle-monorail		\
 	castle-aigr			\
+	castle-aigr-trawlers\
 #
 
 

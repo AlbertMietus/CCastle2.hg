@@ -10,9 +10,11 @@ from castle.monorail.base  import MRO_Dispatch_Mixin
 from . import ScaffolderNode
 from ._scaffolder import _Scaffolder
 
-class ScaffolderNameSpace(ScaffolderNode, MRO_Dispatch_Mixin): # XXX or Scaffolder_NameSpace
-    _nodeCls:type = aigr.namespaces._NameSpace
+class ScaffolderNameSpace(ScaffolderNode, MRO_Dispatch_Mixin):
     _prefixes = ('register',) # For MRO_Dispatch_Mixin
+    _nodeCls:type = aigr.namespaces._NameSpace
+    _link_fields, _kids_fields = frozenset({'outer_ns'}),  frozenset({'_ns'}) # tree-metadata
+
 
     def register(self, named_node :aigr.NamedNode, asName :PTH.Optional[ID|str]=None):
         logger.debug("register: named_node=%s asName=%s", named_node, asName)

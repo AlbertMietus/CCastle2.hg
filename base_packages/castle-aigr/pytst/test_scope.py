@@ -8,8 +8,8 @@ from castle import aigr
 from castle.aigr import ID
 from castle.aigr import ComponentImplementation
 
-from castle.aigr_extra.scaffolding import ScaffolderCallable
-from castle.aigr_extra.scaffolding import ScaffolderComponentImplementation
+from castle.aigr.tools.scaffolding import ScaffolderCallable
+from castle.aigr.tools.scaffolding import ScaffolderComponentImplementation
 
 from . import a_node, outer_NS
 

@@ -11,6 +11,9 @@ from .namespaces import ScaffolderNameSpace
 
 class ScaffolderComponentImplementation(ScaffolderNameSpace):
     _nodeCls :type = aigr.ComponentImplementation
+    _kids_fields = frozenset({'handlers'})
+    _attr_fields = frozenset({'parameters'})
+    _link_fields = frozenset({'interface'})
 
     def register_EventHandler(self, node :aigr.EventHandler, asName :PTH.Optional[ID|str]=None): # XXX Or register__handlers XXX
         logger.info(f".register_EventHandler: {node=} {asName=} {self=} XXX")

@@ -9,7 +9,7 @@ import pytest
 
 from castle import aigr
 from castle.aigr import ID
-from castle.aigr_extra.scaffolding.namespaces import ScaffolderNameSpace
+from castle.aigr.tools.scaffolding.namespaces import ScaffolderNameSpace
 
 
 @pytest.fixture

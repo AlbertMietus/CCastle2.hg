@@ -4,7 +4,7 @@ import logging; logger = logging.getLogger(__name__)
 import pytest
 
 from castle import aigr
-from castle.aigr_extra.scaffolding import ScaffolderNameSpace
+from castle.aigr.tools.scaffolding import ScaffolderNameSpace
 from . import elemental, HW
 
 #TEST:

@@ -5,7 +5,7 @@ import pytest
 
 from castle import aigr
 from castle.writers import RPy
-from castle.aigr_extra.scaffolding import  ScaffolderNameSpace
+from castle.aigr.tools.scaffolding import  ScaffolderNameSpace
 
 from castle.TESTDOUBLES.aigr.HelloWorlds.credible.HelloWorld import Hello_World
 

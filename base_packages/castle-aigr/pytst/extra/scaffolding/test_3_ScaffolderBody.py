@@ -5,7 +5,7 @@ import pytest
 
 from castle import aigr
 
-from castle.aigr_extra.scaffolding import ScaffolderBody
+from castle.aigr.tools.scaffolding import ScaffolderBody
 
 LEN = 13
 

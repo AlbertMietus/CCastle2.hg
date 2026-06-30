@@ -7,6 +7,7 @@ venv = "VENV"
 extraPaths = [
    "./base_packages/castle-monorail",
    "./base_packages/castle-aigr",
+   "./base_packages/castle-aigr-trawlers",
    "./core_packages/castle-TatSu-reader",
    "./TestDoubles_packages/TestDoubles-HelloWorlds"
 ]

@@ -5,7 +5,7 @@ import pytest
 import typing as PTH                                                                                  # Python TypeHints
 
 from castle import aigr
-from castle.aigr_extra.scaffolding import ScaffolderComponentImplementation
+from castle.aigr.tools.scaffolding import ScaffolderComponentImplementation
 
 
 

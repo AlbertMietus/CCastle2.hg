@@ -9,7 +9,7 @@ from dataclasses import field as dc_field
 from castle  import aigr
 from castle.aigr import AIGR, ID
 
-from castle.aigr_extra.scaffolding._scaffolder import _Scaffolder
+from castle.aigr.tools.scaffolding._scaffolder import _Scaffolder
 
 
 @dataclass

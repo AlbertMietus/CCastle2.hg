@@ -2,6 +2,9 @@
 from __future__ import annotations # Postponed evaluation of annotations
 
 
+# In ALL castle/aigr/__init__.py files
+__path__ = __import__('pkgutil').extend_path(__path__, __name__)
+
 from .base import *
 from .nodes import *
 from .aid import *

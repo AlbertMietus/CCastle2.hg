@@ -9,6 +9,10 @@ install: build
 	pip install -e .
 
 
+install-asis:
+	python -m build
+	pip install -e .
+
 ###
 ### <*>-tst packages contain the (py)test file -- generate the pyproject file automatically.
 ###

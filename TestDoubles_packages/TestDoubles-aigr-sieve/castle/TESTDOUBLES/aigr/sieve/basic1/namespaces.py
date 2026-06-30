@@ -1,7 +1,7 @@
 # (C) Albert Mietus, 2023,2024 Part of Castle/CCastle project
 
 from castle.aigr import NamedSpace, Source_NS, ID
-from castle.aigr_extra.scaffolding import ScaffolderNameSpace
+from castle.aigr.tools.scaffolding import ScaffolderNameSpace
 
 # Note: this file only creates the namespaces, not the components (etc in those file)
 ##

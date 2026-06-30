@@ -4,7 +4,7 @@ import typing as PTH                                                            
 from types import ModuleType
 
 from castle import aigr
-from castle.aigr_extra.scaffolding import ScaffolderNameSpace
+from castle.aigr.tools.scaffolding import ScaffolderNameSpace
 
 from ..aigr.units import RPy_unit
 
