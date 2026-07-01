@@ -25,6 +25,7 @@ markers = [
 namespace_packages      = true
 explicit_package_bases  = true
 python_version          = "3.13"
+exclude                 = "(^|/)BUSY(/|$)"
 mypy_path = [
    "./../../base_packages/castle-monorail",
    "./../../base_packages/castle-aigr",
