@@ -1,7 +1,4 @@
-# (C) Albert Mietus, 2026. Part of Castle/CCastle project
-###
-### Somehow this file was lost, recoverd it
-###
+# (C) Albert Mietus, 2025. 2026. Part of Castle/CCastle project
 
 import logging; logger = logging.getLogger(__name__)
 import typing as PTH                                                                                  # Python TypeHints
