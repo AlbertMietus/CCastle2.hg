@@ -1,4 +1,4 @@
-.. _castle-RPy-machinery
+.. _castle-RPy-machinery:
 
 Machinery BuildIn (into RPy)
 ============================

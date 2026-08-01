@@ -1,6 +1,6 @@
 # (C) Albert Mietus, 2023. Part of Castle/CCastle project
 
-""" XXX ToDo: Test, Refactor, Split & Doc"""
+""" .. todo:: XXX Test, Refactor, Split & Doc"""
 
 from __future__ import annotations
 import logging; logger = logging.getLogger(__name__)

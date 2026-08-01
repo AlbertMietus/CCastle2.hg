@@ -42,12 +42,12 @@ class _handlers(_Named_callable): pass
 
 @dataclass
 class EventHandler(_handlers):
-    """An Eventhandler-callable is activated when the specified protocol-event, is received on the given port.
+    """An Eventhandler-callable is activated when the specified protocol-event is received on the given port.
 
-    As CastleCode allows 'default' for all three parts, None is also valid (but not default).
+    As CastleCode allows 'default' for all three parts, `None` is also valid (but not default).
 
-    Like all Named-handlers, it has a name(*), some parameters and a body. It returns typical nothing (None).
-    The 'name' however, is special: it is a blend of the protocol, the event and the port. It is advices to use
+    Like all Named-handlers, it has a *name*, some parameters and a body. It returns typical nothing (None).
+    The 'name' however, is special: it is a blend of the protocol, the event and the port. It is adviced to use
     ``mangle_event_handler()`` to compute it.
     That file :ref:`castle.aigr_extra.blend.mangle` is also the  correct specification.
 

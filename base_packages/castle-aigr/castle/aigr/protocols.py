@@ -27,7 +27,7 @@ __all__ = ['ProtocolKind', 'Protocol', 'EventProtocol']
 class ProtocolKind(Enum):
     """There are several kinds (types) of protocols.
 
-       This can be modeled by subclassing (in langueas that support it), or
+       This can be modeled by subclassing (in languages that support it), or
        by using a low-int (aka a enum) and save that in the struct"""
     Unknown  = 0
     Event    = 1
@@ -37,9 +37,10 @@ class ProtocolKind(Enum):
 
 @dataclass
 class Protocol(NamedNode):
-    """ .. note:: Use one of the subclasses -- Only Event is defined yet
-        .. todo:: Design: What is the `kind` self and the inherited ones are not the same?
-                  overriding ProtocolKind.Unknown is always allowed
+    """ .. note:: Use one of the subclasses -- Only **Event** is currently defined
+        .. todo:: Design:
+                  - What if the `kind` of self and of the inherited one are not the same?
+                  - Is overriding `ProtocolKind.Unknown` always allowed?
     """
     #_BASE: PTH.ClassVar=None                                                                        # pragma: no mutate
 

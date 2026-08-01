@@ -32,7 +32,8 @@ from .base import AIGRNode
 class _NameSpace(AIGRNode):
     """This models a namespace and/or scope (baseclass).
 
-    It contained *"named nodes"* that should be :method:`register()`ed and can be found by :method:`getID()` and/or :method:`findNode()`.
+    It contained *"named nodes"* that should be :meth:`ScaffolderNameSpace.register()`ed,
+    and can be found by :meth:`ScaffolderNameSpace.getID()` and/or :meth:`ScaffolderNameSpace.findNode()`.
 
     Most namespace have a ``outer_ns`` which is also used to lookup names. Howver, qua interface it is optional.
     """
@@ -72,8 +73,8 @@ class _Target_NS(_NameSpace):
 
 @dataclass
 class Scope(_NameSpace):
-    """An body (```{ ....}```) has it own namespace, as it defines a scope. But many names (``ID``s) in that namespace
-    are defines (registered) in an outer namespace . Therefore we have this special namespace *Scope* dataclass"""
+    """An body (``{ ....}``) has it own namespace, as it defines a scope. But many names (``ID``\s) in that namespace
+    are defined (registered) in an outer namespace . Therefore we have this special namespace *Scope* dataclass"""
     _: KW_ONLY
     #    outer_ns : _NameSpace
 

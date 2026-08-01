@@ -23,7 +23,7 @@ Busy:
 *  visit_Initializer
 *  visit_Become
 
-  Walker (castle.writers.RPy.writer.walker)
+Walker (castle.writers.RPy.writer.walker)
 -----------------------------------------
 
 :returns: -> PTH.Sequence[aigr.AIGR]
