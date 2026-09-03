@@ -12,7 +12,7 @@ import subprocess
 class TranslatorCommand(ABC):
     @abstractmethod
     def runner(self) -> str|PTH.Any: # Override this in subclasses. It is called by execute()
-        assert False, "Never call the Base-runnner" # pragma: no cover
+        pass #  @abstractmethod make sure this base-runner isn't called
 
     def execute(self) ->str|PTH.Any:
         self.setup()

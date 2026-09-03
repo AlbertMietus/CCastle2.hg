@@ -5,7 +5,7 @@ from castle import aigr
 from castle.monorail.base.visitors import Visitor
 
 class Portray:
-    """Portray is an auxility class of Renderer to convert AIGR "names" into the RPY names.
+    """Portray is an auxiliary class of Renderer to convert AIGR "names" into the RPY names.
 
     Mostly, this is prefixing names and/or converting "names" to strings"""
 

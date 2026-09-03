@@ -34,7 +34,7 @@ class Renderer(Visitor):
         logger.debug("Renderer: walker=%s, machinery=%s, portray=%s, idref=%s", self.walker, self.machinery, self.portray, self.idref,)
 
     def render(self, node: aigr.AIGR) ->str:
-        """"`render` is the main entrypoint.
+        """:meth:`render` is the main entrypoint.
         It will call ``visit_*`` for `node`; where the class of `node` determines the ``*-suffix``.
 
         Typically, those visitors will
@@ -212,8 +212,8 @@ class Renderer(Visitor):
 
     def _render_callable(self, node)                     -> TextBlock:
         if not isinstance(node.callable, aigr.ID):
-            raise NotImplementedError(f"""Currenly a call to {node.callable=} is not supported
-                                           Only `<ID>(...)` is implemented to to {type(node.callable)=}""")
+            raise NotImplementedError(f"""Currently a call to {node.callable=} is not supported
+                                           Only `<ID>(...)` is implemented for {type(node.callable)=}""")
         #else
         callable = self.visit(node.callable)
         try: #HACK XXX
@@ -249,7 +249,7 @@ class Renderer(Visitor):
         return f'''"{string}" % ({", ".join(str(arg) for arg in args)},)'''
 
 
-    def visit_ID(self, node)							 ->  TextBlock: # GAM: Nog niet overal gebruikt (bijna niet)
+    def visit_ID(self, node)							 ->  TextBlock: # GAM: Not yet used everywhere (barely used)
         if isinstance(node.context, aigr.Ref) and node.context.reference != None:
             return self.idref.portray(node)
         # Any other .context has no effect

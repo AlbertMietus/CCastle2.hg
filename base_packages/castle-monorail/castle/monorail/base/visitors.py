@@ -20,9 +20,9 @@ class Visitor(MRO_Dispatch_Mixin):
 
            Then, that method is called, passing `node`, in the used subclass
 
-           .. node::
+           .. note::
 
-              * When `dispatch_on`, node will be used  -- this is default
+              * When ``dispatch_on`` is `None` (default), node will be used
               * It is possible to dispatch on/for another class, with `dispatch_on`.
                 That instance is otherwise not used"""
 

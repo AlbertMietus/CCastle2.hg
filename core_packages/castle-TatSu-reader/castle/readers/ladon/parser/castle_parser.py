@@ -16,7 +16,7 @@ class CastleParser():
     def __init__(self, grammar_file: PTH.Optional[Path]=None, actions=None):
 
         if tatsu.version_info.minor != 17:
-            logging.error("""Expecting TatSu==5.17, got %s -- 5.18 is broken
+            logger.error("""Expecting TatSu==5.17, got %s -- 5.18 is broken
             (See: https://github.com/neogeny/TatSu/issues/423)""" % tatsu.version)
             # continuing with crossed fingers
 

@@ -19,7 +19,7 @@ class MRO_Dispatch_Mixin():
         if not method:
             logger.warning("No method found (not even a default) for prefix=%s for node=%s", prefix, node)
 
-        return method # Can be Nome
+        return method # Can be None
 
     def _find_prefix_method_by_mro(self, node, prefix) -> PTH.Optional[PTH.Callable]:
         supers = type(node).mro()
