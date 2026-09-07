@@ -73,7 +73,7 @@ class _Target_NS(_NameSpace):
 
 @dataclass
 class Scope(_NameSpace):
-    """An body (``{ ....}``) has it own namespace, as it defines a scope. But many names (``ID``\s) in that namespace
+    """An body (``{ ....}``) has it own namespace, as it defines a scope. But many names (``ID``s) in that namespace
     are defined (registered) in an outer namespace . Therefore we have this special namespace *Scope* dataclass"""
     _: KW_ONLY
     #    outer_ns : _NameSpace
