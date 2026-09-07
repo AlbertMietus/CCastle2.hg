@@ -25,7 +25,7 @@ class NamedNode(AIGRNode):
 
     def __post_init__(self):
         if self.name is None:
-            logger.critical("NamedNode: name is None, this is not allowed")
+            logger.critical("NamedNode: name is None, this is not allowed") # Continue with fingers crossed
         if not isinstance(self.name, ID):
             self.name = ID(self.name, context=Def())
 
