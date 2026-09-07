@@ -3,12 +3,10 @@ default: all
 PYREVERSE_PKGS = castle.monorail
 
 LAST = \
-	pytst/base/visitors/test_mistakes.py\
-	pytst/base/visitors/test_find.py
+	pytst/
 #
 CURRENT = \
-	pytst/base/visitors/test_dispatch_on.py \
-
+	pytst/base/visitors/test_find.py
 #
 TODO = \
 #

@@ -30,9 +30,10 @@ class MRO_Dispatch_Mixin():
         return None
 
     def _find_method_for_cls(self, cls, prefix)  -> PTH.Optional[PTH.Callable]:
-        cls_name = cls.__qualname__
+        cls_name = cls.__name__
         method_name = f'{prefix}_{cls_name}'
         method = getattr(self, method_name, None)
+        logger.debug("_find_method_for_cls\t method_name=%s, method=%s -- cls_name=%s", method_name, method, cls_name)
         return method # or None
 
     def _find_default_method(self, node, prefix)  -> PTH.Optional[PTH.Callable]:
