@@ -1,6 +1,7 @@
-# (C) Albert Mietus, 2025. Part of Castle/CCastle project
+# (C) Albert Mietus, 2025,2026 Part of Castle/CCastle project
 
-"""Test finding the methods -- prefix and default"""
+"""Test finding the methods -- prefix and default.
+   See test_nested.py for some rare (unusual) cases with nested class that are visited"""
 
 import logging; logger = logging.getLogger(__name__)
 import pytest
@@ -52,30 +53,3 @@ def test_2_findright_method(sub_visitor, dummy):
     assert sub_visitor.dispatch_find_method_by_mro(dummy, 'another_prefix')(dummy) == "another_prefix_FakeNode", "Should find the method in the superclass"
 
 
-class OuterNode():
-    """Nested (node) classes are strange and rare, but monorail visitors should work"""
-    class InnerNode():
-        """Basically, the nesting is ignored"""
-
-class NestedVisitor(MRO_Dispatch_Mixin):
-    _prefixes =('foo',)
-    def foo_OuterNode(self, node):
-        logger.info("NestedVisitor.foo_OuterNode is called for %s", node)
-        return "foo_OuterNode"
-    def foo_InnerNode(self, node):
-        logger.info("NestedVisitor.foo_InnerNode is called for %s", node)
-        return "foo_InnerNode"
-
-@pytest.fixture
-def nested():
-    return NestedVisitor()
-
-def test_NestedNode_Outer(nested):
-    outer = OuterNode()
-    method = nested.dispatch_find_method_by_mro(outer, 'foo')
-    assert method(outer) == "foo_OuterNode"
-
-def test_NestedNode_Inner(nested):
-    inner = OuterNode.InnerNode()
-    method = nested.dispatch_find_method_by_mro(inner, 'foo')
-    assert method(inner) == "foo_InnerNode"
