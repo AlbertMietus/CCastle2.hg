@@ -8,10 +8,46 @@ from castle.aigr import types as CCTypes
 from castle.writers.RPy.aid import TextBlock
 
 type TypeTag[T] = str
-type GeneratedCode = TextBlock|TypeTag
+"""A type-cast code fragment produced by :meth:`Bundler.box`.
 
+   Typically looks like ``CC_B_int(expr)`` -- a string of generated Python code
+   that wraps a value in the appropriate Castle type wrapper."""
+
+type GeneratedCode = TextBlock|TypeTag
+"""Some generated code (so text).
+   It can be a str,  a :class:`Block`, with holds that kind to text)typically several lines)
+   Always "print" a GeneratedCode value to get real text"""
 
 class Bundler(ABC):
+    """Abstract strategy for (un)bundling Castle call arguments, so that RPython can handle all kind of arguments.
+
+    The four-step calling convention
+    ---------------------------------
+    (when calling)
+    1. :meth:`box` 		-- wrap an actual (CCastle) argument value in a TypeTag
+    2. :meth:`pack` 	-- combine all boxed arguments into the argument list passed at the call site.
+    (in the callee)
+    3. :meth:`unpack` 	-- destructure the packed argument list back into individual parameters.
+    4. :meth:`unbox` 	-- extract the raw value from the Box into a native RPython type (as text)
+
+    .. note:: Only 1 implemention: :class:`NativeBundler`.
+
+       Currently, Only :class:`NativeBundler` is avaibale, and always used (hardcoded).
+       This may/will change in the futher, so do not depend on it! Other implemention-classes will be added
+
+    .. note:: Support for named arguments will be added later.
+
+       The dict is avaibale, but always empty for now
+
+    Usage
+    -----
+    ::
+
+        bundler = Bundler()           # returns an subclass, like NativeBundler
+        tag  = bundler.box("42", CCTypes.int)       # -> 'CC_B_int(42)'
+        args = bundler.pack([tag], params)          # -> '[CC_B_int(42)], {}'
+    """
+
 
     def __new__(cls, hint:str="", **kwargs):
         from .native_bundler import NativeBundler
