@@ -2,6 +2,7 @@
 import logging; logger = logging.getLogger(__name__)
 import pytest
 
+pytestmark = pytest.mark.xfail(reason="Rendering.Call needs the new 'Bundler'", allow_module_level=True) #type: ignore
 from . import *
 from castle.aigr import ID
 

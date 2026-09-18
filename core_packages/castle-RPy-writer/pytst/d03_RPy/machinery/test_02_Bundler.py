@@ -1,4 +1,11 @@
 # (C) Albert Mietus, 2026. Part of Castle/CCastle project
+
+"""Test the four methods of Bundler individually, in isolation;   using the 'NativeBundler'
+
+   * It is verified that NativeBundler is used.
+   * See e.g. :file:`test_11_bundler-simple.py` for an intergration test
+"""
+
 import logging; logger = logging.getLogger(__name__)
 
 import pytest
@@ -12,8 +19,7 @@ from .verify  import *
 
 
 def test_0_Bundler_is_NativeBundler(bundler):
-    assert isinstance(bundler, NativeBundler)
-
+    assert isinstance(bundler, NativeBundler), "This test-set is valid for the NativeBundler ONLY!"
 
 def test_1a_box_int(bundler):
     expr = "1"
@@ -50,9 +56,9 @@ def test_99a_pack_returns_TextBlock(bundler):
     assert isinstance(txt, (str, Block))
     verify_ValidPython(txt)
 
-
-def XXX_test_99b_unpack_returns_TextBlock(bundler):
-    txt = bundler.unpack(formal_parameters=())
+@pytest.mark.xfail(reason= "unpack is not implemented")
+def test_99b_unpack_returns_TextBlock(bundler):
+    txt = bundler.unpack(parameters=(), formal_parameters=())
     assert isinstance(txt, (str, Block))
     verify_ValidPython(txt)
 
