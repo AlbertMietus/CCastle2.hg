@@ -1,7 +1,6 @@
- # (C) Albert Mietus, 2024. Part of Castle/CCastle project
+# (C) Albert Mietus, 2024. Part of Castle/CCastle project
 
-
-from .. import AIGR, AIGRNode
+from .. import AIGRNode
 
 #from dataclasses import dataclass
 

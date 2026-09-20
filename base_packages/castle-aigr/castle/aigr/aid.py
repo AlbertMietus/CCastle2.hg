@@ -25,7 +25,14 @@ class TypedParameter(NamedNode):
 @dataclass
 class Argument(AIGRNode):
     """An argument is a value passed during function/callable **invocation**.
-       In Castle, we support both positional and named arguments. Hence, an argument can have a name."""
+       In Castle, we support both positional and named arguments. Hence, an argument can have a name.
+
+       .. note::  like amost everywhere:
+
+          `value` is not an Python value, but a CCastle-value in transit to an value in
+          the target-language (like RPython, C/C++, or assembly). And so, typical the string
+          representation of it, in an envolpe to hold type and other info. """
+
     value: PTH.Any
     _: KW_ONLY
     name: PTH.Optional[str]=None # XXX ToDo str or ID?

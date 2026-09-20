@@ -7,8 +7,9 @@ import typing as PTH                                                            
 from dataclasses import dataclass, KW_ONLY
 from dataclasses import field as dc_field
 
-from . import _statement, AIGR
+from . import _statement
 from .. import expressions
+from castle.aigr import AIGR
 
 @dataclass
 class Become(_statement):
