@@ -20,7 +20,7 @@ def all_buildin_types():
     """Discover all _buildin instances from CCTypes"""
     return {t.represents: t
             for t in vars(CCTypes).values()
-            if isinstance(t, CCTypes._buildin)}
+            if isinstance(t, CCTypes.CC_buildin)}
 
 
 def test_all_buildin_types_have_CC_B_class():
@@ -33,4 +33,4 @@ def test_all_CC_B_classes_have_buildin_type():
     buildin = all_buildin_types()
     for represents, cls in all_CC_B_classes().items():
         assert represents in buildin, \
-            f"CC_B_Values has CC_B_{represents} but no matching CCTypes._buildin('{represents}') found"
+            f"CC_B_Values has CC_B_{represents} but no matching CCTypes.CC_buildin('{represents}') found"

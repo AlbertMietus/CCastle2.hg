@@ -184,59 +184,50 @@ class Renderer(Visitor):
         txt += self.depart(node)
         return txt
 
-
-
-##############################################################################
-    def XXX_OLD_visit_Call(self, node)							->  TextBlock:
-        logger.info("visit_Call: %s", node)   #XX info->debug
-        if isinstance(node.callable, aigr.ID):
-            callable = self.visit(node.callable)
-            try: #HACK
-                if isinstance(node.callable.context.reference, aigr.Method):
-                    callable = "self."+str(callable)
-            except AttributeError: pass
-        else:
-            raise NotImplementedError(node)
-        args=", ".join(str(self.visit(a)) for a in node.arguments) # XXX
-        txt = f'{callable}({args})'
-        logger.info("visit_Call: %s -> %s", node, txt)   #XX info->debug 
-        return txt
-##############################################################################
-
     def visit_Call(self, node)							 ->  TextBlock:
         node = PTH.cast(aigr.Call, node)
         logger.debug("visit_Call: %s", node)
-        call = self._render_callable(node)
-        args = self._render_args(node)
-        return f"{call}({args})"
+        call = self._render_callable(node.callable)
+        args = self._render_args(node.arguments)
+        retval= f"{call}({args})"
+        logger.info("XXX %s", retval)
+        return retval
 
-    def _render_callable(self, node)                     -> TextBlock:
-        if not isinstance(node.callable, aigr.ID):
-            raise NotImplementedError(f"""Currently a call to {node.callable=} is not supported
-                                           Only `<ID>(...)` is implemented for {type(node.callable)=}""")
-        #else
-        callable = self.visit(node.callable)
-        try: #HACK XXX
-            if    isinstance(node.callable.context, aigr.Ref) \
-              and isinstance(node.callable.context.reference, aigr.Method):
-                callable = "self."+str(callable)
-        except AttributeError: pass
-        return callable
-
-    def _render_args(self, node)                         -> TextBlock:
-        rendered_args = list((self.visit(a) for a in node.arguments))
-        assert False, "Need the new Bundler"
+    def _render_callable(self, callable:  aigr.ID | aigr.AIGR) -> TextBlock:
+        logger.debug("_render_callable: %s", callable)
+        # XXX Not all "callable-visitors are implemented; give a early message
+        if not isinstance(callable, aigr.ID):
+            logger.error(f"""Currently a call to {callable=} is not supported
+                             Only `<ID>(...)` is implemented for {type(callable)=}""")
+        return self.visit(callable)
 
 
+    def _render_args(self, arguments: PTH.Optional[tuple[aigr.AIGR, ...]]) -> TextBlock:
+        logger.debug("_render_args: %s", arguments)
+        if not arguments: arguments =()
+        rendered_args = [self.visit(a) for a in arguments]
+        logger.debug("rendered_args=%s", rendered_args)
+        txt  = self.machinery.arg_bundler.pack(rendered_args, None)  # XXX OptionalTypedParameterList is needed
+        logger.debug("_render_args -> %s", txt)
+        return txt
+
+
+    def visit_Argument(self, node)-> TextBlock:
+        node = PTH.cast(aigr.Argument, node)
+        logger.info("visit_Argument: %s", node)
+
+        val_txt = self.visit(node.value)
+        return self.machinery.arg_bundler.box(val_txt, node.value.type) ## Type of value or type of formal parameter?
 
 ##############################################################################
 
 
 
     def visit__literal(self, node)						 ->  TextBlock:
+        logger.info("visit__literal: %s", node)
         if node.type == aigr.types.string or node.type is None:
             return f"'''{node.value}'''"
-        elif isinstance(node.type, aigr.types._buildinNumber):
+        elif isinstance(node.type, aigr.types.CC_buildinNumber):
             return f"{node.value}"
         else:
             assert False, f"visit_Constant is not done  ... type={node.type}"
