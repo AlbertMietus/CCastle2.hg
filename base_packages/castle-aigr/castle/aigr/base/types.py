@@ -14,21 +14,21 @@ class _types(AIGR):
 
     We use the name of the type (as string) as well as the sub-type of `_types` to make it unique.
 
-    So, the build-in-type 'foo' is a instance of `_buildin` with "foo" as value (stored in ``.represents``).
-    A user defined-type in never a `_buildin`, (but a `_user` instance) and will never conflict"""
+    So, the build-in-type 'foo' is a instance of `CC_buildin` with "foo" as value (stored in ``.represents``).
+    A user defined-type in never a `CC_buildin`, (but a `CC_user` instance) and will never conflict"""
 
     represents : str # the name of the AIGR-type
 
 
-class _buildin(_types): pass
-class _Number(AIGR): pass
-class _buildinNumber(_buildin, _Number): """For Now, we use python types as reference, as they are uniq"""
-class _user(_types): pass
+class CC_buildin(_types): pass
+class CC_Number(AIGR): pass
+class CC_buildinNumber(CC_buildin, CC_Number): pass
+class CC_user(_types): pass
 
-int 	= _buildinNumber('int')                                                 # pragma: no mutate
-float	= _buildinNumber('float')                                               # pragma: no mutate
+int 	= CC_buildinNumber('int')                                                 # pragma: no mutate
+float	= CC_buildinNumber('float')                                               # pragma: no mutate
 
-string 	= _buildin('string')                                                    # pragma: no mutate
-boolean 	= _buildin('boolean')
+string 	= CC_buildin('string')                                                    # pragma: no mutate
+boolean = CC_buildin('boolean')
 
 
