@@ -43,7 +43,7 @@ def test_2_SomeIntArgs_call_are_packed_and_boxed(my_renderer):
 
 def test_3_SomeFloatArgs_call_are_packed_and_boxed(my_renderer):
     numbers = (-1.0,  2,7, 3.14)
-    expected = "callFloats([" +  ', '.join(f'CC_B_float(%s)' % n  for n in numbers) + "], {})\n" + 'XXX'
+    expected = "callFloats([" +  ', '.join(f'CC_B_float(%s)' % n  for n in numbers) + "], {})\n"
 
     txt = my_renderer.render(aigr.Call(callable=ID('callFloats'), arguments=
              tuple(aigr.Argument(aigr.Constant(value=n, type=aigr.float)) for n in numbers)))
