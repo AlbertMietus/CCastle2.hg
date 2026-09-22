@@ -80,7 +80,7 @@ class Renderer(Visitor):
             assert isinstance(portID, aigr.ID), f"Expected portID={portID} is an ID, but it is {type(portID)}"
             assert isinstance(portID.context, aigr.Ref), f"Expected ID.Ref, but it isn't. {portID} -- {repr(portID)}"
             port_ref :aigr.Port = portID.context.reference
-            logger.info("visit_ComponentInterface: Adding a port; portID=%s port_ref=%s", portID, port_ref)
+            logger.debug("visit_ComponentInterface: Adding a port; portID=%s port_ref=%s", portID, port_ref)
 
             port_txt = Block(f"{interface_txt}.ports.append(")
             l1 = Block(f'''buildin.CC_B_C_PortID(name="{portID}",''') # XXX Portray:`CC_B_C_PortID`
@@ -190,7 +190,7 @@ class Renderer(Visitor):
         call = self._render_callable(node.callable)
         args = self._render_args(node.arguments)
         retval= f"{call}({args})"
-        logger.info("XXX %s", retval)
+        logger.info("XXX visit_Call %s", retval)
         return retval
 
     def _render_callable(self, callable:  aigr.ID | aigr.AIGR) -> TextBlock:
@@ -218,10 +218,6 @@ class Renderer(Visitor):
 
         val_txt = self.visit(node.value)
         return self.machinery.arg_bundler.box(val_txt, node.value.type) ## Type of value or type of formal parameter?
-
-##############################################################################
-
-
 
     def visit__literal(self, node)						 ->  TextBlock:
         logger.info("visit__literal: %s", node)
