@@ -17,13 +17,14 @@ LAST = \
 	pytst/d03_RPy/machinery/test_01_PortrayType.py \
 	pytst/d03_RPy/machinery/test_07_sync_Portray2buildin_names.py \
 	pytst/d06_RPy_buildin/test_packValues.py \
-#
-CURRENT = \
 	pytst/d04_render/test_5_ArgList.py				\
-	pytst/d03_RPy/machinery/test_02_Bundler.py  	 \
 	pytst/d03_RPy/machinery/test_11_bundler-simple.py \
 #
+CURRENT = \
+	pytst/d03_RPy/machinery/test_02_Bundler.py  	 \
+#
 TODO = \
+	pytst/d11_HelloWorlds/d1_elemental/test_02_Method.py \
 	pytst/d03_RPy/machinery/test_event.py \
 #
 

@@ -3,13 +3,21 @@
 import logging; logger = logging.getLogger(__name__)
 import pytest
 
-from . import pytestmark
-
 from castle import aigr
 
 from . import my_renderer, verify_line, verify_line_by_line
 from . import print_out
 from . import elemental, wrapped_Hello_World
+
+expected ="""\
+def HelloWorld(self, pos, named):
+    label = pos[0].value
+
+    print("Hello %s World" % (label,))
+"""
+def expected_lines(n):
+    return '\n'.join(expected.splitlines()[:n])+'\n'
+
 
 @pytest.fixture
 def Method(wrapped_Hello_World):
@@ -17,19 +25,17 @@ def Method(wrapped_Hello_World):
     assert isinstance(m, aigr.Method) # check only, no test
     return m
 
-
-def test_1_1stLine_is_def(Method, my_renderer):
+@pytest.mark.xfail(reason="Rendering.Call/Bundler:: .unpack is needed")
+def test_1a_unpack_def_1stline(Method, my_renderer):
     txt = my_renderer.render(Method)
-    verify_line('def HelloWorld(self, label):',txt, 0)
+    verify_line(expected_lines(1), txt, 0)
 
+@pytest.mark.xfail(reason="Rendering.Call/Bundler:: .unpack is needed")
+def test_1b_unpack_def_head(Method, my_renderer):
+    txt = my_renderer.render(Method)
+    verify_line(expected_lines(2), txt, 2)
 
+@pytest.mark.xfail(reason="Rendering.Call/Bundler:: .unpack is needed")
 def test_2_full(Method, my_renderer):
-    expected ="""\
-def HelloWorld(self, label):
-    print("Hello %s World" % (label,))
-
-""" #C&P: HelloWorld.rpy::
     txt = my_renderer.render(Method)
-    #print_out(expected, label='expected')
-    #print_out(txt,      label='got/txt')
     verify_line_by_line(expected, txt)
