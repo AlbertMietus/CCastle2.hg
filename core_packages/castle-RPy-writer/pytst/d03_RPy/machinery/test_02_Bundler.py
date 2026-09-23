@@ -32,6 +32,7 @@ from castle.aigr import types as CCTypes, TypedParameter
 
 from .fixtures import bundler
 from .verify  import *
+from ...verify import verify_line_by_line
 
 """Note:: positional arg are NOT supported yet -- and not tested. The bundler's API doesn't even have it:-)"""
 
@@ -82,6 +83,18 @@ def test_6a_unpackunbox_1IntParm(bundler):
     assert isinstance(txt, (str, Block))
     verify_ValidPython(txt)
 
-@pytest.mark.xfail
-def test_6a_unpackunbox_More_ToDo(bundler):
-    assert False, "ToDo"
+
+def test_6a_unpackunbox_MoreParms(bundler):
+    parms = (
+        TypedParameter('i1', type=CCTypes.int),
+        TypedParameter('f2', type=CCTypes.float),
+        TypedParameter('b3', type=CCTypes.boolean),
+        TypedParameter('s4', type=CCTypes.string))
+    expected = """\
+i1 = pos[0].value
+f2 = pos[1].value
+b3 = pos[2].value
+s4 = pos[3].value
+"""
+    txt = str(bundler.unpack(parms))
+    verify_line_by_line(expected,  txt)
