@@ -201,6 +201,7 @@ class Renderer(Visitor):
                              Only `<ID>(...)` is implemented for {type(callable)=}""")
         return self.visit(callable)
 
+
     def _render_args(self, arguments: PTH.Optional[tuple[aigr.AIGR, ...]]) -> TextBlock:
         logger.debug("_render_args: %s", arguments)
         if not arguments: arguments =()

@@ -4,6 +4,7 @@ import pytest
 
 
 from . import *
+from ..d03_RPy.machinery.verify import verify_ValidPython
 
 def test_0_simpleIntArg_call_is_packed_and_boxed(my_renderer):
     """A bootstap/simple test: 1 arg, wich is `1` -- se below for variations"""
@@ -12,6 +13,7 @@ def test_0_simpleIntArg_call_is_packed_and_boxed(my_renderer):
                              aigr.Argument(aigr.Constant(value=1, type=aigr.int)),))   #XXX ConstantInt can carry an int ....
     txt= my_renderer.render(call)
     assert txt == "call_1_Pos([CC_B_int(1)], {})\n"
+    verify_ValidPython(txt)
 
 
 def test_1a_Any_Single_intArg(my_renderer):
@@ -23,6 +25,7 @@ def test_1a_Any_Single_intArg(my_renderer):
         txt= my_renderer.render(call)
         logging.info("aCall(%s) ==> %s", v, txt)
         assert txt == template %v
+        verify_ValidPython(txt)
 
 @pytest.mark.slow
 def test_1b_veryBig_Single_intArg(my_renderer):
@@ -31,6 +34,7 @@ def test_1b_veryBig_Single_intArg(my_renderer):
     bigNum = 999 ** 999 # an int of 2997 digits -- SLOW, but acceptable for logging
     txt = my_renderer.render(aigr.Call(callable=ID('aCall'), arguments=( aigr.Argument(aigr.Constant(value=bigNum, type=aigr.int)),)))
     assert txt == template % bigNum
+    verify_ValidPython(txt)
 
 
 def test_2_SomeIntArgs_call_are_packed_and_boxed(my_renderer):
@@ -40,6 +44,7 @@ def test_2_SomeIntArgs_call_are_packed_and_boxed(my_renderer):
     txt = my_renderer.render(aigr.Call(callable=ID('callNumbers'), arguments=
              tuple(aigr.Argument(aigr.Constant(value=n, type=aigr.int)) for n in numbers)))
     assert txt == expected
+    verify_ValidPython(txt)
 
 def test_3_SomeFloatArgs_call_are_packed_and_boxed(my_renderer):
     numbers = (-1.0,  2,7, 3.14)
@@ -48,6 +53,7 @@ def test_3_SomeFloatArgs_call_are_packed_and_boxed(my_renderer):
     txt = my_renderer.render(aigr.Call(callable=ID('callFloats'), arguments=
              tuple(aigr.Argument(aigr.Constant(value=n, type=aigr.float)) for n in numbers)))
     assert txt == expected
+    verify_ValidPython(txt)
 
 
 @pytest.mark.xfail(reason="'Bundler' && visit_Argument() need work")
@@ -57,4 +63,5 @@ def test_99_argList_call_with_a_named_arg(my_renderer):
     txt= my_renderer.render(named)
 
     logger.error("argList:: %s ==>%s", named, txt)   #XXX
-    assert txt== expected
+    assert txt == expected
+    verify_ValidPython(txt)

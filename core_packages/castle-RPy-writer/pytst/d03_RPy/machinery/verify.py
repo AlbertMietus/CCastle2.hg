@@ -7,6 +7,7 @@ from castle.writers.RPy.aid import Block
 
 
 def verify_ValidPython(txt):
+    logger.debug("verify_ValidPython:: <<%s>>", txt)
     assert isinstance(txt, (str, Block)), f"Should be a TextBlock, NOT {type(txt)} --{txt=}"
 
     text = str(txt)     # txt can be  a string of a (Text)Block; so make it a string

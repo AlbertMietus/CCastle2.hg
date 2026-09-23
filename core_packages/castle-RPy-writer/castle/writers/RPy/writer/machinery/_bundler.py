@@ -46,6 +46,12 @@ class Bundler(ABC):
         bundler = Bundler()           # returns an subclass, like NativeBundler
         tag  = bundler.box("42", CCTypes.int)       # -> 'CC_B_int(42)'
         args = bundler.pack([tag], params)          # -> '[CC_B_int(42)], {}'
+
+    Demo
+    ---
+    * See :file:`/Users/albert/work/TryOut/PyPy+Rpython/CallBundler/Bundle_rpy.py` (and friends)
+    * That file shows how to call methods, via a table --and so they need to have the same signature
+    * It is roughly the result of rendering with the Bundler
     """
 
 
