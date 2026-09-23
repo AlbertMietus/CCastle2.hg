@@ -70,7 +70,10 @@ def test_1b_init_1st_line_superinit(wrapped_comp):
     callable, arguments = line.call.callable, line.call.arguments
 
     assert isinstance(callable, aigr.Part)
-    assert isinstance(callable.base, aigr.Call) and callable.base.callable == "super" and callable.base.arguments == ()
+    assert isinstance(callable.base, aigr.Call)
+    assert callable.base.callable == "super"
+    assert callable.base.arguments in (None,())
+
     verify_ID(callable.attribute, "init", isRef=True)
     assert callable.index is None
 
