@@ -8,12 +8,12 @@ from castle import aigr
 def test_call():
     c = expressions.Call(callable=ID('foo'), arguments=())
     assert str(c.callable) == 'foo'
-    assert c.arguments==()
+    assert c.arguments==(), f"When explicty given, the 'arglist' is a empty tuple -- not {c.arguments} "
 
 def test_call_noArgs():
     c = expressions.Call(callable=ID('foo'))
     assert str(c.callable) == 'foo'
-    assert c.arguments==()
+    assert c.arguments==None, f"When not given; 'arglist' is None -- not {c.arguments} "
 
 
 def verify_Part(p, base=None, attribute=None, index=None):

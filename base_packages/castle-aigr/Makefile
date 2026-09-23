@@ -25,9 +25,10 @@ LAST = \
 #
 
 CURRENT = \
-	pytst/extra/scaffolding/test_auto_1_base.py			\
-	pytst/extra/scaffolding/test_auto_2_performance.py 	\
-	pytst/extra/scaffolding/test_auto_3_plugins.py		\
+	pytst/expressions/test_callable.py
+#	pytst/extra/scaffolding/test_auto_1_base.py			\
+#	pytst/extra/scaffolding/test_auto_2_performance.py 	\
+#	pytst/extra/scaffolding/test_auto_3_plugins.py		\
 #	pytst/extra/scaffolding/test_metadata_2_aroundNode.py \
 #
 
