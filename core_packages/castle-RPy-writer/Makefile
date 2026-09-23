@@ -19,9 +19,10 @@ LAST = \
 	pytst/d06_RPy_buildin/test_packValues.py \
 	pytst/d04_render/test_5_ArgList.py				\
 	pytst/d03_RPy/machinery/test_11_bundler-simple.py \
+	pytst/d03_RPy/machinery/test_02_Bundler.py  	 \
 #
 CURRENT = \
-	pytst/d03_RPy/machinery/test_02_Bundler.py  	 \
+	pytst/d04_render/test_4_Call.py
 #
 TODO = \
 	pytst/d11_HelloWorlds/d1_elemental/test_02_Method.py \
