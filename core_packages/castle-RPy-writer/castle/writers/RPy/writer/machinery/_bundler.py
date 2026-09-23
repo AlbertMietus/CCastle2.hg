@@ -70,9 +70,9 @@ class Bundler(ABC):
            Typically used juss before (generateing the code of a function-call"""
 
     @abstractmethod
-    def unpack(self, parameters:GeneratedCode, formal_parameters:aigr.OptionalTypedParameterList) -> TextBlock:
+    def unpack(self, formal_parameters:aigr.OptionalTypedParameterList) -> TextBlock:
         """Take out all (packed) parameters, to make the normal, induvidual parameters are avaibale
-           Typically used as first step 'in' the callable; when generating code        """
+           Typically used as first step 'in' the callable; when generating code"""
 
     @abstractmethod
     def unbox(self, parm:str) -> GeneratedCode:

@@ -67,27 +67,3 @@ aigr.machinery.EventToSub(
 
 
 
-    def OLD_AND_GONE_render_sendEvent(self, renderer, node) ->  Block: #Node : castle.aigr.sendEvent
-        # For now, it is only the "local send" with a 'pin' -- also c alled 'Machinery_trigger_direct'
-        #
-        ### Notes
-        ## node.outPort   :ID       = self.credible.hello -- No Ref, yet
-        ## node.event     :ID       = set                 -- No Ref, yet
-        ## node.arguments :PTH.List = ( aigr.Constant(value="credible", type=aigr.types.string)),)
-
-        """Resulting txt:
-        * in Elemental/main_HW:
-           - cc_S_Elemental_HelloWorld_std['CC_P_std_invoke'](main_elm)(<args>``
-        * Where:
-           - cc_S_Elemental_HelloWorld_std comes from: ``cc_S_dispatchTable(self, comp:str, port:str)``
-           - main_elm = CC_Elemental_HelloWorld()
-
-        """
-        node = PTH.cast(aigr.machinery.sendEvent, node)
-
-        
-        dispatch_table = renderer.portray.cc_S_dispatchTable(comp=node.comp.name, port=node.outPort)
-        
-        txt = Block()
-
-        

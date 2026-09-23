@@ -16,6 +16,7 @@ from . portray import Portray
 from . idref import IDRef
 
 
+
 class Renderer(Visitor):
     _defaultType=str                      #used in Visitor, to return a default value of the right type
 
@@ -149,12 +150,19 @@ class Renderer(Visitor):
             txt += self.machinery.render_EventDispatchTable(self, table)
         return txt
 
-
-    def _render_def(self, node, callDef_name=None)       -> Block:
+    def _render_def(self, node, callDef_name=None)       -> Block:   #`node` is aigr:_callable sub-type
         if callDef_name is None:
             callDef_name = self.portray.callDef_name(node.name)
-        parms = ', '.join(str(p.name) for p in node.parameters)
-        return Block(f"def {callDef_name}(self, {parms}):")
+
+        from . machinery import NativeBundler   #XXXX
+        bundler = self.machinery.arg_bundler
+        assert isinstance(bundler, NativeBundler)
+
+        pos   = bundler.placeholder_for_positionals_
+        named = bundler.placeholder_for_named_
+        txt = Block(f"def {callDef_name}(self, {pos}, {named}):")
+        txt.sub(bundler.unpack(formal_parameters=node.parameters))
+        return txt
 
     def visit_Method(self, node)						 ->  TextBlock:
         txt = self._render_def(node)
@@ -207,7 +215,7 @@ class Renderer(Visitor):
         if not arguments: arguments =()
         rendered_args = [self.visit(a) for a in arguments]
         logger.debug("rendered_args=%s", rendered_args)
-        txt  = self.machinery.arg_bundler.pack(rendered_args, None)  # XXX OptionalTypedParameterList is needed
+        txt  = self.machinery.arg_bundler.pack(arguments=rendered_args, formal_parameters=None)  # XXX OptionalTypedParameterList is needed
         logger.debug("_render_args -> %s", txt)
         return txt
 
