@@ -190,7 +190,7 @@ class Renderer(Visitor):
         call = self._render_callable(node.callable)
         args = self._render_args(node.arguments)
         retval= f"{call}({args})"
-        logger.info("XXX visit_Call %s", retval)
+        logger.debug("visit_Call %s", retval)
         return retval
 
     def _render_callable(self, callable:  aigr.ID | aigr.AIGR) -> TextBlock:
@@ -200,7 +200,6 @@ class Renderer(Visitor):
             logger.error(f"""Currently a call to {callable=} is not supported
                              Only `<ID>(...)` is implemented for {type(callable)=}""")
         return self.visit(callable)
-
 
     def _render_args(self, arguments: PTH.Optional[tuple[aigr.AIGR, ...]]) -> TextBlock:
         logger.debug("_render_args: %s", arguments)
