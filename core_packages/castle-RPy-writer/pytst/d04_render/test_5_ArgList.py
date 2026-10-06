@@ -30,7 +30,6 @@ def test_1a_Any_Single_intArg(my_renderer):
 @pytest.mark.slow
 def test_1b_veryBig_Single_intArg(my_renderer):
     template = "aCall([CC_B_int(%s)], {})\n"
-    #bigNum = 9999 ** 999 * 99 ** 99 * 99 ** 9 # 4212 digits --- VERY SLOW when logging!
     bigNum = 999 ** 999 # an int of 2997 digits -- SLOW, but acceptable for logging
     txt = my_renderer.render(aigr.Call(callable=ID('aCall'), arguments=( aigr.Argument(aigr.Constant(value=bigNum, type=aigr.int)),)))
     assert txt == template % bigNum
@@ -56,7 +55,7 @@ def test_3_SomeFloatArgs_call_are_packed_and_boxed(my_renderer):
     verify_ValidPython(txt)
 
 
-@pytest.mark.xfail(reason="'Bundler' && visit_Argument() need work")
+@pytest.mark.xfail(reason="'Bundler' && visit_Argument() need work for named argument")
 def test_99_argList_call_with_a_named_arg(my_renderer):
     expected = "XXX TODO"
     named= aigr.Call(callable=ID('call_1_named'), arguments=(aigr.Argument(name=ID('a1'),value=1),))
