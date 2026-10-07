@@ -52,8 +52,9 @@ def verify_VoidCall(stmt, name, args=None):
     assert isinstance(stmt, aigr.VoidCall),     f"{stmt=}"
     assert isinstance(stmt.call, aigr.Call),    f"Expecting a Call; got:  {stmt.call=}"
     assert isinstance(stmt.call.callable, ID),  f"Expecting a (func) name/ID; got:  {stmt.call.callable=}"
-    assert isinstance(stmt.call.callable, ID) and (stmt.call.callable == name), f"stmt.call.callable"
-    if args is not None:
+    assert stmt.call.callable == name, 	        f"Expecting funcname: {name}; got:  {stmt.call.callable=}"
+    if args is not None: # Do verify the args -- passing None differs from passing []
+        assert stmt.call.arguments is not None, "Expecting arguments, got None"
         assert len(stmt.call.arguments) == len(args),  f"Expected {len(args)} arguments, Got {len(stmt.call.arguments)=} -- {stmt.call.arguments}"
         for exp, got in zip(args, stmt.call.arguments):
             assert isinstance(got, aigr.Argument)
