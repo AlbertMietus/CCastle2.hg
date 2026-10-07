@@ -22,7 +22,7 @@ def print_out(txt,label='print'):
 def imprint(*parts):
     return "\n".join(f"\n=====[{label}:{len(txt)}/{len(txt.splitlines())}]=====\n{txt}\n=====[end]=====" for txt, label in parts)
 
-def verify_line_by_line(expect, got, ignore_trailing_newLine=True):
+def verify_line_by_line(expect:str, got:str, ignore_trailing_newLine=True):
     WIDTH  = 90
     if ignore_trailing_newLine:
         if expect.endswith('\n'):

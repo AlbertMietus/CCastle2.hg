@@ -10,9 +10,11 @@ from . import my_renderer, verify_line
 
 @pytest.fixture
 def fString(wrapped_Hello_World):
+    """Find the fString as used in (elemental) HelloWorld TestDouble --- parameter of Call"""
     body = wrapped_Hello_World.search('Elemental_HelloWorld.HelloWorld').body
     call = ScaffolderBody(body)[0].call
     assert isinstance(call, aigr.Call) # Check only
+    assert call.arguments is not None  # Check only, and hint for linters
     arg0 = call.arguments[0]
     assert isinstance(arg0, aigr.fString) # Check only
     return arg0
