@@ -33,11 +33,11 @@ wrapped_HW.register(__impliciet_Main_Elemental_HelloWorld, asName="__impliciet_M
 Elemental_HelloWorld = ComponentImplementation(ID('Elemental_HelloWorld'), outer_ns=Hello_World, interface=__impliciet_Main_Elemental_HelloWorld)
 wrapped_E_HW = ScaffolderComponentImplementation(Elemental_HelloWorld)
 
-#HelloWorld(str:label)
+#HelloWorld(label:string)
 #{
 #   print("Hello {label} World")
 #}
-HelloWorld = Method(ID('HelloWorld', context=aigr.Def()),
+HelloWorld = Method(ID('HelloWorld', context=aigr.names.Def()),
                     returns=None,
                     outer_ns=Elemental_HelloWorld,
                     parameters=(aigr.TypedParameter(name=ID('label'), type=aigr.types.string),),
