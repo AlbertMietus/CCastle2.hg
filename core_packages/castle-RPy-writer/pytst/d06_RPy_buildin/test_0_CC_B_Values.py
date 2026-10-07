@@ -11,7 +11,7 @@ def test_0():
     i = 42 # random it
     assert buildin.CC_B_int.unbox(buildin.CC_B_int(i)) == i
 
-def test_UnBoxBoxed_is_equeal__forAllTypes():
+def test_UnBoxBoxed_is_equal__forAllTypes():
     template = "buildin.CC_B_{T}.unbox(buildin.CC_B_{T}({V}))"
     for T, v in [
             ('int', 	42),
