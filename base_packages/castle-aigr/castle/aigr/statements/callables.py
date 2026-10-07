@@ -21,6 +21,8 @@ class _callable(_hasScope, _statement):
     """A callable is like a function, but more generic; this includes methods, (event)handlers, etc.
 
     Most callable(s) have a name, but not all -- therefor it's not a NamedNode
+
+    NOTE: `_callable` **define** (implement) it.  See `aigr.expressions.calls.Call` for How to call it
     """
 
     _ : KW_ONLY

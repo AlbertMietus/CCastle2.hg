@@ -19,8 +19,7 @@ class Call(_call):
     """ A `Call` is e.g. a method/function-call; but also a call by a 'function-pointer' is a `Call` too"""
     _: KW_ONLY
     callable  : ID|AIGR # Often a ID(ref), "function-pointer" is an option too
-    #arguments : PTH.Optional[tuple[AIGR, ...]]=() # XXX GAM: not AIGR, but aigr.Argument ?
-    arguments : OptionalArgumentList = None   #Note: In it's a tuple not as list()
+    arguments : OptionalArgumentList = None   #Note: It's a tuple not as list()
 
 
 @dataclass
