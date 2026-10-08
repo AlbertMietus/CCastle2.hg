@@ -32,6 +32,7 @@ How to (un)pack/box
 Assuming we wil ``bundle``, the generated ‘def’ has a few lines to unpack/unbox
 
 From `~/work/TryOut/PyPy+Rpython/CallBundler/Bundle_rpy.py`
+
 .. code-block:: python
 
    def call_ifsbb(self, pos, named):

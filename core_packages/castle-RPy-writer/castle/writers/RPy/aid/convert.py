@@ -3,13 +3,13 @@
 import logging; logger = logging.getLogger(__name__)
 import typing as PTH
 
-__all__ = ['fstring_2_modulo']
+__all__ = ['fString_2_modulo']
 
 START,END = '{','}'
 TXT       = "STATE_TEXT"
 VAL       = "STATE_VALUE"
 
-def fString_2_modulo(s:str) -> tuple[str, tuple[str]]:
+def fString_2_modulo(s:str) -> tuple[str, tuple[str, ...]]:
     state=TXT
     result, args = "", []
     currentVal="" # Just to make sure, it's type is know
@@ -25,4 +25,4 @@ def fString_2_modulo(s:str) -> tuple[str, tuple[str]]:
         elif state==VAL and c==END:
             args.append(currentVal)
             state=TXT
-    return result, tuple(args)
+    return (result, tuple(args))

@@ -1,6 +1,6 @@
 # (C) Albert Mietus, 2025. Part of Castle/CCastle project
 
-mypy: mypy_castle
+mypy: mypy_castle mypy_test
 
 #DOC: mypy will complain with 'Module "castle.aigr" has no attribute "types"  [attr-defined]' (and such)
 ## triggered by lines `from castle.aigr import types` as aigr import .base  and base .types ... - which is fine (IMHO)
@@ -14,6 +14,9 @@ mypy: mypy_castle
 mypy_castle:
 	@echo "MYPY::"
 	mypy  --follow-imports=skip --exclude=/_ref/    castle
+
+mypy_test:
+	@echo "MYPY::"
 	mypy                       --exclude=/_ref/     pytst
 
 

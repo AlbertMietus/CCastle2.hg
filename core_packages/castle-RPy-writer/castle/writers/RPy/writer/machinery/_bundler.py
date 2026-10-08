@@ -1,11 +1,20 @@
 # (C) Albert Mietus, 2026. Part of Castle/CCastle project
+from __future__ import annotations # ignore `CC_B_Value` annotation durung runtime
 
-from abc import ABC, abstractmethod
 import typing as PTH
+from abc import ABC, abstractmethod
 
 from castle import aigr
 from castle.aigr import types as CCTypes
 from castle.writers.RPy.aid import TextBlock
+
+if PTH.TYPE_CHECKING: # Use `CC_B_Value` annotation for linters
+    from castle.writers.RPy_buildin.buildin import CC_B_Value
+else:
+    CC_B_Value = "CC_B_Value" # Just a placeholder -- even basedpyright will comment on it
+
+
+
 
 type TypeTag[T] = str
 """A type-cast code fragment produced by :meth:`Bundler.box`.
@@ -54,29 +63,31 @@ class Bundler(ABC):
     * It is roughly the result of rendering with the Bundler
     """
 
-    placeholder_for_positionals_ = 'pos'
-    placeholder_for_named_       = 'named'
-
     def __new__(cls, hint:str="", **kwargs):
         from .native_bundler import NativeBundler
         return super().__new__(NativeBundler, **kwargs)   # type: ignore[reportAbstractUsage, abstract]
 
     @abstractmethod
-    def box(self, argument:GeneratedCode, cc_type:CCTypes._types) -> TypeTag:
+    def box(self, argument:GeneratedCode, cc_type:CCTypes._types) -> TypeTag[CC_B_Value]:
         """Box a single argument (generated_code) to the specified type"""
 
     @abstractmethod
-    def pack(self, arguments:PTH.Sequence[TypeTag], formal_parameters:aigr.OptionalTypedParameterList) -> TextBlock:
+    def pack(self, arguments:PTH.Sequence[TypeTag[CC_B_Value]], formal_parameters:aigr.OptionalTypedParameterList) -> TextBlock:
         """Combine all arguments into the used calling convention.
            Each subclass will/can set it own calling convention
            Typically used juss before (generateing the code of a function-call"""
 
     @abstractmethod
-    def unpack(self, formal_parameters:aigr.OptionalTypedParameterList) -> TextBlock:
-        """Take out all (packed) parameters, to make the normal, induvidual parameters are avaibale
-           Typically used as first step 'in' the callable; when generating code"""
+    def unpack(self, formal_parameters:aigr.OptionalTypedParameterList) ->list[tuple[aigr.ID, TypeTag]]:
+        """UPDATE XXX doc
+
+        Take out all (packed) parameters, to make the normal, induvidual parameters are avaibale
+        Typically used as first step 'in' the callable; when generating code"""
 
     @abstractmethod
     def unbox(self, parm:str, cc_type:CCTypes._types) -> GeneratedCode:
         """UnBox a (single) argument"""
 
+    @abstractmethod
+    def unpack_unbox(self, formal_parameters:aigr.OptionalTypedParameterList) ->list[tuple[aigr.ID, GeneratedCode]]:
+        """Call unpack and _unbox in the right order"""

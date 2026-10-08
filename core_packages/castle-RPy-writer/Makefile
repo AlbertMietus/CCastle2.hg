@@ -20,7 +20,7 @@ LAST = \
 	pytst/d06_RPy_buildin/test_0_CC_B_Values.py \
 #
 CURRENT = \
-	pytst/d03_RPy/machinery/test_02_Bundler.py::test_5a_unpack_oneInt\
+	pytst/d03_RPy/machinery/test_02_Bundler.py
 #
 TODO = \
 	pytst/d03_RPy/machinery \

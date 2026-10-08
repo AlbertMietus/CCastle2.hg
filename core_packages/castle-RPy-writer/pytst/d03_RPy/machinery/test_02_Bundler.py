@@ -25,7 +25,10 @@ import logging; logger = logging.getLogger(__name__)
 
 import pytest
 
+from castle import aigr
 from castle.writers.RPy.writer.machinery import Bundler, NativeBundler
+
+from castle.writers.RPy.writer.machinery.native_bundler import TypeTag, ParameterListElement
 from castle.writers.RPy.aid import Block
 from castle.aigr import types as CCTypes, TypedParameter
 
@@ -39,7 +42,7 @@ def test_0_Bundler_is_NativeBundler(bundler):
     assert isinstance(bundler, NativeBundler), "This test-set is valid for the NativeBundler ONLY!"
 
 def test_1a_box_int(bundler):
-    expr = "1"
+    expr = "1" 
     expected = f"CC_B_int({expr})"
     assert bundler.box("1", CCTypes.int) == expected
 
@@ -87,39 +90,49 @@ def test_5a_unpack_oneInt(bundler): # The NEW, not mixed unpack
         # parm-name, pos
         ("i",       "pos[0]"),
         ]
-    lines = bundler.unpack(formal_parameters = parms)
-    logger.debug(lines)
-    i = 0
-    got_name, expected_name = lines[i][0], expected[i][0]
-    assert got_name == expected_name,  f"Expected {expected_name=}, Got  {got_name=}"
-    got_pos,  expected_pos  = lines[i][1], expected[i][1]
-    assert got_pos == expected_pos,  f"Expected {expected_pos=}, Got  {got_pos=}"
+    got = bundler.unpack(formal_parameters = parms)
+    validate_UnBundleResults(got, expected)
 
 
-
-@pytest.mark.xfail(reason="OLD unpack, need update")
-def test_6a_unpackunbox_1IntParm(bundler):
-    parms = (TypedParameter('i', type=CCTypes.int),)
-    expected = "i = pos[0].value\n"
-    assert False, f"expected is old style: {expected}"
-    txt = bundler.unpack(formal_parameters=parms)
-    assert str(txt) == expected
-    assert isinstance(txt, (str, Block))
-    verify_ValidPython(txt)
-
-@pytest.mark.xfail(reason="OLD unpack, need update")
-def test_6b_unpackunbox_MoreParms(bundler):
+def test_5b_unpack_some(bundler): # The NEW, not mixed unpack
     parms = (
+        TypedParameter('i0', type=CCTypes.int),
         TypedParameter('i1', type=CCTypes.int),
         TypedParameter('f2', type=CCTypes.float),
-        TypedParameter('b3', type=CCTypes.boolean),
-        TypedParameter('s4', type=CCTypes.string))
-    expected = """\
-i1 = pos[0].value
-f2 = pos[1].value
-b3 = pos[2].value
-s4 = pos[3].value
-"""
-    assert False, f"expected is old style: {expected}"
-    txt = str(bundler.unpack(parms))
-    verify_line_by_line(expected,  txt)
+        TypedParameter('s3', type=CCTypes.string),
+        TypedParameter('b4', type=CCTypes.boolean),
+        )
+    expected = [
+        # parm-name, pos
+        ("i0",       "pos[0]"),
+        ("i1",       "pos[1]"),
+        ("f2",       "pos[2]"),
+        ("s3",       "pos[3]"),
+        ("b4",       "pos[4]"),
+        ]
+    got = bundler.unpack(formal_parameters = parms)
+    validate_UnBundleResults(got, expected)
+
+
+def test9_uppackAndUnbox_one(bundler):
+    parms = (TypedParameter('i', type=CCTypes.int),)
+    expected = [('i','CC_B_int.unbox(pos[0])'),]
+    got = bundler.unpack_unbox(parms)
+    validate_UnBundleResults(got, expected)
+
+
+
+
+def validate_UnBundleResults(got, expected):
+    assert len(got) == len(expected), f"Expected {len(expected)=}, but got {len(got)=} elements"
+
+    for g, e in zip(got, expected, strict=True):
+        got_name, expected_name = g[0], e[0]
+        got_pos,  expected_pos  = g[1], e[1]
+        assert got_name == expected_name,  f"Expected {expected_name=}, Got  {got_name=}"
+        assert got_pos  == expected_pos,   f"Expected {expected_pos=},  Got  {got_pos=}"
+
+
+
+
+

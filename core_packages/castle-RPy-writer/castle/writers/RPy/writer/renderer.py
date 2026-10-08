@@ -153,12 +153,15 @@ class Renderer(Visitor):
     def _render_def(self, node, callDef_name=None)       -> Block:   #`node` is aigr:_callable sub-type
         #XXX Now we always `Bundle` what is not needed -- see core_packages/castle-RPy-writer/doc/devNotes/CallConventions.rst
 
+
+        # XXX For now, use these hardcoded values ; move them to bundler/portray
+        _placeholder_for_positionals_ = 'pos'   #XXX
+        _placeholder_for_named_       = 'named' #XXX
+
         if callDef_name is None:
             callDef_name = self.portray.callDef_name(node.name)
         bundler = self.machinery.arg_bundler
-        pos     = bundler.placeholder_for_positionals_
-        named   = bundler.placeholder_for_named_
-        txt     = Block(f"def {callDef_name}(self, {pos}, {named}):")
+        txt     = Block(f"def {callDef_name}(self, {_placeholder_for_positionals_}, {_placeholder_for_named_}):")
         txt.sub(self._render_unpack(node))
         return txt
 
