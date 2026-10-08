@@ -114,9 +114,29 @@ def test_5b_unpack_some(bundler): # The NEW, not mixed unpack
     validate_UnBundleResults(got, expected)
 
 
-def test9_uppackAndUnbox_one(bundler):
+def test9a_unpack_unbox__one(bundler):
     parms = (TypedParameter('i', type=CCTypes.int),)
     expected = [('i','CC_B_int.unbox(pos[0])'),]
+    got = bundler.unpack_unbox(parms)
+    validate_UnBundleResults(got, expected)
+
+
+def test9a_unpack_unbox__some(bundler):
+    parms = (
+        TypedParameter('i0', type=CCTypes.int),
+        TypedParameter('i1', type=CCTypes.int),
+        TypedParameter('f2', type=CCTypes.float),
+        TypedParameter('s3', type=CCTypes.string),
+        TypedParameter('b4', type=CCTypes.boolean),
+        )
+    expected = [
+        #name  (=) value
+        ("i0",       "CC_B_int.unbox(pos[0])"),
+        ("i1",       "CC_B_int.unbox(pos[1])"),
+        ("f2",       "CC_B_float.unbox(pos[2])"),
+        ("s3",       "CC_B_string.unbox(pos[3])"),
+        ("b4",       "CC_B_boolean.unbox(pos[4])"),
+        ]
     got = bundler.unpack_unbox(parms)
     validate_UnBundleResults(got, expected)
 
