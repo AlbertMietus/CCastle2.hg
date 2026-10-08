@@ -24,3 +24,14 @@ def test_UnBoxBoxed_is_equal__forAllTypes():
         code= template.format(T=T, V=val) # BUG
         got = eval(code)
         assert got == exp, f"{code} is not {v}"
+
+def test_forceUnbox():
+    """Now, it is unpossible to unbox by reading .value"""
+    boxed = buildin.CC_B_int(42)
+
+    with pytest.raises(AttributeError):
+        _ = boxed.value                            # `.value` has become `.__value`
+    with pytest.raises(AttributeError):
+        _ = boxed.__value                          # And that one is hidden
+
+    assert boxed._CC_B_int__value == 42, "The hidden attribute ..."

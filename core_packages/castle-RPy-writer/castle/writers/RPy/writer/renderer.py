@@ -151,18 +151,33 @@ class Renderer(Visitor):
         return txt
 
     def _render_def(self, node, callDef_name=None)       -> Block:   #`node` is aigr:_callable sub-type
+        #XXX Now we always `Bundle` what is not needed -- see core_packages/castle-RPy-writer/doc/devNotes/CallConventions.rst
+
         if callDef_name is None:
             callDef_name = self.portray.callDef_name(node.name)
-
-        from . machinery import NativeBundler   #XXXX
         bundler = self.machinery.arg_bundler
-        assert isinstance(bundler, NativeBundler)
-
-        pos   = bundler.placeholder_for_positionals_
-        named = bundler.placeholder_for_named_
-        txt = Block(f"def {callDef_name}(self, {pos}, {named}):")
-        txt.sub(bundler.unpack(formal_parameters=node.parameters))
+        pos     = bundler.placeholder_for_positionals_
+        named   = bundler.placeholder_for_named_
+        txt     = Block(f"def {callDef_name}(self, {pos}, {named}):")
+        txt.sub(self._render_unpack(node))
         return txt
+
+    def _render_unpack(self,  node):
+        try:
+            return self._NEW_render_unpack(node)
+        except NotImplementedError: pass
+        try:
+            self._OLD_render_unpack(node)
+        except AssertionError: pass
+
+        assert False, "bundler.unpack will return a sequence, not the complete Block"
+
+    def _OLD_render_unpack(self,  node):
+        return self.machinery.arg_bundler.unpack(formal_parameters=node.parameters)
+
+    def _NEW_render_unpack(self,  node):
+        return f"XXX"
+        raise NotImplementedError
 
     def visit_Method(self, node)						 ->  TextBlock:
         txt = self._render_def(node)
@@ -198,7 +213,7 @@ class Renderer(Visitor):
         call = self._render_callable(node.callable)
         args = self._render_args(node.arguments)
         retval= f"{call}({args})"
-        logger.debug("visit_Call %s", retval)
+        logger.debug("visit_Call --> %s", retval)
         return retval
 
     def _render_callable(self, callable:  aigr.ID | aigr.AIGR) -> TextBlock:
@@ -211,21 +226,24 @@ class Renderer(Visitor):
 
 
     def _render_args(self, arguments: PTH.Optional[tuple[aigr.AIGR, ...]]) -> TextBlock:
+        #XXX Now we always `Bundle` what is not needed -- see core_packages/castle-RPy-writer/doc/devNotes/CallConventions.rst
         logger.debug("_render_args: %s", arguments)
         if not arguments: arguments =()
-        rendered_args = [self.visit(a) for a in arguments]
-        logger.debug("rendered_args=%s", rendered_args)
-        txt  = self.machinery.arg_bundler.pack(arguments=rendered_args, formal_parameters=None)  # XXX OptionalTypedParameterList is needed
-        logger.debug("_render_args -> %s", txt)
-        return txt
+        boxed_args = [self.visit(a) for a in arguments]
+        logger.debug("rendered_args=%s", boxed_args)
+        packed  = self.machinery.arg_bundler.pack(arguments=boxed_args, formal_parameters=None)  # XXX OptionalTypedParameterList is needed
+        logger.debug("_render_args -> %s", packed)
+        return packed
 
 
     def visit_Argument(self, node)-> TextBlock:
+        #XXX Now we always `Bundle` what is not needed -- see core_packages/castle-RPy-writer/doc/devNotes/CallConventions.rst
         node = PTH.cast(aigr.Argument, node)
         logger.info("visit_Argument: %s", node)
 
         val_txt = self.visit(node.value)
-        return self.machinery.arg_bundler.box(val_txt, node.value.type) ## Type of value or type of formal parameter?
+        return self.machinery.arg_bundler.box(val_txt, node.value.type) ## Type of value or type of formal parameter? LAST!!
+
 
     def visit__literal(self, node)						 ->  TextBlock:
         logger.info("visit__literal: %s", node)
@@ -235,6 +253,7 @@ class Renderer(Visitor):
             return f"{node.value}"
         else:
             assert False, f"visit_Constant is not done  ... type={node.type}"
+
 
     def visit_fString(self, node)						 ->  TextBlock:
         formater = node.formater; assert formater, "the fString.formater should be set in aigr"

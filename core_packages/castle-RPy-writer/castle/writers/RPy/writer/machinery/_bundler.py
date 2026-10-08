@@ -54,6 +54,8 @@ class Bundler(ABC):
     * It is roughly the result of rendering with the Bundler
     """
 
+    placeholder_for_positionals_ = 'pos'
+    placeholder_for_named_       = 'named'
 
     def __new__(cls, hint:str="", **kwargs):
         from .native_bundler import NativeBundler
@@ -75,6 +77,6 @@ class Bundler(ABC):
            Typically used as first step 'in' the callable; when generating code"""
 
     @abstractmethod
-    def unbox(self, parm:str) -> GeneratedCode:
+    def unbox(self, parm:str, cc_type:CCTypes._types) -> GeneratedCode:
         """UnBox a (single) argument"""
 

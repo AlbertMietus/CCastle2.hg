@@ -14,18 +14,17 @@ PYREVERSE_PKGS = \
 
 LAST = \
 	pytst/d01_aid/	\
-	pytst/d03_RPy/machinery/test_01_PortrayType.py \
-	pytst/d03_RPy/machinery/test_07_sync_Portray2buildin_names.py \
 	pytst/d06_RPy_buildin/test_packValues.py \
 	pytst/d04_render/test_5_ArgList.py				\
-	pytst/d03_RPy/machinery/test_11_bundler-simple.py \
-	pytst/d03_RPy/machinery/test_02_Bundler.py  	 \
+	pytst/d04_render/test_4_Call.py					\
+	pytst/d06_RPy_buildin/test_0_CC_B_Values.py \
 #
 CURRENT = \
-	pytst/d04_render/test_4_Call.py
+	pytst/d03_RPy/machinery/test_02_Bundler.py::test_5a_unpack_oneInt\
 #
 TODO = \
-	pytst/d11_HelloWorlds/d1_elemental/test_02_Method.py \
+	pytst/d03_RPy/machinery \
+	pytst/d11_HelloWorlds/d1_elemental/test_02_Method.py::test_2_full \
 	pytst/d03_RPy/machinery/test_event.py \
 #
 

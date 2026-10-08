@@ -18,28 +18,11 @@ def test_0c_CC_B_string_is_CC_B_Value():
 def test_0d_CC_B_boolean_is_CC_B_Value():
     assert isinstance(CC_B_boolean(True), CC_B_Value)
 
-
-def test_1a_CC_B_int_value():
-    assert CC_B_int(1).value == 1
-
-def test_1b_CC_B_float_value():
-    assert CC_B_float(1.5).value == 1.5
-
-def test_1c_CC_B_string_value():
-    assert CC_B_string("hi").value == "hi"
-
-def test_1d_CC_B_boolean_value():
-    assert CC_B_boolean(True).value == True
-
-
-def test_2a_CC_B_int_casts():
-    assert CC_B_int(1.9).value == 1
-
-def test_2b_CC_B_float_casts():
-    assert CC_B_float(1).value == 1.0
-
-def test_2c_CC_B_string_casts():
-    assert CC_B_string(42).value == "42"
-
-def test_2d_CC_B_boolean_casts():
-    assert CC_B_boolean(0).value == False
+##Note
+##
+## The old test, using .value to unpack are outdated (and wrong/misleading)
+##
+## Reading .value, for multiple types is not rpython -- it can't handle it
+## We have to use the unbox (staticmethod)!!
+##
+## See pytst/d06_RPy_buildin/test_0_CC_B_Values.py

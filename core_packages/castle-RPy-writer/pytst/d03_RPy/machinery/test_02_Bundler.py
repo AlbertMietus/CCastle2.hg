@@ -16,10 +16,9 @@
      In the function *def*, this is undone.
      * `pos` and `named` are "hardcoded" parameters in every function defintion
      * the list `pos` is `unpack()ed` in the lines directly below  the def
-     * For every Castle-parameters, one line is generated::
-       ``<CC-parmname> = pos[<no>].value``
-     * the `.value` part in `unbox`ing (it's same for all types)
-     * The major part of the line is `unpack`ing
+     * For every Castle-parameters, one line is generated, to unpack/unbox parameter into a local var
+
+NOTE: unbox used to be read .value -- but that is wrong
 """
 
 import logging; logger = logging.getLogger(__name__)
@@ -44,30 +43,37 @@ def test_1a_box_int(bundler):
     expected = f"CC_B_int({expr})"
     assert bundler.box("1", CCTypes.int) == expected
 
-def test_1b_unbox_int(bundler):
-    parm= "p1"
-    expected = f"{parm}.value"
-    assert bundler.unbox(parm) == expected
-
-def test_2_box_manyTypes(bundler):
+def test_1a_box_manyTypes(bundler):
     CC_B_= 'CC_B_'
-    for expr, typ, cast in [
+    for expr, typ, wrap in [
             ("3/2",	  CCTypes.int,     CC_B_ + 'int' ),
             ("3/2",	  CCTypes.float,   CC_B_ + 'float'),
             ("True",  CCTypes.boolean, CC_B_ + 'boolean'),
-            ("hello", CCTypes.string,  CC_B_ + 'string'), # same as above
+            ("hello", CCTypes.string,  CC_B_ + 'string'),
             ]:
-        expected = f"{cast}({expr})"
+        expected = f"{wrap}({expr})"
         assert bundler.box(expr, typ) == expected
 
-def test_3_unbox_Any(bundler):
-    #Unboxing does not depend on type ...
-    parm= "any"
-    expected = f"{parm}.value"
-    assert bundler.unbox(parm) == expected
+def test_2_unbox_int(bundler):
+    parm = "<dummy>"
+    expected = f"CC_B_int.unbox({parm})"
+    assert bundler.unbox(parm, CCTypes.int) == expected
 
 
-def test_5_pack_some_pos(bundler):
+def test_3_unbox_manyTypes(bundler):
+    CC_B_= 'CC_B_'
+    boxed = "pos[something]" # Note: not a valid value, but fine to check the text
+    for cc_b_value_type, cc_type in [
+            (CC_B_ + 'int' ,    CCTypes.int),
+            (CC_B_ + 'float',   CCTypes.float),
+            (CC_B_ + 'boolean', CCTypes.boolean),
+            (CC_B_ + 'string',  CCTypes.string),
+            ]:
+        expected = f"{cc_b_value_type}.unbox({boxed})"
+        assert bundler.unbox(boxed, cc_type) == expected
+
+
+def test_4_pack_some_pos(bundler):
     expected = '[A, B, C], {}'
     pos = ('A', 'B', 'C')     # Fake (positional) args! Not boxed, no args -- just text
     txt = bundler.pack(pos, formal_parameters=None) # formal_parameters are not used
@@ -75,16 +81,34 @@ def test_5_pack_some_pos(bundler):
     assert txt == expected
 
 
+def test_5a_unpack_oneInt(bundler): # The NEW, not mixed unpack
+    parms = (TypedParameter('i', type=CCTypes.int),)
+    expected = [
+        # parm-name, pos
+        ("i",       "pos[0]"),
+        ]
+    lines = bundler.unpack(formal_parameters = parms)
+    logger.debug(lines)
+    i = 0
+    got_name, expected_name = lines[i][0], expected[i][0]
+    assert got_name == expected_name,  f"Expected {expected_name=}, Got  {got_name=}"
+    got_pos,  expected_pos  = lines[i][1], expected[i][1]
+    assert got_pos == expected_pos,  f"Expected {expected_pos=}, Got  {got_pos=}"
+
+
+
+@pytest.mark.xfail(reason="OLD unpack, need update")
 def test_6a_unpackunbox_1IntParm(bundler):
     parms = (TypedParameter('i', type=CCTypes.int),)
     expected = "i = pos[0].value\n"
-    txt=bundler.unpack(formal_parameters=parms)
+    assert False, f"expected is old style: {expected}"
+    txt = bundler.unpack(formal_parameters=parms)
     assert str(txt) == expected
     assert isinstance(txt, (str, Block))
     verify_ValidPython(txt)
 
-
-def test_6a_unpackunbox_MoreParms(bundler):
+@pytest.mark.xfail(reason="OLD unpack, need update")
+def test_6b_unpackunbox_MoreParms(bundler):
     parms = (
         TypedParameter('i1', type=CCTypes.int),
         TypedParameter('f2', type=CCTypes.float),
@@ -96,5 +120,6 @@ f2 = pos[1].value
 b3 = pos[2].value
 s4 = pos[3].value
 """
+    assert False, f"expected is old style: {expected}"
     txt = str(bundler.unpack(parms))
     verify_line_by_line(expected,  txt)
