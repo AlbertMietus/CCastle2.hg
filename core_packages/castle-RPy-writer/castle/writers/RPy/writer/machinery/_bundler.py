@@ -1,5 +1,5 @@
 # (C) Albert Mietus, 2026. Part of Castle/CCastle project
-from __future__ import annotations # ignore `CC_B_Value` annotation durung runtime
+from __future__ import annotations # ignore `CC_B_Value` annotation during runtime
 
 import typing as PTH
 from abc import ABC, abstractmethod
