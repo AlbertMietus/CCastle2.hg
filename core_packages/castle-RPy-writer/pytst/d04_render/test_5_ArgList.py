@@ -7,7 +7,7 @@ from . import *
 from ..d03_RPy.machinery.verify import verify_ValidPython
 
 def test_0_simpleIntArg_call_is_packed_and_boxed(my_renderer):
-    """A bootstap/simple test: 1 arg, wich is `1` -- se below for variations"""
+    """A bootstap/simple test: 1 arg, wich is `1` -- see below for variations"""
     call = aigr.Call(callable=ID('call_1_Pos'),
                          arguments=(
                              aigr.Argument(aigr.Constant(value=1, type=aigr.int)),))   #XXX ConstantInt can carry an int ....

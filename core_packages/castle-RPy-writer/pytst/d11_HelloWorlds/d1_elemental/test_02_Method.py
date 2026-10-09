@@ -5,9 +5,12 @@
 import logging; logger = logging.getLogger(__name__)
 import pytest
 
-pytestmark = pytest.mark.xfail(reason="""\
+NOT_pytestmark = pytest.mark.xfail(reason="""\
 (a): Design Desison (ADR) needed: Does `Method` use the Bundler (or trust the RPY dispatcher)\
-(b): The (renewed) `Bundler` needs work (when (un)pack/box is needed""", allow_module_level=True) #type: ignore
+(b): The (renewed) `Bundler` needs work (when (un)pack/box is needed
+==> (B) is --should be-- solved
+==> FOR NOW: Assume `Method` used the Bundler, Just to test the render!!
+""", allow_module_level=True) #type: ignore
 
 
 from castle import aigr
@@ -26,7 +29,7 @@ def Method(wrapped_Hello_World):
 
 expected ="""\
 def HelloWorld(self, pos, named):
-    label = pos[0].value
+    label = CC_B_string.unbox(pos[0])
 
     print("Hello %s World" % (label,))
 """
@@ -34,10 +37,12 @@ def HelloWorld(self, pos, named):
 
 def test_1a_unpack_def_1stline(Method, my_renderer):
     txt = my_renderer.render(Method)
+    logger.info("test_1a_unpack_def_1stline: txt=%s", txt)
     verify_line(expected_lines(1), txt, 0)
 
 def test_1b_unpack_def_head(Method, my_renderer):
-    txt = my_renderer.render(Method) ;
+    txt = my_renderer.render(Method)
+    logger.info("test_1b_unpack_def_head: txt=\n%s", txt)
     verify_line_by_line(expected_lines(2), first_lines(txt, 2))
 
 def test_2_full(Method, my_renderer):

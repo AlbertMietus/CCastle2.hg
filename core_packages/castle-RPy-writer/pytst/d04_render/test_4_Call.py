@@ -34,7 +34,7 @@ def test_1c_noArgs_givesID(my_renderer):
 
 def test_2a_DefContext_hasNoEfect(my_renderer):
     expected = f"a.b.c({EXPECTED_FOR_EMPTY_ARGS})"
-    foo = aigr.Call(callable=ID('a.b.c', context=aigr.Def()))
+    foo = aigr.Call(callable=ID('a.b.c', context=aigr.base.Def()))
     txt = my_renderer.render(foo)
     verify_line_by_line(expected,txt)
 
@@ -45,7 +45,7 @@ def test_3a_EmptyRefContext_hasNoEfect(my_renderer):
     verify_line_by_line(expected,txt)
 
 def test_3b_RefContext_shouldHaveEfect(my_renderer):
-    otherID = ID("another", context=aigr.Def())
+    otherID = ID("another", context=aigr.base.Def())
     expected = f"another({EXPECTED_FOR_EMPTY_ARGS})"
     foo = aigr.Call(callable=ID('withRef', context=aigr.Ref(reference=otherID)))
     txt = my_renderer.render(foo)

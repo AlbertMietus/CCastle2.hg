@@ -15,6 +15,7 @@ from . machinery import Machinery
 from . portray import Portray
 from . idref import IDRef
 
+from castle.aigr.statements.callables import _Named_callable
 
 
 class Renderer(Visitor):
@@ -150,37 +151,29 @@ class Renderer(Visitor):
             txt += self.machinery.render_EventDispatchTable(self, table)
         return txt
 
-    def _render_def(self, node, callDef_name=None)       -> Block:   #`node` is aigr:_callable sub-type
+    def _render_def(self, node:_Named_callable, callDef_name=None) -> Block:
         #XXX Now we always `Bundle` what is not needed -- see core_packages/castle-RPy-writer/doc/devNotes/CallConventions.rst
-
-
-        # XXX For now, use these hardcoded values ; move them to bundler/portray
-        _placeholder_for_positionals_ = 'pos'   #XXX
-        _placeholder_for_named_       = 'named' #XXX
-
         if callDef_name is None:
             callDef_name = self.portray.callDef_name(node.name)
         bundler = self.machinery.arg_bundler
-        txt     = Block(f"def {callDef_name}(self, {_placeholder_for_positionals_}, {_placeholder_for_named_}):")
-        txt.sub(self._render_unpack(node))
+        try:
+            name_of_positionals = bundler._name_of_positionals() #type:ignore
+            name_of_named = bundler._name_of_named()             #type:ignore
+        except:
+            name_of_positionals, name_of_named = 'pos', 'named'
+            assert False
+
+        txt = Block(f"def {callDef_name}(self, {name_of_positionals}, {name_of_named}):")
+        sub = Block()
+        txt.sub(sub) # We can still add text to sub, what will be in txt !
+
+        unBundled = bundler.unpack_unbox(node.parameters)
+        for name, val in unBundled:
+            sub += f"{self.visit(name)} = {val}"
+        
         return txt
 
-    def _render_unpack(self,  node):
-        try:
-            return self._NEW_render_unpack(node)
-        except NotImplementedError: pass
-        try:
-            self._OLD_render_unpack(node)
-        except AssertionError: pass
-
-        assert False, "bundler.unpack will return a sequence, not the complete Block"
-
-    def _OLD_render_unpack(self,  node):
-        return self.machinery.arg_bundler.unpack(formal_parameters=node.parameters)
-
-    def _NEW_render_unpack(self,  node):
-        return f"XXX"
-        raise NotImplementedError
+        
 
     def visit_Method(self, node)						 ->  TextBlock:
         txt = self._render_def(node)

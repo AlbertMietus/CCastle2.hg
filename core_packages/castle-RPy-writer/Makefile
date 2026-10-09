@@ -20,7 +20,7 @@ LAST = \
 	pytst/d06_RPy_buildin/test_0_CC_B_Values.py \
 #
 CURRENT = \
-	pytst/d03_RPy/machinery/test_02_Bundler.py
+	pytst/d11_HelloWorlds/d1_elemental/test_02_Method.py::test_1b_unpack_def_head		\
 #
 TODO = \
 	pytst/d03_RPy/machinery \
