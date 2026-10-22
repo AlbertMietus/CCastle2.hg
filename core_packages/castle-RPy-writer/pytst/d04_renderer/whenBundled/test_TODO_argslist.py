@@ -4,7 +4,6 @@ import pytest
 
 
 from . import *
-from ..d03_RPy.machinery.verify import verify_ValidPython
 
 def test_0_simpleIntArg_call_is_packed_and_boxed(my_renderer):
     """A bootstap/simple test: 1 arg, wich is `1` -- see below for variations"""

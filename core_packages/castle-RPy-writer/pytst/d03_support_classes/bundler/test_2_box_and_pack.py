@@ -3,7 +3,7 @@ import logging; logger = logging.getLogger(__name__)
 
 import pytest
 from .fixtures import bundler
-from .verify import *
+from ...verify  import verify_ValidPython
 
 from castle import aigr
 from castle.aigr import types as CCTypes

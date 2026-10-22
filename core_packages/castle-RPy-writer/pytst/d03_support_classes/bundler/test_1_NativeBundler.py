@@ -33,8 +33,7 @@ from castle.writers.RPy.aid import Block
 from castle.aigr import types as CCTypes, TypedParameter
 
 from .fixtures import bundler
-from .verify  import *
-from ...verify import verify_line_by_line
+
 
 """Note:: positional arg are NOT supported yet -- and not tested. The bundler's API doesn't even have it:-)"""
 
@@ -42,7 +41,7 @@ def test_0_Bundler_is_NativeBundler(bundler):
     assert isinstance(bundler, NativeBundler), "This test-set is valid for the NativeBundler ONLY!"
 
 def test_1a_box_int(bundler):
-    expr = "1" 
+    expr = "1"
     expected = f"CC_B_int({expr})"
     assert bundler.box("1", CCTypes.int) == expected
 

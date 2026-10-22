@@ -13,19 +13,17 @@ PYREVERSE_PKGS = \
 #
 
 LAST = \
-	pytst/d01_aid/	\
-	pytst/d06_RPy_buildin/test_packValues.py \
-	pytst/d04_render/test_5_ArgList.py				\
-	pytst/d04_render/test_4_Call.py					\
-	pytst/d06_RPy_buildin/test_0_CC_B_Values.py \
+	pytst/d01_aid/				\
+	pytst/d02_simple_classes/	\
+	pytst/d03_support_classes/	\
+	pytst/d04_renderer/			\
+	pytst/d20_buildin/			\
 #
 CURRENT = \
-	pytst/d11_HelloWorlds/d1_elemental/test_02_Method.py::test_1b_unpack_def_head		\
+	pytst\
 #
 TODO = \
-	pytst/d03_RPy/machinery \
-	pytst/d11_HelloWorlds/d1_elemental/test_02_Method.py::test_2_full \
-	pytst/d03_RPy/machinery/test_event.py \
+	pytst/d50_TESTDOUBLES/	\
 #
 
 

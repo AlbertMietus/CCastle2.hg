@@ -10,8 +10,8 @@ from castle.writers import RPy
 from castle.writers.RPy.writer import Renderer
 from castle.aigr.tools.scaffolding import  ScaffolderNameSpace
 
-from ..verify import *
-from .. import my_renderer, verify_line_by_line
+from ...verify import *
+from ...fixtures import my_renderer
 
 def verify_file(expect: str, file: Path|str):
     if isinstance(file, str):

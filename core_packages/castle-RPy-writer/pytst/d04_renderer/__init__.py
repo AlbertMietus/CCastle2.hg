@@ -11,6 +11,6 @@ from castle.writers import RPy
 from castle.writers.RPy.writer import Renderer
 
 
-from ..verify import *
-from .. import my_renderer, verify_line_by_line
+
+
 

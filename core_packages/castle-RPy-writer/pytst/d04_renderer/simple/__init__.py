@@ -3,4 +3,8 @@
 import logging; logger = logging.getLogger(__name__)
 import pytest
 
-from .. import *
+from castle import aigr
+from castle.aigr import ID
+
+from ...verify import *
+from ...fixtures import *

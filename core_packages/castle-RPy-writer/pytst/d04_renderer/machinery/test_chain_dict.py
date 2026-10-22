@@ -4,14 +4,10 @@ import logging; logger = logging.getLogger(__name__)
 import typing as PTH                                                                                  # Python TypeHints
 
 import pytest
+from . import *
 
-from castle.aigr import ID
-from castle.writers.RPy.writer.machinery import Machinery
+
 from castle.writers.RPy.writer.machinery import M_DC_chained_dict
-from castle.writers.RPy.aigr import EventDispatchTable
-
-from .. import my_renderer
-from .. import verify_line_by_line, print_out
 
 from .fixtures import machinery
 from .mocks.tables import *

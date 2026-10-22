@@ -48,5 +48,4 @@ def test_11_RefTo_ComponentImplementation(my_renderer):
     refTo =aigr.ComponentImplementation("aComp")
     txt = my_renderer.render(ID("aComp", context=aigr.Ref(reference=refTo)))
     verify_line_by_line("CC_aComp", txt)
-    
 

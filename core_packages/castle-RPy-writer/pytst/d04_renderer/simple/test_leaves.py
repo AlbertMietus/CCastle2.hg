@@ -4,11 +4,7 @@ import logging; logger = logging.getLogger(__name__)
 import typing as PTH                                                                                  # Python TypeHints
 import pytest
 
-from castle import aigr
-from castle.aigr import ID
-from castle.writers.RPy.writer import Renderer
-
-from .. import my_renderer
+from . import *
 
 
 def test_ID(my_renderer):
