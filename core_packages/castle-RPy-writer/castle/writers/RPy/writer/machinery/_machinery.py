@@ -9,13 +9,31 @@ from castle.writers.RPy.aid import Block
 from ._bundler import Bundler
 
 class Machinery(ABC):
-    _register      : dict    = {}
-    _default_hint  : PTH.Any = None
+    """The ``Machinery`` deals with the technicalities how events and other data is send over a connection.
+
+       This ABC defines the interface, and can instantiate a concrete Machinery. This is done by passing a "hint"
+       to :class:`Machinery`().
+
+       A concrete Machinery can register itself with the `@Machinery.register` decorator -- this is "pluggable".
+       As a machinery can have sub-variants, they typically have multiple name/hint -- long hierarchical ones and short, practical ones
+
+       Some concrete (built-in) Machineries with the hint
+       --------------------------------------------------
+
+       - :class:`M_DC_chained_dict` | ``chained-dict`` | ``chained_dict`` 		| ``DirectCall.dict.chained`` | (default)
+       - :class:`M_DC_flat_dict`    | ``flat-dict``    | ``flat_dict``    		| ``DirectCall.dict.flat``	  |
+       - :class:`M_DC_tuple`        | ``tuple``        | ``DirectCall.tuple`` 	|
+       - :class:`M_DC_list`			| ``list``         |
+
+       .. note:: Typically, the Machinery is only called from :class:`Renderer` class, inside a writer."""
+
+    _register     : PTH.ClassVar[dict[str, type]]  ={} # hint:str -> concrete Machinery subclass
+    _default_hint : PTH.ClassVar[str|None]=None    # default machinery
 
 
     @classmethod
-    def register(cls, *hints, default: bool = False):
-        """Decorator to register subclasses of Machinery with multiple names."""
+    def register(cls, *hints: str, default: bool = False):
+        """Decorator to register sub classes of Machinery with multiple names."""
         def decorator(subclass):
             for hint in hints:
                 cls._register[hint] = subclass
@@ -43,12 +61,15 @@ class Machinery(ABC):
 
 
     @abstractmethod
-    def render_EventDispatchTable(self, renderer, node) ->  Block: pass
+    def render_EventDispatchTable(self, renderer, node) ->  Block:
+        """Generate the code for a event dispatch table"""
 
     @abstractmethod
     def render_EventOverPort(self, renderer, node) ->  Block:
-        assert False
+        """Generate the code for an event-over-port send"""
 
     @abstractmethod
     def render_EventToSub(self, renderer, node) ->  Block:
-        assert False
+        """Generate the code for sending an event a sub-component"""
+
+# LocalWords:  pluggable Renderer Machineries
