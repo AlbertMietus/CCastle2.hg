@@ -24,5 +24,3 @@ def target_unit(elemental) -> RPy.aigr.RPy_unit:
 def wrapped_target(target_unit) -> RPy.aigr.ScaffolderUnit: #depends on elemental
     return RPy.aigr.ScaffolderUnit(target_unit)
 
-
-pytestmark = pytest.mark.xfail(reason="Rendering.Call needs the new 'Bundler'", allow_module_level=True) #type: ignore
