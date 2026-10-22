@@ -9,13 +9,13 @@ from castle.writers.RPy import translators
 def mockdir():
     from pathlib import Path
     p = Path(__file__)
-    dir = p.parent / "mocks"
+    dir = p.parent / "_mocks"
     assert dir.is_dir() #check only
     return dir
 
 PY_DEMO	= "demo" # no suffix!
 EXE	=     "demo.exe"
-## `mocks/demo` will add "1+2" and return the result
+## `_mocks/demo` will add "1+2" and return the result
 
 def test_1_mock_eval(mockdir):
     runner =  translators.Evaluate(driver=PY_DEMO, inDir=mockdir)
