@@ -4,12 +4,36 @@ import logging; logger = logging.getLogger(__name__)
 import typing as PTH                                                                                  # Python TypeHints
 from abc import ABC, abstractmethod
 
+
+# ..todo::  Move to config.        XXX For now: hardcoded
+PYPY2_BINd	= "/Users/albert/Apps/PyPy/pypy2.7-v7.3.20-macos_arm64/bin/"
+TIMEOUT     = 60 #seconds
+
 import os
 from pathlib import Path
 
 import subprocess
 
 class TranslatorCommand(ABC):
+    """Abstract base for commands that drive the external translator process.
+
+    Usage
+    -----
+    * Subclass should override :meth:`runner`
+    * Call :meth:`execute` (on subclass) to execute the runner, with proper setup/teardown
+    * setup/teardown can be set in subclass
+
+     Example
+     -------
+     :meth:`runner`::
+
+        class MyTranslator(TranslatorCommand):
+            def runner(self):
+                return self.process(["mytool", "input.py"])
+
+        MyTranslator().execute()
+    """
+
     @abstractmethod
     def runner(self) -> str|PTH.Any: # Override this in subclasses. It is called by execute()
         pass #  @abstractmethod make sure this base-runner isn't called
@@ -23,13 +47,20 @@ class TranslatorCommand(ABC):
     def setup(self):    pass
     def teardown(self): pass
 
-PYPY2_BINd	= "/Users/albert/Apps/PyPy/pypy2.7-v7.3.20-macos_arm64/bin/"
-TIMEOUT     = 60 #second
 
 class RPY_Translator(TranslatorCommand):
-    # XXX hardcoded paths & (partial) filenames XXXX
+    """Base for translators that drive the RPython toolchain.
 
-    RPYTHON = PYPY2_BINd +"rpython"
+       Examples of concrete translators:
+
+       * :class:`Evaluate` -- execute  with python (do not translate)
+       * :class:`Compile`  -- translate & compile (do not execute the result)
+       * :class:`Execute`  -- execure the binary (assuming it is compiled)
+
+    # XXX hardcoded paths & (partial) filenames XXXX
+    """
+
+    RPYTHON = PYPY2_BINd +"rpython"       #XXX Hardcoded
 
     #@abstractmethod
     def __init__(self, *,

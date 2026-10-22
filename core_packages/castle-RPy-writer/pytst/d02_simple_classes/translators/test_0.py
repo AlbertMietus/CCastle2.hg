@@ -3,6 +3,8 @@
 import logging; logger = logging.getLogger(__name__)
 import pytest
 
+
+from pathlib import Path
 from castle.writers.RPy import translators
 
 
@@ -40,5 +42,10 @@ def test_2a_ls():
     assert 'pytst' in r.execute()
 
 def test_2b_ls():
-    r = Dummy_ls(inDir='pytst/d03_RPy/translators/') # this dir
-    assert 'test_0' in r.execute()
+    p = Path(__file__)
+    dir, file = p.parent, p.name 
+    assert dir.is_dir() #check only
+
+    r = Dummy_ls(inDir=dir)
+    assert file in r.execute(), f"This {file=} should be in this {dir=}"
+
