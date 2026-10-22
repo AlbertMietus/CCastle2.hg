@@ -43,7 +43,7 @@ def test_2a_ls():
 
 def test_2b_ls():
     p = Path(__file__)
-    dir, file = p.parent, p.name 
+    dir, file = p.parent, p.name
     assert dir.is_dir() #check only
 
     r = Dummy_ls(inDir=dir)
