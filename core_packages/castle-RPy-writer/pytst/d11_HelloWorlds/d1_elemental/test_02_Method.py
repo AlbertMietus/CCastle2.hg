@@ -5,13 +5,6 @@
 import logging; logger = logging.getLogger(__name__)
 import pytest
 
-NOT_pytestmark = pytest.mark.xfail(reason="""\
-(a): Design Desison (ADR) needed: Does `Method` use the Bundler (or trust the RPY dispatcher)\
-(b): The (renewed) `Bundler` needs work (when (un)pack/box is needed
-==> (B) is --should be-- solved
-==> FOR NOW: Assume `Method` used the Bundler, Just to test the render!!
-""", allow_module_level=True) #type: ignore
-
 
 from castle import aigr
 
@@ -45,6 +38,7 @@ def test_1b_unpack_def_head(Method, my_renderer):
     logger.info("test_1b_unpack_def_head: txt=\n%s", txt)
     verify_line_by_line(expected_lines(2), first_lines(txt, 2))
 
+@pytest.mark.xfail(reason="ADR0002: no bundler for `Method`")
 def test_2_full(Method, my_renderer):
     txt = my_renderer.render(Method)
     verify_line_by_line(expected, txt)
