@@ -6,7 +6,7 @@ __pycache__
 .*\.dot
 _pyreversed/
 _pyanalyse/
-
+.*.exe
 .*~
 demos/ThinOnion/OUT_*
 OUT_*
