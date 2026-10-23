@@ -14,8 +14,3 @@ def machinery() ->Machinery:
     return m
 
 
-@pytest.fixture
-def bundler():
-    b = Bundler()                                                       # type: ignore[reportAbstractUsage, abstract]
-    b.force_bundling = True                                             #XXX HACK
-    return b
