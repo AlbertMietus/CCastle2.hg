@@ -165,7 +165,7 @@ class Renderer(Visitor):
 
 
     def _render_def_Notbundled(self, node:_Named_callable, callDef_name=None) -> Block:
-        assert False                      #XXX
+        raise NotImplementedError('_render_def_Notbundled')
 
 
     def _render_def_bundled(self, node:_Named_callable, callDef_name=None) -> Block:
@@ -241,7 +241,7 @@ class Renderer(Visitor):
     def _render_CallArgs_Notbundled(self, node: aigr.Call) -> TextBlock:
         arguments: tuple[aigr.AIGR, ...] =  node.arguments if node.arguments else ()
         logger.debug("_render_CallArgs_Notbundled: %s", arguments)
-        assert False		
+        raise NotImplementedError('_render_CallArgs_Notbundled')
 
 		
     def _render_CallArgs_bundled(self, node: aigr.Call) -> TextBlock:
