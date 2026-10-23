@@ -69,8 +69,8 @@ class Bundler(ABC):
         return super().__new__(NativeBundler, **kwargs)   # type: ignore[reportAbstractUsage, abstract]
 
     @abstractmethod
-    def shallBundle(self, node) -> bool:
-        """Determine if this call/_callable needs the Bundler"""
+    def shallBundle(self, node) -> bool|None:
+        """Determine if this call/_callable needs the Bundler (None === Not relevant"""
 
     @abstractmethod
     def box(self, argument:GeneratedCode, cc_type:CCTypes._types) -> TypeTag[CC_B_Value]:

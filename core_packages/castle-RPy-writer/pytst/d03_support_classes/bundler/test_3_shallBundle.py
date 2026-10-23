@@ -5,7 +5,7 @@ import pytest
 
 from castle.aigr import AIGRNode
 from castle.aigr.statements.callables import _handlers
-#from castle.aigr import EventHandler # is a _handlers
+from castle.aigr.machinery import _send_proto
 from castle.aigr import Method, Initializer, Call
 
 # As basedpyright doesn't understand pytest-fixtures ..
@@ -16,19 +16,22 @@ from .fixtures import forceYes_bundler, forceNo_bundler
 class DummyNode(AIGRNode):pass
 class MockNamed(DummyNode):
     def __init__(self):
-        super().__init__("dummy")         #type: ignore
+        super().__init__("dummy") #type: ignore -- Just a dummy value
 
 class DummyHandler(MockNamed,      _handlers)   : pass
 class DummyMethod(MockNamed,       Method)      : pass
 class DummyInitializer(MockNamed,  Initializer) : pass
-
+class DummySend(DummyNode,         _send_proto):
+    def __init__(self):
+        super().__init__(comp=None) #type: ignore -- Just a dummy value
 class DummyCall(DummyNode,  Call):
     def __init__(self):
-        super().__init__(callable=None)         #type: ignore
+        super().__init__(callable=None) #type: ignore -- Just a dummy value
 
 
-def test_0_realbundler(a_bundler):
-    shall = a_bundler.shallBundle(DummyNode())
+
+def test_0_realbundler(the_bundler):
+    shall = the_bundler.shallBundle(DummyNode())
     assert shall in (True, False, None), f"Not expexcted: {shall=}"
     assert shall is None
 
@@ -60,10 +63,11 @@ def test_12__Init_shallNotBundle(the_bundler): # sub class of Method
 ### (2x) The calling side
 ###
 
-def test_21__call_shallBundle(the_bundler): # Call & Part
-    verify_4cls( DummyCall, False, the_bundler)
+def test_21__call_shallNotBundle(the_bundler): # Call & Part
+    verify_4cls(DummyCall, False, the_bundler)
 
-
+def test_22__send_shallBundle(the_bundler): # Call & Part
+    verify_4cls(DummySend, True, the_bundler)
 
 def verify_4cls(cls, expected, test_bundler):
     node = cls()

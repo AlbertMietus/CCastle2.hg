@@ -35,13 +35,13 @@ class NativeBundler(Bundler):
         self.portray = PortrayType()
         self.force_bundling = None # XXX HACK
 
-    def shallBundle(self, node) -> bool:
+    def shallBundle(self, node) -> bool|None:
         if self.force_bundling is not None:
             logging.warning("Using `force_bundling`: %s", self.force_bundling)
             return bool(self.force_bundling)
         #else: # real algorithm
 
-        ret_val=None
+        ret_val=None # Signal: Doesn't matter
         # Only connected (send & handle) will be bundled
         if isinstance(node, (_handlers, _send_proto)):
             ret_val = True
