@@ -7,6 +7,15 @@ from castle.writers.RPy.writer.machinery import Bundler, NativeBundler
 
 
 @pytest.fixture
-def bundler():
+def a_bundler():
     return Bundler()                                                       # type: ignore[reportAbstractUsage, abstract]
 
+@pytest.fixture
+def forceYes_bundler(a_bundler):
+    a_bundler.force_bundling = True
+    return a_bundler
+
+@pytest.fixture
+def forceNo_bundler(a_bundler):
+    a_bundler.force_bundling = False
+    return a_bundler
