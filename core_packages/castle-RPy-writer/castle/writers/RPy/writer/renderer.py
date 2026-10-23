@@ -152,6 +152,11 @@ class Renderer(Visitor):
         return txt
 
     def _render_def(self, node:_Named_callable, callDef_name=None) -> Block:
+        """Render the def for all kind of `_callable`s -- with or without bundling
+           Used by::
+           * :meth:`visit_Method`()
+           * :meth:`visit_Initializer`()
+           * :meth:`visit_EventHandler`()"""
         if callDef_name is None:
             callDef_name = self.portray.callDef_name(node.name)
         need_Bundler = self.machinery.arg_bundler.shallBundle(node)
@@ -210,14 +215,16 @@ class Renderer(Visitor):
     def visit_Call(self, node)							 ->  TextBlock:
         node = PTH.cast(aigr.Call, node)
         logger.debug("visit_Call: %s", node)
-        call = self._render_callable(node.callable)
-        args = self._render_args(node.arguments)
+        call = self._render_callName(node)
+        args = self._render_CallArgs(node)
         retval= f"{call}({args})"
         logger.debug("visit_Call --> %s", retval)
         return retval
 
-    def _render_callable(self, callable:  aigr.ID | aigr.AIGR) -> TextBlock:
-        logger.debug("_render_callable: %s", callable)
+    def _render_callName(self, node:  aigr.Call) -> TextBlock:
+        """Render the 'name' for the function that will be called"""
+        callable = node.callable
+        logger.debug("_render_callName: %s", callable)
         # XXX Not all "callable-visitors are implemented; give a early message
         if not isinstance(callable, aigr.ID):
             logger.error(f"""Currently a call to {callable=} is not supported
@@ -225,10 +232,22 @@ class Renderer(Visitor):
         return self.visit(callable)
 
 
-    def _render_args(self, arguments: PTH.Optional[tuple[aigr.AIGR, ...]]) -> TextBlock:
-        #XXX Now we always `Bundle` what is not needed -- see core_packages/castle-RPy-writer/doc/devNotes/CallConventions.rst
-        logger.debug("_render_args: %s", arguments)
-        if not arguments: arguments =()
+    def _render_CallArgs(self, node: aigr.Call) -> TextBlock:
+        need_Bundler = self.machinery.arg_bundler.shallBundle(node)
+        render_callArgs = self._render_CallArgs_bundled if need_Bundler else self._render_CallArgs_Notbundled
+        return render_callArgs(node)
+
+    	
+    def _render_CallArgs_Notbundled(self, node: aigr.Call) -> TextBlock:
+        arguments: tuple[aigr.AIGR, ...] =  node.arguments if node.arguments else ()
+        logger.debug("_render_CallArgs_Notbundled: %s", arguments)
+        assert False		
+
+		
+    def _render_CallArgs_bundled(self, node: aigr.Call) -> TextBlock:
+        arguments: tuple[aigr.AIGR, ...] =  node.arguments if node.arguments else ()
+
+        logger.debug("_render_CallArgs_bundled: %s", arguments)
         boxed_args = [self.visit(a) for a in arguments]
         logger.debug("rendered_args=%s", boxed_args)
         packed  = self.machinery.arg_bundler.pack(arguments=boxed_args, formal_parameters=None)  # XXX OptionalTypedParameterList is needed

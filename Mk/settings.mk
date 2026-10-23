@@ -18,7 +18,7 @@ PYANALYSE_dir 	 = _pyanalyse/
 PYREVERSE_FORMAT = plantuml
 
 
-SETS	= last current current-ds current-info recheck
+SETS	= last current current-ds current-info current-warning recheck
 TYPICAL = all clean cleaner cleanest veryclean doc test pytest pytest-only
 ALL	= current last todo pyanalyse todo mypy
 BUILD	= ${ALL} build install

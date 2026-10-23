@@ -55,6 +55,8 @@ current-ds current-sd:
 	${PYFAST}  ${PYTEST_OPTIONS}  --log-cli-level=DEBUG -s ${CURRENT}
 current-info:
 	${PYFAST}  ${PYTEST_OPTIONS}  --log-cli-level=INFO -s ${CURRENT}
+current-warning:
+	${PYFAST}  ${PYTEST_OPTIONS}  --log-cli-level=WARNING -s ${CURRENT}
 todo:
 	${PYFAST}  ${PYTEST_OPTIONS}  ${TODO}
 recheck:

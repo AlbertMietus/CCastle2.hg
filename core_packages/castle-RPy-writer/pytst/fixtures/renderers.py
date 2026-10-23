@@ -8,10 +8,12 @@ import pytest
 from castle.writers.RPy.writer import Renderer, Machinery
 
 
+#HACK = not True
+HACK = True
 @pytest.fixture
 def my_renderer() ->Renderer:
     r = Renderer()
-    if True: # HACK
+    if HACK:
         from castle.writers.RPy.writer.machinery.native_bundler import NativeBundler
         b = r.machinery.arg_bundler
         b = PTH.cast(NativeBundler, b)

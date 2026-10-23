@@ -20,9 +20,10 @@ LAST = \
 	pytst/d20_buildin/			\
 #
 CURRENT = \
-	pytst/d03_support_classes/bundler/test_3_shallBundle.py
+	pytst/d04_renderer/whenBundled/test_TODO_argslist.py -k test_0\
 #
 TODO = \
+	pytst/d04_renderer/whenBundled/\
 	pytst/d50_TESTDOUBLES/	\
 #
 
