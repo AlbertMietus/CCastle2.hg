@@ -38,7 +38,7 @@ def test_1b_unpack_def_head(Method, my_renderer):
     logger.info("test_1b_unpack_def_head: txt=\n%s", txt)
     verify_line_by_line(expected_lines(2), first_lines(txt, 2))
 
-@pytest.mark.xfail(reason="ADR0002: no bundler for `Method`")
+@pytest.mark.xfail(reason="ADR00002: no bundler for `Method`")
 def test_2_full(Method, my_renderer):
     txt = my_renderer.render(Method)
     verify_line_by_line(expected, txt)

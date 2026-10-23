@@ -35,18 +35,19 @@ class Bundler(ABC):
     (when calling)
     1. :meth:`box` 		-- wrap an actual (CCastle) argument value in a TypeTag
     2. :meth:`pack` 	-- combine all boxed arguments into the argument list passed at the call site.
-    (in the callee)
-    3. :meth:`unpack` 	-- destructure the packed argument list back into individual parameters.
+    (in the callable)
+    3. :meth:`unpack` 	-- restructure the packed argument list back into individual parameters.
     4. :meth:`unbox` 	-- extract the raw value from the Box into a native RPython type (as text)
+    *  :meth:`unpack_unbox` --support function to unpack and unbox in one call
 
-    .. note:: Only 1 implemention: :class:`NativeBundler`.
+    .. note:: Only 1 implementation: :class:`NativeBundler`.
 
-       Currently, Only :class:`NativeBundler` is avaibale, and always used (hardcoded).
-       This may/will change in the futher, so do not depend on it! Other implemention-classes will be added
+       Currently, Only :class:`NativeBundler` is available, and always used (hardcoded).
+       This may/will change in the further, so do not depend on it! Other implementation classes will be added
 
     .. note:: Support for named arguments will be added later.
 
-       The dict is avaibale, but always empty for now
+       The dict is available, but always empty for now
 
     Usage
     -----
@@ -68,6 +69,10 @@ class Bundler(ABC):
         return super().__new__(NativeBundler, **kwargs)   # type: ignore[reportAbstractUsage, abstract]
 
     @abstractmethod
+    def shallBundle(self, node) -> bool:
+        """Determine if this call/_callable needs the Bundler"""
+
+    @abstractmethod
     def box(self, argument:GeneratedCode, cc_type:CCTypes._types) -> TypeTag[CC_B_Value]:
         """Box a single argument (generated_code) to the specified type"""
 
@@ -75,19 +80,21 @@ class Bundler(ABC):
     def pack(self, arguments:PTH.Sequence[TypeTag[CC_B_Value]], formal_parameters:aigr.OptionalTypedParameterList) -> TextBlock:
         """Combine all arguments into the used calling convention.
            Each subclass will/can set it own calling convention
-           Typically used juss before (generateing the code of a function-call"""
+           Typically used just before (generating the code of a function-call"""
 
     @abstractmethod
     def unpack(self, formal_parameters:aigr.OptionalTypedParameterList) ->list[tuple[aigr.ID, TypeTag]]:
         """UPDATE XXX doc
 
-        Take out all (packed) parameters, to make the normal, induvidual parameters are avaibale
+        Take out all (packed) parameters, to make the normal, individual parameters are available
         Typically used as first step 'in' the callable; when generating code"""
 
     @abstractmethod
     def unbox(self, parm:str, cc_type:CCTypes._types) -> GeneratedCode:
-        """UnBox a (single) argument"""
+        """Unbox a (single) argument"""
 
     @abstractmethod
     def unpack_unbox(self, formal_parameters:aigr.OptionalTypedParameterList) ->list[tuple[aigr.ID, GeneratedCode]]:
         """Call unpack and _unbox in the right order"""
+
+# LocalWords:  hardcoded NativeBundler bundler

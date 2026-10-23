@@ -24,9 +24,15 @@ class NativeBundler(Bundler):
 
         The textual representation for those wrappers is defined in the :class:`Portray` class -- not in the Bundler"""
 
-    def __init__(self):
-        super().__init__()
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
         self.portray = PortrayType()
+        self.force_bundling = None # XXX HACK
+
+    def shallBundle(self, node) -> bool:
+        if self.force_bundling is None:
+            assert False, "XXX implement ADR00002"
+        return bool(self.force_bundling)
 
     # XXX Move to portray?
     def _name_of_positionals(self):  return 'pos'
@@ -40,7 +46,7 @@ class NativeBundler(Bundler):
         pos = '[' + (", ".join(arg for arg in arguments)) + ']'
         named = "{}"                           #XXX ToDO: support for named arguments/parameters
         return f"{pos}, {named}"
-
+    
     def unbox(self, parm:str, cc_type:CCTypes._types) -> GeneratedCode:
         logger.info("unbox: parm=%s, cc_type=%s", parm, cc_type)   #XXX info/debug
         val_type = self.portray.prefix(cc_type)

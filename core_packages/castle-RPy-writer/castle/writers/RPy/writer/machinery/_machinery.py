@@ -44,6 +44,7 @@ class Machinery(ABC):
             return subclass
         return decorator
 
+
     def __new__(cls, hint:str="", **kwargs):
         _hint = hint if hint not in ["", None] else cls._default_hint
         try:
@@ -54,6 +55,7 @@ class Machinery(ABC):
         assert m, "No Machinery, not even a default"
         logger.debug("Machinery %s selected", m)
         return super().__new__(m, **kwargs)
+
 
     def __init__(self, **kwargs):
          self.arg_bundler = Bundler()  # Now: always: `NativeBundler'

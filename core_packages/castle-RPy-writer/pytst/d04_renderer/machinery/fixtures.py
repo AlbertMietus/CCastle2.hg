@@ -8,10 +8,14 @@ from castle.writers.RPy.writer.machinery import Bundler, NativeBundler
 
 @pytest.fixture
 def machinery() ->Machinery:
-    return Machinery(hint="chained_dict")                                  # type: ignore[reportAbstractUsage, abstract]
+    m = Machinery(hint="chained_dict")                                  # type: ignore[reportAbstractUsage, abstract]
+    m.arg_bundler.force_bundling = True                                 #XXX HACK
+    logger.info("m.arg_bundler=%s", m.arg_bundler)
+    return m
 
 
 @pytest.fixture
 def bundler():
-    return Bundler()                                                       # type: ignore[reportAbstractUsage, abstract]
-
+    b = Bundler()                                                       # type: ignore[reportAbstractUsage, abstract]
+    b.force_bundling = True                                             #XXX HACK
+    return b

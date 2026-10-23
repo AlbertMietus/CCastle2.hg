@@ -152,9 +152,18 @@ class Renderer(Visitor):
         return txt
 
     def _render_def(self, node:_Named_callable, callDef_name=None) -> Block:
-        #XXX Now we always `Bundle` what is not needed -- see core_packages/castle-RPy-writer/doc/devNotes/CallConventions.rst
         if callDef_name is None:
             callDef_name = self.portray.callDef_name(node.name)
+        need_Bundler = self.machinery.arg_bundler.shallBundle(node)
+        render_def = self._render_def_bundled if need_Bundler else self._render_def_Notbundled
+        return render_def(node, callDef_name) 
+
+
+    def _render_def_Notbundled(self, node:_Named_callable, callDef_name=None) -> Block:
+        assert False                      #XXX
+
+
+    def _render_def_bundled(self, node:_Named_callable, callDef_name=None) -> Block:
         bundler = self.machinery.arg_bundler
         try:
             name_of_positionals = bundler._name_of_positionals() #type:ignore
@@ -165,15 +174,10 @@ class Renderer(Visitor):
 
         txt = Block(f"def {callDef_name}(self, {name_of_positionals}, {name_of_named}):")
         sub = Block()
-        txt.sub(sub) # We can still add text to sub, what will be in txt !
-
-        unBundled = bundler.unpack_unbox(node.parameters)
-        for name, val in unBundled:
+        txt.sub(sub) # Text add to `sub`, is also part of `txt`!
+        for name, val in bundler.unpack_unbox(node.parameters):
             sub += f"{self.visit(name)} = {val}"
-        
         return txt
-
-        
 
     def visit_Method(self, node)						 ->  TextBlock:
         txt = self._render_def(node)
@@ -259,7 +263,7 @@ class Renderer(Visitor):
         return f'''"{string}" % ({", ".join(str(arg) for arg in args)},)'''
 
 
-    def visit_ID(self, node)							 ->  TextBlock: # GAM: Not yet used everywhere (barely used)
+    def visit_ID(self, node)							 ->  TextBlock: # GAM: This ID can be the name of a called _callable
         if isinstance(node.context, aigr.Ref) and node.context.reference != None:
             return self.idref.portray(node)
         # Any other .context has no effect

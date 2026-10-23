@@ -20,7 +20,7 @@ LAST = \
 	pytst/d20_buildin/			\
 #
 CURRENT = \
-	pytst\
+	pytst/d04_renderer/machinery/test_chain_dict.py\
 #
 TODO = \
 	pytst/d50_TESTDOUBLES/	\
