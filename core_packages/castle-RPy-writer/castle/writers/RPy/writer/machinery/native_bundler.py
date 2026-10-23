@@ -6,7 +6,13 @@ import typing as PTH
 
 from castle import aigr
 from castle.aigr import types as CCTypes
+from castle.aigr import types as CCTypes
 from castle.writers.RPy.aid import TextBlock, Block
+
+from castle.aigr.statements.callables import _handlers # EventHandler etc
+from castle.aigr.statements.callables import _callable # but _handlers: Methods,ect
+from castle.aigr.machinery import _send_proto          # EventOverPort etc
+from castle.aigr.expressions.calls import _call        # Call, Part etc
 
 from . import Bundler, GeneratedCode, TypeTag, CC_B_Value
 
@@ -30,9 +36,20 @@ class NativeBundler(Bundler):
         self.force_bundling = None # XXX HACK
 
     def shallBundle(self, node) -> bool:
-        if self.force_bundling is None:
-            assert False, "XXX implement ADR00002"
-        return bool(self.force_bundling)
+        if self.force_bundling is not None:
+            logging.warning("Using `force_bundling`: %s", self.force_bundling)
+            return bool(self.force_bundling)
+        #else: # real algorithm
+
+        ret_val=None
+        # Only connected (send & handle) will be bundled
+        if isinstance(node, (_handlers, _send_proto)):
+            ret_val = True
+        elif isinstance(node, (_callable, _call)):
+            ret_val = False
+        else:
+            logger.error("Can't decides on bundle or not (see: ADR00002")
+        return ret_val                    #type: ignore -- `None` is error
 
     # XXX Move to portray?
     def _name_of_positionals(self):  return 'pos'

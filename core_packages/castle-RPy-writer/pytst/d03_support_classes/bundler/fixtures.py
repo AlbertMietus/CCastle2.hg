@@ -19,3 +19,7 @@ def forceYes_bundler(a_bundler):
 def forceNo_bundler(a_bundler):
     a_bundler.force_bundling = False
     return a_bundler
+
+@pytest.fixture
+def the_bundler(a_bundler):
+    return a_bundler
