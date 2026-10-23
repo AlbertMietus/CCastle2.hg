@@ -20,7 +20,7 @@ LAST = \
 	pytst/d20_buildin/			\
 #
 CURRENT = \
-	pytst/d04_renderer/whenBundled/test_TODO_argslist.py -k test_0\
+	pytst/d04_renderer/whenBundled/test_force_bundling_argslist.py \
 #
 TODO = \
 	pytst/d04_renderer/whenBundled/\
