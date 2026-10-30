@@ -18,12 +18,13 @@ LAST = \
 	pytst/d03_support_classes/	\
 	pytst/d04_renderer/			\
 	pytst/d20_buildin/			\
+	pytst/d04_renderer/argList_bundling_variants/\
 #
 CURRENT = \
-	pytst/d04_renderer/whenBundled/test_force_bundling_argslist.py \
+	pytst/d04_renderer/simple/test_4_Call_NoArgs.py\
 #
 TODO = \
-	pytst/d04_renderer/whenBundled/\
+	pytst/d04_renderer/argList_bundling_variants/test_NoBundling_posArgsList.py	\
 	pytst/d50_TESTDOUBLES/	\
 #
 

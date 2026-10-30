@@ -4,14 +4,10 @@ import pytest
 
 from . import *
 
-
-"""\
-.. note:: The (Native)Bundler makes the call signature always : pos:ArgumentList, kw: dist -- the kw is ToBeDone
-
-   #. So, pos is a list, kw is hardcoded as "{}" for now
-   # Even when there are no (Castle) args, an (empty] '[]' is needed
+""".. note:: `my_renderer` (using the NativeBundler) does NOT bundle arguments for `Call`
 """
-EXPECTED_FOR_EMPTY_ARGS="[], {}"
+
+EXPECTED_FOR_EMPTY_ARGS=""
 
 def test_1a_simple_ID_givesID(my_renderer):
     expected = f"foo({EXPECTED_FOR_EMPTY_ARGS})"
