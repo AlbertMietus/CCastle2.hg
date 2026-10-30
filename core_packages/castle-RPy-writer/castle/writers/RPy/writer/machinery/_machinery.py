@@ -28,7 +28,7 @@ class Machinery(ABC):
        .. note:: Typically, the Machinery is only called from :class:`Renderer` class, inside a writer."""
 
     _register     : PTH.ClassVar[dict[str, type]]  ={} # hint:str -> concrete Machinery subclass
-    _default_hint : PTH.ClassVar[str|None]=None    # default machinery
+    _default_hint : PTH.ClassVar[str]=""               # default machinery
 
 
     @classmethod
@@ -50,7 +50,7 @@ class Machinery(ABC):
         try:
             m = cls._register[_hint]
         except KeyError as e:
-            logger.warning("No Machinery for %s; trying default: %s -- Available: %s", hint, cls._default_hint, cls._register)
+            logger.warning("No Machinery for %s; trying default: %s -- Available: %s --%s", hint, cls._default_hint, cls._register, e)
             m = cls._register[cls._default_hint]
         assert m, "No Machinery, not even a default"
         logger.debug("Machinery %s selected", m)
@@ -58,9 +58,8 @@ class Machinery(ABC):
 
 
     def __init__(self, **kwargs):
-         self.arg_bundler = Bundler()  # Now: always: `NativeBundler'
+         self.arg_bundler = Bundler()    # pyright: ignore[reportAbstractUsage]  # Now: always: `NativeBundler'
          logger.debug("arg_bundler=%s", self.arg_bundler)
-
 
     @abstractmethod
     def render_EventDispatchTable(self, renderer, node) ->  Block:

@@ -49,7 +49,7 @@ class NativeBundler(Bundler):
             ret_val = False
         else:
             logger.error("Can't decides on bundle or not (see: ADR00002")
-        return ret_val                    #type: ignore -- `None` is error
+        return ret_val
 
     # XXX Move to portray?
     def _name_of_positionals(self):  return 'pos'
