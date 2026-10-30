@@ -182,9 +182,11 @@ class Renderer(Visitor):
         return render_def(node, callDef_name)
 
     def _render_def_Notbundled(self, node:_Named_callable, callDef_name=None) -> Block:
+        # Typical: Method/Function implementations
         raise NotImplementedError('_render_def_Notbundled')
 
     def _render_def_bundled(self, node:_Named_callable, callDef_name=None) -> Block:
+        # Typical: (Event)Handlers handler implementations
         bundler = self.machinery.arg_bundler
         try:
             name_of_positionals = bundler._name_of_positionals() #type:ignore
