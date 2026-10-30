@@ -151,39 +151,6 @@ class Renderer(Visitor):
             txt += self.machinery.render_EventDispatchTable(self, table)
         return txt
 
-    def _render_def(self, node:_Named_callable, callDef_name=None) -> Block:
-        """Render the def for all kind of `_callable`s -- with or without bundling
-           Used by::
-           * :meth:`visit_Method`()
-           * :meth:`visit_Initializer`()
-           * :meth:`visit_EventHandler`()"""
-        if callDef_name is None:
-            callDef_name = self.portray.callDef_name(node.name)
-        need_Bundler = self.machinery.arg_bundler.shallBundle(node)
-        render_def = self._render_def_bundled if need_Bundler else self._render_def_Notbundled
-        return render_def(node, callDef_name) 
-
-
-    def _render_def_Notbundled(self, node:_Named_callable, callDef_name=None) -> Block:
-        raise NotImplementedError('_render_def_Notbundled')
-
-
-    def _render_def_bundled(self, node:_Named_callable, callDef_name=None) -> Block:
-        bundler = self.machinery.arg_bundler
-        try:
-            name_of_positionals = bundler._name_of_positionals() #type:ignore
-            name_of_named = bundler._name_of_named()             #type:ignore
-        except:
-            name_of_positionals, name_of_named = 'pos', 'named'
-            assert False
-
-        txt = Block(f"def {callDef_name}(self, {name_of_positionals}, {name_of_named}):")
-        sub = Block()
-        txt.sub(sub) # Text add to `sub`, is also part of `txt`!
-        for name, val in bundler.unpack_unbox(node.parameters):
-            sub += f"{self.visit(name)} = {val}"
-        return txt
-
     def visit_Method(self, node)						 ->  TextBlock:
         txt = self._render_def(node)
         txt.sub(self.render_subNodes(node))
@@ -200,6 +167,37 @@ class Renderer(Visitor):
         txt = self._render_def(node)
         txt.sub(self.render_subNodes(node))
         txt += self.depart(node)
+        return txt
+
+    def _render_def(self, node:_Named_callable, callDef_name=None) -> Block:
+        """Render the def for all kind of `_callable`s -- with or without bundling
+           Used by::
+           * :meth:`visit_Method`()
+           * :meth:`visit_Initializer`()
+           * :meth:`visit_EventHandler`()"""
+        if callDef_name is None:
+            callDef_name = self.portray.callDef_name(node.name)
+        need_Bundler = self.machinery.arg_bundler.shallBundle(node)
+        render_def = self._render_def_bundled if need_Bundler else self._render_def_Notbundled
+        return render_def(node, callDef_name)
+
+    def _render_def_Notbundled(self, node:_Named_callable, callDef_name=None) -> Block:
+        raise NotImplementedError('_render_def_Notbundled')
+
+    def _render_def_bundled(self, node:_Named_callable, callDef_name=None) -> Block:
+        bundler = self.machinery.arg_bundler
+        try:
+            name_of_positionals = bundler._name_of_positionals() #type:ignore
+            name_of_named = bundler._name_of_named()             #type:ignore
+        except:
+            name_of_positionals, name_of_named = 'pos', 'named'
+            assert False
+
+        txt = Block(f"def {callDef_name}(self, {name_of_positionals}, {name_of_named}):")
+        sub = Block()
+        txt.sub(sub) # Text add to `sub`, is also part of `txt`!
+        for name, val in bundler.unpack_unbox(node.parameters):
+            sub += f"{self.visit(name)} = {val}"
         return txt
 
     def visit_Body(self, node)							 ->  TextBlock:
@@ -242,7 +240,6 @@ class Renderer(Visitor):
         logger.debug("_render_CallArgs_Notbundled: %s", arguments)
         parms = ', '.join(self.visit(p.value) for p in arguments)
         return parms
-
 
     def _render_CallArgs_bundled(self, node: aigr.Call) -> TextBlock:
         arguments: tuple[aigr.AIGR, ...] =  node.arguments if node.arguments else ()
