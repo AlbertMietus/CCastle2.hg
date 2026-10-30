@@ -43,9 +43,9 @@ class NativeBundler(Bundler):
 
         ret_val=None # Signal: Doesn't matter
         # Only connected (send & handle) will be bundled
-        if isinstance(node, (_handlers, _send_proto)):
+        if isinstance(node, (_handlers, _send_proto)): # _handlers :: def for events and such; _send_proto :: sending side
             ret_val = True
-        elif isinstance(node, (_callable, _call)):
+        elif isinstance(node, (_callable, _call)):     # _callable :: def for method and such; _call :: calling a func
             ret_val = False
         else:
             logger.error("Can't decides on bundle or not (see: ADR00002")
