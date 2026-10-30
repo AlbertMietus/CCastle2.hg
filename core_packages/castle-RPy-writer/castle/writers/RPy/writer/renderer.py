@@ -235,17 +235,17 @@ class Renderer(Visitor):
         need_Bundler = self.machinery.arg_bundler.shallBundle(node)
         render_callArgs = self._render_CallArgs_bundled if need_Bundler else self._render_CallArgs_Notbundled
         return render_callArgs(node)
-    	
+
     def _render_CallArgs_Notbundled(self, node: aigr.Call) -> TextBlock:
         arguments =  node.arguments if node.arguments else ()
         arguments = PTH.cast(aigr.ArgumentList, arguments)
         logger.debug("_render_CallArgs_Notbundled: %s", arguments)
         parms = ', '.join(self.visit(p.value) for p in arguments)
         return parms
-		
+
+
     def _render_CallArgs_bundled(self, node: aigr.Call) -> TextBlock:
         arguments: tuple[aigr.AIGR, ...] =  node.arguments if node.arguments else ()
-
         logger.debug("_render_CallArgs_bundled: %s", arguments)
         boxed_args = [self.visit(a) for a in arguments]
         logger.debug("rendered_args=%s", boxed_args)
