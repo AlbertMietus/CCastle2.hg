@@ -18,12 +18,10 @@ if PTH.TYPE_CHECKING:                                                           
 
 @dataclass
 class _callable(_hasScope, _statement):
-    """A callable is like a function, but more generic; this includes methods, (event)handlers, etc.
+    """A callable the implementation of anything that can be called; e,g. a Function, Method, *Handler.
+       Also, compounds -- like `Components` are an `_callable`` -- it calls the "new" function.
 
-    Most callable(s) have a name, but not all -- therefor it's not a NamedNode
-
-    NOTE: `_callable` **define** (implement) it.  See `aigr.expressions.calls.Call` for How to call it
-    """
+       Most callable(s) have a name, but not all -- therefor it's not a NamedNode -- see `_Named_callable`"""
 
     _ : KW_ONLY
     parameters : tuple[TypedParameter, ...]       = dc_field(default_factory=tuple)
