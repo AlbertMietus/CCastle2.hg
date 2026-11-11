@@ -181,12 +181,15 @@ class Renderer(Visitor):
         render_def = self._render_def_bundled if need_Bundler else self._render_def_Notbundled
         return render_def(node, callDef_name)
 
-    def _render_def_Notbundled(self, node:_Named_callable, callDef_name=None) -> Block:
-        # Typical: Method/Function implementations
-        raise NotImplementedError('_render_def_Notbundled')
+    def _render_def_Notbundled(self, node:_Named_callable, callDef_name) -> Block:
+        # Typical: Method/Function implementations (header//def-line)
+        parmlist = 'self' if len(node.parameters) == 0 else \
+          'self, ' + ', '.join(str(parm.name) for parm in node.parameters)
 
-    def _render_def_bundled(self, node:_Named_callable, callDef_name=None) -> Block:
-        # Typical: (Event)Handlers handler implementations
+        return Block(f"def {callDef_name}({parmlist}):")
+
+    def _render_def_bundled(self, node:_Named_callable, callDef_name) -> Block:
+        # Typical: (Event)Handlers handler implementations (header: def-line & unbundle)
         bundler = self.machinery.arg_bundler
         try:
             name_of_positionals = bundler._name_of_positionals() #type:ignore
