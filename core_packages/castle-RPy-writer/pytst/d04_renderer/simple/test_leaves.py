@@ -27,12 +27,33 @@ def test__stringConstant(my_renderer):
     assert my_renderer.visit(node) == "'''str'''"
     assert my_renderer.render(node) == "'''str'''\n"
 
-def test_fString(my_renderer):
+def test_fString_simple(my_renderer):
     node = aigr.fString("NoVars")
     assert my_renderer.visit(node) == '"NoVars"'
     assert my_renderer.render(node) == '"NoVars"\n'
 
+def test_fString_value(my_renderer):
+    node = aigr.fString(value="NoVars")
+    assert my_renderer.visit(node) == '"NoVars"'
+    assert my_renderer.render(node) == '"NoVars"\n'
 
+def test_fString_value_str(my_renderer):
+    node = aigr.fString(value="NoVars", type=aigr.types.string,)
+    assert my_renderer.visit(node) == '"NoVars"'
+    assert my_renderer.render(node) == '"NoVars"\n'
+
+def test_fString_1parm(my_renderer):
+    expected = '"A%sC" % (b,)'
+    node = aigr.fString(value="A{b}C", args=[ID('b')])
+    assert my_renderer.visit(node) == expected
+    assert my_renderer.render(node) ==  expected + '\n'
+
+def test_fString_someParm(my_renderer):
+    expected = '"A=%s B=%s C=%s" % (a, b, c,)'
+    node = aigr.fString(value="A={a} B={b} C={c}", args=[ID('a'),ID('b'),ID('c')])
+    assert my_renderer.visit(node) == expected
+    assert my_renderer.render(node) ==  expected + '\n'
+    
 def test_noSubNodes(my_renderer):
     for node in (
             ID('a'),

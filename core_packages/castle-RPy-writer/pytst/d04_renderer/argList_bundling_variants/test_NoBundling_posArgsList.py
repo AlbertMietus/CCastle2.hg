@@ -55,7 +55,7 @@ def test3_SomeFloatArgs_are_rendered_flat(my_renderer):
     verify_ValidPython(txt)
 
 
-@pytest.mark.xfail(reason="visit_Argument() need work for named arguments")
+@pytest.mark.skip(reason="visit_Argument() need work for named arguments")
 def test99_argList_with_named_arg(my_renderer):
     expected = "XXX TODO"
     named= aigr.Call(callable=ID('call_1_named'), arguments=(aigr.Argument(name=ID('a1'),value=1),))

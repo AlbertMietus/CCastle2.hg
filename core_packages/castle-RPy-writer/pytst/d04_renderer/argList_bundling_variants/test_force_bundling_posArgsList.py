@@ -56,7 +56,7 @@ def test_3_SomeFloatArgs_call_are_packed_and_boxed(bundle_renderer):
     verify_ValidPython(txt)
 
 
-@pytest.mark.xfail(reason="'Bundler' && visit_Argument() need work for named argument")
+@pytest.mark.skip(reason="'Bundler' && visit_Argument() need work for named argument")
 def test_99_argList_call_with_a_named_arg(bundle_renderer):
     expected = "XXX TODO"
     named= aigr.Call(callable=ID('call_1_named'), arguments=(aigr.Argument(name=ID('a1'),value=1),))

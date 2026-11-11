@@ -259,7 +259,7 @@ class Renderer(Visitor):
     def visit_Argument(self, node)-> TextBlock:
         #XXX Now we always `Bundle` what is not needed -- see core_packages/castle-RPy-writer/doc/devNotes/CallConventions.rst
         node = PTH.cast(aigr.Argument, node)
-        logger.info("visit_Argument: %s", node)
+        logger.debug("visit_Argument: %s", node)
 
         val_txt = self.visit(node.value)
         return self.machinery.arg_bundler.box(val_txt, node.value.type) ## Type of value or type of formal parameter? LAST!!
@@ -279,8 +279,11 @@ class Renderer(Visitor):
         formater = node.formater; assert formater, "the fString.formater should be set in aigr"
         string, args = fString_2_modulo(node.value)
         if len(args) == 0:
-            return f'''"{string}"'''
-        return f'''"{string}" % ({", ".join(str(arg) for arg in args)},)'''
+            retval = f'''"{string}"'''
+        else:
+            retval = f'''"{string}" % ({", ".join(str(arg) for arg in args)},)'''
+        logger.debug("visit_fString: node=%s ==> %s", node, retval)
+        return retval
 
 
     def visit_ID(self, node)							 ->  TextBlock: # GAM: This ID can be the name of a called _callable
