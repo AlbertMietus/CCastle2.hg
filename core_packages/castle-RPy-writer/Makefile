@@ -20,6 +20,7 @@ LAST = \
 	pytst/d20_buildin/			\
 	pytst/d04_renderer/argList_bundling_variants/\
 	pytst/d04_renderer/simple/test_4_Call_NoArgs.py\
+	pytst/d04_renderer/argList_bundling_variants/test_callable_defs.py\
 #
 CURRENT = \
 	pytst/d04_renderer/argList_bundling_variants/test_callable_defs.py\
@@ -28,6 +29,8 @@ TODO = \
 	pytst/d04_renderer/argList_bundling_variants/test_NoBundling_posArgsList.py	\
 	pytst/d50_TESTDOUBLES/	\
 #
+
+#	pytst/d04_renderer/machinery/test_event.py # Not needed for elemental HelloWorld
 
 
 HW_elemental = TestDoubles/HelloWorlds/elemental

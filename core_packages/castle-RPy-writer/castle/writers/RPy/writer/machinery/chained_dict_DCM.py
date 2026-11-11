@@ -36,10 +36,10 @@ class M_DC_chained_dict(_M_DC_dict):
         raise NotImplementedError
 
     def render_EventToSub(self, renderer, node) ->  Block:
-        raise NotImplementedError
         node = PTH.cast(aigr.machinery.EventToSub, node)
         logger.info(f"XXX render_EventToSub:: node={node}")
-
+        raise NotImplementedError
+    
         """\
 aigr.machinery.EventToSub(
     *,
