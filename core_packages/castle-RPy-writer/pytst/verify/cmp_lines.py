@@ -5,14 +5,14 @@ import logging; logger = logging.getLogger(__name__)
 
 
 def verify_line(expect, got, line=None):
-    logger.debug("verify_line\n\texpect:\t%s\ngot\t>>%s<<\n\tline=%s", expect, got, line)
+    logger.debug("\n verify_line\n\texpect :\t%s\n\tgot    :\t>>%s<<\n\tline=%s", expect, got, line)
     if expect == got:
         return
     try:
         txt = (got.splitlines()[line]) if line else got
     except IndexError:
         assert False, f"line={line} does not exist in got:>>{got}<< -- Expected: {expect}"
-    assert expect in txt, imprint((expect,'EXPECT'),(txt, 'Txt'),(got, 'Got'))
+    assert expect in txt, f"{expect=}, {got=}"
 
 
 def print_out(txt,label='print'):
