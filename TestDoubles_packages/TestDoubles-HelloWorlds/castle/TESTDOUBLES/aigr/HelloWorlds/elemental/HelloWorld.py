@@ -45,11 +45,13 @@ HelloWorld = Method(ID('HelloWorld', context=aigr.names.Def()),
                         aigr.VoidCall(
                             aigr.Call(callable=ID('print'),
                                       arguments=(
-                                          aigr.fString(
-                                              value="Hello {label} World",
-                                              type=aigr.types.string,
-                                              args=[ID('label',context=aigr.Ref())]),
-                                          )))]))
+                                          aigr.Argument(
+                                              value=
+                                              aigr.fString(
+                                                value="Hello {label} World",
+                                                type=aigr.types.string,
+                                                args=[ID('label',context=aigr.Ref())]),),)))
+                                                ]))
 
 ScaffolderCallable(HelloWorld).auto_register()              # parameters
 wrapped_E_HW.register(HelloWorld)                           # NamedNode
