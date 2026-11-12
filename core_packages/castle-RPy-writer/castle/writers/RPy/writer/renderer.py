@@ -240,27 +240,34 @@ class Renderer(Visitor):
         return render_callArgs(node)
 
     def _render_CallArgs_Notbundled(self, node: aigr.Call) -> TextBlock:
-        arguments =  node.arguments if node.arguments else ()
+        arguments = node.arguments if node.arguments else ()
         arguments = PTH.cast(aigr.ArgumentList, arguments)
         logger.info("_render_CallArgs_Notbundled[%s]: %s", len(arguments), arguments)
+
         args = ', '.join(self.visit(a) for a in arguments)
+
+        logger.debug("\t --> %s", args)
         return args
 
+
     def _render_CallArgs_bundled(self, node: aigr.Call) -> TextBlock:
-        arguments: tuple[aigr.AIGR, ...] =  node.arguments if node.arguments else ()
+        arguments = node.arguments if node.arguments else ()
+        arguments = PTH.cast(aigr.ArgumentList, arguments)
         logger.debug("_render_CallArgs_bundled: %s", arguments)
-        boxed_args = [self.visit(a) for a in arguments]
-        logger.debug("rendered_args=%s", boxed_args)
+
+        boxed_args = [self.machinery.arg_bundler.box(self.visit(a), a.value.type) for a in arguments]
+        logger.debug("\trendered_args=%s", boxed_args)
         packed  = self.machinery.arg_bundler.pack(arguments=boxed_args, formal_parameters=None)  # XXX OptionalTypedParameterList is needed
-        logger.debug("_render_args -> %s", packed)
+
+        logger.debug("\t --> %s", packed)
         return packed
 
+
     def visit_Argument(self, node)-> TextBlock:
-        #XXX Now we always `Bundle` what is not needed -- see core_packages/castle-RPy-writer/doc/devNotes/CallConventions.rst
         node = PTH.cast(aigr.Argument, node)
         logger.debug("visit_Argument: %s", node)
         val_txt = self.visit(node.value)
-        return self.machinery.arg_bundler.box(val_txt, node.value.type) ## Type of value or type of formal parameter? LAST!!
+        return val_txt
 
 
     def visit__literal(self, node)						 ->  TextBlock:
