@@ -46,7 +46,7 @@ class Visitor(MRO_Dispatch_Mixin):
         return self._visitor(node, dispatch_on, 'depart')
 
     def _default_visit(self, node):
-        logger.warning(f"Default visitor for {type(self).__name__} is called for {node} --in phase=visit) that is often a mistake")
+        logger.warning(f"Default visitor for {type(self).__name__} is called for '{node}':{type(node)} --in phase=visit) that is often a mistake")
         return self._defaultType() # type: ignore
 
     def _default_depart(self, node):        # No depart visitor is fine.
