@@ -23,6 +23,7 @@ LAST = \
 	pytst/d04_renderer/argList_bundling_variants/test_callable_defs.py\
 #
 CURRENT = \
+	pytst/d04_renderer/simple/test_5_CallArgs.py\
 	pytst/d50_TESTDOUBLES/d5_HelloWorlds/d1_elemental/test_03_Call.py\
 #
 TODO = \

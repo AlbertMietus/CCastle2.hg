@@ -18,7 +18,7 @@ def Call(wrapped_Hello_World): ### Not a great way to navigate, but fine for Now
     assert isinstance(call, aigr.Call) # Check only
     return call
 
-@pytest.mark.xfail
+#@pytest.mark.xfail
 def test_1_render_visitCallNeedsMoreWork_ButFineForNow(Call, my_renderer):
     EXPECTED = '''print("Hello %s World" % (label,))'''
     txt = my_renderer.render(Call)
