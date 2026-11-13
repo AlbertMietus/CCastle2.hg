@@ -17,20 +17,11 @@ def ComponentImplementation(wrapped_Hello_World):
     assert impl # check only, no test
     return impl
 
-@pytest.mark.xfail(reason="`Will fail on 'NotImplementedError' in '_render_def_Notbundled'")
+
 def test_1_1stLine_is_class(ComponentImplementation, my_renderer):
     txt = my_renderer.render(ComponentImplementation)
     verify_line('class CC_Elemental_HelloWorld(buildin.CC_B_Component):\n', txt,0)
 
-@pytest.mark.skip("`Initializer (a Method): the args are not bundled")
-def test_2_render_init(ComponentImplementation, my_renderer):
-    txt = my_renderer.render(ComponentImplementation)
-    verify_line('    def __init__(self, *args):',   txt, 2)
-    verify_line('        buildin.CC_B_Component.__init__(self, isa=cc_C_Elemental_HelloWorld)', txt, 3)
-    verify_line('        self._castle_init(*args)', txt, 4)
-    assert False, "more is needed"
-
-@pytest.mark.skip("`Initializer (a Method): the args are not bundled")
 def test_4_full(ComponentImplementation, my_renderer):
     txt = my_renderer.render(ComponentImplementation)
     verify_line_by_line(EXPECTED_CompImplementation, txt)
