@@ -17,7 +17,7 @@ HelloWorld(label :string) { 			///GAM: fixed `name :type` order
 }
 
 std.invoke() on self.std {              ///GAM: need proto (std) in name - lookup via port not yett supported
-   HelloWorld("Elemental");
+   .HelloWorld("Elemental");            ///GAM: `.HelloWorld` === `self.HelloWorld` -- call a method!
 }
 
 } /* Elemental_HelloWorld */

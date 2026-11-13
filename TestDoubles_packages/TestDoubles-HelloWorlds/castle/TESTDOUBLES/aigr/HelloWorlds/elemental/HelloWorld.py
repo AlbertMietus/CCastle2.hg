@@ -58,7 +58,7 @@ wrapped_E_HW.register(HelloWorld)                           # NamedNode
 
 
 #invoke() on self.std {
-#   HelloWorld("Elemental")
+#   .HelloWorld("Elemental")
 #}
 invoke = EventHandler(mangle_event_handler(protocol='std', event='invoke', port='std'),
                       protocol=ID('std', context=aigr.Ref()),
@@ -67,7 +67,7 @@ invoke = EventHandler(mangle_event_handler(protocol='std', event='invoke', port=
                       outer_ns=Elemental_HelloWorld,
                       body=aigr.Body(statements=[
                           aigr.VoidCall(
-                              aigr.Call(callable=ID('HelloWorld', context=aigr.Ref(reference=HelloWorld)),
+                              aigr.Call(callable=ID('self.HelloWorld', context=aigr.Ref(reference=HelloWorld)),
                                             arguments=(aigr.Constant(value="Elemental"),)))]))
 wrapped_E_HW.register(invoke) # XXX
 
