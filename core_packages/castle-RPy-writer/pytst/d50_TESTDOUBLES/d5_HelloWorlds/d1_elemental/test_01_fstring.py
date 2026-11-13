@@ -16,8 +16,11 @@ def fString(wrapped_Hello_World):
     assert isinstance(call, aigr.Call) # Check only
     assert call.arguments is not None  # Check only, and hint for linters
     arg0 = call.arguments[0]
-    assert isinstance(arg0, aigr.fString) # Check only
-    return arg0
+    assert isinstance(arg0, aigr.Argument) #Check only
+    val = arg0.value
+    assert isinstance(val, aigr.fString) #Check only
+    return val
+
 
 def test_visit_fString(fString, my_renderer):
     """Bypass the render method, check only `visit_fString()` -- As the text below fails"""

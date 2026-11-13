@@ -14,11 +14,11 @@ from . import elemental, wrapped_Hello_World
 def Call(wrapped_Hello_World): ### Not a great way to navigate, but fine for Now....
     method = wrapped_Hello_World.search('Elemental_HelloWorld.HelloWorld')
     statements = method.body.statements
-    call = statements[0].call
+    call : aigr.Call = statements[0].call
     assert isinstance(call, aigr.Call) # Check only
+    for a in (call.arguments if call.arguments else ()): assert isinstance(a, aigr.Argument) # Check only
     return call
 
-#@pytest.mark.xfail
 def test_1_render_visitCallNeedsMoreWork_ButFineForNow(Call, my_renderer):
     EXPECTED = '''print("Hello %s World" % (label,))'''
     txt = my_renderer.render(Call)
