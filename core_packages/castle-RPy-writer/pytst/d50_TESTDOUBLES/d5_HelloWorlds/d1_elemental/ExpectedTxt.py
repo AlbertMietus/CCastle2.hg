@@ -23,7 +23,9 @@ class CC_Elemental_HelloWorld(buildin.CC_B_Component):
     def HelloWorld(self, label):
         print("Hello %s World" % (label,))
 
-    def std_invoke__std(self, ):
+    def std_invoke__std(self, pos, named):
+
+
         self.HelloWorld('''Elemental''')
 \n\n"""
 

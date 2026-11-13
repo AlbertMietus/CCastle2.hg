@@ -5,6 +5,7 @@ import typing as PTH                                                            
 
 from castle import aigr
 from castle.writers.RPy.aid import Block, TextBlock
+from castle.aigr import types as CC_types
 
 from castle.monorail.base.visitors import Visitor
 
@@ -242,7 +243,7 @@ class Renderer(Visitor):
     def _render_CallArgs_Notbundled(self, node: aigr.Call) -> TextBlock:
         arguments = node.arguments if node.arguments else ()
         arguments = PTH.cast(aigr.ArgumentList, arguments)
-        logger.info("_render_CallArgs_Notbundled[%s]: %s", len(arguments), arguments)
+        logger.debug("_render_CallArgs_Notbundled[%s]: %s", len(arguments), arguments)
 
         args = ', '.join(self.visit(a) for a in arguments)
 
@@ -271,10 +272,10 @@ class Renderer(Visitor):
 
 
     def visit__literal(self, node)						 ->  TextBlock:
-        logger.info("visit__literal: %s", node)
-        if node.type == aigr.types.string or node.type is None:
+        logger.debug("visit__literal: %s", node)
+        if node.type == CC_types.string or node.type is None:
             return f"'''{node.value}'''"
-        elif isinstance(node.type, aigr.types.CC_buildinNumber):
+        elif isinstance(node.type, CC_types.CC_buildinNumber):
             return f"{node.value}"
         else:
             assert False, f"visit_Constant is not done  ... type={node.type}"

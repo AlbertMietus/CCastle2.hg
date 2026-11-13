@@ -21,13 +21,14 @@ LAST = \
 	pytst/d04_renderer/argList_bundling_variants/\
 	pytst/d04_renderer/simple/test_4_Call_NoArgs.py\
 	pytst/d04_renderer/argList_bundling_variants/test_callable_defs.py\
-#
-CURRENT = \
 	pytst/d04_renderer/simple/test_5_CallArgs.py\
 	pytst/d50_TESTDOUBLES/d5_HelloWorlds/d1_elemental/test_03_Call.py\
 #
+CURRENT = \
+	pytst/d50_TESTDOUBLES/d5_HelloWorlds/d1_elemental/test_12_file.py::test_1_renderToTxt
+#
 TODO = \
-	pytst/d04_renderer/argList_bundling_variants/test_NoBundling_posArgsList.py	\
+	pytst/d50_TESTDOUBLES/d5_HelloWorlds/d1_elemental/	\
 	pytst/d50_TESTDOUBLES/	\
 #
 
