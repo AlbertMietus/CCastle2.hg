@@ -2,11 +2,6 @@ from castle.writers.RPy_buildin import buildin
 from castle.writers.RPy_buildin import base
 
 
-#def Machinery_trigger_direct(receiver, event_key, handlers, arglist):
-#    handler = handlers[event_key]
-#    return handler(receiver, arglist)
-
-
 cc_P_SetLabel = buildin.CC_B_Protocol(name="SetLabel",
     kind =  buildin.CC_ProtocolKind.Event,
     inherit_from = None,
@@ -28,21 +23,20 @@ cc_CI_Credible.ports.append(
 
 class CC_Credible(buildin.CC_B_Component):
 
-    def __init__(self, arglist):
+    def __init__(self, *args):
         buildin.CC_B_Component.__init__(self, isa=cc_C_Credible)
-        self._castle_init(arglist=[])
+        self._castle_init(*args)
 
-    def _castle_init(self, arglist):
+    def _castle_init(self, *args):
         pass
 
 
-    def HelloWorld(self, arglist):
-        label=arglist[0]
+    def HelloWorld(self, label):
         print("Hello %s World" % (label,))
 
-    def SetLabel_set__hello(self, arglist):
-        label=arglist[0]
-        self.HelloWorld(arglist=[label])
+    def SetLabel_set__hello(self, pos, named):
+        label=pos[0]
+        self.HelloWorld([label])
 
 
 cc_C_Credible = buildin.CC_B_ComponentClass(
@@ -62,18 +56,18 @@ cc_CI_Credible_HelloWorld = buildin.CC_B_ComponentInterface(
 
 class CC_Credible_HelloWorld(buildin.CC_B_Component):
 
-    def __init__(self, arglist):
+    def __init__(self, *args):
         buildin.CC_B_Component.__init__(self, isa=cc_C_Credible_HelloWorld)
-        self._castle_init(arglist=[])
+        self._castle_init(*args)
 
-    def _castle_init(self, arglist):
-        self.credible = CC_Credible(arglist=arglist)
+    def _castle_init(self, *args):
+        self.credible = CC_Credible(*args)
 
-    def std_invoke__std(self, arglist):
+    def std_invoke__std(self, pos, named):
         """///CastleCode         # XXX TODO (in RPy)
-              .credible.hello.set("credible") // trigger internal port
-        """
-        return cc_S_Credible_hello['CC_P_SetLabel_set'](self.credible,['credible',]) # USING arglist:list is KEY
+              .credible.hello.set("credible") // trigger internal port """
+
+        return cc_S_Credible_hello['CC_P_SetLabel_set'](self.credible, pos=['credible',], named=None)
 
 
 cc_C_Credible_HelloWorld = buildin.CC_B_ComponentClass(
@@ -87,8 +81,8 @@ cc_S_Credible_HelloWorld_std = buildin.machinery.ChainedDict(map={
 
 
 def demo(argv):
-    main_elm = CC_Credible_HelloWorld(arglist=[])
-    cc_S_Credible_HelloWorld_std['CC_P_std_invoke'](main_elm,[])
+    main_elm = CC_Credible_HelloWorld()
+    cc_S_Credible_HelloWorld_std['CC_P_std_invoke'](main_elm, pos=None, named=None)
     return 0
 
 def target(*args):
