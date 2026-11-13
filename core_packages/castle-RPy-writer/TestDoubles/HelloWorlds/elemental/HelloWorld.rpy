@@ -1,11 +1,13 @@
 # -*-python-*-
-# (C) Albert Mietus, 2025. Part of Castle/CCastle project
+# (C) Albert Mietus, 2025,2026. Part of Castle/CCastle project
 #========================================================
 # This is a manually crafted "translation" from `elemental/HelloWorld.Castle`
 # Once day, the RPy writer will generate a simulair file, based on the AIGR TestDouble.
 # See the package:  TestDoubles-HelloWorlds, and the files
 # - CastleCode/elemental/HelloWorld.Castle 							(CastleCode)
 # - castle/TESTDOUBLES/aigr/HelloWorlds/elemental/HelloWorld.py 	(AIGR)
+#
+# 2026/11/13: use the 'Bundler' -- kind of
 
 
 from castle.writers.RPy_buildin import base
@@ -29,24 +31,23 @@ class CC_Elemental_HelloWorld(buildin.CC_B_Component): # Generated class;
     implement Elemental_HelloWorld
     {///"""
 
-    def __init__(self, arglist):
+    def __init__(self, *args):
         buildin.CC_B_Component.__init__(self, isa=cc_C_Elemental_HelloWorld)
-        self._castle_init(arglist=arglist)
+        self._castle_init(*args)
 
-    def _castle_init(self, arglist):
+    def _castle_init(self, *args):
         pass
         # XXX ToDO: update CC_B_Component._castle_init() to handle arglist
 
-    def HelloWorld(self, arglist):
+    def HelloWorld(self, label):
         """///Castlecode
         HelloWorld(str:label) {
            print("Hello {label} World")
         }"""
 
-        label=arglist[0]
         print("Hello %s World" % (label))
 
-    def std_invoke__std(self, arglist):
+    def std_invoke__std(self, pos, named):
         """///Castlecode
          invoke() on self.std {
            HelloWorld("Elemental")
