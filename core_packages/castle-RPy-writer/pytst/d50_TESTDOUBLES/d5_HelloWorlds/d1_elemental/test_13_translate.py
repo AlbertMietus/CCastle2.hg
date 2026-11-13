@@ -6,7 +6,7 @@ import typing as PTH                                                            
 from pathlib import Path
 import pytest
 
-pytestmark = pytest.mark.xfail(reason="Need the new 'Bundler' (in AIGR) first", allow_module_level=True) #type: ignore
+#pytestmark = pytest.mark.xfail(reason="Need the new 'Bundler' (in AIGR) first", allow_module_level=True) #type: ignore
 
 
 
@@ -36,6 +36,7 @@ class CopyFile(translators.base.RPY_Translator):
 
 @pytest.fixture
 def Copy_Not_GeneratedFiles(TestDoubles_out, stems=[driver_stem, "MACHINERY"]): # It is about the side effects!
+    logging.info("Copy_Not_GeneratedFiles: inDir=TestDoubles_out=%s, stems=%s", TestDoubles_out, stems)
     CopyFile(files=stems, inDir=TestDoubles_out).execute()
     return stems # for logging purposes only
 
