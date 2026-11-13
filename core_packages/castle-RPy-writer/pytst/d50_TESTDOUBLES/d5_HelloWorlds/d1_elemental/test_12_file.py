@@ -17,7 +17,6 @@ from ...TestDoubles import TestDoubles_dir # Needed for TestDoubles_out
 from . import TestDoubles_out, HW_E_out
 from . import elemental, target_unit, wrapped_target
 
-#pytestmark = pytest.mark.xfail(reason="Rendering.Call needs the new 'Bundler'", allow_module_level=True) #type: ignore
 
 def test_1_renderToTxt(target_unit, my_renderer):
     txt = my_renderer.render(target_unit)
