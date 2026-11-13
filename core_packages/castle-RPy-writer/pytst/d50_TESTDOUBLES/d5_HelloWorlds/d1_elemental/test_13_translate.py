@@ -6,10 +6,6 @@ import typing as PTH                                                            
 from pathlib import Path
 import pytest
 
-#pytestmark = pytest.mark.xfail(reason="Need the new 'Bundler' (in AIGR) first", allow_module_level=True) #type: ignore
-
-
-
 from castle.writers import RPy
 
 from . import EXPECTED_unit
@@ -25,7 +21,6 @@ gen_exe     = driver_stem                                  # used without  exten
 def generated_files(wrapped_target, TestDoubles_out) -> list[Path]:              # Returns a list of generated RPy files
     wrapped_target.write_out(inDir=TestDoubles_out)                              # Here the file is generated and saved
     return [wrapped_target.node.target_file]
-
 
 from castle.writers.RPy import translators
 class CopyFile(translators.base.RPY_Translator):
