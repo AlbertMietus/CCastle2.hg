@@ -25,7 +25,7 @@ LAST = \
 	pytst/d50_TESTDOUBLES/d5_HelloWorlds/d1_elemental/test_03_Call.py\
 #
 CURRENT = \
-	pytst/d50_TESTDOUBLES/d5_HelloWorlds/d1_elemental/test_13_translate.py
+	pytst/d50_TESTDOUBLES/d5_HelloWorlds/d1_elemental/test_02_Method.py
 #
 TODO = \
 	pytst/d50_TESTDOUBLES/d5_HelloWorlds/d1_elemental/\

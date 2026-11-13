@@ -6,8 +6,6 @@ import logging; logger = logging.getLogger(__name__)
 import pytest
 
 
-pytest.skip("`Method`-args are not bundled", allow_module_level=True)
-
 from castle import aigr
 
 from . import my_renderer, verify_line, verify_line_by_line
@@ -23,9 +21,7 @@ def Method(wrapped_Hello_World):
     return m
 
 expected ="""\
-def HelloWorld(self, pos, named):
-    label = CC_B_string.unbox(pos[0])
-
+def HelloWorld(self, label):
     print("Hello %s World" % (label,))
 """
 
@@ -40,7 +36,6 @@ def test_1b_unpack_def_head(Method, my_renderer):
     logger.info("test_1b_unpack_def_head: txt=\n%s", txt)
     verify_line_by_line(expected_lines(2), first_lines(txt, 2))
 
-@pytest.mark.xfail(reason="ADR00002: no bundler for `Method`")
 def test_2_full(Method, my_renderer):
     txt = my_renderer.render(Method)
     verify_line_by_line(expected, txt)
