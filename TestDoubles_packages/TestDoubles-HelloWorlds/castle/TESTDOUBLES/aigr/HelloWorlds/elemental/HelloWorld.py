@@ -68,7 +68,7 @@ invoke = EventHandler(mangle_event_handler(protocol='std', event='invoke', port=
                       body=aigr.Body(statements=[
                           aigr.VoidCall(
                               aigr.Call(callable=ID('self.HelloWorld', context=aigr.Ref(reference=HelloWorld)),
-                                            arguments=(aigr.Constant(value="Elemental"),)))]))
+                                            arguments=(aigr.Constant(value="Elemental"),)))])) # XXX TODO aigr.Argument
 wrapped_E_HW.register(invoke) # XXX
 
 

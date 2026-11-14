@@ -84,10 +84,22 @@ set_label = EventHandler(mangle_event_handler(protocol='SetLabel', event='set', 
                          #port=ID('hello', context=aigr.Ref(reference=component_Credible.ports[0])),
                          port=ID.Ref('hello', component_Credible.ports[0]), # OR port=ID.Ref('hello', p_hello)
                          outer_ns=Credible,
+                         parameters=(aigr.TypedParameter(name=ID('label'), type=aigr.types.string),),
                          body=aigr.Body(statements=[
                              aigr.VoidCall(
-                                 aigr.Call(callable=ID('HelloWorld', context=aigr.Ref(reference=HelloWorld)),
-                                               arguments=(aigr.Constant(value="Elemental"),)))]))
+                                 aigr.Call(callable=ID('self.HelloWorld', context=aigr.Ref(reference=HelloWorld)),
+                                               arguments=(
+                                                   aigr.Argument(value=ID.Ref("label", context='SEE_HACK'))
+                                                   ,)))]))
+if True: # HACK
+    label_arg = set_label.body.statements[0].call.arguments[0]
+    assert isinstance(label_arg, aigr.Argument); assert isinstance(label_arg.value, aigr.ID)
+    label_parm = set_label.parameters[0]
+    assert isinstance(label_parm, aigr.TypedParameter); assert isinstance(label_parm.name, aigr.ID)
+
+    assert label_arg.value.context.reference == 'SEE_HACK', str(label_arg)
+    label_arg.value.context.reference = label_parm
+
 wrapped_Credible.register(set_label)
 
 #...
