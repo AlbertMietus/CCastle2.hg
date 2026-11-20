@@ -21,11 +21,11 @@ LAST = \
 	pytst/d50_TESTDOUBLES/d5_HelloWorlds/d1_elemental/
 #
 CURRENT = \
-	pytst/d50_TESTDOUBLES/d5_HelloWorlds/d2_credible/test_12_file.py\
-#	pytst/d50_TESTDOUBLES/d5_HelloWorlds/d2_credible/\
+	pytst/d04_renderer/machinery/test_event.py\
 #
 TODO = \
-	pytst/d50_TESTDOUBLES/d5_HelloWorlds/d2_credible/test_12_file.py::test_1_renderToTxt\
+	pytst/d50_TESTDOUBLES/d5_HelloWorlds/d2_credible/test_12_file.py\
+	pytst/d50_TESTDOUBLES/d5_HelloWorlds/d2_credible/\
 #
 
 

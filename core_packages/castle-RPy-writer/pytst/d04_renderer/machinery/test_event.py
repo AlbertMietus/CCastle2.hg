@@ -50,4 +50,20 @@ def test_1_EventToSub_noArgs(machinery, my_renderer):
     blck = machinery.render_EventToSub(renderer=my_renderer, node=e)
     verify_line_by_line(expected, str(blck))
 
+def test_2_EventToSub_oneArgs(machinery, my_renderer):
+    expected="""cc_S_subElm_mockPort[CC_P_stubProto_dummyEvent](subElm, [CC_B_string('''foo''')], {})"""
+
+    e = aigr.machinery.EventToSub(
+        comp     = refID('self'),
+        receiver = refID('self.subElm'),
+        inport   = aigr.ID.Ref('mockPort', mockPort),
+        event    = refID('dummyEvent'),
+        arguments= [aigr.Argument(value=aigr.Constant(value="foo", type=aigr.types.string))])
+
+
+    blck = machinery.render_EventToSub(renderer=my_renderer, node=e)
+    verify_line_by_line(expected, str(blck))
+
+    
+    
 
