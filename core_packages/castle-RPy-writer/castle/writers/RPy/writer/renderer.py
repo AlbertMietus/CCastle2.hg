@@ -241,8 +241,8 @@ class Renderer(Visitor):
         return render_callArgs(node)
 
     def _render_CallArgs_Notbundled(self, node: aigr.Call) -> TextBlock:
-        arguments = node.arguments if node.arguments else ()
-        arguments = PTH.cast(aigr.ArgumentList, arguments)
+        arguments = node.arguments if node.arguments else ()                  #C&P: arguments=
+        arguments = PTH.cast(aigr.ArgumentList, arguments)                    #C&P: arguments-cast
         logger.debug("_render_CallArgs_Notbundled[%s]: %s", len(arguments), arguments)
 
         args = ', '.join(self.visit(a) for a in arguments)
@@ -252,8 +252,8 @@ class Renderer(Visitor):
 
 
     def _render_CallArgs_bundled(self, node: aigr.Call) -> TextBlock:
-        arguments = node.arguments if node.arguments else ()
-        arguments = PTH.cast(aigr.ArgumentList, arguments)
+        arguments = node.arguments if node.arguments else ()                  #C&P: arguments=
+        arguments = PTH.cast(aigr.ArgumentList, arguments)                    #C&P: arguments-cats
         logger.debug("_render_CallArgs_bundled: %s", arguments)
 
         boxed_args = [self.machinery.arg_bundler.box(self.visit(a), a.value.type) for a in arguments]

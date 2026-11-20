@@ -40,9 +40,9 @@ class M_DC_chained_dict(_M_DC_dict):
         logger.info(f"XXX render_EventToSub:: node={node}")
 
         logging.error(""""chained_dict_DCM::render_EventToSub::\
-        The algorithm to find the Protocol (-name) is an HACK! """)
-        protocol = node.inport.context.reference.type.name           #XXX HACK
+        The algorithm to find the Protocol (-name) is an HACK!""")
 
+        protocol = node.inport.context.reference.type.name           #XXX HACK
         elm = str(node.receiver).removeprefix('self.')
         dispatch_table = renderer.portray.cc_S_dispatchTable(comp=elm, port= str(node.inport))
         key = renderer.portray.CC_P_eventTrigger(protocol=protocol, event=node.event)
