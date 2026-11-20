@@ -6,21 +6,22 @@ from dataclasses import dataclass, KW_ONLY
 
 from .AIGR import AIGR
 
-class _Context(AIGR)  : "The context of an ID (base class) (Def/Ref/Set)"       # pragma: no mutate
-class Def(_Context)   : "Here, the name is defined"                             # pragma: no mutate
+class _Context(AIGR)  : "The context of an ID (base class) (Def/Ref/Set)"
+class Def(_Context)   : "A **Def-ID** (an ID with Def .context) defines the named"
 _Def_cls = Def # Alias
-@dataclass                                                                      # pragma: no mutate
+
+@dataclass
 class Ref(_Context):
-    "Points to a Def() of an name"                                              # pragma: no mutate
+    "A ***Ref-ID** (an ID with Ref .context) used an name, can can *point* to the Def"
     _ : KW_ONLY
     reference: PTH.Optional[AIGR] = None
 _Ref_cls= Ref # Alias, as ID.Ref also uses Ref ...
 
-@dataclass                                                                      # pragma: no mutate
+@dataclass
 class Set(_Context):
-    "Here, the name is set/changed"                                             # pragma: no mutate
+    "A **Set-ID** is like a Ref-ID, but, it changes the value (assignment)"
     _ : KW_ONLY
-    reference: PTH.Optional[PTH.Any] = None  ##not used for now                 # pragma: no mutate
+    reference: PTH.Optional[PTH.Any] = None  ##not used for now
 
 RefType = PTH.TypeVar("RefType", bound=AIGR)
 
@@ -29,7 +30,7 @@ class ID(str, AIGR):
 
     An `ID` is a string, although not all string are allowed (ony those, as typical in code. The AIGR does not, however,
     impose restrictions.
-    An `ID` can have an (optional) context; is it a definition, or a reference."""
+    An `ID` can have an (optional) context; see above: ID-Def/ID-Ref/ID-Set"""
 
     def __new__(cls, name:str, context:PTH.Optional[_Context]=None):
        return super().__new__(cls,name)
@@ -52,7 +53,7 @@ class ID(str, AIGR):
     #            return PTH.cast(ID.Def, (ID(name, context=_Def_cls())))
 
     @staticmethod
-    def Def(name:str):
+    def Def(name:str) -> ID:
         """`ID.Def()` creates an ID with Def() context"""
         return ID(name, context=_Def_cls())
 
