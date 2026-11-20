@@ -12,7 +12,7 @@ _Def_cls = Def # Alias
 
 @dataclass
 class Ref(_Context):
-    "A ***Ref-ID** (an ID with Ref .context) used an name, can can *point* to the Def"
+    "An ***Ref-ID** (an ID with Ref .context) used an name, can can *point* to the Def -- this the context part only"
     _ : KW_ONLY
     reference: PTH.Optional[AIGR] = None
 _Ref_cls= Ref # Alias, as ID.Ref also uses Ref ...
@@ -47,11 +47,6 @@ class ID(str, AIGR):
         else:
           return f'ID(`{str(self)}`/{repr(self.context)})'
 
-    #      class Def:
-    #        def __new__(cls, name:str) -> ID.Def:
-    #            """`ID.Def()` creates an ID with Def() context; and ID.Def is a type-hint"""
-    #            return PTH.cast(ID.Def, (ID(name, context=_Def_cls())))
-
     @staticmethod
     def Def(name:str) -> ID:
         """`ID.Def()` creates an ID with Def() context"""
@@ -61,10 +56,11 @@ class ID(str, AIGR):
     class Ref(PTH.Generic[RefType]):
         """`ID.Ref()` creates an ID with Ref() context. && ID.Ref[type] can be used as type-hint"""
 
-        def __new__(cls, name:str, context:RefType|_Ref_cls) -> ID.Ref:
+        def __new__(cls, name:str, context:RefType|_Ref_cls) -> ID:
             if not isinstance(context, _Ref_cls):
                 context = _Ref_cls(reference=context)
-            return PTH.cast(ID.Ref, ID(name, context))
+            #return PTH.cast(ID.Ref, ID(name, context))
+            return ID(name, context)
 
         def __class_getitem__(cls, item):          # Needed for generic type-hinting
             return PTH.Optional[item]
