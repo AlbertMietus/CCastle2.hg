@@ -33,7 +33,7 @@ def verify_line_by_line(expect:str, got:str, ignore_trailing_newLine=True):
     LINES = max(len(exp_lines), len(got_lines))
     exp_lines += [''] * (LINES - len(exp_lines)); got_lines += [''] * (LINES - len(got_lines));
 
-    side_by_side = f"\n".join(f"{l:2}: {e:{WIDTH}} {'=' if e==g else '!'}{g}" for l,e,g in zip(range(1,LINES),exp_lines, got_lines))
+    side_by_side = f"\n".join(f"{l:2}: {e:{WIDTH}} {'=' if e==g else '!'}{g}" for l,e,g in zip(range(0,LINES),exp_lines, got_lines))
 
     for e,g, no in zip(exp_lines, got_lines, range(999)):
         assert e == g, f"""At least line {no} is wrong: '{exp_lines[no]}' != "{got_lines[no]}"\n{"    EXPECT":{WIDTH}}     | GOT\n{side_by_side}"""
