@@ -25,13 +25,12 @@ LAST = \
 	pytst/d50_TESTDOUBLES/d5_HelloWorlds/d1_elemental/
 #
 CURRENT = \
-	pytst/d50_TESTDOUBLES/d5_HelloWorlds/d2_credible/test_12_file.py::test_1_renderToTxt\
+	pytst/d04_renderer/machinery/test_event.py
 #	pytst/d50_TESTDOUBLES/d5_HelloWorlds/d2_credible/test_12_file.py\
 #	pytst/d50_TESTDOUBLES/d5_HelloWorlds/d2_credible/\
 #
 TODO = \
-	pytst/d50_TESTDOUBLES/d5_HelloWorlds/d1_elemental/\
-	pytst/d50_TESTDOUBLES/	\
+	pytst/d50_TESTDOUBLES/d5_HelloWorlds/d2_credible/test_12_file.py::test_1_renderToTxt\
 #
 
 #	pytst/d04_renderer/machinery/test_event.py # Not needed for elemental HelloWorld

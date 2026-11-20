@@ -38,27 +38,25 @@ class M_DC_chained_dict(_M_DC_dict):
     def render_EventToSub(self, renderer, node) ->  Block:
         node = PTH.cast(aigr.machinery.EventToSub, node)
         logger.info(f"XXX render_EventToSub:: node={node}")
-        return "ToDo"
-        raise NotImplementedError
-    
-        """\
-aigr.machinery.EventToSub(
-    *,
-    parent: 'PTH.Optional[AIGR]' = None,
-    event: 'ID.Ref[Event]',
-    arguments: 'PTH.Sequence[Argument]',
-    comp: 'ID.Ref[componentInterface]',
-    receiver: 'ID.Ref[componentInterface]',
-) -> None        
 
-    handlers=...                            #GeneratorClass.cc_S_Generator_controll -- {cls}.{render_EventDispatchTable}
-    event_key=...                           #protocolsMoat.CC_P_StartSieve_runTo
-    receiver=...                            #comp.sub
-    args=....
-    
-    handler = handlers[event_key]
-    return handler(receiver, *args)
-"""
+        logging.error(""""chained_dict_DCM::render_EventToSub::\
+        The algorithm to find the Protocol (-name) is an HACK! """)
+        protocol = node.inport.context.reference.type.name           #XXX HACK
+
+        elm = str(node.receiver).removeprefix('self.')
+        dispatch_table = renderer.portray.cc_S_dispatchTable(comp=elm, port= str(node.inport))
+        key = renderer.portray.CC_P_eventTrigger(protocol=protocol, event=node.event)
+
+        # C&P: from renderer.py::_render_CallArgs_bundled
+        # self <-> renderer
+        boxed_args = [renderer.machinery.arg_bundler.box(renderer.visit(a), a.value.type) for a in node.arguments]
+        packed  = renderer.machinery.arg_bundler.pack(arguments=boxed_args, formal_parameters=None)  # XXX OptionalTypedParameterList is needed
+
+        txt = Block(f"{dispatch_table}[{key}]({elm}, {packed})\n")
+
+        return txt
+        raise NotImplementedError
+
 
 
 

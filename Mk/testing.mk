@@ -1,8 +1,8 @@
 # (C) Albert Mietus, 2025. Part of Castle/CCastle project
 
 PYTEST= pytest
-PYTEST_OPTIONS=-rxXsfE
-PYTEST_OPTIONS_NOxFAIL=-rXsfE
+PYTEST_OPTIONS=-rxXsfE -q
+PYTEST_OPTIONS_NOxFAIL=-rXsfE -q
 
 PYFAST= ${PYTEST} ${PYFAST_OPTON}
 

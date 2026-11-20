@@ -12,10 +12,11 @@ from . import _statement, AIGR
 
 @dataclass
 class Body(_statement):
-    """A `Body` is basically all "statements" between '{' and '}'. This can be the content of  callable, a Component etc.
+    """A `Body` is basically all "statements" (in CastleCode) between '{' and '}'. This can be the content of callable, a Component etc.
 
     A `Body` can also be used as an component-statement
     """
     _: KW_ONLY
-    statements: list[_statement] = dc_field(default_factory=list)
+    #statements: list[_statement] = dc_field(default_factory=list)
+    statements: PTH.Sequence[_statement] = dc_field(default_factory=list)
 

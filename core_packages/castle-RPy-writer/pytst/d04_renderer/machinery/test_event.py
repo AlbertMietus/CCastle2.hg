@@ -23,15 +23,31 @@ aigr.machinery.EventToSub(
         cc_S_Elemental_HelloWorld_std['CC_P_std_invoke'](main_elm)
 """
 
-@pytest.mark.skip(reason="Events (especially to subs) are not needed for elemental")
+def refID(name) ->aigr.ID.Ref:
+    return aigr.ID.Ref(name, ID(name))
+
+stubProto=aigr.EventProtocol('stubProto', events=[])
+mockPort=aigr.Port("mockPort", direction=aigr.PortDirection.In, type=stubProto)
+
+
 def test_1_EventToSub_noArgs(machinery, my_renderer):
-    """///CastleCode::: .subElm.aPort.anEvent()"""
-    expected='cc_S_subElm_aPort[(aPort, anEvent)]()'
+    """///CastleCode:::
+       .subElm.mockPort.dummyEvent()"""
+
+    expected="""cc_S_subElm_mockPort[CC_P_stubProto_dummyEvent](subElm, [], {})"""
+
     e = aigr.machinery.EventToSub(
-        comp     =aigr.ID.Ref('XXX_self',    context='XXX'),
-        receiver =aigr.ID.Ref('self.subElm', context='XXX'),
-        event     =aigr.ID.Ref('anEvent',    context='XXX'),
-        arguments=()) 
-    blck=machinery.render_EventToSub(renderer=my_renderer, node=e)
+        comp     = refID('self'),
+        receiver = refID('self.subElm'),
+        inport   = aigr.ID.Ref('mockPort', mockPort),
+        event    = refID('dummyEvent'),
+        arguments=())
+
+    logging.warning(""""test_1_EventToSub_noArgs::\
+    It works, but the implementation uses an hack ---\
+    .. seealso:: chained_dict_DCM::render_EventToSub()
+    """)
+    blck = machinery.render_EventToSub(renderer=my_renderer, node=e)
     verify_line_by_line(expected, str(blck))
+
 
