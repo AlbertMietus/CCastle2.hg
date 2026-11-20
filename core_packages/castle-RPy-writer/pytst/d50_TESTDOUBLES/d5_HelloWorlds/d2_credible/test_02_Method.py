@@ -27,6 +27,9 @@ def _castle_init(self):
     m1 = wrapped_Hello_World.search('Credible_HelloWorld.init')
     txt=my_renderer.render(m1)
     verify_line_by_line(expected, txt)
+    logger.warning("""This init works, but may be conflicting with
+    pytst/d50_TESTDOUBLES/d5_HelloWorlds/d2_credible/test_12_file.py
+    See the remark on "`__init__` // _castle_init` mismatch""")
 
 
 
