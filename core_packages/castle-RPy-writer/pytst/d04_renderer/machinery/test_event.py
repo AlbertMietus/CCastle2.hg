@@ -11,17 +11,6 @@ from .mocks import *
 from .fixtures import machinery
 from castle import aigr
 
-"""
-aigr.machinery.EventToSub(
-    comp:       'ID.Ref[componentInterface]', ##sender
-    receiver:   'ID.Ref[componentInterface]',
-    event:      'ID.Ref[Event]',
-    arguments: 'PTH.Sequence[Argument]',
-) -> None
-"""
-"""
-        cc_S_Elemental_HelloWorld_std['CC_P_std_invoke'](main_elm)
-"""
 
 def refID(name) ->aigr.ID.Ref:
     return aigr.ID.Ref(name, ID(name))
@@ -63,7 +52,3 @@ def test_2_EventToSub_oneArgs(machinery, my_renderer):
 
     blck = machinery.render_EventToSub(renderer=my_renderer, node=e)
     verify_line_by_line(expected, str(blck))
-
-    
-    
-

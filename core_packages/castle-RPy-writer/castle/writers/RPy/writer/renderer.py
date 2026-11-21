@@ -105,10 +105,10 @@ class Renderer(Visitor):
             f"class {gen_cls_name}({self.portray.BuildInComponent()}):",
             f"",))
 
-        init = Block(f"def __init__(self, *args):")
+        init = Block(f"def __init__(self, *args):")             #GAM: hardcoded '*args'* align with call to _castle_init
         init.sub(Block((
             f"{self.portray.BuildInComponent()}.__init__(self, isa={isa_elm_name})",
-            f"self._castle_init(*args)",)))
+            f"self._castle_init(*args)",)))                      #GAM: align with visit_Initializer & RPy_buildin::CC_B_Component
         txt.sub(init)
 
         txt.sub(self.render_subNodes(node))
