@@ -16,14 +16,29 @@ def _castle_init(self):
     txt = my_renderer.render(Init)
     verify_line_by_line(expected, txt)
 
-
 #def test_1_Init_WithNoParmeters(my_renderer) -- See test_0
 
-
-def test_2_Init_WithParmeters(my_renderer):
+def test_2_Init_With1Parmeter(my_renderer):
+    expected = f"""\
+def _castle_init(self, p1):
+    {exp_Body}
+"""
     Init2 = aigr.Initializer(name=ID('ShouldNotBeUsed'), body=mockBody,
-            parameters=(aigr.TypedParameter(name=ID(parm1), type=aigr.aigr.types.string)))
+            parameters=(aigr.TypedParameter(name=ID('p1'), type=aigr.aigr.types.string),))
     txt = my_renderer.render(Init2)
     verify_line_by_line(expected, txt)
 
+def test_2_Init_SomeParmeter(my_renderer):
+    expected = f"""\
+def _castle_init(self, p1, p2, p3):
+    {exp_Body}
+"""
+    Init2 = aigr.Initializer(name=ID('ShouldNotBeUsed'), body=mockBody,
+            parameters=(
+                aigr.TypedParameter(name=ID('p1'), type=aigr.aigr.types.string),
+                aigr.TypedParameter(name=ID('p2'), type=aigr.aigr.types.string),
+                aigr.TypedParameter(name=ID('p3'), type=aigr.aigr.types.string),
+                ))
+    txt = my_renderer.render(Init2)
+    verify_line_by_line(expected, txt)
     
