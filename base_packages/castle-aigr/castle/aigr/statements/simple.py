@@ -9,7 +9,8 @@ from dataclasses import field as dc_field
 
 from . import _statement
 from .. import expressions
-from castle.aigr import AIGR
+#from castle.aigr import AIGR
+from castle import aigr
 
 @dataclass
 class Become(_statement):
@@ -24,8 +25,8 @@ class Become(_statement):
        Currently, only single assignment are supported -- so both tuples have len==1
     """
     _ : KW_ONLY
-    targets: tuple[AIGR]                   # LHS: (sequence of) Variables etc
-    values:  tuple[AIGR]                   # RHS: (sequence of) Values
+    targets: tuple[aigr.AIGR]                   # LHS: (sequence of) Variables etc
+    values:  tuple[aigr.AIGR]                   # RHS: (sequence of) Values
 
 @dataclass
 class VoidCall(_statement):
