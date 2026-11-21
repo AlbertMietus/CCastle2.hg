@@ -35,16 +35,19 @@ class M_DC_chained_dict(_M_DC_dict):
     def render_EventOverPort(self, renderer, node) ->  Block:
         raise NotImplementedError
 
+
     def render_EventToSub(self, renderer, node) ->  Block:
         node = PTH.cast(aigr.machinery.EventToSub, node)
         logger.info(f"XXX render_EventToSub:: node={node}")
 
         logging.error(""""chained_dict_DCM::render_EventToSub::\
         The algorithm to find the Protocol (-name) is an HACK!""")
-
         protocol = node.inport.context.reference.type.name           #XXX HACK
-        elm = str(node.receiver).removeprefix('self.')
-        dispatch_table = renderer.portray.cc_S_dispatchTable(comp=elm, port= str(node.inport))
+
+        #assert False, "how to find the **COMP NAME* (the `class`) -- needed for the Dispatch_table
+        comp = "XXXX"
+        elm  = str(node.receiver)
+        dispatch_table = renderer.portray.cc_S_dispatchTable(comp=comp, port=str(node.inport))
         key = renderer.portray.CC_P_eventTrigger(protocol=protocol, event=node.event)
 
         # C&P: from renderer.py::_render_CallArgs_bundled
@@ -52,7 +55,8 @@ class M_DC_chained_dict(_M_DC_dict):
         boxed_args = [renderer.machinery.arg_bundler.box(renderer.visit(a), a.value.type) for a in node.arguments]
         packed  = renderer.machinery.arg_bundler.pack(arguments=boxed_args, formal_parameters=None)  # XXX OptionalTypedParameterList is needed
 
-        txt = Block(f"{dispatch_table}[{key}]({elm}, {packed})\n")
+        txt = Block(f"return {dispatch_table}['{key}']({elm}, {packed})\n")
+        logger.info(f"XXX render_EventToSub:: {str(txt)=}")
 
         return txt
         raise NotImplementedError

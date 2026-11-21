@@ -6,8 +6,9 @@ from . import credible, wrapped_Hello_World
 
 
 @pytest.fixture
-def become(wrapped_Hello_World):
-    initializer = wrapped_Hello_World.search('Credible_HelloWorld.init')
+def become(wrapped_Hello_World,caplog):
+    with caplog.at_level(logging.CRITICAL + 1):
+        initializer = wrapped_Hello_World.search('Credible_HelloWorld.init')
     return initializer.body.statements[0]
 
 def test_0_isBecome(become):

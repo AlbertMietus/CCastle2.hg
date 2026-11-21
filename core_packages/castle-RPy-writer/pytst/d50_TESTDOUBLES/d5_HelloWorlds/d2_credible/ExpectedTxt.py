@@ -81,14 +81,7 @@ cc_CI_Credible_HelloWorld = buildin.CC_B_ComponentInterface(
     )
 \n"""
 
-### NOTE:
-# As, `__init__` calls "self._castle_init(*args)", so with args ...
-# the def of `_castle_init` should also have *args
-# The quistuon is: what is it. And, does it depend on the CastleCode??
 
-## BUG: The current (2026/Nov/20) implementation:
-# Calls WITH `*args`, but ...
-# def is withOUT `*args` ...
 
 EXPECTED_Implementation_HW="""\
 class CC_Credible_HelloWorld(buildin.CC_B_Component):
@@ -98,13 +91,14 @@ class CC_Credible_HelloWorld(buildin.CC_B_Component):
         self._castle_init(*args)
 
 
-
-    def _castle_init(self, *args):
-        self.credible = CC_Credible(*args)
+    
+    def _castle_init(self):
+        self.credible = CC_Credible()
 
     def std_invoke__std(self, pos, named):
-        ### XXX ToDo
-        return cc_S_Credible_hello['CC_P_SetLabel_set'](self.credible, pos=['credible',], named=None)
+
+
+        return cc_S_Credible_hello['CC_P_SetLabel_set'](self.credible, [CC_B_string('''credible''')], {})
 \n\n\n"""
 
 EXPECTED_CompClass_HW  = """\
