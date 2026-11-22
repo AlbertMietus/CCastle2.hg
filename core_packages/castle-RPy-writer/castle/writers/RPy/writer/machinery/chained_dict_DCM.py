@@ -45,7 +45,7 @@ class M_DC_chained_dict(_M_DC_dict):
         protocol = node.inport.context.reference.type.name           #XXX HACK
 
         #assert False, "how to find the **COMP NAME* (the `class`) -- needed for the Dispatch_table
-        comp = "XXXX"
+        comp = "XXX How to find comp aka the DispatchTable XXX"
         elm  = str(node.receiver)
         dispatch_table = renderer.portray.cc_S_dispatchTable(comp=comp, port=str(node.inport))
         key = renderer.portray.CC_P_eventTrigger(protocol=protocol, event=node.event)

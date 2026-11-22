@@ -22,6 +22,8 @@ cc_CI_Credible.ports.append(
 
 
 class CC_Credible(buildin.CC_B_Component):
+    """GAM: Each individual 'Credible' element has its own instantiation of this class
+            It save element values, and "class methods"; including the ones of CC_B_Component"""
 
     def __init__(self, *args):
         buildin.CC_B_Component.__init__(self, isa=cc_C_Credible)
@@ -36,7 +38,7 @@ class CC_Credible(buildin.CC_B_Component):
 
     def SetLabel_set__hello(self, pos, named):
         label=pos[0]
-        self.HelloWorld([label])
+        self.HelloWorld(label)            #GAM no bundling (BUGFIX)
 
 
 cc_C_Credible = buildin.CC_B_ComponentClass(
@@ -66,6 +68,26 @@ class CC_Credible_HelloWorld(buildin.CC_B_Component):
     def std_invoke__std(self, pos, named):
         """///CastleCode         # XXX TODO (in RPy)
               .credible.hello.set("credible") // trigger internal port """
+        print (''''WRONG! cc_S_Credible_hello is hardcoded
+               the table should be found via self.credible -> ???
+               Probally 'CC_B_Component'
+               ''')
+        print(f"XXX\t {self.credible=}")
+        print(f"XXX\t {self.credible.isa=}")
+        print(f"XXX\t {self.credible.isa.interface=}")
+        print(f"XXX\t {self.credible.isa.methods=}")
+        print(f"XXX\t {self.credible.isa.isa=}")
+        
+        print(f"XXX\t\t {self.credible.isa.interface.name=}")
+        print(f"XXX\t\t {self.credible.isa.interface.inherit_from=}")
+        print(f"XXX\t\t {self.credible.isa.interface.ports=}")
+        
+        print(f"XXX\t\t\t {self.credible.isa.interface.ports[0].name=}")
+        print(f"XXX\t\t\t {self.credible.isa.interface.ports[0].portNo=}")
+        print(f"XXX\t\t\t {self.credible.isa.interface.ports[0].protocol=}")
+        print(f"XXX\t\t\t {self.credible.isa.interface.ports[0]._direction=}")
+        print(f"XXX\t\t\t {self.credible.isa.interface.ports[0].part_of=}")
+        
 
         return cc_S_Credible_hello['CC_P_SetLabel_set'](self.credible, pos=['credible',], named=None)
 

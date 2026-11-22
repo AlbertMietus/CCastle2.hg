@@ -19,10 +19,10 @@ LAST = \
 	pytst/d04_renderer/			\
 	pytst/d20_buildin/			\
 	pytst/d50_TESTDOUBLES/d5_HelloWorlds/d1_elemental/	\
-	pytst/d04_renderer/machinery/test_event.py			\
 	pytst/d04_renderer/simple/test_8_Initializer.py		\
 #
 CURRENT = \
+	pytst/d04_renderer/machinery/test_event.py			\
 	pytst/d50_TESTDOUBLES/d5_HelloWorlds/d2_credible/test_12_file.py\
 #
 TODO = \

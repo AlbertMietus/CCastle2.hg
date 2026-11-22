@@ -4,7 +4,8 @@ class CC_B_OutPort(_debug.DebugMixIn):
 
     def __init__(self):
         self.connection = None            # ref to a  CC_B_Component-subclass (the generated classes)
-        self.handlers = []                # CC_B_eDispatchTable = list of CC_B_eventHandler(s)
+        #self.handlers = []               # NOT USED, OLD ##CC_B_eDispatchTable = list of CC_B_eventHandler(s)
+        self.link_to_DT                   # NEW! pointer to cc_S_${Comp}_${Port} `ChainedDict` DispatchTable
 
 
     def _debug_attr_(self, name_only=True):

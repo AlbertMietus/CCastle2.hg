@@ -153,7 +153,7 @@ invoke = EventHandler(mangle_event_handler(protocol='std', event='invoke', port=
                       outer_ns=Credible_HelloWorld,
                       body=aigr.Body(statements=[
                           aigr.machinery.EventToSub(
-                              comp=ID.Ref('self', Credible_HelloWorld),
+                              comp=ID.Ref('self', Credible_HelloWorld), # GAM: WRONG, use an DispatchTable
                               receiver=ID.Ref('self.credible', component_Credible),
                               inport=ID.Ref('hello', p_hello),
                               event= ID('set', context=aigr.Ref(reference=SetLabel.events[0])),
