@@ -7,6 +7,7 @@ import typing as PTH                                                            
 from dataclasses import dataclass, KW_ONLY
 from dataclasses import field as dc_field
 
+from castle import aigr
 from castle.aigr import AIGR
 from . import _statement
 
@@ -18,7 +19,7 @@ class If(_statement):
     another if-statement, modeling the "elif" as known in e.g. python.
     """
     _ : KW_ONLY
-    test:   AIGR                     # Boolean Expr
-    body:   AIGR                     # Typical: `AIGR.Body`
-    orelse: PTH.Optional[AIGR]=None  # Typical: `AIGR.Body | AIGR.If`
+    test:   aigr.AIGR                     # Boolean Expr
+    body:   aigr.AIGR                     # Typical: `AIGR.Body`
+    orelse: PTH.Optional[aigr.AIGR]=None  # Typical: `AIGR.Body | AIGR.If`
 
