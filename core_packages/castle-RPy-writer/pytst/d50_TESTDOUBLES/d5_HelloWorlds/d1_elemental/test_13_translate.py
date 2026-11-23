@@ -26,12 +26,12 @@ from castle.writers.RPy import translators
 class CopyFile(translators.base.RPY_Translator):
     def runner(self): #called via execute()
         for stem in self.files:
-            logging.info(f"CopyFile: cp ../{stem}.rpy {stem}.py")
+            logging.debug(f"CopyFile: cp ../{stem}.rpy {stem}.py")
             self.process(cmd=["cp", f"../{stem}.rpy", f"{stem}.py"])
 
 @pytest.fixture
 def Copy_Not_GeneratedFiles(TestDoubles_out, stems=[driver_stem, "MACHINERY"]): # It is about the side effects!
-    logging.info("Copy_Not_GeneratedFiles: inDir=TestDoubles_out=%s, stems=%s", TestDoubles_out, stems)
+    logging.debug("Copy_Not_GeneratedFiles: inDir=TestDoubles_out=%s, stems=%s", TestDoubles_out, stems)
     CopyFile(files=stems, inDir=TestDoubles_out).execute()
     return stems # for logging purposes only
 
@@ -41,7 +41,7 @@ def Copy_Not_GeneratedFiles(TestDoubles_out, stems=[driver_stem, "MACHINERY"]): 
 def test_1_eval(generated_files, Copy_Not_GeneratedFiles, TestDoubles_out):
     runner =  RPy.translators.Evaluate(files=generated_files, inDir=TestDoubles_out, driver=driver_stem)
     std_out = runner.execute()
-    logging.info("Output: %s", std_out)
+    logging.debug("Output: %s", std_out)
     assert std_out.strip() == "Hello Elemental World"
 
 
@@ -49,7 +49,7 @@ def test_1_eval(generated_files, Copy_Not_GeneratedFiles, TestDoubles_out):
 @pytest.mark.parametrize('rel_path,', [HW_E_out])
 def test_2_compile(generated_files, Copy_Not_GeneratedFiles, TestDoubles_out):
     runner =  RPy.translators.Compile(files=generated_files, inDir=TestDoubles_out, driver=driver_stem, into=gen_exe)
-    print("\tTranslating can take some time ....",end="", flush=True)
+    print("\n\tTranslating can take some time ....",end="", flush=True)
     runner.execute()
     print(".. done")
     assert (TestDoubles_out / gen_exe).exists(), f"Expecting {gen_exe} in {TestDoubles_out}, but it isn't there"
@@ -63,7 +63,7 @@ def test_3_execute(TestDoubles_out):
 
     runner =  RPy.translators.Execute(inDir=TestDoubles_out, into=gen_exe)
     std_out = runner.execute()
-    logging.info("Output: %s", std_out)
+    logging.debug("Output: %s", std_out)
     assert std_out.strip() == "Hello Elemental World"
 
 

@@ -21,7 +21,7 @@ class ScaffolderUnit(ScaffolderNameSpace):
     _nodeCls :type = RPy_unit
 
     def save(self, txt: str, inDir :PTH.Optional[Path|str] =None) ->None:
-        logger.info('%s[%s].save(txt=%s..., inDir=%s) file:=%s',
+        logger.debug('%s[%s].save(txt=%s..., inDir=%s) file:=%s',
                          self.__class__.__name__, self.node.__class__.__name__,
                          repr(txt[:42])[1:-1], inDir, self.node.target_file)
 

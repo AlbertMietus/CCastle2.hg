@@ -38,6 +38,7 @@ def test_2b1_writeOut_with_instance_is_allowd(wrapped_target, my_renderer, TestD
 
 @pytest.mark.parametrize('rel_path,', [HW_E_out])
 def test_2b2_writeOut_with_class(wrapped_target, my_renderer, TestDoubles_out):
+    logger.warning("Using 'my_renderer' --not a Class-- on purpose. Ignore warning about it!")
     wrapped_target.write_out(inDir=TestDoubles_out, renderCls=my_renderer) # should pass a class, but an instance is allowed
     verify_file(EXPECTED_unit, wrapped_target.target_file)
 

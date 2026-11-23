@@ -16,7 +16,7 @@ def TestDoubles_dir():
         dir = dir.parent
     the_dir = dir / TESTDOUBLES
     assert the_dir.is_dir(), f"found {the_dir}, but it isn't a dir"
-    logging.info("TestDoubles_dir:: using %s", the_dir)
+    logging.debug("TestDoubles_dir:: using %s", the_dir)
     return the_dir
 
 

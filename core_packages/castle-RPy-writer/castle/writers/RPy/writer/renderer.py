@@ -33,7 +33,7 @@ class Renderer(Visitor):
         self.machinery = machinery if machinery else Machinery() # type: ignore[abstract] # Machinery-baseclass selects a subclass ad instance that one.
         self.portray = portray if portray else Portray(self)
         self.idref   = idref if idref else IDRef(self)
-        logger.info( "Renderer: Using Machinery=%s", type(self.machinery).__name__)
+        logger.debug("Renderer: Using Machinery=%s", type(self.machinery).__name__)
         logger.debug("Renderer: walker=%s, machinery=%s, portray=%s, idref=%s", self.walker, self.machinery, self.portray, self.idref,)
 
     def render(self, node: aigr.AIGR) ->str:

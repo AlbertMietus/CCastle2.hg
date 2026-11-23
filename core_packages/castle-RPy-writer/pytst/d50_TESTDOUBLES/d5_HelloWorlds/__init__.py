@@ -16,7 +16,7 @@ from ...fixtures import my_renderer
 def verify_file(expect: str, file: Path|str):
     if isinstance(file, str):
         file = Path(file)
-    logger.info("read from: %s", file)
+    logger.debug("read from: %s", file)
     assert file.is_file()
     verify_line_by_line(expect, file.read_text())
 
