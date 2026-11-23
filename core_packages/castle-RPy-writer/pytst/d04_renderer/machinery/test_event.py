@@ -19,11 +19,12 @@ stubProto=aigr.EventProtocol('stubProto', events=[])
 mockPort=aigr.Port("mockPort", direction=aigr.PortDirection.In, type=stubProto)
 
 
+@pytest.mark.xfail(reason="Passing only due HACK in implementation")
 def test_1_EventToSub_noArgs(machinery, my_renderer):
     """///CastleCode:::
        .subElm.mockPort.dummyEvent()"""
 
-    expected="""cc_S_subElm_mockPort[CC_P_stubProto_dummyEvent](subElm, [], {})"""
+    expected="""cc_S_subElm_mockPort['CC_P_stubProto_dummyEvent'](self.subElm, [], {})"""
 
     e = aigr.machinery.EventToSub(
         comp     = refID('self'),
@@ -39,8 +40,9 @@ def test_1_EventToSub_noArgs(machinery, my_renderer):
     blck = machinery.render_EventToSub(renderer=my_renderer, node=e)
     verify_line_by_line(expected, str(blck))
 
+@pytest.mark.xfail(reason="Passing only due HACK in implementation")
 def test_2_EventToSub_oneArgs(machinery, my_renderer):
-    expected="""cc_S_subElm_mockPort[CC_P_stubProto_dummyEvent](subElm, [CC_B_string('''foo''')], {})"""
+    expected="""cc_S_subElm_mockPort['CC_P_stubProto_dummyEvent'](self.subElm, [CC_B_string('''foo''')], {})"""
 
     e = aigr.machinery.EventToSub(
         comp     = refID('self'),

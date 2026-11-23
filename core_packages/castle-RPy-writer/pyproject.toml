@@ -18,7 +18,7 @@ packages = [ # manyally maintain this
 
 [tool.pytest.ini_options]
 markers = [
-    "slow: marks tests as slow (use --fast to include)"
+    "slow:  Marks this test as slow (use --fast to include)",
 ]
 
 [tool.mypy]

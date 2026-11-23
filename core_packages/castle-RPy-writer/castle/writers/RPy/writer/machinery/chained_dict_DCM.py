@@ -40,12 +40,15 @@ class M_DC_chained_dict(_M_DC_dict):
         node = PTH.cast(aigr.machinery.EventToSub, node)
         logger.info(f"XXX render_EventToSub:: node={node}")
 
-        logging.error(""""chained_dict_DCM::render_EventToSub::\
+        logging.error(""""chained_dict_DCM::render_EventToSub:: `protocol`\
         The algorithm to find the Protocol (-name) is an HACK!""")
         protocol = node.inport.context.reference.type.name           #XXX HACK
 
-        #assert False, "how to find the **COMP NAME* (the `class`) -- needed for the Dispatch_table
-        comp = "XXX How to find comp aka the DispatchTable XXX"
+        logging.error(""""chained_dict_DCM::render_EventToSub:: `comp`\
+        The DispatchTable is now hardcoded --with the name of the sub (var) ... \
+        That is WRONG! We should dynamicly find it via the pin --- to be designed""")
+        comp = str(node.receiver).removeprefix('self.')
+
         elm  = str(node.receiver)
         dispatch_table = renderer.portray.cc_S_dispatchTable(comp=comp, port=str(node.inport))
         key = renderer.portray.CC_P_eventTrigger(protocol=protocol, event=node.event)
@@ -55,7 +58,7 @@ class M_DC_chained_dict(_M_DC_dict):
         boxed_args = [renderer.machinery.arg_bundler.box(renderer.visit(a), a.value.type) for a in node.arguments]
         packed  = renderer.machinery.arg_bundler.pack(arguments=boxed_args, formal_parameters=None)  # XXX OptionalTypedParameterList is needed
 
-        txt = Block(f"return {dispatch_table}['{key}']({elm}, {packed})\n")
+        txt = Block(f"{dispatch_table}['{key}']({elm}, {packed})\n")
         logger.info(f"XXX render_EventToSub:: {str(txt)=}")
 
         return txt
