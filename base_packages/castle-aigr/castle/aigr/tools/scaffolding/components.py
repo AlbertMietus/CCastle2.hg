@@ -16,7 +16,7 @@ class ScaffolderComponentImplementation(ScaffolderNameSpace):
     _link_fields = frozenset({'interface'})
 
     def register_EventHandler(self, node :aigr.EventHandler, asName :PTH.Optional[ID|str]=None): # XXX Or register__handlers XXX
-        logger.info(f".register_EventHandler: {node=} {asName=} {self=} XXX")
+        logger.debug(f".register_EventHandler: {node=} {asName=} {self=}")
         if asName is not None and not asName == node.name:
             logger.error("It's wrong to register EventHandler (%s) with a diffent name (%s). Ignoring that ...", node.name, asName)
         PTH.cast(aigr.ComponentImplementation, self.node).handlers.append(node)

@@ -19,7 +19,7 @@ class M_DC_chained_dict(_M_DC_dict):
         table_name = renderer.portray.cc_S_dispatchTable(comp=table.comp, port=table.port)
         parent_table = renderer.portray.cc_S_dispatchTable(comp=table.parentTable.comp, port=table.port) if table.parentTable else 'None' # XXXX
 
-        logger.info("render_EventDispatchTable(node/table=%s), table_name=%s, parent_table=%s", node, table_name, parent_table)
+        logger.debug("render_EventDispatchTable(node/table=%s), table_name=%s, parent_table=%s", node, table_name, parent_table)
 
         txt = Block(f'{table_name} = buildin.machinery.ChainedDict(map={{')
         sub = Block();
@@ -38,7 +38,7 @@ class M_DC_chained_dict(_M_DC_dict):
 
     def render_EventToSub(self, renderer, node) ->  Block:
         node = PTH.cast(aigr.machinery.EventToSub, node)
-        logger.info(f"XXX render_EventToSub:: node={node}")
+        logger.debug(f"XXX render_EventToSub:: node={node}")
 
         logging.error(""""chained_dict_DCM::render_EventToSub:: `protocol`\
         The algorithm to find the Protocol (-name) is an HACK!""")

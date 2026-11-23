@@ -41,6 +41,7 @@ def Copy_Not_GeneratedFiles(TestDoubles_out, stems=[driver_stem, "MACHINERY"]): 
 def test_1_eval(generated_files, Copy_Not_GeneratedFiles, TestDoubles_out):
     runner =  RPy.translators.Evaluate(files=generated_files, inDir=TestDoubles_out, driver=driver_stem)
     std_out = runner.execute()
+    logging.info("Output: %s", std_out)
     assert std_out.strip() == "Hello Elemental World"
 
 
@@ -62,6 +63,7 @@ def test_3_execute(TestDoubles_out):
 
     runner =  RPy.translators.Execute(inDir=TestDoubles_out, into=gen_exe)
     std_out = runner.execute()
+    logging.info("Output: %s", std_out)
     assert std_out.strip() == "Hello Elemental World"
 
 

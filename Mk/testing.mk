@@ -1,8 +1,10 @@
 # (C) Albert Mietus, 2025. Part of Castle/CCastle project
 
 PYTEST= pytest
-PYTEST_OPTIONS=-rxXsfE -q
-PYTEST_OPTIONS_NOxFAIL=-rXsfE -q
+#PYTEST_OPTIONS=-rxXsfE -q
+PYTEST_OPTIONS=-rxXsfE
+#PYTEST_OPTIONS_NOxFAIL=-rXsfE -q
+PYTEST_OPTIONS_NOxFAIL=-rXsfE 
 
 PYFAST= ${PYTEST} ${PYFAST_OPTON}
 
@@ -64,3 +66,9 @@ recheck:
 	${PYFAST}  ${PYTEST_OPTIONS}   ${LAST} ${CURRENT}
 fast:
 	${PYFAST}  ${PYTEST_OPTIONS}  pytst
+current-all:
+	${PYTEST}  ${PYTEST_OPTIONS}  -s ${CURRENT}
+current-all-info:
+	${PYTEST}  ${PYTEST_OPTIONS}  --log-cli-level=INFO -s ${CURRENT}
+current-all-ds:
+	${PYTEST}  ${PYTEST_OPTIONS}  --log-cli-level=DEBUG -s ${CURRENT}

@@ -55,7 +55,7 @@ class ScaffolderEventProtocol(ScaffolderProtocol):
         try:
             inherited_events = wrapped_base._noEvents() # type: ignore [union-attr]
         except AttributeError as e: #  No ._noEvents()
-            logger.info("AttributeError: %s -- wrapped_base: %s ", e, wrapped_base )
+            logger.debug("AttributeError: %s -- wrapped_base: %s ", e, wrapped_base )
             inherited_events = 0
         logger.debug(f'{self.name} has inherited {inherited_events} events')
         no_events = inherited_events + len(self.node.events)

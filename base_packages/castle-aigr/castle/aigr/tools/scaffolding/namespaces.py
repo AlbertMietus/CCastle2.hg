@@ -75,7 +75,7 @@ class ScaffolderNameSpace(ScaffolderNode, MRO_Dispatch_Mixin):
         if len(parts) == 1: # Found it
             return node
         try:
-            return ScaffolderNameSpace(node).search(parts[1])                              #XXXXtype: ignore[union-attr] # Assume a NS, else raise
+            return ScaffolderNameSpace(node).search(parts[1])
         except AttributeError: #node isn't a search'able/namespace --> Not found --> return None
             return None
 
@@ -164,7 +164,7 @@ class ScaffolderNameSpace(ScaffolderNode, MRO_Dispatch_Mixin):
 
 
     def register_ComponentImplementation(self, comp: aigr.ComponentImplementation, asName :PTH.Optional[ID|str]=None):
-        logger.debug("register_ComponentImplementation: comp=%s asName=%s", comp, asName)   #XXX .info->.debug
+        logger.debug("register_ComponentImplementation: comp=%s asName=%s", comp, asName)
         name = ID(asName) if asName else PTH.cast(ID, comp.name)
         my_ns = PTH.cast(aigr.namespaces._NameSpace, self.node)._ns
 
@@ -173,13 +173,13 @@ class ScaffolderNameSpace(ScaffolderNode, MRO_Dispatch_Mixin):
             if isinstance(registered, aigr.ComponentInterface):
                 if comp.interface is not None:
                     logger.warning("The interface of '%s' was set to %s; it will be lost", name, comp.interface)
-                logger.info("set interface of %s to %s", comp, registered)
+                logger.debug("set interface of %s to %s", comp, registered)
                 comp.interface = registered
             else:
                 logger.warning(f"The '%s'-node is already in this namespace; -- %s will be lost", name, registered)
                 my_ns[name] = comp
 
-        logger.info("save comp=%s in NS([%s]", comp, name)
+        logger.debug("save comp=%s in NS([%s]", comp, name)
         my_ns[name] = comp                                                                 # Register the implementation
 
 

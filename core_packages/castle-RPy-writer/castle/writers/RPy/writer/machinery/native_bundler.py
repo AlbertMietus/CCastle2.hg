@@ -63,9 +63,9 @@ class NativeBundler(Bundler):
         pos = '[' + (", ".join(arg for arg in arguments)) + ']'
         named = "{}"                           #XXX ToDO: support for named arguments/parameters
         return f"{pos}, {named}"
-    
+
     def unbox(self, parm:str, cc_type:CCTypes._types) -> GeneratedCode:
-        logger.info("unbox: parm=%s, cc_type=%s", parm, cc_type)   #XXX info/debug
+        logger.debug("unbox: parm=%s, cc_type=%s", parm, cc_type)
         val_type = self.portray.prefix(cc_type)
         return f"{val_type}.unbox({parm})"
 
@@ -76,7 +76,7 @@ class NativeBundler(Bundler):
         pos = self._name_of_positionals()
         ret_list = [(parm.name, f"{pos}[{index}]") for index, parm in enumerate(formal_parameters)]
 
-        logger.info("unpack --> %s -- %s", ret_list, formal_parameters)   #XXX info/debug
+        logger.debug("unpack --> %s -- %s", ret_list, formal_parameters)
 
         return ret_list                                                   #type: ignore
 
