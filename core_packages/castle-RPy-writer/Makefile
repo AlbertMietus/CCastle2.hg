@@ -23,7 +23,6 @@ LAST = \
 #
 CURRENT = \
 	pytst/d04_renderer/machinery/test_event.py			\
-	pytst/d50_TESTDOUBLES/d5_HelloWorlds/d2_credible/test_12_file.py\
 #
 TODO = \
 	pytst/d50_TESTDOUBLES/d5_HelloWorlds/d2_credible/\

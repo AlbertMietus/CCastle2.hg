@@ -155,7 +155,7 @@ invoke = EventHandler(mangle_event_handler(protocol='std', event='invoke', port=
                           aigr.machinery.EventToSub(
                               comp=ID.Ref('self', Credible_HelloWorld), # GAM: WRONG, use an DispatchTable
                               receiver=ID.Ref('self.credible', component_Credible),
-                              inport=ID.Ref('hello', p_hello),
+#                              inport=ID.Ref('hello', p_hello), # ROLLBACK
                               event= ID('set', context=aigr.Ref(reference=SetLabel.events[0])),
                               arguments=(aigr.Argument(aigr.Constant(value="credible", type=aigr.types.string)),)
 

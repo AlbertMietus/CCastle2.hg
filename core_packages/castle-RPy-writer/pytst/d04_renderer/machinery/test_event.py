@@ -6,14 +6,14 @@ import typing as PTH                                                            
 
 import pytest
 
+from castle import aigr
 from . import *
 from .mocks import *
 from .fixtures import machinery
-from castle import aigr
 
 
 def refID(name) ->aigr.ID.Ref:
-    return aigr.ID.Ref(name, ID(name))
+    return PTH.cast(aigr.ID.Ref, aigr.ID.Ref(name, ID(name)))
 
 stubProto=aigr.EventProtocol('stubProto', events=[])
 mockPort=aigr.Port("mockPort", direction=aigr.PortDirection.In, type=stubProto)
@@ -29,14 +29,16 @@ def test_1_EventToSub_noArgs(machinery, my_renderer):
     e = aigr.machinery.EventToSub(
         comp     = refID('self'),
         receiver = refID('self.subElm'),
-        inport   = aigr.ID.Ref('mockPort', mockPort),
         event    = refID('dummyEvent'),
         arguments=())
 
+    # HACK --see chained_dict_DCM::M_DC_chained_dict.render_EventToSub()
     logging.warning(""""test_1_EventToSub_noArgs::\
     It works, but the implementation uses an hack ---\
     .. seealso:: chained_dict_DCM::render_EventToSub()
     """)
+    e.inport = aigr.ID.Ref('mockPort', mockPort) #HACK to pass "incomming port"
+
     blck = machinery.render_EventToSub(renderer=my_renderer, node=e)
     verify_line_by_line(expected, str(blck))
 
@@ -47,10 +49,12 @@ def test_2_EventToSub_oneArgs(machinery, my_renderer):
     e = aigr.machinery.EventToSub(
         comp     = refID('self'),
         receiver = refID('self.subElm'),
-        inport   = aigr.ID.Ref('mockPort', mockPort),
+        #inport   = aigr.ID.Ref('mockPort', mockPort), # ROLLBACK
         event    = refID('dummyEvent'),
         arguments= [aigr.Argument(value=aigr.Constant(value="foo", type=aigr.types.string))])
 
+    # HACK --see above
+    e.inport = aigr.ID.Ref('mockPort', mockPort) #HACK to pass "incomming port"
 
     blck = machinery.render_EventToSub(renderer=my_renderer, node=e)
     verify_line_by_line(expected, str(blck))

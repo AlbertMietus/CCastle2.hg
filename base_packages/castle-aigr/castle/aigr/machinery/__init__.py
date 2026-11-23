@@ -31,7 +31,7 @@ class _send_proto(_machinery, _statement):
 class _send_ToSub(_send_proto):
     _: KW_ONLY
     receiver :ID.Ref[ComponentInterface] # a sub-component; (no connection)
-    inport   :ID.Ref[Port]
+    # inport   :ID.Ref[Port] # ROLLBACK
 
 @dataclass
 class _send_OverPort(_send_proto):
